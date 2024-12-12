@@ -1,0 +1,81 @@
+---
+title: Binary to Decimal and Decimal to Hexadecimal Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-06-15 14:30:00
+tags: binary, decimal, hexadecimal, converter, calculator
+---
+
+<style>
+    #main-div {
+        color: #fff;
+        padding: 20px;
+    }
+    .error-message {
+        color: #dc3545;
+    }
+</style>
+
+<div id="main-div">
+    <h1>Binary to Decimal and Decimal to Hexadecimal Converter</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Binary to Decimal</h2>
+            <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" class="form-control">
+            <button id="binary-convert-btn" class="btn btn-primary">Convert</button>
+            <p id="decimal-output" class="alert alert-success"></p>
+            <p id="binary-error" class="error-message"></p>
+        </div>
+        <div class="col-md-6">
+            <h2>Decimal to Hexadecimal</h2>
+            <input type="number" id="decimal-input" placeholder="Enter a decimal number" class="form-control">
+            <button id="decimal-convert-btn" class="btn btn-primary">Convert</button>
+            <p id="hexadecimal-output" class="alert alert-success"></p>
+            <div id="conversion-history" class="card card-body"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let conversionHistory = [];
+    const binaryInput = document.getElementById('binary-input');
+    const binaryConvertBtn = document.getElementById('binary-convert-btn');
+    const decimalOutput = document.getElementById('decimal-output');
+    const binaryError = document.getElementById('binary-error');
+    const decimalInput = document.getElementById('decimal-input');
+    const decimalConvertBtn = document.getElementById('decimal-convert-btn');
+    const hexadecimalOutput = document.getElementById('hexadecimal-output');
+    const conversionHistoryDiv = document.getElementById('conversion-history');
+
+    binaryConvertBtn.addEventListener('click', () => {
+        const binaryNumber = binaryInput.value;
+        if (!/^[01]+$/.test(binaryNumber)) {
+            binaryError.textContent = 'Invalid binary number';
+            return;
+        }
+        const decimalNumber = parseInt(binaryNumber, 2);
+        decimalOutput.textContent = `Decimal Equivalent: ${decimalNumber}`;
+        binaryError.textContent = '';
+    });
+
+    decimalConvertBtn.addEventListener('click', () => {
+        const decimalNumber = parseInt(decimalInput.value);
+        if (isNaN(decimalNumber)) {
+            alert('Invalid decimal number');
+            return;
+        }
+        const hexadecimalNumber = decimalNumber.toString(16);
+        hexadecimalOutput.textContent = `Hexadecimal Equivalent: ${hexadecimalNumber}`;
+        conversionHistory.push({ decimal: decimalNumber, hexadecimal: hexadecimalNumber });
+        updateConversionHistory();
+    });
+
+    function updateConversionHistory() {
+        if (conversionHistory.length > 10) {
+            conversionHistory.shift();
+        }
+        const historyHtml = conversionHistory.map((conversion, index) => {
+            return `<p>Conversion ${index + 1}: ${conversion.decimal} (Decimal) -> ${conversion.hexadecimal} (Hexadecimal)</p>`;
+        }).join('');
+        conversionHistoryDiv.innerHTML = historyHtml;
+    }
+</script>

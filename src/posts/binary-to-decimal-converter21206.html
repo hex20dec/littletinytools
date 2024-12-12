@@ -1,0 +1,88 @@
+---
+title: Binary to Decimal Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-05-15 14:30:00
+tags: binary, decimal, converter, programming, calculator
+---
+
+<style>
+    #main-div {
+        max-width: 500px;
+        margin: 40px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #main-div label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    #main-div input, #main-div button {
+        width: 100%;
+        height: 40px;
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    #main-div button {
+        background-color: #4CAF50;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    #main-div button:hover {
+        background-color: #3e8e41;
+    }
+
+    #main-div #error-message {
+        color: red;
+    }
+</style>
+
+<div id="main-div">
+    <label for="binary-number">Binary Number</label>
+    <input type="text" id="binary-number" placeholder="Enter a binary number (e.g. 1010)" class="form-control">
+    <button id="convert-button" class="btn btn-primary">Convert to Decimal</button>
+    <label for="decimal-equivalent">Decimal Equivalent</label>
+    <input type="text" id="decimal-equivalent" readonly class="form-control">
+    <div id="error-message" style="display: none;"></div>
+</div>
+
+<script>
+    const binaryInput = document.getElementById('binary-number');
+    const convertButton = document.getElementById('convert-button');
+    const decimalOutput = document.getElementById('decimal-equivalent');
+    const errorMessage = document.getElementById('error-message');
+
+    convertButton.addEventListener('click', () => {
+        const binaryValue = binaryInput.value.trim();
+        if (binaryValue === '') {
+            errorMessage.textContent = 'Please enter a binary number';
+            errorMessage.style.display = 'block';
+            return;
+        }
+
+        const decimalValue = binaryToDecimal(binaryValue);
+        if (decimalValue === null) {
+            errorMessage.textContent = 'Invalid binary number';
+            errorMessage.style.display = 'block';
+            return;
+        }
+
+        decimalOutput.value = decimalValue;
+        errorMessage.style.display = 'none';
+    });
+
+    function binaryToDecimal(binary) {
+        try {
+            return parseInt(binary, 2);
+        } catch (e) {
+            return null;
+        }
+    }
+</script>

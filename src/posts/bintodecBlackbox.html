@@ -1,0 +1,49 @@
+---
+title: "Quick Binary to Decimal Converter - blackbox"
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2023-05-15 12:00:00
+tags: [binary, decimal, converter, programming, tool]
+---
+
+<style>
+  #main-div {
+    color: #ffffff;
+  }
+</style>
+
+<div id="main-div" class="container text-center mt-5">
+  <h1>Binary to Decimal Converter</h1>
+  <div class="mb-3">
+    <label for="binaryInput" class="form-label">Binary Number</label>
+    <input type="text" class="form-control" id="binaryInput" placeholder="Enter a binary number (e.g. 1010)">
+  </div>
+  <button id="convertButton" class="btn btn-primary mb-3">Convert</button>
+  <div class="mb-3">
+    <label for="decimalOutput" class="form-label">Decimal Equivalent</label>
+    <input type="text" class="form-control" id="decimalOutput" readonly>
+  </div>
+  <div id="errorMessage" class="alert alert-danger d-none" role="alert"></div>
+</div>
+
+<script>
+  document.getElementById('convertButton').addEventListener('click', function() {
+    const binaryInput = document.getElementById('binaryInput').value;
+    const decimalOutput = document.getElementById('decimalOutput');
+    const errorMessage = document.getElementById('errorMessage');
+
+    // Reset output and error message
+    decimalOutput.value = '';
+    errorMessage.classList.add('d-none');
+
+    // Validate binary input
+    if (/^[01]+$/.test(binaryInput)) {
+      // Convert binary to decimal
+      const decimalValue = parseInt(binaryInput, 2);
+      decimalOutput.value = decimalValue;
+    } else {
+      // Show error message
+      errorMessage.textContent = 'Please enter a valid binary number.';
+      errorMessage.classList.remove('d-none');
+    }
+  });
+</script>

@@ -1,0 +1,96 @@
+---
+title: "Word Counter: Count Characters, Words, and Sentences in Real-Time"
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-05-15 12:00:00
+tags: ["word_counter", "character_counter", "sentence_counter", "text_analysis", "writing_tools"]
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  #main-div textarea {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+  }
+
+  #main-div .stats {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+  }
+
+  #main-div .stats span {
+    font-weight: bold;
+  }
+
+  #main-div .clear-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  #main-div .clear-btn:hover {
+    background-color: #3e8e41;
+  }
+</style>
+
+<div id="main-div">
+  <textarea id="text-input" placeholder="Start typing or paste your text here..."></textarea>
+  <div class="stats">
+    <span>Characters: <span id="char-count">0</span></span>
+    <span>Words: <span id="word-count">0</span></span>
+    <span>Sentences: <span id="sentence-count">0</span></span>
+  </div>
+  <button class="clear-btn" id="clear-btn">Clear</button>
+</div>
+
+<script>
+  const textInput = document.getElementById('text-input');
+  const charCount = document.getElementById('char-count');
+  const wordCount = document.getElementById('word-count');
+  const sentenceCount = document.getElementById('sentence-count');
+  const clearBtn = document.getElementById('clear-btn');
+
+  let timeoutId = null;
+
+  function updateCounts() {
+    const text = textInput.value;
+    const charCountValue = text.length;
+    const wordCountValue = text.trim().split(/\s+/).length;
+    const sentenceCountValue = text.match(/[.!?]/g)?.length || 0;
+
+    charCount.textContent = charCountValue;
+    wordCount.textContent = wordCountValue;
+    sentenceCount.textContent = sentenceCountValue;
+  }
+
+  textInput.addEventListener('input', () => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(updateCounts, 100);
+  });
+
+  clearBtn.addEventListener('click', () => {
+    textInput.value = '';
+    updateCounts();
+  });
+
+  updateCounts();
+</script>

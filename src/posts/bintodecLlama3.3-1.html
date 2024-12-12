@@ -1,0 +1,54 @@
+---
+title: Binary to Decimal Converter llama3.3 -1
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-07-15 14:30:00
+tags: binary, decimal, converter, binary-to-decimal, programming-tool
+---
+
+<style>
+    #main-div {
+        color: #fff;
+        padding: 20px;
+    }
+    #error-message {
+        display: none;
+    }
+</style>
+
+<div id="main-div" class="d-flex flex-column align-items-center justify-content-center">
+    <h1 class="mb-4">Binary to Decimal Converter</h1>
+    <div class="mb-3 w-50">
+        <label for="binary-number" class="form-label">Binary Number</label>
+        <input type="text" class="form-control" id="binary-number" placeholder="Enter a binary number (e.g. 1010)">
+    </div>
+    <button class="btn btn-primary w-20 mb-3" id="convert-button">Convert</button>
+    <div class="mb-3 w-50">
+        <label for="decimal-equivalent" class="form-label">Decimal Equivalent</label>
+        <input type="text" class="form-control" id="decimal-equivalent" readonly>
+    </div>
+    <div id="error-message" class="alert alert-danger w-100"></div>
+</div>
+
+<script>
+    const binaryNumberInput = document.getElementById('binary-number');
+    const convertButton = document.getElementById('convert-button');
+    const decimalEquivalentInput = document.getElementById('decimal-equivalent');
+    const errorMessage = document.getElementById('error-message');
+
+    convertButton.addEventListener('click', () => {
+        const binaryNumber = binaryNumberInput.value.trim();
+        if (binaryNumber === '') {
+            errorMessage.innerText = 'Please enter a binary number';
+            errorMessage.style.display = 'block';
+            return;
+        }
+        if (!/^[01]+$/.test(binaryNumber)) {
+            errorMessage.innerText = 'Invalid binary number. Only 0s and 1s are allowed';
+            errorMessage.style.display = 'block';
+            return;
+        }
+        const decimalEquivalent = parseInt(binaryNumber, 2);
+        decimalEquivalentInput.value = decimalEquivalent;
+        errorMessage.style.display = 'none';
+    });
+</script>
