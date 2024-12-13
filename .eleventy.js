@@ -39,6 +39,22 @@ module.exports = function(eleventyConfig) {
   //   });
   // });
 
+
+
+  // eleventyConfig.addCollection("posts", function (collectionApi) {
+  //   return collectionApi.getFilteredByGlob("src/posts/*.html").map((item) => {
+  //     // Ensure date is available and process the uniqueSlug
+  //     const title = item.data.title;
+  //     const date = new Date(item.date);
+  //     item.data.uniqueSlug = uniqueSlugFilter(title, date);
+
+  //     // Update permalink dynamically based on uniqueSlug
+  //     item.data.permalink = `/${item.data.uniqueSlug}/`;
+  //     return item;
+  //   });
+  // });
+
+
   eleventyConfig.addFilter("debug", function (value) {
     // console.log("DEBUG:", JSON.stringify(value, null, 2));
     // console.log('DEBUG: ', Object.keys(value));
