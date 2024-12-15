@@ -1,0 +1,139 @@
+---
+title: Binary to Decimal and Decimal to Base-32 Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - binary converter
+  - decimal converter
+  - base-32 converter
+  - number converter
+  - online converter
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div">
+  <header class="mb-4">
+    <h1>Binary to Decimal and Decimal to Base-32 Converter</h1><div class="header-section p-5 bg-primary text-white text-center">
+    <h1 class="display-4">Binary to Decimal and Decimal to Base-32 Converter</h1>
+    <p class="lead">This online converter tool allows you to easily convert binary numbers to decimal and decimal numbers to base-32. It's a handy tool for developers, programmers, and anyone working with different number systems. With its simple and intuitive interface, you can quickly convert numbers and get the results in real-time.</p>
+</div>
+  </header>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h2>Binary to Decimal Converter</h2>
+        <label for="binary-input">Binary Number:</label>
+        <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" class="form-control">
+        <button id="binary-convert-btn" class="btn btn-primary mt-2">Convert</button>
+        <label for="decimal-output" class="mt-2">Decimal Equivalent:</label>
+        <input type="text" id="decimal-output" readonly class="form-control">
+        <div id="binary-error-message" class="error-message mt-2"></div>
+      </div>
+      <div class="col-md-6">
+        <h2>Decimal to Base-32 Converter</h2>
+        <label for="decimal-input">Decimal Number:</label>
+        <input type="number" id="decimal-input" placeholder="Enter a decimal number" class="form-control">
+        <button id="decimal-convert-btn" class="btn btn-primary mt-2">Convert</button>
+        <label for="base32-output" class="mt-2">Base-32 Equivalent:</label>
+        <input type="text" id="base32-output" readonly class="form-control">
+        <div id="decimal-error-message" class="error-message mt-2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-3">How it Works</h2>
+    <p>The binary to decimal conversion is done using the formula: decimal = binary<sub>2</sub> × 2<sup>n-1</sup> + ... + binary<sub>n</sub> × 2<sup>0</sup>, where n is the number of bits in the binary number.</p>
+    <p>The decimal to base-32 conversion is done using the formula: base32 = decimal<sub>10</sub> × 32<sup>n-1</sup> + ... + decimal<sub>n</sub> × 32<sup>0</sup>, where n is the number of digits in the decimal number.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+                <th>Base-32 Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>10011</td>
+                <td>19</td>
+                <td>17</td>
+            </tr>
+            <tr>
+                <td>10111</td>
+                <td>23</td>
+                <td>1F</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-3">Common Use Cases</h2>
+    <ol>
+        <li><strong>Programming and Development</strong>: Convert binary and decimal numbers for programming and development purposes.</li>
+        <li><strong>Data Compression</strong>: Use base-32 encoding for data compression and transmission.</li>
+        <li><strong>Cryptography</strong>: Convert decimal numbers to base-32 for cryptographic purposes.</li>
+        <li><strong>Networking and Communications</strong>: Convert binary and decimal numbers for networking and communications protocols.</li>
+        <li><strong>Mathematics and Statistics</strong>: Convert numbers between different number systems for mathematical and statistical analysis.</li>
+        <li><strong>Education and Research</strong>: Use the converter tool for educational and research purposes to understand different number systems.</li>
+        <li><strong>Data Conversion and Migration</strong>: Convert data between different formats and systems using the converter tool.</li>
+        <li><strong>Algorithm Design and Development</strong>: Use the converter tool to design and develop algorithms for different number systems.</li>
+        <li><strong>Computer Science and Engineering</strong>: Convert numbers between different number systems for computer science and engineering applications.</li>
+        <li><strong>Scientific and Technical Applications</strong>: Use the converter tool for scientific and technical applications that require number system conversions.</li>
+    </ol>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryErrorMessage = document.getElementById('binary-error-message');
+
+  const decimalInput = document.getElementById('decimal-input');
+  const decimalConvertBtn = document.getElementById('decimal-convert-btn');
+  const base32Output = document.getElementById('base32-output');
+  const decimalErrorMessage = document.getElementById('decimal-error-message');
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binaryNumber = binaryInput.value;
+    if (!/^[01]+$/.test(binaryNumber)) {
+      binaryErrorMessage.textContent = 'Invalid binary number. Please enter only 0s and 1s.';
+      return;
+    }
+    const decimalNumber = parseInt(binaryNumber, 2);
+    decimalOutput.value = decimalNumber;
+    binaryErrorMessage.textContent = '';
+  });
+
+  decimalConvertBtn.addEventListener('click', () => {
+    const decimalNumber = decimalInput.value;
+    if (isNaN(decimalNumber) || decimalNumber < 0) {
+      decimalErrorMessage.textContent = 'Invalid decimal number. Please enter a non-negative integer.';
+      return;
+    }
+    const base32Number = decimalNumber.toString(32);
+    base32Output.value = base32Number;
+    decimalErrorMessage.textContent = '';
+  });
+</script>

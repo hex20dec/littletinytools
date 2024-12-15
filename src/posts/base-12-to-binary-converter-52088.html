@@ -1,0 +1,189 @@
+---
+title: Base-12 to Binary Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-02-15 14:30:00
+tags:
+  - Base-12 converter
+  - Binary converter
+  - Number converter
+  - Math tool
+  - Programming utility
+---
+
+<style>
+  #main-div {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  #main-div input, #main-div button {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  #main-div button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+
+  #main-div .error-message {
+    color: #f00;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+</style>
+
+<div id="main-div" class="container">
+  <h1 class="text-center">Base-12 to Binary Converter</h1><div class="container p-5 text-center bg-light rounded-3">
+  <h1 class="mb-3">Base-12 to Binary Converter Tool</h1>
+  <p class="lead">The Base-12 to Binary Converter is an online tool that allows users to convert base-12 numbers to their binary representations. This tool is useful for programmers, mathematicians, and anyone who needs to work with different number systems. With its simple and intuitive interface, users can easily convert base-12 numbers to binary in just a few clicks, making it an essential utility for anyone working with number conversions.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="base12Input" class="form-label">Base-12 Number</label>
+      <input type="text" id="base12Input" class="form-control" placeholder="Enter a base-12 number (0-9, A-B)" aria-describedby="base12Help">
+      <div id="base12Help" class="form-text">Enter a valid base-12 number.</div>
+    </div>
+    <button type="button" id="convertButton" class="btn btn-primary">Convert to Binary</button>
+    <div id="output" class="mb-3"></div>
+    <div id="error" class="error-message"></div>
+  </form>
+</div>
+
+<div class="container p-5 mt-4 bg-light rounded-3">
+  <h2 class="mb-3">How the Base-12 to Binary Converter Works</h2>
+  <p>The conversion process involves two main steps: base-12 to decimal conversion and decimal to binary conversion. The formula for base-12 to decimal conversion is:</p>
+  <p>Decimal Number = (Base-12 Digit 1 * 12^n) + (Base-12 Digit 2 * 12^(n-1)) + ... + (Base-12 Digit n * 12^0)</p>
+  <p>where n is the number of digits in the base-12 number.</p>
+  <p>Once the decimal number is obtained, it can be converted to binary using the standard decimal to binary conversion method.</p>
+  <p>Here are some examples of base-12 to binary conversions:</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Base-12 Number</th>
+        <th>Binary Representation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>11</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>100</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>101</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>110</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>111</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>1000</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>1001</td>
+      </tr>
+      <tr>
+        <td>A</td>
+        <td>1010</td>
+      </tr>
+      <tr>
+        <td>B</td>
+        <td>1011</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container p-5 mt-4 bg-light rounded-3">
+  <h2 class="mb-3">Common Use Cases for the Base-12 to Binary Converter</h2>
+  <ol class="lead">
+    <li>Converting base-12 numbers to binary for programming purposes</li>
+    <li>Performing mathematical operations that require base-12 to binary conversions</li>
+    <li>Working with number systems in research and development</li>
+    <li>Converting base-12 numbers to binary for data analysis and processing</li>
+    <li>Using the converter as a teaching tool for number systems and conversions</li>
+    <li>Converting base-12 numbers to binary for use in computer networks and protocols</li>
+    <li>Working with cryptography and encryption algorithms that require base-12 to binary conversions</li>
+    <li>Converting base-12 numbers to binary for use in scientific simulations and modeling</li>
+    <li>Using the converter as a reference tool for number system conversions</li>
+    <li>Converting base-12 numbers to binary for use in embedded systems and microcontrollers</li>
+  </ol>
+</div><script>
+  const base12Input = document.getElementById('base12Input');
+  const convertButton = document.getElementById('convertButton');
+  const output = document.getElementById('output');
+  const error = document.getElementById('error');
+
+  convertButton.addEventListener('click', convertBase12ToBinary);
+
+  function convertBase12ToBinary() {
+    const base12Num = base12Input.value.trim();
+    if (!base12Num) {
+      error.textContent = 'Please enter a base-12 number.';
+      return;
+    }
+
+    try {
+      const decimalNum = base12ToDecimal(base12Num);
+      const binaryNum = decimalToBinary(decimalNum);
+      output.textContent = `Binary Representation: ${binaryNum}`;
+      error.textContent = '';
+    } catch (e) {
+      error.textContent = e.message;
+    }
+  }
+
+  function base12ToDecimal(base12Num) {
+    const base12Digits = base12Num.toUpperCase().split('');
+    let decimalNum = 0;
+    for (let i = 0; i < base12Digits.length; i++) {
+      const digit = base12Digits[i];
+      if (-digit >= 'A' && digit <= 'B') {
+        decimalNum += (digit.charCodeAt(0) - 'A'.charCodeAt(0) + 10) * Math.pow(12, base12Digits.length - 1 - i);
+      } else if (digit >= '0' && digit <= '9') {
+        decimalNum += parseInt(digit) * Math.pow(12, base12Digits.length - 1 - i);
+      } else {
+        throw new Error(`Invalid base-12 digit: ${digit}`);
+      }
+    }
+    return decimalNum;
+  }
+
+  function decimalToBinary(decimalNum) {
+    return decimalNum.toString(2);
+  }
+</script>

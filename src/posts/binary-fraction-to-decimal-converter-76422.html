@@ -1,0 +1,177 @@
+---
+title: Binary to Decimal Converter App
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Conversion
+  - Decimal Conversion
+  - Binary to Decimal
+  - Conversion Tool
+  - Calculator
+---
+
+<style>
+  #main-div {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+
+  button {
+    width: 100%;
+    height: 40px;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #3e8e41;
+  }
+
+  .error-message {
+    color: #f00;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+</style>
+
+<div id="main-div" class="card">
+  <h1 class="card-title">Binary to Decimal Converter</h1><div class="container mt-5 mb-5">
+    <h1 class="text-center">Binary to Decimal Converter Tool</h1>
+    <p class="text-center fs-5">The Binary to Decimal Converter is a free online tool that converts binary numbers to decimal numbers. This tool is designed to simplify the process of converting binary to decimal and provides an easy-to-use interface for users. With this tool, you can quickly and accurately convert binary numbers to decimal numbers, making it a useful resource for students, programmers, and anyone working with binary code. The tool uses a simple and efficient algorithm to perform the conversion, ensuring accurate results every time.</p>
+</div>
+  <form>
+    <label for="binary-input">Binary Number:</label>
+    <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)">
+
+    <label for="binary-fraction-input">Binary Fraction:</label>
+    <input type="text" id="binary-fraction-input" placeholder="Enter a binary fraction (e.g. 1010.1010)">
+
+    <button type="button" id="convert-button" class="btn btn-success">Convert to Decimal</button>
+
+    <label for="decimal-output">Decimal Equivalent:</label>
+    <input type="text" id="decimal-output" readonly>
+
+    <p id="error-message" class="error-message"></p>
+  </form>
+</div>
+
+<div class="container mt-5 mb-5">
+    <h2 class="text-center">How the Binary to Decimal Converter Works</h2>
+    <p class="fs-5">The Binary to Decimal Converter uses a simple formula to convert binary numbers to decimal numbers. The formula is as follows:</p>
+    <p class="fs-5">Decimal = (Binary Number)2</p>
+    <p class="fs-5">Where (Binary Number)2 represents the binary number in base 2.</p>
+    <p class="fs-5">For example, if you want to convert the binary number 1010 to decimal, the calculation would be:</p>
+    <p class="fs-5">(1 x 2^3) + (0 x 2^2) + (1 x 2^1) + (0 x 2^0) = 8 + 0 + 2 + 0 = 10</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1000</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="container mt-5 mb-5">
+    <h2 class="text-center">Common Use Cases for the Binary to Decimal Converter</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Converting binary code to decimal code for programming purposes</li>
+        <li class="list-group-item">Understanding binary arithmetic and logic operations</li>
+        <li class="list-group-item">Solving mathematical problems that involve binary numbers</li>
+        <li class="list-group-item">Converting binary data to decimal data for data analysis</li>
+        <li class="list-group-item">Debugging binary code and identifying errors</li>
+        <li class="list-group-item">Learning binary mathematics and number systems</li>
+        <li class="list-group-item">Converting binary IP addresses to decimal IP addresses for network configuration</li>
+        <li class="list-group-item">Understanding binary representation of decimal numbers</li>
+        <li class="list-group-item">Converting binary data to decimal data for scientific research</li>
+        <li class="list-group-item">Simplifying complex binary calculations and operations</li>
+    </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const binaryFractionInput = document.getElementById('binary-fraction-input');
+  const convertButton = document.getElementById('convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const errorMessage = document.getElementById('error-message');
+
+  convertButton.addEventListener('click', () => {
+    const binary = binaryInput.value;
+    const binaryFraction = binaryFractionInput.value;
+
+    if (binary === '' && binaryFraction === '') {
+      errorMessage.textContent = 'Please enter a binary number or fraction';
+      return;
+    }
+
+    let decimal = '';
+
+    if (binary !== '') {
+      try {
+        decimal = parseInt(binary, 2).toString();
+      } catch (e) {
+        errorMessage.textContent = 'Invalid binary number';
+        return;
+      }
+    }
+
+    if (binaryFraction !== '') {
+      try {
+        const [integerPart, fractionalPart] = binaryFraction.split('.');
+        const integerDecimal = parseInt(integerPart, 2);
+        let fractionalDecimal = 0;
+
+        for (let i = 0; i < fractionalPart.length; i++) {
+          fractionalDecimal += parseInt(fractionalPart[i]) / Math.pow(2, i + 1);
+        }
+
+        decimal = (integerDecimal + fractionalDecimal).toString();
+      } catch (e) {
+        errorMessage.textContent = 'Invalid binary fraction';
+        return;
+      }
+    }
+
+    decimalOutput.value = decimal;
+    errorMessage.textContent = '';
+  });
+</script>

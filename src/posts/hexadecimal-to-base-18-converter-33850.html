@@ -1,0 +1,167 @@
+---
+title: Binary to Decimal and Hexadecimal to Base-18 Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - Hexadecimal Converter
+  - Base-18 Converter
+  - Number Converter
+---
+
+<style>
+  #main-div {
+    color: #fff;
+  }
+  .error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h1>Binary to Decimal and Hexadecimal to Base-18 Converter</h1><div class="header-section p-5 text-center bg-primary text-white">
+    <h1>Binary to Decimal and Hexadecimal to Base-18 Converter</h1>
+    <p>This online tool is a comprehensive number system converter, allowing users to easily convert binary numbers to decimal and hexadecimal numbers to base-18. With its user-friendly interface and advanced functionality, this tool is perfect for programmers, developers, and students alike, looking to simplify their number conversion tasks and improve their productivity. Leveraging the latest web technologies, our converter ensures accurate and efficient conversions, making it an essential resource for anyone working with different number systems.</p>
+</div>
+        <div class="mb-3">
+          <label for="binary-input" class="form-label">Binary Number</label>
+          <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)">
+          <button id="binary-convert-btn" class="btn btn-primary mt-2">Convert to Decimal</button>
+          <div id="binary-error" class="error-message mt-2"></div>
+          <div id="binary-output" class="form-control mt-2" readonly></div>
+        </div>
+        <div class="mb-3">
+          <label for="hexadecimal-input" class="form-label">Hexadecimal Number</label>
+          <input type="text" id="hexadecimal-input" class="form-control" placeholder="Enter a hexadecimal number">
+          <button id="hex-convert-btn" class="btn btn-primary mt-2">Convert to Base-18</button>
+          <div id="hex-error" class="error-message mt-2"></div>
+          <div id="hex-output" class="form-control mt-2" readonly></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How it Works</h2>
+    <p>The binary to decimal conversion is based on the formula: decimal = ∑(bit * 2^position), where bit is each binary digit and position is the bit's position in the binary number, starting from 0 on the right.</p>
+    <p>The hexadecimal to base-18 conversion involves two steps: first, the hexadecimal number is converted to decimal using the formula: decimal = ∑(digit * 16^position), where digit is each hexadecimal digit and position is the digit's position in the hexadecimal number, starting from 0 on the right. Then, the decimal number is converted to base-18 using the formula: base18 = decimal.toString(18).</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1000</td>
+                <td>8</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Hexadecimal Number</th>
+                <th>Base-18 Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>A</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1F</td>
+                <td>1G</td>
+            </tr>
+            <tr>
+                <td>FF</td>
+                <td>HH</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>20</td>
+                <td>20</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2>Common Use Cases</h2>
+    <ol>
+        <li>Converting binary code to decimal for programming and development purposes</li>
+        <li>Translating hexadecimal color codes to base-18 for web design and development</li>
+        <li>Converting binary data to decimal for data analysis and processing</li>
+        <li>Using hexadecimal to base-18 conversion for cryptography and secure data transmission</li>
+        <li>Converting binary numbers to decimal for scientific and mathematical calculations</li>
+        <li>Applying hexadecimal to base-18 conversion in computer networking and protocols</li>
+        <li>Utilizing binary to decimal conversion for embedded systems and microcontrollers</li>
+        <li>Employing hexadecimal to base-18 conversion in digital signal processing and audio processing</li>
+        <li>Converting binary data to decimal for database management and storage</li>
+        <li>Using hexadecimal to base-18 conversion for artificial intelligence and machine learning applications</li>
+    </ol>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const binaryError = document.getElementById('binary-error');
+  const binaryOutput = document.getElementById('binary-output');
+  const hexInput = document.getElementById('hexadecimal-input');
+  const hexConvertBtn = document.getElementById('hex-convert-btn');
+  const hexError = document.getElementById('hex-error');
+  const hexOutput = document.getElementById('hex-output');
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binary = binaryInput.value.trim();
+    if (!binary) {
+      binaryError.innerText = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binary)) {
+      binaryError.innerText = 'Invalid binary number. Only 0s and 1s are allowed';
+      return;
+    }
+    const decimal = parseInt(binary, 2);
+    binaryOutput.value = decimal;
+    binaryError.innerText = '';
+  });
+
+  hexConvertBtn.addEventListener('click', () => {
+    const hex = hexInput.value.trim();
+    if (!hex) {
+      hexError.innerText = 'Please enter a hexadecimal number';
+      return;
+    }
+    if (!/^[0-9a-fA-F]+$/.test(hex)) {
+      hexError.innerText = 'Invalid hexadecimal number. Only 0-9 and a-f are allowed';
+      return;
+    }
+    const decimal = parseInt(hex, 16);
+    const base18 = decimal.toString(18);
+    hexOutput.value = base18;
+    hexError.innerText = '';
+  });
+</script>

@@ -18,6 +18,7 @@ module.exports = function(eleventyConfig) {
 
   // Pass through static assets
   eleventyConfig.addPassthroughCopy("src/assets");
+  eleventyConfig.addPassthroughCopy("src/ads.txt");
 
   // // Add Eleventy Navigation plugin
   // // eleventyConfig.addPlugin(eleventyNavigationPlugin);

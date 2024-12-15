@@ -1,0 +1,178 @@
+---
+title: Binary to Decimal Converter App
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-07-15 14:30:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - IEEE 754 Converter
+  - Floating Point Converter
+  - Binary to Decimal
+
+---
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  .error-message {
+    color: #f00;
+  }
+</style>
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Binary to Decimal Converter App</h1><div class="container mt-5">
+  <h1 class="text-center">Binary to Decimal Converter Tool</h1>
+  <p class="text-center">The Binary to Decimal Converter is a free online tool that converts binary numbers to decimal numbers, supporting both 32-bit and 64-bit binary formats. It's a useful tool for programmers, developers, and students who need to work with binary data. With this tool, you can easily convert binary numbers to decimal numbers, and vice versa. Our Binary to Decimal Converter tool is designed to provide accurate and fast conversions, making it an essential resource for anyone working with binary data.</p>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form>
+        <div class="mb-3">
+          <label for="binary-number" class="form-label">Binary Number</label>
+          <input type="text" id="binary-number" class="form-control" placeholder="Enter a binary number (e.g. 1010)" aria-label="Binary Number">
+        </div>
+        <div class="mb-3">
+          <label for="bit-length" class="form-label">Bit Length</label>
+          <select id="bit-length" class="form-select">
+            <option value="32">32-bit</option>
+            <option value="64">64-bit</option>
+          </select>
+        </div>
+        <button type="button" id="convert-button" class="btn btn-primary">Convert</button>
+      </form>
+      <div class="mb-3">
+        <label for="decimal-equivalent" class="form-label">Decimal Equivalent</label>
+        <input type="text" id="decimal-equivalent" class="form-control" readonly aria-label="Decimal Equivalent">
+      </div>
+      <div id="error-message" class="error-message"></div>
+    </div>
+  </div>
+</div>
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The Binary to Decimal Converter tool works by using a simple formula to convert binary numbers to decimal numbers. The formula is as follows:</p>
+  <p>For 32-bit binary numbers:</p>
+  <p>Decimal Equivalent = (-1)^sign * 2^(exponent - 127) * 1.mantissa</p>
+  <p>where:</p>
+  <ul>
+    <li>sign is the first bit of the binary number (0 or 1)</li>
+    <li>exponent is the next 8 bits of the binary number (interpreted as an unsigned integer)</li>
+    <li>mantissa is the remaining 23 bits of the binary number (interpreted as a fractional value)</li>
+  </ul>
+  <p>For 64-bit binary numbers:</p>
+  <p>Decimal Equivalent = (-1)^sign * 2^(exponent - 1023) * 1.mantissa</p>
+  <p>where:</p>
+  <ul>
+    <li>sign is the first bit of the binary number (0 or 1)</li>
+    <li>exponent is the next 11 bits of the binary number (interpreted as an unsigned integer)</li>
+    <li>mantissa is the remaining 52 bits of the binary number (interpreted as a fractional value)</li>
+  </ul>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>10000</td>
+        <td>16</td>
+      </tr>
+      <tr>
+        <td>10001</td>
+        <td>17</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <ol>
+    <li><strong>Programmers and Developers:</strong> Use the Binary to Decimal Converter tool to convert binary data to decimal format for easier debugging and testing.</li>
+    <li><strong>Students:</strong> Use the tool to learn about binary and decimal conversions, and to complete homework assignments.</li>
+    <li><strong>Computer Science Professionals:</strong> Use the tool to work with binary data in various programming languages, such as C, C++, and Java.</li>
+    <li><strong>Data Analysts:</strong> Use the tool to convert binary data to decimal format for data analysis and visualization.</li>
+    <li><strong>Cybersecurity Experts:</strong> Use the tool to analyze binary data for malware detection and incident response.</li>
+    <li><strong>Network Administrators:</strong> Use the tool to troubleshoot network issues and convert binary data to decimal format for easier analysis.</li>
+    <li><strong>Embedded Systems Developers:</strong> Use the tool to work with binary data in embedded systems, such as microcontrollers and robotics.</li>
+    <li><strong>Scientific Researchers:</strong> Use the tool to convert binary data to decimal format for scientific simulations and data analysis.</li>
+    <li><strong>Quality Assurance Testers:</strong> Use the tool to test and verify binary data conversions in software applications.</li>
+    <li><strong>Technical Writers:</strong> Use the tool to create documentation and tutorials on binary and decimal conversions.</li>
+  </ol>
+</div><script>
+  const binaryNumberInput = document.getElementById('binary-number');
+  const bitLengthSelect = document.getElementById('bit-length');
+  const convertButton = document.getElementById('convert-button');
+  const decimalEquivalentInput = document.getElementById('decimal-equivalent');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  convertButton.addEventListener('click', () => {
+    const binaryNumber = binaryNumberInput.value.trim();
+    const bitLength = bitLengthSelect.value;
+
+    if (binaryNumber === '') {
+      errorMessageDiv.textContent = 'Please enter a binary number';
+      return;
+    }
+
+    if (!/^[01]+$/.test(binaryNumber)) {
+      errorMessageDiv.textContent = 'Invalid binary number';
+      return;
+    }
+
+    if (binaryNumber.length > bitLength) {
+      errorMessageDiv.textContent = 'Input exceeds selected bit length';
+      return;
+    }
+
+    try {
+      const decimalEquivalent = binaryToDecimal(binaryNumber, bitLength);
+      decimalEquivalentInput.value = decimalEquivalent;
+      errorMessageDiv.textContent = '';
+    } catch (error) {
+      errorMessageDiv.textContent = error.message;
+    }
+  });
+
+  function binaryToDecimal(binaryNumber, bitLength) {
+    if (bitLength === '32') {
+      const sign = binaryNumber.substring(0, 1);
+      const exponent = binaryNumber.substring(1, 9);
+      const mantissa = binaryNumber.substring(9);
+
+      const signValue = sign === '1' ? -1 : 1;
+      const exponentValue = parseInt(exponent, 2) - 127;
+      const mantissaValue = '1.' + mantissa;
+
+      const decimalEquivalent = signValue * Math.pow(2, exponentValue) * parseFloat(mantissaValue);
+
+      return decimalEquivalent.toString();
+    } else if (bitLength === '64') {
+      const sign = binaryNumber.substring(0, 1);
+      const exponent = binaryNumber.substring(1, 12);
+      const mantissa = binaryNumber.substring(12);
+
+      const signValue = sign === '1' ? -1 : 1;
+      const exponentValue = parseInt(exponent, 2) - 1023;
+      const mantissaValue = '1.' + mantissa;
+
+      const decimalEquivalent = signValue * Math.pow(2, exponentValue) * parseFloat(mantissaValue);
+
+      return decimalEquivalent.toString();
+    } else {
+      throw new Error('Invalid bit length');
+    }
+  }
+</script>

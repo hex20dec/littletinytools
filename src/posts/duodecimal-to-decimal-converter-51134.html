@@ -1,0 +1,154 @@
+---
+title: Duodecimal to Decimal Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-07-15 14:30:00
+tags:
+  - duodecimal converter
+  - decimal converter
+  - number converter
+  - math tool
+  - online calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <h1 class="text-center">Duodecimal to Decimal Converter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <h1 class="text-center">Duodecimal to Decimal Converter: Unlock the Power of Base 12 to Base 10 Conversions with Ease</h1>
+      <p class="text-center">Discover the ultimate online tool for converting duodecimal numbers to decimal equivalents, learning the fundamentals of base 12 to base 10 conversions, and exploring the advantages of using the duodecimal system in various mathematical and real-world applications.</p>
+    </div>
+  </div>
+</div>
+      <form>
+        <div class="mb-3">
+          <label for="duodecimal-input" class="form-label">Duodecimal Number</label>
+          <input type="text" id="duodecimal-input" class="form-control" placeholder="Enter a duodecimal number (e.g. 1A)" aria-describedby="duodecimal-input-help">
+          <div id="duodecimal-input-help" class="form-text">Enter a valid duodecimal number (0-9, A, B)</div>
+        </div>
+        <button type="button" id="convert-button" class="btn btn-primary">Convert</button>
+        <div class="mb-3">
+          <label for="decimal-output" class="form-label">Decimal Equivalent</label>
+          <input type="text" id="decimal-output" class="form-control" readonly aria-describedby="decimal-output-help">
+          <div id="decimal-output-help" class="form-text">The decimal equivalent of the duodecimal number</div>
+        </div>
+        <div id="error-message" class="alert alert-danger error-message" role="alert"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <h2 class="text-center">How it Works: The Formula Behind Duodecimal to Decimal Conversions</h2>
+      <p>The conversion process involves using the formula: decimalNumber = Σ (digitValue * 12^(duodecimalNumber.length - 1 - i)), where digitValue represents the value of each digit in the duodecimal number (0-9, A = 10, B = 11), and i is the position of the digit.</p>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Duodecimal Number</th>
+            <th>Decimal Equivalent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>1A</td>
+            <td>22</td>
+          </tr>
+          <tr>
+            <td>1B</td>
+            <td>23</td>
+          </tr>
+          <tr>
+            <td>20</td>
+            <td>24</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <h2 class="text-center">10 Common Use Cases for Duodecimal to Decimal Conversions</h2>
+      <ol>
+        <li>Converting duodecimal numbers to decimal for easier calculations and understanding</li>
+        <li>Mathematical applications, such as algebra, geometry, and trigonometry</li>
+        <li>Computer programming and coding, where base 12 can be useful for efficient data representation</li>
+        <li>Scientific research, particularly in fields like physics, chemistry, and engineering</li>
+        <li>Financial calculations, such as currency conversions and financial modeling</li>
+        <li>Time and date calculations, like converting between different time zones and formats</li>
+        <li>Measuring units conversions, such as length, weight, and temperature</li>
+        <li>Engineering and design applications, where precision and accuracy are crucial</li>
+        <li>Data analysis and statistical modeling, where base 12 can provide unique insights</li>
+        <li>Education and teaching, as a tool for explaining mathematical concepts and base conversion principles</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  const duodecimalInput = document.getElementById('duodecimal-input');
+  const convertButton = document.getElementById('convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const errorMessage = document.getElementById('error-message');
+
+  convertButton.addEventListener('click', () => {
+    const duodecimalNumber = duodecimalInput.value.toUpperCase();
+    let decimalNumber = 0;
+    let isValid = true;
+
+    if (duodecimalNumber === '') {
+      errorMessage.textContent = 'Please enter a duodecimal number';
+      errorMessage.classList.remove('d-none');
+      return;
+    }
+
+    for (let i = 0; i < duodecimalNumber.length; i++) {
+      const digit = duodecimalNumber[i];
+      if (!((digit >= '0' && digit <= '9') || digit === 'A' || digit === 'B')) {
+        errorMessage.textContent = 'Invalid duodecimal number';
+        errorMessage.classList.remove('d-none');
+        isValid = false;
+        break;
+      }
+    }
+
+    if (isValid) {
+      for (let i = 0; i < duodecimalNumber.length; i++) {
+        const digit = duodecimalNumber[i];
+        let digitValue;
+        if (digit >= '0' && digit <= '9') {
+          digitValue = parseInt(digit);
+        } else if (digit === 'A') {
+          digitValue = 10;
+        } else if (digit === 'B') {
+          digitValue = 11;
+        }
+        decimalNumber += digitValue * Math.pow(12, duodecimalNumber.length - 1 - i);
+      }
+      decimalOutput.value = decimalNumber.toString();
+      errorMessage.classList.add('d-none');
+    }
+  });
+</script>

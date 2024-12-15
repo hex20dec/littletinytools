@@ -1,0 +1,153 @@
+---
+title: Base-20 to Decimal Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Base-20
+  - Decimal Converter
+  - Vigesimal
+  - Number Conversion
+  - Math Tool
+---
+
+<style>
+  #main-div {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  #main-div input, #main-div button {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+  }
+  #main-div input:focus, #main-div button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #ccc;
+  }
+  #main-div .alert {
+    margin-top: 20px;
+  }
+</style>
+
+<div id="main-div" class="card">
+  <h1 class="h5 mb-3">Base-20 to Decimal Converter</h1><!-- Header Section -->
+<div class="container mt-5 p-5 bg-light rounded">
+    <h1 class="text-center">Base-20 to Decimal Converter: Unlock the Power of Vigesimal Conversion</h1>
+    <p class="text-center">Discover the ultimate tool for converting Base-20 numbers to decimal equivalents, empowering you to effortlessly switch between these two numerical systems and explore the vast world of mathematics. With our Base-20 to decimal converter, you can easily perform conversions, whether for academic, professional, or personal purposes, and unravel the secrets of the vigesimal system.</p>
+</div>
+  <label for="base20-number">Enter a Base-20 Number:</label>
+  <input type="text" id="base20-number" class="form-control" placeholder="Enter a Base-20 number">
+  <button id="convert-btn" class="btn btn-primary">Convert to Decimal</button>
+  <p id="result" class="mb-3"></p>
+  <div id="error" class="alert alert-danger d-none" role="alert"></div>
+</div>
+
+<!-- Explanation Section -->
+<div class="container mt-5 p-5 bg-light rounded">
+    <h2 class="text-center">How the Base-20 to Decimal Converter Works: Unveiling the Formula</h2>
+    <p class="text-center">The conversion process involves a simple yet powerful formula: decimal_number = d0 * 20^0 + d1 * 20^1 + ... + dn * 20^n, where d0, d1, ..., dn are the digits of the Base-20 number and n is the number of digits minus one. This formula is implemented in our converter, allowing you to seamlessly convert between Base-20 and decimal.</p>
+    <table class="table table-striped table-bordered mt-5">
+        <thead>
+            <tr>
+                <th>Base-20 Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>...</td>
+                <td>...</td>
+            </tr>
+            <tr>
+                <td>J</td>
+                <td>19</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>20</td>
+            </tr>
+            <tr>
+                <td>20</td>
+                <td>40</td>
+            </tr>
+        </tbody>
+    </table>
+</div><!-- Use Cases Section -->
+<div class="container mt-5 p-5 bg-light rounded">
+    <h2 class="text-center">10 Common Use Cases for the Base-20 to Decimal Converter</h2>
+    <ul class="list-group mt-5">
+        <li class="list-group-item">Converting numerical values for mathematical calculations</li>
+        <li class="list-group-item">Simplifying statistical analysis by switching between numerical systems</li>
+        <li class="list-group-item">Performing conversions for computational science and programming applications</li>
+        <li class="list-group-item">Assisting students and educators in understanding numerical systems and conversions</li>
+        <li class="list-group-item">Facilitating conversions in engineering, physics, and other scientific fields</li>
+        <li class="list-group-item">Streamlining data processing and computation in research and development</li>
+        <li class="list-group-item">Enabling easy conversion for scientific notation and calculator applications</li>
+        <li class="list-group-item">Aiding in the development of software and algorithms that require numerical conversions</li>
+        <li class="list-group-item">Supporting cryptography and coding theory applications that involve numerical conversions</li>
+        <li class="list-group-item">Providing a convenient tool for convertion between different numerical systems in various industries</li>
+    </ul>
+</div><script>
+  const base20NumberInput = document.getElementById('base20-number');
+  const convertButton = document.getElementById('convert-btn');
+  const resultElement = document.getElementById('result');
+  const errorElement = document.getElementById('error');
+
+  convertButton.addEventListener('click', () => {
+    const base20Number = base20NumberInput.value.trim();
+    if (base20Number === '') {
+      setError('Please enter a Base-20 number');
+      return;
+    }
+
+    try {
+      const decimalNumber = base20ToDecimal(base20Number);
+      resultElement.textContent = `Decimal Equivalent: ${decimalNumber}`;
+      errorElement.classList.add('d-none');
+    } catch (error) {
+      setError(error.message);
+    }
+  });
+
+  function base20ToDecimal(base20Number) {
+    const base20Digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+    let decimalNumber = 0;
+    let power = 0;
+
+    for (let i = base20Number.length - 1; i >= 0; i--) {
+      const digit = base20Number[i].toUpperCase();
+      if (!base20Digits.includes(digit)) {
+        throw new Error(`Invalid Base-20 digit: ${digit}`);
+      }
+      const digitValue = base20Digits.indexOf(digit);
+      decimalNumber += digitValue * Math.pow(20, power);
+      power++;
+    }
+
+    return decimalNumber;
+  }
+
+  function setError(message) {
+    errorElement.textContent = message;
+    errorElement.classList.remove('d-none');
+  }
+</script>

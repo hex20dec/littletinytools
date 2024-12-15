@@ -1,0 +1,149 @@
+---
+title: Binary to Decimal and Decimal to Sexagesimal Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - Sexagesimal Converter
+  - Math Tool
+  - Unit Conversion
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div textarea {
+    margin-bottom: 1rem;
+  }
+  #main-div button {
+    margin-bottom: 1rem;
+  }
+  #main-div .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1>Binary to Decimal and Decimal to Sexagesimal Converter</h1><div class="header-section mt-5">
+  <h1>Binary to Decimal and Decimal to Sexagesimal Converter: A Comprehensive Tool for Unit Conversions</h1>
+  <p>This binary to decimal and decimal to sexagesimal converter is a versatile online tool designed to facilitate seamless conversions between binary, decimal, and sexagesimal number systems. With its user-friendly interface and robust functionality, this converter is an indispensable resource for students, professionals, and anyone seeking to perform accurate unit conversions. By leveraging advanced algorithms and a simple input-output mechanism, this tool provides instant results, making it an essential asset for various fields, including mathematics, physics, engineering, and more.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary-input">Binary Number</label>
+      <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)">
+      <button id="binary-convert-btn" class="btn btn-primary">Convert</button>
+      <label for="decimal-output">Decimal Equivalent</label>
+      <textarea id="decimal-output" class="form-control" readonly></textarea>
+      <div id="binary-error-message" class="error-message"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Decimal to Sexagesimal Converter</h2>
+      <label for="decimal-input">Decimal Number</label>
+      <input type="number" id="decimal-input" class="form-control" step="any" placeholder="Enter a decimal number">
+      <button id="decimal-convert-btn" class="btn btn-primary">Convert</button>
+      <label for="sexagesimal-output">Sexagesimal Equivalent</label>
+      <textarea id="sexagesimal-output" class="form-control" readonly></textarea>
+      <div id="decimal-error-message" class="error-message"></div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section mb-5">
+  <h2>How the Converter Works</h2>
+  <p>The binary to decimal converter utilizes the formula: decimal = binary<sub>2</sub> × 2<sup>n-1</sup> + ... + binary<sub>n</sub> × 2<sup>0</sup>, where n is the number of bits in the binary number. For example, the binary number 1010 can be converted to decimal as follows: (1 × 2<sup>3</sup>) + (0 × 2<sup>2</sup>) + (1 × 2<sup>1</sup>) + (0 × 2<sup>0</sup>) = 8 + 0 + 2 + 0 = 10.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1011</td>
+        <td>11</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The decimal to sexagesimal converter uses the formula: sexagesimal = degrees + (minutes / 60) + (seconds / 3600), where degrees, minutes, and seconds are calculated from the decimal number. For instance, the decimal number 12.5 can be converted to sexagesimal as follows: 12° 30' 0''.</p>
+</div><div class="use-cases-section">
+  <h2>Common Use Cases for the Binary to Decimal and Decimal to Sexagesimal Converter</h2>
+  <ol>
+    <li><strong>Computer Programming</strong>: Converting binary code to decimal or sexagesimal for easier debugging and understanding.</li>
+    <li><strong>Navigation and Cartography</strong>: Converting decimal coordinates to sexagesimal for use in GPS and mapping applications.</li>
+    <li><strong>Physics and Engineering</strong>: Converting measurements from one unit system to another for problem-solving and calculations.</li>
+    <li><strong>Mathematics Education</strong>: Teaching students about different number systems and unit conversions using interactive tools.</li>
+    <li><strong>Astronomy and Space Exploration</strong>: Converting celestial coordinates from decimal to sexagesimal for star mapping and astronomical calculations.</li>
+    <li><strong>Surveying and Geology</strong>: Converting measurements from one unit system to another for land surveying and geological applications.</li>
+    <li><strong>Robotics and Automation</strong>: Converting sensor data from binary or decimal to sexagesimal for navigation and control systems.</li>
+    <li><strong>Data Analysis and Science</strong>: Converting large datasets from one unit system to another for statistical analysis and data visualization.</li>
+    <li><strong>Aviation and Aeronautics</strong>: Converting navigation coordinates from decimal to sexagesimal for flight planning and navigation.</li>
+    <li><strong>Medical Imaging and Diagnostics</strong>: Converting medical images from binary or decimal to sexagesimal for accurate diagnoses and treatments.</li>
+  </ol>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryErrorMessage = document.getElementById('binary-error-message');
+
+  const decimalInput = document.getElementById('decimal-input');
+  const decimalConvertBtn = document.getElementById('decimal-convert-btn');
+  const sexagesimalOutput = document.getElementById('sexagesimal-output');
+  const decimalErrorMessage = document.getElementById('decimal-error-message');
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binaryValue = binaryInput.value.trim();
+    if (binaryValue === '') {
+      binaryErrorMessage.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryValue)) {
+      binaryErrorMessage.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    decimalOutput.value = decimalValue;
+    binaryErrorMessage.textContent = '';
+  });
+
+  decimalConvertBtn.addEventListener('click', () => {
+    const decimalValue = parseFloat(decimalInput.value);
+    if (isNaN(decimalValue)) {
+      decimalErrorMessage.textContent = 'Please enter a decimal number';
+      return;
+    }
+    if (decimalValue < 0) {
+      decimalErrorMessage.textContent = 'Please enter a non-negative decimal number';
+      return;
+    }
+    const degrees = Math.floor(decimalValue);
+    const minutes = Math.floor((decimalValue - degrees) * 60);
+    const seconds = Math.floor((decimalValue - degrees - minutes / 60) * 3600);
+    sexagesimalOutput.value = `${degrees}° ${minutes}' ${seconds}''`;
+    decimalErrorMessage.textContent = '';
+  });
+</script>

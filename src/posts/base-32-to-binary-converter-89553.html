@@ -1,0 +1,171 @@
+---
+title: Binary and Base-32 Converter App
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-07-10 14:30:00
+tags:
+  - Binary Converter
+  - Base-32 Converter
+  - Programming Tools
+  - Data Analysis
+  - Web Development
+
+---
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mt-5">Binary and Base-32 Converter App</h1><div class="container mt-5">
+    <h1 class="text-center">Binary and Base-32 Converter Tool: A Comprehensive Solution for Data Conversion</h1>
+    <p class="lead text-center">The Binary and Base-32 Converter Tool is a web-based application designed to simplify the process of converting binary numbers to decimal and base-32 strings to binary format. With its user-friendly interface and robust functionality, this tool is an essential resource for programmers, data analysts, and web developers who work with binary and base-32 data on a regular basis. By leveraging this tool, users can streamline their workflow, improve efficiency, and reduce the risk of errors associated with manual data conversion.</p>
+</div>
+  <p class="lead">This app converts binary numbers to decimal and base-32 strings to binary format.</p>
+
+  <!-- Binary to Decimal Converter -->
+  <h2 class="mt-5">Binary to Decimal Converter</h2>
+  <div class="mb-3">
+    <label for="binary-input" class="form-label">Binary Number</label>
+    <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)">
+  </div>
+  <button id="binary-convert-btn" class="btn btn-primary">Convert</button>
+  <div class="mb-3">
+    <label for="decimal-output" class="form-label">Decimal Equivalent</label>
+    <input type="text" id="decimal-output" class="form-control" readonly>
+  </div>
+  <div id="binary-error-message" class="error-message"></div>
+
+  <!-- Base-32 to Binary Converter -->
+  <h2 class="mt-5">Base-32 to Binary Converter</h2>
+  <div class="mb-3">
+    <label for="base32-input" class="form-label">Base-32 Input</label>
+    <input type="text" id="base32-input" class="form-control" placeholder="Enter base-32 string">
+  </div>
+  <button id="base32-convert-btn" class="btn btn-primary">Convert to Binary</button>
+  <div class="mb-3">
+    <label for="binary-output" class="form-label">Binary Output</label>
+    <textarea id="binary-output" class="form-control" readonly></textarea>
+  </div>
+  <button id="copy-to-clipboard-btn" class="btn btn-secondary">Copy to Clipboard</button>
+  <div id="base32-error-message" class="error-message"></div>
+</div>
+
+<div class="container mt-5">
+    <h2>How the Tool Works</h2>
+    <p>The Binary and Base-32 Converter Tool uses a simple yet effective formula to convert binary numbers to decimal and base-32 strings to binary format. For binary to decimal conversion, the tool uses the following formula:</p>
+    <p>Decimal = (Binary Number)<sub>2</sub> = d<sub>n-1</sub> * 2<sup>n-1</sup> + d<sub>n-2</sub> * 2<sup>n-2</sup> + ... + d<sub>0</sub> * 2<sup>0</sup></p>
+    <p>Where d<sub>i</sub> is the i-th digit of the binary number and n is the number of digits.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1011</td>
+                <td>11</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>For base-32 to binary conversion, the tool uses a custom decoding function that maps each base-32 character to its corresponding binary value.</p>
+</div><div class="container mt-5">
+    <h2>Common Use Cases for the Binary and Base-32 Converter Tool</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Converting binary data from sensors or IoT devices to decimal format for analysis</li>
+        <li class="list-group-item">Encoding and decoding base-32 strings for data storage or transmission</li>
+        <li class="list-group-item">Validating binary data for errors or inconsistencies</li>
+        <li class="list-group-item">Generating binary data for testing or simulation purposes</li>
+        <li class="list-group-item">Converting binary data from one format to another (e.g., binary to hexadecimal)</li>
+        <li class="list-group-item">Analyzing binary data for patterns or trends</li>
+        <li class="list-group-item">Creating binary data for machine learning or AI applications</li>
+        <li class="list-group-item">Converting base-32 data from one format to another (e.g., base-32 to base-64)</li>
+        <li class="list-group-item">Validating base-32 data for errors or inconsistencies</li>
+        <li class="list-group-item">Generating base-32 data for encryption or security purposes</li>
+    </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryErrorMessage = document.getElementById('binary-error-message');
+
+  const base32Input = document.getElementById('base32-input');
+  const base32ConvertBtn = document.getElementById('base32-convert-btn');
+  const binaryOutput = document.getElementById('binary-output');
+  const copyToClipboardBtn = document.getElementById('copy-to-clipboard-btn');
+  const base32ErrorMessage = document.getElementById('base32-error-message');
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binaryNumber = binaryInput.value.trim();
+    if (!binaryNumber) {
+      binaryErrorMessage.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryNumber)) {
+      binaryErrorMessage.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalNumber = parseInt(binaryNumber, 2);
+    decimalOutput.value = decimalNumber;
+    binaryErrorMessage.textContent = '';
+  });
+
+  base32ConvertBtn.addEventListener('click', () => {
+    const base32String = base32Input.value.trim();
+    if (!base32String) {
+      base32ErrorMessage.textContent = 'Please enter a base-32 string';
+      return;
+    }
+    try {
+      const binaryString = base32Decode(base32String);
+      binaryOutput.value = binaryString;
+      base32ErrorMessage.textContent = '';
+    } catch (error) {
+      base32ErrorMessage.textContent = 'Invalid base-32 string';
+    }
+  });
+
+  copyToClipboardBtn.addEventListener('click', () => {
+    const binaryString = binaryOutput.value.trim();
+    if (binaryString) {
+      navigator.clipboard.writeText(binaryString);
+    }
+  });
+
+  function base32Decode(base32String) {
+    const base32Alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+    let binaryString = '';
+    for (let i = 0; i < base32String.length; i++) {
+      const char = base32String[i];
+      const index = base32Alphabet.indexOf(char.toUpperCase());
+      if (index === -1) {
+        throw new Error('Invalid base-32 string');
+      }
+      const binary = index.toString(2).padStart(5, '0');
+      binaryString += binary;
+    }
+    return binaryString;
+  }
+</script>

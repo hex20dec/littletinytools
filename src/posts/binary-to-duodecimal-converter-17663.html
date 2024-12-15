@@ -1,0 +1,131 @@
+---
+title: Binary to Duodecimal Converter App
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Duodecimal Converter
+  - Numerical Systems
+  - Conversion Tools
+  - Math Utilities
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  .error-message {
+    color: red;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-3">Binary to Duodecimal Converter</h1><div class="container mt-5 mb-5">
+    <h1 class="text-center">Binary to Duodecimal Converter Tool</h1>
+    <p class="text-center">The Binary to Duodecimal Converter is a free online tool that converts binary numbers to their equivalent duodecimal representations. This tool is designed for students, programmers, and professionals who work with different number systems and need to convert between them. With its user-friendly interface and fast conversion capabilities, this tool is an essential resource for anyone looking to convert binary to duodecimal quickly and accurately.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="binary-input" class="form-label">Binary</label>
+      <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" class="form-control">
+    </div>
+    <button type="button" id="convert-button" class="btn btn-primary mb-3">Convert to Duodecimal</button>
+    <div class="mb-3">
+      <label for="duodecimal-output" class="form-label">Duodecimal</label>
+      <input type="text" id="duodecimal-output" readonly class="form-control">
+    </div>
+    <div id="error-message" class="error-message"></div>
+  </form>
+</div>
+
+<div class="container mt-5 mb-5">
+    <h2 class="text-center">How it Works</h2>
+    <p>The Binary to Duodecimal Converter uses a simple formula to convert binary numbers to duodecimal. First, it converts the binary number to decimal using the formula: decimal = 2^n * binary_digit, where n is the position of the binary digit from right to left, starting at 0. Then, it converts the decimal number to duodecimal using the formula: duodecimal = decimal % 12 + duodecimal, where % is the modulo operator.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary</th>
+                <th>Decimal</th>
+                <th>Duodecimal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+                <td>A</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1011</td>
+                <td>11</td>
+                <td>B</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="container mt-5 mb-5">
+    <h2 class="text-center">Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Converting binary numbers to duodecimal for programming purposes</li>
+        <li class="list-group-item">Calculating checksums and error detection in computer networks</li>
+        <li class="list-group-item">Performing mathematical operations in different number systems</li>
+        <li class="list-group-item">Representing large numbers in a more compact and readable format</li>
+        <li class="list-group-item">Converting between binary and duodecimal for data storage and transmission</li>
+        <li class="list-group-item">Simplifying complex mathematical calculations by converting between number systems</li>
+        <li class="list-group-item">Verifying mathematical proofs and theorems in different number systems</li>
+        <li class="list-group-item">Converting between binary and duodecimal for cryptographic purposes</li>
+        <li class="list-group-item">Representing numerical data in a more intuitive and user-friendly format</li>
+        <li class="list-group-item">Performing arithmetic operations in different number systems for educational purposes</li>
+    </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const duodecimalOutput = document.getElementById('duodecimal-output');
+  const errorMessage = document.getElementById('error-message');
+
+  convertButton.addEventListener('click', () => {
+    const binaryNumber = binaryInput.value.trim();
+    if (!isValidBinaryNumber(binaryNumber)) {
+      errorMessage.textContent = 'Invalid binary number. Please enter a number consisting only of 0s and 1s.';
+      duodecimalOutput.value = '';
+    } else {
+      errorMessage.textContent = '';
+      const decimalNumber = binaryToDecimal(binaryNumber);
+      const duodecimalNumber = decimalToDuodecimal(decimalNumber);
+      duodecimalOutput.value = duodecimalNumber;
+    }
+  });
+
+  function isValidBinaryNumber(binaryNumber) {
+    return /^[01]+$/.test(binaryNumber);
+  }
+
+  function binaryToDecimal(binaryNumber) {
+    return parseInt(binaryNumber, 2);
+  }
+
+  function decimalToDuodecimal(decimalNumber) {
+    let duodecimalNumber = '';
+    while (decimalNumber > 0) {
+      const remainder = decimalNumber % 12;
+      duodecimalNumber = remainder.toString() + duodecimalNumber;
+      decimalNumber = Math.floor(decimalNumber / 12);
+    }
+    return duodecimalNumber;
+  }
+</script>

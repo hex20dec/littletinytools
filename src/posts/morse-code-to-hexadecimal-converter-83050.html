@@ -1,0 +1,190 @@
+---
+title: Binary to Decimal and Morse Code to Hexadecimal Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-07-15 14:30:00
+tags:
+  - Binary Converter
+  - Morse Code Converter
+  - Hexadecimal Converter
+  - Coding Tools
+  - Developer Utilities
+---
+
+<style>
+  #main-div {
+    color: #fff;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div button, #main-div .card {
+    margin-bottom: 1rem;
+  }
+  #main-div .card {
+    padding: 1rem;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1>Binary to Decimal and Morse Code to Hexadecimal Converter</h1><div class="container mt-5">
+  <h1 class="text-center">Binary to Decimal and Morse Code to Hexadecimal Converter</h1>
+  <p class="text-center">This online tool is designed to simplify the process of converting binary numbers to decimal equivalents and Morse code to hexadecimal values. By providing a user-friendly interface, individuals can easily input their binary or Morse code strings and obtain the corresponding decimal or hexadecimal representations. The tool's primary function is to facilitate conversions between these different number systems, making it an essential resource for developers, programmers, and anyone interested in coding and computer science.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary-input">Binary Number:</label>
+      <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)">
+      <button id="binary-convert-btn" class="btn btn-primary">Convert</button>
+      <label for="decimal-output">Decimal Equivalent:</label>
+      <input type="text" id="decimal-output" class="form-control" readonly>
+      <div id="binary-error-message" class="error-message"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Morse Code to Hexadecimal Converter</h2>
+      <label for="morse-input">Morse Code:</label>
+      <input type="text" id="morse-input" class="form-control" placeholder="Enter Morse code (e.g. .... . .-.. .-.. ---)">
+      <button id="morse-convert-btn" class="btn btn-primary">Convert to Hexadecimal</button>
+      <div class="card">
+        <label for="hex-output">Hexadecimal Output:</label>
+        <input type="text" id="hex-output" class="form-control" readonly>
+      </div>
+      <div id="morse-error-message" class="error-message"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The binary to decimal conversion process is based on the formula: decimal = binary × 2^(position-1), where position is the digit's position in the binary string, starting from the right (least significant bit). For example, the binary number 1010 can be converted to decimal using the following calculation: (1 × 2^3) + (0 × 2^2) + (1 × 2^1) + (0 × 2^0) = 8 + 0 + 2 + 0 = 10.</p>
+  <h3>Conversion Table</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary</th>
+        <th>Decimal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The Morse code to hexadecimal conversion process involves mapping each Morse code character to its corresponding alphabetical or numerical representation using a predefined mapping table. The resulting string is then converted to hexadecimal using the ASCII values of each character.</p>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Developers and programmers can use this tool to quickly convert binary code to decimal or Morse code to hexadecimal for debugging or testing purposes.</li>
+    <li class="list-group-item">Computer science students can utilize this tool to practice converting between different number systems, reinforcing their understanding of binary, decimal, and hexadecimal representations.</li>
+    <li class="list-group-item">Network administrators can use this tool to convert IP addresses from binary to decimal or hexadecimal format for easier management and troubleshooting.</li>
+    <li class="list-group-item">Cryptographers can leverage this tool to convert encrypted data from binary or Morse code to hexadecimal for further analysis or decryption.</li>
+    <li class="list-group-item">Researchers can use this tool to explore the properties of different number systems and their applications in various fields, such as mathematics, computer science, or engineering.</li>
+    <li class="list-group-item">Educators can incorporate this tool into their teaching materials to provide interactive and engaging lessons on binary, decimal, and hexadecimal conversions.</li>
+    <li class="list-group-item">Cybersecurity professionals can utilize this tool to analyze and decode malicious software or scripts that use binary or Morse code obfuscation techniques.</li>
+    <li class="list-group-item">Data analysts can use this tool to convert binary or Morse code data to hexadecimal format for easier analysis and visualization.</li>
+    <li class="list-group-item">Embedded system developers can use this tool to convert binary code to decimal or hexadecimal for programming and debugging microcontrollers or other embedded devices.</li>
+    <li class="list-group-item">Telecommunications engineers can utilize this tool to convert binary or Morse code data to hexadecimal format for transmission or reception over communication networks.</li>
+  </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryErrorMessage = document.getElementById('binary-error-message');
+
+  const morseInput = document.getElementById('morse-input');
+  const morseConvertBtn = document.getElementById('morse-convert-btn');
+  const hexOutput = document.getElementById('hex-output');
+  const morseErrorMessage = document.getElementById('morse-error-message');
+
+  const morseCodeMap = {
+    '.-': 'A',
+    '-...': 'B',
+    '-.-.': 'C',
+    '-..': 'D',
+    '.': 'E',
+    '..-.': 'F',
+    '--.': 'G',
+    '....': 'H',
+    '..': 'I',
+    '.---': 'J',
+    '-.-': 'K',
+    '.-..': 'L',
+    '--': 'M',
+    '-.': 'N',
+    '---': 'O',
+    '.--.': 'P',
+    '--.-': 'Q',
+    '.-.': 'R',
+    '...': 'S',
+    '-': 'T',
+    '..-': 'U',
+    '...-': 'V',
+    '.--': 'W',
+    '-..-': 'X',
+    '-.--': 'Y',
+    '--..': 'Z',
+    '-----': '0',
+    '.----': '1',
+    '..---': '2',
+    '...--': '3',
+    '....-': '4',
+    '.....': '5',
+    '-....': '6',
+    '--...': '7',
+    '---..': '8',
+    '----.': '9'
+  };
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binary = binaryInput.value.trim();
+    if (binary === '') {
+      binaryErrorMessage.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binary)) {
+      binaryErrorMessage.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimal = parseInt(binary, 2);
+    decimalOutput.value = decimal;
+    binaryErrorMessage.textContent = '';
+  });
+
+  morseConvertBtn.addEventListener('click', () => {
+    const morse = morseInput.value.trim();
+    if (morse === '') {
+      morseErrorMessage.textContent = 'Please enter Morse code';
+      return;
+    }
+    const morseChars = morse.split(' ');
+    const hex = [];
+    for (let i = 0; i < morseChars.length; i++) {
+      if (morseCodeMap[morseChars[i]]) {
+        hex.push(morseCodeMap[morseChars[i]]);
+      } else {
+        morseErrorMessage.textContent = 'Invalid Morse code';
+        return;
+      }
+    }
+    const hexString = hex.join('').toUpperCase();
+    hexOutput.value = hexString;
+    morseErrorMessage.textContent = '';
+  });
+</script>

@@ -1,0 +1,181 @@
+---
+title: Binary and Hexadecimal Converters
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-02-12 14:30:00
+tags:
+  - Binary Converter
+  - Hexadecimal Converter
+  - Emoji Converter
+  - Number Converter
+  - Code Converter
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    padding: 20px;
+  }
+  #main-div label {
+    margin-bottom: 10px;
+  }
+  #main-div input, #main-div select {
+    margin-bottom: 20px;
+  }
+  #main-div button {
+    margin-bottom: 20px;
+  }
+  #main-div .error {
+    color: #ff0000;
+  }
+  #main-div .result {
+    font-size: 24px;
+    font-weight: bold;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary and Hexadecimal Converters</h1><div class="header-section p-5 text-center">
+    <h1 class="display-3">Binary and Hexadecimal Converters</h1>
+    <p class="lead">Discover the ultimate online tools for converting binary numbers to decimal and hexadecimal codes to emojis. Our Binary and Hexadecimal Converters are designed to make conversions easy and efficient, with features such as instant results, error handling, and detailed information on Unicode code points and emoji names. Whether you're a developer, programmer, or simply looking for a reliable conversion tool, our Binary and Hexadecimal Converters are the perfect solution for you.</p>
+</div>
+  <h2>Binary to Decimal Converter</h2>
+  <label for="binary-input">Binary Number:</label>
+  <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" class="form-control">
+  <button id="binary-convert-btn" class="btn btn-primary">Convert</button>
+  <p id="binary-result" class="result"></p>
+  <p id="binary-error" class="error"></p>
+
+  <h2>Hexadecimal to Emoji Converter</h2>
+  <label for="hex-input">Hexadecimal Code:</label>
+  <input type="text" id="hex-input" placeholder="Enter a hexadecimal code" class="form-control">
+  <button id="hex-convert-btn" class="btn btn-primary">Convert to Emoji</button>
+  <p id="hex-result" class="result"></p>
+  <p id="hex-error" class="error"></p>
+  <p id="hex-info"></p>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="display-5">How it Works</h2>
+    <p class="lead">Our Binary and Hexadecimal Converters use simple yet powerful formulas to perform conversions.</p>
+    <p class="lead">For binary to decimal conversions, we use the following formula:</p>
+    <p class="lead">Decimal = ∑(binary digit * 2^position), where position starts from 0 and increments from right to left.</p>
+    <p class="lead">For hexadecimal to emoji conversions, we use the following formula:</p>
+    <p class="lead">Emoji = String.fromCodePoint(parseInt(hexadecimal code, 16)), where hexadecimal code is the input code.</p>
+    <h2 class="display-5">Example Conversions</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>10011</td>
+                <td>19</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Hexadecimal Code</th>
+                <th>Emoji</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1F600</td>
+                <td>😀</td>
+            </tr>
+            <tr>
+                <td>1F602</td>
+                <td>😂</td>
+            </tr>
+            <tr>
+                <td>1F603</td>
+                <td>😃</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="display-5">Common Use Cases</h2>
+    <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Converting binary numbers to decimal for programming and development purposes.</li>
+        <li class="list-group-item">Converting hexadecimal codes to emojis for social media and messaging apps.</li>
+        <li class="list-group-item">Generating Unicode code points for character encoding and representation.</li>
+        <li class="list-group-item">Creating emoji-based content for marketing and advertising campaigns.</li>
+        <li class="list-group-item">Developing software and applications that require binary and hexadecimal conversions.</li>
+        <li class="list-group-item">Converting data between different number systems for scientific and mathematical research.</li>
+        <li class="list-group-item">Creating educational resources and tools for teaching binary and hexadecimal conversions.</li>
+        <li class="list-group-item">Converting binary and hexadecimal codes for cryptography and cybersecurity purposes.</li>
+        <li class="list-group-item">Generating QR codes and barcodes using binary and hexadecimal conversions.</li>
+        <li class="list-group-item">Converting binary and hexadecimal codes for computer networking and communication protocols.</li>
+    </ol>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const binaryResult = document.getElementById('binary-result');
+  const binaryError = document.getElementById('binary-error');
+
+  const hexInput = document.getElementById('hex-input');
+  const hexConvertBtn = document.getElementById('hex-convert-btn');
+  const hexResult = document.getElementById('hex-result');
+  const hexError = document.getElementById('hex-error');
+  const hexInfo = document.getElementById('hex-info');
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binary = binaryInput.value.trim();
+    if (binary === '') {
+      binaryError.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binary)) {
+      binaryError.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimal = parseInt(binary, 2);
+    binaryResult.textContent = decimal;
+    binaryError.textContent = '';
+  });
+
+  hexConvertBtn.addEventListener('click', () => {
+    const hex = hexInput.value.trim();
+    if (hex === '') {
+      hexError.textContent = 'Please enter a hexadecimal code';
+      return;
+    }
+    if (!/^[0-9A-Fa-f]+$/.test(hex)) {
+      hexError.textContent = 'Invalid hexadecimal code';
+      return;
+    }
+    try {
+      const codePoint = parseInt(hex, 16);
+      const emoji = String.fromCodePoint(codePoint);
+      hexResult.textContent = emoji;
+      hexInfo.textContent = `Unicode Code Point: ${codePoint} | Emoji Name: ${getEmojiName(emoji)}`;
+      hexError.textContent = '';
+    } catch (error) {
+      hexError.textContent = 'Invalid hexadecimal code';
+    }
+  });
+
+  function getEmojiName(emoji) {
+    // This is a simple implementation and may not cover all emojis
+    const emojiNames = {
+      '😀': 'Grinning Face',
+      '😢': 'Crying Face',
+      // Add more emoji names as needed
+    };
+    return emojiNames[emoji] || 'Unknown Emoji';
+  }
+</script>

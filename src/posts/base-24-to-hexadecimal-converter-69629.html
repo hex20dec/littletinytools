@@ -1,0 +1,161 @@
+---
+title: Binary to Decimal and Base-24 to Hexadecimal Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-06-15 12:00:00
+tags:
+  - Binary Converter
+  - Base-24 Converter
+  - Decimal Converter
+  - Hexadecimal Converter
+  - Number Converter
+---
+
+<style>
+  #main-div {
+    margin: auto;
+    padding: 20px;
+    max-width: 400px;
+  }
+  .error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-3">Number Converter</h1><div class="container mt-5 mb-5">
+    <h1 class="text-center">Binary to Decimal and Base-24 to Hexadecimal Converter</h1>
+    <p class="text-center">This online tool converts binary numbers to decimal and base-24 numbers to hexadecimal, making it easy to work with different number systems. With its user-friendly interface and fast conversion capabilities, this tool is perfect for students, developers, and anyone who works with binary, decimal, and hexadecimal numbers. Whether you're learning about number systems or working on a project that requires conversions, this tool is an essential resource.</p>
+</div>
+  <div class="mb-3">
+    <label for="binary-number" class="form-label">Binary Number</label>
+    <input type="text" id="binary-number" class="form-control" placeholder="Enter a binary number (e.g. 1010)">
+  </div>
+  <button id="convert-binary" class="btn btn-primary mb-3">Convert to Decimal</button>
+  <div class="mb-3">
+    <label for="decimal-equivalent" class="form-label">Decimal Equivalent</label>
+    <input type="text" id="decimal-equivalent" class="form-control" readonly>
+  </div>
+  <div id="binary-error" class="error-message"></div>
+
+  <h2 class="mb-3">Base-24 to Hexadecimal Converter</h2>
+  <div class="mb-3">
+    <label for="base24-number" class="form-label">Base-24 Number</label>
+    <input type="text" id="base24-number" class="form-control" placeholder="Enter a base-24 number">
+  </div>
+  <button id="convert-base24" class="btn btn-primary mb-3">Convert to Hexadecimal</button>
+  <div class="mb-3">
+    <label for="hexadecimal-equivalent" class="form-label">Hexadecimal Equivalent</label>
+    <input type="text" id="hexadecimal-equivalent" class="form-control" readonly>
+  </div>
+  <div id="base24-error" class="error-message"></div>
+</div>
+
+<div class="container mt-5 mb-5">
+    <h2>How the Converter Works</h2>
+    <p>The binary to decimal converter uses the following formula to convert binary numbers to decimal: decimal_number = ∑(binary_digit * 2^position), where position starts from 0 and increases from right to left.</p>
+    <p>The base-24 to hexadecimal converter works by first converting the base-24 number to decimal, and then converting the decimal number to hexadecimal.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Base-24 Number</th>
+                <th>Hexadecimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>A</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>B</td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td>12</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="container mt-5 mb-5">
+    <h2>Common Use Cases for the Converter</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Converting binary code to decimal for debugging purposes</li>
+        <li class="list-group-item">Translating base-24 numbers to hexadecimal for data storage and retrieval</li>
+        <li class="list-group-item">Learning about number systems and conversions in a classroom setting</li>
+        <li class="list-group-item">Working with binary, decimal, and hexadecimal numbers in programming languages</li>
+        <li class="list-group-item">Simplifying calculations and conversions in mathematical and scientific applications</li>
+        <li class="list-group-item">Converting binary data to decimal for use in database systems</li>
+        <li class="list-group-item">Translating hexadecimal code to binary for embedded system development</li>
+        <li class="list-group-item">Using binary and hexadecimal numbers in cryptography and cybersecurity applications</li>
+        <li class="list-group-item">Converting decimal numbers to binary for use in digital logic circuits</li>
+        <li class="list-group-item">Working with binary, decimal, and hexadecimal numbers in microcontroller programming</li>
+    </ul>
+</div><script>
+  const binaryNumberInput = document.getElementById('binary-number');
+  const binaryConvertButton = document.getElementById('convert-binary');
+  const decimalEquivalentInput = document.getElementById('decimal-equivalent');
+  const binaryErrorDiv = document.getElementById('binary-error');
+
+  const base24NumberInput = document.getElementById('base24-number');
+  const base24ConvertButton = document.getElementById('convert-base24');
+  const hexadecimalEquivalentInput = document.getElementById('hexadecimal-equivalent');
+  const base24ErrorDiv = document.getElementById('base24-error');
+
+  binaryConvertButton.addEventListener('click', () => {
+    const binaryNumber = binaryNumberInput.value.trim();
+    if (binaryNumber === '') {
+      binaryErrorDiv.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryNumber)) {
+      binaryErrorDiv.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalNumber = parseInt(binaryNumber, 2);
+    decimalEquivalentInput.value = decimalNumber;
+    binaryErrorDiv.textContent = '';
+  });
+
+  base24ConvertButton.addEventListener('click', () => {
+    const base24Number = base24NumberInput.value.trim();
+    if (base24Number === '') {
+      base24ErrorDiv.textContent = 'Please enter a base-24 number';
+      return;
+    }
+    if (!/^[0-9A-P]+$/.test(base24Number)) {
+      base24ErrorDiv.textContent = 'Invalid base-24 number';
+      return;
+    }
+    let decimalNumber = 0;
+    for (let i = 0; i < base24Number.length; i++) {
+      const digit = base24Number[i];
+      const value = digit >= 'A' ? digit.charCodeAt(0) - 'A'.charCodeAt(0) + 10 : parseInt(digit);
+      decimalNumber = decimalNumber * 24 + value;
+    }
+    const hexadecimalNumber = decimalNumber.toString(16).toUpperCase();
+    hexadecimalEquivalentInput.value = hexadecimalNumber;
+    base24ErrorDiv.textContent = '';
+  });
+</script>

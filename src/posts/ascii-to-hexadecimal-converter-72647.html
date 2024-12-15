@@ -1,0 +1,152 @@
+---
+title: Binary to Decimal and ASCII to Hexadecimal Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - ASCII Converter
+  - Hexadecimal Converter
+  - Code Converter
+---
+
+<style>
+  #main-div {
+    padding: 20px;
+    color: #fff;
+  }
+  .error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal and ASCII to Hexadecimal Converter</h1><div class="header-section p-5 bg-primary text-white text-center">
+    <h1>Binary to Decimal and ASCII to Hexadecimal Converter Tool</h1>
+    <p>Our Binary to Decimal and ASCII to Hexadecimal Converter is a free online tool that helps you convert binary numbers to decimal and ASCII characters to hexadecimal. With this tool, you can easily perform conversions and calculate decimal equivalents of binary numbers and hexadecimal representations of ASCII characters. This tool is designed to make conversions quick and easy, saving you time and effort. Try it out now and experience the simplicity of converting between different number systems.</p>
+</div>
+  <h2>Binary to Decimal Converter</h2>
+  <div class="mb-3">
+    <label for="binaryInput" class="form-label">Binary Number</label>
+    <input type="text" class="form-control" id="binaryInput" placeholder="Enter a binary number (e.g. 1010)">
+  </div>
+  <button class="btn btn-primary" id="convertBinaryBtn">Convert</button>
+  <div class="mb-3">
+    <label for="decimalOutput" class="form-label">Decimal Equivalent</label>
+    <input type="text" class="form-control" id="decimalOutput" readonly>
+  </div>
+  <div class="error-message" id="binaryError" style="display: none;"></div>
+
+  <h2>ASCII to Hexadecimal Converter</h2>
+  <div class="mb-3">
+    <label for="asciiInput" class="form-label">ASCII Input</label>
+    <input type="text" class="form-control" id="asciiInput" placeholder="Enter ASCII characters">
+  </div>
+  <button class="btn btn-primary" id="convertAsciiBtn">Convert to Hexadecimal</button>
+  <div class="mb-3">
+    <label for="hexadecimalOutput" class="form-label">Hexadecimal Output</label>
+    <textarea class="form-control" id="hexadecimalOutput" readonly></textarea>
+  </div>
+  <div class="error-message" id="asciiError" style="display: none;"></div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How it Works</h2>
+    <p>The Binary to Decimal Converter works by using the formula: decimal = binary2decimal(binary), where binary2decimal is a function that converts a binary number to a decimal number. For example, if you enter the binary number 1010, the converter will calculate the decimal equivalent as follows: decimal = 1*2^3 + 0*2^2 + 1*2^1 + 0*2^0 = 8 + 0 + 2 + 0 = 10.</p>
+    <h3>Binary to Decimal Conversion Table</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary</th>
+                <th>Decimal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1011</td>
+                <td>11</td>
+            </tr>
+        </tbody>
+    </table>
+    <h2>ASCII to Hexadecimal Conversion</h2>
+    <p>The ASCII to Hexadecimal Converter works by using the formula: hexadecimal = ascii2hexadecimal(ascii), where ascii2hexadecimal is a function that converts an ASCII character to a hexadecimal representation. For example, if you enter the ASCII character "A", the converter will calculate the hexadecimal representation as follows: hexadecimal = A.charCodeAt(0).toString(16).toUpperCase() = 41.</p>
+</div><div class="use-cases-section p-5">
+    <h2>Common Use Cases for the Binary to Decimal and ASCII to Hexadecimal Converter</h2>
+    <ol>
+        <li><strong>Computer Programming</strong>: Convert binary numbers to decimal and ASCII characters to hexadecimal for use in programming languages such as Java, Python, and C++.</li>
+        <li><strong>Networking</strong>: Convert binary IP addresses to decimal and ASCII character representations to hexadecimal for use in network configurations and troubleshooting.</li>
+        <li><strong>Data Compression</strong>: Convert binary data to decimal and ASCII character representations to hexadecimal for use in data compression algorithms.</li>
+        <li><strong>Cryptography</strong>: Convert binary encryption keys to decimal and ASCII character representations to hexadecimal for use in cryptographic algorithms.</li>
+        <li><strong>Embedded Systems</strong>: Convert binary data to decimal and ASCII character representations to hexadecimal for use in embedded systems programming.</li>
+        <li><strong>Web Development</strong>: Convert binary data to decimal and ASCII character representations to hexadecimal for use in web development and web applications.</li>
+        <li><strong>Database Systems</strong>: Convert binary data to decimal and ASCII character representations to hexadecimal for use in database systems and query optimization.</li>
+        <li><strong>Machine Learning</strong>: Convert binary data to decimal and ASCII character representations to hexadecimal for use in machine learning algorithms and data preprocessing.</li>
+        <li><strong>Computer Security</strong>: Convert binary data to decimal and ASCII character representations to hexadecimal for use in computer security and vulnerability assessment.</li>
+        <li><strong>Forensics</strong>: Convert binary data to decimal and ASCII character representations to hexadecimal for use in digital forensics and incident response.</li>
+    </ol>
+</div><script>
+  const binaryInput = document.getElementById('binaryInput');
+  const convertBinaryBtn = document.getElementById('convertBinaryBtn');
+  const decimalOutput = document.getElementById('decimalOutput');
+  const binaryError = document.getElementById('binaryError');
+
+  const asciiInput = document.getElementById('asciiInput');
+  const convertAsciiBtn = document.getElementById('convertAsciiBtn');
+  const hexadecimalOutput = document.getElementById('hexadecimalOutput');
+  const asciiError = document.getElementById('asciiError');
+
+  convertBinaryBtn.addEventListener('click', () => {
+    const binary = binaryInput.value;
+    if (!binary) {
+      binaryError.style.display = 'block';
+      binaryError.innerText = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binary)) {
+      binaryError.style.display = 'block';
+      binaryError.innerText = 'Invalid binary number';
+      return;
+    }
+    const decimal = parseInt(binary, 2);
+    decimalOutput.value = decimal;
+    binaryError.style.display = 'none';
+  });
+
+  convertAsciiBtn.addEventListener('click', () => {
+    const ascii = asciiInput.value;
+    if (!ascii) {
+      asciiError.style.display = 'block';
+      asciiError.innerText = 'Please enter ASCII characters';
+      return;
+    }
+    const hexadecimal = [];
+    for (let i = 0; i < ascii.length; i++) {
+      const charCode = ascii.charCodeAt(i);
+      if (charCode < 0 || charCode > 127) {
+        asciiError.style.display = 'block';
+        asciiError.innerText = 'Invalid ASCII character';
+        return;
+      }
+      const hex = charCode.toString(16).toUpperCase().padStart(2, '0');
+      hexadecimal.push(hex);
+    }
+    hexadecimalOutput.value = hexadecimal.join(' ');
+    asciiError.style.display = 'none';
+  });
+</script>

@@ -1,0 +1,205 @@
+---
+title: Gray Code to Hexadecimal Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Gray Code
+  - Hexadecimal Converter
+  - Binary Conversion
+  - Digital Electronics
+  - Programming Tools
+---
+
+<style>
+  #main-div {
+    font-family: monospace;
+  }
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  input, output {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+  }
+  button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #3e8e41;
+  }
+  .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1>Gray Code to Hexadecimal Converter</h1><div class="container mt-5">
+  <h1 class="display-5 fw-bold">Gray Code to Hexadecimal Converter Tool</h1>
+  <p class="fs-4">This Gray Code to Hexadecimal Converter is a free online tool that converts Gray code to hexadecimal format. It's a vital resource for digital electronics, programming, and computer science applications, providing accurate conversions with ease. Use this tool to simplify your workflow and learn more about binary conversion, Gray code, and hexadecimal representations.</p>
+</div>
+  <form>
+    <label for="gray-code">Gray Code:</label>
+    <input type="text" id="gray-code" placeholder="Enter a Gray code (e.g. 0110)" aria-label="Gray Code input">
+    <button id="convert-button" type="button" class="btn btn-primary mt-2">Convert</button>
+    <label for="hexadecimal" class="mt-2">Hexadecimal:</label>
+    <output id="hexadecimal" for="gray-code" aria-live="polite"></output>
+    <p id="error-message" class="error-message mt-2" aria-live="assertive"></p>
+  </form>
+</div>
+
+<div class="container mt-5">
+  <h2 class="display-6 fw-bold">How it Works</h2>
+  <p class="fs-5">The conversion process involves several steps:
+    <ol class="list-group list-group-numbered">
+      <li class="list-group-item">Gray code is converted to binary using the XOR operation.</li>
+      <li class="list-group-item">The binary code is then converted to decimal using the parseInt function with base 2.</li>
+      <li class="list-group-item">Finally, the decimal value is converted to hexadecimal using the toString function with base 16.</li>
+    </ol>
+  </p>
+  <h3 class="display-6 fw-bold">Example Conversions</h3>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Gray Code</th>
+        <th scope="col">Hexadecimal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0000</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>0001</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>0010</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>0011</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>0100</td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>0101</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>0110</td>
+        <td>6</td>
+      </tr>
+      <tr>
+        <td>0111</td>
+        <td>7</td>
+      </tr>
+      <tr>
+        <td>1000</td>
+        <td>8</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1010</td>
+        <td>A</td>
+      </tr>
+      <tr>
+        <td>1011</td>
+        <td>B</td>
+      </tr>
+      <tr>
+        <td>1100</td>
+        <td>C</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>D</td>
+      </tr>
+      <tr>
+        <td>1110</td>
+        <td>E</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>F</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="display-6 fw-bold">Common Use Cases for the Gray Code to Hexadecimal Converter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Digital electronics design and development</li>
+    <li class="list-group-item">Computer programming and coding</li>
+    <li class="list-group-item">Data transmission and communication systems</li>
+    <li class="list-group-item">Error detection and correction techniques</li>
+    <li class="list-group-item">Cryptography and encryption methods</li>
+    <li class="list-group-item">Computer networking and internet protocols</li>
+    <li class="list-group-item">Embedded systems and microcontrollers</li>
+    <li class="list-group-item">Robotics and automation control systems</li>
+    <li class="list-group-item">Scientific computing and simulations</li>
+    <li class="list-group-item">Education and research in computer science and engineering</li>
+  </ul>
+</div><script>
+  const grayCodeInput = document.getElementById('gray-code');
+  const convertButton = document.getElementById('convert-button');
+  const hexadecimalOutput = document.getElementById('hexadecimal');
+  const errorMessage = document.getElementById('error-message');
+
+  convertButton.addEventListener('click', convertGrayCodeToHexadecimal);
+
+  function convertGrayCodeToHexadecimal() {
+    const grayCode = grayCodeInput.value.trim();
+    if (!grayCode) {
+      errorMessage.textContent = 'Please enter a Gray code';
+      return;
+    }
+    if (!/^[01]+$/.test(grayCode)) {
+      errorMessage.textContent = 'Invalid Gray code. Only 0s and 1s are allowed';
+      return;
+    }
+    try {
+      const binary = grayToBinary(grayCode);
+      const decimal = binaryToDecimal(binary);
+      const hexadecimal = decimalToHexadecimal(decimal);
+      hexadecimalOutput.value = hexadecimal;
+      errorMessage.textContent = '';
+    } catch (error) {
+      errorMessage.textContent = error.message;
+    }
+  }
+
+  function grayToBinary(grayCode) {
+    let binary = grayCode.charAt(0);
+    for (let i = 1; i < grayCode.length; i++) {
+      binary += xor(grayCode.charAt(i - 1), grayCode.charAt(i));
+    }
+    return binary;
+  }
+
+  function xor(a, b) {
+    return (a === '0' && b === '1') || (a === '1' && b === '0') ? '1' : '0';
+  }
+
+  function binaryToDecimal(binary) {
+    return parseInt(binary, 2);
+  }
+
+  function decimalToHexadecimal(decimal) {
+    return decimal.toString(16).toUpperCase();
+  }
+</script>

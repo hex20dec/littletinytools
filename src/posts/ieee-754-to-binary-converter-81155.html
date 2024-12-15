@@ -1,0 +1,166 @@
+---
+title: Binary to Decimal and IEEE 754 to Binary Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-07-15 14:30:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - IEEE 754 Converter
+  - Binary to Decimal
+  - IEEE 754 to Binary
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div .form-control {
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  #main-div .btn {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+  #main-div .form-text {
+    margin-top: 0.5rem;
+  }
+  #main-div .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2><!-- Header Section -->
+<div class="container mt-5">
+  <h1 class="text-center">Binary to Decimal and IEEE 754 to Binary Converter Tool</h1>
+  <p class="text-center">This tool is designed to convert binary numbers to decimal and IEEE 754 floating-point numbers to binary. It's a useful resource for computer science students, programmers, and anyone working with binary and decimal conversions. With this tool, you can easily convert between binary and decimal, as well as IEEE 754 floating-point numbers to binary, and vice versa. Our converter tool is free, easy to use, and provides accurate results, making it an essential resource for anyone working with binary and decimal conversions.</p>
+  <meta name="description" content="Binary to Decimal and IEEE 754 to Binary Converter Tool. Convert binary numbers to decimal and IEEE 754 floating-point numbers to binary.">
+  <meta name="keywords" content="binary to decimal, IEEE 754 to binary, binary converter, decimal converter, IEEE 754 converter">
+</div>
+      <label for="binary-number">Binary Number:</label>
+      <input type="text" id="binary-number" class="form-control" placeholder="Enter a binary number (e.g. 1010)">
+      <button id="convert-binary" class="btn btn-primary mt-2">Convert</button>
+      <label for="decimal-equivalent" class="mt-2">Decimal Equivalent:</label>
+      <input type="text" id="decimal-equivalent" class="form-control" readonly>
+      <div id="binary-error" class="error-message"></div>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <h2>IEEE 754 to Binary Converter</h2>
+      <label for="ieee-754-number">IEEE 754 Floating-Point Number:</label>
+      <input type="number" id="ieee-754-number" class="form-control" step="any" placeholder="Enter a floating-point number">
+      <div class="form-check mt-2">
+        <input type="checkbox" id="show-step-by-step" class="form-check-input">
+        <label for="show-step-by-step" class="form-check-label">Show Step-by-Step Conversion</label>
+      </div>
+      <button id="convert-ieee-754" class="btn btn-primary mt-2">Convert to Binary</button>
+      <label for="binary-representation" class="mt-2">Binary Representation:</label>
+      <input type="text" id="binary-representation" class="form-control" readonly>
+      <div id="ieee-754-error" class="error-message"></div>
+      <div id="step-by-step-conversion" class="form-text mt-2"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Explanation Section -->
+<div class="container mt-5">
+  <h2>How the Tool Works</h2>
+  <p>The binary to decimal conversion is done using the formula: decimal = binary * 2^position, where position starts from 0 and increases from right to left.</p>
+  <p>The IEEE 754 to binary conversion is done by first converting the floating-point number to a binary representation using the IEEE 754 floating-point format, which consists of a sign bit, an exponent, and a mantissa.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>For example, the binary number 1010 can be converted to decimal using the formula: decimal = 1*2^3 + 0*2^2 + 1*2^1 + 0*2^0 = 8 + 0 + 2 + 0 = 10.</p>
+</div><!-- Use Cases Section -->
+<div class="container mt-5">
+  <h2>Common Use Cases for the Tool</h2>
+  <ul>
+    <li>Converting binary numbers to decimal for programming and computer science applications</li>
+    <li>Converting IEEE 754 floating-point numbers to binary for embedded systems and microcontroller programming</li>
+    <li>Debugging binary code and understanding binary representations of data</li>
+    <li>Testing and verifying binary conversion algorithms and functions</li>
+    <li>Converting binary data to decimal for data analysis and visualization</li>
+    <li>Understanding binary arithmetic and bitwise operations</li>
+    <li>Converting text and string data to binary for encryption and decryption</li>
+    <li>Converting image and video data to binary for compression and transmission</li>
+    <li>Converting audio data to binary for digital signal processing and analysis</li>
+    <li>Converting scientific and mathematical data to binary for numerical computations and simulations</li>
+  </ul>
+</div><script>
+  const binaryNumberInput = document.getElementById('binary-number');
+  const convertBinaryButton = document.getElementById('convert-binary');
+  const decimalEquivalentInput = document.getElementById('decimal-equivalent');
+  const binaryError = document.getElementById('binary-error');
+
+  const ieee754NumberInput = document.getElementById('ieee-754-number');
+  const showStepByStepCheckbox = document.getElementById('show-step-by-step');
+  const convertIeee754Button = document.getElementById('convert-ieee-754');
+  const binaryRepresentationInput = document.getElementById('binary-representation');
+  const ieee754Error = document.getElementById('ieee-754-error');
+  const stepByStepConversionDiv = document.getElementById('step-by-step-conversion');
+
+  convertBinaryButton.addEventListener('click', () => {
+    const binaryNumber = binaryNumberInput.value.trim();
+    if (!binaryNumber) {
+      binaryError.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryNumber)) {
+      binaryError.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalEquivalent = parseInt(binaryNumber, 2);
+    decimalEquivalentInput.value = decimalEquivalent;
+    binaryError.textContent = '';
+  });
+
+  convertIeee754Button.addEventListener('click', () => {
+    const ieee754Number = parseFloat(ieee754NumberInput.value);
+    if (isNaN(ieee754Number)) {
+      ieee754Error.textContent = 'Please enter a valid floating-point number';
+      return;
+    }
+    const binaryRepresentation = ieee754Number.toString(2);
+    binaryRepresentationInput.value = binaryRepresentation;
+    if (showStepByStepCheckbox.checked) {
+      const signBit = (ieee754Number < 0) ? 1 : 0;
+      const exponent = Math.floor(Math.log2(Math.abs(ieee754Number)));
+      const mantissa = Math.abs(ieee754Number) / Math.pow(2, exponent) - 1;
+      stepByStepConversionDiv.innerHTML = `
+        Sign bit: ${signBit}<br>
+        Exponent: ${exponent}<br>
+        Mantissa: ${mantissa.toString(2)}
+      `;
+    } else {
+      stepByStepConversionDiv.innerHTML = '';
+    }
+    ieee754Error.textContent = '';
+  });
+</script>

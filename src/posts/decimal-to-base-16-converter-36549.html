@@ -1,0 +1,173 @@
+---
+title: Binary to Decimal and Decimal to Hexadecimal Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-02-15 14:00:00
+tags:
+  - binary converter
+  - decimal converter
+  - hexadecimal converter
+  - programming tools
+  - coding utilities
+---
+
+<style>
+  #main-div {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  #main-div input, #main-div button {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  #main-div button {
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+  
+  #main-div .error-message {
+    color: #f00;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal and Decimal to Hexadecimal Converter</h1><div class="container mt-5">
+    <h1 class="text-center">Binary to Decimal and Decimal to Hexadecimal Converter Tool</h1>
+    <p class="text-center">This online binary to decimal and decimal to hexadecimal converter is a free tool that allows you to convert binary numbers to decimal and decimal numbers to hexadecimal with ease. Whether you are a programmer, a student, or just someone who needs to perform conversions, this tool is designed to make the process simple and efficient. With its user-friendly interface and fast conversion capabilities, you can quickly and accurately convert binary and decimal numbers to their respective equivalents.</p>
+</div>
+  <form id="binary-form">
+    <label for="binary-input">Binary Number:</label>
+    <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)">
+    <button id="binary-convert-btn">Convert to Decimal</button>
+    <p id="binary-error-message" class="error-message"></p>
+    <p id="binary-result"></p>
+  </form>
+  <form id="decimal-form">
+    <label for="decimal-input">Decimal Number:</label>
+    <input type="text" id="decimal-input" placeholder="Enter a decimal number">
+    <button id="decimal-convert-btn">Convert to Hexadecimal</button>
+    <p id="decimal-error-message" class="error-message"></p>
+    <p id="decimal-result"></p>
+  </form>
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center">How it Works</h2>
+    <p>The binary to decimal conversion is based on the formula: decimal = (binary[0] * 2^n) + (binary[1] * 2^(n-1)) + ... + (binary[n] * 2^0), where n is the number of bits in the binary number.</p>
+    <p>The decimal to hexadecimal conversion is based on the formula: hexadecimal = decimal.toString(16), where toString(16) is a method that converts a decimal number to its hexadecimal equivalent.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary</th>
+                <th>Decimal</th>
+                <th>Hexadecimal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+                <td>A</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+                <td>D</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+                <td>F</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1011</td>
+                <td>11</td>
+                <td>B</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="container mt-5">
+    <h2 class="text-center">Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Converting binary code to decimal for programming purposes</li>
+        <li class="list-group-item">Translating decimal numbers to hexadecimal for web development</li>
+        <li class="list-group-item">Simplifying complex calculations by converting binary to decimal</li>
+        <li class="list-group-item">Debugging code by converting hexadecimal to decimal</li>
+        <li class="list-group-item">Learning binary and hexadecimal number systems for educational purposes</li>
+        <li class="list-group-item">Converting binary to decimal for cryptography and cybersecurity applications</li>
+        <li class="list-group-item">Translating decimal to hexadecimal for data storage and retrieval</li>
+        <li class="list-group-item">Converting hexadecimal to decimal for scientific and mathematical research</li>
+        <li class="list-group-item">Simplifying network programming by converting binary to decimal</li>
+        <li class="list-group-item">Improving coding efficiency by converting decimal to hexadecimal</li>
+    </ul>
+</div><script>
+  const binaryForm = document.getElementById('binary-form');
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const binaryErrorMessage = document.getElementById('binary-error-message');
+  const binaryResult = document.getElementById('binary-result');
+  
+  const decimalForm = document.getElementById('decimal-form');
+  const decimalInput = document.getElementById('decimal-input');
+  const decimalConvertBtn = document.getElementById('decimal-convert-btn');
+  const decimalErrorMessage = document.getElementById('decimal-error-message');
+  const decimalResult = document.getElementById('decimal-result');
+  
+  binaryConvertBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const binaryNumber = binaryInput.value.trim();
+    if (binaryNumber === '') {
+      binaryErrorMessage.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryNumber)) {
+      binaryErrorMessage.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalNumber = parseInt(binaryNumber, 2);
+    binaryResult.textContent = `Decimal Equivalent: ${decimalNumber}`;
+    binaryErrorMessage.textContent = '';
+  });
+  
+  decimalConvertBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const decimalNumber = decimalInput.value.trim();
+    if (decimalNumber === '') {
+      decimalErrorMessage.textContent = 'Please enter a decimal number';
+      return;
+    }
+    if (isNaN(decimalNumber)) {
+      decimalErrorMessage.textContent = 'Invalid decimal number';
+      return;
+    }
+    const hexadecimalNumber = parseInt(decimalNumber).toString(16);
+    decimalResult.textContent = `Hexadecimal Equivalent: ${hexadecimalNumber}`;
+    decimalErrorMessage.textContent = '';
+  });
+</script>
