@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiny Tools</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/styles/layout.css">
+    <meta name="google-adsense-account" content="ca-pub-9239838040277193">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Bitter&display=swap');
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9239838040277193"
+     crossorigin="anonymous"></script>
+  </head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J0QX0DVBPC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J0QX0DVBPC');
+</script>
+  <body data-bs-theme="dark">
+    <header class="navbar navbar-expand-lg">
+      <div class="container" id="logo-container">
+        <a class="navbar-brand" href="/">
+          <h1 class="navbar-brand mb-0">Tiny Tools</h1>
+        </a>
+        <h6>A Cool Tool For Every Fool</h6>
+
+      </div>
+      
+    </header>
+    <main class="container mt-4">
+      <h2 class="mb-4">Simplify Fractions Calculator</h2>
+      <div class="content">
+
+<style>
+  #main-div {
+    color: #f8f9fa;
+    padding: 20px;
+  }
+  .fraction-input {
+    display: flex;
+    gap: 10px;
+  }
+  .result {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container">
+    <h1 class="text-center mb-4">Fraction Calculator</h1>
+    <form id="fraction-form">
+      <div class="row mb-3">
+        <div class="col-md-6 fraction-input">
+          <input type="number" class="form-control" id="num1" placeholder="Numerator 1" required>
+          <span>/</span>
+          <input type="number" class="form-control" id="den1" placeholder="Denominator 1" required>
+        </div>
+        <div class="col-md-6 fraction-input">
+          <input type="number" class="form-control" id="num2" placeholder="Numerator 2" required>
+          <span>/</span>
+          <input type="number" class="form-control" id="den2" placeholder="Denominator 2" required>
+        </div>
+      </div>
+      <div class="mb-3">
+        <select class="form-select" id="operation">
+          <option value="add">Addition (+)</option>
+          <option value="subtract">Subtraction (-)</option>
+          <option value="multiply">Multiplication (×)</option>
+          <option value="divide">Division (÷)</option>
+        </select>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Calculate</button>
+        <button type="button" class="btn btn-secondary" id="simplify-btn">Simplify Result</button>
+      </div>
+    </form>
+    <div class="mt-4">
+      <p>Result: <span id="result" class="result"></span></p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('fraction-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const num1 = parseInt(document.getElementById('num1').value);
+    const den1 = parseInt(document.getElementById('den1').value);
+    const num2 = parseInt(document.getElementById('num2').value);
+    const den2 = parseInt(document.getElementById('den2').value);
+    const operation = document.getElementById('operation').value;
+
+    if (!num1 || !den1 || !num2 || !den2) {
+      alert('Please fill out all fields.');
+      return;
+    }
+
+    let resultNumerator, resultDenominator;
+
+    switch (operation) {
+      case 'add':
+        resultNumerator = num1 * den2 + num2 * den1;
+        resultDenominator = den1 * den2;
+        break;
+      case 'subtract':
+        resultNumerator = num1 * den2 - num2 * den1;
+        resultDenominator = den1 * den2;
+        break;
+      case 'multiply':
+        resultNumerator = num1 * num2;
+        resultDenominator = den1 * den2;
+        break;
+      case 'divide':
+        resultNumerator = num1 * den2;
+        resultDenominator = num2 * den1;
+        break;
+    }
+
+    const result = simplify(resultNumerator, resultDenominator);
+    document.getElementById('result').textContent = result;
+  });
+
+  document.getElementById('simplify-btn').addEventListener('click', function () {
+    const result = document.getElementById('result').textContent;
+    if (!result) {
+      alert('No result to simplify.');
+      return;
+    }
+
+    const [numerator, denominator] = result.split('/').map(Number);
+    document.getElementById('result').textContent = simplify(numerator, denominator);
+  });
+
+  function simplify(numerator, denominator) {
+    const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
+    const divisor = gcd(Math.abs(numerator), Math.abs(denominator));
+    numerator /= divisor;
+    denominator /= divisor;
+
+    if (denominator === 1) return `${numerator}`;
+    if (Math.abs(numerator) > Math.abs(denominator)) {
+      const whole = Math.floor(numerator / denominator);
+      const remainder = numerator % denominator;
+      return `${whole} ${remainder}/${denominator}`;
+    }
+
+    return `${numerator}/${denominator}`;
+  }
+</script>
+      </div>
+    </main>
+    <section id="categories">
+      <h5>Categories:</h5>
+        <a href="/tag/post/">post</a>, 
+        <a href="/tag/fractions/">fractions</a>, 
+        <a href="/tag/calculator/">calculator</a>, 
+        <a href="/tag/math/">math</a>, 
+        <a href="/tag/education/">education</a>, 
+        <a href="/tag/simplify/">simplify</a>, 
+    </section>
+    <section id="related-tools-section">
+      <h5>Related tools:</h5>
+       
+      
+     
+
+
+
+
+        <a class='related-tool' href="/effortless-fraction-calculation-simplify-your-math-2024-01-15--e3J6nTjuFXNvRVKxHC_wQ/">Effortless Fraction Calculation: Simplify Your Math!</a>
+
+ 
+
+
+        <a class='related-tool' href="/simplify-fractions-calculator-2023-07-15-y_q5E8s-PDFmJk6UsdelOw/">Simplify Fractions Calculator</a>
+
+ 
+
+
+        <a class='related-tool' href="/binary-wizard-instant-binary-to-decimal-conversion-2023-05-17-hJC7FCxokzTLKR_KG7QCyA/">Binary Wizard: Instant Binary to Decimal Conversion</a>
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/binary-to-decimal-converter-app-2020-05-01-vL-uGpKQa71IitQd2617Kg/">Binary to Decimal Converter App</a>
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/fraction-calculator-simplify-your-math-2024-02-15-QSk4JwBktfJs64YJirKPNQ/">Fraction Calculator: Simplify Your Math</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/fraction-calculator-simplify-your-math-2019-03-15-L4GuoR4DhxiGfGMvLruyMw/">Fraction Calculator Simplify Your Math</a>
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/fraction-master-your-online-fraction-calculator-gemma-2022-03-15-wcIQ89PNB11Uz_5dQbyxZg/">Fraction Master Your Online Fraction Calculator gemma</a>
+
+ 
+
+
+        <a class='related-tool' href="/binary-to-decimal-and-hexadecimal-to-morse-code-converter-2020-05-15-CDY6fZpH8XvO5sO9uQPA-w/">Binary to Decimal and Hexadecimal to Morse Code Converter</a>
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/binary-to-decimal-converter-2020-05-20-vhtVcmjHFTbsGYrj-TBTkA/">Binary to Decimal Converter</a>
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/fraction-calculator-simplify-your-math-first-2020-05-15-HAj2KEDRUVIMHOzj3hHmGA/">Fraction Calculator - Simplify Your Math first</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/binary-to-decimal-and-base-7-to-binary-converter-2020-07-15-rPY7Hfu3yLnbhueNT4dfeg/">Binary to Decimal and Base-7 to Binary Converter</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/binary-to-decimal-and-base-7-converter-2020-07-25-WigIaFfGrLANgA-AePFWaA/">Binary to Decimal and Base-7 Converter</a>
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/binary-to-decimal-and-decimal-to-base-24-converter-2020-02-15-1aF0PTqZQsZq3em4IhA_MQ/">Binary to Decimal and Decimal to Base-24 Converter</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/binary-to-decimal-and-decimal-to-hexadecimal-converter-2020-06-15-KAi-pVOY2DYgXv5ES9dClg/">Binary to Decimal and Decimal to Hexadecimal Converter</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/binary-to-decimal-and-hexadecimal-to-base-9-converter-2019-07-12-pO_4LiU2oNwRwems_EEkIQ/">Binary to Decimal and Hexadecimal to Base-9 Converter</a>
+
+ 
+
+
+        <a class='related-tool' href="/binary-and-musical-note-to-decimal-converter-2020-02-15-ni_4VOTCKorQRUomMOCZGQ/">Binary and Musical Note to Decimal Converter</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/base-20-to-binary-converter-app-2020-05-01-bKUI769P3WayN-430PSHZQ/">Base-20 to Binary Converter App</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/binary-to-decimal-and-decimal-to-octal-converter-2019-07-15-MPZZ1Vbd58pgcRkMYjAZnw/">Binary to Decimal and Decimal to Octal Converter</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+    </section>
+    <footer class="py-3">
+      <div class="container">
+        <p class="text-center">
+
+          <small>&copy; 2024 Tiny Tools</small>
+        </p>
+      </div>
+    </footer>
+    
+    <!-- Bootstrap JS -->
+    <script src="/assets/scripts/bootstrap.min.js"></script>
+    <script src="/assets/scripts/main.js"></script>
+  </body>
+</html>
