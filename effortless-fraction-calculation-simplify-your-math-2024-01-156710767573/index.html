@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiny Tools</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/styles/layout.css">
+    <meta name="google-adsense-account" content="ca-pub-9239838040277193">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Bitter&display=swap');
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9239838040277193"
+     crossorigin="anonymous"></script>
+  </head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J0QX0DVBPC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J0QX0DVBPC');
+</script>
+  <body data-bs-theme="dark">
+    <header class="navbar navbar-expand-lg">
+      <div class="container" id="logo-container">
+        <a class="navbar-brand" href="/">
+          <h1 class="navbar-brand mb-0">Tiny Tools</h1>
+        </a>
+        <h6>A Cool Tool For Every Fool</h6>
+
+      </div>
+      
+    </header>
+    <main class="container mt-4">
+      <h2 class="mb-4">Effortless Fraction Calculation: Simplify Your Math!</h2>
+      <div class="content">
+
+<style>
+  #main-div {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #212529;
+    border-radius: 10px;
+  }
+
+  #main-div h1 {
+    color: #fff;
+  }
+
+  #main-div .form-control {
+    background-color: #343a40;
+    border-color: #343a40;
+    color: #fff;
+  }
+
+  #main-div .btn {
+    background-color: #198754;
+    border-color: #198754;
+  }
+
+  #main-div .btn:hover {
+    background-color: #157346;
+    border-color: #157346;
+  }
+
+  #main-div .result-field {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center mb-4">Fraction Calculator</h1>
+  <form id="fraction-calculator">
+    <div class="form-group mb-3">
+      <label for="fraction1-numerator" class="form-label">Numerator 1</label>
+      <input type="number" class="form-control" id="fraction1-numerator" required>
+    </div>
+    <div class="form-group mb-3">
+      <label for="fraction1-denominator" class="form-label">Denominator 1</label>
+      <input type="number" class="form-control" id="fraction1-denominator" required>
+    </div>
+    <div class="form-group mb-3">
+      <label for="fraction2-numerator" class="form-label">Numerator 2</label>
+      <input type="number" class="form-control" id="fraction2-numerator" required>
+    </div>
+    <div class="form-group mb-3">
+      <label for="fraction2-denominator" class="form-label">Denominator 2</label>
+      <input type="number" class="form-control" id="fraction2-denominator" required>
+    </div>
+    <div class="form-group mb-3">
+      <label for="operation" class="form-label">Operation</label>
+      <select class="form-select" id="operation" required>
+        <option value="addition">Addition</option>
+        <option value="subtraction">Subtraction</option>
+        <option value="multiplication">Multiplication</option>
+        <option value="division">Division</option>
+      </select>
+    </div>
+    <div class="form-group mb-3">
+      <button type="submit" class="btn btn-block">Calculate</button>
+    </div>
+    <div class="form-group mb-3 result-field" id="result-field">
+      <!-- Result will be displayed here -->
+    </div>
+    <div class="form-group mb-3">
+      <button type="button" class="btn btn-block" id="simplify-btn">Simplify Fraction</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  document.getElementById('fraction-calculator').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const fraction1Numerator = parseFloat(document.getElementById('fraction1-numerator').value);
+    const fraction1Denominator = parseFloat(document.getElementById('fraction1-denominator').value);
+    const fraction2Numerator = parseFloat(document.getElementById('fraction2-numerator').value);
+    const fraction2Denominator = parseFloat(document.getElementById('fraction2-denominator').value);
+    const operation = document.getElementById('operation').value;
+
+    let resultNumerator = 0;
+    let resultDenominator = 0;
+
+    switch (operation) {
+      case 'addition':
+        resultNumerator = fraction1Numerator * fraction2Denominator + fraction2Numerator * fraction1Denominator;
+        resultDenominator = fraction1Denominator * fraction2Denominator;
+        break;
+      case 'subtraction':
+        resultNumerator = fraction1Numerator * fraction2Denominator - fraction2Numerator * fraction1Denominator;
+        resultDenominator = fraction1Denominator * fraction2Denominator;
+        break;
+      case 'multiplication':
+        resultNumerator = fraction1Numerator * fraction2Numerator;
+        resultDenominator = fraction1Denominator * fraction2Denominator;
+        break;
+      case 'division':
+        resultNumerator = fraction1Numerator * fraction2Denominator;
+        resultDenominator = fraction1Denominator * fraction2Numerator;
+        break;
+    }
+
+    const gcd = (a, b) => (b ? gcd(b, a % b) : a);
+    const greatestCommonDivisor = gcd(resultNumerator, resultDenominator);
+
+    resultNumerator /= greatestCommonDivisor;
+    resultDenominator /= greatestCommonDivisor;
+
+    document.getElementById('result-field').innerText = `${resultNumerator}/${resultDenominator}`;
+  });
+
+  document.getElementById('simplify-btn').addEventListener('click', function() {
+    const resultNumerator = parseFloat(document.getElementById('result-field').innerText.split('/')[0]);
+    const resultDenominator = parseFloat(document.getElementById('result-field').innerText.split('/')[1]);
+
+    const greatestCommonDivisor = gcd(resultNumerator, resultDenominator);
+
+    document.getElementById('result-field').innerText = `${(resultNumerator / greatestCommonDivisor)}/${(resultDenominator / greatestCommonDivisor)}`;
+  });
+
+  const gcd = (a, b) => (b ? gcd(b, a % b) : a);
+</script>      </div>
+    </main>
+    <section id="categories">
+      <h5>Categories:</h5>
+        <a href="/tag/post/">post</a>, 
+        <a href="/tag/fraction calculator/">fraction calculator</a>, 
+        <a href="/tag/math/">math</a>, 
+        <a href="/tag/education/">education</a>, 
+        <a href="/tag/bootstrap/">bootstrap</a>, 
+        <a href="/tag/vanilla js/">vanilla js</a>, 
+    </section>
+    <section id="related-tools-section">
+      <h5>Related tools:</h5>
+       
+      
+     
+
+
+
+
+        <a class='related-tool' href="/binary-and-hexadecimal-converter-2020-05-013008924689/">Binary and Hexadecimal Converter</a>
+
+ 
+
+
+        <a class='related-tool' href="/fraction-calculator-simplify-your-math-2024-02-159518893144/">Fraction Calculator: Simplify Your Math</a>
+
+ 
+
+
+        <a class='related-tool' href="/effortless-fraction-calculation-simplify-your-math-2024-01-156710767573/">Effortless Fraction Calculation: Simplify Your Math!</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/fraction-master-your-online-fraction-calculator-gemma-2022-03-159508420071/">Fraction Master Your Online Fraction Calculator gemma</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/binary-and-base-9-to-decimal-converter-2020-05-017776022994/">Binary and Base-9 to Decimal Converter</a>
+
+ 
+
+
+        <a class='related-tool' href="/cuneiform-to-decimal-converter-2020-05-019439709477/">Cuneiform to Decimal Converter</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/fraction-calculator-simplify-your-math-first-2020-05-158320087731/">Fraction Calculator - Simplify Your Math first</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/base-50-to-hexadecimal-converter-app-2020-05-018067098829/">Base-50 to Hexadecimal Converter App</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/simplify-fractions-calculator-2023-07-158124552167/">Simplify Fractions Calculator</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/binary-wizard-instant-binary-to-decimal-conversion-2023-05-173725316259/">Binary Wizard: Instant Binary to Decimal Conversion</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/binary-to-decimal-and-decimal-to-roman-numeral-converter-2020-05-013380400120/">Binary to Decimal and Decimal to Roman Numeral Converter</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+    </section>
+    <footer class="py-3">
+      <div class="container">
+        <p class="text-center">
+
+          <small>&copy; 2024 Tiny Tools</small>
+        </p>
+      </div>
+    </footer>
+    
+    <!-- Bootstrap JS -->
+    <script src="/assets/scripts/bootstrap.min.js"></script>
+    <script src="/assets/scripts/main.js"></script>
+  </body>
+</html>
