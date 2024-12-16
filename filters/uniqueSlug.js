@@ -19,7 +19,7 @@ function uniqueSlug(collection) {
       const formattedDate = date instanceof Date
         ? date.toISOString().split("T")[0] // Format: YYYY-MM-DD
         : date; // Handle cases where the date is not a Date object
-      slug = `${slug}-${formattedDate}`+random(5);
+      slug = `${slug}-${formattedDate}`+random(10);
     // }
     
     slugs.set(slug, true);
