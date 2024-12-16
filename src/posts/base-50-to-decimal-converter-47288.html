@@ -1,0 +1,148 @@
+---
+title: Base-50 to Decimal Converter App
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Base-50 Converter
+  - Decimal Converter
+  - Number Converter
+  - Math Tool
+  - Online Calculator
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div button, #main-div output {
+    margin-bottom: 1rem;
+  }
+  #main-div .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h1>Base-50 to Decimal Converter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <h1 class="text-center">Base-50 to Decimal Converter Tool - Convert Base-50 Numbers to Decimal with Ease</h1>
+      <p class="text-center">The Base-50 to Decimal Converter is an online tool designed to convert numbers from base-50 to decimal. This tool uses a simple yet efficient algorithm to perform the conversion, allowing users to easily switch between the two number systems. With its user-friendly interface and fast conversion capabilities, this tool is perfect for students, mathematicians, and anyone looking to convert base-50 numbers to decimal.</p>
+    </div>
+  </div>
+</div>
+      <label for="base50-number">Base-50 Number:</label>
+      <input type="text" id="base50-number" placeholder="Enter a base-50 number (e.g. 1A2)" class="form-control" aria-label="Base-50 Number">
+      <button id="convert-button" class="btn btn-primary">Convert to Decimal</button>
+      <label for="decimal-equivalent">Decimal Equivalent:</label>
+      <output id="decimal-equivalent" class="form-control" aria-label="Decimal Equivalent" readonly></output>
+      <div id="error-message" class="error-message" role="alert"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <h2>How it Works</h2>
+      <p>The Base-50 to Decimal Converter uses a simple formula to convert numbers from base-50 to decimal. The formula is as follows:</p>
+      <p>Decimal Equivalent = Σ (digit * 50^i) for i = 0 to n-1, where n is the number of digits in the base-50 number and digit is the value of each digit in the base-50 number.</p>
+      <p>For example, if we want to convert the base-50 number 1A2 to decimal, the conversion would be:</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Digit</th>
+            <th>Value</th>
+            <th>50^i</th>
+            <th>Decimal Equivalent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2</td>
+            <td>2</td>
+            <td>50^0 = 1</td>
+            <td>2 * 1 = 2</td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>10</td>
+            <td>50^1 = 50</td>
+            <td>10 * 50 = 500</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>50^2 = 2500</td>
+            <td>1 * 2500 = 2500</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">Total</td>
+            <td>2500 + 500 + 2 = 3002</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <h2>Common Use Cases for the Base-50 to Decimal Converter</h2>
+      <ol>
+        <li>Converting base-50 numbers used in computer programming to decimal for easier understanding and manipulation.</li>
+        <li>Performing mathematical operations on base-50 numbers and then converting the results to decimal.</li>
+        <li>Converting decimal numbers to base-50 for use in specialized applications or algorithms.</li>
+        <li>Verifying calculations performed in base-50 by converting the results to decimal and checking for accuracy.</li>
+        <li>Converting base-50 numbers used in data storage or transmission to decimal for analysis or processing.</li>
+        <li>Using the Base-50 to Decimal Converter as a learning tool to understand the relationship between different number systems.</li>
+        <li>Converting base-50 numbers used in cryptography or coding theory to decimal for analysis or decryption.</li>
+        <li>Performing conversions between base-50 and decimal as part of a larger mathematical or computational workflow.</li>
+        <li>Verifying the correctness of base-50 to decimal conversions performed manually or using other tools.</li>
+        <li>Using the Base-50 to Decimal Converter as a reference or utility in mathematical or computational research.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  const base50NumberInput = document.getElementById('base50-number');
+  const convertButton = document.getElementById('convert-button');
+  const decimalEquivalentOutput = document.getElementById('decimal-equivalent');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  convertButton.addEventListener('click', () => {
+    const base50Number = base50NumberInput.value.trim();
+    if (base50Number === '') {
+      errorMessageDiv.textContent = 'Please enter a base-50 number.';
+      return;
+    }
+
+    let decimalEquivalent = 0;
+    let base = 1;
+    for (let i = base50Number.length - 1; i >= 0; i--) {
+      const digit = base50Number[i];
+      if (digit >= '0' && digit <= '9') {
+        decimalEquivalent += parseInt(digit) * base;
+      } else if (digit >= 'A' && digit <= 'T') {
+        decimalEquivalent += (digit.charCodeAt(0) - 'A'.charCodeAt(0) + 10) * base;
+      } else {
+        errorMessageDiv.textContent = 'Invalid base-50 number.';
+        return;
+      }
+      base *= 50;
+    }
+
+    decimalEquivalentOutput.value = decimalEquivalent;
+    errorMessageDiv.textContent = '';
+  });
+
+  base50NumberInput.addEventListener('input', () => {
+    errorMessageDiv.textContent = '';
+  });
+</script>

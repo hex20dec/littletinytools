@@ -1,0 +1,142 @@
+---
+title: Mayan Numeral to Hexadecimal Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-05-15 10:00:00
+tags:
+  - Mayan Numerals
+  - Hexadecimal Converter
+  - Number Systems
+  - Math Tools
+  - Online Converters
+---
+
+<style>
+  #main-div {
+    color: white;
+  }
+  .error-message {
+    color: red;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Mayan Numeral to Hexadecimal Converter</h1><div class="container mt-5">
+  <h1 class="text-center">Mayan Numeral to Hexadecimal Converter - A Comprehensive Tool for Number System Conversions</h1>
+  <p class="text-center">Discover the ease of converting Mayan numerals to hexadecimal equivalents with our intuitive online converter, designed to facilitate calculations and conversions between different number systems, including Mayan numerals, decimal, and hexadecimal, making it an invaluable resource for mathematicians, programmers, and anyone interested in exploring the fascinating world of number systems and conversions.</p>
+</div>
+  <div class="card mx-auto" style="width: 50rem;">
+    <div class="card-body">
+      <label for="mayan-numeral" class="form-label">Mayan Numeral</label>
+      <input type="text" id="mayan-numeral" class="form-control" placeholder="Enter Mayan numeral">
+      <button id="convert-button" class="btn btn-primary mt-3">Convert</button>
+      <p id="hexadecimal-equivalent" class="mt-3"></p>
+      <p id="error-message" class="error-message mt-3"></p>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works: The Conversion Formula</h2>
+  <p>The Mayan numeral system is a base-20 system, where each digit can have one of 20 possible values. To convert a Mayan numeral to decimal, we use the following formula:</p>
+  <p>Decimal Equivalent = (Mayan Digit 1 * 20^0) + (Mayan Digit 2 * 20^1) + ... + (Mayan Digit n * 20^(n-1))</p>
+  <p>Then, we convert the decimal equivalent to hexadecimal using the standard decimal to hexadecimal conversion method.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Mayan Numeral</th>
+        <th>Decimal Equivalent</th>
+        <th>Hexadecimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>2</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>3</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>A</td>
+        <td>10</td>
+        <td>A</td>
+      </tr>
+      <tr>
+        <td>B</td>
+        <td>11</td>
+        <td>B</td>
+      </tr>
+      <tr>
+        <td>C</td>
+        <td>12</td>
+        <td>C</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>10 Common Use Cases for Mayan Numeral to Hexadecimal Converter</h2>
+  <ol>
+    <li><strong>Mathematical Exploration</strong>: Use our converter to explore the properties of Mayan numerals and their relationships to other number systems.</li>
+    <li><strong>Programming and Coding</strong>: Utilize our converter to convert Mayan numerals to hexadecimal equivalents for use in programming and coding applications.</li>
+    <li><strong>Historical Research</strong>: Employ our converter to study and analyze the Mayan numeral system and its significance in historical context.</li>
+    <li><strong>Cryptography and Security</strong>: Leverage our converter to explore the application of Mayan numerals in cryptography and security.</li>
+    <li><strong>Education and Learning</strong>: Utilize our converter as a teaching tool to educate students about different number systems and their conversions.</li>
+    <li><strong>Computer Science and Algorithms</strong>: Use our converter to develop and test algorithms for converting Mayan numerals to hexadecimal equivalents.</li>
+    <li><strong>Data Analysis and Visualization</strong>: Employ our converter to convert and analyze data represented in Mayan numerals.</li>
+    <li><strong>Scientific Research and Development</strong>: Utilize our converter to explore the application of Mayan numerals in scientific research and development.</li>
+    <li><strong>Game Development and Design</strong>: Leverage our converter to create games and puzzles that incorporate Mayan numerals and their conversions.</li>
+    <li><strong>Cultural and Linguistic Studies</strong>: Use our converter to explore the cultural and linguistic significance of Mayan numerals and their relationship to other number systems.</li>
+  </ol>
+</div><script>
+  const mayanNumeralInput = document.getElementById('mayan-numeral');
+  const convertButton = document.getElementById('convert-button');
+  const hexadecimalEquivalent = document.getElementById('hexadecimal-equivalent');
+  const errorMessage = document.getElementById('error-message');
+
+  convertButton.addEventListener('click', () => {
+    const mayanNumeral = mayanNumeralInput.value.trim();
+    if (mayanNumeral === '') {
+      errorMessage.innerText = 'Please enter a Mayan numeral';
+      hexadecimalEquivalent.innerText = '';
+      return;
+    }
+
+    try {
+      const decimalEquivalent = mayanNumeralToDecimal(mayanNumeral);
+      const hex = decimalToHexadecimal(decimalEquivalent);
+      hexadecimalEquivalent.innerText = `Hexadecimal Equivalent: ${hex}`;
+      errorMessage.innerText = '';
+    } catch (error) {
+      errorMessage.innerText = error.message;
+      hexadecimalEquivalent.innerText = '';
+    }
+  });
+
+  function mayanNumeralToDecimal(mayanNumeral) {
+    const mayanDigits = mayanNumeral.split('');
+    let decimalEquivalent = 0;
+    for (let i = 0; i < mayanDigits.length; i++) {
+      const digit = mayanDigits[i];
+      if (digit >= '0' && digit <= '9') {
+        decimalEquivalent = decimalEquivalent * 20 + parseInt(digit);
+      } else if (digit >= 'A' && digit <= 'J') {
+        decimalEquivalent = decimalEquivalent * 20 + (10 + (digit.charCodeAt(0) - 'A'.charCodeAt(0)));
+      } else {
+        throw new Error(`Invalid Mayan numeral digit: ${digit}`);
+      }
+    }
+    return decimalEquivalent;
+  }
+
+  function decimalToHexadecimal(decimal) {
+    return decimal.toString(16).toUpperCase();
+  }
+</script>

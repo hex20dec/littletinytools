@@ -1,0 +1,134 @@
+---
+title: Binary to Decimal and Klingon Numeral Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - Klingon Numeral Converter
+  - Binary to Decimal
+  - Binary to Klingon
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    padding: 20px;
+  }
+  .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-3">Binary to Decimal and Klingon Numeral Converter</h1><div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1 class="mb-3">Binary to Decimal and Klingon Numeral Converter Tool</h1>
+            <p class="lead">The Binary to Decimal and Klingon Numeral Converter is a free online tool that allows users to convert binary numbers to their decimal equivalents and Klingon numerals. This tool is designed to make it easy for anyone to convert between these different number systems, and it can be used for a variety of purposes, including programming, mathematics, and language learning. With this tool, users can simply enter a binary number and click the "Convert" button to get the decimal equivalent and Klingon numeral. It's a simple and efficient way to convert between number systems, and it's available online for free.</p>
+        </div>
+    </div>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="binary-input" class="form-label">Binary Number</label>
+      <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)">
+    </div>
+    <button type="button" id="convert-button" class="btn btn-primary mb-3">Convert</button>
+    <div class="mb-3">
+      <label for="decimal-output" class="form-label">Decimal Equivalent</label>
+      <input type="text" id="decimal-output" class="form-control" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="klingon-output" class="form-label">Klingon Numeral</label>
+      <input type="text" id="klingon-output" class="form-control" readonly>
+    </div>
+    <div id="error-message" class="error-message"></div>
+  </form>
+</div>
+
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mb-3">How it Works</h2>
+            <p class="lead">The Binary to Decimal and Klingon Numeral Converter uses a simple formula to convert binary numbers to decimal equivalents and Klingon numerals. The formula for converting binary to decimal is as follows: Decimal = Σ (bit * 2^position), where bit is the binary digit (0 or 1) and position is the position of the bit starting from 0 on the right.</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Binary</th>
+                        <th>Decimal</th>
+                        <th>Klingon</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1010</td>
+                        <td>10</td>
+                        <td>᠖᠐</td>
+                    </tr>
+                    <tr>
+                        <td>1101</td>
+                        <td>13</td>
+                        <td>᠖᠓</td>
+                    </tr>
+                    <tr>
+                        <td>1111</td>
+                        <td>15</td>
+                        <td>᠙᠐</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="lead">The Klingon numeral system is a base-15 system that uses unique characters to represent the digits 0-14. The converter uses a custom algorithm to convert decimal numbers to Klingon numerals.</p>
+        </div>
+    </div>
+</div><div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mb-3">Common Use Cases for the Binary to Decimal and Klingon Numeral Converter</h2>
+            <ul class="list-group">
+                <li class="list-group-item">Programming: The converter can be used by programmers to convert binary code to decimal equivalents for debugging and testing purposes.</li>
+                <li class="list-group-item">Mathematics: The converter can be used by students and mathematicians to convert binary numbers to decimal equivalents for mathematical calculations.</li>
+                <li class="list-group-item">Language Learning: The converter can be used by language learners to learn about the Klingon language and its unique numeral system.</li>
+                <li class="list-group-item">Cryptography: The converter can be used by cryptographers to convert binary codes to decimal equivalents for encryption and decryption purposes.</li>
+                <li class="list-group-item">Data Analysis: The converter can be used by data analysts to convert binary data to decimal equivalents for data analysis and visualization purposes.</li>
+                <li class="list-group-item">Computer Science: The converter can be used by computer science students to learn about binary and decimal number systems.</li>
+                <li class="list-group-item">Game Development: The converter can be used by game developers to convert binary codes to decimal equivalents for game development purposes.</li>
+                <li class="list-group-item">Scientific Research: The converter can be used by scientists to convert binary data to decimal equivalents for scientific research purposes.</li>
+                <li class="list-group-item">Education: The converter can be used by teachers and students to learn about binary and decimal number systems.</li>
+                <li class="list-group-item">Personal Projects: The converter can be used by individuals for personal projects, such as converting binary codes to decimal equivalents for fun or for learning purposes.</li>
+            </ul>
+        </div>
+    </div>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const klingonOutput = document.getElementById('klingon-output');
+  const errorMessage = document.getElementById('error-message');
+
+  convertButton.addEventListener('click', () => {
+    const binary = binaryInput.value.trim();
+    if (!/^[01]+$/.test(binary)) {
+      errorMessage.textContent = 'Invalid binary number';
+      decimalOutput.value = '';
+      klingonOutput.value = '';
+      return;
+    }
+    const decimal = parseInt(binary, 2);
+    decimalOutput.value = decimal.toString();
+    const klingon = decimalToKlingon(decimal);
+    klingonOutput.value = klingon;
+    errorMessage.textContent = '';
+  });
+
+  function decimalToKlingon(decimal) {
+    const klingonDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '᠕', '᠖', '᠗', '᠘', '᠙'];
+    let klingon = '';
+    while (decimal > 0) {
+      const remainder = decimal % 15;
+      klingon = klingonDigits[remainder] + klingon;
+      decimal = Math.floor(decimal / 15);
+    }
+    return klingon;
+  }
+</script>

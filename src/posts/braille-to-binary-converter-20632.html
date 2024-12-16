@@ -1,0 +1,231 @@
+---
+title: Binary and Braille Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Braille Converter
+  - Accessibility Tools
+  - Coding Utilities
+  - Developer Tools
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  #main-div input, #main-div button, #main-div textarea {
+    margin-bottom: 20px;
+  }
+  .error-message {
+    color: #f00;
+  }
+  .table-container {
+    overflow-x: auto;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary and Braille Converter</h1><div class="container-fluid bg-primary text-white p-5 text-center">
+    <h1 class="display-4">Binary and Braille Converter Tool</h1>
+    <p class="lead">This tool is designed to convert binary numbers to decimal and Braille characters to binary, providing an essential accessibility utility for developers, coders, and individuals with visual impairments. With its user-friendly interface, you can easily convert binary to decimal and Braille to binary, making it an indispensable resource for various applications.</p>
+</div>
+  <h2>Binary to Decimal Converter</h2>
+  <label for="binary-input">Binary Number:</label>
+  <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)">
+  <button id="binary-convert-btn" class="btn btn-primary">Convert</button>
+  <label for="decimal-output">Decimal Equivalent:</label>
+  <input type="text" id="decimal-output" class="form-control" readonly>
+  <p id="binary-error" class="error-message"></p>
+
+  <h2>Braille to Binary Converter</h2>
+  <label for="braille-input">Enter Braille characters:</label>
+  <input type="text" id="braille-input" class="form-control" placeholder="Enter Braille characters">
+  <button id="braille-convert-btn" class="btn btn-primary">Convert to Binary</button>
+  <label for="braille-output">Binary representation:</label>
+  <input type="text" id="braille-output" class="form-control" readonly>
+  <p id="braille-error" class="error-message"></p>
+  <div class="table-container">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Braille Character</th>
+          <th>Binary Representation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- table data will be populated dynamically -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="container mt-5">
+    <h2 class="mb-4">How it Works</h2>
+    <p>The binary to decimal conversion is based on the formula: decimal = binary<sub>2</sub> × 2<sup>n-1</sup> + ... + binary<sub>n</sub> × 2<sup>0</sup>, where n is the number of bits in the binary number.</p>
+    <p>The Braille to binary conversion uses a predefined mapping of Braille characters to their corresponding binary representations, ensuring accurate and efficient conversion.</p>
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Braille Character</th>
+                    <th>Binary Representation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>a</td>
+                    <td>011000</td>
+                </tr>
+                <tr>
+                    <td>b</td>
+                    <td>011001</td>
+                </tr>
+                <tr>
+                    <td>c</td>
+                    <td>011010</td>
+                </tr>
+                <tr>
+                    <td>d</td>
+                    <td>011011</td>
+                </tr>
+                <tr>
+                    <td>e</td>
+                    <td>011100</td>
+                </tr>
+                <tr>
+                    <td>f</td>
+                    <td>011101</td>
+                </tr>
+                <tr>
+                    <td>g</td>
+                    <td>011110</td>
+                </tr>
+                <tr>
+                    <td>h</td>
+                    <td>011111</td>
+                </tr>
+                <tr>
+                    <td>i</td>
+                    <td>100000</td>
+                </tr>
+                <tr>
+                    <td>j</td>
+                    <td>100001</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div><div class="container mt-5">
+    <h2 class="mb-4">Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Converting binary code to decimal for programming and coding applications</li>
+        <li class="list-group-item">Translating Braille characters to binary for accessibility and assistive technology purposes</li>
+        <li class="list-group-item">Encoding and decoding binary data for secure communication and data storage</li>
+        <li class="list-group-item">Creating and reading Braille labels and signage for visually impaired individuals</li>
+        <li class="list-group-item">Developing and testing accessibility features for software and web applications</li>
+        <li class="list-group-item">Converting binary to decimal for mathematical and scientific calculations</li>
+        <li class="list-group-item">Generating and verifying binary and Braille codes for security and authentication purposes</li>
+        <li class="list-group-item">Creating and editing Braille documents and materials for educational and literary purposes</li>
+        <li class="list-group-item">Translating binary and Braille codes for language learning and cultural exchange programs</li>
+        <li class="list-group-item">Using binary and Braille codes for art and design projects, such as creating Braille-inspired typography and binary-based visual effects</li>
+    </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryError = document.getElementById('binary-error');
+
+  const brailleInput = document.getElementById('braille-input');
+  const brailleConvertBtn = document.getElementById('braille-convert-btn');
+  const brailleOutput = document.getElementById('braille-output');
+  const brailleError = document.getElementById('braille-error');
+
+  const tableBody = document.querySelector('.table-striped tbody');
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binaryNum = binaryInput.value;
+    if (!/^[01]+$/.test(binaryNum)) {
+      binaryError.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalNum = parseInt(binaryNum, 2);
+    decimalOutput.value = decimalNum;
+    binaryError.textContent = '';
+  });
+
+  brailleConvertBtn.addEventListener('click', () => {
+    const brailleChars = brailleInput.value;
+    if (!/^[a-zA-Z]+$/.test(brailleChars)) {
+      brailleError.textContent = 'Invalid Braille characters';
+      return;
+    }
+    const binaryRep = brailleToBinary(brailleChars);
+    brailleOutput.value = binaryRep;
+    brailleError.textContent = '';
+    populateTable(brailleChars);
+  });
+
+  function brailleToBinary(brailleChars) {
+    const brailleMap = {
+      'a': '011000',
+      'b': '011001',
+      'c': '011010',
+      'd': '011011',
+      'e': '011100',
+      'f': '011101',
+      'g': '011110',
+      'h': '011111',
+      'i': '100000',
+      'j': '100001',
+      'k': '100010',
+      'l': '100011',
+      'm': '100100',
+      'n': '100101',
+      'o': '100110',
+      'p': '100111',
+      'q': '101000',
+      'r': '101001',
+      's': '101010',
+      't': '101011',
+      'u': '101100',
+      'v': '101101',
+      'w': '101110',
+      'x': '101111',
+      'y': '110000',
+      'z': '110001',
+    };
+    let binaryRep = '';
+    for (let char of brailleChars) {
+      char = char.toLowerCase();
+      if (brailleMap[char]) {
+        binaryRep += brailleMap[char] + ' ';
+      } else {
+        brailleError.textContent = 'Invalid Braille character';
+        return '';
+      }
+    }
+    return binaryRep.trim();
+  }
+
+  function populateTable(brailleChars) {
+    tableBody.innerHTML = '';
+    for (let char of brailleChars) {
+      char = char.toLowerCase();
+      const binaryRep = brailleToBinary(char);
+      const row = document.createElement('tr');
+      const charCell = document.createElement('td');
+      const binaryCell = document.createElement('td');
+      charCell.textContent = char;
+      binaryCell.textContent = binaryRep;
+      row.appendChild(charCell);
+      row.appendChild(binaryCell);
+      tableBody.appendChild(row);
+    }
+  }
+</script>

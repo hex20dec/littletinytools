@@ -1,0 +1,160 @@
+---
+title: Binary to Decimal and Decimal to Braille Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - Braille Converter
+  - Accessibility Tool
+  - Math Utility
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  .error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Binary to Decimal and Decimal to Braille Converter</h1><div class="container mt-5">
+  <h1 class="text-center">Binary to Decimal and Decimal to Braille Converter Tool</h1>
+  <p class="text-center">This online tool is designed to convert binary numbers to decimal numbers and decimal numbers to braille representation, making it a valuable resource for students, programmers, and individuals with visual impairments. With its user-friendly interface and fast conversion capabilities, this tool provides an efficient way to perform binary and decimal conversions, as well as explore the world of braille. Whether you're looking to learn more about binary code, practice converting numbers, or simply need a reliable conversion tool, our Binary to Decimal and Decimal to Braille Converter is the perfect solution.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)">
+      <button id="binary-convert-btn" class="btn btn-primary mt-2">Convert</button>
+      <p id="decimal-output" class="mt-2"></p>
+      <p id="binary-error" class="error-message"></p>
+    </div>
+    <div class="col-md-6">
+      <h2>Decimal to Braille Converter</h2>
+      <input type="number" id="decimal-input" class="form-control" placeholder="Enter a decimal number">
+      <button id="decimal-convert-btn" class="btn btn-primary mt-2">Convert</button>
+      <p id="braille-output" class="mt-2"></p>
+      <p id="decimal-error" class="error-message"></p>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The binary to decimal conversion is based on the formula: decimal = binary * (2 ^ position), where position starts from 0 and increases from right to left. For example, the binary number 1010 can be converted to decimal as follows:</p>
+  <p>1 * (2 ^ 3) + 0 * (2 ^ 2) + 1 * (2 ^ 1) + 0 * (2 ^ 0) = 8 + 0 + 2 + 0 = 10</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary</th>
+        <th>Decimal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1100</td>
+        <td>12</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1000</td>
+        <td>8</td>
+      </tr>
+      <tr>
+        <td>0110</td>
+        <td>6</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The decimal to braille conversion uses a set of predefined braille characters to represent each digit from 0 to 9. The conversion is done by mapping each decimal digit to its corresponding braille character.</p>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting binary code to decimal for programming and coding purposes</li>
+    <li class="list-group-item">Practicing binary and decimal conversions for students and learners</li>
+    <li class="list-group-item">Exploring braille representation for individuals with visual impairments</li>
+    <li class="list-group-item">Converting decimal numbers to braille for accessibility and inclusivity purposes</li>
+    <li class="list-group-item">Using the tool as a reference for binary and decimal conversions in math and science classes</li>
+    <li class="list-group-item">Creating braille labels and signs for public spaces and events</li>
+    <li class="list-group-item">Transcribing decimal numbers to braille for personal or professional use</li>
+    <li class="list-group-item">Learning about binary code and its applications in computer science and programming</li>
+    <li class="list-group-item">Using the tool as a resource for converting binary and decimal numbers in everyday life</li>
+    <li class="list-group-item">Exploring the intersection of technology and accessibility through binary and braille conversions</li>
+  </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryError = document.getElementById('binary-error');
+
+  const decimalInput = document.getElementById('decimal-input');
+  const decimalConvertBtn = document.getElementById('decimal-convert-btn');
+  const brailleOutput = document.getElementById('braille-output');
+  const decimalError = document.getElementById('decimal-error');
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binaryValue = binaryInput.value.trim();
+    if (binaryValue === '') {
+      binaryError.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryValue)) {
+      binaryError.textContent = 'Invalid binary number';
+      return;
+    }
+    binaryError.textContent = '';
+    const decimalValue = parseInt(binaryValue, 2);
+    decimalOutput.textContent = `Decimal Equivalent: ${decimalValue}`;
+  });
+
+  decimalConvertBtn.addEventListener('click', () => {
+    const decimalValue = decimalInput.value.trim();
+    if (decimalValue === '') {
+      decimalError.textContent = 'Please enter a decimal number';
+      return;
+    }
+    if (isNaN(decimalValue)) {
+      decimalError.textContent = 'Invalid decimal number';
+      return;
+    }
+    decimalError.textContent = '';
+    const brailleValue = decimalValue.split('').map(digit => {
+      switch (digit) {
+        case '0':
+          return '\u2800';
+        case '1':
+          return '\u2801';
+        case '2':
+          return '\u2802';
+        case '3':
+          return '\u2803';
+        case '4':
+          return '\u2804';
+        case '5':
+          return '\u2805';
+        case '6':
+          return '\u2806';
+        case '7':
+          return '\u2807';
+        case '8':
+          return '\u2808';
+        case '9':
+          return '\u2809';
+        default:
+          return '';
+      }
+    }).join(' ');
+    brailleOutput.textContent = `Braille Representation: ${brailleValue}`;
+  });
+</script>

@@ -1,0 +1,155 @@
+---
+title: Klingon Numeral to Decimal Converter
+permalink: "/{{ title | uniqueSlug(date) }}/" 
+date: 2018-05-01 12:00:00
+tags:
+  - Klingon Numeral System
+  - Decimal Converter
+  - Star Trek
+  - Klingon Language
+  - Numerical Conversion
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    padding: 20px;
+  }
+  .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Klingon Numeral to Decimal Converter</h1><div class="header-section p-5 text-center bg-primary text-white">
+  <h1 class="display-4">Klingon Numeral to Decimal Converter</h1>
+  <p class="lead">Discover the power of converting Klingon numerals to decimal with our easy-to-use tool, perfect for Star Trek fans and language enthusiasts alike. Learn how to convert Klingon numerals like DahI, waDIch, and wej to their decimal equivalents with our simple and intuitive converter.</p>
+</div>
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <label for="klingon-numeral" class="form-label">Klingon Numeral</label>
+      <input type="text" id="klingon-numeral" class="form-control" aria-describedby="klingon-numeral-help" placeholder="Enter a Klingon numeral (e.g. 1010, DahI, waDIch, wej)">
+      <div id="klingon-numeral-help" class="footnote">The Klingon numeral system uses the following characters: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, and the prefixes "DahI" for 10, "waDIch" for 11, "wej" for 20, and so on.</div>
+      <button id="convert-button" class="btn btn-primary mt-3">Convert to Decimal</button>
+      <p id="error-message" class="error-message mt-3"></p>
+      <div id="result" class="alert alert-success mt-3" role="alert"></div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+  <h2 class="mb-3">How it Works</h2>
+  <p>The Klingon numeral system uses a combination of prefixes and digits to represent numbers. The formula for converting Klingon numerals to decimal is as follows:</p>
+  <p>Decimal Value = (Prefix Value * Digit Value) + Base Value</p>
+  <p>Where:</p>
+  <ul>
+    <li>Prefix Value is the value associated with the prefix (e.g. DahI = 10, waDIch = 11, etc.)</li>
+    <li>Digit Value is the value of the digits following the prefix (e.g. 1010 = 10)</li>
+    <li>Base Value is the base value of the numeral (e.g. 0 for DahI, 1 for waDIch, etc.)</li>
+  </ul>
+  <h3 class="mt-5">Example Conversions</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Klingon Numeral</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>DahI</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>wADIch</td>
+        <td>11</td>
+      </tr>
+      <tr>
+        <td>wej</td>
+        <td>20</td>
+      </tr>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>waDIch 5</td>
+        <td>55</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5">
+  <h2 class="mb-3">Common Use Cases</h2>
+  <ol>
+    <li>Converting Klingon numerals to decimal for language learning and practice</li>
+    <li>Calculating quantities in the Klingon language, such as measuring ingredients for traditional Klingon dishes</li>
+    <li>Communicating with Klingon-speaking friends or acquaintances in a more authentic way</li>
+    <li>Exploring the Klingon numeral system and its unique characteristics</li>
+    <li>Enhancing your understanding of Star Trek's Klingon culture and history</li>
+    <li>Creating Klingon-themed games, puzzles, or educational materials</li>
+    <li>Translating Klingon texts or dialogues that include numerals</li>
+    <li>Developing language learning apps or software that incorporate the Klingon numeral system</li>
+    <li>Writing Klingon-inspired stories or poetry that involve numerals and calculations</li>
+    <li>Creating artwork or designs that incorporate Klingon numerals and their unique visual style</li>
+  </ol>
+</div><script>
+  const klingonNumeralInput = document.getElementById('klingon-numeral');
+  const convertButton = document.getElementById('convert-button');
+  const errorMessage = document.getElementById('error-message');
+  const resultDiv = document.getElementById('result');
+
+  const klingonPrefixes = {
+    'DahI': 10,
+    'waDIch': 11,
+    'wej': 20,
+    'cha': 30,
+    'jaj': 40,
+    'SaH': 50,
+    'Pag': 60,
+    'jIH': 70,
+    'chap': 80,
+    'lhIH': 90
+  };
+
+  convertButton.addEventListener('click', () => {
+    const klingonNumeral = klingonNumeralInput.value.trim();
+    if (klingonNumeral === '') {
+      errorMessage.textContent = 'Please enter a Klingon numeral.';
+      resultDiv.textContent = '';
+      return;
+    }
+
+    let decimalValue = 0;
+    let isValid = true;
+
+    if (klingonNumeral in klingonPrefixes) {
+      decimalValue = klingonPrefixes[klingonNumeral];
+    } else {
+      const matches = klingonNumeral.match(/^(wej|cha|jaj|SaH|Pag|jIH|chap|lhIH)?(\d+)$/);
+      if (matches) {
+        const prefix = matches[1];
+        const value = parseInt(matches[2]);
+        if (prefix) {
+          decimalValue = (klingonPrefixes[prefix] * value);
+        } else {
+          decimalValue = value;
+        }
+      } else {
+        const matches2 = klingonNumeral.match(/^(\d+)$/);
+        if (matches2) {
+          decimalValue = parseInt(matches2[1]);
+        } else {
+          isValid = false;
+        }
+      }
+    }
+
+    if (!isValid) {
+      errorMessage.textContent = 'Invalid Klingon numeral. Please enter a valid numeral.';
+      resultDiv.textContent = '';
+    } else {
+      errorMessage.textContent = '';
+      resultDiv.textContent = `The decimal equivalent of ${klingonNumeral} is ${decimalValue}.`;
+    }
+  });
+</script>

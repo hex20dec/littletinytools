@@ -1,0 +1,133 @@
+---
+title: Binary to Base-50 Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Base-50 Converter
+  - Numerical Systems
+  - Coding Tools
+  - Data Analysis
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Binary to Base-50 Converter</h1><div class="container mt-5">
+  <h1 class="text-center">Binary to Base-50 Converter Tool - Accurate and Efficient Number System Conversion</h1>
+  <p class="text-center">The Binary to Base-50 Converter is a cutting-edge online tool designed to convert binary numbers to base-50 numbers with precision and speed. This innovative converter utilizes advanced algorithms to facilitate seamless conversions, making it an indispensable resource for professionals and students alike. By leveraging the latest technologies and adhering to the highest standards of quality, our Binary to Base-50 Converter ensures accurate and reliable results, empowering users to navigate the complexities of numerical systems with confidence.</p>
+</div>
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <label for="binary-input" class="form-label">Binary Number</label>
+      <textarea id="binary-input" class="form-control" placeholder="Enter binary number" aria-label="Binary Number" aria-describedby="binary-input"></textarea>
+      <button id="convert-button" class="btn btn-primary mt-3" type="button">Convert</button>
+      <div id="error-message" class="error-message mt-3" style="display: none;"></div>
+    </div>
+    <div class="col-md-6">
+      <label for="base50-output" class="form-label">Base-50 Number</label>
+      <textarea id="base50-output" class="form-control" readonly aria-label="Base-50 Number" aria-describedby="base50-output"></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="text-center">How the Binary to Base-50 Converter Works</h2>
+  <p>The conversion process involves a two-step approach. Firstly, the binary number is converted to a decimal number using the formula: decimalNumber = parseInt(binaryNumber, 2). Then, the decimal number is converted to a base-50 number using the following formula:</p>
+  <p>base50Number = decimalToBase50(decimalNumber)</p>
+  <p>where decimalToBase50 is a function that utilizes a while loop to repeatedly divide the decimal number by 50 and append the remainder to the base-50 number.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Number</th>
+        <th>Base-50 Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+        <td>A</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+        <td>D</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+        <td>F</td>
+      </tr>
+      <tr>
+        <td>10000</td>
+        <td>16</td>
+        <td>G</td>
+      </tr>
+      <tr>
+        <td>10001</td>
+        <td>17</td>
+        <td>H</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="text-center">Common Use Cases for the Binary to Base-50 Converter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting binary data to base-50 for efficient storage and transmission</li>
+    <li class="list-group-item">Performing numerical computations and calculations involving binary and base-50 numbers</li>
+    <li class="list-group-item">Developing and testing algorithms that rely on binary and base-50 conversions</li>
+    <li class="list-group-item">Analyzing and processing binary data in various fields, such as computer science and engineering</li>
+    <li class="list-group-item">Creating and managing databases that store binary and base-50 data</li>
+    <li class="list-group-item">Converting binary code to base-50 for debugging and troubleshooting purposes</li>
+    <li class="list-group-item">Performing data compression and encryption using binary and base-50 conversions</li>
+    <li class="list-group-item">Designing and implementing cryptographic algorithms that rely on binary and base-50 conversions</li>
+    <li class="list-group-item">Developing software applications that require binary and base-50 conversions</li>
+    <li class="list-group-item">Providing educational resources and tools for students learning about binary and base-50 conversions</li>
+  </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const base50Output = document.getElementById('base50-output');
+  const errorMessage = document.getElementById('error-message');
+
+  convertButton.addEventListener('click', () => {
+    const binaryNumber = binaryInput.value.trim();
+    if (!binaryNumber) {
+      errorMessage.innerText = 'Please enter a binary number';
+      errorMessage.style.display = 'block';
+      return;
+    }
+
+    if (!/^[01]+$/.test(binaryNumber)) {
+      errorMessage.innerText = 'Invalid binary number. Only 0s and 1s are allowed.';
+      errorMessage.style.display = 'block';
+      return;
+    }
+
+    const decimalNumber = parseInt(binaryNumber, 2);
+    const base50Number = decimalToBase50(decimalNumber);
+    base50Output.value = base50Number;
+    errorMessage.style.display = 'none';
+  });
+
+  function decimalToBase50(decimalNumber) {
+    const base50Digits = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.substring(0, 50);
+    let base50Number = '';
+    while (decimalNumber > 0) {
+      const remainder = decimalNumber % 50;
+      base50Number = base50Digits[remainder] + base50Number;
+      decimalNumber = Math.floor(decimalNumber / 50);
+    }
+    return base50Number;
+  }
+</script>

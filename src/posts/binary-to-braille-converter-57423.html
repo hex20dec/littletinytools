@@ -1,0 +1,170 @@
+---
+title: Binary to Decimal and Braille Converter
+permalink: "/{{ title | uniqueSlug(date) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Braille Converter
+  - Accessibility Tool
+  - Developer Tool
+  - Education Resource
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Binary to Decimal and Braille Converter</h1><div class="container mt-5">
+  <h1 class="text-center">Binary to Decimal and Braille Converter - Unlock the Power of Accessibility and Coding</h1>
+  <p class="text-center">Discover the ultimate tool for converting binary numbers to decimal equivalents and Braille characters, empowering developers, educators, and individuals with visual impairments to work with ease and precision, while ensuring seamless accessibility and coding convenience.</p>
+</div>
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <label for="binary-input" class="form-label">Binary Number</label>
+      <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)">
+      <button id="convert-btn" class="btn btn-primary mt-3">Convert</button>
+      <div id="error-message" class="error-message mt-3"></div>
+    </div>
+    <div class="col-md-6">
+      <label for="decimal-output" class="form-label">Decimal Equivalent</label>
+      <input type="text" id="decimal-output" class="form-control" readonly>
+      <label for="braille-output" class="form-label mt-3">Braille Characters</label>
+      <textarea id="braille-output" class="form-control" readonly></textarea>
+      <button id="copy-btn" class="btn btn-secondary mt-3">Copy Braille Characters</button>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-12">
+      <h2>Braille Guide</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Braille Character</th>
+            <th>Binary Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>&#x2800;</td>
+            <td>000000</td>
+          </tr>
+          <tr>
+            <td>&#x2801;</td>
+            <td>000001</td>
+          </tr>
+          <tr>
+            <td>&#x2802;</td>
+            <td>000010</td>
+          </tr>
+          <!-- Add more braille characters and binary codes here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works - The Science Behind Binary to Decimal and Braille Conversion</h2>
+  <p>The binary to decimal conversion is based on the formula: decimal = binary * (2 ^ position), where position starts from 0 and increments from right to left. For Braille conversion, each 6-bit binary code is mapped to a unique Braille character, as illustrated in the following table:</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Code</th>
+        <th>Decimal Equivalent</th>
+        <th>Braille Character</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>000000</td>
+        <td>0</td>
+        <td>&#x2800;</td>
+      </tr>
+      <tr>
+        <td>000001</td>
+        <td>1</td>
+        <td>&#x2801;</td>
+      </tr>
+      <tr>
+        <td>000010</td>
+        <td>2</td>
+        <td>&#x2802;</td>
+      </tr>
+      <tr>
+        <td>000011</td>
+        <td>3</td>
+        <td>&#x2803;</td>
+      </tr>
+      <tr>
+        <td>000100</td>
+        <td>4</td>
+        <td>&#x2804;</td>
+      </tr>
+      <!-- Add more rows to the table as needed -->
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>10 Essential Use Cases for the Binary to Decimal and Braille Converter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Accessibility tool for individuals with visual impairments</li>
+    <li class="list-group-item">Coding and programming resource for developers and students</li>
+    <li class="list-group-item">Education and research tool for binary and Braille literacy</li>
+    <li class="list-group-item">Assistive technology for people with disabilities</li>
+    <li class="list-group-item">Language learning aid for Braille and binary languages</li>
+    <li class="list-group-item">Conversion tool for binary data and files</li>
+    <li class="list-group-item">Mathematics and computer science educational resource</li>
+    <li class="list-group-item">Communication aid for Braille and binary messaging</li>
+    <li class="list-group-item">Data analysis and processing tool for binary and decimal data</li>
+    <li class="list-group-item">Research and development tool for accessibility and coding innovations</li>
+  </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertBtn = document.getElementById('convert-btn');
+  const decimalOutput = document.getElementById('decimal-output');
+  const brailleOutput = document.getElementById('braille-output');
+  const copyBtn = document.getElementById('copy-btn');
+  const errorMessage = document.getElementById('error-message');
+
+  convertBtn.addEventListener('click', () => {
+    const binary = binaryInput.value.trim();
+    if (!binary) {
+      errorMessage.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binary)) {
+      errorMessage.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimal = parseInt(binary, 2);
+    decimalOutput.value = decimal;
+    const braille = binaryToBraille(binary);
+    brailleOutput.value = braille;
+    errorMessage.textContent = '';
+  });
+
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(brailleOutput.value);
+  });
+
+  function binaryToBraille(binary) {
+    const brailleMap = {
+      '000000': '&#x2800;',
+      '000001': '&#x2801;',
+      '000010': '&#x2802;',
+      // Add more binary codes and braille characters to the map
+    };
+    let braille = '';
+    for (let i = 0; i < binary.length; i += 6) {
+      const code = binary.slice(i, i + 6);
+      braille += brailleMap[code] || '';
+    }
+    return braille;
+  }
+</script>
