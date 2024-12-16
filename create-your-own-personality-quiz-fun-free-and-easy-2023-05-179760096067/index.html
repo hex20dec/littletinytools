@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiny Tools</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/styles/layout.css">
+    <meta name="google-adsense-account" content="ca-pub-9239838040277193">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Bitter&display=swap');
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9239838040277193"
+     crossorigin="anonymous"></script>
+  </head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J0QX0DVBPC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J0QX0DVBPC');
+</script>
+  <body data-bs-theme="dark">
+    <header class="navbar navbar-expand-lg">
+      <div class="container" id="logo-container">
+        <a class="navbar-brand" href="/">
+          <h1 class="navbar-brand mb-0">Tiny Tools</h1>
+        </a>
+        <h6>A Cool Tool For Every Fool</h6>
+
+      </div>
+      
+    </header>
+    <main class="container mt-4">
+      <h2 class="mb-4">Create Your Own Personality Quiz: Fun, Free, and Easy!</h2>
+      <div class="content">
+
+<style>
+#main-div {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #e0e0e0;
+}
+
+h1, h2, h3 {
+  color: #ffffff;
+}
+
+button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+.question, .result-type {
+  background-color: #2c2c2c;
+  border: 1px solid #444;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+}
+
+.progress-bar {
+  width: 100%;
+  background-color: #444;
+  border-radius: 13px;
+  padding: 3px;
+}
+
+.progress {
+  width: 0%;
+  height: 20px;
+  background-color: #4CAF50;
+  border-radius: 10px;
+  transition: width 0.5s ease-in-out;
+}
+
+#quiz-preview, #take-quiz, #results {
+  display: none;
+}
+</style>
+
+<div id="main-div">
+  <h1>Personality Quiz Maker</h1>
+  
+  <div id="create-quiz">
+    <h2>Create Your Quiz</h2>
+    <input type="text" id="quiz-title" placeholder="Quiz Title">
+    <textarea id="quiz-description" placeholder="Quiz Description"></textarea>
+    
+    <h3>Questions</h3>
+    <div id="questions-container"></div>
+    <button id="add-question">Add Question</button>
+    
+    <h3>Result Types</h3>
+    <div id="result-types-container"></div>
+    <button id="add-result-type">Add Result Type</button>
+    
+    <button id="preview-quiz">Preview Quiz</button>
+    <button id="publish-quiz">Publish Quiz</button>
+  </div>
+  
+  <div id="quiz-preview">
+    <h2>Quiz Preview</h2>
+    <div id="preview-content"></div>
+    <button id="back-to-edit">Back to Edit</button>
+  </div>
+  
+  <div id="take-quiz">
+    <h2 id="quiz-title-display"></h2>
+    <p id="quiz-description-display"></p>
+    <div class="progress-bar">
+      <div class="progress" id="quiz-progress"></div>
+    </div>
+    <div id="question-display"></div>
+    <button id="next-question">Next</button>
+  </div>
+  
+  <div id="results">
+    <h2>Your Results</h2>
+    <h3 id="primary-result"></h3>
+    <p id="result-description"></p>
+    <h4>Result Breakdown:</h4>
+    <div id="result-breakdown"></div>
+    <button id="share-results">Share Results</button>
+  </div>
+</div>
+
+<script>
+let quiz = {
+  title: '',
+  description: '',
+  questions: [],
+  resultTypes: [],
+  currentQuestion: 0,
+  answers: []
+};
+
+function addQuestion() {
+  const questionContainer = document.createElement('div');
+  questionContainer.className = 'question';
+  questionContainer.innerHTML = `
+    <input type="text" placeholder="Question Text">
+    <div class="answers">
+      <input type="text" placeholder="Answer 1">
+      <input type="text" placeholder="Answer 2">
+      <input type="text" placeholder="Answer 3">
+      <input type="text" placeholder="Answer 4">
+    </div>
+  `;
+  document.getElementById('questions-container').appendChild(questionContainer);
+}
+
+function addResultType() {
+  const resultTypeContainer = document.createElement('div');
+  resultTypeContainer.className = 'result-type';
+  resultTypeContainer.innerHTML = `
+    <input type="text" placeholder="Result Type Name">
+    <textarea placeholder="Result Type Description"></textarea>
+  `;
+  document.getElementById('result-types-container').appendChild(resultTypeContainer);
+}
+
+function previewQuiz() {
+  quiz.title = document.getElementById('quiz-title').value;
+  quiz.description = document.getElementById('quiz-description').value;
+  
+  quiz.questions = Array.from(document.querySelectorAll('.question')).map(q => ({
+    text: q.querySelector('input[type="text"]').value,
+    answers: Array.from(q.querySelectorAll('.answers input')).map(a => a.value).filter(Boolean)
+  }));
+  
+  quiz.resultTypes = Array.from(document.querySelectorAll('.result-type')).map(r => ({
+    name: r.querySelector('input[type="text"]').value,
+    description: r.querySelector('textarea').value
+  }));
+  
+  document.getElementById('create-quiz').style.display = 'none';
+  document.getElementById('quiz-preview').style.display = 'block';
+  
+  const previewContent = document.getElementById('preview-content');
+  previewContent.innerHTML = `
+    <h3>${quiz.title}</h3>
+    <p>${quiz.description}</p>
+    ${quiz.questions.map((q, i) => `
+      <div>
+        <p><strong>Question ${i + 1}:</strong> ${q.text}</p>
+        <ul>
+          ${q.answers.map(a => `<li>${a}</li>`).join('')}
+        </ul>
+      </div>
+    `).join('')}
+    <h4>Result Types:</h4>
+    ${quiz.resultTypes.map(r => `
+      <div>
+        <h5>${r.name}</h5>
+        <p>${r.description}</p>
+      </div>
+    `).join('')}
+  `;
+}
+
+function publishQuiz() {
+  // In a real app, this would save the quiz to a server
+  alert('Quiz published! Share this URL: ' + window.location.href + 'quiz/' + Math.random().toString(36).substr(2, 9));
+}
+
+function startQuiz() {
+  document.getElementById('quiz-preview').style.display = 'none';
+  document.getElementById('take-quiz').style.display = 'block';
+  document.getElementById('quiz-title-display').textContent = quiz.title;
+  document.getElementById('quiz-description-display').textContent = quiz.description;
+  showQuestion();
+}
+
+function showQuestion() {
+  const question = quiz.questions[quiz.currentQuestion];
+  const questionDisplay = document.getElementById('question-display');
+  questionDisplay.innerHTML = `
+    <h3>${question.text}</h3>
+    ${question.answers.map((answer, i) => `
+      <button onclick="selectAnswer(${i})">${answer}</button>
+    `).join('')}
+  `;
+  updateProgress();
+}
+
+function selectAnswer(answerIndex) {
+  quiz.answers.push(answerIndex);
+  quiz.currentQuestion++;
+  if (quiz.currentQuestion < quiz.questions.length) {
+    showQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function updateProgress() {
+  const progress = (quiz.currentQuestion / quiz.questions.length) * 100;
+  document.getElementById('quiz-progress').style.width = `${progress}%`;
+}
+
+function showResults() {
+  document.getElementById('take-quiz').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+  
+  // In a real app, this would calculate results based on answer mapping
+  const randomResult = quiz.resultTypes[Math.floor(Math.random() * quiz.resultTypes.length)];
+  
+  document.getElementById('primary-result').textContent = randomResult.name;
+  document.getElementById('result-description').textContent = randomResult.description;
+  
+  const breakdown = document.getElementById('result-breakdown');
+  breakdown.innerHTML = quiz.resultTypes.map(r => `
+    <div>
+      <strong>${r.name}:</strong> ${Math.floor(Math.random() * 100)}%
+    </div>
+  `).join('');
+}
+
+function shareResults() {
+  // In a real app, this would generate a shareable link
+  alert('Share this link: ' + window.location.href + 'results/' + Math.random().toString(36).substr(2, 9));
+}
+
+document.getElementById('add-question').addEventListener('click', addQuestion);
+document.getElementById('add-result-type').addEventListener('click', addResultType);
+document.getElementById('preview-quiz').addEventListener('click', previewQuiz);
+document.getElementById('publish-quiz').addEventListener('click', publishQuiz);
+document.getElementById('back-to-edit').addEventListener('click', () => {
+  document.getElementById('quiz-preview').style.display = 'none';
+  document.getElementById('create-quiz').style.display = 'block';
+});
+document.getElementById('next-question').addEventListener('click', () => selectAnswer(0));
+document.getElementById('share-results').addEventListener('click', shareResults);
+
+// Initialize with one question and result type
+addQuestion();
+addResultType();
+</script>      </div>
+    </main>
+    <section id="categories">
+      <h5>Categories:</h5>
+        <a href="/tag/post/">post</a>, 
+        <a href="/tag/personality-quiz/">personality-quiz</a>, 
+        <a href="/tag/quiz-maker/">quiz-maker</a>, 
+        <a href="/tag/interactive-tool/">interactive-tool</a>, 
+        <a href="/tag/self-discovery/">self-discovery</a>, 
+        <a href="/tag/entertainment/">entertainment</a>, 
+    </section>
+    <section id="related-tools-section">
+      <h5>Related tools:</h5>
+       
+      
+     
+
+
+
+
+        <a class='related-tool' href="/create-your-own-personality-quiz-fun-free-and-easy-2023-05-179760096067/">Create Your Own Personality Quiz: Fun, Free, and Easy!</a>
+
+ 
+
+
+        <a class='related-tool' href="/base-5-to-decimal-converter-2020-05-017228228166/">Base-5 to Decimal Converter</a>
+
+ 
+
+
+        <a class='related-tool' href="/binary-to-decimal-and-decimal-to-roman-numeral-converter-2020-05-018378642994/">Binary to Decimal and Decimal to Roman Numeral Converter</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/binary-to-decimal-and-hex-to-unicode-converter-2019-07-124556875510/">Binary to Decimal and Hex to Unicode Converter</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/binary-to-decimal-and-decimal-to-ieee-754-converter-2020-02-156094927137/">Binary to Decimal and Decimal to IEEE 754 Converter</a>
+
+ 
+
+
+
+ 
+
+
+        <a class='related-tool' href="/binary-to-decimal-and-decimal-to-hexadecimal-converter-2020-02-153128690023/">Binary to Decimal and Decimal to Hexadecimal Converter</a>
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+    </section>
+    <footer class="py-3">
+      <div class="container">
+        <p class="text-center">
+
+          <small>&copy; 2024 Tiny Tools</small>
+        </p>
+      </div>
+    </footer>
+    
+    <!-- Bootstrap JS -->
+    <script src="/assets/scripts/bootstrap.min.js"></script>
+    <script src="/assets/scripts/main.js"></script>
+  </body>
+</html>
