@@ -1,0 +1,171 @@
+---
+title: Binary to Decimal Converter and Quoted Word Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Quoted Word Counter
+  - Web Development
+  - Frontend Development
+  - Utility Tools
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  #main-div input, #main-div textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  #main-div button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #0069d9;
+  }
+  #main-div .error-message {
+    color: #f00;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal Converter and Quoted Word Counter</h1><div class="header-section p-5 text-center bg-primary text-white">
+    <h1>Binary to Decimal Converter and Quoted Word Counter Tool</h1>
+    <p>This free online tool is designed to convert binary numbers to decimal equivalents and count the number of quoted words in a given text. It's a simple and efficient solution for programmers, developers, and anyone who needs to perform these conversions quickly and accurately. With its user-friendly interface and robust functionality, this tool is an essential resource for anyone working with binary code or text analysis.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary-input">Binary Number:</label>
+      <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)">
+      <button id="convert-button">Convert</button>
+      <label for="decimal-output">Decimal Equivalent:</label>
+      <input type="text" id="decimal-output" readonly>
+      <div class="error-message" id="binary-error-message"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Quoted Word Counter</h2>
+      <label for="quoted-text-input">Text:</label>
+      <textarea id="quoted-text-input" rows="10"></textarea>
+      <button id="count-quoted-words-button">Count Quoted Words</button>
+      <label for="quoted-words-output">Number of Quoted Words:</label>
+      <input type="text" id="quoted-words-output" readonly>
+      <div class="error-message" id="quoted-words-error-message"></div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How it Works</h2>
+    <p>The binary to decimal converter uses the following formula to perform the conversion: decimal = binary<sub>2</sub> × 2<sup>0</sup> + binary<sub>1</sub> × 2<sup>1</sup> + ... + binary<sub>n</sub> × 2<sup>n</sup>, where binary<sub>i</sub> is the i-th digit of the binary number.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1011</td>
+                <td>11</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>The quoted word counter uses a regular expression to match quoted words in the input text. The regular expression /"[^"]*"/g matches any sequence of characters that starts and ends with a double quote.</p>
+</div><div class="use-cases-section p-5">
+    <h2>Common Use Cases</h2>
+    <ul>
+        <li>Converting binary code to decimal code for programming purposes</li>
+        <li>Counting the number of quoted words in a text for text analysis or natural language processing</li>
+        <li>Verifying the accuracy of binary to decimal conversions</li>
+        <li>Testing and debugging binary code</li>
+        <li>Performing quality assurance checks on text data</li>
+        <li>Converting binary data to decimal data for data analysis or visualization</li>
+        <li>Counting the number of quoted words in a text for content analysis or summarization</li>
+        <li>Identifying and extracting quoted words from a text for information retrieval or extraction</li>
+        <li>Converting binary code to decimal code for educational or training purposes</li>
+        <li>Using the tool as a reference or cheat sheet for binary to decimal conversions</li>
+    </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryErrorMessage = document.getElementById('binary-error-message');
+  const quotedTextInput = document.getElementById('quoted-text-input');
+  const countQuotedWordsButton = document.getElementById('count-quoted-words-button');
+  const quotedWordsOutput = document.getElementById('quoted-words-output');
+  const quotedWordsErrorMessage = document.getElementById('quoted-words-error-message');
+
+  convertButton.addEventListener('click', () => {
+    const binaryNumber = binaryInput.value.trim();
+    if (binaryNumber === '') {
+      binaryErrorMessage.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryNumber)) {
+      binaryErrorMessage.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalNumber = parseInt(binaryNumber, 2);
+    decimalOutput.value = decimalNumber;
+    binaryErrorMessage.textContent = '';
+  });
+
+  countQuotedWordsButton.addEventListener('click', () => {
+    const text = quotedTextInput.value.trim();
+    if (text === '') {
+      quotedWordsErrorMessage.textContent = 'Please enter some text';
+      return;
+    }
+    const quotedWords = text.match(/"[^"]*"/g);
+    if (quotedWords) {
+      const wordCount = quotedWords.reduce((acc, quote) => {
+        const words = quote.slice(1, -1).split(' ');
+        return acc + words.length;
+      }, 0);
+      quotedWordsOutput.value = wordCount;
+      quotedWordsErrorMessage.textContent = '';
+    } else {
+      quotedWordsErrorMessage.textContent = 'No quoted words found';
+    }
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+</script>

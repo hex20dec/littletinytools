@@ -1,0 +1,186 @@
+---
+title: Binary and Positional Numeral to Decimal Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 14:30:00
+tags:
+  - Binary Converter
+  - Positional Numeral Converter
+  - Decimal Converter
+  - Number Converter
+  - Math Tool
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+  .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-3">Binary and Positional Numeral to Decimal Converter</h1><div class="container-fluid p-5 bg-primary text-white text-center">
+  <h1>Binary and Positional Numeral to Decimal Converter Tool</h1>
+  <p>This free online tool converts binary, ternary, quaternary, quinary, senary, septenary, octal, nonary, decimal, and hexadecimal numbers to their decimal equivalents, providing a quick and easy way to perform number system conversions for mathematics, programming, and engineering applications.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="base" class="form-label">Select Base:</label>
+      <select id="base" class="form-select" aria-label="Select base">
+        <option value="2">Binary (Base 2)</option>
+        <option value="3">Ternary (Base 3)</option>
+        <option value="4">Quaternary (Base 4)</option>
+        <option value="5">Quinary (Base 5)</option>
+        <option value="6">Senary (Base 6)</option>
+        <option value="7">Septenary (Base 7)</option>
+        <option value="8">Octal (Base 8)</option>
+        <option value="9">Nonary (Base 9)</option>
+        <option value="10">Decimal (Base 10)</option>
+        <option value="16">Hexadecimal (Base 16)</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="number" class="form-label">Enter Number:</label>
+      <input type="text" id="number" class="form-control" aria-label="Enter number" value="">
+    </div>
+    <button type="button" id="convert" class="btn btn-primary mb-3">Convert</button>
+    <div class="mb-3">
+      <label for="result" class="form-label">Decimal Equivalent:</label>
+      <input type="text" id="result" class="form-control" aria-label="Decimal equivalent" readonly>
+    </div>
+    <div id="error" class="error-message"></div>
+  </form>
+</div>
+
+<div class="container mt-5">
+  <h2>How the Tool Works</h2>
+  <p>The tool uses a simple formula to convert numbers from one base to another. The formula is based on the positional notation of numbers, where each digit's value is multiplied by the base raised to the power of its position.</p>
+  <h3>Conversion Formula</h3>
+  <p>The conversion formula for a number in base <em>b</em> to decimal is:</p>
+  <p><em>d = d<sub>0</sub> * b<sup>0</sup> + d<sub>1</sub> * b<sup>1</sup> + ... + d<sub>n</sub> * b<sup>n</sup></em></p>
+  <p>Where <em>d<sub>i</sub></em> is the digit at position <em>i</em> and <em>b</em> is the base of the number.</p>
+  <h3>Example Conversions</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Number</th>
+        <th>Base</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>2 (Binary)</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>123</td>
+        <td>4 (Quaternary)</td>
+        <td>27</td>
+      </tr>
+      <tr>
+        <td>ABC</td>
+        <td>16 (Hexadecimal)</td>
+        <td>2748</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>Common Use Cases for the Binary and Positional Numeral to Decimal Converter Tool</h2>
+  <ol>
+    <li><strong>Programming:</strong> Convert binary, hexadecimal, or other number systems to decimal for programming applications.</li>
+    <li><strong>Mathematics:</strong> Perform calculations involving different number systems, such as converting binary to decimal or hexadecimal to decimal.</li>
+    <li><strong>Engineering:</strong> Use the tool to convert between different number systems for engineering applications, such as converting binary to decimal for digital signal processing.</li>
+    <li><strong>Data Analysis:</strong> Convert data from one number system to another for data analysis and visualization.</li>
+    <li><strong>Cryptography:</strong> Use the tool to convert between different number systems for cryptographic applications, such as converting hexadecimal to decimal for encryption and decryption.</li>
+    <li><strong>Computer Networking:</strong> Convert binary, hexadecimal, or other number systems to decimal for computer networking applications, such as converting IP addresses from binary to decimal.</li>
+    <li><strong>Scientific Research:</strong> Use the tool to convert between different number systems for scientific research applications, such as converting binary to decimal for data acquisition and processing.</li>
+    <li><strong>Education:</strong> Use the tool as a teaching aid to help students understand different number systems and conversions.</li>
+    <li><strong>Computer Forensics:</strong> Convert binary, hexadecimal, or other number systems to decimal for computer forensics applications, such as converting hexadecimal to decimal for digital evidence analysis.</li>
+    <li><strong>Web Development:</strong> Use the tool to convert between different number systems for web development applications, such as converting hexadecimal to decimal for web design and development.</li>
+  </ol>
+</div><script>
+  const baseSelect = document.getElementById('base');
+  const numberInput = document.getElementById('number');
+  const convertButton = document.getElementById('convert');
+  const resultInput = document.getElementById('result');
+  const errorDiv = document.getElementById('error');
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+
+  if (startValue) {
+    numberInput.value = startValue;
+  }
+
+  convertButton.addEventListener('click', () => {
+    const base = parseInt(baseSelect.value);
+    const number = numberInput.value;
+    let result;
+
+    errorDiv.textContent = '';
+    resultInput.value = '';
+
+    if (base === 2) {
+      result = binaryToDecimal(number);
+    } else if (base === 10) {
+      result = number;
+    } else if (base === 16) {
+      result = hexToDecimal(number);
+    } else {
+      result = positionalToDecimal(number, base);
+    }
+
+    if (result === null) {
+      errorDiv.textContent = 'Invalid input';
+    } else {
+      resultInput.value = result;
+    }
+  });
+
+  function binaryToDecimal(binary) {
+    let decimal = 0;
+    for (let i = 0; i < binary.length; i++) {
+      if (binary[i] !== '0' && binary[i] !== '1') {
+        return null;
+      }
+      decimal += parseInt(binary[i]) * Math.pow(2, binary.length - 1 - i);
+    }
+    return decimal;
+  }
+
+  function hexToDecimal(hex) {
+    let decimal = 0;
+    for (let i = 0; i < hex.length; i++) {
+      let digit = hex[i];
+      if (digit >= '0' && digit <= '9') {
+        digit = parseInt(digit);
+      } else if (digit >= 'A' && digit <= 'F') {
+        digit = digit.charCodeAt(0) - 'A'.charCodeAt(0) + 10;
+      } else if (digit >= 'a' && digit <= 'f') {
+        digit = digit.charCodeAt(0) - 'a'.charCodeAt(0) + 10;
+      } else {
+        return null;
+      }
+      decimal += digit * Math.pow(16, hex.length - 1 - i);
+    }
+    return decimal;
+  }
+
+  function positionalToDecimal(number, base) {
+    let decimal = 0;
+    for (let i = 0; i < number.length; i++) {
+      let digit = parseInt(number[i]);
+      if (digit >= base) {
+        return null;
+      }
+      decimal += digit * Math.pow(base, number.length - 1 - i);
+    }
+    return decimal;
+  }
+</script>

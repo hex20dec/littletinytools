@@ -1,0 +1,171 @@
+---
+title: Binary to Decimal and First Letter Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - First Letter Counter
+  - Text Analysis
+  - Web Development
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center">Binary to Decimal and First Letter Counter App</h1><div class="container mt-5">
+  <h1 class="text-center">Binary to Decimal and First Letter Counter Tool</h1>
+  <p class="text-center">This online tool is designed to convert binary numbers to decimal equivalents and count the occurrences of a specific letter in a given text, providing a convenient solution for binary conversions and text analysis. With its user-friendly interface and robust functionality, this tool is perfect for students, developers, and anyone looking to simplify their calculations and text analysis tasks. The tool supports binary to decimal conversions, allowing users to input binary numbers and receive their decimal equivalents, and also features a first letter counter, enabling users to input text and a letter, and then receive the count of words starting with that letter.</p>
+</div>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h2>Binary to Decimal Converter</h2>
+        <label for="binary-number" class="form-label">Binary Number</label>
+        <input type="text" id="binary-number" class="form-control" placeholder="Enter a binary number (e.g. 1010)" aria-describedby="binary-number-help">
+        <div id="binary-error" class="error-message"></div>
+        <button id="convert-button" class="btn btn-primary mt-2">Convert</button>
+        <div class="mt-2">
+          <label for="decimal-equivalent" class="form-label">Decimal Equivalent</label>
+          <input type="text" id="decimal-equivalent" class="form-control" readonly aria-describedby="decimal-equivalent-help">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h2>First Letter Counter</h2>
+        <label for="text-input" class="form-label">Text to Analyze</label>
+        <textarea id="text-input" class="form-control" placeholder="Enter text to analyze" aria-describedby="text-input-help"></textarea>
+        <label for="letter-input" class="form-label mt-2">Letter to Search for</label>
+        <input type="text" id="letter-input" class="form-control" placeholder="Enter a letter" aria-describedby="letter-input-help">
+        <div id="letter-error" class="error-message"></div>
+        <button id="count-button" class="btn btn-primary mt-2">Count</button>
+        <div class="mt-2">
+          <label for="count-result" class="form-label">Count Result</label>
+          <input type="text" id="count-result" class="form-control" readonly aria-describedby="count-result-help">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The binary to decimal converter uses the following formula to calculate the decimal equivalent of a binary number: Decimal = (2^n-1 * d_n-1) + ... + (2^0 * d_0), where d_i is the digit at position i in the binary number.</p>
+  <p>The first letter counter works by splitting the input text into words and then counting the number of words that start with the specified letter.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Text</th>
+        <th>Letter</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Hello World</td>
+        <td>H</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td Foo Bar</td>
+        <td>F</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>Lorem Ipsum</td>
+        <td>L</td>
+        <td>1</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <ol>
+    <li>Binary code debugging: Use the binary to decimal converter to debug binary code and identify errors.</li>
+    <li>Text analysis: Use the first letter counter to analyze text and identify patterns or trends.</li>
+    <li>Cryptography: Use the binary to decimal converter to convert binary cipher texts to decimal equivalents.</li>
+    <li>Computer programming: Use the binary to decimal converter to convert binary numbers to decimal equivalents in programming languages.</li>
+    <li>Data analysis: Use the first letter counter to analyze large datasets and identify trends or patterns.</li>
+    <li>Education: Use the binary to decimal converter and first letter counter as teaching tools to help students understand binary conversions and text analysis.</li>
+    <li>Research: Use the binary to decimal converter and first letter counter to analyze and process large amounts of data in research studies.</li>
+    <li>Web development: Use the binary to decimal converter and first letter counter to develop web applications that require binary conversions and text analysis.</li>
+    <li>Networking: Use the binary to decimal converter to convert binary IP addresses to decimal equivalents.</li>
+    <li>Mathematics: Use the binary to decimal converter to explore and understand binary arithmetic and number systems.</li>
+  </ol>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  document.getElementById('binary-number').value = startValue ? startValue : '';
+
+  const convertButton = document.getElementById('convert-button');
+  const binaryNumberInput = document.getElementById('binary-number');
+  const decimalEquivalentInput = document.getElementById('decimal-equivalent');
+  const binaryError = document.getElementById('binary-error');
+
+  const countButton = document.getElementById('count-button');
+  const textInput = document.getElementById('text-input');
+  const letterInput = document.getElementById('letter-input');
+  const countResultInput = document.getElementById('count-result');
+  const letterError = document.getElementById('letter-error');
+
+  convertButton.addEventListener('click', () => {
+    const binaryNumber = binaryNumberInput.value.trim();
+    if (binaryNumber === '') {
+      binaryError.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryNumber)) {
+      binaryError.textContent = 'Invalid binary number';
+      return;
+    }
+    binaryError.textContent = '';
+    const decimalEquivalent = parseInt(binaryNumber, 2);
+    decimalEquivalentInput.value = decimalEquivalent.toString();
+  });
+
+  countButton.addEventListener('click', () => {
+    const text = textInput.value.trim();
+    const letter = letterInput.value.trim().toLowerCase();
+    if (text === '' || letter === '') {
+      letterError.textContent = 'Please enter text and a letter';
+      return;
+    }
+    if (letter.length > 1) {
+      letterError.textContent = 'Please enter a single letter';
+      return;
+    }
+    letterError.textContent = '';
+    const words = text.split(/\s+/);
+    const count = words.filter(word => word.toLowerCase().startsWith(letter)).length;
+    countResultInput.value = count.toString();
+  });
+</script>

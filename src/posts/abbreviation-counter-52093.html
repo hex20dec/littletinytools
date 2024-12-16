@@ -1,0 +1,209 @@
+---
+title: Binary Converter and Abbreviation Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 12:00:00
+tags:
+  - Binary Converter
+  - Abbreviation Counter
+  - Binary to Decimal
+  - Text Analysis
+  - Web Development
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div textarea, #main-div button {
+    margin-bottom: 1rem;
+  }
+  #main-div .error-message {
+    color: #ff0000;
+  }
+  #main-div .container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #333;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  }
+  #main-div .table-responsive {
+    overflow-y: auto;
+  }
+  #main-div table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  #main-div th, #main-div td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  #main-div th {
+    background-color: #444;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container">
+    <h1>Binary Converter and Abbreviation Counter</h1><div class="header-section p-5 text-center">
+    <h1 class="display-4">Binary Converter and Abbreviation Counter Tool</h1>
+    <p class="lead">This online tool is designed to convert binary numbers to decimal equivalents and count abbreviations in a given text, making it a valuable resource for developers, programmers, and anyone working with binary code or text analysis.</p>
+</div>
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Binary Converter</h2>
+        <label for="binary-input">Binary Number:</label>
+        <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" value="">
+        <button id="convert-button">Convert</button>
+        <label for="decimal-output">Decimal Equivalent:</label>
+        <input type="text" id="decimal-output" readonly>
+        <div class="error-message" id="binary-error-message"></div>
+      </div>
+      <div class="col-md-6">
+        <h2>Abbreviation Counter</h2>
+        <label for="text-input">Text:</label>
+        <textarea id="text-input" placeholder="Enter your text here"></textarea>
+        <button id="count-button">Count Abbreviations</button>
+        <div id="abbreviation-count">
+          <h3>Abbreviation Count</h3>
+          <p id="total-count"></p>
+          <div class="table-responsive">
+            <table id="abbreviation-table">
+              <thead>
+                <tr>
+                  <th>Abbreviation</th>
+                  <th>Count</th>
+                </tr>
+              </thead>
+              <tbody id="abbreviation-table-body">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-3">How it Works</h2>
+    <p>The binary converter uses the formula: decimal = binaryNumber.parseInt(2), where binaryNumber is the input binary number.</p>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1011</td>
+                <td>11</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>The abbreviation counter uses a regular expression to match all abbreviations (sequences of 2-10 uppercase letters) in the input text and then counts their occurrences.</p>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-3">Common Use Cases</h2>
+    <ol>
+        <li>Converting binary code to decimal for programming purposes</li>
+        <li>Counting abbreviations in technical documents or articles</li>
+        <li>Validating binary input data for software applications</li>
+        <li>Analyzing text data for abbreviations in data science projects</li>
+        <li>Converting binary numbers to decimal for mathematical calculations</li>
+        <li>Identifying abbreviations in large datasets for data mining</li>
+        <li>Developing binary-based algorithms for computational tasks</li>
+        <li>Optimizing text processing workflows with abbreviation counting</li>
+        <li>Debugging binary code issues with decimal conversion</li>
+        <li>Enhancing text analysis tools with abbreviation detection capabilities</li>
+    </ol>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryErrorMessage = document.getElementById('binary-error-message');
+  const textInput = document.getElementById('text-input');
+  const countButton = document.getElementById('count-button');
+  const abbreviationCount = document.getElementById('abbreviation-count');
+  const totalCount = document.getElementById('total-count');
+  const abbreviationTable = document.getElementById('abbreviation-table-body');
+
+  convertButton.addEventListener('click', () => {
+    const binaryNumber = binaryInput.value.trim();
+    if (binaryNumber === '') {
+      binaryErrorMessage.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryNumber)) {
+      binaryErrorMessage.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalNumber = parseInt(binaryNumber, 2);
+    decimalOutput.value = decimalNumber;
+    binaryErrorMessage.textContent = '';
+  });
+
+  countButton.addEventListener('click', () => {
+    const text = textInput.value.trim();
+    if (text === '') {
+      abbreviationCount.style.display = 'none';
+      return;
+    }
+    const abbreviations = text.match(/\b([A-Z]{2,10})\b/g);
+    if (!abbreviations) {
+      abbreviationCount.style.display = 'none';
+      return;
+    }
+    const abbreviationCountObject = {};
+    abbreviations.forEach(abbreviation => {
+      if (abbreviationCountObject[abbreviation]) {
+        abbreviationCountObject[abbreviation]++;
+      } else {
+        abbreviationCountObject[abbreviation] = 1;
+      }
+    });
+    const sortedAbbreviations = Object.keys(abbreviationCountObject).sort();
+    abbreviationTable.innerHTML = '';
+    sortedAbbreviations.forEach(abbreviation => {
+      const row = document.createElement('tr');
+      const abbreviationCell = document.createElement('td');
+      const countCell = document.createElement('td');
+      abbreviationCell.textContent = abbreviation;
+      countCell.textContent = abbreviationCountObject[abbreviation];
+      row.appendChild(abbreviationCell);
+      row.appendChild(countCell);
+      abbreviationTable.appendChild(row);
+    });
+    totalCount.textContent = `Total count: ${sortedAbbreviations.length}`;
+    abbreviationCount.style.display = 'block';
+  });
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+</script>

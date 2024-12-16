@@ -29,32 +29,6 @@ module.exports = function(eleventyConfig) {
   // Add the filter
   eleventyConfig.addFilter("uniqueSlug", uniqueSlugFilter);
 
-  // Custom collection for blog posts
-  // eleventyConfig.addCollection("posts", function(collectionApi) {
-  //   // return collectionApi.getFilteredByGlob("src/posts/*.md");
-
-  //   return collectionApi.getAll().map((item, idx) => {
-  //     // Generate and add a unique slug to each item
-  //     item.data.uniqueSlug = uniqueSlugFilter(item.data.title, item.date);
-  //     return item;
-  //   });
-  // });
-
-
-
-  // eleventyConfig.addCollection("posts", function (collectionApi) {
-  //   return collectionApi.getFilteredByGlob("src/posts/*.html").map((item) => {
-  //     // Ensure date is available and process the uniqueSlug
-  //     const title = item.data.title;
-  //     const date = new Date(item.date);
-  //     item.data.uniqueSlug = uniqueSlugFilter(title, date);
-
-  //     // Update permalink dynamically based on uniqueSlug
-  //     item.data.permalink = `/${item.data.uniqueSlug}/`;
-  //     return item;
-  //   });
-  // });
-
 
   eleventyConfig.addFilter("debug", function (value) {
     // console.log("DEBUG:", JSON.stringify(value, null, 2));

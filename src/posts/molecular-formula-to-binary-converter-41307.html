@@ -1,0 +1,155 @@
+---
+title: Binary and Molecular Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Molecular Converter
+  - Chemistry Tool
+  - Binary Calculator
+  - Molecular Calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div button, #main-div textarea {
+    margin-bottom: 1rem;
+  }
+  #main-div .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="mb-4">Binary and Molecular Converter</h1><div class="header-section p-5 bg-primary text-white text-center">
+    <h1 class="mb-3">Binary and Molecular Converter Tool</h1>
+    <p class="lead">The Binary and Molecular Converter is a free online tool that enables users to convert binary numbers to decimal equivalents and molecular formulas to binary representations. With this tool, you can easily perform conversions and calculations, making it an essential resource for students, researchers, and professionals in the fields of computer science, chemistry, and related disciplines. Whether you need to convert binary code or analyze molecular structures, this tool provides a convenient and efficient solution, optimizing your workflow and improving productivity.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="mb-3">Binary to Decimal Converter</h2>
+      <label for="binary-input">Binary Number:</label>
+      <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" class="form-control" value="<?php echo $_GET['start']; ?>">
+      <button id="binary-convert-btn" class="btn btn-primary">Convert</button>
+      <label for="decimal-output" class="mt-2">Decimal Equivalent:</label>
+      <input type="text" id="decimal-output" readonly class="form-control">
+      <div id="binary-error-message" class="error-message"></div>
+    </div>
+    <div class="col-md-6">
+      <h2 class="mb-3">Molecular to Binary Converter</h2>
+      <label for="molecular-input">Molecular Formula:</label>
+      <input type="text" id="molecular-input" placeholder="Enter a molecular formula (e.g. H2O)" class="form-control">
+      <button id="molecular-convert-btn" class="btn btn-primary">Convert</button>
+      <label for="molecular-binary-output" class="mt-2">Binary Representation:</label>
+      <textarea id="molecular-binary-output" readonly class="form-control"></textarea>
+      <div id="molecular-error-message" class="error-message"></div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-3">How the Binary and Molecular Converter Works</h2>
+    <p>The Binary to Decimal Converter uses the formula: decimal = binary * 2^n, where n is the position of the binary digit. For example, the binary number 1010 can be converted to decimal as follows: (1 * 2^3) + (0 * 2^2) + (1 * 2^1) + (0 * 2^0) = 8 + 0 + 2 + 0 = 10.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1011</td>
+                <td>11</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>The Molecular to Binary Converter uses a regular expression to parse the molecular formula and extract the atomic composition. The atomic composition is then converted to a binary representation using the formula: binary = count.toString(2), where count is the number of atoms of each element.</p>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-3">Common Use Cases for the Binary and Molecular Converter</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Converting binary code to decimal equivalents for programming and debugging purposes.</li>
+        <li class="list-group-item">Analyzing molecular structures and converting them to binary representations for computational chemistry and cheminformatics applications.</li>
+        <li class="list-group-item">Understanding the relationship between binary and decimal numbers in computer science and mathematics.</li>
+        <li class="list-group-item">Visualizing and comparing molecular structures using binary representations.</li>
+        <li class="list-group-item">Generating binary code for molecular simulations and modeling.</li>
+        <li class="list-group-item">Converting molecular formulas to binary representations for data storage and retrieval.</li>
+        <li class="list-group-item">Performing binary arithmetic operations and conversions for scientific computing and engineering applications.</li>
+        <li class="list-group-item">Developing and testing algorithms for binary and molecular conversions.</li>
+        <li class="list-group-item">Creating educational materials and resources for teaching binary and molecular conversions.</li>
+        <li class="list-group-item">Optimizing workflows and improving productivity in fields such as computer science, chemistry, and biology.</li>
+    </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryErrorMessage = document.getElementById('binary-error-message');
+
+  const molecularInput = document.getElementById('molecular-input');
+  const molecularConvertBtn = document.getElementById('molecular-convert-btn');
+  const molecularBinaryOutput = document.getElementById('molecular-binary-output');
+  const molecularErrorMessage = document.getElementById('molecular-error-message');
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binaryValue = binaryInput.value;
+    if (!/^[01]+$/.test(binaryValue)) {
+      binaryErrorMessage.innerText = 'Invalid binary number';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    decimalOutput.value = decimalValue;
+    binaryErrorMessage.innerText = '';
+  });
+
+  molecularConvertBtn.addEventListener('click', () => {
+    const molecularFormula = molecularInput.value;
+    const atomicComposition = {};
+    const regex = /([A-Z][a-z]*)(\d*)/g;
+    let match;
+    while ((match = regex.exec(molecularFormula)) !== null) {
+      const element = match[1];
+      const count = match[2] ? parseInt(match[2]) : 1;
+      if (atomicComposition[element]) {
+        atomicComposition[element] += count;
+      } else {
+        atomicComposition[element] = count;
+      }
+    }
+    const binaryRepresentation = Object.keys(atomicComposition).map(element => {
+      const count = atomicComposition[element];
+      return `${element}: ${count.toString(2)}`;
+    }).join(', ');
+    molecularBinaryOutput.value = binaryRepresentation;
+    molecularErrorMessage.innerText = '';
+  });
+
+  molecularInput.addEventListener('input', () => {
+    molecularErrorMessage.innerText = '';
+  });
+
+  binaryInput.addEventListener('input', () => {
+    binaryErrorMessage.innerText = '';
+  });
+</script>

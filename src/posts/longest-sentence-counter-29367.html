@@ -1,0 +1,169 @@
+---
+title: Binary to Decimal Converter and Longest Sentence Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 14:30:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - Longest Sentence Counter
+  - Text Analysis
+  - Code Debugging
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    padding: 20px;
+  }
+
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  #main-div input, #main-div textarea, #main-div button {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  #main-div button {
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+
+  #main-div .error-message {
+    color: #f44336;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  #main-div .result {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal Converter and Longest Sentence Counter</h1><div class="container mt-5 mb-5">
+  <h1 class="text-center">Binary to Decimal Converter and Longest Sentence Counter Tool</h1>
+  <p class="text-center">This online tool is designed to convert binary numbers to decimal equivalents and count the longest sentence in a given text. It's a free, user-friendly, and efficient way to perform these conversions and calculations, making it an essential resource for developers, programmers, and students. With its intuitive interface and fast processing capabilities, this tool is perfect for anyone looking to simplify their work with binary and text analysis.</p>
+</div>
+  <div class="binary_converter">
+    <label for="binary-input">Binary Number:</label>
+    <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" value="">
+    <button id="convert-button">Convert</button>
+    <p class="result" id="decimal-result"></p>
+    <p class="error-message" id="binary-error-message"></p>
+  </div>
+  <div class="longest_sentence_counter">
+    <label for="text-input">Text:</label>
+    <textarea id="text-input" placeholder="Enter your text here..."></textarea>
+    <button id="count-button">Count</button>
+    <p class="result" id="longest-sentence-result"></p>
+  </div>
+</div>
+
+<div class="container mt-5 mb-5">
+  <h2 class="text-center">How it Works</h2>
+  <p>The binary to decimal converter uses the formula: decimal = binaryNumber.parseInt(2), where binaryNumber is the input binary number. This formula is based on the binary number system, where each digit represents a power of 2.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1011</td>
+        <td>11</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The longest sentence counter works by splitting the input text into sentences and then counting the number of words in each sentence. The sentence with the most words is considered the longest sentence.</p>
+</div><div class="container mt-5 mb-5">
+  <h2 class="text-center">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting binary code to decimal for programming and development purposes</li>
+    <li class="list-group-item">Analyzing text data to identify the longest sentence for writing and editing purposes</li>
+    <li class="list-group-item">Educational purposes, such as teaching students about binary number systems and text analysis</li>
+    <li class="list-group-item">Debugging and testing binary code and text data</li>
+    <li class="list-group-item">Data analysis and processing for research and scientific studies</li>
+    <li class="list-group-item">Web development and design, where binary and text conversions are necessary</li>
+    <li class="list-group-item">Computer science and engineering applications, where binary and text conversions are crucial</li>
+    <li class="list-group-item">Quality assurance and testing for software and hardware development</li>
+    <li class="list-group-item">Content creation and writing, where text analysis and conversions are necessary</li>
+    <li class="list-group-item">Artificial intelligence and machine learning applications, where binary and text conversions are essential</li>
+  </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const decimalResult = document.getElementById('decimal-result');
+  const binaryErrorMessage = document.getElementById('binary-error-message');
+
+  const textInput = document.getElementById('text-input');
+  const countButton = document.getElementById('count-button');
+  const longestSentenceResult = document.getElementById('longest-sentence-result');
+
+  convertButton.addEventListener('click', () => {
+    const binaryNumber = binaryInput.value.trim();
+    if (binaryNumber === '') {
+      binaryErrorMessage.textContent = 'Please enter a binary number.';
+      return;
+    }
+
+    try {
+      const decimalNumber = parseInt(binaryNumber, 2);
+      decimalResult.textContent = `Decimal Equivalent: ${decimalNumber}`;
+      binaryErrorMessage.textContent = '';
+    } catch (error) {
+      binaryErrorMessage.textContent = 'Invalid binary number.';
+    }
+  });
+
+  countButton.addEventListener('click', () => {
+    const text = textInput.value.trim();
+    if (text === '') {
+      longestSentenceResult.textContent = '';
+      return;
+    }
+
+    const sentences = text.replace(/(?<!\.)\s+/g, ' ').split('. ');
+    const longestSentence = sentences.reduce((a, b) => a.split(' ').length > b.split(' ').length ? a : b);
+    longestSentenceResult.textContent = `Longest Sentence: ${longestSentence} (${longestSentence.split(' ').length} words)`;
+  });
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+</script>

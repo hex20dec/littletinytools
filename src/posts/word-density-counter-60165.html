@@ -1,0 +1,175 @@
+---
+title: Binary to Decimal and Word Density Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Word Density Counter
+  - Text Analysis
+  - Binary to Decimal
+  - Web Tools
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div textarea, #main-div select {
+    margin-bottom: 1rem;
+  }
+  #main-div table {
+    margin-bottom: 2rem;
+  }
+  #error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal and Word Density Counter</h1><div class="container mt-5 mb-5">
+  <h1 class="text-center">Binary to Decimal and Word Density Counter Tool</h1>
+  <p class="text-center">Discover the power of binary to decimal conversion and word density analysis with our intuitive online tool, designed to simplify complex calculations and provide valuable insights into text data. Whether you're a developer, writer, or researcher, our tool is here to help you work more efficiently and effectively, offering a user-friendly interface and accurate results to support your projects and endeavors.</p>
+</div>
+  <h2>Binary to Decimal Converter</h2>
+  <label for="binary-input">Binary Number:</label>
+  <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" value="">
+  <button id="convert-button" class="btn btn-primary">Convert</button>
+  <label for="decimal-output">Decimal Equivalent:</label>
+  <input type="text" id="decimal-output" readonly>
+  <p id="error-message" style="display: none;"></p>
+
+  <h2>Word Density Counter</h2>
+  <label for="text-input">Text:</label>
+  <textarea id="text-input" placeholder="Enter text to analyze" rows="5" cols="30"></textarea>
+  <button id="calculate-button" class="btn btn-primary">Calculate Word Density</button>
+  <table id="word-density-table" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Word</th>
+        <th>Frequency</th>
+      </tr>
+    </thead>
+    <tbody id="word-density-tbody">
+    </tbody>
+  </table>
+  <h3>Top 10 Most Frequent Words:</h3>
+  <ul id="top-10-words" class="list-group">
+  </ul>
+</div>
+
+<div class="container mt-5 mb-5">
+  <h2 class="text-center">How it Works</h2>
+  <p class="text-center">Our binary to decimal converter utilizes the following formula: decimal = binaryNumber.parseInt(2), where binaryNumber is the input binary value. This formula allows for the accurate conversion of binary numbers to their decimal equivalents.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Input</th>
+        <th>Decimal Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <!-- Add more rows as needed -->
+    </tbody>
+  </table>
+  <p class="text-center">For word density analysis, our tool uses a simple yet effective approach: it counts the frequency of each word in the input text and displays the results in a table, allowing you to easily identify the most common words and phrases.</p>
+</div><div class="container mt-5 mb-5">
+  <h2 class="text-center">10 Common Use Cases for Our Tool</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting binary code to decimal for programming and development purposes</li>
+    <li class="list-group-item">Analyzing text data for natural language processing and machine learning applications</li>
+    <li class="list-group-item">Identifying the most common words and phrases in a document or article</li>
+    <li class="list-group-item">Optimizing website content for search engines using keyword density analysis</li>
+    <li class="list-group-item">Detecting plagiarism and copyright infringement by analyzing text similarity</li>
+    <li class="list-group-item">Creating word clouds and visualizations to represent text data</li>
+    <li class="list-group-item">Developing chatbots and virtual assistants that understand human language</li>
+    <li class="list-group-item">Improving writing style and clarity by analyzing sentence structure and word choice</li>
+    <li class="list-group-item">Conducting market research and sentiment analysis using social media and customer feedback</li>
+    <li class="list-group-item">Enhancing language learning and education materials with interactive exercises and quizzes</li>
+  </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const errorMessage = document.getElementById('error-message');
+  const textInput = document.getElementById('text-input');
+  const calculateButton = document.getElementById('calculate-button');
+  const wordDensityTable = document.getElementById('word-density-table');
+  const wordDensityTbody = document.getElementById('word-density-tbody');
+  const top10Words = document.getElementById('top-10-words');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+
+  convertButton.addEventListener('click', () => {
+    const binaryValue = binaryInput.value.trim();
+    if (!binaryValue) {
+      errorMessage.innerText = 'Please enter a binary number';
+      errorMessage.style.display = 'block';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    if (isNaN(decimalValue)) {
+      errorMessage.innerText = 'Invalid binary number';
+      errorMessage.style.display = 'block';
+      return;
+    }
+    decimalOutput.value = decimalValue;
+    errorMessage.style.display = 'none';
+  });
+
+  calculateButton.addEventListener('click', () => {
+    const textValue = textInput.value.trim();
+    if (!textValue) {
+      alert('Please enter some text');
+      return;
+    }
+    const words = textValue.toLowerCase().replace(/[^\w\s]|_/g, '').split(/\s+/);
+    const wordFrequency = {};
+    words.forEach(word => {
+      if (wordFrequency[word]) {
+        wordFrequency[word]++;
+      } else {
+        wordFrequency[word] = 1;
+      }
+    });
+    const sortedWords = Object.keys(wordFrequency).sort((a, b) => wordFrequency[b] - wordFrequency[a]);
+    wordDensityTbody.innerHTML = '';
+    sortedWords.forEach(word => {
+      const row = document.createElement('tr');
+      const wordCell = document.createElement('td');
+      const frequencyCell = document.createElement('td');
+      wordCell.innerText = word;
+      frequencyCell.innerText = wordFrequency[word];
+      row.appendChild(wordCell);
+      row.appendChild(frequencyCell);
+      wordDensityTbody.appendChild(row);
+    });
+    const top10 = sortedWords.slice(0, 10);
+    top10Words.innerHTML = '';
+    top10.forEach(word => {
+      const item = document.createElement('li');
+      item.classList.add('list-group-item');
+      item.innerText = `${word}: ${wordFrequency[word]}`;
+      top10Words.appendChild(item);
+    });
+  });
+</script>

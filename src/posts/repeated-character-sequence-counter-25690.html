@@ -1,0 +1,183 @@
+---
+title: Binary to Decimal Converter and Repeated Character Sequence Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - Text Analyzer
+  - Character Counter
+  - Code Helper
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div textarea, #main-div button {
+    margin-bottom: 1rem;
+  }
+  #main-div .card {
+    background-color: #333;
+    border: 1px solid #444;
+  }
+  #main-div .table {
+    color: #fff;
+  }
+  #main-div .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal Converter and Repeated Character Sequence Counter</h1><div class="header-section p-5 text-center bg-primary text-white">
+    <h1>Binary to Decimal Converter and Repeated Character Sequence Counter</h1>
+    <p>This free online tool is designed to convert binary numbers to decimal numbers and count repeated character sequences in a given text, providing a comprehensive solution for developers, programmers, and anyone working with binary data and text analysis, making it an essential resource for binary conversion and text analysis tasks.</p>
+</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Binary to Decimal Converter</h2>
+        <label for="binary-input">Binary Number:</label>
+        <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" value="${start}">
+        <button id="convert-button">Convert</button>
+        <label for="decimal-output">Decimal Equivalent:</label>
+        <input type="text" id="decimal-output" readonly>
+        <div class="error-message" id="binary-error-message"></div>
+      </div>
+      <div class="col-md-6">
+        <h2>Repeated Character Sequence Counter</h2>
+        <label for="text-input">Text:</label>
+        <textarea id="text-input" placeholder="Enter your text"></textarea>
+        <button id="count-button">Count Repeated Sequences</button>
+        <div class="card">
+          <div class="card-body">
+            <h5>Results</h5>
+            <p id="total-sequences"></p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Sequence</th>
+                  <th>Frequency</th>
+                </tr>
+              </thead>
+              <tbody id="sequences-table">
+              </tbody>
+            </table>
+            <p id="longest-sequence"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How it Works</h2>
+    <p>The binary to decimal converter uses the following formula to convert binary numbers to decimal numbers: Decimal Number = (Binary Number)₂ = ∑(bₙ * 2ⁿ) from n=0 to n=(length of binary number - 1), where bₙ is the nth bit of the binary number.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1000</td>
+                <td>8</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>The repeated character sequence counter works by iterating over the input text and counting the occurrences of each sequence of two or more characters.</p>
+</div><div class="use-cases-section p-5">
+    <h2>Common Use Cases</h2>
+    <ol>
+        <li><strong>Binary Code Debugging</strong>: Use the binary to decimal converter to debug binary code and identify issues with binary data.</li>
+        <li><strong>Text Analysis</strong>: Use the repeated character sequence counter to analyze text data and identify patterns in character sequences.</li>
+        <li><strong>Data Compression</strong>: Use the binary to decimal converter to compress binary data and reduce storage requirements.</li>
+        <li><strong>Cryptography</strong>: Use the binary to decimal converter to encrypt and decrypt binary data using cryptographic algorithms.</li>
+        <li><strong>Computer Networking</strong>: Use the binary to decimal converter to convert binary IP addresses to decimal IP addresses for easier management.</li>
+        <li><strong>Embedded Systems</strong>: Use the binary to decimal converter to work with binary data in embedded systems and microcontrollers.</li>
+        <li><strong>Data Mining</strong>: Use the repeated character sequence counter to mine text data for patterns and insights.</li>
+        <li><strong>Natural Language Processing</strong>: Use the repeated character sequence counter to analyze text data and identify patterns in language use.</li>
+        <li><strong>Machine Learning</strong>: Use the binary to decimal converter and repeated character sequence counter to preprocess data for machine learning algorithms.</li>
+        <li><strong>Quality Assurance</strong>: Use the binary to decimal converter and repeated character sequence counter to test and validate binary and text data.</li>
+    </ol>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryErrorMessage = document.getElementById('binary-error-message');
+  const textInput = document.getElementById('text-input');
+  const countButton = document.getElementById('count-button');
+  const totalSequences = document.getElementById('total-sequences');
+  const sequencesTable = document.getElementById('sequences-table');
+  const longestSequence = document.getElementById('longest-sequence');
+
+  convertButton.addEventListener('click', () => {
+    const binaryNumber = binaryInput.value;
+    if (!/^[01]+$/.test(binaryNumber)) {
+      binaryErrorMessage.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalNumber = parseInt(binaryNumber, 2);
+    decimalOutput.value = decimalNumber;
+    binaryErrorMessage.textContent = '';
+  });
+
+  countButton.addEventListener('click', () => {
+    const text = textInput.value;
+    const sequences = {};
+    for (let i = 0; i < text.length; i++) {
+      for (let j = i + 1; j <= text.length; j++) {
+        const sequence = text.substring(i, j);
+        if (sequence.length > 1) {
+          if (sequences[sequence]) {
+            sequences[sequence]++;
+          } else {
+            sequences[sequence] = 1;
+          }
+        }
+      }
+    }
+    const total = Object.keys(sequences).length;
+    totalSequences.textContent = `Total sequences: ${total}`;
+    sequencesTable.innerHTML = '';
+    Object.keys(sequences).forEach((sequence) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${sequence}</td>
+        <td>${sequences[sequence]}</td>
+      `;
+      sequencesTable.appendChild(row);
+    });
+    let longest = '';
+    Object.keys(sequences).forEach((sequence) => {
+      if (sequence.length > longest.length) {
+        longest = sequence;
+      }
+    });
+    longestSequence.textContent = `Longest sequence: ${longest}`;
+  });
+</script>

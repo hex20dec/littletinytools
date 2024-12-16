@@ -1,0 +1,205 @@
+---
+title: Binary to Decimal Converter and Unique Word Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 10:00:00
+tags:
+  - Binary Converter
+  - Unique Word Counter
+  - Text Analysis
+  - Binary to Decimal
+  - Word Frequency
+---
+<style>
+  #main-div {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  #main-div input, #main-div textarea {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  #main-div textarea {
+    height: 100px;
+  }
+  #main-div button {
+    width: 100%;
+    height: 40px;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+  #main-div #error-message {
+    color: #f00;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  #main-div table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  #main-div th, #main-div td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  #main-div th {
+    background-color: #f0f0f0;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal Converter and Unique Word Counter</h1><div class="container mt-5 mb-5">
+  <h1 class="display-5 fw-bold">Binary to Decimal Converter and Unique Word Counter Tool</h1>
+  <p class="lead">This online tool is designed to convert binary numbers to decimal equivalents and count unique words in a given text, providing a convenient and efficient solution for binary conversion and text analysis needs, utilizing the latest advancements in HTML, CSS, and JavaScript to ensure a seamless user experience.</p>
+</div>
+  <form id="binary-form">
+    <label for="binary-input">Binary Number:</label>
+    <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)">
+    <button id="binary-convert-btn">Convert to Decimal</button>
+    <p id="decimal-output"></p>
+    <p id="error-message" style="display: none;"></p>
+  </form>
+  <form id="word-counter-form">
+    <label for="text-input">Text:</label>
+    <textarea id="text-input" placeholder="Enter a text to count unique words"></textarea>
+    <button id="count-words-btn">Count Unique Words</button>
+    <table id="word-count-table">
+      <thead>
+        <tr>
+          <th>Word</th>
+          <th>Frequency</th>
+        </tr>
+      </thead>
+      <tbody id="word-count-tbody">
+      </tbody>
+    </table>
+  </form>
+</div>
+
+<div class="container mt-5 mb-5">
+  <h2 class="display-6 fw-bold">How it Works</h2>
+  <p class="lead">The binary to decimal converter uses the built-in JavaScript function parseInt() with base 2 to convert binary numbers to decimal equivalents. The unique word counter utilizes regular expressions to remove non-word characters and split the text into individual words, then counts the frequency of each word using an object.</p>
+  <h3 class="display-6 fw-bold">Binary to Decimal Conversion Formula</h3>
+  <p class="lead">The binary to decimal conversion formula is: decimal = parseInt(binary, 2), where binary is the binary number to be converted.</p>
+  <h3 class="display-6 fw-bold">Unique Word Counting Table</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Text</th>
+        <th>Unique Words</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>This is an example text</td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>Hello world, this is a test</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>Binary conversion is easy with this tool</td>
+        <td>7</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5 mb-5">
+  <h2 class="display-6 fw-bold">Common Use Cases</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Converting binary numbers to decimal equivalents for programming purposes</li>
+    <li class="list-group-item">Counting unique words in a text for language learning or natural language processing applications</li>
+    <li class="list-group-item">Analyzing binary data for computer science or mathematics research</li>
+    <li class="list-group-item">Generating binary codes for cryptography or security purposes</li>
+    <li class="list-group-item">Converting binary numbers to decimal equivalents for scientific or engineering calculations</li>
+    <li class="list-group-item">Counting unique words in a text for search engine optimization (SEO) purposes</li>
+    <li class="list-group-item">Analyzing text data for sentiment analysis or opinion mining</li>
+    <li class="list-group-item">Converting binary numbers to decimal equivalents for embedded systems or robotics applications</li>
+    <li class="list-group-item">Counting unique words in a text for machine translation or language localization purposes</li>
+    <li class="list-group-item">Generating binary codes for digital rights management (DRM) or intellectual property protection</li>
+  </ol>
+</div><script>
+  const binaryForm = document.getElementById('binary-form');
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const decimalOutput = document.getElementById('decimal-output');
+  const errorMessage = document.getElementById('error-message');
+  const wordCounterForm = document.getElementById('word-counter-form');
+  const textInput = document.getElementById('text-input');
+  const countWordsBtn = document.getElementById('count-words-btn');
+  const wordCountTable = document.getElementById('word-count-table');
+  const wordCountTbody = document.getElementById('word-count-tbody');
+
+  binaryConvertBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const binaryValue = binaryInput.value.trim();
+    if (binaryValue === '') {
+      errorMessage.style.display = 'block';
+      errorMessage.textContent = 'Please enter a binary number';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    if (isNaN(decimalValue)) {
+      errorMessage.style.display = 'block';
+      errorMessage.textContent = 'Invalid binary number';
+      return;
+    }
+    decimalOutput.textContent = `Decimal Equivalent: ${decimalValue}`;
+    errorMessage.style.display = 'none';
+  });
+
+  countWordsBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const textValue = textInput.value.trim();
+    if (textValue === '') {
+      alert('Please enter a text');
+      return;
+    }
+    const words = textValue.toLowerCase().replace(/[^\w\s]|_/g, '').split(/\s+/);
+    const wordCount = {};
+    words.forEach((word) => {
+      if (word !== '') {
+        if (wordCount[word]) {
+          wordCount[word]++;
+        } else {
+          wordCount[word] = 1;
+        }
+      }
+    });
+    wordCountTbody.innerHTML = '';
+    Object.keys(wordCount).sort().forEach((word) => {
+      const row = document.createElement('tr');
+      const wordCell = document.createElement('td');
+      const frequencyCell = document.createElement('td');
+      wordCell.textContent = word;
+      frequencyCell.textContent = wordCount[word];
+      row.appendChild(wordCell);
+      row.appendChild(frequencyCell);
+      wordCountTbody.appendChild(row);
+    });
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+</script>

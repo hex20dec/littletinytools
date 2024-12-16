@@ -1,0 +1,145 @@
+---
+title: Binary to Decimal and Space Counter Tools
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 12:00:00
+tags:
+  - Binary to Decimal Converter
+  - Space Counter
+  - Developer Tools
+  - Text Analysis
+  - Conversion Tools
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="d-flex flex-column justify-content-center align-items-center h-100">
+  <h1 class="mb-3">Binary to Decimal and Space Counter Tools</h1><div class="container-fluid p-5 bg-primary text-white text-center">
+  <h1>Binary to Decimal and Space Counter Tool: A Comprehensive Conversion Resource</h1>
+  <p>This tool is designed to facilitate conversions between binary and decimal numbers, as well as count the number of spaces in a given text. With its user-friendly interface and robust functionality, it is an essential resource for developers, programmers, and anyone looking to perform binary and decimal conversions or analyze text. By leveraging the latest advancements in web technology, this tool provides accurate and efficient results, making it an invaluable asset for both personal and professional use.</p>
+</div>
+  <div class="row g-3">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <div class="mb-3">
+        <label for="binary-input" class="form-label">Binary Number</label>
+        <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)" value="">
+      </div>
+      <button id="convert-button" class="btn btn-primary">Convert</button>
+      <div class="mb-3">
+        <label for="decimal-output" class="form-label">Decimal Equivalent</label>
+        <input type="text" id="decimal-output" class="form-control" readonly>
+      </div>
+      <div id="binary-error-message" class="error-message"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Space Counter</h2>
+      <div class="mb-3">
+        <label for="text-input" class="form-label">Text</label>
+        <textarea id="text-input" class="form-control" rows="10" placeholder="Enter or paste text"></textarea>
+      </div>
+      <button id="count-spaces-button" class="btn btn-primary">Count Spaces</button>
+      <div class="mb-3">
+        <label for="space-count-output" class="form-label">Space Count</label>
+        <input type="text" id="space-count-output" class="form-control" readonly>
+      </div>
+      <button id="reset-button" class="btn btn-secondary">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="container p-5">
+  <h2>How it Works: Binary to Decimal Conversion Formula</h2>
+  <p>The binary to decimal conversion is based on the following formula: Decimal = (2^n * b_n) + (2^(n-1) * b_(n-1)) + ... + (2^0 * b_0), where n is the number of bits in the binary number and b_i is the i-th bit.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1000</td>
+        <td>8</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2>Space Counter: Text Analysis</h2>
+  <p>The space counter tool works by splitting the input text into an array of words and then counting the number of spaces by subtracting 1 from the length of the array.</p>
+</div><div class="container p-5">
+  <h2>10 Common Use Cases for the Binary to Decimal and Space Counter Tool</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting binary numbers to decimal for programming purposes</li>
+    <li class="list-group-item">Counting the number of spaces in a text document for formatting purposes</li>
+    <li class="list-group-item">Analyzing the frequency of words in a text by counting the number of spaces</li>
+    <li class="list-group-item">Converting decimal numbers to binary for encryption purposes</li>
+    <li class="list-group-item">Verifying the accuracy of binary to decimal conversions for mathematical calculations</li>
+    <li class="list-group-item">Measuring the readability of a text by counting the number of spaces and words</li>
+    <li class="list-group-item">Converting binary data to decimal for data analysis</li>
+    <li class="list-group-item">Creating binary and decimal conversion tables for reference</li>
+    <li class="list-group-item">Testing the functionality of binary to decimal conversion algorithms</li>
+    <li class="list-group-item">Educational purposes, such as teaching binary and decimal conversions to students</li>
+  </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryErrorMessage = document.getElementById('binary-error-message');
+  const textInput = document.getElementById('text-input');
+  const countSpacesButton = document.getElementById('count-spaces-button');
+  const spaceCountOutput = document.getElementById('space-count-output');
+  const resetButton = document.getElementById('reset-button');
+
+  convertButton.addEventListener('click', () => {
+    const binaryValue = binaryInput.value.trim();
+    if (!/^[01]+$/.test(binaryValue)) {
+      binaryErrorMessage.textContent = 'Invalid binary number';
+      return;
+    }
+    binaryErrorMessage.textContent = '';
+    const decimalValue = parseInt(binaryValue, 2);
+    decimalOutput.value = decimalValue;
+  });
+
+  countSpacesButton.addEventListener('click', () => {
+    const textValue = textInput.value;
+    const spaceCount = textValue.split(' ').length - 1;
+    spaceCountOutput.value = spaceCount;
+  });
+
+  resetButton.addEventListener('click', () => {
+    textInput.value = '';
+    spaceCountOutput.value = '';
+  });
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+</script>

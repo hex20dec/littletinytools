@@ -1,0 +1,175 @@
+---
+title: Binary to Decimal Converter and Custom Tone Word Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-07-22 14:30:00
+tags:
+  - Binary Converter
+  - Word Counter
+  - Tone Analyzer
+  - Web Development
+  - Coding Tools
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  .error-message {
+    color: #dc3545;
+  }
+  .result-text {
+    font-weight: bold;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1>Binary to Decimal Converter and Custom Tone Word Counter</h1><div class="container mt-5">
+  <h1 class="text-center">Binary to Decimal Converter and Custom Tone Word Counter Tool</h1>
+  <p class="lead text-center">Our Binary to Decimal Converter and Custom Tone Word Counter tool is designed to convert binary numbers to decimal equivalents and analyze the tone of a given text. With its user-friendly interface, you can easily convert binary numbers and get a detailed tone analysis of your text, including word count and sentiment analysis. This tool is perfect for students, developers, and anyone who needs to work with binary numbers and text analysis.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <div class="mb-3">
+        <label for="binary-input" class="form-label">Binary Number</label>
+        <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)">
+      </div>
+      <button id="convert-button" class="btn btn-primary">Convert</button>
+      <div class="mb-3">
+        <label for="decimal-output" class="form-label">Decimal Equivalent</label>
+        <input type="text" id="decimal-output" class="form-control" readonly>
+      </div>
+      <div id="binary-error" class="error-message"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Custom Tone Word Counter</h2>
+      <div class="mb-3">
+        <label for="text-input" class="form-label">Text</label>
+        <textarea id="text-input" class="form-control" rows="10"></textarea>
+      </div>
+      <button id="analyze-button" class="btn btn-primary">Analyze</button>
+      <div class="mb-3">
+        <label for="word-count" class="form-label">Word Count</label>
+        <input type="text" id="word-count" class="form-control" readonly>
+      </div>
+      <div class="mb-3">
+        <label for="tone-analysis" class="form-label">Tone Analysis</label>
+        <input type="text" id="tone-analysis" class="form-control" readonly>
+      </div>
+      <div id="text-error" class="error-message"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="text-center">How it Works</h2>
+  <p class="lead text-center">The Binary to Decimal Converter uses the following formula to convert binary numbers to decimal equivalents: decimal = binary[0]*2^n + binary[1]*2^(n-1) + ... + binary[n]*2^0, where n is the number of bits in the binary number.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>0000</td>
+        <td>0</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="lead text-center">The Custom Tone Word Counter uses natural language processing techniques to analyze the tone of a given text. It counts the number of words and calculates the sentiment of the text based on the presence of positive, negative, and neutral words.</p>
+</div><div class="container mt-5">
+  <h2 class="text-center">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting binary numbers to decimal equivalents for programming and development purposes</li>
+    <li class="list-group-item">Analyzing the tone of customer reviews and feedback to improve customer service</li>
+    <li class="list-group-item">Counting the number of words in a document or text for writing and editing purposes</li>
+    <li class="list-group-item">Sentiment analysis of social media posts to understand public opinion and sentiment</li>
+    <li class="list-group-item">Converting binary numbers to decimal equivalents for data analysis and science purposes</li>
+    <li class="list-group-item">Analyzing the tone of marketing and advertising materials to improve their effectiveness</li>
+    <li class="list-group-item">Counting the number of words in a website or web page for search engine optimization (SEO) purposes</li>
+    <li class="list-group-item">Sentiment analysis of employee feedback to improve workplace culture and engagement</li>
+    <li class="list-group-item">Converting binary numbers to decimal equivalents for gaming and game development purposes</li>
+    <li class="list-group-item">Analyzing the tone of educational materials to improve student engagement and learning outcomes</li>
+  </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryError = document.getElementById('binary-error');
+
+  const textInput = document.getElementById('text-input');
+  const analyzeButton = document.getElementById('analyze-button');
+  const wordCount = document.getElementById('word-count');
+  const toneAnalysis = document.getElementById('tone-analysis');
+  const textError = document.getElementById('text-error');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    binaryInput.value = startParam;
+  }
+
+  convertButton.addEventListener('click', () => {
+    const binaryValue = binaryInput.value;
+    if (!/^[01]+$/.test(binaryValue)) {
+      binaryError.innerText = 'Invalid binary number';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    decimalOutput.value = decimalValue;
+    binaryError.innerText = '';
+  });
+
+  analyzeButton.addEventListener('click', () => {
+    const textValue = textInput.value;
+    if (!textValue) {
+      textError.innerText = 'Please enter some text';
+      return;
+    }
+    const wordCountValue = textValue.split(' ').length;
+    wordCount.value = `Word count: ${wordCountValue}`;
+
+    const positiveWords = ['happy', 'great', 'excellent'];
+    const negativeWords = ['sad', 'bad', 'terrible'];
+    const neutralWords = ['okay', 'fine', 'average'];
+    let positiveCount = 0;
+    let negativeCount = 0;
+    let neutralCount = 0;
+
+    const words = textValue.split(' ');
+    words.forEach((word) => {
+      if (positiveWords.includes(word.toLowerCase())) {
+        positiveCount++;
+      } else if (negativeWords.includes(word.toLowerCase())) {
+        negativeCount++;
+      } else if (neutralWords.includes(word.toLowerCase())) {
+        neutralCount++;
+      }
+    });
+
+    const toneAnalysisValue = `Positive tone: ${((positiveCount / wordCountValue) * 100).toFixed(2)}%
+      Negative tone: ${((negativeCount / wordCountValue) * 100).toFixed(2)}%
+      Neutral tone: ${((neutralCount / wordCountValue) * 100).toFixed(2)}%`;
+    toneAnalysis.value = toneAnalysisValue;
+    textError.innerText = '';
+  });
+</script>

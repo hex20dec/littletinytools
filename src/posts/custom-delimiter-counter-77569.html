@@ -1,0 +1,165 @@
+---
+title: Binary to Decimal Converter and Custom Delimiter Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+- Binary Converter
+- Decimal Converter
+- Custom Delimiter Counter
+- Text Analyzer
+- Binary Calculator
+---
+
+<style>
+    #main-div {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #ffffff;
+    }
+    .error-message {
+        color: #ff0000;
+    }
+    .delimiter-highlight {
+        background-color: #cccccc;
+    }
+    label {
+        margin-bottom: 0.5rem;
+    }
+</style>
+
+<div id="main-div">
+    <h1 class="mb-3">Binary to Decimal Converter and Custom Delimiter Counter</h1><div class="container mt-5">
+    <h1 class="text-center">Binary to Decimal Converter and Custom Delimiter Counter Tool</h1>
+    <p class="text-center">This online tool is designed to convert binary numbers to decimal numbers and count the occurrences of a custom delimiter in a given text. It's a free and easy-to-use resource for anyone looking to perform these common conversions and analysis. With our binary to decimal converter, you can quickly and accurately convert binary numbers to decimal numbers, and our custom delimiter counter allows you to identify and count the occurrences of a specific delimiter in a text.</p>
+</div>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Binary to Decimal Converter</h2>
+            <label for="binary-input">Binary Number:</label>
+            <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" class="form-control">
+            <button id="convert-button" class="btn btn-primary mt-2">Convert</button>
+            <label for="decimal-output" class="mt-2">Decimal Equivalent:</label>
+            <input type="text" id="decimal-output" readonly class="form-control">
+            <p id="binary-error" class="error-message"></p>
+        </div>
+        <div class="col-md-6">
+            <h2>Custom Delimiter Counter</h2>
+            <label for="text-input">Text:</label>
+            <textarea id="text-input" placeholder="Enter text" class="form-control" rows="5"></textarea>
+            <label for="delimiter-input" class="mt-2">Delimiter:</label>
+            <input type="text" id="delimiter-input" placeholder="Enter delimiter" class="form-control">
+            <button id="count-button" class="btn btn-primary mt-2">Count</button>
+            <p id="delimiter-count" class="mt-2"></p>
+            <p id="delimiter-error" class="error-message"></p>
+            <button id="reset-button" class="btn btn-secondary mt-2">Reset</button>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h2>How it Works</h2>
+    <p>The binary to decimal converter uses the following formula to perform the conversion: decimal = binary2decimal(binary), where binary2decimal is a function that takes a binary number as input and returns its decimal equivalent. The conversion is based on the positional notation of the binary number, where each digit's value is multiplied by 2 raised to the power of its position, counting from right to left and starting at 0.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1000</td>
+                <td>8</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>The custom delimiter counter works by splitting the input text into substrings separated by the delimiter, and then counting the number of substrings minus one, which represents the number of occurrences of the delimiter.</p>
+</div><div class="container mt-5">
+    <h2>Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Converting binary numbers to decimal numbers in programming and computer science applications.</li>
+        <li class="list-group-item">Counting the occurrences of a specific delimiter in a text file or data stream.</li>
+        <li class="list-group-item">Analyzing and processing text data in natural language processing and machine learning applications.</li>
+        <li class="list-group-item">Validating and verifying the integrity of binary data in computer networks and cybersecurity applications.</li>
+        <li class="list-group-item">Converting binary numbers to decimal numbers in mathematical and scientific calculations.</li>
+        <li class="list-group-item">Identifying and extracting specific patterns or substrings in text data.</li>
+        <li class="list-group-item">Developing and testing algorithms for text processing and analysis.</li>
+        <li class="list-group-item">Creating and editing binary and text files in software development and engineering applications.</li>
+        <li class="list-group-item">Understanding and working with binary and text data in data science and analytics applications.</li>
+        <li class="list-group-item">Teaching and learning programming concepts and binary number systems in educational settings.</li>
+    </ul>
+</div><script>
+    const binaryInput = document.getElementById('binary-input');
+    const convertButton = document.getElementById('convert-button');
+    const decimalOutput = document.getElementById('decimal-output');
+    const binaryError = document.getElementById('binary-error');
+    const textInput = document.getElementById('text-input');
+    const delimiterInput = document.getElementById('delimiter-input');
+    const countButton = document.getElementById('count-button');
+    const delimiterCount = document.getElementById('delimiter-count');
+    const delimiterError = document.getElementById('delimiter-error');
+    const resetButton = document.getElementById('reset-button');
+
+    convertButton.addEventListener('click', () => {
+        const binary = binaryInput.value;
+        if (!binary) {
+            binaryError.textContent = 'Please enter a binary number';
+            return;
+        }
+        if (!/^[01]+$/.test(binary)) {
+            binaryError.textContent = 'Invalid binary number';
+            return;
+        }
+        const decimal = parseInt(binary, 2);
+        decimalOutput.value = decimal;
+        binaryError.textContent = '';
+    });
+
+    countButton.addEventListener('click', () => {
+        const text = textInput.value;
+        const delimiter = delimiterInput.value;
+        if (!text || !delimiter) {
+            delimiterError.textContent = 'Please enter text and delimiter';
+            return;
+        }
+        const count = text.split(delimiter).length - 1;
+        delimiterCount.textContent = `Delimiter '${delimiter}' appears ${count} times`;
+        delimiterError.textContent = '';
+        const highlightedText = text.split(delimiter).map((part, index) => {
+            if (index < count) {
+                return part + `<span class="delimiter-highlight">${delimiter}</span>`;
+            }
+            return part;
+        }).join('');
+        textInput.value = highlightedText;
+    });
+
+    resetButton.addEventListener('click', () => {
+        textInput.value = '';
+        delimiterInput.value = '';
+        delimiterCount.textContent = '';
+        delimiterError.textContent = '';
+    });
+
+    // Preload the first input field with the value coming from the query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+        binaryInput.value = startValue;
+    }
+</script>

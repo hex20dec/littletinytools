@@ -1,0 +1,155 @@
+---
+title: Binary to Decimal Converter and Symbol Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - Symbol Counter
+  - Text Analysis
+  - Conversion Tool
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+  .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1>Binary to Decimal Converter and Symbol Counter</h1><div class="container mt-5">
+  <h1 class="mb-3">Binary to Decimal Converter and Symbol Counter Tool</h1>
+  <p class="lead">The Binary to Decimal Converter and Symbol Counter is a free online tool that allows users to convert binary numbers to decimal equivalents and count the number of characters, words, and symbols in a given text. This tool is perfect for students, programmers, and anyone who needs to work with binary numbers and text analysis. With its user-friendly interface and fast conversion capabilities, this tool is an essential resource for anyone looking to simplify their work with binary and text data. Our tool is optimized for search engines, providing a seamless user experience and ensuring that you get the most accurate results for your binary to decimal conversions and symbol counting needs.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary-number">Binary Number:</label>
+      <input type="text" id="binary-number" placeholder="Enter a binary number (e.g. 1010)" class="form-control">
+      <button id="convert-button" class="btn btn-primary mt-2">Convert</button>
+      <label for="decimal-equivalent">Decimal Equivalent:</label>
+      <input type="text" id="decimal-equivalent" readonly class="form-control">
+      <div id="error-message" class="error-message"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Symbol Counter</h2>
+      <label for="text-area">Text:</label>
+      <textarea id="text-area" class="form-control" rows="10"></textarea>
+      <div class="row mt-2">
+        <div class="col-md-4">
+          <label for="character-count">Characters:</label>
+          <input type="text" id="character-count" readonly class="form-control">
+        </div>
+        <div class="col-md-4">
+          <label for="word-count">Words:</label>
+          <input type="text" id="word-count" readonly class="form-control">
+        </div>
+        <div class="col-md-4">
+          <label for="symbol-count">Symbols:</label>
+          <input type="text" id="symbol-count" readonly class="form-control">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="mb-3">How it Works</h2>
+  <p class="lead">The Binary to Decimal Converter uses a simple formula to convert binary numbers to decimal equivalents: Decimal Equivalent = Binary Number (base 2) → Decimal Number (base 10). This is achieved using the parseInt() function in JavaScript, which parses a string as a binary number and returns the decimal equivalent.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1011</td>
+        <td>11</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="lead">The Symbol Counter, on the other hand, uses a simple algorithm to count the number of characters, words, and symbols in a given text. It replaces all word characters and whitespace with an empty string, and then counts the remaining characters to get the symbol count.</p>
+</div><div class="container mt-5">
+  <h2 class="mb-3">Common Use Cases for the Binary to Decimal Converter and Symbol Counter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting binary numbers to decimal equivalents for programming and coding purposes</li>
+    <li class="list-group-item">Counting the number of characters, words, and symbols in a given text for text analysis and processing</li>
+    <li class="list-group-item">Checking the validity of binary numbers and detecting errors in binary data</li>
+    <li class="list-group-item">Converting decimal numbers to binary numbers for cryptography and encryption purposes</li>
+    <li class="list-group-item">Analyzing and processing binary data for data compression and encoding</li>
+    <li class="list-group-item">Converting binary numbers to hexadecimal and octal numbers for data representation and storage</li>
+    <li class="list-group-item">Counting the number of symbols in a given text for sentiment analysis and natural language processing</li>
+    <li class="list-group-item">Converting binary numbers to decimal equivalents for mathematical calculations and scientific simulations</li>
+    <li class="list-group-item">Checking the integrity of binary data and detecting errors in data transmission and storage</li>
+    <li class="list-group-item">Converting binary numbers to decimal equivalents for educational and learning purposes</li>
+  </ul>
+</div><script>
+  const binaryNumberInput = document.getElementById('binary-number');
+  const convertButton = document.getElementById('convert-button');
+  const decimalEquivalentInput = document.getElementById('decimal-equivalent');
+  const errorMessageBox = document.getElementById('error-message');
+  const textArea = document.getElementById('text-area');
+  const characterCountInput = document.getElementById('character-count');
+  const wordCountInput = document.getElementById('word-count');
+  const symbolCountInput = document.getElementById('symbol-count');
+
+  convertButton.addEventListener('click', () => {
+    const binaryNumber = binaryNumberInput.value;
+    if (isValidBinaryNumber(binaryNumber)) {
+      const decimalEquivalent = binaryToDecimal(binaryNumber);
+      decimalEquivalentInput.value = decimalEquivalent;
+      errorMessageBox.textContent = '';
+    } else {
+      errorMessageBox.textContent = 'Invalid binary number';
+    }
+  });
+
+  textArea.addEventListener('input', () => {
+    const text = textArea.value;
+    const characterCount = text.length;
+    const wordCount = text.split(' ').filter(word => word !== '').length;
+    const symbolCount = text.replace(/[\w\s]/g, '').length;
+    characterCountInput.value = characterCount;
+    wordCountInput.value = wordCount;
+    symbolCountInput.value = symbolCount;
+  });
+
+  function isValidBinaryNumber(binaryNumber) {
+    return /^[01]+$/.test(binaryNumber);
+  }
+
+  function binaryToDecimal(binaryNumber) {
+    return parseInt(binaryNumber, 2);
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryNumberInput.value = startValue;
+  }
+</script>

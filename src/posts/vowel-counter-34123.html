@@ -1,0 +1,174 @@
+---
+title: Binary to Decimal and Vowel Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-07-15 12:00:00
+tags:
+  - Binary Converter
+  - Vowel Counter
+  - Text Analysis
+  - Math Tool
+  - Language Learning
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    padding: 20px;
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .error-message {
+    color: #f00;
+  }
+  .vowel-frequency {
+    margin-top: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal and Vowel Counter App</h1><div class="container mt-5">
+  <h1 class="text-center">Binary to Decimal and Vowel Counter Tool</h1>
+  <p class="text-center">Discover the power of conversion and analysis with our Binary to Decimal and Vowel Counter tool, designed to simplify your calculations and provide valuable insights into text composition. This innovative tool combines the functionality of a binary converter and a vowel counter, allowing you to seamlessly switch between binary and decimal representations and analyze the vowel frequency in any given text. Whether you're a student, developer, or simply a curious individual, our tool is here to help you explore the fascinating world of binary mathematics and text analysis.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary-input">Binary Number:</label>
+      <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)">
+      <button id="convert-button" class="btn btn-primary">Convert</button>
+      <label for="decimal-output">Decimal Equivalent:</label>
+      <input type="text" id="decimal-output" class="form-control" readonly>
+      <div id="binary-error" class="error-message"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Vowel Counter</h2>
+      <label for="text-input">Text:</label>
+      <input type="text" id="text-input" class="form-control" placeholder="Enter a text">
+      <button id="count-vowels-button" class="btn btn-primary">Count Vowels</button>
+      <label for="vowel-count">Total Vowels:</label>
+      <input type="text" id="vowel-count" class="form-control" readonly>
+      <div id="vowel-frequency" class="vowel-frequency"></div>
+      <div id="text-error" class="error-message"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The Binary to Decimal converter uses a simple yet powerful formula to convert binary numbers to decimal equivalents. The formula is as follows:</p>
+  <p>Decimal = (Binary Number)₂ → (Decimal Equivalent)₁₀</p>
+  <p>For example, the binary number 1010 can be converted to decimal as follows:</p>
+  <p>Decimal = (1*2³) + (0*2²) + (1*2¹) + (0*2⁰) = 8 + 0 + 2 + 0 = 10</p>
+  <h3>Vowel Counter Formula</h3>
+  <p>The Vowel Counter works by iterating over the input text and counting the occurrences of each vowel. The formula is as follows:</p>
+  <p>Vowel Count = ∑(Vowel Occurrences)</p>
+  <p>For example, the text "Hello World" can be analyzed as follows:</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Vowel</th>
+        <th>Occurrences</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>A</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>E</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>I</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>O</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>U</td>
+        <td>0</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <ol>
+    <li><strong>Binary Code Analysis</strong>: Use the Binary to Decimal converter to analyze binary code and understand its decimal representation.</li>
+    <li><strong>Vowel Frequency Analysis</strong>: Use the Vowel Counter to analyze the vowel frequency in a given text and gain insights into its composition.</li>
+    <li><strong>Cryptography</strong>: Use the Binary to Decimal converter to work with cryptographic algorithms that rely on binary representations.</li>
+    <li><strong>Data Compression</strong>: Use the Binary to Decimal converter to compress data by representing it in binary format.</li>
+    <li><strong>Natural Language Processing</strong>: Use the Vowel Counter to analyze the vowel frequency in text data and gain insights into its linguistic structure.</li>
+    <li><strong>Computer Networking</strong>: Use the Binary to Decimal converter to work with IP addresses and subnet masks that rely on binary representations.</li>
+    <li><strong>Mathematics Education</strong>: Use the Binary to Decimal converter to teach students about binary mathematics and its applications.</li>
+    <li><strong>Text Mining</strong>: Use the Vowel Counter to analyze large datasets of text and gain insights into their composition and structure.</li>
+    <li><strong>Language Learning</strong>: Use the Vowel Counter to analyze the vowel frequency in different languages and gain insights into their phonetic structure.</li>
+    <li><strong>Machine Learning</strong>: Use the Binary to Decimal converter and Vowel Counter to preprocess data for machine learning algorithms that rely on binary and text data.</li>
+  </ol>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryError = document.getElementById('binary-error');
+  const textInput = document.getElementById('text-input');
+  const countVowelsButton = document.getElementById('count-vowels-button');
+  const vowelCount = document.getElementById('vowel-count');
+  const vowelFrequency = document.getElementById('vowel-frequency');
+  const textError = document.getElementById('text-error');
+
+  convertButton.addEventListener('click', () => {
+    const binary = binaryInput.value.trim();
+    if (!binary) {
+      binaryError.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binary)) {
+      binaryError.textContent = 'Invalid binary number';
+      return;
+    }
+    binaryError.textContent = '';
+    const decimal = parseInt(binary, 2);
+    decimalOutput.value = decimal;
+  });
+
+  countVowelsButton.addEventListener('click', () => {
+    const text = textInput.value.toLowerCase().trim();
+    if (!text) {
+      textError.textContent = 'Please enter a text';
+      return;
+    }
+    textError.textContent = '';
+    const vowels = 'aeiou';
+    let vowelCountValue = 0;
+    const vowelFrequencyValue = {};
+    for (let i = 0; i < text.length; i++) {
+      if (vowels.includes(text[i])) {
+        vowelCountValue++;
+        if (vowelFrequencyValue[text[i]]) {
+          vowelFrequencyValue[text[i]]++;
+        } else {
+          vowelFrequencyValue[text[i]] = 1;
+        }
+      }
+    }
+    vowelCount.value = vowelCountValue;
+    vowelFrequency.innerHTML = '';
+    for (const vowel in vowelFrequencyValue) {
+      const span = document.createElement('span');
+      span.textContent = `${vowel}: ${vowelFrequencyValue[vowel]}`;
+      vowelFrequency.appendChild(span);
+      const br = document.createElement('br');
+      vowelFrequency.appendChild(br);
+    }
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    textInput.value = startParam;
+  }
+</script>

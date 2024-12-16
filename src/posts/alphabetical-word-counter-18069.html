@@ -1,0 +1,145 @@
+---
+title: Binary to Decimal Converter and Alphabetical Word Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-15 12:00:00
+tags:
+  - Binary Converter
+  - Word Counter
+  - Binary to Decimal
+  - Alphabetical Word Counter
+  - Text Analysis
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  #error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Binary to Decimal Converter and Alphabetical Word Counter</h1><div class="container mt-5">
+  <h1 class="text-center">Binary to Decimal Converter and Alphabetical Word Counter Tool</h1>
+  <p class="text-center">This online tool is designed to convert binary numbers to decimal and count the frequency of each word in a given text, providing a convenient and efficient solution for binary conversion and text analysis needs. With its user-friendly interface and accurate calculations, this tool is perfect for students, developers, and anyone who needs to work with binary numbers and text analysis.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)" value="">
+      <button id="convert-button" class="btn btn-primary mt-2">Convert</button>
+      <input type="text" id="decimal-output" class="form-control mt-2" readonly>
+      <div id="error-message" class="mt-2"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Alphabetical Word Counter</h2>
+      <textarea id="text-input" class="form-control" placeholder="Enter text here" rows="10"></textarea>
+      <button id="count-words-button" class="btn btn-primary mt-2">Count Words</button>
+      <table id="word-count-table" class="table table-striped mt-2">
+        <thead>
+          <tr>
+            <th>Word</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody id="word-count-table-body">
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The binary to decimal converter uses the following formula to convert binary numbers to decimal: Decimal = (Binary digits * 2^n) where n is the position of the binary digit, starting from 0. For example, the binary number 1010 can be converted to decimal as follows: (1 * 2^3) + (0 * 2^2) + (1 * 2^1) + (0 * 2^0) = 8 + 0 + 2 + 0 = 10.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1011</td>
+        <td>11</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The alphabetical word counter works by splitting the input text into individual words, counting the frequency of each word, and sorting the results in alphabetical order.</p>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <ol>
+    <li><strong>Binary Conversion for Programming</strong>: Convert binary numbers to decimal for programming and development purposes.</li>
+    <li><strong>Text Analysis for Research</strong>: Count the frequency of each word in a text for research and analysis purposes.</li>
+    <li><strong>Computer Science Education</strong>: Use the binary to decimal converter and alphabetical word counter as teaching tools for computer science students.</li>
+    <li><strong>Data Analysis</strong>: Use the tool to analyze and understand large datasets by converting binary numbers to decimal and counting word frequencies.</li>
+    <li><strong>Web Development</strong>: Use the tool to convert binary numbers to decimal for web development and design purposes.</li>
+    <li><strong>Mathematics and Statistics</strong>: Use the tool to analyze and understand mathematical and statistical concepts, such as probability and data distribution.</li>
+    <li><strong>Natural Language Processing</strong>: Use the alphabetical word counter to analyze and understand natural language processing concepts, such as text classification and sentiment analysis.</li>
+    <li><strong>Artificial Intelligence and Machine Learning</strong>: Use the tool to analyze and understand artificial intelligence and machine learning concepts, such as data preprocessing and feature extraction.</li>
+    <li><strong>Science and Engineering</strong>: Use the binary to decimal converter and alphabetical word counter to analyze and understand scientific and engineering concepts, such as signal processing and image analysis.</li>
+    <li><strong>Academic Research</strong>: Use the tool to analyze and understand large datasets and research papers, and to identify trends and patterns in the data.</li>
+  </ol>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    document.getElementById('binary-input').value = startValue;
+  }
+
+  document.getElementById('convert-button').addEventListener('click', function() {
+    const binaryInput = document.getElementById('binary-input').value;
+    if (!/^[01]+$/.test(binaryInput)) {
+      document.getElementById('error-message').innerText = 'Invalid binary number';
+      return;
+    }
+    const decimalOutput = parseInt(binaryInput, 2);
+    document.getElementById('decimal-output').value = decimalOutput;
+    document.getElementById('error-message').innerText = '';
+  });
+
+  document.getElementById('count-words-button').addEventListener('click', function() {
+    const textInput = document.getElementById('text-input').value;
+    const words = textInput.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/);
+    const wordCount = {};
+    words.forEach(word => {
+      if (wordCount[word]) {
+        wordCount[word]++;
+      } else {
+        wordCount[word] = 1;
+      }
+    });
+    const sortedWords = Object.keys(wordCount).sort();
+    const wordCountTableBody = document.getElementById('word-count-table-body');
+    wordCountTableBody.innerHTML = '';
+    sortedWords.forEach(word => {
+      const row = document.createElement('tr');
+      const wordCell = document.createElement('td');
+      wordCell.innerText = word;
+      const countCell = document.createElement('td');
+      countCell.innerText = wordCount[word];
+      row.appendChild(wordCell);
+      row.appendChild(countCell);
+      wordCountTableBody.appendChild(row);
+    });
+  });
+</script>

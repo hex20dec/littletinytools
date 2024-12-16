@@ -1,0 +1,152 @@
+---
+title: Binary to Decimal Converter and Sentence Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 12:00:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - Sentence Counter
+  - Text Analyzer
+  - Web Development Tools
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div textarea {
+    margin-bottom: 1rem;
+  }
+  #main-div button {
+    margin-bottom: 1rem;
+  }
+  #main-div .alert {
+    margin-bottom: 1rem;
+  }
+  #error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container mt-5 pt-5">
+  <h1>Binary to Decimal Converter and Sentence Counter</h1><div class="container mt-5 pt-5">
+  <h1 class="fw-bold">Binary to Decimal Converter and Sentence Counter Tool</h1>
+  <p class="lead">Discover the ultimate online tool for converting binary numbers to decimal equivalents and counting sentences in a given text. Our Binary to Decimal Converter and Sentence Counter is a free, user-friendly web tool designed to simplify your calculations and provide accurate results. With its intuitive interface, you can effortlessly convert binary numbers to decimal and analyze text to determine the number of sentences, making it an indispensable resource for programmers, developers, and anyone working with binary code or text analysis.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary-number">Binary Number</label>
+      <input type="text" id="binary-number" class="form-control" placeholder="Enter a binary number (e.g. 1010)" value="?start">
+      <button id="convert-button" class="btn btn-primary">Convert</button>
+      <label for="decimal-equivalent">Decimal Equivalent</label>
+      <input type="text" id="decimal-equivalent" class="form-control" readonly>
+      <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Sentence Counter</h2>
+      <label for="text-area">Enter your text here</label>
+      <textarea id="text-area" class="form-control" rows="10"></textarea>
+      <button id="count-sentences-button" class="btn btn-primary">Count Sentences</button>
+      <div id="sentence-count" class="alert alert-info"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5 pt-5">
+  <h2 class="fw-bold">How it Works</h2>
+  <p class="lead">The Binary to Decimal Converter uses a simple yet effective formula to convert binary numbers to decimal equivalents. The formula is based on the positional notation of binary numbers, where each digit (or bit) represents a power of 2. The formula can be expressed as:</p>
+  <p class="lead">Decimal Equivalent = (2^0 * b0) + (2^1 * b1) + ... + (2^n * bn)</p>
+  <p class="lead">where b0, b1, ..., bn are the individual bits of the binary number and n is the number of bits minus one.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1000</td>
+        <td>8</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="lead">The Sentence Counter, on the other hand, uses a simple text analysis algorithm to count the number of sentences in a given text. The algorithm splits the text into individual sentences based on punctuation marks such as periods, exclamation points, and question marks.</p>
+</div><div class="container mt-5 pt-5">
+  <h2 class="fw-bold">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting binary numbers to decimal equivalents for programming and development purposes</li>
+    <li class="list-group-item">Analyzing text to determine the number of sentences for writing and editing purposes</li>
+    <li class="list-group-item">Verifying the accuracy of binary to decimal conversions for educational and research purposes</li>
+    <li class="list-group-item">Counting sentences in a text for language translation and localization purposes</li>
+    <li class="list-group-item">Converting binary numbers to decimal equivalents for cryptography and cybersecurity purposes</li>
+    <li class="list-group-item">Analyzing text to determine the number of sentences for marketing and advertising purposes</li>
+    <li class="list-group-item">Verifying the accuracy of binary to decimal conversions for data analysis and science purposes</li>
+    <li class="list-group-item">Counting sentences in a text for academic and research purposes</li>
+    <li class="list-group-item">Converting binary numbers to decimal equivalents for embedded systems and robotics purposes</li>
+    <li class="list-group-item">Analyzing text to determine the number of sentences for natural language processing and machine learning purposes</li>
+  </ul>
+</div><script>
+  const binaryNumberInput = document.getElementById('binary-number');
+  const convertButton = document.getElementById('convert-button');
+  const decimalEquivalentInput = document.getElementById('decimal-equivalent');
+  const error_message = document.getElementById('error-message');
+  const textArea = document.getElementById('text-area');
+  const countSentencesButton = document.getElementById('count-sentences-button');
+  const sentenceCountDiv = document.getElementById('sentence-count');
+
+  convertButton.addEventListener('click', () => {
+    const binaryNumber = binaryNumberInput.value.trim();
+    if (!binaryNumber) {
+      error_message.innerText = 'Please enter a binary number';
+      error_message.style.display = 'block';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryNumber)) {
+      error_message.innerText = 'Invalid binary number';
+      error_message.style.display = 'block';
+      return;
+    }
+    const decimalEquivalent = parseInt(binaryNumber, 2);
+    decimalEquivalentInput.value = decimalEquivalent;
+    error_message.style.display = 'none';
+  });
+
+  countSentencesButton.addEventListener('click', () => {
+    const text = textArea.value.trim();
+    if (!text) {
+      sentenceCountDiv.innerText = 'Please enter some text';
+      return;
+    }
+    const sentences = text.replace(/([.!?])\s+/g, '$1|').split('|');
+    const sentenceCount = sentences.length;
+    sentenceCountDiv.innerText = `Number of sentences: ${sentenceCount}`;
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryNumberInput.value = startValue;
+  }
+</script>

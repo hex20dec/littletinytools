@@ -1,0 +1,208 @@
+---
+title: Binary to Decimal and Roman Numeral Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-20 12:00:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - Roman Numeral Converter
+  - Number Converter
+  - Math Tool
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    padding: 20px;
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  input, button, .output-field {
+    margin-bottom: 20px;
+  }
+  .error-message {
+    color: #ff0000;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal and Roman Numeral Converter</h1><div class="container mt-5 mb-5">
+    <h1 class="text-center">Binary to Decimal and Roman Numeral Converter Tool</h1>
+    <p class="text-center">This online tool is designed to convert binary numbers to decimal and roman numerals, making it easy to perform mathematical conversions. With its user-friendly interface, you can easily convert binary to decimal and decimal to roman numerals, making it a handy resource for students, programmers, and anyone who needs to work with different number systems. The tool is optimized for search engines, providing a seamless experience for users looking for binary to decimal and roman numeral conversion tools.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary-input">Binary Number:</label>
+      <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" value="" aria-label="Binary Number">
+      <button id="binary-convert-btn" class="btn btn-primary">Convert</button>
+      <label for="decimal-output">Decimal Equivalent:</label>
+      <input type="text" id="decimal-output" class="output-field" readonly aria-label="Decimal Equivalent">
+      <div id="binary-error-message" class="error-message"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Roman Numeral Counter</h2>
+      <label for="roman-input">Number:</label>
+      <input type="number" id="roman-input" value="" aria-label="Number">
+      <button id="roman-increment-btn" class="btn btn-secondary">+</button>
+      <button id="roman-decrement-btn" class="btn btn-secondary">-</button>
+      <button id="roman-reset-btn" class="btn btn-secondary">Reset</button>
+      <label for="roman-output">Roman Numeral:</label>
+      <input type="text" id="roman-output" class="output-field" readonly aria-label="Roman Numeral">
+      <div id="roman-error-message" class="error-message"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5 mb-5">
+    <h2 class="text-center">How it Works</h2>
+    <p>The binary to decimal conversion is based on the positional notation of the binary number system, where each digit (or bit) represents a power of 2. The formula to convert binary to decimal is:</p>
+    <p class="text-center">Decimal = (b<sub>n</sub> × 2<sup>n</sup>) + (b<sub>n-1</sub> × 2<sup>n-1</sup>) + ... + (b<sub>0</sub> × 2<sup>0</sup>)</p>
+    <p>Where b<sub>i</sub> is the i-th bit of the binary number and n is the number of bits.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary</th>
+                <th>Decimal</th>
+                <th>Roman Numeral</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+                <td>X</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+                <td>XIII</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+                <td>IX</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+                <td>XV</td>
+            </tr>
+            <tr>
+                <td>1011</td>
+                <td>11</td>
+                <td>XI</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="container mt-5 mb-5">
+    <h2 class="text-center">Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Converting binary code to decimal for programming purposes</li>
+        <li class="list-group-item">Learning about different number systems in mathematics or computer science classes</li>
+        <li class="list-group-item">Translating Roman numerals to decimal for historical or cultural research</li>
+        <li class="list-group-item">Calculating the decimal equivalent of a binary number for scientific calculations</li>
+        <li class="list-group-item">Converting decimal to Roman numerals for design or artistic purposes</li>
+        <li class="list-group-item">Verifying calculations involving binary, decimal, or Roman numerals</li>
+        <li class="list-group-item">Simplifying mathematical expressions involving different number systems</li>
+        <li class="list-group-item">Understanding the relationship between binary, decimal, and Roman numerals</li>
+        <li class="list-group-item">Generating Roman numerals for titles, headings, or captions</li>
+        <li class="list-group-item">Converting decimal to binary for data storage or transmission purposes</li>
+    </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  document.getElementById('roman-input').value = startValue || 0;
+
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryErrorMessage = document.getElementById('binary-error-message');
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binaryValue = binaryInput.value.trim();
+    if (!/^[01]+$/.test(binaryValue)) {
+      binaryErrorMessage.textContent = 'Invalid binary number. Please enter a valid binary number.';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    decimalOutput.value = decimalValue;
+    binaryErrorMessage.textContent = '';
+  });
+
+  const romanInput = document.getElementById('roman-input');
+  const romanIncrementBtn = document.getElementById('roman-increment-btn');
+  const romanDecrementBtn = document.getElementById('roman-decrement-btn');
+  const romanResetBtn = document.getElementById('roman-reset-btn');
+  const romanOutput = document.getElementById('roman-output');
+  const romanErrorMessage = document.getElementById('roman-error-message');
+
+  romanIncrementBtn.addEventListener('click', () => {
+    const currentValue = parseInt(romanInput.value);
+    if (isNaN(currentValue)) {
+      romanInput.value = 1;
+    } else {
+      romanInput.value = currentValue + 1;
+    }
+    updateRomanOutput();
+  });
+
+  romanDecrementBtn.addEventListener('click', () => {
+    const currentValue = parseInt(romanInput.value);
+    if (isNaN(currentValue)) {
+      romanInput.value = 0;
+    } else if (currentValue > 0) {
+      romanInput.value = currentValue - 1;
+    }
+    updateRomanOutput();
+  });
+
+  romanResetBtn.addEventListener('click', () => {
+    romanInput.value = 0;
+    updateRomanOutput();
+  });
+
+  romanInput.addEventListener('input', () => {
+    updateRomanOutput();
+  });
+
+  function updateRomanOutput() {
+    const inputValue = parseInt(romanInput.value);
+    if (isNaN(inputValue) || inputValue < 1 || inputValue > 3999) {
+      romanErrorMessage.textContent = 'Invalid input. Please enter a number between 1 and 3999.';
+      romanOutput.value = '';
+      return;
+    }
+    romanErrorMessage.textContent = '';
+    const romanValue = toRoman(inputValue);
+    romanOutput.value = romanValue;
+  }
+
+  function toRoman(num) {
+    const val = [
+      1000, 900, 500, 400,
+      100, 90, 50, 40,
+      10, 9, 5, 4,
+      1
+    ];
+    const syb = [
+      "M", "CM", "D", "CD",
+      "C", "XC", "L", "XL",
+      "X", "IX", "V", "IV",
+      "I"
+    ];
+    let romanNum = '';
+    let i = 0;
+    while (num > 0) {
+      for (; num >= val[i]; num -= val[i]) {
+        romanNum += syb[i];
+      }
+      i++;
+    }
+    return romanNum;
+  }
+</script>

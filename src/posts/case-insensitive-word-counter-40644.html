@@ -1,0 +1,177 @@
+---
+title: Binary to Decimal Converter and Word Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - Word Counter
+  - Binary to Decimal
+  - Text Analysis
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    padding: 20px;
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #3e8e41;
+  }
+  .error {
+    color: #f00;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+</style>
+
+<div id="main-div" class="container">
+  <h1>Binary to Decimal Converter and Word Counter</h1><div class="header-section p-5 bg-primary text-white text-center">
+  <h1>Binary to Decimal Converter and Word Counter Tool</h1>
+  <p>This online tool allows users to convert binary numbers to decimal equivalents and count the number of words in a given text. The binary to decimal converter uses the base-2 number system to convert binary numbers to decimal, while the word counter uses a simple algorithm to count the individual words in a text. With its user-friendly interface and accurate results, this tool is perfect for students, developers, and anyone who needs to perform binary conversions or text analysis.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary">Enter a binary number (e.g. 1010)</label>
+      <input type="text" id="binary" placeholder="Enter a binary number (e.g. 1010)">
+      <button id="convert-btn">Convert</button>
+      <label for="decimal">Decimal Equivalent</label>
+      <input type="text" id="decimal" readonly>
+      <p id="error" class="error"></p>
+    </div>
+    <div class="col-md-6">
+      <h2>Word Counter</h2>
+      <label for="text">Enter your text</label>
+      <textarea id="text" rows="10" cols="30"></textarea>
+      <button id="count-words-btn">Count Words</button>
+      <label for="word-count">Word Count</label>
+      <input type="text" id="word-count" readonly>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5 bg-light">
+  <h2>How the Tool Works</h2>
+  <p>The binary to decimal converter uses the following formula to convert binary numbers to decimal:</p>
+  <p>Decimal = (Binary Number) in base 2</p>
+  <p>For example, the binary number 1010 can be converted to decimal as follows:</p>
+  <p>Decimal = (1 * 2^3) + (0 * 2^2) + (1 * 2^1) + (0 * 2^0) = 8 + 0 + 2 + 0 = 10</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1011</td>
+        <td>11</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The word counter uses a simple algorithm to count the individual words in a text:</p>
+  <p>Word Count = Number of words in the text</p>
+  <p>For example, the text "This is an example sentence" has 5 words.</p>
+</div><div class="use-cases-section p-5 bg-light">
+  <h2>Common Use Cases for the Binary to Decimal Converter and Word Counter Tool</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting binary numbers to decimal equivalents for programming or coding purposes</li>
+    <li class="list-group-item">Counting the number of words in a text for writing or editing purposes</li>
+    <li class="list-group-item">Performing binary arithmetic operations such as addition or subtraction</li>
+    <li class="list-group-item">Analyzing the frequency of words in a text for data analysis or natural language processing purposes</li>
+    <li class="list-group-item">Generating random binary numbers for testing or simulation purposes</li>
+    <li class="list-group-item">Converting decimal numbers to binary equivalents for programming or coding purposes</li>
+    <li class="list-group-item">Counting the number of characters in a text for writing or editing purposes</li>
+    <li class="list-group-item">Performing text analysis such as sentiment analysis or topic modeling</li>
+    <li class="list-group-item">Generating text summaries or excerpts for research or academic purposes</li>
+    <li class="list-group-item">Creating binary or decimal puzzles or games for educational or entertainment purposes</li>
+  </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  const binaryInput = document.getElementById('binary');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+
+  const convertBtn = document.getElementById('convert-btn');
+  const binary = document.getElementById('binary');
+  const decimal = document.getElementById('decimal');
+  const error = document.getElementById('error');
+
+  convertBtn.addEventListener('click', () => {
+    const binaryValue = binary.value.trim();
+    if (!binaryValue) {
+      error.textContent = 'Please enter a binary number';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    if (isNaN(decimalValue)) {
+      error.textContent = 'Invalid binary number';
+      return;
+    }
+    decimal.value = decimalValue;
+    error.textContent = '';
+  });
+
+  const countWordsBtn = document.getElementById('count-words-btn');
+  const text = document.getElementById('text');
+  const wordCount = document.getElementById('word-count');
+
+  countWordsBtn.addEventListener('click', () => {
+    const textValue = text.value.trim();
+    if (!textValue) {
+      wordCount.value = '0';
+      return;
+    }
+    const words = textValue.split(/\s+/);
+    wordCount.value = words.length;
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && binaryInput === document.activeElement) {
+      convertBtn.click();
+    }
+  });
+</script>

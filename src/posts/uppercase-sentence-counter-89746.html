@@ -1,0 +1,149 @@
+---
+title: Binary to Decimal Converter and Uppercase Sentence Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-07-01 12:00:00
+tags:
+- Binary Converter
+- Decimal Converter
+- Uppercase Sentence Counter
+- Text Analyzer
+- Code Helper
+---
+
+<style>
+    #main-div {
+        font-family: Arial, sans-serif;
+        color: #fff;
+    }
+    label {
+        display: block;
+        margin-bottom: 10px;
+    }
+    .error-message {
+        color: #ff0000;
+        font-size: 12px;
+    }
+    .result {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div id="main-div" class="container mt-5">
+    <h1>Binary to Decimal Converter and Uppercase Sentence Counter</h1><div class="header-section p-5 text-center bg-primary text-white">
+    <h1>Binary to Decimal Converter and Uppercase Sentence Counter Tool</h1>
+    <p>This online tool is designed to convert binary numbers to decimal numbers and count the number of uppercase sentences in a given text, providing a quick and easy solution for coding and text analysis tasks, utilizing the power of JavaScript and HTML to deliver fast and accurate results, making it an essential resource for developers, programmers, and anyone looking to simplify their workflow and improve productivity.</p>
+</div>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Binary to Decimal Converter</h2>
+            <label for="binary-input">Binary Number:</label>
+            <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" class="form-control">
+            <button id="convert-button" class="btn btn-primary mt-3">Convert</button>
+            <p id="decimal-output" class="result"></p>
+            <p id="binary-error" class="error-message"></p>
+        </div>
+        <div class="col-md-6">
+            <h2>Uppercase Sentence Counter</h2>
+            <label for="text-input">Text:</label>
+            <textarea id="text-input" placeholder="Enter your text here" class="form-control" rows="10"></textarea>
+            <button id="count-button" class="btn btn-primary mt-3">Count Uppercase Sentences</button>
+            <p id="uppercase-output" class="result"></p>
+            <p id="text-error" class="error-message"></p>
+        </div>
+    </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How it Works</h2>
+    <p>The binary to decimal converter uses the following formula: decimal = parseInt(binary, 2), where binary is the binary number to be converted and 2 is the base of the binary number system.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1011</td>
+                <td>11</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>The uppercase sentence counter uses a simple algorithm to split the input text into sentences and then checks each sentence to see if it is in uppercase.</p>
+</div><div class="use-cases-section p-5">
+    <h2>Common Use Cases</h2>
+    <ol>
+        <li>Converting binary code to decimal code for programming and coding tasks</li>
+        <li>Counting the number of uppercase sentences in a piece of text for writing and editing purposes</li>
+        <li>Analyzing and processing data in binary format for data science and machine learning applications</li>
+        <li>Generating random binary numbers for testing and simulation purposes</li>
+        <li>Converting decimal numbers to binary numbers for computer networking and cybersecurity tasks</li>
+        <li>Identifying and extracting uppercase sentences from a large corpus of text for natural language processing tasks</li>
+        <li>Developing and testing algorithms for binary and decimal conversion</li>
+        <li>Creating and editing binary and decimal code for embedded systems and robotics applications</li>
+        <li>Teaching and learning binary and decimal conversion for educational purposes</li>
+        <li>Optimizing and refining binary and decimal conversion processes for industrial and commercial applications</li>
+    </ol>
+</div><script>
+    const binaryInput = document.getElementById('binary-input');
+    const convertButton = document.getElementById('convert-button');
+    const decimalOutput = document.getElementById('decimal-output');
+    const binaryError = document.getElementById('binary-error');
+    const textInput = document.getElementById('text-input');
+    const countButton = document.getElementById('count-button');
+    const uppercaseOutput = document.getElementById('uppercase-output');
+    const textError = document.getElementById('text-error');
+
+    // Preload the first input field with the value coming from the query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+        binaryInput.value = startValue;
+    }
+
+    convertButton.addEventListener('click', () => {
+        const binaryValue = binaryInput.value.trim();
+        if (!binaryValue) {
+            binaryError.textContent = 'Please enter a binary number';
+            return;
+        }
+        if (!/^[01]+$/.test(binaryValue)) {
+            binaryError.textContent = 'Invalid binary number';
+            return;
+        }
+        const decimalValue = parseInt(binaryValue, 2);
+        decimalOutput.textContent = `Decimal Equivalent: ${decimalValue}`;
+        binaryError.textContent = '';
+    });
+
+    countButton.addEventListener('click', () => {
+        const textValue = textInput.value.trim();
+        if (!textValue) {
+            textError.textContent = 'Please enter some text';
+            return;
+        }
+        const sentences = textValue.split(/[.!?]\s+/);
+        const uppercaseSentences = sentences.filter(sentence => sentence.toUpperCase() === sentence);
+        uppercaseOutput.textContent = `Total Sentences: ${sentences.length}, Uppercase Sentences: ${uppercaseSentences.length}`;
+        textError.textContent = '';
+    });
+</script>

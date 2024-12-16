@@ -1,0 +1,182 @@
+---
+title: Binary to Decimal Converter and Code Line Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Code Line Counter
+  - Programming Tools
+  - Developer Utilities
+  - Coding Assistant
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    padding: 20px;
+  }
+  #main-div label {
+    margin-bottom: 10px;
+    display: block;
+  }
+  #main-div input, #main-div textarea {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  #main-div button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+  #main-div .error-msg {
+    color: #f00;
+    margin-bottom: 20px;
+    display: none;
+  }
+  #main-div .line-count {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal Converter and Code Line Counter</h1><div class="header-section bg-success text-white p-5 text-center">
+    <h1 class="mb-3">Binary to Decimal Converter and Code Line Counter Tool</h1>
+    <p class="lead">Quickly convert binary numbers to decimal and count the number of lines in your code with our easy-to-use online tool. No installation required, simply enter your binary number or code and get the results instantly. Our tool is designed for developers, programmers, and students who need to perform conversions and line counting tasks efficiently.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary-input">Binary Number:</label>
+      <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" />
+      <button id="convert-btn">Convert</button>
+      <label for="decimal-output">Decimal Equivalent:</label>
+      <input type="text" id="decimal-output" readonly />
+      <div class="error-msg" id="binary-error-msg"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Code Line Counter</h2>
+      <label for="code-input">Enter your code:</label>
+      <textarea id="code-input" rows="10" cols="30"></textarea>
+      <button id="count-lines-btn">Count Lines</button>
+      <button id="reset-btn">Reset</button>
+      <div class="line-count" id="line-count">Number of lines: 0</div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-3">How it Works</h2>
+    <p class="mb-3">The binary to decimal converter works by using the following formula: Decimal Number = (Binary Number)2. Our tool takes the binary number as input, checks if it's a valid binary number, and then converts it to decimal using the formula.</p>
+    <h3 class="mb-3">Conversion Formula:</h3>
+    <p class="mb-3">Decimal Number = (Binary Number)2 = d0 \* 2^0 + d1 \* 2^1 + ... + dn \* 2^n</p>
+    <h3 class="mb-3">Example Conversions:</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1000</td>
+                <td>8</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-3">10 Common Use Cases for our Binary to Decimal Converter and Code Line Counter Tool</h2>
+    <ol class="list-group">
+        <li class="list-group-item">Converting binary numbers to decimal for programming tasks</li>
+        <li class="list-group-item">Counting the number of lines in a code snippet</li>
+        <li class="list-group-item">Debugging binary code</li>
+        <li class="list-group-item">Optimizing code for better performance</li>
+        <li class="list-group-item">Converting decimal numbers to binary for encryption purposes</li>
+        <li class="list-group-item">Analyzing binary data for scientific research</li>
+        <li class="list-group-item">Creating binary-based encryption algorithms</li>
+        <li class="list-group-item">Developing binary-based compression techniques</li>
+        <li class="list-group-item">Teaching binary conversion and code line counting concepts to students</li>
+        <li class="list-group-item">Simplifying complex binary code for easier maintenance and updates</li>
+    </ol>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertBtn = document.getElementById('convert-btn');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryErrorMsg = document.getElementById('binary-error-msg');
+  const codeInput = document.getElementById('code-input');
+  const countLinesBtn = document.getElementById('count-lines-btn');
+  const resetBtn = document.getElementById('reset-btn');
+  const lineCount = document.getElementById('line-count');
+
+  convertBtn.addEventListener('click', convertBinaryToDecimal);
+  countLinesBtn.addEventListener('click', countCodeLines);
+  resetBtn.addEventListener('click', resetCodeInput);
+  codeInput.addEventListener('input', updateLineCount);
+
+  function convertBinaryToDecimal() {
+    const binaryNum = binaryInput.value.trim();
+    if (!binaryNum) {
+      binaryErrorMsg.style.display = 'block';
+      binaryErrorMsg.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryNum)) {
+      binaryErrorMsg.style.display = 'block';
+      binaryErrorMsg.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalNum = parseInt(binaryNum, 2);
+    decimalOutput.value = decimalNum;
+    binaryErrorMsg.style.display = 'none';
+  }
+
+  function countCodeLines() {
+    const code = codeInput.value.trim();
+    const lines = code.split('\n').length;
+    lineCount.textContent = `Number of lines: ${lines}`;
+  }
+
+  function resetCodeInput() {
+    codeInput.value = '';
+    lineCount.textContent = 'Number of lines: 0';
+  }
+
+  function updateLineCount() {
+    const code = codeInput.value.trim();
+    const lines = code.split('\n').length;
+    lineCount.textContent = `Number of lines: ${lines}`;
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    binaryInput.value = startParam;
+  }
+</script>

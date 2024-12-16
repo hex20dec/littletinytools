@@ -1,0 +1,175 @@
+---
+title: Binary to Decimal Converter and Duplicate Word Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Duplicate Word Counter
+  - Text Analysis
+  - Numerical Conversion
+  - Productivity Tool
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal Converter and Duplicate Word Counter</h1><div class="container mt-5 mb-5">
+  <h1 class="text-center">Binary to Decimal Converter and Duplicate Word Counter Tool</h1>
+  <p class="text-center">This binary to decimal converter and duplicate word counter tool is designed to convert binary numbers to decimal numbers and count duplicate words in a given text. It is a free online tool that can be used by students, programmers, and anyone who needs to perform binary to decimal conversions or analyze text for duplicate words. With its simple and intuitive interface, this tool makes it easy to convert binary numbers to decimal numbers and count duplicate words in a text, making it a valuable resource for anyone who needs to perform these tasks.</p>
+</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Binary to Decimal Converter</h2>
+        <label for="binary-input">Binary Number:</label>
+        <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)">
+        <button id="convert-button" class="btn btn-primary">Convert</button>
+        <label for="decimal-output">Decimal Equivalent:</label>
+        <input type="text" id="decimal-output" class="form-control" readonly>
+        <div id="binary-error-message" class="error-message"></div>
+      </div>
+      <div class="col-md-6">
+        <h2>Duplicate Word Counter</h2>
+        <label for="text-input">Enter your text:</label>
+        <textarea id="text-input" class="form-control" placeholder="Enter your text here..."></textarea>
+        <button id="count-button" class="btn btn-primary">Count duplicate words</button>
+        <div id="result-section">
+          <h3>Results:</h3>
+          <table id="result-table" class="table table-striped">
+            <thead>
+              <tr>
+                <th>Word</th>
+                <th>Frequency</th>
+              </tr>
+            </thead>
+            <tbody id="result-body"></tbody>
+          </table>
+          <p id="total-duplicate-words"></p>
+          <p id="total-unique-words"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mb-5">
+  <h2>How it Works</h2>
+  <p>The binary to decimal converter uses the following formula to convert binary numbers to decimal numbers: decimal = binary2^0 + binary2^1 + binary2^2 + ... + binary2^n, where n is the number of bits in the binary number.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1000</td>
+        <td>8</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The duplicate word counter uses a simple algorithm to count the frequency of each word in a given text. It first converts the text to lowercase and removes any punctuation or special characters, then splits the text into individual words and counts the frequency of each word.</p>
+</div><div class="container mb-5">
+  <h2>Common Use Cases</h2>
+  <ol>
+    <li>Converting binary numbers to decimal numbers for programming or mathematical purposes</li>
+    <li>Counting duplicate words in a text to analyze its content or identify repeated phrases</li>
+    <li>Checking for errors in binary code by converting it to decimal and back to binary</li>
+    <li>Generating random binary numbers for testing or simulation purposes</li>
+    <li>Converting decimal numbers to binary numbers for storage or transmission purposes</li>
+    <li>Analyzing the frequency of words in a text to identify trends or patterns</li>
+    <li>Removing duplicate words from a text to improve its clarity or readability</li>
+    <li>Converting binary numbers to decimal numbers for scientific or engineering applications</li>
+    <li>Using the duplicate word counter to identify plagiarism or copyright infringement</li>
+    <li>Teaching programming or computer science concepts using the binary to decimal converter and duplicate word counter tool</li>
+  </ol>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryErrorMessage = document.getElementById('binary-error-message');
+  const textInput = document.getElementById('text-input');
+  const countButton = document.getElementById('count-button');
+  const resultTable = document.getElementById('result-table');
+  const resultBody = document.getElementById('result-body');
+  const totalDuplicateWords = document.getElementById('total-duplicate-words');
+  const totalUniqueWords = document.getElementById('total-unique-words');
+
+  convertButton.addEventListener('click', () => {
+    const binaryValue = binaryInput.value.trim();
+    if (!binaryValue) {
+      binaryErrorMessage.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryValue)) {
+      binaryErrorMessage.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    decimalOutput.value = decimalValue;
+    binaryErrorMessage.textContent = '';
+  });
+
+  countButton.addEventListener('click', () => {
+    const textValue = textInput.value.trim();
+    if (!textValue) {
+      alert('Please enter some text');
+      return;
+    }
+    const words = textValue.toLowerCase().replace(/[^\w\s]|_/g, '').split(/\s+/);
+    const wordFrequency = {};
+    words.forEach(word => {
+      if (wordFrequency[word]) {
+        wordFrequency[word]++;
+      } else {
+        wordFrequency[word] = 1;
+      }
+    });
+    const duplicateWords = Object.keys(wordFrequency).filter(word => wordFrequency[word] > 1);
+    const uniqueWords = Object.keys(wordFrequency).filter(word => wordFrequency[word] === 1);
+    resultBody.innerHTML = '';
+    duplicateWords.forEach(word => {
+      const row = document.createElement('tr');
+      const wordCell = document.createElement('td');
+      const frequencyCell = document.createElement('td');
+      wordCell.textContent = word;
+      frequencyCell.textContent = wordFrequency[word];
+      row.appendChild(wordCell);
+      row.appendChild(frequencyCell);
+      resultBody.appendChild(row);
+    });
+    totalDuplicateWords.textContent = `Total duplicate words: ${duplicateWords.length}`;
+    totalUniqueWords.textContent = `Total unique words: ${uniqueWords.length}`;
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+</script>

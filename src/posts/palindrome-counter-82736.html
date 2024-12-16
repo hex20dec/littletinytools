@@ -1,0 +1,142 @@
+---
+title: Binary to Decimal Converter and Palindrome Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-06-01 12:00:00
+tags:
+  - Binary Converter
+  - Palindrome Counter
+  - Math Tools
+  - Text Analysis
+  - Online Calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal Converter and Palindrome Counter</h1><div class="container mt-5">
+  <h1 class="text-center">Binary to Decimal Converter and Palindrome Counter Tool</h1>
+  <p class="text-center">The Binary to Decimal Converter and Palindrome Counter is a free online tool that allows users to convert binary numbers to decimal equivalents and count the number of palindromes in a given text. This tool is designed to make it easy for users to perform these tasks quickly and accurately, and it is particularly useful for students, programmers, and anyone who works with binary code or text analysis. With its simple and intuitive interface, this tool is accessible to users of all skill levels, and it provides a fast and reliable way to convert binary numbers and count palindromes.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary-input">Binary Number:</label>
+      <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" class="form-control">
+      <button id="convert-button" class="btn btn-primary">Convert</button>
+      <label for="decimal-output">Decimal Equivalent:</label>
+      <input type="text" id="decimal-output" disabled class="form-control">
+      <p id="binary-error" class="error-message"></p>
+    </div>
+    <div class="col-md-6">
+      <h2>Palindrome Counter</h2>
+      <label for="palindrome-input">Enter words or phrases:</label>
+      <textarea id="palindrome-input" placeholder="Separate words with spaces or lines" class="form-control"></textarea>
+      <button id="count-button" class="btn btn-primary">Count Palindromes</button>
+      <label for="palindrome-count">Total Palindromes:</label>
+      <input type="text" id="palindrome-count" disabled class="form-control">
+      <label for="identified-palindromes">Identified Palindromes:</label>
+      <ul id="identified-palindromes" class="list-group"></ul>
+      <p id="palindrome-error" class="error-message"></p>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2>How the Tool Works</h2>
+  <p>The Binary to Decimal Converter uses the following formula to convert binary numbers to decimal equivalents: decimalNumber = parseInt(binaryNumber, 2), where binaryNumber is the binary number to be converted and decimalNumber is the resulting decimal equivalent.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1000</td>
+        <td>8</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The Palindrome Counter uses a simple algorithm to identify palindromes in a given text. It splits the text into individual words, and then checks each word to see if it is the same when its letters are reversed. If a word is the same when its letters are reversed, it is considered a palindrome.</p>
+</div><div class="container mt-5">
+  <h2>Common Use Cases for the Binary to Decimal Converter and Palindrome Counter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting binary code to decimal code for programming purposes</li>
+    <li class="list-group-item">Counting the number of palindromes in a given text for literary analysis</li>
+    <li class="list-group-item">Generating decimal equivalents of binary numbers for mathematical calculations</li>
+    <li class="list-group-item">Identifying palindromes in a given text for natural language processing tasks</li>
+    <li class="list-group-item">Converting binary numbers to decimal numbers for computer science applications</li>
+    <li class="list-group-item">Analyzing the structure of binary code for debugging purposes</li>
+    <li class="list-group-item">Counting the number of palindromes in a given text for data analysis</li>
+    <li class="list-group-item">Generating decimal equivalents of binary numbers for engineering applications</li>
+    <li class="list-group-item">Identifying palindromes in a given text for text analysis tasks</li>
+    <li class="list-group-item">Converting binary numbers to decimal numbers for scientific calculations</li>
+  </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryError = document.getElementById('binary-error');
+  const palindromeInput = document.getElementById('palindrome-input');
+  const countButton = document.getElementById('count-button');
+  const palindromeCount = document.getElementById('palindrome-count');
+  const identifiedPalindromes = document.getElementById('identified-palindromes');
+  const palindromeError = document.getElementById('palindrome-error');
+
+  convertButton.addEventListener('click', () => {
+    const binaryNumber = binaryInput.value;
+    if (!/^[01]+$/.test(binaryNumber)) {
+      binaryError.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalNumber = parseInt(binaryNumber, 2);
+    decimalOutput.value = decimalNumber;
+    binaryError.textContent = '';
+  });
+
+  countButton.addEventListener('click', () => {
+    const inputText = palindromeInput.value;
+    const words = inputText.split(/\s+/);
+    const palindromes = words.filter(word => word === word.split('').reverse().join(''));
+    palindromeCount.value = palindromes.length;
+    identifiedPalindromes.innerHTML = '';
+    palindromes.forEach(palindrome => {
+      const li = document.createElement('li');
+      li.textContent = palindrome;
+      li.className = 'list-group-item';
+      identifiedPalindromes.appendChild(li);
+    });
+    palindromeError.textContent = '';
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+</script>

@@ -1,0 +1,182 @@
+---
+title: Binary and Hexadecimal Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Hexadecimal Converter
+  - Coding Tools
+  - Programming Utilities
+  - Number System Converters
+---
+
+<style>
+  #main-div {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  #main-div input, #main-div button {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  #main-div button {
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+
+  .error-message {
+    color: #f00;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary and Hexadecimal Converter</h1><div class="header-section p-5 text-center">
+    <h1 class="display-4">Binary and Hexadecimal Converter Tool</h1>
+    <p class="lead">Discover the power of seamless conversion between binary, hexadecimal, and decimal number systems with our intuitive and user-friendly online tool, designed to simplify coding and programming tasks for developers, students, and professionals alike, leveraging the latest advancements in web technology to ensure accuracy, speed, and accessibility.</p>
+</div>
+  <form id="binary-form">
+    <label for="binary-input">Binary Number:</label>
+    <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" aria-label="Enter a binary number">
+    <button type="button" id="binary-convert-btn">Convert to Decimal</button>
+    <p id="binary-output" aria-live="polite"></p>
+    <p id="binary-error" class="error-message" aria-live="assertive"></p>
+  </form>
+  <form id="hex-form">
+    <label for="hex-input">Hexadecimal Number:</label>
+    <input type="text" id="hex-input" placeholder="Enter a hexadecimal number" aria-label="Enter a hexadecimal number">
+    <button type="button" id="hex-convert-btn">Convert to BCD</button>
+    <p id="hex-output" aria-live="polite"></p>
+    <p id="hex-error" class="error-message" aria-live="assertive"></p>
+  </form>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-4">How It Works</h2>
+    <p>The binary to decimal conversion process involves parsing the binary string and calculating its decimal equivalent using the formula: <code>decimal = binary[i] * 2^(n-1-i)</code>, where <code>n</code> is the length of the binary string and <code>i</code> is the current bit position.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1011</td>
+                <td>11</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>The hexadecimal to BCD (Binary Coded Decimal) conversion process involves converting each hexadecimal byte to its corresponding binary representation and then formatting it as a BCD value.</p>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-4">Common Use Cases for the Binary and Hexadecimal Converter Tool</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Converting binary code to decimal for programming and coding purposes</li>
+        <li class="list-group-item">Translating hexadecimal values to binary for data analysis and processing</li>
+        <li class="list-group-item">Debugging code that involves binary and hexadecimal conversions</li>
+        <li class="list-group-item">Learning and understanding binary and hexadecimal number systems for educational purposes</li>
+        <li class="list-group-item">Developing and testing algorithms that require binary and hexadecimal conversions</li>
+        <li class="list-group-item">Working with embedded systems and microcontrollers that use binary and hexadecimal representations</li>
+        <li class="list-group-item">Optimizing code performance by minimizing binary and hexadecimal conversions</li>
+        <li class="list-group-item">Troubleshooting issues related to binary and hexadecimal conversions in software applications</li>
+        <li class="list-group-item">Designing and implementing data storage and retrieval systems that use binary and hexadecimal representations</li>
+        <li class="list-group-item">Converting data between different number systems for compatibility and integration purposes</li>
+    </ul>
+</div><script>
+  const binaryForm = document.getElementById('binary-form');
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const binaryOutput = document.getElementById('binary-output');
+  const binaryError = document.getElementById('binary-error');
+
+  const hexForm = document.getElementById('hex-form');
+  const hexInput = document.getElementById('hex-input');
+  const hexConvertBtn = document.getElementById('hex-convert-btn');
+  const hexOutput = document.getElementById('hex-output');
+  const hexError = document.getElementById('hex-error');
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binaryValue = binaryInput.value.trim();
+    if (!binaryValue) {
+      binaryError.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryValue)) {
+      binaryError.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    binaryOutput.textContent = `Decimal Equivalent: ${decimalValue}`;
+    binaryError.textContent = '';
+  });
+
+  hexConvertBtn.addEventListener('click', () => {
+    const hexValue = hexInput.value.trim();
+    if (!hexValue) {
+      hexError.textContent = 'Please enter a hexadecimal number';
+      return;
+    }
+    if (!/^[0-9A-Fa-f]+$/.test(hexValue)) {
+      hexError.textContent = 'Invalid hexadecimal number';
+      return;
+    }
+    const bcdValue = hexToBcd(hexValue);
+    hexOutput.textContent = `BCD Value: ${bcdValue}`;
+    hexError.textContent = '';
+  });
+
+  function hexToBcd(hex) {
+    const bcd = [];
+    for (let i = 0; i < hex.length; i += 2) {
+      const byte = hex.slice(i, i + 2);
+      const bcdByte = parseInt(byte, 16).toString(2).padStart(8, '0');
+      bcd.push(bcdByte);
+    }
+    return bcd.join(' ');
+  }
+
+  // Preload input field with query parameter value
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+</script>

@@ -1,0 +1,174 @@
+---
+title: Binary Converter and Bead String Visualizer
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-07-15 14:30:00
+tags:
+  - Binary Converter
+  - Bead String Visualizer
+  - Binary to Decimal
+  - Binary to Bead String
+  - Coding Tools
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  .bead {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin: 5px;
+  }
+  .bead-0 {
+    background-color: #fff;
+  }
+  .bead-1 {
+    background-color: #000;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h1 class="text-center">Binary Converter and Bead String Visualizer</h1><div class="header-section p-5 text-center bg-primary text-white">
+    <h1>Binary Converter and Bead String Visualizer Tool</h1>
+    <p>This free online binary converter and bead string visualizer tool allows users to convert binary numbers to decimal equivalents and visualize them as a bead string, making it an essential tool for programming and coding enthusiasts, students, and professionals alike, providing an efficient and easy-to-use solution for binary conversion and visualization needs, with a user-friendly interface and fast conversion capabilities.</p>
+</div>
+        <form>
+          <div class="mb-3">
+            <label for="binaryInput" class="form-label">Binary Number</label>
+            <input type="text" id="binaryInput" class="form-control" placeholder="Enter a binary number (e.g. 1010)" aria-label="Binary Number" value="">
+          </div>
+          <button type="button" id="convertButton" class="btn btn-primary">Convert to Decimal and Bead String</button>
+        </form>
+        <div class="mt-3">
+          <label for="decimalOutput" class="form-label">Decimal Equivalent</label>
+          <input type="text" id="decimalOutput" class="form-control" readonly aria-label="Decimal Equivalent">
+        </div>
+        <div class="mt-3">
+          <label for="beadStringOutput" class="form-label">Bead String Visualization</label>
+          <div id="beadStringOutput" class="d-flex flex-wrap justify-content-center"></div>
+        </div>
+        <div class="mt-3">
+          <p id="errorMessage" class="error-message"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How the Binary Converter and Bead String Visualizer Tool Works</h2>
+    <p>The tool uses a simple formula to convert binary numbers to decimal equivalents: decimal = binary * (2 ^ position), where position starts from 0 and increases from right to left. For example, the binary number 1010 can be converted to decimal as follows: (1 * 2^3) + (0 * 2^2) + (1 * 2^1) + (0 * 2^0) = 8 + 0 + 2 + 0 = 10.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+                <th>Bead String Visualization</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+                <td><div class="bead bead-1"></div><div class="bead bead-0"></div><div class="bead bead-1"></div><div class="bead bead-0"></div></td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+                <td><div class="bead bead-1"></div><div class="bead bead-1"></div><div class="bead bead-1"></div><div class="bead bead-1"></div></td>
+            </tr>
+            <tr>
+                <td>1000</td>
+                <td>8</td>
+                <td><div class="bead bead-1"></div><div class="bead bead-0"></div><div class="bead bead-0"></div><div class="bead bead-0"></div></td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2>10 Common Use Cases for the Binary Converter and Bead String Visualizer Tool</h2>
+    <ol>
+        <li>Converting binary numbers to decimal equivalents for programming and coding purposes</li>
+        <li>Visualizing binary numbers as a bead string for educational purposes</li>
+        <li>Converting decimal numbers to binary equivalents for computer science and mathematics applications</li>
+        <li>Creating binary code for computer programming and software development</li>
+        <li>Understanding binary number systems and their applications in computer science</li>
+        <li>Converting binary numbers to hexadecimal equivalents for web development and design</li>
+        <li>Visualizing binary data as a bead string for data analysis and visualization purposes</li>
+        <li>Converting binary numbers to ASCII code for text encoding and decoding purposes</li>
+        <li>Creating binary puzzles and games for educational and entertainment purposes</li>
+        <li>Converting binary numbers to IPv4 addresses for network configuration and administration purposes</li>
+    </ol>
+</div><script>
+  const binaryInput = document.getElementById('binaryInput');
+  const convertButton = document.getElementById('convertButton');
+  const decimalOutput = document.getElementById('decimalOutput');
+  const beadStringOutput = document.getElementById('beadStringOutput');
+  const errorMessage = document.getElementById('errorMessage');
+
+  const initialize = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      binaryInput.value = startValue;
+    }
+  };
+
+  const validateInput = (input) => {
+    const binaryRegex = /^[01]+$/;
+    if (!binaryRegex.test(input)) {
+      errorMessage.textContent = 'Invalid binary number. Please enter only 0s and 1s.';
+      return false;
+    }
+    return true;
+  };
+
+  const convertBinaryToDecimal = (binary) => {
+    return parseInt(binary, 2);
+  };
+
+  const createBeadString = (binary) => {
+    const beads = [];
+    for (let i = 0; i < binary.length; i++) {
+      const bead = document.createElement('div');
+      bead.classList.add('bead');
+      if (binary[i] === '0') {
+        bead.classList.add('bead-0');
+      } else {
+        bead.classList.add('bead-1');
+      }
+      beads.push(bead);
+    }
+    return beads;
+  };
+
+  const handleConvertButton = () => {
+    const binary = binaryInput.value.trim();
+    if (!binary) {
+      errorMessage.textContent = 'Please enter a binary number.';
+      return;
+    }
+    if (!validateInput(binary)) {
+      return;
+    }
+    const decimal = convertBinaryToDecimal(binary);
+    decimalOutput.value = decimal;
+    const beads = createBeadString(binary);
+    beadStringOutput.innerHTML = '';
+    beads.forEach((bead) => {
+      beadStringOutput.appendChild(bead);
+    });
+    errorMessage.textContent = '';
+  };
+
+  convertButton.addEventListener('click', handleConvertButton);
+  initialize();
+</script>

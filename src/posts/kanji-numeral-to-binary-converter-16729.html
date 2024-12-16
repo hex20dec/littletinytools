@@ -1,0 +1,221 @@
+---
+title: Binary to Decimal and Kanji to Binary Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - Kanji Converter
+  - Binary to Decimal
+  - Kanji to Binary
+---
+
+<style>
+  #main-div {
+    padding: 20px;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal and Kanji to Binary Converter</h1><div class="header-section p-5 text-center">
+    <h1 class="display-4">Binary to Decimal and Kanji to Binary Converter Tool</h1>
+    <p class="lead">This online tool is designed to convert binary numbers to decimal and Kanji numerals to binary, making it a valuable resource for students, programmers, and anyone working with numerical systems. With its user-friendly interface and fast conversion capabilities, this tool is perfect for those looking to simplify their workflow and improve productivity.</p>
+</div>
+  <form id="binary-form">
+    <div class="mb-3">
+      <label for="binary-input" class="form-label">Binary Number</label>
+      <input type="text" class="form-control" id="binary-input" placeholder="Enter a binary number (e.g. 1010)">
+    </div>
+    <button type="submit" class="btn btn-primary">Convert to Decimal</button>
+    <div class="mb-3">
+      <label for="decimal-output" class="form-label">Decimal Equivalent</label>
+      <input type="text" class="form-control" id="decimal-output" readonly>
+    </div>
+    <div id="binary-error" class="error-message"></div>
+  </form>
+  <hr>
+  <form id="kanji-form">
+    <div class="mb-3">
+      <label for="kanji-input" class="form-label">Kanji Numeral</label>
+      <input type="text" class="form-control" id="kanji-input" placeholder="Enter a Kanji numeral">
+      <select class="form-select" id="kanji-system">
+        <option value="" selected>Choose a Kanji numeral system</option>
+        <option value>", ,">, ,</option>
+        <option value=", , , , ,">, , , , ,</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Convert to Binary</button>
+    <div class="mb-3">
+      <label for="binary-output" class="form-label">Binary Representation</label>
+      <input type="text" class="form-control" id="binary-output" readonly>
+    </div>
+    <div id="kanji-error" class="error-message"></div>
+    <div id="loading-spinner" class="d-none">Loading...</div>
+  </form>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="display-5">How it Works</h2>
+    <p class="lead">The binary to decimal conversion is based on the formula: decimal = ∑(binary[i] * 2^i), where i is the position of the binary digit from right to left, starting at 0.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary</th>
+                <th>Decimal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1000</td>
+                <td>8</td>
+            </tr>
+        </tbody>
+    </table>
+    <h2 class="display-5">Kanji to Binary Conversion</h2>
+    <p class="lead">The Kanji to binary conversion uses a mapping system to assign binary values to Kanji numerals. The system used is based on the Japanese Kanji numerals, where each numeral is assigned a unique binary value.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Kanji</th>
+                <th>Binary</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>,</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>,</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>,</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>,</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>,</td>
+                <td>5</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="display-5">Common Use Cases for the Binary to Decimal and Kanji to Binary Converter Tool</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Converting binary code to decimal for programming and coding purposes</li>
+        <li class="list-group-item">Translating Kanji numerals to binary for use in Japanese language processing and machine learning applications</li>
+        <li class="list-group-item">Simplifying numerical calculations and conversions for students and researchers</li>
+        <li class="list-group-item">Improving workflow efficiency for professionals working with numerical data</li>
+        <li class="list-group-item">Enhancing productivity for individuals working with binary and Kanji numerals</li>
+        <li class="list-group-item">Facilitating communication between different numerical systems and encoding schemes</li>
+        <li class="list-group-item">Assisting in the development of numerical algorithms and models</li>
+        <li class="list-group-item">Supporting the creation of educational materials and resources for teaching numerical concepts</li>
+        <li class="list-group-item">Enabling the conversion of numerical data between different formats and systems</li>
+        <li class="list-group-item">Providing a reliable and efficient tool for numerical conversions and calculations</li>
+    </ul>
+</div><script>
+  const binaryForm = document.getElementById('binary-form');
+  const binaryInput = document.getElementById('binary-input');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryError = document.getElementById('binary-error');
+
+  const kanjiForm = document.getElementById('kanji-form');
+  const kanjiInput = document.getElementById('kanji-input');
+  const kanjiSystem = document.getElementById('kanji-system');
+  const binaryOutput = document.getElementById('binary-output');
+  const kanjiError = document.getElementById('kanji-error');
+  const loadingSpinner = document.getElementById('loading-spinner');
+
+  binaryForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const binary = binaryInput.value.trim();
+    if (!binary) {
+      binaryError.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binary)) {
+      binaryError.textContent = 'Invalid binary number';
+      return;
+    }
+    binaryError.textContent = '';
+    const decimal = parseInt(binary, 2);
+    decimalOutput.value = decimal.toString();
+  });
+
+  kanjiForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const kanji = kanjiInput.value.trim();
+    if (!kanji) {
+      kanjiError.textContent = 'Please enter a Kanji numeral';
+      return;
+    }
+    if (!kanjiSystem.value) {
+      kanjiError.textContent = 'Please choose a Kanji numeral system';
+      return;
+    }
+    kanjiError.textContent = '';
+    loadingSpinner.classList.remove('d-none');
+    const system = kanjiSystem.value;
+    const mapping = {
+      ", ,": {
+        ",": "1",
+        ",": "2",
+        ",": "3",
+        ",": "4",
+        ",": "5",
+        ",": "6",
+        ",": "7",
+        ",": "8",
+        ",": "9",
+        ",": "10",
+      },
+      ", , , , ,": {
+        ",": "1",
+        ",": "2",
+        ",": "3",
+        ",": "4",
+        ",": "5",
+        ",": "6",
+        ",": "7",
+        ",": "8",
+        ",": "9",
+        ",": "10",
+        ",": "100",
+        ",": "1000",
+        ",": "10000",
+      },
+    };
+    const binary = kanji.split('').map((char) => mapping[system][char]).join('');
+    loadingSpinner.classList.add('d-none');
+    binaryOutput.value = binary;
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const start = urlParams.get('start');
+  if (start) {
+    binaryInput.value = start;
+  }
+</script>

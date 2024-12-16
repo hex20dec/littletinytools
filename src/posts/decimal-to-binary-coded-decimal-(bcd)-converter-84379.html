@@ -1,0 +1,156 @@
+---
+title: Binary to Decimal and Decimal to BCD Converter
+permalink: "/{{ title | uniqueSlug(page) }}/" 
+date: 2020-02-15 14:30:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - BCD Converter
+  - Number Converter
+  - Math Tool
+---
+
+<style>
+  #main-div {
+    margin: 20px;
+    padding: 20px;
+  }
+  .error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Binary to Decimal Converter</h5><div class="container mt-5">
+    <h1 class="text-center">Binary to Decimal and Decimal to BCD Converter</h1>
+    <p class="text-center">This free online tool is designed to convert binary numbers to decimal and decimal numbers to Binary Coded Decimal (BCD), making it easy to perform calculations and conversions between different number systems. With its user-friendly interface, you can quickly and accurately convert binary and decimal numbers, making it an essential tool for students, developers, and professionals working with digital electronics, computer programming, and mathematics.</p>
+</div>
+      <div class="mb-3">
+        <label for="binaryInput" class="form-label">Binary Number</label>
+        <input type="text" class="form-control" id="binaryInput" placeholder="Enter a binary number (e.g. 1010)" aria-describedby="binaryHelp">
+        <div id="binaryHelp" class="form-text">Enter a binary number to convert to decimal.</div>
+      </div>
+      <button type="button" class="btn btn-primary" id="binaryConvertBtn">Convert</button>
+      <div class="mb-3">
+        <label for="decimalOutput" class="form-label">Decimal Equivalent</label>
+        <input type="text" class="form-control" id="decimalOutput" readonly>
+      </div>
+      <div id="binaryError" class="error-message"></div>
+    </div>
+  </div>
+  <div class="card mt-3">
+    <div class="card-body">
+      <h5 class="card-title">Decimal to BCD Converter</h5>
+      <div class="mb-3">
+        <label for="decimalInput" class="form-label">Decimal Number</label>
+        <input type="text" class="form-control" id="decimalInput" placeholder="Enter a decimal number" aria-describedby="decimalHelp">
+        <div id="decimalHelp" class="form-text">Enter a decimal number to convert to BCD.</div>
+      </div>
+      <button type="button" class="btn btn-primary" id="decimalConvertBtn">Convert to BCD</button>
+      <div class="mb-3">
+        <label for="bcdOutput" class="form-label">BCD Equivalent</label>
+        <input type="text" class="form-control" id="bcdOutput" readonly>
+      </div>
+      <div id="decimalError" class="error-message"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center">How it Works</h2>
+    <p>The binary to decimal conversion is performed using the formula: decimal_value = binary_value.parseInt(2), where binary_value is the binary number to be converted.</p>
+    <p>The decimal to BCD conversion is performed by converting each decimal digit to its binary equivalent and padding it with zeros to a length of 4 bits. The binary digits are then concatenated to form the BCD representation.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary</th>
+                <th>Decimal</th>
+                <th>BCD</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+                <td>0001 0000</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+                <td>0001 0011</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+                <td>0001 0101</td>
+            </tr>
+            <tr>
+                <td>1000</td>
+                <td>8</td>
+                <td>0000 1000</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="container mt-5">
+    <h2 class="text-center">Common Use Cases</h2>
+    <ol>
+        <li><strong>Computer Programming</strong>: Binary and decimal conversions are essential in computer programming, where data is often represented in binary format.</li>
+        <li><strong>Digital Electronics</strong>: Binary and decimal conversions are used in digital electronics to design and develop digital circuits and systems.</li>
+        <li><strong>Mathematics</strong>: Binary and decimal conversions are used in mathematics to solve problems involving different number systems.</li>
+        <li><strong>Cryptography</strong>: Binary and decimal conversions are used in cryptography to encrypt and decrypt data.</li>
+        <li><strong>Networking</strong>: Binary and decimal conversions are used in networking to transmit and receive data over the internet.</li>
+        <li><strong>Embedded Systems</strong>: Binary and decimal conversions are used in embedded systems to interface with hardware components.</li>
+        <li><strong>Robotics</strong>: Binary and decimal conversions are used in robotics to control and navigate robots.</li>
+        <li><strong> Artificial Intelligence</strong>: Binary and decimal conversions are used in artificial intelligence to develop machine learning algorithms.</li>
+        <li><strong>Data Compression</strong>: Binary and decimal conversions are used in data compression to reduce the size of data.</li>
+        <li><strong>Code Generation</strong>: Binary and decimal conversions are used in code generation to generate machine code from high-level programming languages.</li>
+    </ol>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    document.getElementById('binaryInput').value = startValue;
+  }
+
+  const binaryInput = document.getElementById('binaryInput');
+  const binaryConvertBtn = document.getElementById('binaryConvertBtn');
+  const decimalOutput = document.getElementById('decimalOutput');
+  const binaryError = document.getElementById('binaryError');
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binaryValue = binaryInput.value.trim();
+    if (binaryValue === '') {
+      binaryError.textContent = 'Please enter a binary number.';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryValue)) {
+      binaryError.textContent = 'Invalid binary number. Please enter only 0s and 1s.';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    decimalOutput.value = decimalValue;
+    binaryError.textContent = '';
+  });
+
+  const decimalInput = document.getElementById('decimalInput');
+  const decimalConvertBtn = document.getElementById('decimalConvertBtn');
+  const bcdOutput = document.getElementById('bcdOutput');
+  const decimalError = document.getElementById('decimalError');
+
+  decimalConvertBtn.addEventListener('click', () => {
+    const decimalValue = decimalInput.value.trim();
+    if (decimalValue === '') {
+      decimalError.textContent = 'Please enter a decimal number.';
+      return;
+    }
+    if (isNaN(decimalValue) || decimalValue < 0) {
+      decimalError.textContent = 'Invalid decimal number. Please enter a non-negative integer.';
+      return;
+    }
+    const bcdValue = decimalValue.toString().split('').map(digit => parseInt(digit).toString(2).padStart(4, '0')).join(' ');
+    bcdOutput.value = bcdValue;
+    decimalError.textContent = '';
+  });
+</script>

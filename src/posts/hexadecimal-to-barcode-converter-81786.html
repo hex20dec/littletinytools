@@ -1,0 +1,201 @@
+---
+title: Binary to Decimal and Hexadecimal to Barcode Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-06-01 12:00:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - Hexadecimal Converter
+  - Barcode Generator
+  - Code Converter
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div select {
+    margin-bottom: 1rem;
+  }
+  #main-div button {
+    margin-bottom: 1rem;
+  }
+  #main-div .barcode-display {
+    width: 100%;
+    height: 100px;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1>Binary to Decimal and Hexadecimal to Barcode Converter</h1><div class="header-section p-5 text-center">
+    <h1>Binary to Decimal and Hexadecimal to Barcode Converter Tool</h1>
+    <p>This free online tool is designed to convert binary numbers to decimal and hexadecimal codes to barcodes, making it an essential resource for developers, programmers, and individuals working with coding and barcode generation. With its user-friendly interface and advanced features, this tool is perfect for anyone looking to simplify their workflow and improve productivity.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary-input">Binary Number:</label>
+      <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)" value="<?php echo $_GET['start']; ?>">
+      <button id="binary-convert-btn" class="btn btn-primary">Convert</button>
+      <label for="decimal-output">Decimal Equivalent:</label>
+      <input type="text" id="decimal-output" class="form-control" readonly>
+      <div id="binary-error" class="text-danger"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Hexadecimal to Barcode Converter</h2>
+      <label for="hex-input">Hexadecimal Code:</label>
+      <input type="text" id="hex-input" class="form-control" placeholder="Enter a hexadecimal code">
+      <button id="hex-convert-btn" class="btn btn-primary">Convert</button>
+      <label for="barcode-type">Barcode Type:</label>
+      <select id="barcode-type" class="form-select">
+        <option value="code128">Code 128</option>
+        <option value="code39">Code 39</option>
+        <option value="ean13">EAN-13</option>
+      </select>
+      <label for="barcode-size">Barcode Size:</label>
+      <input type="number" id="barcode-size" class="form-control" value="100">
+      <div id="barcode-display" class="barcode-display"></div>
+      <div id="hex-error" class="text-danger"></div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How it Works</h2>
+    <p>The binary to decimal converter uses the formula: decimal = binary_number.parseInt(2), where binary_number is the input binary number. For example, if the input binary number is 1010, the decimal equivalent would be 10.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1011</td>
+                <td>11</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>The hexadecimal to barcode converter uses the formula: barcode = generateBarcode(hex_value, barcode_type, size), where hex_value is the input hexadecimal code, barcode_type is the selected barcode type, and size is the selected barcode size.</p>
+</div><div class="use-cases-section p-5">
+    <h2>Common Use Cases</h2>
+    <ul>
+        <li>Converting binary numbers to decimal for programming and development purposes</li>
+        <li>Generating barcodes from hexadecimal codes for inventory management and tracking</li>
+        <li>Creating QR codes for mobile payments and transactions</li>
+        <li>Designing and printing barcodes for product labels and packaging</li>
+        <li>Converting hexadecimal codes to ASCII characters for text encoding and decoding</li>
+        <li>Generating EAN-13 barcodes for product identification and scanning</li>
+        <li>Creating Code 39 barcodes for industrial and commercial applications</li>
+        <li>Converting binary numbers to hexadecimal for data storage and transmission</li>
+        <li>Generating barcodes for shipping and logistics purposes</li>
+        <li>Designing and printing barcodes for medical and healthcare applications</li>
+    </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryError = document.getElementById('binary-error');
+
+  const hexInput = document.getElementById('hex-input');
+  const hexConvertBtn = document.getElementById('hex-convert-btn');
+  const barcodeType = document.getElementById('barcode-type');
+  const barcodeSize = document.getElementById('barcode-size');
+  const barcodeDisplay = document.getElementById('barcode-display');
+  const hexError = document.getElementById('hex-error');
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binaryValue = binaryInput.value;
+    if (!/^[01]+$/.test(binaryValue)) {
+      binaryError.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    decimalOutput.value = decimalValue;
+    binaryError.textContent = '';
+  });
+
+  hexConvertBtn.addEventListener('click', () => {
+    const hexValue = hexInput.value;
+    if (!/^[0-9a-fA-F]+$/.test(hexValue)) {
+      hexError.textContent = 'Invalid hexadecimal code';
+      return;
+    }
+    const barcodeTypeValue = barcodeType.value;
+    const barcodeSizeValue = barcodeSize.value;
+    const barcode = generateBarcode(hexValue, barcodeTypeValue, barcodeSizeValue);
+    barcodeDisplay.innerHTML = barcode;
+    hexError.textContent = '';
+  });
+
+  function generateBarcode(hexValue, barcodeType, size) {
+    let barcode = '';
+    switch (barcodeType) {
+      case 'code128':
+        barcode = generateCode128Barcode(hexValue, size);
+        break;
+      case 'code39':
+        barcode = generateCode39Barcode(hexValue, size);
+        break;
+      case 'ean13':
+        barcode = generateEAN13Barcode(hexValue, size);
+        break;
+      default:
+        break;
+    }
+    return barcode;
+  }
+
+  function generateCode128Barcode(hexValue, size) {
+    const barcode = [];
+    for (let i = 0; i < hexValue.length; i++) {
+      const charCode = hexValue.charCodeAt(i);
+      const binary = charCode.toString(2).padStart(8, '0');
+      barcode.push(`<div style="width: ${size}px; height: 100px; border: 1px solid #ccc; display: inline-block;"></div>`);
+    }
+    return barcode.join('');
+  }
+
+  function generateCode39Barcode(hexValue, size) {
+    const barcode = [];
+    for (let i = 0; i < hexValue.length; i++) {
+      const charCode = hexValue.charCodeAt(i);
+      const binary = charCode.toString(2).padStart(8, '0');
+      barcode.push(`<div style="width: ${size}px; height: 100px; border: 1px solid #ccc; display: inline-block;"></div>`);
+    }
+    return barcode.join('');
+  }
+
+  function generateEAN13Barcode(hexValue, size) {
+    const barcode = [];
+    for (let i = 0; i < hexValue.length; i++) {
+      const charCode = hexValue.charCodeAt(i);
+      const binary = charCode.toString(2).padStart(8, '0');
+      barcode.push(`<div style="width: ${size}px; height: 100px; border: 1px solid #ccc; display: inline-block;"></div>`);
+    }
+    return barcode.join('');
+  }
+</script>

@@ -1,0 +1,135 @@
+---
+title: Base-36 to Decimal Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 14:30:00
+tags:
+  - Base-36 Converter
+  - Decimal Converter
+  - Numerical System Converter
+  - Developer Tools
+  - Online Converter
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">Base-36 to Decimal Converter</h2><div class="container mt-5">
+  <h1 class="display-5 fw-bold">Base-36 to Decimal Converter: A Powerful Tool for Numerical System Conversion</h1>
+  <p class="lead">The Base-36 to Decimal Converter is an online tool that enables users to easily convert base-36 numbers to decimal, facilitating seamless communication between different numerical systems. With its user-friendly interface and robust conversion capabilities, this tool is an indispensable resource for developers, mathematicians, and anyone working with numerical systems. By leveraging the power of base-36 conversion, users can simplify complex calculations, optimize data storage, and enhance overall system efficiency. Whether you're working with numeric data, mathematical equations, or programming languages, the Base-36 to Decimal Converter is the perfect solution for all your numerical system conversion needs.</p>
+</div>
+      <p class="card-text">Convert base-36 numbers to decimal with this easy-to-use online tool.</p>
+      <div class="mb-3">
+        <label for="base36-input" class="form-label">Base-36 Number</label>
+        <input type="text" id="base36-input" class="form-control" placeholder="Enter a base-36 number" aria-label="Base-36 Number" value()>
+      </div>
+      <button id="convert-btn" class="btn btn-primary mb-3">Convert to Decimal</button>
+      <div id="decimal-output" class="mb-3"></div>
+      <div id="error-message" class="error-message"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="display-6 fw-bold">How the Base-36 to Decimal Converter Works</h2>
+  <p class="lead">The Base-36 to Decimal Converter utilizes a sophisticated algorithm to convert base-36 numbers to decimal. The conversion process involves the following formula:</p>
+  <p class="lead">Decimal Value = ∑(digit × 36^power)</p>
+  <p class="lead">where digit is the base-36 digit and power is the position of the digit in the base-36 number.</p>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Base-36 Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>...</td>
+        <td>...</td>
+      </tr>
+      <tr>
+        <td>Z</td>
+        <td>35</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="display-6 fw-bold">10 Common Use Cases for the Base-36 to Decimal Converter</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Converting numerical data between different systems or programming languages</li>
+    <li class="list-group-item">Optimizing data storage by converting base-36 numbers to decimal</li>
+    <li class="list-group-item">Simplifying complex mathematical calculations involving base-36 numbers</li>
+    <li class="list-group-item">Enhancing system efficiency by reducing the size of numerical data</li>
+    <li class="list-group-item">Converting base-36 numbers to decimal for easier human understanding</li>
+    <li class="list-group-item">Facilitating communication between different teams or departments working with numerical data</li>
+    <li class="list-group-item">Converting base-36 numbers to decimal for use in machine learning algorithms</li>
+    <li class="list-group-item">Optimizing database queries by converting base-36 numbers to decimal</li>
+    <li class="list-group-item">Converting base-36 numbers to decimal for use in cryptographic applications</li>
+    <li class="list-group-item">Simplifying the debugging process by converting base-36 numbers to decimal</li>
+  </ol>
+</div><script>
+  const baseUrl = window.location.href;
+  const urlParams = new URL(baseUrl).searchParams;
+  const startValue = urlParams.get('start');
+  const base36Input = document.getElementById('base36-input');
+  const convertBtn = document.getElementById('convert-btn');
+  const decimalOutput = document.getElementById('decimal-output');
+  const errorMessage = document.getElementById('error-message');
+
+  base36Input.value = startValue || '';
+
+  convertBtn.addEventListener('click', () => {
+    const base36Value = base36Input.value.trim();
+    if (!base36Value) {
+      errorMessage.textContent = 'Please enter a base-36 number.';
+      return;
+    }
+
+    try {
+      const decimalValue = base36ToDecimal(base36Value);
+      decimalOutput.textContent = `Decimal Equivalent: ${decimalValue}`;
+      errorMessage.textContent = '';
+    } catch (error) {
+      errorMessage.textContent = error.message;
+    }
+  });
+
+  function base36ToDecimal(base36Value) {
+    const base36Alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let decimalValue = 0;
+    let power = 0;
+
+    for (let i = base36Value.length - 1; i >= 0; i--) {
+      const digit = base36Value[i].toUpperCase();
+      const index = base36Alphabet.indexOf(digit);
+      if (index === -1) {
+        throw new Error(`Invalid base-36 digit: ${digit}`);
+      }
+      decimalValue += index * Math.pow(36, power);
+      power++;
+    }
+
+    return decimalValue;
+  }
+</script>

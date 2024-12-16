@@ -1,0 +1,145 @@
+---
+title: Binary to Decimal Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - binary converter
+  - decimal converter
+  - programming tool
+  - debugging assistant
+  - binary to decimal
+
+---
+<style>
+    #main-div {
+        max-width: 500px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+        display: block;
+        margin-bottom: 10px;
+    }
+    input, button {
+        width: 100%;
+        height: 40px;
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    button {
+        background-color: #4CAF50;
+        color: #fff;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #3e8e41;
+    }
+    #error-message {
+        color: #f00;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div id="main-div">
+    <h2>Binary to Decimal Converter</h2><div class="container mt-5">
+    <h1 class="text-center">Binary to Decimal Converter: A Comprehensive Tool for Converting Binary Numbers to Decimal Equivalents</h1>
+    <p class="text-center">The Binary to Decimal Converter is a free online tool that allows users to convert binary numbers to their decimal equivalents. This tool is designed to assist programmers, developers, and students in converting binary codes to decimal numbers, making it an essential resource for anyone working with binary data. With its user-friendly interface and advanced features, this tool is perfect for converting binary numbers of any length, providing accurate and reliable results.</p>
+</div>
+    <label for="binary-number">Binary Number:</label>
+    <input type="text" id="binary-number" placeholder="Enter a binary number (e.g. 1010)">
+    <button id="convert-button">Convert</button>
+    <label for="decimal-equivalent">Decimal Equivalent:</label>
+    <input type="text" id="decimal-equivalent" readonly>
+    <div id="error-message"></div>
+</div>
+
+<div class="container mt-5">
+    <h2>How it Works</h2>
+    <p>The Binary to Decimal Converter uses a simple yet powerful formula to convert binary numbers to decimal equivalents. The formula is as follows:</p>
+    <p>Decimal Equivalent = ( binaries[0] * 2^n ) + ( binaries[1] * 2^(n-1) ) + ... + ( binaries[n] * 2^0 )</p>
+    <p>Where n is the number of bits in the binary number, and binaries[i] is the ith bit of the binary number.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1000</td>
+                <td>8</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="container mt-5">
+    <h2>Common Use Cases</h2>
+    <ol class="list-group">
+        <li class="list-group-item">Converting binary codes to decimal numbers for programming purposes</li>
+        <li class="list-group-item">Debugging binary data in software development</li>
+        <li class="list-group-item">Converting binary numbers to decimal equivalents for mathematical calculations</li>
+        <li class="list-group-item">Encoding and decoding binary data for networking and communication purposes</li>
+        <li class="list-group-item">Converting binary numbers to decimal equivalents for data analysis and visualization</li>
+        <li class="list-group-item">Assisting students in learning binary arithmetic and conversion techniques</li>
+        <li class="list-group-item">Converting binary numbers to decimal equivalents for scientific and engineering applications</li>
+        <li class="list-group-item">Encoding and decoding binary data for cryptography and security purposes</li>
+        <li class="list-group-item">Converting binary numbers to decimal equivalents for financial and economic modeling</li>
+        <li class="list-group-item">Assisting researchers in converting binary data to decimal equivalents for data analysis and interpretation</li>
+    </ol>
+</div><script>
+    const binaryNumberInput = document.getElementById('binary-number');
+    const convertButton = document.getElementById('convert-button');
+    const decimalEquivalentInput = document.getElementById('decimal-equivalent');
+    const errorMessageDiv = document.getElementById('error-message');
+
+    // Get query parameter "start" and preload the first input field
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+        binaryNumberInput.value = startValue;
+    }
+
+    convertButton.addEventListener('click', () => {
+        const binaryNumber = binaryNumberInput.value.trim();
+        if (binaryNumber === '') {
+            errorMessageDiv.textContent = 'Please enter a binary number';
+            return;
+        }
+
+        // Validate user input
+        if (!/^[01]+$/.test(binaryNumber)) {
+            errorMessageDiv.textContent = 'Invalid binary number. Please enter only 0s and 1s';
+            return;
+        }
+
+        // Convert binary to decimal
+        const decimalEquivalent = parseInt(binaryNumber, 2);
+        decimalEquivalentInput.value = decimalEquivalent;
+
+        // Clear error message
+        errorMessageDiv.textContent = '';
+    });
+</script>

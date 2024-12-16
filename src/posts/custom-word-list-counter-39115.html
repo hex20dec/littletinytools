@@ -1,0 +1,195 @@
+---
+title: Binary to Decimal Converter and Word Frequency Counter
+permalink: "/{{ title | uniqueSlug(page) }}/" 
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Word Frequency Counter
+  - Online Tools
+  - Developer Utilities
+  - Productivity Apps
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div textarea, #main-div select {
+    margin-bottom: 1rem;
+  }
+  #main-div button {
+    margin-bottom: 1rem;
+  }
+  #main-div table {
+    border-collapse: collapse;
+  }
+  #main-div th, #main-div td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+  }
+  #main-div th {
+    background-color: #333;
+    color: #fff;
+  }
+  .error {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1>Binary to Decimal Converter and Word Frequency Counter</h1><div class="container mt-5">
+  <h1 class="text-center">Binary to Decimal Converter and Word Frequency Counter Tool</h1>
+  <p class="lead text-center">Our free online tool allows you to convert binary numbers to decimal and count the frequency of words in a given list. Perfect for developers, programmers, and anyone looking to simplify their work with binary conversions and word frequency analysis. With its user-friendly interface and fast results, this tool is a must-have for anyone working with binary data or text analysis.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary-input">Binary Number:</label>
+      <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" class="form-control">
+      <button id="convert-button" class="btn btn-primary">Convert</button>
+      <label for="decimal-output">Decimal Equivalent:</label>
+      <input type="text" id="decimal-output" readonly class="form-control">
+      <div id="binary-error" class="error"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Word Frequency Counter</h2>
+      <div class="form-check">
+        <input type="checkbox" id="ignore-case" class="form-check-input">
+        <label for="ignore-case" class="form-check-label">Ignore case sensitivity</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" id="ignore-common-words" class="form-check-input">
+        <label for="ignore-common-words" class="form-check-label">Ignore common words</label>
+      </div>
+      <label for="word-input">Word List:</label>
+      <textarea id="word-input" placeholder="Enter a list of words" class="form-control"></textarea>
+      <button id="count-button" class="btn btn-primary">Count Words</button>
+      <div id="word-output"></div>
+      <div id="word-error" class="error"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The binary to decimal converter uses the following formula: decimal = binary * (2 ^ position), where position starts from 0 for the rightmost digit. For example, the binary number 1010 can be converted to decimal as follows: (1 * 2^3) + (0 * 2^2) + (1 * 2^1) + (0 * 2^0) = 8 + 0 + 2 + 0 = 10.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary</th>
+        <th>Decimal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1011</td>
+        <td>11</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The word frequency counter works by splitting the input text into individual words, ignoring common words and case sensitivity if selected, and then counting the frequency of each word. The results are displayed in a table, with the most frequent words at the top.</p>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting binary data from a database or file to decimal for analysis or processing.</li>
+    <li class="list-group-item">Counting the frequency of words in a document or text to identify keywords or trends.</li>
+    <li class="list-group-item">Verifying the accuracy of binary data or word frequency counts in a research or academic setting.</li>
+    <li class="list-group-item">Simplifying the process of converting binary numbers to decimal in programming or coding tasks.</li>
+    <li class="list-group-item">Analyzing the frequency of words in social media posts or online content to understand sentiment or behavior.</li>
+    <li class="list-group-item">Converting binary data from a sensor or IoT device to decimal for analysis or processing.</li>
+    <li class="list-group-item">Counting the frequency of words in a marketing or advertising campaign to identify effective keywords or phrases.</li>
+    <li class="list-group-item">Verifying the integrity of binary data or word frequency counts in a data storage or transmission system.</li>
+    <li class="list-group-item">Simplifying the process of converting binary numbers to decimal in a mathematical or scientific context.</li>
+    <li class="list-group-item">Analyzing the frequency of words in a large dataset or database to identify patterns or trends.</li>
+  </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryError = document.getElementById('binary-error');
+  const wordInput = document.getElementById('word-input');
+  const countButton = document.getElementById('count-button');
+  const wordOutput = document.getElementById('word-output');
+  const wordError = document.getElementById('word-error');
+  const ignoreCaseCheckbox = document.getElementById('ignore-case');
+  const ignoreCommonWordsCheckbox = document.getElementById('ignore-common-words');
+
+  convertButton.addEventListener('click', () => {
+    const binaryValue = binaryInput.value.trim();
+    if (!binaryValue) {
+      binaryError.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryValue)) {
+      binaryError.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    decimalOutput.value = decimalValue;
+    binaryError.textContent = '';
+  });
+
+  countButton.addEventListener('click', () => {
+    const wordList = wordInput.value.trim();
+    if (!wordList) {
+      wordError.textContent = 'Please enter a list of words';
+      return;
+    }
+    const words = wordList.split(/[\s,]+/);
+    const wordFrequency = {};
+    for (const word of words) {
+      const lowerCaseWord = ignoreCaseCheckbox.checked ? word.toLowerCase() : word;
+      if (ignoreCommonWordsCheckbox.checked && isCommonWord(lowerCaseWord)) {
+        continue;
+      }
+      wordFrequency[lowerCaseWord] = (wordFrequency[lowerCaseWord] || 0) + 1;
+    }
+    const sortedWords = Object.keys(wordFrequency).sort((a, b) => wordFrequency[b] - wordFrequency[a]);
+    wordOutput.innerHTML = '';
+    for (const word of sortedWords) {
+      const row = document.createElement('div');
+      row.classList.add('row');
+      const wordCell = document.createElement('div');
+      wordCell.classList.add('col-md-6');
+      wordCell.textContent = word;
+      const frequencyCell = document.createElement('div');
+      frequencyCell.classList.add('col-md-6');
+      frequencyCell.textContent = wordFrequency[word];
+      row.appendChild(wordCell);
+      row.appendChild(frequencyCell);
+      wordOutput.appendChild(row);
+    }
+    wordError.textContent = '';
+  });
+
+  function isCommonWord(word) {
+    const commonWords = ['the', 'and', 'a', 'an', 'in', 'is', 'it', 'of', 'to'];
+    return commonWords.includes(word);
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+</script>

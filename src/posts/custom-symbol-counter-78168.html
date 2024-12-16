@@ -1,0 +1,179 @@
+---
+title: Binary to Decimal Converter and Custom Symbol Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 14:30:00
+tags:
+  - binary converter
+  - decimal converter
+  - symbol counter
+  - text analysis
+  - conversion tool
+---
+
+<style>
+  #main-div {
+    padding: 20px;
+    max-width: 800px;
+    margin: 40px auto;
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+  }
+  button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #3e8e41;
+  }
+  .error-message {
+    color: #f00;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal Converter and Custom Symbol Counter</h1><div class="container mt-5 mb-5">
+    <h1 class="text-center">Binary to Decimal Converter and Custom Symbol Counter Tool</h1>
+    <p class="text-center">The Binary to Decimal Converter and Custom Symbol Counter tool is a free online utility that allows you to convert binary numbers to decimal numbers and count the occurrences of a custom symbol in a given text. This tool is designed to simplify the process of binary to decimal conversion and text analysis, making it easier for users to perform these tasks quickly and accurately. With its user-friendly interface and robust functionality, this tool is an essential resource for students, professionals, and anyone who needs to work with binary numbers and text analysis.</p>
+</div>
+  <h2>Binary to Decimal Converter</h2>
+  <label for="binary-input">Binary Number:</label>
+  <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)">
+  <button id="convert-button">Convert</button>
+  <label for="decimal-output">Decimal Equivalent:</label>
+  <input type="text" id="decimal-output" readonly>
+  <p class="error-message" id="binary-error-message"></p>
+
+  <h2>Custom Symbol Counter</h2>
+  <label for="text-input">Text to Analyze:</label>
+  <textarea id="text-input" rows="5"></textarea>
+  <label for="symbol-input">Symbol to Count:</label>
+  <input type="text" id="symbol-input" placeholder="Enter a symbol (e.g. *)">
+  <button id="count-button">Count Symbol</button>
+  <button id="reset-button">Reset</button>
+  <label for="symbol-count">Symbol Count:</label>
+  <input type="text" id="symbol-count" readonly>
+  <p class="error-message" id="symbol-error-message"></p>
+</div>
+
+<div class="container mt-5 mb-5">
+    <h2 class="text-center">How the Tool Works</h2>
+    <p class="text-center">The Binary to Decimal Converter uses the following formula to convert binary numbers to decimal numbers: <strong>Decimal Number = Σ ( Binary Digit × 2^n )</strong>, where n is the position of the binary digit, starting from 0.</p>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1011</td>
+                <td>11</td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="text-center">The Custom Symbol Counter uses a simple algorithm to count the occurrences of a custom symbol in a given text. The tool splits the text into an array of substrings separated by the custom symbol and then returns the length of the array minus one, which represents the number of occurrences of the custom symbol.</p>
+</div><div class="container mt-5 mb-5">
+    <h2 class="text-center">Common Use Cases for the Binary to Decimal Converter and Custom Symbol Counter Tool</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Converting binary numbers to decimal numbers for programming and coding purposes</li>
+        <li class="list-group-item">Analyzing text data for custom symbol occurrences in data analysis and science</li>
+        <li class="list-group-item">Simplifying binary to decimal conversion for students and educators in computer science and mathematics</li>
+        <li class="list-group-item">Counting custom symbol occurrences in large datasets for research and development</li>
+        <li class="list-group-item">Validating binary data for accuracy and consistency in software development and testing</li>
+        <li class="list-group-item"> Performing text analysis for custom symbol frequencies in marketing and social media</li>
+        <li class="list-group-item">Converting binary data to decimal for electronics and engineering applications</li>
+        <li class="list-group-item">Analyzing log files for custom symbol occurrences in system administration and cybersecurity</li>
+        <li class="list-group-item">Simplifying binary to decimal conversion for beginners and hobbyists in programming and coding</li>
+        <li class="list-group-item">Counting custom symbol occurrences in text data for natural language processing and machine learning</li>
+    </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryErrorMessage = document.getElementById('binary-error-message');
+
+  const textInput = document.getElementById('text-input');
+  const symbolInput = document.getElementById('symbol-input');
+  const countButton = document.getElementById('count-button');
+  const resetButton = document.getElementById('reset-button');
+  const symbolCount = document.getElementById('symbol-count');
+  const symbolErrorMessage = document.getElementById('symbol-error-message');
+
+  convertButton.addEventListener('click', () => {
+    const binaryNumber = binaryInput.value;
+    if (!isValidBinary(binaryNumber)) {
+      binaryErrorMessage.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalNumber = binaryToDecimal(binaryNumber);
+    decimalOutput.value = decimalNumber;
+    binaryErrorMessage.textContent = '';
+  });
+
+  countButton.addEventListener('click', () => {
+    const text = textInput.value;
+    const symbol = symbolInput.value;
+    if (symbol.length !== 1) {
+      symbolErrorMessage.textContent = 'Please enter a single symbol';
+      return;
+    }
+    const count = countSymbol(text, symbol);
+    symbolCount.value = `The symbol '${symbol}' appears ${count} times`;
+    symbolErrorMessage.textContent = '';
+  });
+
+  resetButton.addEventListener('click', () => {
+    textInput.value = '';
+    symbolInput.value = '';
+    symbolCount.value = '';
+    symbolErrorMessage.textContent = '';
+  });
+
+  function isValidBinary(number) {
+    return /^[01]+$/.test(number);
+  }
+
+  function binaryToDecimal(number) {
+    return parseInt(number, 2);
+  }
+
+  function countSymbol(text, symbol) {
+    return text.split(symbol).length - 1;
+  }
+
+  const start = new URLSearchParams(window.location.search).get('start');
+  if (start) {
+    binaryInput.value = start;
+  }
+</script>

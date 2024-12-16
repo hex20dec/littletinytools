@@ -1,0 +1,149 @@
+---
+title: Binary to Decimal Converter and HTML Tag Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Decimal Converter
+  - HTML Tag Counter
+  - Web Development Tools
+  - Coding Assistants
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div textarea {
+    margin-bottom: 1rem;
+  }
+  #main-div button {
+    margin-bottom: 1rem;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal Converter</h1><div class="container mb-5">
+    <h1 class="text-center">Binary to Decimal Converter and HTML Tag Counter Tool</h1>
+    <p class="text-center">Our free online Binary to Decimal Converter and HTML Tag Counter tool is designed to help web developers, programmers, and students quickly convert binary numbers to decimal equivalents and count HTML tags in a given code. With its user-friendly interface and robust functionality, this tool simplifies the process of binary-decimal conversion and HTML tag analysis, saving you time and effort. Whether you're working on a coding project or studying for an exam, our tool is here to assist you every step of the way.</p>
+</div>
+  <label for="binary-input">Binary Number:</label>
+  <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" aria-label="Binary Number" value="?start">
+  <button id="convert-button">Convert</button>
+  <label for="decimal-output">Decimal Equivalent:</label>
+  <input type="text" id="decimal-output" readonly aria-label="Decimal Equivalent">
+  <p id="error-message" class="error-message"></p>
+
+  <h1>HTML Tag Counter</h1>
+  <label for="html-input">Enter HTML Code:</label>
+  <textarea id="html-input" aria-label="HTML Code"></textarea>
+  <button id="count-tags-button">Count Tags</button>
+  <label for="tag-count-output">Tag Count:</label>
+  <input type="text" id="tag-count-output" readonly aria-label="Tag Count">
+  <p id="tag-breakdown-output"></p>
+</div>
+
+<div class="container mb-5">
+    <h2 class="text-center">How it Works</h2>
+    <p>The Binary to Decimal Converter uses a simple yet powerful formula to convert binary numbers to decimal equivalents: <code>decimal = binary<sub>2</sub> * 2<sup>n-1</sup> + ... + binary<sub>n-1</sub> * 2<sup>1</sup> + binary<sub>n</sub> * 2<sup>0</sup></code>, where <code>n</code> is the number of bits in the binary number.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1000</td>
+                <td>8</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>The HTML Tag Counter uses a regular expression to match HTML tags in the given code and then counts the occurrences of each tag. The top 5 most used tags are displayed in the output.</p>
+</div><div class="container">
+    <h2 class="text-center">10 Common Use Cases for the Binary to Decimal Converter and HTML Tag Counter Tool</h2>
+    <ol class="list-group">
+        <li class="list-group-item">Converting binary numbers to decimal equivalents for coding projects</li>
+        <li class="list-group-item">Analyzing HTML code to optimize tag usage and improve page loading speed</li>
+        <li class="list-group-item">Counting HTML tags to ensure compliance with accessibility standards</li>
+        <li class="list-group-item">Converting decimal numbers to binary for cryptographic purposes</li>
+        <li class="list-group-item">Debugging HTML code to identify and fix tag-related issues</li>
+        <li class="list-group-item">Optimizing website performance by minimizing HTML tag usage</li>
+        <li class="list-group-item">Converting binary data to decimal for data analysis and processing</li>
+        <li class="list-group-item">Validating HTML code to ensure it meets W3C standards</li>
+        <li class="list-group-item">Counting HTML tags to optimize SEO and improve search engine rankings</li>
+        <li class="list-group-item">Converting binary numbers to decimal for mathematical calculations and scientific research</li>
+    </ol>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const errorMessage = document.getElementById('error-message');
+  const htmlInput = document.getElementById('html-input');
+  const countTagsButton = document.getElementById('count-tags-button');
+  const tagCountOutput = document.getElementById('tag-count-output');
+  const tagBreakdownOutput = document.getElementById('tag-breakdown-output');
+
+  convertButton.addEventListener('click', () => {
+    const binaryValue = binaryInput.value.trim();
+    if (!/^[01]+$/.test(binaryValue)) {
+      errorMessage.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    decimalOutput.value = decimalValue;
+    errorMessage.textContent = '';
+  });
+
+  countTagsButton.addEventListener('click', () => {
+    const htmlCode = htmlInput.value.trim();
+    const tags = htmlCode.match(/<([^>]+)>/g);
+    if (!tags) {
+      tagCountOutput.value = 0;
+      tagBreakdownOutput.textContent = '';
+      return;
+    }
+    const tagCount = tags.length;
+    const tagBreakdown = {};
+    tags.forEach((tag) => {
+      const tagName = tag.replace(/<|>/g, '').split(' ')[0];
+      if (!tagBreakdown[tagName]) {
+        tagBreakdown[tagName] = 0;
+      }
+      tagBreakdown[tagName]++;
+    });
+    const topTags = Object.keys(tagBreakdown).sort((a, b) => tagBreakdown[b] - tagBreakdown[a]).slice(0, 5);
+    tagCountOutput.value = tagCount;
+    tagBreakdownOutput.textContent = `Top 5 most used tags: ${topTags.map((tag) => `${tag}: ${tagBreakdown[tag]}`).join(', ')}`;
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+</script>

@@ -1,0 +1,159 @@
+---
+title: Binary to Decimal and Sentence Case Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 14:30:00
+tags:
+  - binary converter
+  - sentence case converter
+  - word counter
+  - text converter
+  - coding tools
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1>Binary to Decimal and Sentence Case Converter</h1><div class="container mt-5">
+  <h1>Binary to Decimal and Sentence Case Converter Tool</h1>
+  <p>This tool is designed to convert binary numbers to decimal equivalents and sentence case converters, providing a simple and efficient way to perform these tasks. With its user-friendly interface, it is perfect for beginners and experts alike, and is optimized for search engines to provide relevant results for binary conversion and sentence case conversion queries.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary-input" class="form-label">Binary Number</label>
+      <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)">
+      <button id="convert-button" class="btn btn-primary mt-2">Convert</button>
+      <label for="decimal-output" class="form-label mt-2">Decimal Equivalent</label>
+      <input type="text" id="decimal-output" class="form-control" readonly>
+      <div id="binary-error" class="error-message"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Sentence Case Converter and Word Counter</h2>
+      <label for="text-input" class="form-label">Enter your text</label>
+      <textarea id="text-input" class="form-control" placeholder="Type or paste your text here"></textarea>
+      <button id="convert-to-sentence-case" class="btn btn-primary mt-2">Convert to Sentence Case</button>
+      <button id="count-words" class="btn btn-primary mt-2">Count Words</button>
+      <button id="reset-button" class="btn btn-secondary mt-2">Reset</button>
+      <label for="word-count" class="form-label mt-2">Word Count:</label>
+      <input type="text" id="word-count" class="form-control" readonly>
+      <div id="text-error" class="error-message"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The binary to decimal converter uses the following formula to perform the conversion: decimal = binary * (2 ^ position). For example, the binary number 1010 can be converted to decimal as follows:</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Digit</th>
+        <th>Position</th>
+        <th>Decimal Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>3</td>
+        <td>1 * (2 ^ 3) = 8</td>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>2</td>
+        <td>0 * (2 ^ 2) = 0</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>1</td>
+        <td>1 * (2 ^ 1) = 2</td>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>0</td>
+        <td>0 * (2 ^ 0) = 0</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The total decimal value is the sum of the decimal values of each binary digit: 8 + 0 + 2 + 0 = 10.</p>
+  <p>The sentence case converter uses a simple algorithm to convert the input text to sentence case. It works by:</p>
+  <ul>
+    <li>Converting the entire text to lowercase</li>
+    <li>Identifying the first word of each sentence and capitalizing it</li>
+  </ul>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <ol>
+    <li><strong>Binary code debugging</strong>: Use the binary to decimal converter to quickly identify the decimal equivalent of a binary number, making it easier to debug binary code.</li>
+    <li><strong>Computer science education</strong>: The tool is a valuable resource for students learning about binary numbers and sentence case conversion.</li>
+    <li><strong>Text editing</strong>: The sentence case converter can be used to quickly convert large blocks of text to sentence case, saving time and effort.</li>
+    <li><strong>Programming</strong>: The tool can be used to convert binary numbers to decimal equivalents in programming languages that do not support binary literals.</li>
+    <li><strong>Data analysis</strong>: Use the binary to decimal converter to convert binary data to decimal, making it easier to analyze and visualize.</li>
+    <li><strong>Word processing</strong>: The sentence case converter can be used to convert text to sentence case in word processing applications.</li>
+    <li><strong>Web development</strong>: The tool can be used to convert binary numbers to decimal equivalents in web development projects.</li>
+    <li><strong>Networking</strong>: Use the binary to decimal converter to convert binary IP addresses to decimal equivalents.</li>
+    <li><strong>Cryptography</strong>: The tool can be used to convert binary data to decimal, making it easier to work with cryptographic algorithms.</li>
+    <li><strong>Data compression</strong>: The binary to decimal converter can be used to convert binary compressed data to decimal, making it easier to work with.</li>
+  </ol>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  document.getElementById('binary-input').value = startValue || '';
+
+  document.getElementById('convert-button').addEventListener('click', () => {
+    const binaryInput = document.getElementById('binary-input').value;
+    if (!binaryInput) {
+      document.getElementById('binary-error').innerText = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryInput)) {
+      document.getElementById('binary-error').innerText = 'Invalid binary number';
+      return;
+    }
+    const decimalOutput = parseInt(binaryInput, 2);
+    document.getElementById('decimal-output').value = decimalOutput;
+    document.getElementById('binary-error').innerText = '';
+  });
+
+  document.getElementById('convert-to-sentence-case').addEventListener('click', () => {
+    const textInput = document.getElementById('text-input').value;
+    if (!textInput) {
+      document.getElementById('text-error').innerText = 'Please enter some text';
+      return;
+    }
+    const sentenceCase = textInput.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, (match) => match.toUpperCase());
+    document.getElementById('text-input').value = sentenceCase;
+    document.getElementById('text-error').innerText = '';
+  });
+
+  document.getElementById('count-words').addEventListener('click', () => {
+    const textInput = document.getElementById('text-input').value;
+    if (!textInput) {
+      document.getElementById('text-error').innerText = 'Please enter some text';
+      return;
+    }
+    const wordCount = textInput.trim().split(/\s+/).length;
+    document.getElementById('word-count').value = wordCount;
+    document.getElementById('text-error').innerText = '';
+  });
+
+  document.getElementById('reset-button').addEventListener('click', () => {
+    document.getElementById('text-input').value = '';
+    document.getElementById('word-count').value = '';
+    document.getElementById('text-error').innerText = '';
+  });
+
+  document.getElementById('text-input').addEventListener('input', () => {
+    const textInput = document.getElementById('text-input').value;
+    const wordCount = textInput.trim().split(/\s+/).length;
+    document.getElementById('word-count').value = wordCount;
+  });
+</script>

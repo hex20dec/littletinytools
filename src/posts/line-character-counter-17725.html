@@ -1,0 +1,159 @@
+---
+title: Binary to Decimal and Line Character Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Line Counter
+  - Character Counter
+  - Binary to Decimal
+  - Text Analyzer
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  .error-msg {
+    color: #f00;
+  }
+  .output-field {
+    background-color: #333;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal and Line Character Counter</h1><div class="container mt-5">
+  <h1 class="text-center">Binary to Decimal Converter and Text Analyzer Tool</h1>
+  <p class="text-center">Discover the simplicity of converting binary numbers to decimal equivalents and analyzing text with our intuitive tool, ideal for programmers, developers, and anyone interested in binary code and text analysis. This binary to decimal converter and line character counter is designed to provide accurate and efficient conversions, making it an essential resource for various applications.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <div class="mb-3">
+        <label for="binary-input" class="form-label">Binary Number</label>
+        <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)" value="">
+      </div>
+      <button id="convert-btn" class="btn btn-primary">Convert</button>
+      <div class="mb-3">
+        <label for="decimal-output" class="form-label">Decimal Equivalent</label>
+        <input type="text" id="decimal-output" class="form-control output-field" readonly>
+      </div>
+      <div id="error-msg" class="error-msg"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Line Character Counter</h2>
+      <div class="mb-3">
+        <label for="text-input" class="form-label">Enter your text here</label>
+        <textarea id="text-input" class="form-control" rows="10"></textarea>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="line-count" class="form-label">Line count</label>
+            <input type="text" id="line-count" class="form-control output-field" readonly>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="char-count" class="form-label">Character count</label>
+            <input type="text" id="char-count" class="form-control output-field" readonly>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The binary to decimal converter utilizes the formula: decimal = binary<sub>2</sub> × 2<sup>n-1</sup> + ... + binary<sub>n-1</sub> × 2<sup>1</sup> + binary<sub>n</sub> × 2<sup>0</sup>, where n is the number of bits in the binary number.</p>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Binary Input</th>
+        <th>Decimal Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1011</td>
+        <td>11</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2>Text Analysis</h2>
+  <p>The text analyzer counts the number of lines and characters in the input text. It uses the following formula: lines = text.split('\n').length and characters = text.length.</p>
+</div><div class="container mt-5">
+  <h2.Common Use Cases for Binary to Decimal Converter and Text Analyzer</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Programming: Convert binary numbers to decimal for programming purposes.</li>
+    <li class="list-group-item">Data Analysis: Analyze text data by counting lines and characters.</li>
+    <li class="list-group-item">Networking: Convert binary IP addresses to decimal for networking purposes.</li>
+    <li class="list-group-item">Computer Science: Understand binary code and its decimal equivalent for computer science applications.</li>
+    <li class="list-group-item">Text Editing: Count lines and characters in text documents for editing purposes.</li>
+    <li class="list-group-item">Web Development: Use binary to decimal conversion for web development tasks.</li>
+    <li class="list-group-item">Database Management: Analyze text data in databases by counting lines and characters.</li>
+    <li class="list-group-item">Research: Convert binary data to decimal for research purposes.</li>
+    <li class="list-group-item">Education: Teach binary to decimal conversion and text analysis in educational settings.</li>
+    <li class="list-group-item">Software Development: Use binary to decimal conversion and text analysis in software development projects.</li>
+  </ol>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertBtn = document.getElementById('convert-btn');
+  const decimalOutput = document.getElementById('decimal-output');
+  const errorMsg = document.getElementById('error-msg');
+  const textInput = document.getElementById('text-input');
+  const lineCount = document.getElementById('line-count');
+  const charCount = document.getElementById('char-count');
+
+  convertBtn.addEventListener('click', () => {
+    const binary = binaryInput.value.trim();
+    if (!binary) {
+      errorMsg.innerText = 'Please enter a binary number';
+      return;
+    }
+    try {
+      const decimal = parseInt(binary, 2);
+      decimalOutput.value = decimal;
+      errorMsg.innerText = '';
+    } catch (e) {
+      errorMsg.innerText = 'Invalid binary number';
+    }
+  });
+
+  textInput.addEventListener('input', () => {
+    const text = textInput.value;
+    const lines = text.split('\n').length;
+    const chars = text.length;
+    lineCount.value = lines;
+    charCount.value = chars;
+  });
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+</script>

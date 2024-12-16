@@ -1,0 +1,179 @@
+---
+title: Binary to Decimal Converter and Bracketed Word Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Bracketed Word Counter
+  - Web Development Tools
+  - Online Calculators
+  - Text Analysis Tools
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal Converter and Bracketed Word Counter</h1><h1 class="display-4 fw-bold text-primary mb-3">Binary to Decimal Converter and Bracketed Word Counter Tool</h1>
+<p class="lead text-secondary">The Binary to Decimal Converter and Bracketed Word Counter is a free online tool that allows users to convert binary numbers to decimal and count the occurrences of words enclosed in square brackets within a given text. This tool is ideal for developers, programmers, and students who need to perform quick conversions and text analysis.</p>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary-input">Binary Number:</label>
+      <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" value()}>
+      <button id="convert-button" class="btn btn-primary">Convert</button>
+      <label for="decimal-output">Decimal Equivalent:</label>
+      <input type="text" id="decimal-output" readonly>
+      <div id="binary-error" class="error-message"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Bracketed Word Counter</h2>
+      <textarea id="text-input" placeholder="Enter text"></textarea>
+      <button id="count-button" class="btn btn-primary">Count Bracketed Words</button>
+      <div id="word-count-results" class="card">
+        <h3>Results:</h3>
+        <p id="total-words"></p>
+        <ul id="word-list"></ul>
+      </div>
+      <div id="text-error" class="error-message"></div>
+    </div>
+  </div>
+</div>
+
+<h2 class="display-5 fw-bold text-primary mb-3">How it Works</h2>
+<p class="lead text-secondary">The Binary to Decimal Converter uses the built-in <code>parseInt</code> function in JavaScript to convert binary numbers to decimal. The conversion process involves the following formula:</p>
+<p class="lead text-secondary"><code>decimal = parseInt(binary, 2)</code>, where <code>binary</code> is the binary number to be converted and <code>2</code> is the base of the binary number system.</p>
+<h3 class="display-6 fw-bold text-primary mb-3">Example Conversions</h3>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Binary</th>
+      <th>Decimal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1010</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>1101</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <td>1001</td>
+      <td>9</td>
+    </tr>
+  </tbody>
+</table><h2 class="display-5 fw-bold text-primary mb-3">Common Use Cases</h2>
+<ul class="list-group list-group-numbered">
+  <li class="list-group-item">Converting binary numbers to decimal for programming and development purposes.</li>
+  <li class="list-group-item">Counting the occurrences of specific words or phrases in a large text document.</li>
+  <li class="list-group-item">Analyzing text data for natural language processing and machine learning applications.</li>
+  <li class="list-group-item">Performing quick data conversions and text analysis for research and academic purposes.</li>
+  <li class="list-group-item">Validating user input data for web applications and software development.</li>
+  <li class="list-group-item">Generating test data for software testing and quality assurance.</li>
+  <li class="list-group-item">Converting binary data to decimal for data storage and retrieval.</li>
+  <li class="list-group-item">Counting the occurrences of words in a text document for content analysis and keyword extraction.</li>
+  <li class="list-group-item">Performing text preprocessing and data cleaning for data science and machine learning applications.</li>
+  <li class="list-group-item">Converting binary numbers to decimal for cryptographic and cybersecurity applications.</li>
+</ul><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryError = document.getElementById('binary-error');
+  const textInput = document.getElementById('text-input');
+  const countButton = document.getElementById('count-button');
+  const wordCountResults = document.getElementById('word-count-results');
+  const totalWords = document.getElementById('total-words');
+  const wordList = document.getElementById('word-list');
+  const textError = document.getElementById('text-error');
+
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+
+  convertButton.addEventListener('click', () => {
+    const binaryValue = binaryInput.value;
+    if (binaryValue === '') {
+      binaryError.textContent = 'Please enter a binary number';
+      return;
+    }
+    try {
+      const decimalValue = parseInt(binaryValue, 2);
+      decimalOutput.value = decimalValue;
+      binaryError.textContent = '';
+    } catch (error) {
+      binaryError.textContent = 'Invalid binary number';
+    }
+  });
+
+  countButton.addEventListener('click', () => {
+    const textValue = textInput.value;
+    if (textValue === '') {
+      textError.textContent = 'Please enter some text';
+      return;
+    }
+    const bracketedWords = textValue.match(/\[(.*?)\]/g);
+    if (!bracketedWords) {
+      textError.textContent = 'No bracketed words found';
+      return;
+    }
+    const wordCount = {};
+    bracketedWords.forEach((word) => {
+      const cleanWord = word.replace(/\[|\]/g, '');
+      if (wordCount[cleanWord]) {
+        wordCount[cleanWord]++;
+      } else {
+        wordCount[cleanWord] = 1;
+      }
+    });
+    totalWords.textContent = `Total words: ${Object.keys(wordCount).length}`;
+    wordList.innerHTML = '';
+    Object.keys(wordCount).forEach((word) => {
+      const listItem = document.createElement('li');
+      listItem.textContent = `${word}: ${wordCount[word]}`;
+      wordList.appendChild(listItem);
+    });
+    textError.textContent = '';
+  });
+
+  textInput.addEventListener('input', () => {
+    const textValue = textInput.value;
+    if (textValue === '') {
+      wordCountResults.style.display = 'none';
+      return;
+    }
+    wordCountResults.style.display = 'block';
+    const bracketedWords = textValue.match(/\[(.*?)\]/g);
+    if (!bracketedWords) {
+      return;
+    }
+    const wordCount = {};
+    bracketedWords.forEach((word) => {
+      const cleanWord = word.replace(/\[|\]/g, '');
+      if (wordCount[cleanWord]) {
+        wordCount[cleanWord]++;
+      } else {
+        wordCount[cleanWord] = 1;
+      }
+    });
+    totalWords.textContent = `Total words: ${Object.keys(wordCount).length}`;
+    wordList.innerHTML = '';
+    Object.keys(wordCount).forEach((word) => {
+      const listItem = document.createElement('li');
+      listItem.textContent = `${word}: ${wordCount[word]}`;
+      wordList.appendChild(listItem);
+    });
+  });
+</script>

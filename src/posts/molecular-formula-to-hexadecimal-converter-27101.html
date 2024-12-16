@@ -1,0 +1,228 @@
+---
+title: Binary and Molecular Converter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Binary Converter
+  - Molecular Converter
+  - Chemistry Tools
+  - Programming Utilities
+  - Conversion Apps
+---
+
+<style>
+  #main-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 500px;
+    width: 100%;
+  }
+
+  .error-message {
+    color: #ff0000;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  input, button, output {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  button {
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #3e8e41;
+  }
+
+  output {
+    background-color: #f0f0f0;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary and Molecular Converter App</h1><div class="header-section p-5 text-center bg-light">
+    <h1 class="display-4">Binary and Molecular Converter App</h1>
+    <p class="lead">This tool is designed to convert binary numbers to decimal and molecular formulas to hexadecimal, providing a seamless experience for users who need to perform these conversions. With its intuitive interface and robust functionality, this app is perfect for students, professionals, and anyone who wants to simplify their conversion tasks. By leveraging the power of JavaScript and HTML, our converter app ensures accurate and efficient conversions, making it an indispensable resource for those who work with binary and molecular data.</p>
+</div>
+  <div class="container">
+    <h2>Binary to Decimal Converter</h2>
+    <label for="binary-input">Binary Number:</label>
+    <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" value="?start">
+    <button id="binary-convert-btn">Convert</button>
+    <output id="binary-output" for="binary-input"></output>
+    <p id="binary-error" class="error-message"></p>
+
+    <h2>Molecular to Hexadecimal Converter</h2>
+    <label for="molecular-input">Molecular Formula:</label>
+    <input type="text" id="molecular-input" placeholder="Enter a molecular formula (e.g. H2O)">
+    <button id="molecular-convert-btn">Convert to Hexadecimal</button>
+    <output id="molecular-output" for="molecular-input"></output>
+    <p id="molecular-error" class="error-message"></p>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-3">How it Works</h2>
+    <p>The binary to decimal converter uses the formula: decimal = parseInt(binary, 2), where binary is the input binary number and decimal is the output decimal number.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Input</th>
+                <th>Decimal Output</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1000</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>The molecular to hexadecimal converter works by parsing the molecular formula and converting each element to its corresponding atomic number, then multiplying the atomic number by the count of that element and converting the result to hexadecimal.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Molecular Formula</th>
+                <th>Hexadecimal Output</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>H2O</td>
+                <td>018</td>
+            </tr>
+            <tr>
+                <td>CO2</td>
+                <td>060C</td>
+            </tr>
+            <tr>
+                <td>O2</td>
+                <td>1008</td>
+            </tr>
+            <tr>
+                <td>N2</td>
+                <td>0707</td>
+            </tr>
+            <tr>
+                <td>CH4</td>
+                <td>0106</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-3">Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Converting binary numbers to decimal for programming and coding purposes</li>
+        <li class="list-group-item">Converting molecular formulas to hexadecimal for chemical and scientific applications</li>
+        <li class="list-group-item">Simplifying complex chemical calculations and conversions</li>
+        <li class="list-group-item">Assisting students with chemistry and programming homework and projects</li>
+        <li class="list-group-item">Facilitating data analysis and processing for researchers and scientists</li>
+        <li class="list-group-item">Enabling quick and easy conversions for professionals in the field of chemistry and programming</li>
+        <li class="list-group-item">Providing a user-friendly interface for those who need to perform conversions on a regular basis</li>
+        <li class="list-group-item">Offering a reliable and efficient solution for converting binary and molecular data</li>
+        <li class="list-group-item">Supporting a wide range of chemical and programming applications and use cases</li>
+        <li class="list-group-item">Enhancing productivity and workflow for individuals and teams who work with binary and molecular data</li>
+    </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const binaryOutput = document.getElementById('binary-output');
+  const binaryError = document.getElementById('binary-error');
+
+  const molecularInput = document.getElementById('molecular-input');
+  const molecularConvertBtn = document.getElementById('molecular-convert-btn');
+  const molecularOutput = document.getElementById('molecular-output');
+  const molecularError = document.getElementById('molecular-error');
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binary = binaryInput.value.trim();
+    if (binary === '') {
+      binaryError.textContent = 'Please enter a binary number';
+      return;
+    }
+
+    if (!/^[01]+$/.test(binary)) {
+      binaryError.textContent = 'Invalid binary number. Please enter a number containing only 0s and 1s.';
+      return;
+    }
+
+    const decimal = parseInt(binary, 2);
+    binaryOutput.value = decimal;
+    binaryError.textContent = '';
+  });
+
+  molecularConvertBtn.addEventListener('click', () => {
+    const molecular = molecularInput.value.trim();
+    if (molecular === '') {
+      molecularError.textContent = 'Please enter a molecular formula';
+      return;
+    }
+
+    const atomicNumbers = {
+      'H': 1,
+      'C': 6,
+      'O': 8,
+      // Add more elements as needed
+    };
+
+    const elements = molecular.match(/[A-Z][a-z]*/g);
+    if (!elements) {
+      molecularError.textContent = 'Invalid molecular formula. Please enter a formula containing only valid elements (e.g. H2O).';
+      return;
+    }
+
+    let hexadecimal = '';
+    for (const element of elements) {
+      const symbol = element.slice(0, 1);
+      const count = parseInt(element.slice(1)) || 1;
+      if (!atomicNumbers[symbol]) {
+        molecularError.textContent = `Unknown element: ${symbol}. Please enter a valid molecular formula.`;
+        return;
+      }
+
+      const atomicNumber = atomicNumbers[symbol];
+      hexadecimal += (atomicNumber * count).toString(16).padStart(2, '0');
+    }
+
+    molecularOutput.value = hexadecimal;
+    molecularError.textContent = '';
+  });
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+</script>
