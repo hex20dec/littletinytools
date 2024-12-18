@@ -1,0 +1,138 @@
+---
+title: Null-to-End Sorter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 12:00:00
+tags:
+  - null to end sorter
+  - data organizer
+  - list cleaner
+  - data analyst tool
+  - sorting app
+---
+
+<style>
+  #main-div {
+    padding: 20px;
+    color: #fff;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="h1">Null-to-End Sorter App</h1><div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-12">
+      <p class="lead fw-bold">The Null-to-End Sorter App is an online tool designed to help users organize and clean their data lists by moving null or empty values to the end, ensuring a more structured and readable format. With its user-friendly interface and efficient sorting algorithm, this app is perfect for data analysts, researchers, and anyone looking to streamline their workflow. By utilizing the Null-to-End Sorter App, users can easily remove duplicates, sort their lists, and improve overall data quality, making it an indispensable resource for anyone working with large datasets.</p>
+    </div>
+  </div>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="input-list" class="form-label">Input List</label>
+      <textarea id="input-list" class="form-control" rows="5"></textarea>
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="remove-duplicates">
+      <label class="form-check-label" for="remove-duplicates">Remove duplicates</label>
+    </div>
+    <button type="button" class="btn btn-primary" id="sort-button">Sort</button>
+    <div class="mb-3">
+      <label for="sorted-list" class="form-label">Sorted List</label>
+      <textarea id="sorted-list" class="form-control" rows="5" readonly></textarea>
+    </div>
+    <div id="error-message" class="error-message"></div>
+  </form>
+</div>
+
+<div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="mb-3">How it Works</h2>
+      <p>The Null-to-End Sorter App uses a simple yet effective formula to sort the input list: it first separates the items into two groups, non-null and null/empty items. Then, it removes duplicates from the non-null items if the "Remove duplicates" checkbox is selected. Finally, it concatenates the non-null items with the null/empty items, effectively moving the null/empty items to the end of the list.</p>
+      <h2 class="mb-3">Example Use Cases Table</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Input List</th>
+            <th>Sorted List (Without Duplicates)</th>
+            <th>Sorted List (With Duplicates)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>apple, banana,, orange</td>
+            <td>apple<br>banana<br>orange</td>
+            <td>apple<br>banana<br>orange</td>
+          </tr>
+          <tr>
+            <td>dog, cat,, dog</td>
+            <td>cat<br>dog</td>
+            <td>cat<br>dog<br>dog</td>
+          </tr>
+          <tr>
+            <td>car, bike,, car, bike</td>
+            <td>bike<br>car</td>
+            <td>bike<br>car<br>bike<br>car</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="mb-3">10 Common Use Cases for the Null-to-End Sorter App</h2>
+      <ol>
+        <li>Data cleaning and preprocessing for machine learning models</li>
+        <li>Organizing customer lists for marketing campaigns</li>
+        <li>Sorting and cleaning data for research studies</li>
+        <li>Removing duplicates from large datasets</li>
+        <li>Improving data quality for business intelligence reporting</li>
+        <li>Streamlining workflows by automating data sorting</li>
+        <li>Enhancing data visualization by removing null values</li>
+        <li>Preparing data for import into databases or spreadsheets</li>
+        <li>Validating data for compliance with regulatory requirements</li>
+        <li>Simplifying data analysis by providing a clean and structured format</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    document.getElementById('input-list').value = startValue;
+  }
+
+  const sortButton = document.getElementById('sort-button');
+  const inputList = document.getElementById('input-list');
+  const sortedList = document.getElementById('sorted-list');
+  const removeDuplicatesCheckbox = document.getElementById('remove-duplicates');
+  const errorMessage = document.getElementById('error-message');
+
+  sortButton.addEventListener('click', () => {
+    const input = inputList.value.trim();
+    if (!input) {
+      errorMessage.innerText = 'Please enter a list of items';
+      return;
+    }
+
+    const items = input.split(/\s*,\s*|\n/).map(item => item.trim());
+    const nullOrEmptyItems = items.filter(item =>!item);
+    const nonNullItems = items.filter(item => item);
+
+    if (removeDuplicatesCheckbox.checked) {
+      const uniqueNonNullItems = [...new Set(nonNullItems)];
+      sortedList.value = [...uniqueNonNullItems,...nullOrEmptyItems].join('\n');
+    } else {
+      sortedList.value = [...nonNullItems,...nullOrEmptyItems].join('\n');
+    }
+
+    errorMessage.innerText = '';
+  });
+
+  inputList.addEventListener('input', () => {
+    errorMessage.innerText = '';
+  });
+</script>

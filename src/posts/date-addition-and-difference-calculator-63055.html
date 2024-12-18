@@ -1,0 +1,152 @@
+---
+title: Date Calculator App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Date Calculator
+  - JavaScript
+  - Bootstrap 5
+  - Frontend Development
+  - Web Application
+---
+
+<style>
+  #main-div {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Date Calculator App</h1><div class="header-section p-5 bg-light border-bottom">
+    <p class="fs-4">The Date Calculator App is a versatile online tool designed to simplify date-related calculations, providing users with a convenient way to add days to a specific date or calculate the difference between two dates. This user-friendly application is ideal for various purposes, including scheduling, planning, and organization. With its intuitive interface and accurate calculations, the Date Calculator App makes it easy to manage dates and plan ahead.</p>
+</div>
+  <section class="date-addition">
+    <h2>Add Days to a Date</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="start-date">Start Date:</label>
+        <input type="date" id="start-date" class="form-control" value="<?php echo $_GET['start']?? ''?>">
+      </div>
+      <div class="col-md-6">
+        <label for="days-to-add">Days to Add:</label>
+        <input type="number" id="days-to-add" class="form-control">
+      </div>
+    </div>
+    <button class="btn btn-primary" id="calculate-add">Calculate</button>
+    <div class="alert alert-success" id="add-result"></div>
+    <div class="error-message" id="add-error"></div>
+  </section>
+  <section class="date-difference">
+    <h2>Calculate Date Difference</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="start-date-2">Start Date:</label>
+        <input type="date" id="start-date-2" class="form-control">
+      </div>
+      <div class="col-md-6">
+        <label for="end-date">End Date:</label>
+        <input type="date" id="end-date" class="form-control">
+      </div>
+    </div>
+    <button class="btn btn-primary" id="calculate-diff">Calculate</button>
+    <div class="alert alert-success" id="diff-result"></div>
+    <div class="error-message" id="diff-error"></div>
+  </section>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-3">How the Date Calculator Works</h2>
+    <p class="fs-5">The Date Calculator uses a straightforward formula to add days to a date or calculate the difference between two dates. For adding days, the formula is:</p>
+    <p class="fs-5">Result Date = Start Date + (Number of Days to Add * 24 hours)</p>
+    <p class="fs-5">For calculating the date difference, the formula is:</p>
+    <p class="fs-5">Date Difference = |(End Date - Start Date)| / 24 hours</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Start Date</th>
+                <th>Days to Add</th>
+                <th>Result Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2022-01-01</td>
+                <td>10</td>
+                <td>2022-01-11</td>
+            </tr>
+            <tr>
+                <td>2022-02-01</td>
+                <td>20</td>
+                <td>2022-02-21</td>
+            </tr>
+            <tr>
+                <td>2022-03-01</td>
+                <td>30</td>
+                <td>2022-03-31</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-3">Common Use Cases for the Date Calculator App</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Scheduling appointments and meetings</li>
+        <li class="list-group-item">Planning vacations and trips</li>
+        <li class="list-group-item">Managing deadlines and project timelines</li>
+        <li class="list-group-item">Calculating birthdays and anniversaries</li>
+        <li class="list-group-item">Determining the number of days until a holiday or special event</li>
+        <li class="list-group-item">Creating a calendar and planning events</li>
+        <li class="list-group-item">Tracking the number of days since a specific date</li>
+        <li class="list-group-item">Counting down to a wedding or other milestone event</li>
+        <li class="list-group-item">Planning a pregnancy and calculating the due date</li>
+        <li class="list-group-item">Managing employee leave and time-off requests</li>
+    </ul>
+</div><script>
+  const startDateInput = document.getElementById('start-date');
+  const daysToAddInput = document.getElementById('days-to-add');
+  const calculateAddButton = document.getElementById('calculate-add');
+  const addResultDiv = document.getElementById('add-result');
+  const addErrorDiv = document.getElementById('add-error');
+
+  const startDateInput2 = document.getElementById('start-date-2');
+  const endDateInput = document.getElementById('end-date');
+  const calculateDiffButton = document.getElementById('calculate-diff');
+  const diffResultDiv = document.getElementById('diff-result');
+  const diffErrorDiv = document.getElementById('diff-error');
+
+  calculateAddButton.addEventListener('click', () => {
+    const startDate = new Date(startDateInput.value);
+    const daysToAdd = parseInt(daysToAddInput.value);
+    if (isNaN(daysToAdd)) {
+      addErrorDiv.textContent = 'Please enter a valid number of days to add.';
+      return;
+    }
+    if (isNaN(startDate.getTime())) {
+      addErrorDiv.textContent = 'Please enter a valid start date.';
+      return;
+    }
+    const resultDate = new Date(startDate.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
+    addResultDiv.textContent = `Result: ${resultDate.toLocaleDateString()}`;
+    addErrorDiv.textContent = '';
+  });
+
+  calculateDiffButton.addEventListener('click', () => {
+    const startDate2 = new Date(startDateInput2.value);
+    const endDate = new Date(endDateInput.value);
+    if (isNaN(startDate2.getTime())) {
+      diffErrorDiv.textContent = 'Please enter a valid start date.';
+      return;
+    }
+    if (isNaN(endDate.getTime())) {
+      diffErrorDiv.textContent = 'Please enter a valid end date.';
+      return;
+    }
+    const diffDays = Math.abs((endDate.getTime() - startDate2.getTime()) / (24 * 60 * 60 * 1000));
+    diffResultDiv.textContent = `Difference: ${diffDays} days`;
+    diffErrorDiv.textContent = '';
+  });
+</script>

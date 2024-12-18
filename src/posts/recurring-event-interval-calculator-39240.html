@@ -1,0 +1,151 @@
+---
+title: Recurring Event Interval Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-05-01 12:00:00
+tags:
+  - Recurring Events
+  - Event Calculator
+  - Date Calculator
+  - Interval Calculator
+  - Schedule Planner
+---
+
+<style>
+  #main-div {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+ .form-control,.form-select {
+    margin-bottom: 20px;
+  }
+ .btn {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+ .output {
+    white-space: pre-wrap;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Recurring Event Interval Calculator</h1><div class="container mt-5 mb-5">
+  <p class="lead">The Recurring Event Interval Calculator is an online tool designed to help users calculate and plan recurring events with ease. It allows users to select an initial date, a recurring interval (daily, weekly, monthly, or yearly), and a frequency, providing a list of upcoming event dates. This calculator is perfect for scheduling appointments, meetings, and other events that occur at regular intervals, making it an essential resource for personal and professional planning.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="initialDate" class="form-label">Initial Date:</label>
+      <input type="date" id="initialDate" class="form-control" value="<?php echo $_GET['start'];?>">
+    </div>
+    <div class="mb-3">
+      <label for="interval" class="form-label">Recurring Interval:</label>
+      <select id="interval" class="form-select">
+        <option value="daily">Daily</option>
+        <option value="weekly">Weekly</option>
+        <option value="monthly">Monthly</option>
+        <option value="yearly">Yearly</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="frequency" class="form-label">Frequency:</label>
+      <input type="number" id="frequency" class="form-control" min="1">
+    </div>
+    <button type="button" class="btn btn-primary" id="calculate-btn">Calculate</button>
+    <div class="output">
+      <textarea id="output" class="form-control" rows="10" readonly></textarea>
+    </div>
+  </form>
+</div>
+
+<div class="container mt-5 mb-5">
+  <h2>How it Works</h2>
+  <p>The Recurring Event Interval Calculator uses a simple formula to calculate the upcoming event dates. The formula can be explained as follows: 
+    Take the initial date and add the frequency times the interval (in days) to get the next event date. 
+    For example, if the initial date is January 1st, the interval is daily, and the frequency is 2, the next event date would be January 3rd.
+  </p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Initial Date</th>
+        <th>Interval</th>
+        <th>Frequency</th>
+        <th>Next 10 Event Dates</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>January 1st, 2024</td>
+        <td>Daily</td>
+        <td>1</td>
+        <td>January 2nd, 2024, January 3rd, 2024, January 4th, 2024, January 5th, 2024, January 6th, 2024, January 7th, 2024, January 8th, 2024, January 9th, 2024, January 10th, 2024</td>
+      </tr>
+      <tr>
+        <td>January 1st, 2024</td>
+        <td>Weekly</td>
+        <td>2</td>
+        <td>January 15th, 2024, January 29th, 2024, February 12th, 2024, February 26th, 2024, March 11th, 2024, March 25th, 2024, April 8th, 2024, April 22nd, 2024</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5 mb-5">
+  <h2>Common Use Cases</h2>
+  <ul>
+    <li><strong>Scheduling appointments</strong>: Use the Recurring Event Interval Calculator to plan and schedule regular appointments with clients or patients.</li>
+    <li><strong>Meetings and conferences</strong>: Calculate the dates for recurring meetings, conferences, or workshops with ease.</li>
+    <li><strong>Bill payments</strong>: Use the calculator to plan and schedule regular bill payments, such as rent, utilities, or subscription services.</li>
+    <li><strong>Insurance premiums</strong>: Calculate the dates for recurring insurance premium payments.</li>
+    <li><strong>Recurring invoices</strong>: Use the calculator to plan and schedule regular invoices for clients or customers.</li>
+    <li><strong>Marketing campaigns</strong>: Plan and schedule recurring marketing campaigns, such as social media posts or email newsletters.</li>
+    <li><strong>Event planning</strong>: Calculate the dates for recurring events, such as birthday parties, anniversaries, or holidays.</li>
+    <li><strong>Travel planning</strong>: Use the calculator to plan and schedule regular trips or vacations.</li>
+    <li><strong>Subscription services</strong>: Calculate the dates for recurring subscription services, such as streaming services or software updates.</li>
+    <li><strong>Personal reminders</strong>: Use the calculator to plan and schedule personal reminders, such as birthdays, anniversaries, or appointments.</li>
+  </ul>
+</div><script>
+  const calculateBtn = document.getElementById('calculate-btn');
+  const initialDateInput = document.getElementById('initialDate');
+  const intervalSelect = document.getElementById('interval');
+  const frequencyInput = document.getElementById('frequency');
+  const outputTextArea = document.getElementById('output');
+
+  calculateBtn.addEventListener('click', calculateRecurringEvents);
+
+  function calculateRecurringEvents() {
+    const initialDate = new Date(initialDateInput.value);
+    const interval = intervalSelect.value;
+    const frequency = parseInt(frequencyInput.value);
+
+    if (isNaN(frequency) || frequency < 1) {
+      outputTextArea.value = 'Please enter a valid frequency.';
+      return;
+    }
+
+    let recurringEvents = '';
+    let currentDate = new Date(initialDate);
+
+    for (let i = 1; i <= 10; i++) {
+      switch (interval) {
+        case 'daily':
+          currentDate.setDate(currentDate.getDate() + frequency);
+          break;
+        case 'weekly':
+          currentDate.setDate(currentDate.getDate() + frequency * 7);
+          break;
+        case 'monthly':
+          currentDate.setMonth(currentDate.getMonth() + frequency);
+          break;
+        case 'yearly':
+          currentDate.setFullYear(currentDate.getFullYear() + frequency);
+          break;
+      }
+
+      recurringEvents += currentDate.toISOString().split('T')[0] + '\n';
+    }
+
+    outputTextArea.value = recurringEvents;
+  }
+</script>

@@ -1,0 +1,147 @@
+---
+title: Square Bracket Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Square Bracket Counter
+  - Text Analysis Tool
+  - Code Editor Helper
+  - Writing Assistant
+  - Bracket Balance Checker
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .counterbadge {
+    font-size: 16px;
+    padding: 8px;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-light">Square Bracket Counter App</h1><div class="header-section p-5 text-center bg-dark text-light">
+    <p class="lead">The Square Bracket Counter App is a free online tool designed to help users count and balance square brackets in their text, ensuring accuracy and efficiency in coding, writing, and editing tasks. With its simple and intuitive interface, this app is perfect for developers, writers, and students who need to manage square brackets in their work. By providing a quick and easy way to count and balance square brackets, this tool saves time and reduces errors, making it an essential resource for anyone working with text that requires bracket balancing.</p>
+</div>
+  <p class="text-light">A simple tool to count and balance square brackets in your text.</p>
+  <form>
+    <div class="mb-3">
+      <label for="textarea" class="form-label text-light">Enter your text:</label>
+      <textarea class="form-control" id="textarea" rows="10"></textarea>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <span id="opening-bracket-counter" class="badge counterbadge text-light bg-danger">0</span> Opening Square Brackets
+      </div>
+      <div class="col-md-6">
+        <span id="closing-bracket-counter" class="badge counterbadge text-light bg-danger">0</span> Closing Square Brackets
+      </div>
+    </div>
+    <button type="button" id="reset-button" class="btn btn-secondary">Reset</button>
+  </form>
+</div>
+
+<div class="explanation-section p-5 bg-light">
+    <h2 class="mb-3">How the Square Bracket Counter App Works</h2>
+    <p class="lead">The Square Bracket Counter App uses a simple formula to count and balance square brackets in your text. The formula is as follows: for each character in the text, if the character is an opening square bracket "[", increment the opening bracket counter; if the character is a closing square bracket "]", increment the closing bracket counter. The app then displays the total number of opening and closing square brackets, providing a quick and easy way to check if your brackets are balanced.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Text Example</th>
+                <th>Opening Brackets</th>
+                <th>Closing Brackets</th>
+                <th>Balance Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>[Hello World]</td>
+                <td>1</td>
+                <td>1</td>
+                <td> Balanced </td>
+            </tr>
+            <tr>
+                <td>[Hello World</td>
+                <td>1</td>
+                <td>0</td>
+                <td> Unbalanced </td>
+            </tr>
+            <tr>
+                <td>Hello World]</td>
+                <td>0</td>
+                <td>1</td>
+                <td> Unbalanced </td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5 bg-dark text-light">
+    <h2 class="mb-3">Common Use Cases for the Square Bracket Counter App</h2>
+    <ul class="list-group">
+        <li class="list-group-item bg-dark text-light">Coding: counting and balancing square brackets is crucial in programming languages such as C, C++, and Java.</li>
+        <li class="list-group-item bg-dark text-light">Writing: authors and writers use square brackets to insert comments or notes in their manuscripts, and this app helps ensure they are properly balanced.</li>
+        <li class="list-group-item bg-dark text-light">Editing: editors use square brackets to mark changes or corrections in documents, and this app helps them keep track of these marks.</li>
+        <li class="list-group-item bg-dark text-light">Data analysis: when working with datasets, square brackets are often used to denote arrays or lists, and this app helps analysts ensure their data is properly formatted.</li>
+        <li class="list-group-item bg-dark text-light">Education: students and teachers use square brackets to mark homework assignments or quiz answers, and this app helps them keep track of these marks.</li>
+        <li class="list-group-item bg-dark text-light">Research: researchers use square brackets to cite sources or references in their papers, and this app helps them ensure their citations are properly formatted.</li>
+        <li class="list-group-item bg-dark text-light">Translation: translators use square brackets to mark culturally specific terms or phrases, and this app helps them keep track of these marks.</li>
+        <li class="list-group-item bg-dark text-light">Proofreading: proofreaders use square brackets to mark corrections or changes in documents, and this app helps them ensure their marks are properly balanced.</li>
+        <li class="list-group-item bg-dark text-light">Indexing: indexers use square brackets to mark keywords or phrases in documents, and this app helps them keep track of these marks.</li>
+        <li class="list-group-item bg-dark text-light">Document management: document managers use square brackets to organize and categorize documents, and this app helps them ensure their documents are properly formatted.</li>
+    </ul>
+</div><script>
+  const textarea = document.getElementById('textarea');
+  const openingBracketCounter = document.getElementById('opening-bracket-counter');
+  const closingBracketCounter = document.getElementById('closing-bracket-counter');
+  const resetButton = document.getElementById('reset-button');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    textarea.value = startParam;
+    countBrackets();
+  }
+
+  textarea.addEventListener('input', countBrackets);
+
+  resetButton.addEventListener('click', () => {
+    textarea.value = '';
+    openingBracketCounter.textContent = '0';
+    closingBracketCounter.textContent = '0';
+    openingBracketCounter.classList.remove('bg-success');
+    openingBracketCounter.classList.add('bg-danger');
+    closingBracketCounter.classList.remove('bg-success');
+    closingBracketCounter.classList.add('bg-danger');
+  });
+
+  function countBrackets() {
+    const text = textarea.value;
+    let openingBrackets = 0;
+    let closingBrackets = 0;
+
+    for (let i = 0; i < text.length; i++) {
+      if (text[i] === '[') {
+        openingBrackets++;
+      } else if (text[i] === ']') {
+        closingBrackets++;
+      }
+    }
+
+    openingBracketCounter.textContent = openingBrackets;
+    closingBracketCounter.textContent = closingBrackets;
+
+    if (openingBrackets === closingBrackets) {
+      openingBracketCounter.classList.remove('bg-danger');
+      openingBracketCounter.classList.add('bg-success');
+      closingBracketCounter.classList.remove('bg-danger');
+      closingBracketCounter.classList.add('bg-success');
+    } else {
+      openingBracketCounter.classList.remove('bg-success');
+      openingBracketCounter.classList.add('bg-danger');
+      closingBracketCounter.classList.remove('bg-success');
+      closingBracketCounter.classList.add('bg-danger');
+    }
+  }
+</script>

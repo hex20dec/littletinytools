@@ -1,0 +1,152 @@
+---
+title: Hashtag Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 14:30:00
+tags:
+- Hashtag Counter
+- Social Media Marketing
+- Content Creation
+- Text Analysis
+- Productivity Tools
+---
+
+<style>
+    #main-div {
+        margin: 40px auto;
+        max-width: 800px;
+        padding: 20px;
+    }
+    #main-div label {
+        display: block;
+        margin-bottom: 10px;
+    }
+    #main-div textarea {
+        width: 100%;
+        height: 200px;
+        padding: 10px;
+        font-size: 16px;
+    }
+    #main-div button {
+        margin-top: 10px;
+    }
+    #main-div #result {
+        margin-top: 10px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    @media (max-width: 768px) {
+        #main-div {
+            margin: 20px auto;
+            max-width: 90%;
+            padding: 10px;
+        }
+    }
+</style>
+
+<div id="main-div">
+    <h1 class="text-center">Hashtag Counter App</h1><div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <p class="text-center fs-5">The Hashtag Counter App is a free online tool designed to help social media marketers, content creators, and anyone interested in text analysis to count the number of hashtags in a given text. This tool is particularly useful for optimizing social media posts, tracking hashtag campaigns, and analyzing text data. With its simple and intuitive interface, users can quickly and easily count hashtags in any text, making it an essential productivity tool for anyone working with social media or text analysis.</p>
+        </div>
+    </div>
+</div>
+    <form>
+        <div class="mb-3">
+            <label for="textarea">Enter your text:</label>
+            <textarea class="form-control" id="textarea" rows="10"></textarea>
+        </div>
+        <button type="button" class="btn btn-primary" id="count-btn">Count Hashtags</button>
+        <div id="result" class="alert alert-secondary" role="alert"></div>
+    </form>
+</div>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2>How it Works</h2>
+            <p>The Hashtag Counter App uses a simple formula to count the number of hashtags in a given text: it searches for any word that starts with the "#" symbol and is followed by one or more alphanumeric characters. This formula can be expressed as: <strong>Hashtag Count = Number of words starting with "#" and followed by alphanumeric characters</strong>.</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Text Example</th>
+                        <th>Hashtag Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>No hashtags</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>#Hello</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>#Hello #World</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>#Hello #World #Example</td>
+                        <td>3</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div><div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2>Common Use Cases</h2>
+            <ol>
+                <li><strong>Social Media Optimization</strong>: Use the Hashtag Counter App to optimize your social media posts by counting the number of hashtags and ensuring you're using the most effective ones.</li>
+                <li><strong>Hashtag Campaign Tracking</strong>: Track the performance of your hashtag campaigns by counting the number of hashtags used in social media posts.</li>
+                <li><strong>Text Analysis</strong>: Analyze text data by counting the number of hashtags used in a given text, helping you to identify trends and patterns.</li>
+                <li><strong>Content Creation</strong>: Use the Hashtag Counter App to ensure your content is optimized for social media by counting the number of hashtags and selecting the most relevant ones.</li>
+                <li><strong>Productivity Tool</strong>: Use the Hashtag Counter App as a productivity tool to quickly and easily count hashtags in any text, saving you time and effort.</li>
+                <li><strong>Research and Development</strong>: Use the Hashtag Counter App to analyze text data and identify trends and patterns in hashtag usage.</li>
+                <li><strong>Marketing Strategy</strong>: Use the Hashtag Counter App to develop a marketing strategy that incorporates effective hashtag usage.</li>
+                <li><strong>Brand Monitoring</strong>: Use the Hashtag Counter App to monitor your brand's presence on social media by counting the number of hashtags used in conjunction with your brand name.</li>
+                <li><strong>Social Media Monitoring</strong>: Use the Hashtag Counter App to monitor social media conversations by counting the number of hashtags used in social media posts.</li>
+                <li><strong>Competitor Analysis</strong>: Use the Hashtag Counter App to analyze your competitors' social media presence by counting the number of hashtags they use.</li>
+            </ol>
+        </div>
+    </div>
+</div><script>
+    const textarea = document.getElementById('textarea');
+    const countBtn = document.getElementById('count-btn');
+    const resultDiv = document.getElementById('result');
+
+    // Preload the first input field with the value coming from the query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+        textarea.value = startValue;
+    }
+
+    countBtn.addEventListener('click', countHashtags);
+
+    function countHashtags() {
+        const text = textarea.value.trim();
+        if (text === '') {
+            resultDiv.textContent = 'Please enter some text.';
+            resultDiv.classList.remove('alert-success');
+            resultDiv.classList.add('alert-danger');
+            return;
+        }
+
+        const hashtagRegex = /\#\w+/g;
+        const matches = text.match(hashtagRegex);
+        const count = matches? matches.length : 0;
+
+        if (count === 0) {
+            resultDiv.textContent = 'No hashtags found.';
+            resultDiv.classList.remove('alert-success');
+            resultDiv.classList.add('alert-warning');
+        } else {
+            resultDiv.textContent = `Found ${count} hashtag(s).`;
+            resultDiv.classList.remove('alert-danger', 'alert-warning');
+            resultDiv.classList.add('alert-success');
+        }
+    }
+</script>

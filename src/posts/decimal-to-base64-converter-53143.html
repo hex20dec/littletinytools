@@ -1,0 +1,159 @@
+---
+title: Decimal to Base64 Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 14:30:00
+tags:
+  - Decimal to Base64
+  - Converter Tool
+  - Base64 Encoding
+  - Decimal Conversion
+  - Online Converter
+---
+
+<style>
+  #main-div {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  input, button, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+  }
+  button {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #3e8e41;
+  }
+ .error {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Decimal to Base64 Converter</h1><div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <p class="text-center">The Decimal to Base64 Converter is a free online tool that allows users to convert decimal numbers to their corresponding Base64 representations. This converter is designed to be user-friendly and efficient, providing accurate results in a matter of seconds. With its simple and intuitive interface, users can easily input their decimal numbers and obtain the equivalent Base64 values, making it an essential tool for developers, programmers, and anyone working with data conversion. The converter supports a wide range of decimal numbers, from small to large, and is optimized for performance, ensuring fast and reliable results. By utilizing this tool, users can streamline their workflow, reduce errors, and increase productivity, making it an indispensable asset for anyone involved in data processing and analysis.</p>
+        </div>
+    </div>
+</div>
+  <label for="decimal">Enter a decimal number:</label>
+  <input type="number" id="decimal" value="">
+  <button id="convert">Convert to Base64</button>
+  <label for="base64">Base64 result:</label>
+  <textarea id="base64" rows="5" readonly></textarea>
+  <div id="error" class="error"></div>
+</div>
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2>How it Works</h2>
+            <p>The Decimal to Base64 Converter uses a simple yet efficient algorithm to convert decimal numbers to their corresponding Base64 representations. The process involves dividing the decimal number by 64 and appending the remainder to the result string. This process is repeated until the decimal number becomes 0. The resulting string is then returned as the Base64 representation of the input decimal number.</p>
+            <h2>Example Conversions</h2>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Decimal</th>
+                        <th>Base64</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>MQ==</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>MTE=</td>
+                    </tr>
+                    <tr>
+                        <td>100</td>
+                        <td>MTAw</td>
+                    </tr>
+                    <tr>
+                        <td>1000</td>
+                        <td>MTAwMA==</td>
+                    </tr>
+                    <tr>
+                        <td>10000</td>
+                        <td>MTAwMDA=</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div><div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2>Common Use Cases</h2>
+            <ol>
+                <li><strong>Data Encoding</strong>: The Decimal to Base64 Converter can be used to encode data in a compact and efficient manner, making it ideal for applications where data size is a concern.</li>
+                <li><strong>Web Development</strong>: Web developers can use this tool to convert decimal numbers to Base64 representations, which can be used in URL parameters, cookies, or other web-related applications.</li>
+                <li><strong>Networking</strong>: Network administrators can use this tool to convert decimal IP addresses to their corresponding Base64 representations, which can be used in network protocols and configurations.</li>
+                <li><strong>Cryptography</strong>: Cryptographers can use this tool to convert decimal numbers to Base64 representations, which can be used in cryptographic algorithms and protocols.</li>
+                <li><strong>Game Development</strong>: Game developers can use this tool to convert decimal numbers to Base64 representations, which can be used in game development, such as encoding game data or generating unique identifiers.</li>
+                <li><strong>Scientific Research</strong>: Scientists can use this tool to convert decimal numbers to Base64 representations, which can be used in scientific research, such as encoding data for analysis or visualization.</li>
+                <li><strong>Education</strong>: Educators can use this tool to teach students about data conversion, encoding, and Base64 representations, making it an ideal tool for educational purposes.</li>
+                <li><strong>Data Analysis</strong>: Data analysts can use this tool to convert decimal numbers to Base64 representations, which can be used in data analysis, such as encoding data for processing or visualization.</li>
+                <li><strong>Machine Learning</strong>: Machine learning engineers can use this tool to convert decimal numbers to Base64 representations, which can be used in machine learning algorithms and models.</li>
+                <li><strong>Internet of Things (IoT)</strong>: IoT developers can use this tool to convert decimal numbers to Base64 representations, which can be used in IoT applications, such as encoding sensor data or device IDs.</li>
+            </ol>
+        </div>
+    </div>
+</div><script>
+  const decimalInput = document.getElementById('decimal');
+  const convertButton = document.getElementById('convert');
+  const base64Output = document.getElementById('base64');
+  const errorDiv = document.getElementById('error');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    decimalInput.value = startValue;
+  }
+
+  convertButton.addEventListener('click', () => {
+    const decimalValue = decimalInput.value;
+    if (isNaN(decimalValue) || decimalValue === '') {
+      errorDiv.innerText = 'Please enter a valid decimal number';
+      return;
+    }
+    try {
+      const base64Value = decimalToBase64(decimalValue);
+      base64Output.value = base64Value;
+      errorDiv.innerText = '';
+    } catch (error) {
+      errorDiv.innerText = error.message;
+    }
+  });
+
+  function decimalToBase64(decimal) {
+    if (decimal < 0) {
+      throw new Error('Decimal number cannot be negative');
+    }
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+    let base64 = '';
+    while (decimal > 0) {
+      const remainder = decimal % 64;
+      base64 = chars[remainder] + base64;
+      decimal = Math.floor(decimal / 64);
+    }
+    return base64;
+  }
+</script>

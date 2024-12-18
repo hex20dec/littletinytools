@@ -1,0 +1,188 @@
+---
+title: Primary-Secondary Sorter Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-20 14:30:00
+tags:
+  - task management
+  - prioritization
+  - productivity
+  - organization
+  - decision making
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div h1, #main-div h2, #main-div h3, #main-div h4, #main-div h5, #main-div h6 {
+    color: #fff;
+  }
+  #main-div.list-group-item {
+    background-color: #333;
+    border-color: #444;
+  }
+  #main-div.list-group-item:hover {
+    background-color: #444;
+  }
+  #main-div.btn {
+    background-color: #555;
+    border-color: #666;
+    color: #fff;
+  }
+  #main-div.btn:hover {
+    background-color: #666;
+    border-color: #777;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center mb-5">Primary-Secondary Sorter</h1><div class="container mt-5">
+  <p class="text-center fs-5">The Primary-Secondary Sorter Tool is a web-based utility designed to help users organize and prioritize tasks, ideas, or items into two distinct categories. This tool is essential for individuals seeking to streamline their workflow, enhance productivity, and make informed decisions. By leveraging this tool, users can efficiently categorize and manage their tasks, ultimately leading to improved time management and reduced stress.</p>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <input type="text" id="new-item" class="form-control mb-3" placeholder="Enter new item" aria-label="Enter new item">
+      <button class="btn btn-block mb-3" id="add-btn">Add Item</button>
+      <div class="row">
+        <div class="col-md-6">
+          <h2 class="mb-3">Primary</h2>
+          <ul id="primary-list" class="list-group mb-3">
+          </ul>
+          <p id="primary-count" class="mb-3">0 items</p>
+        </div>
+        <div class="col-md-6">
+          <h2 class="mb-3">Secondary</h2>
+          <ul id="secondary-list" class="list-group mb-3">
+          </ul>
+          <p id="secondary-count" class="mb-3">0 items</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="text-center mt-5">
+    <p>&copy; 2024 Primary-Secondary Sorter Tool</p>
+  </footer>
+</div>
+
+<div class="container mt-5">
+  <h2 class="mb-3 text-center">How it Works</h2>
+  <p class="text-center fs-5">The Primary-Secondary Sorter Tool operates on a simple yet effective principle: it allows users to create and manage two separate lists of items. The primary list serves as the default category, where new items are added. Users can then seamlessly transfer items between the primary and secondary lists, enabling them to prioritize and organize their tasks with ease.</p>
+  <table class="table table-striped table-bordered text-center">
+    <thead>
+      <tr>
+        <th>Use Case</th>
+        <th>Primary List</th>
+        <th>Secondary List</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Initial Item Addition</td>
+        <td>+ New Item</td>
+        <td>Empty</td>
+      </tr>
+      <tr>
+        <td>Item Transfer</td>
+        <td>- Transferred Item</td>
+        <td>+ Transferred Item</td>
+      </tr>
+      <tr>
+        <td>Multiple Item Management</td>
+        <td>Multiple Items</td>
+        <td>Multiple Items</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="mb-3 text-center">Common Use Cases</h2>
+  <ul class="list-group list-group-numbered">
+    <li class="list-group-item">Task management: Organize daily or weekly tasks into primary and secondary lists based on priority and urgency.</li>
+    <li class="list-group-item">Idea generation: Use the tool to brainstorm and categorize ideas into primary and secondary lists for further development.</li>
+    <li class="list-group-item">Project planning: Manage project tasks and responsibilities by assigning them to primary and secondary lists.</li>
+    <li class="list-group-item">Meetings and events: Plan and organize meetings, conferences, or events by creating primary and secondary lists of attendees, speakers, or activities.</li>
+    <li class="list-group-item">Travel planning: Use the tool to plan and organize travel itineraries, accommodations, and activities into primary and secondary lists.</li>
+    <li class="list-group-item">Shopping lists: Create and manage shopping lists by categorizing items into primary and secondary lists based on importance and urgency.</li>
+    <li class="list-group-item">Goal setting: Set and prioritize personal or professional goals by creating primary and secondary lists of objectives and milestones.</li>
+    <li class="list-group-item">Time management: Optimize time management by assigning tasks and activities to primary and secondary lists based on priority and availability.</li>
+    <li class="list-group-item">Decision making: Use the tool to weigh the pros and cons of different options by creating primary and secondary lists of advantages and disadvantages.</li>
+    <li class="list-group-item">Brainstorming: Leverage the tool to facilitate brainstorming sessions by generating and categorizing ideas into primary and secondary lists.</li>
+  </ul>
+</div><script>
+  const newItemInput = document.getElementById('new-item');
+  const addBtn = document.getElementById('add-btn');
+  const primaryList = document.getElementById('primary-list');
+  const secondaryList = document.getElementById('secondary-list');
+  const primaryCount = document.getElementById('primary-count');
+  const secondaryCount = document.getElementById('secondary-count');
+
+  let primaryItems = [];
+  let secondaryItems = [];
+
+  if (window.location.search) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      newItemInput.value = startValue;
+    }
+  }
+
+  addBtn.addEventListener('click', () => {
+    const newItem = newItemInput.value.trim();
+    if (newItem) {
+      primaryItems.push(newItem);
+      updatePrimaryList();
+      newItemInput.value = '';
+    } else {
+      alert('Please enter a valid item');
+    }
+  });
+
+  primaryList.addEventListener('click', (e) => {
+    if (e.target.classList.contains('list-group-item')) {
+      const itemText = e.target.textContent;
+      const itemIndex = primaryItems.indexOf(itemText);
+      if (itemIndex!== -1) {
+        primaryItems.splice(itemIndex, 1);
+        secondaryItems.push(itemText);
+        updatePrimaryList();
+        updateSecondaryList();
+      }
+    }
+  });
+
+  secondaryList.addEventListener('click', (e) => {
+    if (e.target.classList.contains('list-group-item')) {
+      const itemText = e.target.textContent;
+      const itemIndex = secondaryItems.indexOf(itemText);
+      if (itemIndex!== -1) {
+        secondaryItems.splice(itemIndex, 1);
+        primaryItems.push(itemText);
+        updatePrimaryList();
+        updateSecondaryList();
+      }
+    }
+  });
+
+  function updatePrimaryList() {
+    primaryList.innerHTML = '';
+    primaryItems.forEach((item) => {
+      const listItem = document.createElement('li');
+      listItem.classList.add('list-group-item');
+      listItem.textContent = item;
+      primaryList.appendChild(listItem);
+    });
+    primaryCount.textContent = `${primaryItems.length} items`;
+  }
+
+  function updateSecondaryList() {
+    secondaryList.innerHTML = '';
+    secondaryItems.forEach((item) => {
+      const listItem = document.createElement('li');
+      listItem.classList.add('list-group-item');
+      listItem.textContent = item;
+      secondaryList.appendChild(listItem);
+    });
+    secondaryCount.textContent = `${secondaryItems.length} items`;
+  }
+</script>

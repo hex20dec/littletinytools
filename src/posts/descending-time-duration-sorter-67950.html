@@ -1,0 +1,196 @@
+---
+title: Descending Time Duration Sorter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-15 12:00:00
+tags:
+- Time Management
+- Task Prioritization
+- Event Planning
+- Time Sorting
+- Productivity Tool
+---
+
+<style>
+    #main-div {
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+    }
+    #main-div label {
+        margin-bottom: 0.5rem;
+    }
+    #main-div input, #main-div button {
+        margin-bottom: 1rem;
+    }
+    #main-div table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    #main-div th, #main-div td {
+        border: 1px solid #dee2e6;
+        padding: 0.5rem;
+        text-align: left;
+    }
+    #main-div th {
+        background-color: #333333;
+        color: #ffffff;
+    }
+    #main-div td {
+        background-color: #444444;
+    }
+</style>
+
+<div id="main-div">
+    <h1>Descending Time Duration Sorter</h1><div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <p class="lead">The Descending Time Duration Sorter is a web-based tool designed to help individuals manage and prioritize their time more effectively. By inputting time durations in hours and minutes, users can organize and sort their tasks in descending order, enabling them to focus on the most time-consuming activities first. This tool is particularly useful for event planning, task prioritization, and time management, making it an essential productivity tool for anyone looking to optimize their schedule and increase efficiency.</p>
+        </div>
+    </div>
+</div>
+    <label for="time-duration">Time Duration (e.g., 1 hour 30 minutes):</label>
+    <input type="text" id="time-duration" class="form-control" placeholder="e.g., 1 hour 30 minutes" aria-label="Time Duration">
+    <button id="add-button" class="btn btn-primary">Add</button>
+    <button id="sort-button" class="btn btn-secondary">Sort Descending</button>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Time Durations</th>
+            </tr>
+        </thead>
+        <tbody id="time-durations-body">
+        </tbody>
+    </table>
+    <button id="clear-button" class="btn btn-danger">Clear</button>
+</div>
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2>How it Works</h2>
+            <p>The Descending Time Duration Sorter uses a simple formula to calculate and sort time durations: Total Minutes = (Hours * 60) + Minutes. By inputting the time duration in hours and minutes, the tool converts it into total minutes and sorts it in descending order. This allows users to easily compare and prioritize their tasks based on the time required to complete them.</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Hours</th>
+                        <th>Minutes</th>
+                        <th>Total Minutes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>30</td>
+                        <td>90</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>15</td>
+                        <td>135</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>45</td>
+                        <td>225</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div><div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2>Common Use Cases</h2>
+            <ul>
+                <li>Event planning: Organize and prioritize tasks based on the time required to complete them, ensuring a smooth and efficient event execution.</li>
+                <li>Task prioritization: Sort tasks by their time requirements, enabling users to focus on the most important and time-consuming tasks first.</li>
+                <li>Time management: Use the tool to schedule and manage time blocks, helping users to stay on track and meet deadlines.</li>
+                <li>Project management: Sort project tasks by their time requirements, ensuring that the most critical and time-consuming tasks are completed first.</li>
+                <li>Scheduling meetings: Use the tool to schedule meetings and appointments, taking into account the time required for each meeting.</li>
+                <li>Creating to-do lists: Sort to-do lists by the time required to complete each task, enabling users to prioritize their tasks more effectively.</li>
+                <li>Managing deadlines: Use the tool to manage deadlines and ensure that tasks are completed on time.</li>
+                <li>Coordinating team tasks: Sort team tasks by their time requirements, enabling team members to prioritize their tasks and work more efficiently.</li>
+                <li>Personal productivity: Use the tool to schedule and manage personal tasks, helping users to stay organized and focused.</li>
+                <li>Business planning: Sort business tasks by their time requirements, enabling entrepreneurs and business owners to prioritize their tasks and make the most of their time.</li>
+            </ul>
+        </div>
+    </div>
+</div><script>
+    const timeDurationInput = document.getElementById('time-duration');
+    const addButton = document.getElementById('add-button');
+    const sortButton = document.getElementById('sort-button');
+    const clearButton = document.getElementById('clear-button');
+    const timeDurationsBody = document.getElementById('time-durations-body');
+    const timeDurations = [];
+
+    // Preload the first input field with the value coming from the query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+        timeDurationInput.value = startValue;
+    }
+
+    addButton.addEventListener('click', addTimeDuration);
+    sortButton.addEventListener('click', sortTimeDurations);
+    clearButton.addEventListener('click', clearTimeDurations);
+
+    function addTimeDuration() {
+        const timeDurationValue = timeDurationInput.value.trim();
+        if (timeDurationValue) {
+            const [hours, minutes] = parseTimeDuration(timeDurationValue);
+            if (hours!== null && minutes!== null) {
+                timeDurations.push({ hours, minutes });
+                renderTimeDurations();
+                timeDurationInput.value = '';
+            } else {
+                alert('Invalid time duration format. Please use the format "X hour Y minutes".');
+            }
+        } else {
+            alert('Please enter a time duration.');
+        }
+    }
+
+    function parseTimeDuration(timeDurationValue) {
+        const regex = /^(\d+) hour (\d+) minutes$/;
+        const match = timeDurationValue.match(regex);
+        if (match) {
+            return [parseInt(match[1]), parseInt(match[2])];
+        } else {
+            return [null, null];
+        }
+    }
+
+    function renderTimeDurations() {
+        timeDurationsBody.innerHTML = '';
+        timeDurations.forEach((timeDuration, index) => {
+            const row = document.createElement('tr');
+            const cell = document.createElement('td');
+            cell.textContent = `${timeDuration.hours} hour ${timeDuration.minutes} minutes`;
+            row.appendChild(cell);
+            timeDurationsBody.appendChild(row);
+        });
+    }
+
+    function sortTimeDurations() {
+        timeDurations.sort((a, b) => {
+            if (a.hours > b.hours) {
+                return -1;
+            } else if (a.hours < b.hours) {
+                return 1;
+            } else {
+                if (a.minutes > b.minutes) {
+                    return -1;
+                } else if (a.minutes < b.minutes) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+        renderTimeDurations();
+    }
+
+    function clearTimeDurations() {
+        timeDurations.length = 0;
+        renderTimeDurations();
+    }
+</script>

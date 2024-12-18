@@ -1,0 +1,135 @@
+---
+title: Hour Rounding Date Difference Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-02-15 12:00:00
+tags:
+  - Date Calculator
+  - Hour Rounding
+  - Time Difference
+  - Date Time Calculator
+  - Hour Calculator
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    padding: 20px;
+  }
+  .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-3">Hour Rounding Date Difference Calculator</h1><div class="container mt-5 mb-5">
+    <h1>Hour Rounding Date Difference Calculator: A Comprehensive Time Calculation Tool</h1>
+    <p class="lead">The Hour Rounding Date Difference Calculator is an online tool designed to calculate the difference between two dates and times, rounding the result to the nearest hour. This calculator is perfect for individuals and businesses looking to calculate time intervals, such as working hours, travel time, or project duration. With its user-friendly interface and accurate calculations, this tool provides a reliable way to determine the time difference between two specific points in time.</p>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="start-date" class="form-label">Start Date</label>
+        <input type="datetime-local" id="start-date" class="form-control" value="<?php echo $_GET['start']; ?>">
+      </div>
+      <div class="mb-3">
+        <label for="end-date" class="form-label">End Date</label>
+        <input type="datetime-local" id="end-date" class="form-control">
+      </div>
+      <button id="calculate-btn" class="btn btn-primary mb-3">Calculate</button>
+      <div id="result" class="mb-3"></div>
+      <div id="error-message" class="error-message"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5 mb-5">
+    <h2 class="mb-3">How the Hour Rounding Date Difference Calculator Works</h2>
+    <p class="lead">The calculator uses a simple formula to calculate the time difference: it subtracts the start date and time from the end date and time, and then rounds the result to the nearest hour. This can be represented by the following formula: Time Difference = (End Date - Start Date) / 1 hour, where the result is rounded to the nearest whole number.</p>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Time Difference (Rounded to Nearest Hour)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>08:00 AM</td>
+                <td>09:30 AM</td>
+                <td>1 hour</td>
+            </tr>
+            <tr>
+                <td>10:00 AM</td>
+                <td>11:45 AM</td>
+                <td>2 hours</td>
+            </tr>
+            <tr>
+                <td>01:00 PM</td>
+                <td>02:15 PM</td>
+                <td>1 hour</td>
+            </tr>
+            <tr>
+                <td>03:00 PM</td>
+                <td>04:30 PM</td>
+                <td>2 hours</td>
+            </tr>
+            <tr>
+                <td>05:00 PM</td>
+                <td>06:45 PM</td>
+                <td>2 hours</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="container mt-5 mb-5">
+    <h2 class="mb-3">10 Common Use Cases for the Hour Rounding Date Difference Calculator</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Calculating working hours for employees</li>
+        <li class="list-group-item">Determining project duration and timelines</li>
+        <li class="list-group-item">Scheduling appointments and meetings</li>
+        <li class="list-group-item">Tracking travel time and itinerary</li>
+        <li class="list-group-item">Calculating overtime pay for employees</li>
+        <li class="list-group-item">Scheduling classes and lectures</li>
+        <li class="list-group-item">Tracking study time and progress</li>
+        <li class="list-group-item">Calculating time differences between time zones</li>
+        <li class="list-group-item">Determining delivery and shipping times</li>
+        <li class="list-group-item">Scheduling maintenance and repair services</li>
+    </ul>
+</div><script>
+  const calculateBtn = document.getElementById('calculate-btn');
+  const startDateInput = document.getElementById('start-date');
+  const endDateInput = document.getElementById('end-date');
+  const resultDiv = document.getElementById('result');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  calculateBtn.addEventListener('click', () => {
+    const startDate = new Date(startDateInput.value);
+    const endDate = new Date(endDateInput.value);
+
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      errorMessageDiv.textContent = 'Invalid date or time';
+      resultDiv.textContent = '';
+    } else {
+      const differenceInMs = Math.abs(endDate.getTime() - startDate.getTime());
+      const differenceInHours = differenceInMs / (1000 * 60 * 60);
+      const roundedDifferenceInHours = Math.round(differenceInHours);
+
+      if (roundedDifferenceInHours === 0) {
+        resultDiv.textContent = '0 hours';
+      } else if (roundedDifferenceInHours < 1) {
+        resultDiv.textContent = 'Less than 1 hour';
+      } else {
+        resultDiv.textContent = `${roundedDifferenceInHours} hours`;
+      }
+
+      errorMessageDiv.textContent = '';
+    }
+  });
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    startDateInput.value = startParam;
+  }
+</script>

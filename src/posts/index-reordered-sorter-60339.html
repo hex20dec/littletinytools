@@ -1,0 +1,186 @@
+---
+title: Index Reordered Sorter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Sorting Tool
+  - Index Reordering
+  - Web Application
+  - User Interface
+  - Frontend Development
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-3">Index Reordered Sorter</h1><div class="container mt-5 mb-5">
+  <p class="text-center fs-5">The Index Reordered Sorter is a web-based tool that allows users to reorder a list of items by assigning new indices to each item. This tool is designed to simplify the process of reorganizing and reordering lists, making it an essential asset for individuals and professionals who work with data, lists, and collections. With its user-friendly interface and straightforward functionality, the Index Reordered Sorter is an ideal solution for anyone looking to efficiently reorder and reorganize their lists.</p>
+</div>
+  <div class="input-group mb-3">
+    <label class="input-group-text" for="input-field">Enter list of items</label>
+    <input type="text" id="input-field" class="form-control" placeholder="Item1, Item2, Item3, etc.">
+  </div>
+  <div class="btn-group mb-3">
+    <button class="btn btn-primary" id="sort-button">Sort</button>
+    <button class="btn btn-secondary" id="reset-button">Reset</button>
+  </div>
+  <div id="error-message" class="error-message mb-3"></div>
+  <table class="table table-striped table-dark" id="original-list">
+    <thead>
+      <tr>
+        <th>Index</th>
+        <th>Item</th>
+      </tr>
+    </thead>
+    <tbody id="original-list-body"></tbody>
+  </table>
+  <table class="table table-striped table-dark" id="reordered-list">
+    <thead>
+      <tr>
+        <th>Index</th>
+        <th>Item</th>
+      </tr>
+    </thead>
+    <tbody id="reordered-list-body"></tbody>
+  </table>
+</div>
+
+<div class="container mt-5 mb-5">
+  <h2 class="mb-3">How it Works</h2>
+  <p>The Index Reordered Sorter uses a simple formula to reorder the list of items: each item is assigned a new index value, which determines its position in the reordered list. The formula can be expressed as follows: New Order = (Item, New Index), where the New Index is a user-defined value that replaces the original index of the item.</p>
+  <table class="table table-striped table-dark">
+    <thead>
+      <tr>
+        <th>Original Index</th>
+        <th>Item</th>
+        <th>New Index</th>
+        <th>New Order</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Item A</td>
+        <td>3</td>
+        <td>3. Item A</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Item B</td>
+        <td>1</td>
+        <td>1. Item B</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Item C</td>
+        <td>2</td>
+        <td>2. Item C</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5 mb-5">
+  <h2 class="mb-3">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Reordering a list of tasks or to-do items based on priority or deadline</li>
+    <li class="list-group-item">Rearranging a collection of items, such as books or music, to create a custom playlist or library</li>
+    <li class="list-group-item">Reorganizing a database or spreadsheet to improve data analysis or reporting</li>
+    <li class="list-group-item">Creating a customized list of items for a project or presentation</li>
+    <li class="list-group-item">Reordering a list of items to reflect changes in priority or status</li>
+    <li class="list-group-item">Rearranging a list of items to improve usability or accessibility</li>
+    <li class="list-group-item">Creating a list of items for a meeting or discussion</li>
+    <li class="list-group-item">Reordering a list of items to reflect changes in market trends or customer preferences</li>
+    <li class="list-group-item">Reorganizing a list of items to improve workflow or productivity</li>
+    <li class="list-group-item">Creating a customized list of items for a specific industry or application</li>
+  </ul>
+</div><script>
+  const inputField = document.getElementById('input-field');
+  const sortButton = document.getElementById('sort-button');
+  const resetButton = document.getElementById('reset-button');
+  const originalListBody = document.getElementById('original-list-body');
+  const reorderedListBody = document.getElementById('reordered-list-body');
+  const errorMessage = document.getElementById('error-message');
+
+  let originalList = [];
+  let reorderedList = [];
+
+  // Preload input field with query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('start')) {
+    inputField.value = urlParams.get('start');
+  }
+
+  sortButton.addEventListener('click', () => {
+    const input = inputField.value.trim();
+    if (!input) {
+      errorMessage.textContent = 'Please enter a list of items';
+      return;
+    }
+    const items = input.split(',');
+    if (items.length === 0) {
+      errorMessage.textContent = 'Invalid input';
+      return;
+    }
+    originalList = items.map((item, index) => ({ index, item: item.trim() }));
+    reorderedList = [...originalList];
+    updateOriginalList();
+    updateReorderedList();
+  });
+
+  resetButton.addEventListener('click', () => {
+    inputField.value = '';
+    originalList = [];
+    reorderedList = [];
+    originalListBody.innerHTML = '';
+    reorderedListBody.innerHTML = '';
+    errorMessage.textContent = '';
+  });
+
+  function updateOriginalList() {
+    originalListBody.innerHTML = '';
+    originalList.forEach((item) => {
+      const row = document.createElement('tr');
+      const indexCell = document.createElement('td');
+      const itemCell = document.createElement('td');
+      indexCell.textContent = item.index;
+      itemCell.textContent = item.item;
+      row.appendChild(indexCell);
+      row.appendChild(itemCell);
+      originalListBody.appendChild(row);
+    });
+  }
+
+  function updateReorderedList() {
+    reorderedListBody.innerHTML = '';
+    reorderedList.forEach((item) => {
+      const row = document.createElement('tr');
+      const indexCell = document.createElement('td');
+      const itemCell = document.createElement('td');
+      const inputCell = document.createElement('td');
+      const inputField = document.createElement('input');
+      inputField.type = 'number';
+      inputField.value = item.index;
+      inputField.addEventListener('input', (e) => {
+        const newValue = parseInt(e.target.value);
+        if (!isNaN(newValue)) {
+          item.index = newValue;
+          updateReorderedList();
+        }
+      });
+      indexCell.textContent = 'New Index:';
+      itemCell.textContent = item.item;
+      inputCell.appendChild(inputField);
+      row.appendChild(indexCell);
+      row.appendChild(itemCell);
+      row.appendChild(inputCell);
+      reorderedListBody.appendChild(row);
+    });
+  }
+</script>

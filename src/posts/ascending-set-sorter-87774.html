@@ -1,0 +1,125 @@
+---
+title: Ascending Set Sorter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 14:30:00
+tags:
+  - sorting app
+  - numerical data
+  - ascending order
+  - data organization
+  - productivity tool
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .error-message {
+    color: #fff;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1>Ascending Set Sorter</h1><div class="container mt-5">
+    <p class="lead">The Ascending Set Sorter is a free online tool designed to help users organize numerical data in ascending order. This tool simplifies the process of sorting numbers, making it an essential resource for individuals working with large datasets, students, and professionals alike. With its user-friendly interface, the Ascending Set Sorter allows users to input numbers, sort them in ascending order, and view the results in a matter of seconds, saving time and increasing productivity.</p>
+</div>
+  <label for="input-numbers" class="form-label">Enter numbers</label>
+  <input type="text" id="input-numbers" class="form-control" placeholder="e.g. 5, 2, 8, 1" aria-describedby="input-numbers-help">
+  <div id="input-numbers-help" class="form-text">Separate numbers with commas or spaces.</div>
+  <div id="error-message" class="alert alert-danger" role="alert" style="display: none;"></div>
+  <div class="d-flex justify-content-between mt-3">
+    <button id="clear-button" class="btn btn-secondary">Clear</button>
+    <button id="sort-button" class="btn btn-primary">Sort</button>
+  </div>
+  <label for="sorted-numbers" class="form-label mt-3">Sorted numbers</label>
+  <textarea id="sorted-numbers" class="form-control" rows="3" readonly></textarea>
+</div>
+
+<div class="container mt-5">
+    <h2>How it Works</h2>
+    <p>The Ascending Set Sorter uses a simple yet effective formula to sort numbers in ascending order. This formula can be explained as follows: the tool takes a list of numbers as input, removes any non-numeric values, and then arranges the remaining numbers in order from smallest to largest. This process can be represented in a step-by-step manner:</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Input Numbers</th>
+                <th>Sorted Numbers</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>5, 2, 8, 1</td>
+                <td>1, 2, 5, 8</td>
+            </tr>
+            <tr>
+                <td>10, 7, 3, 9</td>
+                <td>3, 7, 9, 10</td>
+            </tr>
+            <tr>
+                <td>4, 6, 2, 8</td>
+                <td>2, 4, 6, 8</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="container mt-5">
+    <h2>Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Sorting exam scores in ascending order to identify the lowest and highest scores.</li>
+        <li class="list-group-item">Organizing numerical data for statistical analysis, such as sorting temperatures or stock prices.</li>
+        <li class="list-group-item">Arranging numbers in ascending order for educational purposes, such as teaching students about numerical patterns.</li>
+        <li class="list-group-item">Sorting customer data, such as ages or incomes, for marketing research.</li>
+        <li class="list-group-item">Organizing sporting data, such as sorting race times or scores.</li>
+        <li class="list-group-item">Sorting numerical data for scientific research, such as sorting experimental results.</li>
+        <li class="list-group-item">Arranging numbers in ascending order for data visualization, such as creating charts or graphs.</li>
+        <li class="list-group-item">Sorting numerical data for quality control, such as sorting manufacturing defects.</li>
+        <li class="list-group-item">Organizing financial data, such as sorting transactions or account balances.</li>
+        <li class="list-group-item">Sorting numerical data for forecasting, such as sorting historical weather patterns.</li>
+    </ul>
+</div><script>
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const startValue = urlParams.get('start');
+  document.getElementById('input-numbers').value = startValue;
+
+  const sortButton = document.getElementById('sort-button');
+  const clearButton = document.getElementById('clear-button');
+  const inputField = document.getElementById('input-numbers');
+  const sortedNumbersField = document.getElementById('sorted-numbers');
+  const errorMessage = document.getElementById('error-message');
+
+  sortButton.addEventListener('click', sortNumbers);
+  clearButton.addEventListener('click', clearFields);
+
+  function sortNumbers() {
+    const input = inputField.value.trim();
+    if (input === '') {
+      displayErrorMessage('Please enter some numbers');
+      return;
+    }
+
+    const numbers = input.replace(/\s+/g, ',').split(',');
+    const numericNumbers = numbers.map(num => parseFloat(num));
+    const nonNumericValues = numericNumbers.filter(num => isNaN(num));
+
+    if (nonNumericValues.length > 0) {
+      displayErrorMessage('Invalid input. Please enter only numbers separated by commas or spaces.');
+      return;
+    }
+
+    const sortedNumbers = numericNumbers.sort((a, b) => a - b);
+    const sortedNumbersString = sortedNumbers.join(', ');
+    sortedNumbersField.value = sortedNumbersString;
+    errorMessage.style.display = 'none';
+  }
+
+  function clearFields() {
+    inputField.value = '';
+    sortedNumbersField.value = '';
+    errorMessage.style.display = 'none';
+  }
+
+  function displayErrorMessage(message) {
+    errorMessage.textContent = message;
+    errorMessage.style.display = 'block';
+  }
+</script>

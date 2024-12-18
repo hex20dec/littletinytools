@@ -1,0 +1,121 @@
+---
+title: 24-Hour to 12-Hour Time Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-07-01 12:00:00
+tags:
+  - time converter
+  - 24-hour clock
+  - 12-hour clock
+  - time format converter
+  - clock converter
+---
+
+<style>
+  #main-div {
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+  }
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <header class="mb-4">
+    <h1 class="text-center">24-hour to 12-hour Time Converter</h1><div class="container mt-5">
+  <p class="text-center fs-5">The 24-hour to 12-hour time converter is a useful tool for converting time from a 24-hour clock format to a 12-hour clock format. This online time converter is designed to simplify the process of converting time, making it easier to understand and work with different time formats. Whether you're working with international schedules, coordinating events across time zones, or simply need to convert time for personal use, this tool is an essential resource. With its user-friendly interface and straightforward conversion process, the 24-hour to 12-hour time converter is the perfect solution for anyone looking to quickly and easily convert time between these two formats.</p>
+</div>
+  </header>
+  <main class="d-flex flex-column align-items-center">
+    <label for="time-input" class="visually-hidden">24-hour Time</label>
+    <input type="text" id="time-input" placeholder="e.g. 14:30" class="form-control w-50 mb-3" aria-label="24-hour Time">
+    <button id="convert-button" class="btn btn-primary w-25">Convert</button>
+    <div id="error-message" class="error-message mt-2"></div>
+    <div id="result" class="mt-4"></div>
+  </main>
+</div>
+
+<div class="container mt-5">
+  <h2 class="text-center">How it Works</h2>
+  <p class="fs-5">The conversion process is based on a simple formula: if the hour is less than 12, it remains the same, and AM is added. If the hour is 12 or greater, it is converted to a 12-hour format by subtracting 12 from the hour, unless it's exactly 12, and PM is added. For example, 14:30 in 24-hour format is converted to 02:30 PM in 12-hour format.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>24-Hour Time</th>
+        <th>12-Hour Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>00:00</td>
+        <td>12:00 AM</td>
+      </tr>
+      <tr>
+        <td>06:00</td>
+        <td>06:00 AM</td>
+      </tr>
+      <tr>
+        <td>12:00</td>
+        <td>12:00 PM</td>
+      </tr>
+      <tr>
+        <td>14:30</td>
+        <td>02:30 PM</td>
+      </tr>
+      <tr>
+        <td>18:45</td>
+        <td>06:45 PM</td>
+      </tr>
+      <tr>
+        <td>22:15</td>
+        <td>10:15 PM</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="text-center">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting international flight schedules to local time</li>
+    <li class="list-group-item">Coordinating events across different time zones</li>
+    <li class="list-group-item">Scheduling appointments or meetings with people in different parts of the world</li>
+    <li class="list-group-item">Converting military time to standard time</li>
+    <li class="list-group-item">Preparing for trips or travel to different countries or regions</li>
+    <li class="list-group-item">Working with global teams or remote employees in different time zones</li>
+    <li class="list-group-item">Creating schedules for international sports events or competitions</li>
+    <li class="list-group-item">Converting time zones for business or conference calls</li>
+    <li class="list-group-item">Planning and organizing global events or conferences</li>
+    <li class="list-group-item">Staying in touch with friends or family members living in different time zones</li>
+  </ul>
+</div><script>
+  const timeInput = document.getElementById('time-input');
+  const convertButton = document.getElementById('convert-button');
+  const errorMessage = document.getElementById('error-message');
+  const resultDiv = document.getElementById('result');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    timeInput.value = startParam;
+  }
+
+  convertButton.addEventListener('click', () => {
+    const time = timeInput.value.trim();
+    const regex = /^([01][0-9]|2[0-3]):([0-5][0-9])$/;
+    if (regex.test(time)) {
+      const [hours, minutes] = time.split(':');
+      const hours12 = parseInt(hours) % 12 === 0 ? 12 : parseInt(hours) % 12;
+      const amPm = parseInt(hours) < 12 ? 'AM' : 'PM';
+      const result = `${hours12}:${minutes} ${amPm}`;
+      resultDiv.innerText = result;
+      errorMessage.innerText = '';
+    } else {
+      errorMessage.innerText = 'Invalid time format. Please use HH:MM.';
+      resultDiv.innerText = '';
+    }
+  });
+</script>

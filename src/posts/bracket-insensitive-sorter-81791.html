@@ -1,0 +1,131 @@
+---
+title: Intelligent Bracket-Insensitive Text Sorter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-15 12:00:00
+tags:
+  - Text Sorting
+  - Bracket-Insensitive
+  - Productivity Tool
+  - Data Analysis
+  - Web Application
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  #main-div textarea {
+    resize: vertical;
+  }
+  #main-div.sorted-list {
+    white-space: pre-wrap;
+  }
+</style>
+
+<div id="main-div"><div class="container mt-5 mb-5">
+  <h1>Intelligent Bracket-Insensitive Text Sorter: Boost Your Productivity with Accurate Text Sorting</h1>
+  <p>Discover the power of efficient text sorting with our Intelligent Bracket-Insensitive Text Sorter, a cutting-edge tool designed to simplify your workflow. This innovative web application allows you to effortlessly sort lists of words or phrases while ignoring brackets, ensuring seamless data analysis and enhanced productivity.</p>
+</div>
+  <div class="mb-3">
+    <label for="input-text" class="form-label">Enter your list of words or phrases:</label>
+    <textarea class="form-control" id="input-text" rows="10"></textarea>
+  </div>
+  <div class="d-flex justify-content-between">
+    <button type="button" class="btn btn-primary" id="sort-btn">Sort</button>
+    <button type="button" class="btn btn-secondary" id="clear-btn">Clear</button>
+  </div>
+  <div class="mt-3" id="sorted-list-div">
+    <label for="sorted-list" class="form-label">Sorted List:</label>
+    <pre class="sorted-list" id="sorted-list"></pre>
+  </div>
+</div>
+
+<div class="container mt-5 mb-5">
+  <h2>How It Works</h2>
+  <p>The Intelligent Bracket-Insensitive Text Sorter uses a straightforward formula to sort text. It first removes any brackets from the input text, then converts it to lowercase to ensure accurate comparisons. The sorted text is then displayed in a clean and readable format, making it easy to analyze and work with.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Input Text</th>
+        <th>Sorted Text</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>apple [1]</td>
+        <td>apple</td>
+      </tr>
+      <tr>
+        <td>banana [2]</td>
+        <td>banana</td>
+      </tr>
+      <tr>
+        <td>cherry [3]</td>
+        <td>cherry</td>
+      </tr>
+      <tr>
+        <td>date [4]</td>
+        <td>date</td>
+      </tr>
+      <tr>
+        <td>elderberry [5]</td>
+        <td>elderberry</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5 mb-5">
+  <h2>10 Common Use Cases for the Intelligent Bracket-Insensitive Text Sorter</h2>
+  <ol>
+    <li>Data Analysis: Sort large datasets with ease, ignoring brackets and other non-essential characters.</li>
+    <li>Text Editing: Use the tool to sort lists of words or phrases in your text editor, making it easier to work with and format your content.</li>
+    <li>Research: Quickly sort through research notes and data, ignoring brackets and other non-essential characters.</li>
+    <li>Content Creation: Use the tool to sort lists of keywords, metadata, or other content-related data.</li>
+    <li>SEO Optimization: Sort and analyze keywords, meta tags, and other SEO-related data with ease.</li>
+    <li>Programming: Sort code snippets, ignoring brackets and other non-essential characters, to make it easier to read and understand.</li>
+    <li>Education: Use the tool to sort lists of vocabulary words, historical dates, or other educational content.</li>
+    <li>Marketing: Sort and analyze customer data, sales figures, and other marketing-related information.</li>
+    <li>Writing: Use the tool to sort and organize writing ideas, outlines, and drafts.</li>
+    <li>Project Management: Sort and prioritize tasks, deadlines, and other project-related data with ease.</li>
+  </ol>
+</div><script>
+  const inputText = document.getElementById('input-text');
+  const sortBtn = document.getElementById('sort-btn');
+  const clearBtn = document.getElementById('clear-btn');
+  const sortedListDiv = document.getElementById('sorted-list-div');
+  const sortedList = document.getElementById('sorted-list');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    inputText.value = startValue;
+  }
+
+  sortBtn.addEventListener('click', () => {
+    const text = inputText.value.trim();
+    if (text === '') {
+      alert('Please enter some text to sort.');
+      return;
+    }
+
+    const lines = text.split('\n');
+    const sortedLines = lines.sort((a, b) => {
+      const cleanA = a.replace(/[\[\]]/g, '').toLowerCase();
+      const cleanB = b.replace(/[\[\]]/g, '').toLowerCase();
+      return cleanA.localeCompare(cleanB);
+    });
+
+    sortedList.innerText = sortedLines.join('\n');
+    sortedListDiv.classList.remove('d-none');
+  });
+
+  clearBtn.addEventListener('click', () => {
+    inputText.value = '';
+    sortedList.innerText = '';
+    sortedListDiv.classList.add('d-none');
+  });
+
+  // Initialize sorted list div as hidden
+  sortedListDiv.classList.add('d-none');
+</script>

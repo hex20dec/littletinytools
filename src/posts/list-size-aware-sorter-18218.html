@@ -1,0 +1,170 @@
+---
+title: List Size-Aware Sorter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - list sorter
+  - size aware
+  - web application
+  - productivity tool
+  - organization app
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  #main-div input, #main-div select, #main-div textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+  }
+  #main-div button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+  #main-div.error {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center mb-5">List Size-Aware Sorter</h1><div class="header-section bg-light p-5 text-center">
+  <p class="lead">The List Size-Aware Sorter is a powerful online tool designed to help users organize and sort lists of items based on their sizes. This intuitive tool allows users to input a list of items, each with a corresponding size, and then sorts the list in either ascending or descending order. With its user-friendly interface and efficient sorting algorithm, the List Size-Aware Sorter is an essential productivity tool for anyone looking to streamline their workflow and make sense of complex lists. Whether you're a business professional, a student, or simply someone looking to get organized, this tool is the perfect solution for all your list-sorting needs.</p>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <label for="input-list">Enter your list of items and sizes (one item per line, size separated by comma):</label>
+      <textarea id="input-list" rows="10" placeholder="Item 1, 10"></textarea>
+      <label for="sort-order">Select sort order:</label>
+      <select id="sort-order">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+      </select>
+      <button id="sort-btn" class="btn btn-primary">Sort List</button>
+      <div id="output" class="mt-5"></div>
+      <div id="error" class="error mt-5"></div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section bg-white p-5">
+  <h2 class="mb-4">How it Works</h2>
+  <p class="lead">The List Size-Aware Sorter uses a simple yet effective formula to sort lists of items based on their sizes. The formula can be explained as follows: each item in the list is assigned a size value, and then the list is sorted based on these size values. The sorting process can be either ascending, where the smallest size values come first, or descending, where the largest size values come first.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Size</th>
+        <th>Sorted Order (Ascending)</th>
+        <th>Sorted Order (Descending)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Item 1</td>
+        <td>10</td>
+        <td>Item 1, 10</td>
+        <td>Item 5, 50</td>
+      </tr>
+      <tr>
+        <td>Item 2</td>
+        <td>20</td>
+        <td>Item 2, 20</td>
+        <td>Item 4, 40</td>
+      </tr>
+      <tr>
+        <td>Item 3</td>
+        <td>30</td>
+        <td>Item 3, 30</td>
+        <td>Item 3, 30</td>
+      </tr>
+      <tr>
+        <td>Item 4</td>
+        <td>40</td>
+        <td>Item 4, 40</td>
+        <td>Item 2, 20</td>
+      </tr>
+      <tr>
+        <td>Item 5</td>
+        <td>50</td>
+        <td>Item 5, 50</td>
+        <td>Item 1, 10</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section bg-light p-5">
+  <h2 class="mb-4">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Sorting inventory lists by product size</li>
+    <li class="list-group-item">Organizing files by file size</li>
+    <li class="list-group-item">Prioritizing tasks based on estimated time required</li>
+    <li class="list-group-item">Sorting customer lists by purchase history</li>
+    <li class="list-group-item">Organizing data by category size</li>
+    <li class="list-group-item">Sorting images by file size</li>
+    <li class="list-group-item">Prioritizing emails by sender importance</li>
+    <li class="list-group-item">Sorting documents by relevance</li>
+    <li class="list-group-item">Organizing music playlists by song duration</li>
+    <li class="list-group-item">Sorting video files by resolution</li>
+  </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  document.getElementById('input-list').value = startValue? startValue : '';
+
+  const sortBtn = document.getElementById('sort-btn');
+  const inputList = document.getElementById('input-list');
+  const sortOrder = document.getElementById('sort-order');
+  const output = document.getElementById('output');
+  const error = document.getElementById('error');
+
+  sortBtn.addEventListener('click', () => {
+    const list = inputList.value.trim().split('\n');
+    const sortedList = [];
+    let isValid = true;
+
+    list.forEach((item) => {
+      const [name, size] = item.split(',');
+      if (name && size) {
+        sortedList.push({ name: name.trim(), size: parseInt(size.trim()) });
+      } else {
+        isValid = false;
+      }
+    });
+
+    if (!isValid) {
+      error.textContent = 'Invalid input. Please enter a valid list.';
+      return;
+    }
+
+    sortedList.sort((a, b) => {
+      if (sortOrder.value === 'asc') {
+        return a.size - b.size;
+      } else {
+        return b.size - a.size;
+      }
+    });
+
+    output.innerHTML = '';
+    sortedList.forEach((item) => {
+      const listItem = document.createElement('p');
+      listItem.textContent = `${item.name}, ${item.size}`;
+      output.appendChild(listItem);
+    });
+
+    error.textContent = '';
+  });
+</script>

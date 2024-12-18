@@ -1,0 +1,147 @@
+---
+title: Language-Specific Character Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-20 14:00:00
+tags:
+  - Character Counter
+  - Language Support
+  - Text Analysis
+  - Translation Tool
+  - WritingAssistant
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .char-count {
+    font-size: 24px;
+    font-weight: bold;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mt-5">Language-Specific Character Counter</h1><div class="container mt-5">
+  <p class="lead text-center">The Language-Specific Character Counter is a versatile web tool designed to accurately count characters in a given text, taking into account the specific language of the input. This tool is particularly useful for writers, translators, and content creators who need to work with text in various languages, including Latin, Cyrillic, Chinese, Japanese, and Korean. By providing language-specific character counting, this tool helps users meet specific character limits and requirements for their content, whether it's for social media, blog posts, or academic writing.</p>
+</div>
+  <p class="lead">Count characters in your text with language-specific accuracy.</p>
+  <div class="mb-3">
+    <label for="text-input" class="form-label">Enter your text:</label>
+    <textarea class="form-control" id="text-input" rows="5"></textarea>
+  </div>
+  <div class="mb-3">
+    <label for="language-select" class="form-label">Select language:</label>
+    <select class="form-select" id="language-select">
+      <option value="latin">Latin</option>
+      <option value="cyrillic">Cyrillic</option>
+      <option value="chinese">Chinese</option>
+      <option value="japanese">Japanese</option>
+      <option value="korean">Korean</option>
+    </select>
+  </div>
+  <div class="mb-3">
+    <p class="char-count" id="char-count">Character count: 0</p>
+    <p class="char-count" id="char-count-no-spaces">Character count (no spaces): 0</p>
+  </div>
+  <button class="btn btn-primary" id="reset-button">Reset</button>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The Language-Specific Character Counter uses a simple yet effective formula to calculate the character count of a given text. The formula can be broken down into two main steps:</p>
+  <ol>
+    <li>Text Length Calculation: The tool calculates the total number of characters in the input text, including spaces and punctuation.</li>
+    <li>Space Removal (Optional): If the user chooses to exclude spaces from the character count, the tool removes all spaces from the text and recalculates the character count.</li>
+  </ol>
+  <h2>Example Use Cases</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Language</th>
+        <th>Text</th>
+        <th>Character Count</th>
+        <th>Character Count (No Spaces)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Latin</td>
+        <td>Hello World</td>
+        <td>11</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>Cyrillic</td>
+        <td>Здравствуйте Мир</td>
+        <td>15</td>
+        <td>14</td>
+      </tr>
+      <tr>
+        <td>Chinese</td>
+        <td></td>
+        <td>6</td>
+        <td>6</td>
+      </tr>
+      <tr>
+        <td>Japanese</td>
+        <td></td>
+        <td>10</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>Korean</td>
+        <td></td>
+        <td>10</td>
+        <td>9</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>10 Common Use Cases for the Language-Specific Character Counter</h2>
+  <ul>
+    <li><strong>Social Media Posts</strong>: Ensure your social media posts meet character limits and are optimized for engagement.</li>
+    <li><strong>Blog Post Titles</strong>: Craft attention-grabbing titles that fit within search engine results page (SERP) limits.</li>
+    <li><strong>Academic Writing</strong>: Adhere to strict character limits for essays, theses, and dissertations.</li>
+    <li><strong>Translation Projects</strong>: Accurately count characters in translated text to ensure it meets client requirements.</li>
+    <li><strong>Content Marketing</strong>: Optimize content for character limits and improve readability.</li>
+    <li><strong>E-book Publishing</strong>: Ensure e-book titles and descriptions fit within online retailer limits.</li>
+    <li><strong>Text Analysis</strong>: Analyze character frequencies and distributions in large datasets.</li>
+    <li><strong>Writing Assistant</strong>: Use the character counter as a writing tool to help with writing tasks.</li>
+    <li><strong>SEO Optimization</strong>: Optimize meta titles and descriptions for search engine results pages (SERPs).</li>
+    <li><strong>Language Learning</strong>: Practice typing and counting characters in different languages.</li>
+  </ul>
+</div><script>
+  const textInput = document.getElementById('text-input');
+  const languageSelect = document.getElementById('language-select');
+  const charCount = document.getElementById('char-count');
+  const charCountNoSpaces = document.getElementById('char-count-no-spaces');
+  const resetButton = document.getElementById('reset-button');
+
+  // Preload input field with query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    textInput.value = startValue;
+    updateCharCount();
+  }
+
+  textInput.addEventListener('input', updateCharCount);
+  languageSelect.addEventListener('change', updateCharCount);
+
+  function updateCharCount() {
+    const text = textInput.value;
+    const language = languageSelect.value;
+    const charCountValue = text.length;
+    const charCountNoSpacesValue = text.replace(/\s+/g, '').length;
+
+    charCount.textContent = `Character count: ${charCountValue}`;
+    charCountNoSpaces.textContent = `Character count (no spaces): ${charCountNoSpacesValue}`;
+  }
+
+  resetButton.addEventListener('click', () => {
+    textInput.value = '';
+    languageSelect.value = 'latin';
+    updateCharCount();
+  });
+</script>

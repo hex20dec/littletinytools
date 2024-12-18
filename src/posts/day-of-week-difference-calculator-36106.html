@@ -1,0 +1,167 @@
+---
+title: Day of Week Difference Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 12:00:00
+tags:
+  - Date Calculator
+  - Day of Week
+  - Event Planning
+  - Scheduling
+  - Time Management
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  input[type="date"] {
+    width: 100%;
+    height: 2.5rem;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+  }
+  button {
+    width: 100%;
+    height: 2.5rem;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #3e8e41;
+  }
+  #result {
+    margin-top: 1rem;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Day of Week Difference Calculator</h1><div class="header-section p-5 text-center bg-light">
+  <p class="lead">The Day of Week Difference Calculator is a simple online tool that helps users calculate the difference between two dates and determine the day of the week for each date, making it an essential resource for event planning, scheduling, and time management. By inputting the start and end dates, users can quickly and easily determine the number of days between the two dates and identify the corresponding day of the week for each date, allowing for more efficient planning and organization.</p>
+</div>
+  <form class="row g-3 needs-validation" id="date-form" novalidate>
+    <div class="col-md-6">
+      <label for="start-date" class="form-label">Start Date</label>
+      <input type="date" class="form-control" id="start-date" required>
+      <div class="invalid-feedback">Please choose a valid start date.</div>
+    </div>
+    <div class="col-md-6">
+      <label for="end-date" class="form-label">End Date</label>
+      <input type="date" class="form-control" id="end-date" required>
+      <div class="invalid-feedback">Please choose a valid end date.</div>
+    </div>
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Calculate</button>
+    </div>
+  </form>
+  <div id="result" class="text-center"></div>
+</div>
+
+<div class="explanation-section p-5">
+  <h2 class="mb-3">How it Works</h2>
+  <p>The Day of Week Difference Calculator uses a simple formula to calculate the difference between two dates: (End Date - Start Date) / (1000 * 3600 * 24). This formula converts the difference between the two dates from milliseconds to days, providing an accurate count of the number of days between the two dates.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Difference (Days)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>2022-01-01</td>
+        <td>2022-01-15</td>
+        <td>14</td>
+      </tr>
+      <tr>
+        <td>2022-02-01</td>
+        <td>2022-03-01</td>
+        <td>28</td>
+      </tr>
+      <tr>
+        <td>2022-03-15</td>
+        <td>2022-04-15</td>
+        <td>31</td>
+      </tr>
+      <!-- Add more rows here -->
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5">
+  <h2 class="mb-3">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Event planning: Use the Day of Week Difference Calculator to determine the number of days between events and plan accordingly.</li>
+    <li class="list-group-item">Scheduling: Calculate the difference between two dates to schedule appointments, meetings, or deadlines.</li>
+    <li class="list-group-item">Time management: Use the calculator to track the number of days until a deadline or milestone.</li>
+    <li class="list-group-item">Travel planning: Determine the number of days between travel dates to plan itineraries and book accommodations.</li>
+    <li class="list-group-item">Business planning: Calculate the difference between dates to plan marketing campaigns, product launches, or other business initiatives.</li>
+    <li class="list-group-item">Personal goal setting: Use the calculator to track progress towards personal goals and milestones.</li>
+    <li class="list-group-item">Education: Calculate the number of days until exams, assignments, or project deadlines.</li>
+    <li class="list-group-item">Finance: Determine the number of days until loan payments, credit card payments, or other financial deadlines.</li>
+    <li class="list-group-item">Health and wellness: Use the calculator to track the number of days until doctor's appointments, medical procedures, or fitness goals.</li>
+    <li class="list-group-item">Holiday planning: Calculate the difference between dates to plan holiday vacations, parties, or other celebrations.</li>
+  </ul>
+</div><script>
+  const form = document.getElementById('date-form');
+  const startDateInput = document.getElementById('start-date');
+  const endDateInput = document.getElementById('end-date');
+  const resultDiv = document.getElementById('result');
+
+  // Preload start date from query parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const startDateParam = urlParams.get('start');
+  if (startDateParam) {
+    startDateInput.value = startDateParam;
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const startDate = new Date(startDateInput.value);
+    const endDate = new Date(endDateInput.value);
+
+    // Validate dates
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      resultDiv.textContent = 'Invalid date selected.';
+      resultDiv.classList.add('text-danger');
+      return;
+    }
+
+    // Calculate day of week and difference
+    const startDayOfWeek = startDate.toLocaleString('en-US', { weekday: 'long' });
+    const endDayOfWeek = endDate.toLocaleString('en-US', { weekday: 'long' });
+    const differenceInDays = Math.abs((endDate - startDate) / (1000 * 3600 * 24));
+
+    // Display result
+    resultDiv.textContent = `
+      Start Date: ${startDateInput.value} (${startDayOfWeek})
+      End Date: ${endDateInput.value} (${endDayOfWeek})
+      Difference: ${differenceInDays} days
+    `;
+    resultDiv.classList.remove('text-danger');
+  });
+
+  // Accessibility: Add ARIA attributes
+  startDateInput.setAttribute('aria-label', 'Start Date');
+  endDateInput.setAttribute('aria-label', 'End Date');
+  resultDiv.setAttribute('aria-live', 'polite');
+
+  // SEO: Add meta tags
+  const metaDescription = document.createElement('meta');
+  metaDescription.setAttribute('name', 'description');
+  metaDescription.setAttribute('content', 'Calculate the difference between two dates and determine the day of the week.');
+  document.head.appendChild(metaDescription);
+
+  const metaKeywords = document.createElement('meta');
+  metaKeywords.setAttribute('name', 'keywords');
+  metaKeywords.setAttribute('content', 'date calculator, day of week, event planning, scheduling, time management');
+  document.head.appendChild(metaKeywords);
+</script>

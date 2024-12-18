@@ -1,0 +1,124 @@
+---
+title: Absolute Value Sorter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Absolute Value
+  - Number Sorting
+  - Mathematical Tool
+  - Statistical Application
+  - Data Organization
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div.form-control {
+    width: 50%;
+    margin: 1rem auto;
+  }
+  #main-div.btn {
+    margin: 0.5rem;
+  }
+  #main-div.text-muted {
+    font-size: 0.8rem;
+  }
+</style>
+
+<div id="main-div"><div class="header-section bg-primary text-white p-5 text-center">
+  <h1>Absolute Value Sorter: A Free Online Tool for Sorting Numbers by Absolute Value</h1>
+  <p>Discover the simplicity of organizing numerical data with our intuitive Absolute Value Sorter, designed to sort numbers based on their absolute values, treating negative numbers as their positive counterparts, and helping in various mathematical, statistical, and data organization tasks with ease and efficiency.</p>
+</div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <label for="input-numbers">Enter numbers (separated by commas or spaces):</label>
+        <input type="text" id="input-numbers" class="form-control" placeholder="e.g., 1, 2, -3, 4, -5">
+        <button id="sort-btn" class="btn btn-primary">Sort</button>
+        <button id="clear-btn" class="btn btn-secondary">Clear</button>
+        <label for="sorted-numbers">Sorted numbers:</label>
+        <textarea id="sorted-numbers" class="form-control" readonly></textarea>
+        <p class="text-muted">Note: Sorting is based on absolute values, and negative numbers are treated as their positive counterparts.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+  <h2>How it Works</h2>
+  <p>The Absolute Value Sorter operates on a simple yet powerful principle: sorting numbers based on their absolute values. This means that every number, whether positive or negative, is considered solely by its distance from zero, disregarding its direction. For example, -5 and 5 are considered equal because both have the same absolute value of 5.</p>
+  <h3>Formula Explanation</h3>
+  <p>The sorting process can be explained by a simple formula where each number <i>x</i> is sorted based on its absolute value, denoted as |<i>x</i>|. This formula essentially means that for any given number <i>x</i>, if <i>x</i> is negative, its absolute value is its opposite, and if <i>x</i> is non-negative, its absolute value is the number itself.</p>
+  <h3>Use Cases Overview</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Input Numbers</th>
+        <th>Sorted Numbers</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1, -2, 3, -4</td>
+        <td>1, -2, 3, -4</td>
+      </tr>
+      <tr>
+        <td>-10, 5, -5, 10</td>
+        <td>5, -5, -10, 10</td>
+      </tr>
+      <tr>
+        <td>-1, 0, 1</td>
+        <td>0, -1, 1</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5">
+  <h2>10 Common Use Cases for the Absolute Value Sorter</h2>
+  <ol>
+    <li><strong>Data Preprocessing:</strong> Sorting data by absolute values can be a preliminary step in statistical analysis to understand the spread of data.</li>
+    <li><strong>Mathematical Exercises:</strong> Students can use the tool to practice sorting numbers based on their absolute values, enhancing their understanding of mathematical concepts.</li>
+    <li><strong>Scientific Research:</strong> Researchers may need to organize and analyze data based on the magnitude of values, where the sign of the number is less relevant.</li>
+    <li><strong>Financial Analysis:</strong> In finance, understanding the magnitude of financial transactions or changes can be crucial, regardless of whether they are gains or losses.</li>
+    <li><strong>Statistical Applications:</strong> Absolute value sorting is useful in statistical applications where the focus is on the magnitude of deviations from a mean or median.</li>
+    <li><strong>Computer Programming:</strong> Programmers can use the Absolute Value Sorter to test and understand how sorting algorithms work, especially when dealing with negative numbers.</li>
+    <li><strong>Education and Training:</strong> The tool can serve as an interactive educational resource for teaching concepts related to absolute value and number sorting.</li>
+    <li><strong>Quality Control:</strong> In manufacturing, sorting measurements by their absolute values can help in identifying the closest matches to specifications, regardless of whether the values are above or below the target.</li>
+    <li><strong>Signal Processing:</strong> Signals can be analyzed based on the amplitude (absolute value) of the signal, which is crucial in various applications such as audio processing or medical imaging.</li>
+    <li><strong>Game Development:</strong> Game developers might use absolute value sorting in game logic, especially in scenarios where the distance or magnitude of an object's position or speed is more relevant than its direction.</li>
+  </ol>
+</div><script>
+  const inputNumbers = document.getElementById('input-numbers');
+  const sortBtn = document.getElementById('sort-btn');
+  const clearBtn = document.getElementById('clear-btn');
+  const sortedNumbers = document.getElementById('sorted-numbers');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    inputNumbers.value = startValue;
+  }
+
+  // Add event listener to sort button
+  sortBtn.addEventListener('click', () => {
+    const numbers = inputNumbers.value.trim().split(/[,\s]+/).map(Number);
+    const validNumbers = numbers.filter(num =>!isNaN(num));
+    if (validNumbers.length === 0) {
+      alert('Please enter valid numbers');
+      return;
+    }
+    const sorted = validNumbers.sort((a, b) => Math.abs(a) - Math.abs(b));
+    sortedNumbers.value = sorted.join(', ');
+  });
+
+  // Add event listener to clear button
+  clearBtn.addEventListener('click', () => {
+    inputNumbers.value = '';
+    sortedNumbers.value = '';
+  });
+</script>

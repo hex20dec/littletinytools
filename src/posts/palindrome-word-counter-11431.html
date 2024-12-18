@@ -1,0 +1,122 @@
+---
+title: Palindrome Word Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Palindrome
+  - Word Counter
+  - Text Analysis
+  - Web App
+  - JavaScript
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    padding: 20px;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Palindrome Word Counter App</h1><div class="container mt-5 mb-5">
+  <p class="text-center fs-5">The Palindrome Word Counter App is a web-based tool designed to analyze text input and identify words that read the same backwards as forwards, known as palindromes. This tool is perfect for linguists, word game enthusiasts, and anyone interested in exploring the fascinating world of palindromic language. By utilizing this app, users can gain insights into the structure and symmetry of words, and discover new and interesting examples of palindromes in a given text.</p>
+</div>
+  <label for="input-text">Enter a text:</label>
+  <textarea id="input-text" rows="10" cols="50" maxlength="1000"></textarea>
+  <button id="count-palindromes" class="btn btn-primary">Count Palindromes</button>
+  <div id="result"></div>
+  <div id="error-message" class="error-message"></div>
+</div>
+
+<div class="container mt-5 mb-5">
+  <h2>How it Works</h2>
+  <p>The Palindrome Word Counter App uses a simple yet effective formula to identify palindromic words in a given text. The formula can be explained as follows: a word is considered a palindrome if it remains the same when its letters are reversed. For example, the word "madam" is a palindrome because it reads the same when its letters are reversed: "madam" spelled backwards is still "madam".</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Input Text</th>
+        <th>Palindrome Words</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Madam Arora teaches malayalam</td>
+        <td>Madam, malayalam</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>Noon is a beautiful time</td>
+        <td>Noon</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>Radar level madam</td>
+        <td>Radar, level, madam</td>
+        <td>3</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5 mb-5">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Text analysis: Use the Palindrome Word Counter App to analyze texts and identify patterns and structures in language.</li>
+    <li class="list-group-item">Word game development: Utilize the app to generate palindromic words for word games, puzzles, and quizzes.</li>
+    <li class="list-group-item">Linguistic research: Study the properties and characteristics of palindromic words in different languages and contexts.</li>
+    <li class="list-group-item">Language learning: Use the app to teach students about word structures and patterns in language.</li>
+    <li class="list-group-item">Creative writing: Generate palindromic words and phrases for creative writing projects, such as poetry and fiction.</li>
+    <li class="list-group-item">Brainstorming: Use the app to generate ideas and inspiration for word-based creative projects.</li>
+    <li class="list-group-item">Education: Integrate the Palindrome Word Counter App into language and literature curricula to engage students and promote learning.</li>
+    <li class="list-group-item">Content creation: Use the app to generate engaging and informative content for social media, blogs, and other online platforms.</li>
+    <li class="list-group-item">Language testing: Utilize the app to generate test questions and exercises for language proficiency assessments.</li>
+    <li class="list-group-item">Natural language processing: Apply the app's algorithms and techniques to natural language processing tasks, such as text classification and sentiment analysis.</li>
+  </ul>
+</div><script>
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const startValue = urlParams.get('start');
+
+  document.getElementById('input-text').value = startValue || '';
+
+  document.getElementById('count-palindromes').addEventListener('click', function() {
+    const text = document.getElementById('input-text').value;
+    if (text.trim() === '') {
+      document.getElementById('error-message').innerText = 'Please enter a text.';
+      return;
+    }
+    if (text.length > 1000) {
+      document.getElementById('error-message').innerText = 'Text is too large. Please enter a text with 1000 characters or less.';
+      return;
+    }
+
+    const words = text.toLowerCase().replace(/[^a-z0-9\s]/gi, '').split(/\s+/);
+    const palindromeWords = {};
+    let count = 0;
+
+    words.forEach(word => {
+      if (word === word.split('').reverse().join('')) {
+        count++;
+        if (palindromeWords[word]) {
+          palindromeWords[word]++;
+        } else {
+          palindromeWords[word] = 1;
+        }
+      }
+    });
+
+    const resultHtml = `
+      <h2>Result</h2>
+      <p>Total palindrome words: ${count}</p>
+      <ul>
+        ${Object.keys(palindromeWords).map(word => `<li>${word} (${palindromeWords[word]} times)</li>`).join('')}
+      </ul>
+    `;
+
+    document.getElementById('result').innerHTML = resultHtml;
+    document.getElementById('error-message').innerText = '';
+  });
+</script>

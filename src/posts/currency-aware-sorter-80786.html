@@ -1,0 +1,197 @@
+---
+title: Currency-Aware Sorter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 14:30:00
+tags:
+  - currency sorter
+  - financial transactions
+  - exchange rates
+  - personal finance
+  - money management
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+  #main-div table {
+    border-collapse: collapse;
+  }
+  #main-div th, #main-div td {
+    border: 1px solid #cccccc;
+    padding: 8px;
+  }
+  #main-div th {
+    background-color: #333333;
+  }
+  #main-div td {
+    background-color: #444444;
+  }
+ .invalid-input {
+    border: 1px solid #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Currency-Aware Sorter</h1><div class="header-section p-3 mb-2 bg-light text-dark">
+  <p class="fs-4">The Currency-Aware Sorter is a powerful online tool designed to simplify financial transactions and currency conversions. With its user-friendly interface, this sorter enables users to input multiple transactions in different currencies, convert them to a selected currency, and sort them in ascending order. By utilizing the latest exchange rates, this tool provides accurate and up-to-date conversions, making it an essential resource for individuals and businesses alike. By leveraging the sorter's capabilities, users can efficiently manage their financial transactions, compare currency values, and make informed decisions about their investments and expenses.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="transactions" class="form-label">Transactions:</label>
+      <textarea id="transactions" class="form-control" rows="10"></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="currency" class="form-label">Currency to sort in:</label>
+      <select id="currency" class="form-select">
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="exchange-rate" class="form-label">Custom exchange rate (optional):</label>
+      <input type="number" id="exchange-rate" class="form-control" step="0.01">
+    </div>
+    <button type="submit" class="btn btn-primary">Sort</button>
+  </form>
+  <div id="result"></div>
+</div>
+
+<div class="explanation-section p-3 mb-2 bg-light text-dark">
+  <h2>How it Works</h2>
+  <p class="fs-5">The Currency-Aware Sorter employs a straightforward formula to convert and sort transactions: it takes the original transaction value, converts it to the selected currency using the provided exchange rate (or default rates), and then sorts the converted values in ascending order.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Original Value</th>
+        <th>Original Currency</th>
+        <th>Converted Value (USD)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>100</td>
+        <td>EUR</td>
+        <td>114.00</td>
+      </tr>
+      <tr>
+        <td>500</td>
+        <td>GBP</td>
+        <td>660.00</td>
+      </tr>
+      <tr>
+        <td>200</td>
+        <td>USD</td>
+        <td>200.00</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="fs-5">For example, if you input the following transactions: 100 EUR, 500 GBP, and 200 USD, the sorter will convert them to USD using the provided exchange rates and display the sorted results in a table, as shown above.</p>
+</div><div class="use-cases-section p-3 mb-2 bg-light text-dark">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Comparing currency values for international investments</li>
+    <li class="list-group-item">Converting foreign currencies for travel or business expenses</li>
+    <li class="list-group-item">Managing multiple transactions in different currencies for e-commerce or online marketplaces</li>
+    <li class="list-group-item">Calculating exchange rates for import/export businesses</li>
+    <li class="list-group-item">Tracking currency fluctuations for financial planning and analysis</li>
+    <li class="list-group-item">Converting legacy currencies for historical financial records</li>
+    <li class="list-group-item">Analyzing currency trends for investment decisions</li>
+    <li class="list-group-item">Processing international payments and wire transfers</li>
+    <li class="list-group-item">Reconciling accounts in multiple currencies for accounting and bookkeeping</li>
+    <li class="list-group-item">Creating financial reports and statements in different currencies</li>
+  </ul>
+</div><script>
+  const transactionsInput = document.getElementById('transactions');
+  const currencySelect = document.getElementById('currency');
+  const exchangeRateInput = document.getElementById('exchange-rate');
+  const resultDiv = document.getElementById('result');
+
+  // Preload input field with query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    transactionsInput.value = startValue;
+  }
+
+  // Function to validate user input
+  function validateInput(input) {
+    const lines = input.trim().split('\n');
+    const validLines = [];
+    for (const line of lines) {
+      const match = line.match(/^(\d{1,3}(?:,\d{3})*(?:\.\d+)?)(\s)([A-Z]{3})$/);
+      if (match) {
+        validLines.push({
+          value: match[1].replace(',', ''),
+          currency: match[3],
+        });
+      } else {
+        alert(`Invalid input: ${line}`);
+        return null;
+      }
+    }
+    return validLines;
+  }
+
+  // Function to convert currency
+  function convertCurrency(amount, fromCurrency, toCurrency, exchangeRate) {
+    if (fromCurrency === toCurrency) return amount;
+    if (!exchangeRate) {
+      // Default exchange rates (example only, replace with actual rates)
+      const exchangeRates = {
+        USD: { EUR: 0.88, GBP: 0.76 },
+        EUR: { USD: 1.14, GBP: 0.86 },
+        GBP: { USD: 1.32, EUR: 1.16 },
+      };
+      exchangeRate = exchangeRates[fromCurrency][toCurrency];
+    }
+    return amount * exchangeRate;
+  }
+
+  // Function to sort transactions
+  function sortTransactions(transactions, currency, exchangeRate) {
+    const sortedTransactions = transactions.map((transaction) => {
+      const convertedValue = convertCurrency(parseFloat(transaction.value), transaction.currency, currency, exchangeRate);
+      return {
+       ...transaction,
+        convertedValue,
+      };
+    });
+    sortedTransactions.sort((a, b) => a.convertedValue - b.convertedValue);
+    return sortedTransactions;
+  }
+
+  // Event listener for submit button
+  document.querySelector('form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const input = transactionsInput.value;
+    const validInput = validateInput(input);
+    if (!validInput) return;
+    const currency = currencySelect.value;
+    const exchangeRate = exchangeRateInput.value? parseFloat(exchangeRateInput.value) : null;
+    const sortedTransactions = sortTransactions(validInput, currency, exchangeRate);
+    const resultHtml = `
+      <table>
+        <thead>
+          <tr>
+            <th>Original Value</th>
+            <th>Original Currency</th>
+            <th>Converted Value (${currency})</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${sortedTransactions.map((transaction) => `
+            <tr>
+              <td>${transaction.value}</td>
+              <td>${transaction.currency}</td>
+              <td>${transaction.convertedValue.toFixed(2)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+    resultDiv.innerHTML = resultHtml;
+  });
+</script>

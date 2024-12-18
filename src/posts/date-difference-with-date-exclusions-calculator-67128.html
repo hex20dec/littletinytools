@@ -1,0 +1,246 @@
+---
+title: Date Difference Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 12:00:00
+tags:
+  - Date Calculator
+  - Date Difference
+  - Event Planning
+  - Scheduling Tool
+  - Time Management
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+  .invalid-input {
+    border: 1px solid #ff0000;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-4">Date Difference Calculator</h1><div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <p class="lead">The Date Difference Calculator is a FREE online tool that calculates the difference between two dates in days, weeks, months, and years. It takes into account excluded dates and date ranges, allowing users to plan events, schedule tasks, and manage time more efficiently. With its user-friendly interface and accurate calculations, this tool is perfect for personal and professional use, including event planning, project management, and travel planning.</p>
+    </div>
+  </div>
+</div>
+  <div class="row">
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Start Date</h5>
+          <label for="start-date">Select start date:</label>
+          <input type="date" id="start-date" class="form-control" value="<?php echo $_GET['start'] ?? '' ?>">
+          <button type="button" id="start-date-calendar" class="btn btn-link">Select from calendar</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">End Date</h5>
+          <label for="end-date">Select end date:</label>
+          <input type="date" id="end-date" class="form-control">
+          <button type="button" id="end-date-calendar" class="btn btn-link">Select from calendar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Excluded Dates</h5>
+          <label for="excluded-dates">Enter excluded dates or date ranges (comma-separated):</label>
+          <textarea id="excluded-dates" class="form-control" rows="3"></textarea>
+          <small>Example: 2022-01-01, 2022-01-02 to 2022-01-05, Mondays</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" id="calculate-btn" class="btn btn-primary">Calculate Date Difference</button>
+  <div id="result" class="mt-4"></div>
+  <div id="error-message" class="error-message mt-4"></div>
+</div>
+
+<div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>How it Works</h2>
+      <p>The Date Difference Calculator uses a simple formula to calculate the difference between two dates. The formula is based on the number of days between the two dates, and it takes into account excluded dates and date ranges.</p>
+      <p>The calculation process involves the following steps:</p>
+      <ul>
+        <li>Enter the start and end dates in the input fields.</li>
+        <li>Enter any excluded dates or date ranges in the excluded dates field.</li>
+        <li>Click the "Calculate Date Difference" button to start the calculation process.</li>
+        <li>The calculator will then display the difference between the two dates in days, weeks, months, and years, taking into account any excluded dates or date ranges.</li>
+      </ul>
+      <h3>Example Use Cases</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Excluded Dates</th>
+            <th>Date Difference</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2022-01-01</td>
+            <td>2022-01-31</td>
+            <td>2022-01-15</td>
+            <td>30 days (excluding 2022-01-15)</td>
+          </tr>
+          <tr>
+            <td>2022-02-01</td>
+            <td>2022-02-28</td>
+            <td>2022-02-14 to 2022-02-20</td>
+            <td>24 days (excluding 2022-02-14 to 2022-02-20)</td>
+          </tr>
+          <tr>
+            <td>2022-03-01</td>
+            <td>2022-03-31</td>
+            <td>Mondays</td>
+            <td>26 days (excluding Mondays)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Common Use Cases</h2>
+      <ol>
+        <li><strong>Event Planning</strong>: Calculate the number of days between the start and end dates of an event, excluding any holidays or weekends.</li>
+        <li><strong>Project Management</strong>: Determine the duration of a project, taking into account any excluded dates or date ranges.</li>
+        <li><strong>Travel Planning</strong>: Calculate the difference between the start and end dates of a trip, excluding any travel days or holidays.</li>
+        <li><strong>Time Management</strong>: Plan and organize tasks, meetings, and appointments, taking into account any excluded dates or date ranges.</li>
+        <li><strong>Business Planning</strong>: Calculate the duration of a business project, excluding any holidays or weekends.</li>
+        <li><strong>Education Planning</strong>: Determine the duration of a course or semester, taking into account any excluded dates or date ranges.</li>
+        <li><strong>Marketing Planning</strong>: Calculate the duration of a marketing campaign, excluding any holidays or weekends.</li>
+        <li><strong>Financial Planning</strong>: Determine the duration of a financial period, taking into account any excluded dates or date ranges.</li>
+        <li><strong>Scheduling</strong>: Plan and organize schedules, taking into account any excluded dates or date ranges.</li>
+        <li><strong>HR Management</strong>: Calculate the duration of employee leave, excluding any holidays or weekends.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  const startDateInput = document.getElementById('start-date');
+  const endDateInput = document.getElementById('end-date');
+  const excludedDatesInput = document.getElementById('excluded-dates');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resultDiv = document.getElementById('result');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  calculateBtn.addEventListener('click', calculateDateDifference);
+
+  function calculateDateDifference() {
+    const startDate = startDateInput.value;
+    const endDate = endDateInput.value;
+    const excludedDates = excludedDatesInput.value;
+
+    if (!startDate || !endDate) {
+      errorMessageDiv.textContent = 'Please select both start and end dates.';
+      return;
+    }
+
+    const startDateObject = new Date(startDate);
+    const endDateObject = new Date(endDate);
+
+    if (startDateObject > endDateObject) {
+      errorMessageDiv.textContent = 'Start date cannot be later than end date.';
+      return;
+    }
+
+    const excludedDatesArray = excludedDates ? excludedDates.split(',').map(date => date.trim()) : [];
+
+    const dateDifference = calculateDateDifferenceHelper(startDateObject, endDateObject, excludedDatesArray);
+
+    resultDiv.innerHTML = `
+      <h5>Date Difference:</h5>
+      <p>${dateDifference.days} days</p>
+      <p>${dateDifference.weeks} weeks</p>
+      <p>${dateDifference.months} months</p>
+      <p>${dateDifference.years} years</p>
+    `;
+
+    errorMessageDiv.textContent = '';
+  }
+
+  function calculateDateDifferenceHelper(startDate, endDate, excludedDates) {
+    let dateDifference = 0;
+    let weeks = 0;
+    let months = 0;
+    let years = 0;
+
+    const currentDate = new Date(startDate);
+
+    while (currentDate <= endDate) {
+      if (!isExcludedDate(currentDate, excludedDates)) {
+        dateDifference++;
+      }
+
+      if (dateDifference % 7 === 0) {
+        weeks++;
+      }
+
+      if (dateDifference % 30 === 0) {
+        months++;
+      }
+
+      if (dateDifference % 365 === 0) {
+        years++;
+      }
+
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return {
+      days: dateDifference,
+      weeks,
+      months,
+      years
+    };
+  }
+
+  function isExcludedDate(date, excludedDates) {
+    const dateString = date.toISOString().split('T')[0];
+
+    for (const excludedDate of excludedDates) {
+      if (excludedDate.includes(' to ')) {
+        const [startDate, endDate] = excludedDate.split(' to ');
+        const startDateTime = new Date(startDate).getTime();
+        const endDateTime = new Date(endDate).getTime();
+        const currentDateTime = date.getTime();
+
+        if (currentDateTime >= startDateTime && currentDateTime <= endDateTime) {
+          return true;
+        }
+      } else if (excludedDate === dateString) {
+        return true;
+      } else if (excludedDate.includes(',')) {
+        const [day, month] = excludedDate.split(',');
+        const currentDay = date.getDate();
+        const currentMonth = date.getMonth() + 1;
+
+        if (currentDay === parseInt(day) && currentMonth === parseInt(month)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+</script>

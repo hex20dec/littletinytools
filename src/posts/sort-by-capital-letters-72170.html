@@ -1,0 +1,188 @@
+---
+title: Text Sorting Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-20 12:00:00
+tags:
+  - Text Sorting
+  - Capital Letter Sorting
+  - Text Organization
+  - Data Entry Tool
+  - Productivity App
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+ .input-group {
+    margin-bottom: 1rem;
+  }
+ .btn {
+    margin-bottom: 1rem;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center mb-4">Text Sorting Tool</h1><div class="container mt-5">
+  <p class="text-center lead">The Text Sorting Tool is a user-friendly online application designed to help individuals organize and sort text based on specific criteria, including all capital letters, words starting with capital letters, and words containing capital letters, with optional case sensitivity, making it an essential tool for data entry, writing, and productivity tasks, and is easily accessible and usable on various devices, providing a convenient solution for text organization needs.</p>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <textarea id="input-text" class="form-control" rows="5" placeholder="Enter or paste text to sort"></textarea>
+      <div class="input-group mb-3">
+        <select id="sorting-order" class="form-select">
+          <option value="all-capital">Sort by all capital letters</option>
+          <option value="starts-with-capital">Sort by words starting with capital letters</option>
+          <option value="contains-capital">Sort by words containing capital letters</option>
+        </select>
+        <div class="input-group-checkbox">
+          <div class="form-check">
+            <input id="case-sensitive" class="form-check-input" type="checkbox">
+            <label class="form-check-label" for="case-sensitive">Case sensitive</label>
+          </div>
+        </div>
+      </div>
+      <button id="sort-btn" class="btn btn-primary w-100">Sort</button>
+      <textarea id="output-text" class="form-control mt-3" rows="5" readonly></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="mb-4">How the Text Sorting Tool Works</h2>
+  <p class="lead">The tool uses a simple yet effective formula to sort text: it splits the input text into individual words, then applies the selected sorting criteria to each word, and finally recombines the sorted words into a single output string, with the option to perform case-sensitive sorting for more precise results.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Input Text</th>
+        <th>Sorting Criteria</th>
+        <th>Output Text</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Hello World</td>
+        <td>Sort by all capital letters</td>
+        <td>WORLD Hello</td>
+      </tr>
+      <tr>
+        <td>This is a test</td>
+        <td>Sort by words starting with capital letters</td>
+        <td>This Test is a</td>
+      </tr>
+      <tr>
+        <td>Example text with Mixed Case</td>
+        <td>Sort by words containing capital letters</td>
+        <td>Mixed Case Example text with</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="mb-4">Common Use Cases for the Text Sorting Tool</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Data entry and processing: quickly organize and sort text data for easier analysis and processing.</li>
+    <li class="list-group-item">Writing and editing: use the tool to sort and rearrange text to improve clarity and readability.</li>
+    <li class="list-group-item">Research and study: sort and organize text-based data for research papers, studies, and projects.</li>
+    <li class="list-group-item">Content creation: use the tool to sort and format text for blog posts, articles, and social media content.</li>
+    <li class="list-group-item">Education and training: teach students and trainees how to effectively organize and sort text-based data.</li>
+    <li class="list-group-item">Business and marketing: use the tool to sort and analyze customer feedback, reviews, and other text-based data.</li>
+    <li class="list-group-item">Translation and localization: sort and organize text for translation and localization projects.</li>
+    <li class="list-group-item">Text analysis and summarization: use the tool to sort and summarize large amounts of text data.</li>
+    <li class="list-group-item">Content optimization: optimize text content for search engines and improve visibility.</li>
+    <li class="list-group-item">Accessibility and usability: use the tool to improve the accessibility and usability of text-based content for users with disabilities.</li>
+  </ul>
+</div><script>
+  const inputText = document.getElementById('input-text');
+  const sortingOrder = document.getElementById('sorting-order');
+  const caseSensitive = document.getElementById('case-sensitive');
+  const sortBtn = document.getElementById('sort-btn');
+  const outputText = document.getElementById('output-text');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    inputText.value = startParam;
+  }
+
+  sortBtn.addEventListener('click', () => {
+    const text = inputText.value.trim();
+    if (!text) {
+      alert('Please enter or paste text to sort');
+      return;
+    }
+
+    const sortOrder = sortingOrder.value;
+    const isCaseSensitive = caseSensitive.checked;
+
+    let sortedText = '';
+    switch (sortOrder) {
+      case 'all-capital':
+        sortedText = sortAllCapital(text, isCaseSensitive);
+        break;
+      case 'starts-with-capital':
+        sortedText = sortStartsWithCapital(text, isCaseSensitive);
+        break;
+      case 'contains-capital':
+        sortedText = sortContainsCapital(text, isCaseSensitive);
+        break;
+      default:
+        console.error('Invalid sorting order');
+        return;
+    }
+
+    outputText.value = sortedText;
+  });
+
+  function sortAllCapital(text, isCaseSensitive) {
+    const words = text.split(' ');
+    const allCapitalWords = [];
+    const otherWords = [];
+
+    words.forEach((word) => {
+      if (isCaseSensitive? word === word.toUpperCase() : word.toLowerCase() === word.toUpperCase()) {
+        allCapitalWords.push(word);
+      } else {
+        otherWords.push(word);
+      }
+    });
+
+    return allCapitalWords.join(' ') + ' ' + otherWords.join(' ');
+  }
+
+  function sortStartsWithCapital(text, isCaseSensitive) {
+    const words = text.split(' ');
+    const startsWithCapitalWords = [];
+    const otherWords = [];
+
+    words.forEach((word) => {
+      if (isCaseSensitive? word[0] === word[0].toUpperCase() : word[0].toLowerCase() === word[0].toUpperCase()) {
+        startsWithCapitalWords.push(word);
+      } else {
+        otherWords.push(word);
+      }
+    });
+
+    return startsWithCapitalWords.join(' ') + ' ' + otherWords.join(' ');
+  }
+
+  function sortContainsCapital(text, isCaseSensitive) {
+    const words = text.split(' ');
+    const containsCapitalWords = [];
+    const otherWords = [];
+
+    words.forEach((word) => {
+      if (isCaseSensitive? /[A-Z]/.test(word) : /[a-z]/i.test(word)) {
+        containsCapitalWords.push(word);
+      } else {
+        otherWords.push(word);
+      }
+    });
+
+    return containsCapitalWords.join(' ') + ' ' + otherWords.join(' ');
+  }
+</script>

@@ -1,0 +1,108 @@
+---
+title: Unique Word Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - word counter
+  - text analysis
+  - language tools
+  - writing assistant
+  - research aid
+---
+
+<style>
+  #main-div {
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+  }
+  #result-section {
+    font-size: 24px;
+    font-weight: bold;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <label for="text-area" class="form-label">Enter text</label>
+      <textarea id="text-area" class="form-control" rows="10" placeholder="Type or paste text here"></textarea>
+      <button id="count-button" class="btn btn-primary mt-3">Count unique words</button>
+      <div id="result-section" class="mt-3">
+        <label class="form-label">Unique words count</label>
+        <span id="unique-words-count">0</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+  <h2>How It Works</h2>
+  <p>The unique word counter app employs a straightforward yet effective formula to calculate the number of distinct words in a given text. The process involves the following steps:</p>
+  <ol>
+    <li>Text normalization: The input text is converted to lowercase to ensure consistency and accuracy.</li>
+    <li>Tokenization: The text is broken down into individual words, and non-alphanumeric characters are removed.</li>
+    <li>Unique word identification: A set data structure is used to store unique words, eliminating duplicates and providing an accurate count.</li>
+  </ol>
+  <h2>Example Use Cases</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Text Sample</th>
+        <th>Unique Word Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Lorem ipsum dolor sit amet</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>The quick brown fox jumps over the lazy dog</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>Jackdaws love my big sphinx of quartz</td>
+        <td>7</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5">
+  <h2>10 Common Use Cases for the Unique Word Counter App</h2>
+  <ul>
+    <li>Optimizing website content for better search engine ranking</li>
+    <li>Improving academic writing and research papers</li>
+    <li>Enhancing marketing materials and advertisements</li>
+    <li>Refining social media posts and online engagement</li>
+    <li>Analyzing and comparing different writing styles</li>
+    <li>Developing more effective email marketing campaigns</li>
+    <li>Creating engaging blog posts and articles</li>
+    <li>Streamlining business communication and documentation</li>
+    <li>Assisting language learners and translators</li>
+    <li>Supporting creative writing and storytelling projects</li>
+  </ul>
+</div><script>
+  const textArea = document.getElementById('text-area');
+  const countButton = document.getElementById('count-button');
+  const resultSection = document.getElementById('unique-words-count');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    textArea.value = startValue;
+  }
+
+  countButton.addEventListener('click', () => {
+    const text = textArea.value.trim();
+    if (text === '') {
+      alert('Please enter some text');
+      return;
+    }
+
+    const words = text.toLowerCase().replace(/[^\w\s]|_/g, '').split(/\s+/);
+    const uniqueWords = new Set(words);
+    const count = uniqueWords.size;
+
+    resultSection.textContent = count;
+  });
+</script>

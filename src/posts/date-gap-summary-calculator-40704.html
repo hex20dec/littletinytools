@@ -1,0 +1,141 @@
+---
+title: Date Gap Summary Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Date Calculator
+  - Date Gap
+  - Event Planning
+  - Deadline Tracker
+  - Age Calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="mb-4">Date Gap Summary Calculator</h1><div class="header-section p-5 text-center bg-primary text-white">
+    <p class="lead">The Date Gap Summary Calculator is an online tool designed to calculate the difference between two dates in years, months, and days. This calculator is useful for event planning, deadline tracking, and age calculations. By providing a start date and an end date, users can quickly determine the total number of days between the two dates, as well as the equivalent number of years, months, and remaining days. With its simple and intuitive interface, this calculator is an essential resource for anyone looking to calculate date gaps with ease and accuracy, making it an ideal tool for both personal and professional use.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="start-date" class="form-label">Start Date:</label>
+      <input type="date" id="start-date" class="form-control" value="<?php echo $_GET['start'];?>">
+    </div>
+    <div class="mb-3">
+      <label for="end-date" class="form-label">End Date:</label>
+      <input type="date" id="end-date" class="form-control">
+    </div>
+    <button type="button" id="calculate-button" class="btn btn-primary">Calculate</button>
+  </form>
+  <div id="result-section" class="mt-4">
+    <h2>Date Gap Summary</h2>
+    <p id="total-days"></p>
+    <p id="years-months-days"></p>
+    <p id="error-message" class="error-message"></p>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How the Date Gap Summary Calculator Works</h2>
+    <p>The calculator uses a simple formula to calculate the difference between two dates. The formula is based on the number of days between the two dates, which is then converted into years, months, and remaining days. The calculation is as follows: Total days = (End date - Start date) / (1000 * 3600 * 24), where the result is then divided by 365 to get the number of years, and the remaining days are divided by 30 to get the number of months.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Total Days</th>
+                <th>Years</th>
+                <th>Months</th>
+                <th>Remaining Days</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2022-01-01</td>
+                <td>2022-01-31</td>
+                <td>30</td>
+                <td>0</td>
+                <td>1</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>2022-01-01</td>
+                <td>2023-01-01</td>
+                <td>365</td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>2022-06-01</td>
+                <td>2022-12-31</td>
+                <td>213</td>
+                <td>0</td>
+                <td>7</td>
+                <td>0</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2>10 Common Use Cases for the Date Gap Summary Calculator</h2>
+    <ol>
+        <li>Event planning: Calculate the number of days until a wedding, birthday, or anniversary.</li>
+        <li>Deadline tracking: Determine the number of days until a project deadline or a bill is due.</li>
+        <li>Age calculations: Calculate a person's age in years, months, and days.</li>
+        <li>Travel planning: Calculate the number of days until a trip or vacation.</li>
+        <li>Retirement planning: Calculate the number of days until retirement.</li>
+        <li>Scheduling: Calculate the number of days between two appointments or meetings.</li>
+        <li>Insurance: Calculate the number of days until an insurance policy is due for renewal.</li>
+        <li>Education: Calculate the number of days until a semester or school year ends.</li>
+        <li>Real estate: Calculate the number of days until a property is available for sale or rent.</li>
+        <li>Personal goals: Calculate the number of days until a personal goal or milestone is achieved.</li>
+    </ol>
+</div><script>
+  const calculateButton = document.getElementById('calculate-button');
+  const startDateInput = document.getElementById('start-date');
+  const endDateInput = document.getElementById('end-date');
+  const resultSection = document.getElementById('result-section');
+  const totalDaysElement = document.getElementById('total-days');
+  const yearsMonthsDaysElement = document.getElementById('years-months-days');
+  const errorMessageElement = document.getElementById('error-message');
+
+  calculateButton.addEventListener('click', calculateDateGap);
+
+  function calculateDateGap() {
+    const startDate = new Date(startDateInput.value);
+    const endDate = new Date(endDateInput.value);
+
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      displayErrorMessage('Invalid date input');
+      return;
+    }
+
+    if (startDate > endDate) {
+      displayErrorMessage('Start date cannot be after end date');
+      return;
+    }
+
+    const totalDays = Math.round((endDate - startDate) / (1000 * 3600 * 24));
+    const years = Math.floor(totalDays / 365);
+    const months = Math.floor((totalDays % 365) / 30);
+    const remainingDays = (totalDays % 365) % 30;
+
+    totalDaysElement.textContent = `Total days: ${totalDays}`;
+    yearsMonthsDaysElement.textContent = `Years: ${years}, Months: ${months}, Remaining days: ${remainingDays}`;
+    errorMessageElement.textContent = '';
+  }
+
+  function displayErrorMessage(message) {
+    errorMessageElement.textContent = message;
+    totalDaysElement.textContent = '';
+    yearsMonthsDaysElement.textContent = '';
+  }
+</script>

@@ -1,0 +1,189 @@
+---
+title: Custom Criteria Sorter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-15 12:00:00
+tags:
+  - sorting tool
+  - custom criteria
+  - data organization
+  - productivity
+  - task management
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-3">Custom Criteria Sorter</h1><div class="container mt-5">
+  <h1>Unlock Efficient Data Organization with Our Custom Criteria Sorter Tool</h1>
+  <p class="lead">Effortlessly sort and categorize your data using our intuitive Custom Criteria Sorter tool, designed to streamline your workflow and boost productivity. With customizable sorting options and an easy-to-use interface, you can quickly organize your lists and focus on what matters most.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="input-list" class="form-label">Input List:</label>
+      <textarea id="input-list" class="form-control" rows="10" aria-describedby="input-list-help"></textarea>
+      <div id="input-list-help" class="form-text">Enter one item per line.</div>
+    </div>
+    <div class="mb-3">
+      <label for="sorting-criteria" class="form-label">Sorting Criteria:</label>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="sorting-criteria" id="alphabetical-order" value="alphabetical-order">
+        <label class="form-check-label" for="alphabetical-order">Alphabetical Order</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="sorting-criteria" id="numerical-order" value="numerical-order">
+        <label class="form-check-label" for="numerical-order">Numerical Order</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="sorting-criteria" id="custom-keywords" value="custom-keywords">
+        <label class="form-check-label" for="custom-keywords">Custom Keywords</label>
+        <input type="text" id="custom-keywords-input" class="form-control" aria-describedby="custom-keywords-help">
+        <div id="custom-keywords-help" class="form-text">Enter custom keywords separated by commas.</div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="sorting-order" class="form-label">Sorting Order:</label>
+      <select id="sorting-order" class="form-select">
+        <option value="ascending">Ascending</option>
+        <option value="descending">Descending</option>
+      </select>
+    </div>
+    <button type="button" id="apply-sorting" class="btn btn-primary">Apply Sorting</button>
+    <button type="button" id="reset-sorting" class="btn btn-secondary">Reset Sorting</button>
+  </form>
+  <div id="sorted-list" class="mt-3"></div>
+  <div id="error-message" class="error-message"></div>
+</div>
+
+<div class="container mt-5">
+  <h2>How Our Tool Works</h2>
+  <p class="lead">Our Custom Criteria Sorter tool uses a simple yet powerful algorithm to sort your data based on your chosen criteria. Here's a step-by-step breakdown of the process:</p>
+  <p>1. Input your list of items, one per line, into the input field.</p>
+  <p>2. Select your preferred sorting criteria: alphabetical order, numerical order, or custom keywords.</p>
+  <p>3. If using custom keywords, enter your keywords separated by commas.</p>
+  <p>4. Choose your sorting order: ascending or descending.</p>
+  <p>5. Click the "Apply Sorting" button to sort your list.</p>
+  <h3>Example Use Cases</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Input List</th>
+        <th>Sorting Criteria</th>
+        <th>Sorted List</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Apple, Banana, Cherry</td>
+        <td>Alphabetical Order</td>
+        <td>Apple, Banana, Cherry</td>
+      </tr>
+      <tr>
+        <td>3, 1, 2</td>
+        <td>Numerical Order</td>
+        <td>1, 2, 3</td>
+      </tr>
+      <tr>
+        <td>Dog, Cat, Bird</td>
+        <td>Custom Keywords (Dog, Bird, Cat)</td>
+        <td>Dog, Bird, Cat</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>10 Common Use Cases for Our Custom Criteria Sorter Tool</h2>
+  <ol class="list-group list-group-numbered">
+    <li>Sorting a list of names in alphabetical order for a phonebook or address book.</li>
+    <li>Organizing a list of numbers in numerical order for a mathematical calculation or data analysis.</li>
+    <li>Categorizing a list of items by custom keywords for a shopping list or inventory management.</li>
+    <li>Prioritizing a list of tasks based on custom keywords for project management or to-do lists.</li>
+    <li>Sorting a list of dates in chronological order for a calendar or scheduling system.</li>
+    <li>Organizing a list of products by price or rating for e-commerce or product comparison.</li>
+    <li>Categorizing a list of documents by title or author for a library or research database.</li>
+    <li>Sorting a list of contacts by location or department for a CRM or outreach campaign.</li>
+    <li>Prioritizing a list of emails by sender or subject for email management or customer support.</li>
+    <li>Organizing a list of events by date or time for a calendar or event planning system.</li>
+  </ol>
+</div><script>
+  const inputList = document.getElementById('input-list');
+  const applySortingButton = document.getElementById('apply-sorting');
+  const resetSortingButton = document.getElementById('reset-sorting');
+  const sortedList = document.getElementById('sorted-list');
+  const errorMessage = document.getElementById('error-message');
+  const customKeywordsInput = document.getElementById('custom-keywords-input');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    inputList.value = startValue;
+  }
+
+  applySortingButton.addEventListener('click', () => {
+    const inputListValue = inputList.value.trim();
+    if (!inputListValue) {
+      errorMessage.textContent = 'Please enter a list of items.';
+      return;
+    }
+
+    const items = inputListValue.split('\n');
+    const sortingCriteria = document.querySelector('input[name="sorting-criteria"]:checked').value;
+    const sortingOrder = document.getElementById('sorting-order').value;
+    const customKeywords = customKeywordsInput.value.trim();
+
+    let sortedItems;
+    switch (sortingCriteria) {
+      case 'alphabetical-order':
+        sortedItems = items.sort((a, b) => a.localeCompare(b));
+        break;
+      case 'numerical-order':
+        sortedItems = items.sort((a, b) => parseFloat(a) - parseFloat(b));
+        break;
+      case 'custom-keywords':
+        const keywords = customKeywords.split(',').map(keyword => keyword.trim());
+        sortedItems = items.sort((a, b) => {
+          const aIndex = keywords.indexOf(a);
+          const bIndex = keywords.indexOf(b);
+          if (aIndex === -1 && bIndex === -1) {
+            return a.localeCompare(b);
+          } else if (aIndex === -1) {
+            return 1;
+          } else if (bIndex === -1) {
+            return -1;
+          } else {
+            return aIndex - bIndex;
+          }
+        });
+        break;
+      default:
+        errorMessage.textContent = 'Please select a sorting criteria.';
+        return;
+    }
+
+    if (sortingOrder === 'descending') {
+      sortedItems.reverse();
+    }
+
+    sortedList.innerHTML = '';
+    sortedItems.forEach(item => {
+      const itemElement = document.createElement('p');
+      itemElement.textContent = item;
+      sortedList.appendChild(itemElement);
+    });
+
+    errorMessage.textContent = '';
+  });
+
+  resetSortingButton.addEventListener('click', () => {
+    inputList.value = '';
+    sortedList.innerHTML = '';
+    errorMessage.textContent = '';
+  });
+</script>

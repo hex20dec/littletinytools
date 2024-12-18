@@ -1,0 +1,163 @@
+---
+title: Repeated Word Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Word Counter
+  - Text Analysis
+  - Writing Tool
+  - Language Analysis
+  - Research Assistant
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div.result-list {
+    padding: 0;
+    list-style: none;
+  }
+  #main-div.result-list li {
+    padding: 0.5rem;
+    border-bottom: 1px solid #ccc;
+  }
+  #main-div.result-list li:last-child {
+    border-bottom: none;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Repeated Word Counter App</h1><div class="header-section p-5 mb-4 bg-light rounded-3">
+  <p class="fs-5">The Repeated Word Counter App is a revolutionary online tool designed to help writers, researchers, and language enthusiasts analyze and identify repeated words in a given text. With its user-friendly interface and advanced algorithms, this app enables users to easily determine the frequency of each word in a text, ignoring common words and considering case sensitivity. By utilizing this tool, individuals can refine their writing, improve readability, and enhance their overall communication skills, making it an indispensable resource for anyone working with text.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <label for="text-input">Enter text to analyze:</label>
+      <textarea id="text-input" class="form-control" rows="10"></textarea>
+    </div>
+    <div class="col-md-6">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="ignore-common-words">
+        <label class="form-check-label" for="ignore-common-words">Ignore common words</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="ignore-case">
+        <label class="form-check-label" for="ignore-case">Ignore case</label>
+      </div>
+      <button id="count-button" class="btn btn-primary">Count Repeated Words</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Results:</h2>
+      <ul id="result-list" class="result-list"></ul>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5 mb-4 bg-light rounded-3">
+  <h2>How it Works</h2>
+  <p class="fs-5">The Repeated Word Counter App employs a simple yet effective formula to calculate the frequency of each word in a text. The formula can be broken down into the following steps:</p>
+  <ol class="fs-5">
+    <li>Split the text into individual words</li>
+    <li>Remove any non-word characters and convert the words to lowercase (if case insensitivity is selected)</li>
+    <li>Ignore common words (if selected)</li>
+    <li>Count the occurrences of each word</li>
+    <li>Sort the words by frequency in descending order</li>
+  </ol>
+  <h2>Example Use Cases</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Text Input</th>
+        <th>Repeated Words</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>The quick brown fox jumps over the lazy dog</td>
+        <td>The: 2</td>
+      </tr>
+      <tr>
+        <td>The sun was shining brightly in the clear blue sky</td>
+        <td>The: 2</td>
+      </tr>
+      <tr>
+        <td>The cat purrs contentedly on my lap</td>
+        <td>The: 1, cat: 1</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5 mb-4 bg-light rounded-3">
+  <h2>10 Common Use Cases for the Repeated Word Counter App</h2>
+  <ul class="fs-5">
+    <li><strong>Improving writing clarity</strong>: Identify and reduce repeated words to enhance readability</li>
+    <li><strong>Enhancing SEO</strong>: Optimize keyword usage and minimize repetitive language</li>
+    <li><strong>Conducting linguistic research</strong>: Analyze word frequencies in different texts and languages</li>
+    <li><strong>Developing language learning materials</strong>: Create interactive exercises and quizzes using repeated word lists</li>
+    <li><strong>Enhancing content marketing</strong>: Refine blog posts, articles, and social media content using data-driven insights</li>
+    <li><strong>Assisting with proofreading</strong>: Quickly identify and correct errors related to repeated words</li>
+    <li><strong>Supporting academic research</strong>: Analyze and visualize word frequency patterns in large datasets</li>
+    <li><strong>Improving communication skills</strong>: Practice using varied vocabulary and sentence structures</li>
+    <li><strong>Creating engaging content</strong>: Use repeated word lists to generate ideas for stories, poems, or dialogues</li>
+    <li><strong>Optimizing chatbot and virtual assistant responses</strong>: Use data-driven insights to refine and improve conversational AI</li>
+  </ul>
+</div><script>
+  const textInput = document.getElementById('text-input');
+  const ignoreCommonWords = document.getElementById('ignore-common-words');
+  const ignoreCase = document.getElementById('ignore-case');
+  const countButton = document.getElementById('count-button');
+  const resultlist = document.getElementById('result-list');
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+
+  if (startParam) {
+    textInput.value = startParam;
+  }
+
+  countButton.addEventListener('click', () => {
+    const text = textInput.value.trim();
+    if (text === '') {
+      alert('Please enter some text to analyze.');
+      return;
+    }
+
+    const commonWords = ['the', 'and', 'a', 'an', 'in', 'is', 'it', 'of', 'to'];
+    const wordList = text.split(/\s+/);
+    const wordCount = {};
+
+    wordList.forEach((word) => {
+      const cleanWord = word.replace(/[^\w]/gi, '').toLowerCase();
+      if (ignoreCase.checked) {
+        word = cleanWord;
+      } else {
+        word = word.replace(/[^\w]/gi, '');
+      }
+
+      if (ignoreCommonWords.checked && commonWords.includes(cleanWord)) {
+        return;
+      }
+
+      if (word in wordCount) {
+        wordCount[word]++;
+      } else {
+        wordCount[word] = 1;
+      }
+    });
+
+    const repeatedWords = Object.keys(wordCount).filter((word) => wordCount[word] > 1);
+    repeatedWords.sort((a, b) => wordCount[b] - wordCount[a]);
+
+    resultlist.innerHTML = '';
+    repeatedWords.forEach((word) => {
+      const listItem = document.createElement('li');
+      listItem.textContent = `${word}: ${wordCount[word]}`;
+      resultlist.appendChild(listItem);
+    });
+  });
+</script>

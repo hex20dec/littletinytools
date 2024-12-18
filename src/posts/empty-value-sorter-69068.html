@@ -1,0 +1,166 @@
+---
+title: "Empty Value Sorter: Simplify Your Data Cleaning"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Data Cleaning
+  - Data Organization
+  - Empty Value Sorter
+  - Data Analysis
+  - Productivity Tool
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div button {
+    margin-top: 1rem;
+  }
+  #main-div.result-section {
+    margin-top: 2rem;
+  }
+  #main-div.result-section h2 {
+    margin-bottom: 0.5rem;
+  }
+  #main-div.result-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  #main-div.result-section li {
+    margin-bottom: 0.5rem;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Empty Value Sorter</h1><div class="header-section p-5 text-center bg-light">
+    <p class="lead">The Empty Value Sorter is a powerful online tool designed to simplify data cleaning and organization by efficiently separating empty from non-empty values. With its intuitive interface and customizable options, this tool caters to a wide range of data analysis and productivity needs, ensuring that users can quickly and accurately process their data for better insights and decision-making. By leveraging the Empty Value Sorter, individuals and organizations can streamline their data management workflows, reduce manual errors, and enhance overall data quality, thereby improving the effectiveness of their data-driven strategies.</p>
+</div>
+  <p>Input your data, one value per line:</p>
+  <textarea id="input-data" rows="10" cols="50" aria-label="Input data"></textarea>
+  <button id="sort-button" class="btn btn-primary">Sort</button>
+  <div class="form-check">
+    <input id="ignore-whitespace" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+    <label class="form-check-label" for="flexCheckDefault">
+      Ignore whitespace
+    </label>
+  </div>
+  <div class="form-check">
+    <input id="trim-input" class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+    <label class="form-check-label" for="flexCheckChecked">
+      Trim input values
+    </label>
+  </div>
+  <div class="result-section">
+    <h2>Empty Values:</h2>
+    <ul id="empty-values"></ul>
+    <h2>Non-Empty Values:</h2>
+    <ul id="non-empty-values"></ul>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How the Empty Value Sorter Works</h2>
+    <p>The Empty Value Sorter operates based on a straightforward yet robust formula: it iterates through each line of input data, checks for empty values with optional considerations for whitespace and input trimming, and then categorizes the data into two distinct lists - empty values and non-empty values. This process is facilitated by user-controlled parameters that allow for the ignoring of whitespace and the trimming of input values, providing flexibility and precision in data sorting.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Input Data</th>
+                <th>Ignore Whitespace</th>
+                <th>Trim Input</th>
+                <th>Output</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Empty Line</td>
+                <td>No</td>
+                <td>No</td>
+                <td>Empty Value</td>
+            </tr>
+            <tr>
+                <td>   Whitespace   </td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>Empty Value</td>
+            </tr>
+            <tr>
+                <td>Text</td>
+                <td>No</td>
+                <td>Yes</td>
+                <td>Non-Empty Value</td>
+            </tr>
+            <tr>
+                <td>   Text   </td>
+                <td>No</td>
+                <td>Yes</td>
+                <td>Non-Empty Value</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2>10 Common Use Cases for the Empty Value Sorter</h2>
+    <ul>
+        <li><strong>Data Cleaning for Analysis</strong>: Prepare datasets for statistical analysis by removing or identifying empty values.</li>
+        <li><strong>Productivity Enhancement</strong>: Automate the tedious process of manually sorting through data to find empty values.</li>
+        <li><strong>Web Scraping Data Processing</strong>: Efficiently organize data scraped from websites by separating meaningful data from empty fields.</li>
+        <li><strong>Database Management</strong>: Use the Empty Value Sorter to preprocess data before importing it into databases for better data integrity.</li>
+        <li><strong>Research Data Preparation</strong>: Quickly identify and manage missing data points in research datasets.</li>
+        <li><strong>CSV and Excel Data Sorting</strong>: Easily sort and manage large CSV or Excel files by leveraging the Empty Value Sorter.</li>
+        <li><strong>Quality Control in Data Entry</strong>: Implement the Empty Value Sorter as a quality control measure to ensure data entry accuracy.</li>
+        <li><strong>Automating Reporting Tasks</strong>: Use the tool to automate parts of reporting tasks that involve data cleaning and organization.</li>
+        <li><strong>Educational Data Analysis</strong>: Assist students and educators in managing and analyzing educational datasets with ease.</li>
+        <li><strong>Business Intelligence and Data Science</strong>: Enhance business intelligence and data science workflows by efficiently handling empty values in datasets.</li>
+    </ul>
+</div><script>
+  const inputField = document.getElementById('input-data');
+  const sortButton = document.getElementById('sort-button');
+  const ignoreWhitespaceCheckbox = document.getElementById('ignore-whitespace');
+  const trimInputCheckbox = document.getElementById('trim-input');
+  const emptyValuesList = document.getElementById('empty-values');
+  const nonEmptyValuesList = document.getElementById('non-empty-values');
+
+  // Preload input field with query parameter value
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    inputField.value = startValue;
+  }
+
+  sortButton.addEventListener('click', () => {
+    const inputData = inputField.value.trim();
+    const lines = inputData.split('\n');
+    const emptyValues = [];
+    const nonEmptyValues = [];
+
+    lines.forEach(line => {
+      const trimmedLine = trimInputCheckbox.checked? line.trim() : line;
+      if (ignoreWhitespaceCheckbox.checked && trimmedLine.trim() === '') {
+        emptyValues.push(line);
+      } else if (trimmedLine === '') {
+        emptyValues.push(line);
+      } else {
+        nonEmptyValues.push(line);
+      }
+    });
+
+    emptyValuesList.innerHTML = '';
+    nonEmptyValuesList.innerHTML = '';
+
+    emptyValues.forEach(value => {
+      const listItem = document.createElement('li');
+      listItem.textContent = value;
+      emptyValuesList.appendChild(listItem);
+    });
+
+    nonEmptyValues.forEach(value => {
+      const listItem = document.createElement('li');
+      listItem.textContent = value;
+      nonEmptyValuesList.appendChild(listItem);
+    });
+  });
+</script>

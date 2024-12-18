@@ -1,0 +1,169 @@
+---
+title: Weekday Difference Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Date Calculator
+  - Weekday Difference
+  - Event Planning
+  - Scheduling Appointments
+  - Tracking Workdays
+---
+
+<style>
+  #main-div {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  #main-div input[type="date"] {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  #main-div button {
+    width: 100%;
+    height: 40px;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+
+  #main-div .result {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+
+  #main-div .error {
+    color: #f00;
+    font-size: 18px;
+    margin-top: 10px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Weekday Difference Calculator</h1><div class="header-section p-5 text-center bg-light">
+    <p class="fs-5">The Weekday Difference Calculator is a free online tool designed to calculate the number of weekdays between two dates, excluding weekends and holidays. This tool is ideal for event planners, business owners, and individuals who need to schedule appointments, track workdays, or plan projects. By simply entering the start and end dates, users can quickly determine the number of weekdays and plan accordingly. The calculator takes into account the total number of days between the two dates and subtracts the number of weekend days, providing an accurate count of weekdays. This makes it an essential tool for anyone looking to optimize their schedule and increase productivity.</p>
+</div>
+  <label for="start-date">Start Date:</label>
+  <input type="date" id="start-date" value="<?php echo $_GET['start']; ?>">
+  <label for="end-date">End Date:</label>
+  <input type="date" id="end-date">
+  <button id="calculate-btn">Calculate</button>
+  <div class="result" id="result"></div>
+  <div class="error" id="error"></div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="fs-4">How it Works</h2>
+    <p class="fs-5">The Weekday Difference Calculator uses a simple formula to calculate the number of weekdays between two dates. The formula is as follows: total days between the two dates minus the number of weekend days. This can be represented as: Weekday Difference = Total Days - Weekend Days.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Total Days</th>
+                <th>Weekend Days</th>
+                <th>Weekday Difference</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2022-01-01</td>
+                <td>2022-01-07</td>
+                <td>7</td>
+                <td>2</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>2022-01-08</td>
+                <td>2022-01-14</td>
+                <td>7</td>
+                <td>2</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>2022-01-15</td>
+                <td>2022-01-21</td>
+                <td>7</td>
+                <td>2</td>
+                <td>5</td>
+            </tr>
+            <!-- Add more rows for different use cases -->
+        </tbody>
+    </table>
+    <p class="fs-5">As shown in the table, the calculator provides an accurate count of weekdays between two dates, making it easy to plan and schedule events and appointments.</p>
+</div><div class="use-cases-section p-5">
+    <h2 class="fs-4">Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Event planning: Calculate the number of weekdays between two dates to plan events and appointments.</li>
+        <li class="list-group-item">Scheduling appointments: Determine the number of weekdays between two dates to schedule appointments and meetings.</li>
+        <li class="list-group-item">Tracking workdays: Calculate the number of weekdays between two dates to track workdays and plan projects.</li>
+        <li class="list-group-item">Business planning: Use the calculator to determine the number of weekdays between two dates to plan business strategies and schedule tasks.</li>
+        <li class="list-group-item">Travel planning: Calculate the number of weekdays between two dates to plan travel itineraries and book accommodations.</li>
+        <li class="list-group-item">Project management: Use the calculator to determine the number of weekdays between two dates to plan and manage projects.</li>
+        <li class="list-group-item">Time management: Calculate the number of weekdays between two dates to optimize time management and increase productivity.</li>
+        <li class="list-group-item">Date calculations: Use the calculator to perform date calculations and determine the number of weekdays between two dates.</li>
+        <li class="list-group-item">Calendar planning: Determine the number of weekdays between two dates to plan calendar events and appointments.</li>
+        <li class="list-group-item">Task scheduling: Calculate the number of weekdays between two dates to schedule tasks and plan projects.</li>
+    </ul>
+</div><script>
+  const startDateInput = document.getElementById('start-date');
+  const endDateInput = document.getElementById('end-date');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resultDiv = document.getElementById('result');
+  const errorDiv = document.getElementById('error');
+
+  calculateBtn.addEventListener('click', calculateWeekdayDifference);
+
+  function calculateWeekdayDifference() {
+    const startDate = new Date(startDateInput.value);
+    const endDate = new Date(endDateInput.value);
+
+    if (startDate > endDate) {
+      errorDiv.innerText = 'Start date cannot be after end date';
+      resultDiv.innerText = '';
+      return;
+    }
+
+    const totalDays = Math.abs(endDate - startDate) / (1000 * 60 * 60 * 24);
+    const weekendDays = getWeekendDays(startDate, endDate);
+    const weekdayDifference = totalDays - weekendDays;
+
+    resultDiv.innerText = `The difference in weekdays is: ${weekdayDifference}`;
+    errorDiv.innerText = '';
+  }
+
+  function getWeekendDays(startDate, endDate) {
+    let weekendDays = 0;
+    for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
+      const dayOfWeek = date.getDay();
+      if (dayOfWeek === 0 || dayOfWeek === 6) {
+        weekendDays++;
+      }
+    }
+    return weekendDays;
+  }
+</script>

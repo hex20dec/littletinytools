@@ -1,0 +1,156 @@
+---
+title: Unicode Character Sorter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-20 14:30:00
+tags:
+  - Unicode Sorter
+  - Text Editor
+  - Character Sorting
+  - Developer Tool
+  - Design Assistant
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+ .output-textarea {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h1 class="text-center">Unicode Character Sorter</h1><div class="header-section p-5 text-center bg-light">
+    <h1>Unicode Character Sorter: Organize Your Characters with Ease</h1>
+    <p class="lead">Discover the ultimate tool for sorting Unicode characters in ascending or descending order, helping developers, designers, and writers to efficiently manage and organize their text content, making it an indispensable resource for anyone working with Unicode characters.</p>
+</div>
+        <textarea id="input-textarea" class="form-control" rows="10" placeholder="Input Unicode Characters"></textarea>
+        <div class="d-flex justify-content-center mt-3">
+          <button id="sort-ascending-btn" class="btn btn-primary me-2">Sort Ascending</button>
+          <button id="sort-descending-btn" class="btn btn-primary">Sort Descending</button>
+        </div>
+        <div id="output-div" class="mt-3">
+          <h2 class="text-center">Sorted Unicode Characters</h2>
+          <textarea id="output-textarea" class="output-textarea" readonly></textarea>
+          <p id="error-message" class="error-message"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5 bg-white">
+    <h2>How it Works</h2>
+    <p class="mb-4">The Unicode Character Sorter uses a simple yet effective formula to sort characters: it converts each character to its corresponding Unicode code point, then arranges these code points in either ascending or descending order, allowing for seamless organization of text content.</p>
+    <h3>Example Use Cases</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Input Characters</th>
+                <th>Sorted Characters (Ascending)</th>
+                <th>Sorted Characters (Descending)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>abc</td>
+                <td>a (U+0061), b (U+0062), c (U+0063)</td>
+                <td>c (U+0063), b (U+0062), a (U+0061)</td>
+            </tr>
+            <tr>
+                <td>ABC</td>
+                <td>A (U+0041), B (U+0042), C (U+0043)</td>
+                <td>C (U+0043), B (U+0042), A (U+0041)</td>
+            </tr>
+            <tr>
+                <td>!@#</td>
+                <td>! (U+0021), @ (U+0040), # (U+0023)</td>
+                <td># (U+0023), @ (U+0040),! (U+0021)</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5 bg-light">
+    <h2>10 Common Use Cases for the Unicode Character Sorter</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Sorting characters in a text editor for easier reading and writing</li>
+        <li class="list-group-item">Organizing Unicode characters in a database for efficient storage and retrieval</li>
+        <li class="list-group-item">Converting text to a standardized format for consistency across different platforms</li>
+        <li class="list-group-item">Creating a character map for a new font or language</li>
+        <li class="list-group-item">Developing a text processing algorithm that requires sorted characters</li>
+        <li class="list-group-item">Designing a user interface that involves sorting and organizing text content</li>
+        <li class="list-group-item">Building a chatbot that needs to process and respond to user input in a specific order</li>
+        <li class="list-group-item">Creating a data visualization that requires sorted characters for accurate representation</li>
+        <li class="list-group-item">Developing a machine learning model that relies on sorted text data for training and testing</li>
+        <li class="list-group-item">Building a web application that involves searching and filtering text content based on sorted characters</li>
+    </ul>
+</div><script>
+  const inputTextarea = document.getElementById('input-textarea');
+  const sortAscendingBtn = document.getElementById('sort-ascending-btn');
+  const sortDescendingBtn = document.getElementById('sort-descending-btn');
+  const outputTextarea = document.getElementById('output-textarea');
+  const errorMessage = document.getElementById('error-message');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    inputTextarea.value = startParam;
+  }
+
+  sortAscendingBtn.addEventListener('click', () => {
+    const inputText = inputTextarea.value;
+    if (!inputText) {
+      errorMessage.textContent = 'No Unicode characters to sort';
+      outputTextarea.value = '';
+      return;
+    }
+    const sortedText = sortUnicodeCharacters(inputText, true);
+    outputTextarea.value = sortedText;
+    errorMessage.textContent = '';
+  });
+
+  sortDescendingBtn.addEventListener('click', () => {
+    const inputText = inputTextarea.value;
+    if (!inputText) {
+      errorMessage.textContent = 'No Unicode characters to sort';
+      outputTextarea.value = '';
+      return;
+    }
+    const sortedText = sortUnicodeCharacters(inputText, false);
+    outputTextarea.value = sortedText;
+    errorMessage.textContent = '';
+  });
+
+  function sortUnicodeCharacters(text, ascending) {
+    const unicodeCharacters = [];
+    for (let i = 0; i < text.length; i++) {
+      const codePoint = text.codePointAt(i);
+      if (codePoint >= 0x00 && codePoint <= 0x10ffff) {
+        unicodeCharacters.push([codePoint, text[i]]);
+      }
+    }
+    unicodeCharacters.sort((a, b) => {
+      if (ascending) {
+        return a[0] - b[0];
+      } else {
+        return b[0] - a[0];
+      }
+    });
+    let sortedText = '';
+    for (const character of unicodeCharacters) {
+      sortedText += character[1] + ' (U+' + character[0].toString(16).padStart(4, '0') + ')\n';
+    }
+    return sortedText;
+  }
+</script>

@@ -1,0 +1,127 @@
+---
+title: Text Sorting Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Text Sorting
+  - Text Editor
+  - Sorting Tool
+  - Data Entry
+  - Productivity
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div button {
+    margin-top: 0.5rem;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1>Text Sorting Tool</h1><div class="header-section pb-3">
+    <p class="text-center fs-5">The Text Sorting Tool is a user-friendly online utility designed to help individuals and professionals efficiently organize and sort large amounts of text data in a matter of seconds. With its intuitive interface and advanced sorting algorithms, this tool is perfect for data entry specialists, researchers, and anyone looking to streamline their workflow and boost productivity.</p>
+</div>
+  <p>Sort your text data with ease!</p>
+  <textarea id="text-area" class="form-control" rows="10" cols="50" placeholder="Enter your text here..."></textarea>
+  <div class="form-check mt-2">
+    <input id="ignore-case" class="form-check-input" type="checkbox">
+    <label for="ignore-case" class="form-check-label">Ignore Case</label>
+  </div>
+  <button id="sort-ascending" class="btn btn-primary mt-2">Sort Ascending</button>
+  <button id="sort-descending" class="btn btn-primary mt-2">Sort Descending</button>
+  <div id="error-message" class="text-danger mt-2"></div>
+</div>
+
+<div class="explanation-section mb-5">
+    <h2 class="mb-3">How it Works</h2>
+    <p>The Text Sorting Tool utilizes a simple yet powerful formula to sort text data: it breaks down the input text into individual words or phrases, and then rearranges them in either ascending or descending order based on their alphabetical sequence. This process can be further customized by choosing to ignore case sensitivity, allowing for more nuanced and accurate sorting results.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Input Text</th>
+                <th>Sorted Text (Ascending)</th>
+                <th>Sorted Text (Descending)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>This is a sample text</td>
+                <td>a<br>is<br/sample<br>this</td>
+                <td>this<br>sample<br>is<br>a</td>
+            </tr>
+            <tr>
+                <td>Hello world, this is a test</td>
+                <td>a<br>Hello<br>is<br>test<br>this<br>world</td>
+                <td>world<br>this<br>test<br>is<br>Hello<br>a</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section">
+    <h2 class="mb-3">Common Use Cases for the Text Sorting Tool</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Data entry and organization for research papers and academic studies</li>
+        <li class="list-group-item">Streamlining workflow and increasing productivity for data entry specialists</li>
+        <li class="list-group-item">Alphabetical sorting of large datasets for marketing and sales campaigns</li>
+        <li class="list-group-item">Organizing and categorizing text data for machine learning and AI applications</li>
+        <li class="list-group-item">Simplifying text editing and formatting for writers and content creators</li>
+        <li class="list-group-item">Efficient sorting and analysis of customer feedback and reviews</li>
+        <li class="list-group-item">Quickly organizing and prioritizing task lists and to-do lists</li>
+        <li class="list-group-item">Converting unstructured text data into structured and readable formats</li>
+        <li class="list-group-item">Identifying and removing duplicates from large text datasets</li>
+        <li class="list-group-item">Preparing text data for import into databases and spreadsheets</li>
+    </ul>
+</div><script>
+  const textArea = document.getElementById('text-area');
+  const ignoreCaseCheckbox = document.getElementById('ignore-case');
+  const sortAscendingButton = document.getElementById('sort-ascending');
+  const sortDescendingButton = document.getElementById('sort-descending');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    textArea.value = startValue;
+  }
+
+  sortAscendingButton.addEventListener('click', () => {
+    const text = textArea.value.trim();
+    if (text === '') {
+      errorMessageDiv.textContent = 'Please enter some text.';
+      return;
+    }
+    const ignoreCase = ignoreCaseCheckbox.checked;
+    const sortedText = sortText(text, ignoreCase, 'ascending');
+    textArea.value = sortedText;
+  });
+
+  sortDescendingButton.addEventListener('click', () => {
+    const text = textArea.value.trim();
+    if (text === '') {
+      errorMessageDiv.textContent = 'Please enter some text.';
+      return;
+    }
+    const ignoreCase = ignoreCaseCheckbox.checked;
+    const sortedText = sortText(text, ignoreCase, 'descending');
+    textArea.value = sortedText;
+  });
+
+  function sortText(text, ignoreCase, order) {
+    const words = text.split(/\s+/);
+    if (ignoreCase) {
+      words.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+    } else {
+      words.sort();
+    }
+    if (order === 'descending') {
+      words.reverse();
+    }
+    return words.join('\n');
+  }
+</script>

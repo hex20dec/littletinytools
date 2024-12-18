@@ -1,0 +1,169 @@
+---
+title: Alphabetical Sorter Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Alphabetical Sorter
+  - Text Sorter
+  - Word Sorter
+  - List Organizer
+  - Text Organizer
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    color: #fff;
+  }
+  #error-message {
+    color: #fff;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="display-4">Alphabetical Sorter</h1><div class="container mt-5">
+  <p class="lead text-dark">The Alphabetical Sorter Tool is a free online utility designed to help users organize lists of words in alphabetical order. This tool is perfect for students, teachers, and professionals who need to sort lists of names, keywords, or phrases quickly and efficiently. With its user-friendly interface and advanced sorting algorithm, the Alphabetical Sorter Tool makes it easy to arrange words in ascending or descending order, saving time and increasing productivity. Whether you're working on a research project, creating a list of contacts, or simply tidying up a messy list, this tool is an indispensable resource.</p>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <label for="input-text" class="form-label">Enter your list of words</label>
+      <textarea id="input-text" class="form-control" rows="10"></textarea>
+      <div class="d-flex justify-content-end mt-2">
+        <div class="form-check me-2">
+          <input id="reverse-order" class="form-check-input" type="checkbox">
+          <label for="reverse-order" class="form-check-label">Reverse Order</label>
+        </div>
+        <button id="sort-button" class="btn btn-primary">Sort</button>
+      </div>
+      <div id="error-message" class="alert alert-danger mt-2" role="alert"></div>
+      <ul id="sorted-list" class="list-group mt-2"></ul>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="display-6">How it Works</h2>
+  <p class="text-dark">The Alphabetical Sorter Tool uses a simple yet powerful formula to sort lists of words. The formula works by comparing each word in the list to every other word, and then arranging them in order based on their alphabetical sequence. This process can be represented by the following step-by-step approach:</p>
+  <ol class="list-group numbered">
+    <li class="list-group-item">Split the input list into individual words or phrases.</li>
+    <li class="list-group-item">Compare each word to every other word in the list using a standard alphabetical sorting algorithm.</li>
+    <li class="list-group-item">Arrange the words in order based on their alphabetical sequence, with the option to sort in ascending or descending order.</li>
+  </ol>
+  <p class="text-dark">To illustrate this process, consider the following example table, which shows the sorted output for a list of 10 words:</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Original Word</th>
+        <th>Sorted Word (Ascending)</th>
+        <th>Sorted Word (Descending)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Orange</td>
+        <td>Apple</td>
+        <td>Zebra</td>
+      </tr>
+      <tr>
+        <td>Banana</td>
+        <td>Banana</td>
+        <td>Yellow</td>
+      </tr>
+      <tr>
+        <td>Apple</td>
+        <td>Cherry</td>
+        <td>Xylophone</td>
+      </tr>
+      <tr>
+        <td>Grapes</td>
+        <td>Grapes</td>
+        <td>Watermelon</td>
+      </tr>
+      <tr>
+        <td>Mango</td>
+        <td>Mango</td>
+        <td>Unicorn</td>
+      </tr>
+      <tr>
+        <td>Pear</td>
+        <td>Orange</td>
+        <td>Tiger</td>
+      </tr>
+      <tr>
+        <td>Peach</td>
+        <td>Peach</td>
+        <td>Strawberry</td>
+      </tr>
+      <tr>
+        <td>Pineapple</td>
+        <td>Pineapple</td>
+        <td>Raspberry</td>
+      </tr>
+      <tr>
+        <td>Strawberry</td>
+        <td>Pear</td>
+        <td>Quail</td>
+      </tr>
+      <tr>
+        <td>Watermelon</td>
+        <td>Strawberry</td>
+        <td>Papaya</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="display-6">Common Use Cases</h2>
+  <p class="text-dark">The Alphabetical Sorter Tool has a wide range of applications across various industries and use cases. Here are 10 examples of how this tool can be used:</p>
+  <ul class="list-group">
+    <li class="list-group-item">Sorting lists of names for invitations, guest lists, or contact directories.</li>
+    <li class="list-group-item">Organizing keywords and phrases for search engine optimization (SEO) purposes.</li>
+    <li class="list-group-item">Creating alphabetized lists of books, movies, or music for personal or professional collections.</li>
+    <li class="list-group-item">Sorting lists of cities, countries, or destinations for travel planning or research.</li>
+    <li class="list-group-item">Arranging lists of products, services, or features for marketing or sales materials.</li>
+    <li class="list-group-item">Creating alphabetized lists of vocabulary words or terms for language learning or education.</li>
+    <li class="list-group-item">Sorting lists of companies, organizations, or institutions for business or research purposes.</li>
+    <li class="list-group-item">Organizing lists of events, conferences, or meetings for scheduling or planning.</li>
+    <li class="list-group-item">Creating alphabetized lists of people, places, or things for historical or cultural research.</li>
+    <li class="list-group-item">Sorting lists of data, statistics, or metrics for analysis or reporting purposes.</li>
+  </ul>
+</div><script>
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const startValue = urlParams.get('start');
+  document.getElementById('input-text').value = startValue? startValue : '';
+
+  document.getElementById('sort-button').addEventListener('click', () => {
+    const inputText = document.getElementById('input-text').value.trim();
+    const reverseOrder = document.getElementById('reverse-order').checked;
+    const sortedList = document.getElementById('sorted-list');
+    const error_message = document.getElementById('error-message');
+
+    if (!inputText) {
+      error_message.classList.add('d-block');
+      error_message.innerText = 'Please enter a list of words';
+      return;
+    }
+
+    const words = inputText.split('\n').filter(word => word.trim()!== '');
+    const sortedWords = words.sort((a, b) => {
+      if (reverseOrder) {
+        return b.localeCompare(a);
+      } else {
+        return a.localeCompare(b);
+      }
+    });
+
+    sortedList.innerHTML = '';
+    sortedWords.forEach(word => {
+      const li = document.createElement('li');
+      li.classList.add('list-group-item');
+      li.innerText = word;
+      sortedList.appendChild(li);
+    });
+
+    error_message.classList.remove('d-block');
+  });
+</script>

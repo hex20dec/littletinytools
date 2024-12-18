@@ -1,0 +1,128 @@
+---
+title: Underscore Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Underscore Counter
+  - Text Analysis
+  - Writing Tool
+  - Development Utility
+  - Productivity App
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #212529;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+ .result {
+    margin-top: 1rem;
+  }
+  @media (max-width: 768px) {
+   .input-group {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<div id="main-div">
+  <h1>Underscore Counter App</h1><div class="header-section p-5 text-center bg-light">
+  <p class="lead">The Underscore Counter App is a free online tool designed to help users count the number of underscores in a given text. This tool is perfect for writers, developers, and anyone who needs to analyze text data. With its simple and intuitive interface, users can easily paste their text and get an accurate count of underscores, making it an essential utility for productivity and text analysis. Whether you're working on a project, writing an article, or debugging code, the Underscore Counter App is here to help you get the job done efficiently.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="textInput" class="form-label">Text</label>
+      <input type="text" id="textInput" class="form-control" placeholder="Enter text here" aria-describedby="textInputHelp">
+      <div id="textInputHelp" class="form-text">Enter or paste the text you want to count the underscores for.</div>
+    </div>
+    <div class="input-group">
+      <button type="button" id="countButton" class="btn btn-primary">Count Underscores</button>
+      <button type="button" id="resetButton" class="btn btn-secondary">Reset</button>
+    </div>
+    <div class="result" id="result"></div>
+  </form>
+</div>
+
+<div class="explanation-section p-5">
+  <h2>How it Works</h2>
+  <p>The Underscore Counter App uses a straightforward formula to count the number of underscores in a given text. The formula can be explained as follows: the tool scans the text from left to right, counting each occurrence of the underscore character (_). The result is then displayed to the user, providing an accurate count of underscores in the text.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Text Example</th>
+        <th>Number of Underscores</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Hello_World</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>This_is_a_test</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>No_underscores_here</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>Multiple__underscores__here</td>
+        <td>4</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Counting underscores in variable names in programming code</li>
+    <li class="list-group-item">Analyzing text data for underscores in data science projects</li>
+    <li class="list-group-item">Checking for underscores in file names and folder names</li>
+    <li class="list-group-item">Validating input data for underscores in web development</li>
+    <li class="list-group-item">Identifying underscores in URLs and hyperlinks</li>
+    <li class="list-group-item">Counting underscores in article titles and headings</li>
+    <li class="list-group-item">Detecting underscores in user input data for security purposes</li>
+    <li class="list-group-item">Analyzing underscores in product names and descriptions</li>
+    <li class="list-group-item">Checking for underscores in email addresses and usernames</li>
+    <li class="list-group-item">Counting underscores in code snippets and debugging logs</li>
+  </ul>
+</div><script>
+  const textInput = document.getElementById('textInput');
+  const countButton = document.getElementById('countButton');
+  const resetButton = document.getElementById('resetButton');
+  const resultDiv = document.getElementById('result');
+
+  // Get query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    textInput.value = startValue;
+  }
+
+  countButton.addEventListener('click', () => {
+    const text = textInput.value;
+    if (text.trim() === '') {
+      resultDiv.innerText = 'Please enter some text.';
+      return;
+    }
+    const underscoreCount = (text.match(/_/g) || []).length;
+    resultDiv.innerText = `Number of underscores: ${underscoreCount}`;
+  });
+
+  resetButton.addEventListener('click', () => {
+    textInput.value = '';
+    resultDiv.innerText = '';
+  });
+
+  // Handle large input
+  textInput.addEventListener('input', () => {
+    const text = textInput.value;
+    if (text.length > 10000) {
+      alert('Input is too large. Please enter a smaller text.');
+      textInput.value = text.substring(0, 10000);
+    }
+  });
+</script>

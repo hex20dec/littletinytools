@@ -1,0 +1,164 @@
+---
+title: Alphabet Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 14:00:00
+tags:
+  - Alphabet Counter
+  - Text Analysis
+  - Language Learning
+  - Word Game Development
+  - Text Data Analysis
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div table {
+    color: #fff;
+  }
+  #main-div.table th, #main-div.table td {
+    border-color: #5c636a;
+  }
+  #main-div.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center mb-4">Alphabet Counter App</h1><div class="header-section mt-5">
+  <p class="text-center">The Alphabet Counter App is a free online tool designed to help users analyze and understand the frequency of alphabets in a given text. This tool is perfect for language learners, writers, and developers who need to analyze text data. With its simple and intuitive interface, users can easily paste or type in their text and get instant results on the frequency of each alphabet. The tool is also useful for text data analysis, word game development, and language learning. By using the Alphabet Counter App, users can gain valuable insights into the composition of their text and make data-driven decisions to improve their writing or development projects.</p>
+</div>
+  <div class="row">
+    <div class="col-md-12">
+      <textarea id="input-text" class="form-control" rows="10" placeholder="Type or paste text here"></textarea>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-12 text-center">
+      <button id="count-alphabet" class="btn btn-primary">Count Alphabet</button>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-12">
+      <table id="result-table" class="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th>Letter</th>
+            <th>Frequency</th>
+          </tr>
+        </thead>
+        <tbody id="result-body">
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-12">
+      <p id="summary"></p>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section mt-5">
+  <h2>How it Works</h2>
+  <p>The Alphabet Counter App uses a simple formula to calculate the frequency of each alphabet in a given text. The formula is based on the following steps:</p>
+  <ul>
+    <li>First, the tool removes any non-alphabet characters from the text, such as numbers, punctuation, and spaces.</li>
+    <li>Next, it converts all the remaining characters to lowercase to ensure accurate counting.</li>
+    <li>Then, it iterates through each character in the text and increments a counter for each unique alphabet.</li>
+    <li>Finally, it displays the results in a table, showing the frequency of each alphabet in the text.</li>
+  </ul>
+  <h2>Example Use Cases</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Text</th>
+        <th>Most Frequent Letter</th>
+        <th>Least Frequent Letter</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>The quick brown fox jumps over the lazy dog</td>
+        <td>E</td>
+        <td>Q</td>
+      </tr>
+      <tr>
+        <td>ABCDEFGHIJKLMNOPQRSTUVWXYZ</td>
+        <td>Z</td>
+        <td>A</td>
+      </tr>
+      <tr>
+        <td>a b c d e f g h i j k l m n o p q r s t u v w x y z</td>
+        <td>Z</td>
+        <td>A</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section mt-5">
+  <h2>10 Common Use Cases for the Alphabet Counter App</h2>
+  <ol>
+    <li>Language learning: Use the Alphabet Counter App to analyze the frequency of alphabets in a language and improve your language skills.</li>
+    <li>Text data analysis: Use the tool to analyze the composition of text data and gain insights into the structure and patterns of the text.</li>
+    <li>Word game development: Use the Alphabet Counter App to create word games, such as crosswords, word searches, and anagrams.</li>
+    <li>Writing: Use the tool to analyze the frequency of alphabets in your writing and improve your writing style.</li>
+    <li>Development: Use the Alphabet Counter App to analyze the composition of text data and improve your development projects.</li>
+    <li>Education: Use the tool to teach students about the frequency of alphabets in a language and improve their language skills.</li>
+    <li>Research: Use the Alphabet Counter App to analyze the composition of text data and gain insights into the structure and patterns of the text.</li>
+    <li>Marketing: Use the tool to analyze the frequency of alphabets in marketing materials and improve your marketing campaigns.</li>
+    <li>SEO: Use the Alphabet Counter App to analyze the frequency of keywords in a text and improve your search engine optimization.</li>
+    <li>Text compression: Use the tool to analyze the frequency of alphabets in a text and compress the text using techniques such as Huffman coding.</li>
+  </ol>
+</div><script>
+  const inputText = document.getElementById('input-text');
+  const countAlphabetButton = document.getElementById('count-alphabet');
+  const resultTableBody = document.getElementById('result-body');
+  const summary = document.getElementById('summary');
+
+  // Preload input field with query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    inputText.value = startValue;
+  }
+
+  countAlphabetButton.addEventListener('click', () => {
+    const text = inputText.value.trim();
+    if (text === '') {
+      alert('Please enter some text');
+      return;
+    }
+
+    const alphabetFrequency = {};
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i].toLowerCase();
+      if (char >= 'a' && char <= 'z') {
+        if (alphabetFrequency[char]) {
+          alphabetFrequency[char]++;
+        } else {
+          alphabetFrequency[char] = 1;
+        }
+      }
+    }
+
+    resultTableBody.innerHTML = '';
+    Object.keys(alphabetFrequency).sort().forEach((letter) => {
+      const row = document.createElement('tr');
+      const letterCell = document.createElement('td');
+      const frequencyCell = document.createElement('td');
+      letterCell.textContent = letter;
+      frequencyCell.textContent = alphabetFrequency[letter];
+      row.appendChild(letterCell);
+      row.appendChild(frequencyCell);
+      resultTableBody.appendChild(row);
+    });
+
+    const totalChars = text.length;
+    const totalAlphabet = Object.values(alphabetFrequency).reduce((a, b) => a + b, 0);
+    const mostFrequentLetter = Object.keys(alphabetFrequency).sort((a, b) => alphabetFrequency[b] - alphabetFrequency[a])[0];
+    summary.textContent = `Total Characters: ${totalChars}, Total Alphabet: ${totalAlphabet}, Most Frequent Letter: ${mostFrequentLetter}`;
+  });
+</script>

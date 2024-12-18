@@ -1,0 +1,156 @@
+---
+title: URL Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - URL Counter
+  - Website Traffic
+  - Marketing Tool
+  - Website Analytics
+  - User Engagement
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div button {
+    margin-bottom: 1rem;
+  }
+  #main-div.list-group {
+    margin-top: 1rem;
+  }
+  #main-div.list-group-item {
+    padding: 0.5rem;
+  }
+  #error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="mb-3">URL Counter App</h1><div class="container mt-5">
+  <p class="lead">The URL Counter App is a web-based tool designed to track and count the number of visits to a specific website or webpage. By utilizing this tool, users can monitor the popularity of their website, track user engagement, and gain valuable insights into their online presence. With its simple and intuitive interface, the URL Counter App is an essential tool for website owners, marketers, and anyone looking to analyze their website's traffic.</p>
+</div>
+  <form id="url-form">
+    <div class="mb-3">
+      <label for="url-input" class="form-label">Enter URL:</label>
+      <input type="url" id="url-input" class="form-control" required>
+    </div>
+    <button type="submit" id="submit-button" class="btn btn-primary">Start Counting</button>
+  </form>
+  <p id="current-count" class="mt-3"></p>
+  <ul id="url-list" class="list-group"></ul>
+  <p id="error-message"></p>
+</div>
+
+<div class="container mt-5">
+  <h2 class="mb-3">How it Works</h2>
+  <p class="lead">The URL Counter App uses a simple formula to track the number of visits to a specific URL: <strong>Current Count = Initial Count + (Number of Visits * Time Interval)</strong>. This formula ensures that the count is incremented at regular intervals, providing an accurate representation of the website's traffic.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>URL</th>
+        <th>Initial Count</th>
+        <th>Number of Visits</th>
+        <th>Time Interval</th>
+        <th>Current Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>https://example.com</td>
+        <td>0</td>
+        <td>10</td>
+        <td>1 minute</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>https://example.com</td>
+        <td>10</td>
+        <td>20</td>
+        <td>1 minute</td>
+        <td>30</td>
+      </tr>
+      <tr>
+        <td>https://example.com</td>
+        <td>30</td>
+        <td>30</td>
+        <td>1 minute</td>
+        <td>60</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="mb-3">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Monitoring website traffic and user engagement</li>
+    <li class="list-group-item">Tracking the effectiveness of marketing campaigns</li>
+    <li class="list-group-item">Analyzing the popularity of specific webpages or content</li>
+    <li class="list-group-item">Measuring the impact of social media on website traffic</li>
+    <li class="list-group-item">Identifying trends and patterns in website usage</li>
+    <li class="list-group-item">Optimizing website content and layout for better user experience</li>
+    <li class="list-group-item">Comparing the performance of different websites or webpages</li>
+    <li class="list-group-item">Setting goals and benchmarks for website traffic and engagement</li>
+    <li class="list-group-item">Evaluating the return on investment (ROI) of website-related expenses</li>
+    <li class="list-group-item">Informing data-driven decisions for website development and marketing strategies</li>
+  </ul>
+</div><script>
+  const urlForm = document.getElementById('url-form');
+  const urlInput = document.getElementById('url-input');
+  const submitButton = document.getElementById('submit-button');
+  const currentCount = document.getElementById('current-count');
+  const urlList = document.getElementById('url-list');
+  const errorMessage = document.getElementById('error-message');
+
+  let urlData = {};
+  let currentUrl = '';
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startUrl = urlParams.get('start');
+  if (startUrl) {
+    urlInput.value = startUrl;
+  }
+
+  urlForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const url = urlInput.value.trim();
+    if (!url) {
+      errorMessage.textContent = 'Please enter a valid URL';
+      return;
+    }
+    if (urlData[url]) {
+      currentUrl = url;
+      currentCount.textContent = `Current count: ${urlData[url]}`;
+    } else {
+      urlData[url] = 0;
+      const urlListItem = document.createElement('LI');
+      urlListItem.textContent = `${url} (0)`;
+      urlListItem.className = 'list-group-item';
+      urlList.appendChild(urlListItem);
+      currentUrl = url;
+      currentCount.textContent = 'Current count: 0';
+    }
+    urlInput.value = '';
+  });
+
+  // Handle URL visits
+  setInterval(() => {
+    if (currentUrl) {
+      urlData[currentUrl]++;
+      currentCount.textContent = `Current count: ${urlData[currentUrl]}`;
+      const urlListItems = urlList.children;
+      for (let i = 0; i < urlListItems.length; i++) {
+        const urlListItem = urlListItems[i];
+        if (urlListItem.textContent.startsWith(currentUrl)) {
+          urlListItem.textContent = `${currentUrl} (${urlData[currentUrl]})`;
+        }
+      }
+    }
+  }, 1000);
+</script>

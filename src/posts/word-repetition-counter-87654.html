@@ -1,0 +1,148 @@
+---
+title: Word Repetition Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 14:30:00
+tags:
+  - word repetition counter
+  - text analysis tool
+  - writing assistant
+  - content optimization
+  - readability improvement
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  #main-div table {
+    margin-top: 20px;
+  }
+  #main-div.results-section {
+    display: none;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Word Repetition Counter</h1><div class="header-section p-5 text-center bg-primary text-white rounded">
+    <h1>Word Repetition Counter: Optimize Your Content with This Essential Tool</h1>
+    <p>Discover the power of our Word Repetition Counter, a cutting-edge tool designed to help writers, content creators, and SEO specialists analyze and refine their text. By identifying repeated words and phrases, this innovative tool enables you to enhance readability, improve keyword density, and boost your online presence. Whether you're looking to refine your writing style or optimize your content for search engines, our Word Repetition Counter is the perfect solution for you.</p>
+</div>
+  <p>Enter your text to analyze word repetition:</p>
+  <textarea id="text-input" class="form-control" placeholder="Enter your text" rows="10"></textarea>
+  <button id="count-words-btn" class="btn btn-primary mt-3">Count Words</button>
+  <div class="results-section">
+    <h2>Results</h2>
+    <p>Total word count: <span id="total-word-count">0</span></p>
+    <p>Unique words: <span id="unique-words-count">0</span></p>
+    <table id="word-frequency-table" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Word</th>
+          <th>Frequency</th>
+        </tr>
+      </thead>
+      <tbody id="word-frequency-tbody">
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How It Works: Uncovering the Formula Behind Word Repetition Analysis</h2>
+    <p>The Word Repetition Counter employs a simple yet effective formula to calculate the frequency of each word in your text. By removing stop words, punctuation, and special characters, the tool breaks down your text into individual words and assigns a frequency score to each one. This score represents the number of times a word appears in your text, allowing you to identify areas where repetition may be impacting your content's clarity and effectiveness.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Word</th>
+                <th>Frequency</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Example Word 1</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Example Word 2</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>Example Word 3</td>
+                <td>2</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>This table illustrates how the Word Repetition Counter can help you visualize the frequency of different words in your text. By examining these results, you can refine your writing style, optimize your content for search engines, and create more engaging, effective text.</p>
+</div><div class="use-cases-section p-5">
+    <h2>10 Essential Use Cases for the Word Repetition Counter</h2>
+    <ol>
+        <li><strong>Content Optimization</strong>: Use the Word Repetition Counter to refine your content and improve its search engine ranking.</li>
+        <li><strong>Writing Style Refinement</strong>: Identify areas where repetition is impacting your writing style and make adjustments to enhance clarity and effectiveness.</li>
+        <li><strong>SEO Keyword Research</strong>: Analyze the frequency of specific keywords and phrases to optimize your content for search engines.</li>
+        <li><strong>Readability Improvement</strong>: Use the Word Repetition Counter to simplify complex text and improve its readability.</li>
+        <li><strong>Academic Writing</strong>: Ensure the academic integrity of your writing by minimizing repetition and improving clarity.</li>
+        <li><strong>Content Marketing</strong>: Optimize your content marketing strategy by creating more engaging, effective text.</li>
+        <li><strong>Blog Post Optimization</strong>: Use the Word Repetition Counter to refine your blog posts and improve their search engine ranking.</li>
+        <li><strong>Website Content Audit</strong>: Analyze the content on your website and identify areas where repetition may be impacting its effectiveness.</li>
+        <li><strong>Ebook and Book Publishing</strong>: Ensure the quality and effectiveness of your written content by minimizing repetition and improving clarity.</li>
+        <li><strong>Social Media Content Creation</strong>: Create more engaging, effective social media content by analyzing and refining your text with the Word Repetition Counter.</li>
+    </ol>
+</div><script>
+  const stopWords = ['the', 'and', 'a', 'an', 'is', 'in', 'it', 'of', 'to', 'for', 'with', 'on', 'at', 'by', 'from'];
+  const textInput = document.getElementById('text-input');
+  const countWordsBtn = document.getElementById('count-words-btn');
+  const resultsSection = document.querySelector('.results-section');
+  const totalWordCountSpan = document.getElementById('total-word-count');
+  const uniqueWordsCountSpan = document.getElementById('unique-words-count');
+  const wordFrequencyTable = document.getElementById('word-frequency-table');
+  const wordFrequencyTbody = document.getElementById('word-frequency-tbody');
+
+  countWordsBtn.addEventListener('click', countWords);
+
+  function countWords() {
+    const text = textInput.value.trim();
+    if (text === '') {
+      alert('Please enter some text');
+      return;
+    }
+
+    const words = text.toLowerCase().replace(/[^\w\s]|_/g, '').split(/\s+/);
+    const wordFrequency = {};
+    let totalWordCount = 0;
+    let uniqueWordsCount = 0;
+
+    words.forEach(word => {
+      if (word!== '' &&!stopWords.includes(word)) {
+        totalWordCount++;
+        if (!wordFrequency[word]) {
+          wordFrequency[word] = 1;
+          uniqueWordsCount++;
+        } else {
+          wordFrequency[word]++;
+        }
+      }
+    });
+
+    totalWordCountSpan.textContent = totalWordCount;
+    uniqueWordsCountSpan.textContent = uniqueWordsCount;
+
+    wordFrequencyTbody.innerHTML = '';
+    Object.keys(wordFrequency).sort().forEach(word => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${word}</td>
+        <td>${wordFrequency[word]}</td>
+      `;
+      wordFrequencyTbody.appendChild(row);
+    });
+
+    resultsSection.style.display = 'block';
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    textInput.value = startParam;
+  }
+</script>

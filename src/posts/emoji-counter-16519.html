@@ -1,0 +1,128 @@
+---
+title: Emoji Counter App - Count Emojis in Your Text
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 14:30:00
+tags:
+  - Emoji Counter
+  - Text Analysis
+  - Emoji Frequency
+  - Social Media Tools
+  - Content Creation
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .emoji-list {
+    margin-top: 20px;
+  }
+ .emoji-item {
+    padding: 10px;
+    border-bottom: 1px solid #333;
+  }
+ .emoji-item:last-child {
+    border-bottom: none;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h1 class="text-center mb-4">Emoji Counter App</h1><div class="header-section p-5 text-center bg-primary text-white">
+    <p class="lead">The Emoji Counter App is a powerful online tool designed to help users analyze and understand the frequency of emojis used in their text. By simply entering the text to be analyzed and clicking the "Count Emojis" button, users can obtain a comprehensive breakdown of the total number of emojis used, as well as a detailed list of each unique emoji and its frequency. Whether you're a social media manager, content creator, or simply an emoji enthusiast, this tool is the perfect solution for anyone looking to gain insights into their emoji usage and improve their online communication. With its user-friendly interface and advanced emoji detection capabilities, the Emoji Counter App is the ultimate resource for anyone looking to take their text analysis to the next level.</p>
+</div>
+        <input type="text" id="text-input" class="form-control" placeholder="Enter text to analyze" aria-label="Text input" aria-describedby="basic-addon1">
+        <button type="button" id="count-btn" class="btn btn-primary mt-3">Count Emojis</button>
+        <div id="result" class="mt-4"></div>
+        <div id="emoji-list" class="emoji-list list-group"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5 mt-3">
+    <h2>How it Works</h2>
+    <p class="lead">The Emoji Counter App uses a sophisticated algorithm to detect and count emojis in the input text. The process can be broken down into a simple formula: <b>Emoji Frequency = (Number of Times Each Emoji Appears) / (Total Number of Emojis)</b>. This formula allows the tool to provide an accurate and detailed analysis of emoji usage, giving users a deeper understanding of their text.</p>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Text Input</th>
+                <th>Total Emojis</th>
+                <th>Unique Emojis</th>
+                <th>Emoji Frequency</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Example Text 1</td>
+                <td>10</td>
+                <td>5</td>
+                <td>2:1</td>
+            </tr>
+            <tr>
+                <td>Example Text 2</td>
+                <td>20</td>
+                <td>10</td>
+                <td>1:1</td>
+            </tr>
+            <tr>
+                <td>Example Text 3</td>
+                <td>30</td>
+                <td>15</td>
+                <td>1:2</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5 mt-3">
+    <h2>Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Social media analysis: Use the Emoji Counter App to analyze the emoji usage of your social media posts and understand how your audience responds to different emojis.</li>
+        <li class="list-group-item">Content creation: Optimize your content by using the right emojis to convey your message and engage your audience.</li>
+        <li class="list-group-item">Text messaging: Use the Emoji Counter App to analyze your text messages and understand how your friends and family use emojis to communicate.</li>
+        <li class="list-group-item">Marketing research: Conduct research on emoji usage in marketing campaigns to understand what works best for your target audience.</li>
+        <li class="list-group-item">Education: Use the Emoji Counter App as a teaching tool to help students understand the importance of emojis in online communication.</li>
+        <li class="list-group-item">SEO optimization: Optimize your website's content by using the right emojis to improve user engagement and search engine rankings.</li>
+        <li class="list-group-item">Branding: Use the Emoji Counter App to analyze your brand's emoji usage and develop a consistent brand voice.</li>
+        <li class="list-group-item">Customer service: Use the Emoji Counter App to analyze customer feedback and understand how to improve customer satisfaction through emoji usage.</li>
+        <li class="list-group-item">Language learning: Use the Emoji Counter App to teach language learners about the importance of emojis in online communication.</li>
+        <li class="list-group-item">Research studies: Conduct research studies on emoji usage and its impact on online communication using the Emoji Counter App.</li>
+    </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  document.getElementById('text-input').value = startParam || '';
+
+  document.getElementById('count-btn').addEventListener('click', function() {
+    const text = document.getElementById('text-input').value;
+    if (!text) {
+      alert('Please enter some text to analyze');
+      return;
+    }
+
+    const emojiRegex = /(?:[\u2700-\u27bf]|(?:\ud83c[\udf00-\udfff])|(?:\ud83d[\udc00-\ude4f]))/g;
+    const emojis = text.match(emojiRegex);
+    const uniqueEmojis = {};
+    emojis.forEach(emoji => {
+      if (uniqueEmojis[emoji]) {
+        uniqueEmojis[emoji]++;
+      } else {
+        uniqueEmojis[emoji] = 1;
+      }
+    });
+
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = `Total Emojis: ${emojis.length}`;
+
+    const emojiList = document.getElementById('emoji-list');
+    emojiList.innerHTML = '';
+    Object.keys(uniqueEmojis).sort().forEach(emoji => {
+      const item = document.createElement('div');
+      item.className = 'emoji-item list-group-item';
+      item.innerHTML = `${emoji}: ${uniqueEmojis[emoji]}`;
+      emojiList.appendChild(item);
+    });
+  });
+</script>

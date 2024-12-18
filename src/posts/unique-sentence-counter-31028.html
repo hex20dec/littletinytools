@@ -1,0 +1,115 @@
+---
+title: Unique Sentence Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-20 12:00:00
+tags:
+  - sentence counter
+  - text analysis
+  - writing tool
+  - editing assistant
+  - research aid
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  #main-div textarea {
+    min-height: 200px;
+  }
+  #main-div.alert {
+    margin-top: 1rem;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="mb-4">Unique Sentence Counter</h1><div class="header-section p-5 text-center bg-light">
+    <p class="lead">The Unique Sentence Counter is a free online tool designed to help writers, editors, and researchers analyze and optimize their text by identifying and counting unique sentences. With its intuitive interface and instant results, this tool is perfect for anyone looking to refine their writing, reduce repetition, and improve overall clarity. By utilizing this tool, users can quickly identify and eliminate redundant sentences, making their text more engaging, concise, and effective. Whether you're a student working on a research paper, a content creator aiming to improve your blog posts, or an author refining your manuscript, the Unique Sentence Counter is an indispensable resource to enhance your writing quality and productivity.</p>
+</div>
+  <label for="text-input">Enter your text:</label>
+  <textarea id="text-input" class="form-control" rows="10"></textarea>
+  <button id="count-btn" class="btn btn-primary mt-3">Count Unique Sentences</button>
+  <div id="result" class="alert alert-info mt-3" role="alert"></div>
+</div>
+
+<div class="explanation-section p-5 bg-white">
+    <h2>How it Works</h2>
+    <p>The Unique Sentence Counter employs a simple yet effective formula to identify and count unique sentences in a given text. The process involves the following steps:</p>
+    <ul>
+        <li>Sentence Segmentation: The tool divides the input text into individual sentences based on punctuation marks such as periods, exclamation points, and question marks.</li>
+        <li>Sentence Normalization: Each sentence is then normalized by converting it to lowercase and trimming any leading or trailing whitespace.</li>
+        <li>Unique Sentence Identification: The normalized sentences are then compared to identify unique sentences, ignoring any duplicates.</li>
+    </ul>
+    <p>The result is a list of unique sentences, along with their frequency count, providing valuable insights into the text's structure and content.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Sentence</th>
+                <th>Frequency</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>This is a sample sentence.</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>This sentence is also unique.</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>The previous sentence is repeated.</td>
+                <td>2</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5 bg-light">
+    <h2>Common Use Cases for the Unique Sentence Counter</h2>
+    <ul>
+        <li><strong>Content Optimization</strong>: Identify and eliminate redundant sentences to improve content quality and readability.</li>
+        <li><strong>Plagiarism Detection</strong>: Use the tool to detect and prevent plagiarism by identifying duplicate sentences.</li>
+        <li><strong>Research Paper Writing</strong>: Optimize research papers by removing unnecessary sentences and improving overall clarity.</li>
+        <li><strong>Blog Post Editing</strong>: Refine blog posts by eliminating duplicate sentences and enhancing engagement.</li>
+        <li><strong>Manuscript Editing</strong>: Use the tool to perfect manuscripts by identifying and removing redundant sentences.</li>
+        <li><strong>Text Analysis</strong>: Analyze text structure and content to gain insights into writing style and quality.</li>
+        <li><strong>Student Essay Writing</strong>: Help students improve their essay writing skills by identifying and eliminating unnecessary sentences.</li>
+        <li><strong>Language Learning</strong>: Use the tool to learn and practice language skills by identifying and understanding sentence structures.</li>
+        <li><strong>Translation Quality Control</strong>: Ensure translation quality by detecting and preventing duplicate sentences.</li>
+        <li><strong>Writing Style Improvement</strong>: Identify areas for improvement in writing style and refine text to enhance overall quality.</li>
+    </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  document.getElementById('text-input').value = startParam? startParam : '';
+
+  document.getElementById('count-btn').addEventListener('click', function() {
+    const text = document.getElementById('text-input').value.trim();
+    if (!text) {
+      document.getElementById('result').innerHTML = 'Please enter some text.';
+      return;
+    }
+
+    const sentences = text.replace(/([.!?])\s*(?=[A-Z])/g, "$1|").split("|");
+    const uniqueSentences = {};
+    sentences.forEach(sentence => {
+      const trimmedSentence = sentence.trim().toLowerCase();
+      if (!uniqueSentences[trimmedSentence]) {
+        uniqueSentences[trimmedSentence] = true;
+      }
+    });
+
+    const uniqueSentenceList = Object.keys(uniqueSentences);
+    const resultHtml = `
+      <h4>Unique Sentences: ${uniqueSentenceList.length}</h4>
+      <ul>
+        ${uniqueSentenceList.map(sentence => `<li>${sentence}</li>`).join('')}
+      </ul>
+    `;
+    document.getElementById('result').innerHTML = resultHtml;
+  });
+</script>

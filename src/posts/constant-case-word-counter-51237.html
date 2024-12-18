@@ -1,0 +1,130 @@
+---
+title: Constant Case Word Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-01 12:00:00
+tags:
+  - Word Counter
+  - Text Analysis
+  - Writing Tool
+  - Productivity
+  - Utility App
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-right: 10px;
+  }
+  #main-div.alert {
+    margin-top: 10px;
+  }
+  @media (prefers-color-scheme: dark) {
+    #main-div {
+      background-color: #212529;
+    }
+  }
+</style>
+
+<div id="main-div">
+  <h1>Constant Case Word Counter</h1><div class="container mt-5 mb-5">
+  <h2>Unlock the Power of Word Counting with Our Constant Case Word Counter Tool</h2>
+  <p>Our Constant Case Word Counter is a versatile online tool designed to simplify the process of counting words in any given text, catering to the needs of writers, researchers, and editors. With its user-friendly interface and advanced features, this tool provides accurate word counts, taking into account case sensitivity, to ensure precision in text analysis and editing tasks. Whether you're working on a novel, academic paper, or blog post, our tool is here to streamline your workflow and enhance productivity.</p>
+</div>
+  <textarea id="text-area" class="form-control" rows="10" placeholder="Enter your text here"></textarea>
+  <div class="d-flex justify-content-start mt-2">
+    <button id="count-button" class="btn btn-primary me-2">Count Words</button>
+    <div class="form-check">
+      <input id="case-sensitive" class="form-check-input" type="checkbox" />
+      <label for="case-sensitive" class="form-check-label">Case Sensitive</label>
+    </div>
+  </div>
+  <div id="word-count" class="alert alert-info" role="alert"></div>
+</div>
+
+<div class="container mt-5 mb-5">
+  <h3>How Our Constant Case Word Counter Works</h3>
+  <p>The tool operates on a simple yet effective principle: it splits the input text into individual words based on spaces and then counts them. The formula behind this process can be explained as follows: <strong>Word Count = Number of Spaces + 1</strong>, assuming that words are separated by a single space. This straightforward approach allows for quick and accurate word counting.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Input Text</th>
+        <th>Case Sensitive</th>
+        <th>Word Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Hello World</td>
+        <td>No</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>Hello World</td>
+        <td>Yes</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>This is a test</td>
+        <td>No</td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>This is a test</td>
+        <td>Yes</td>
+        <td>4</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5 mb-5">
+  <h3>10 Common Use Cases for Our Constant Case Word Counter Tool</h3>
+  <ol>
+    <li><strong>Writing and Editing**: Quickly count words in articles, blog posts, and other written content to meet word limits or requirements.</li>
+    <li><strong>Academic Research**: Accurately count words in research papers, theses, and dissertations to adhere to formatting guidelines.</li>
+    <li><strong>Content Marketing**: Optimize blog posts and articles with precise word counts to improve search engine rankings and engagement.</li>
+    <li><strong>Novel Writing**: Track word counts in novel manuscripts to meet publisher requirements or personal writing goals.</li>
+    <li><strong>SEO Optimization**: Use word counts to balance content length and keyword density for improved search engine rankings.</li>
+    <li><strong>Language Learning**: Practice vocabulary and grammar by counting words in foreign language texts or translations.</li>
+    <li><strong>Transcription Services**: Verify word counts in transcribed texts to ensure accuracy and completeness.</li>
+    <li><strong>Social Media Management**: Craft social media posts with optimal word counts to maximize engagement and reach.</li>
+    <li><strong>Student Assignments**: Help students meet word count requirements for essays, reports, and other academic assignments.</li>
+    <li><strong>Web Development**: Use word counts to optimize website content, such as product descriptions or landing pages, for better user experience and search engine rankings.</li>
+  </ol>
+</div><script>
+  const textArea = document.getElementById('text-area');
+  const countButton = document.getElementById('count-button');
+  const caseSensitiveCheckbox = document.getElementById('case-sensitive');
+  const wordCountDisplay = document.getElementById('word-count');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    textArea.value = startValue;
+  }
+
+  countButton.addEventListener('click', countWords);
+
+  function countWords() {
+    const text = textArea.value.trim();
+    if (!text) {
+      wordCountDisplay.textContent = 'Please enter some text.';
+      wordCountDisplay.classList.add('alert-warning');
+      return;
+    }
+
+    let words;
+    if (caseSensitiveCheckbox.checked) {
+      words = text.split(/\s+/);
+    } else {
+      words = text.toLowerCase().split(/\s+/);
+    }
+
+    const wordCount = words.length;
+    wordCountDisplay.textContent = `Word count: ${wordCount}`;
+    wordCountDisplay.classList.remove('alert-warning');
+    wordCountDisplay.classList.add('alert-info');
+  }
+</script>

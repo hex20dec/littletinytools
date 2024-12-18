@@ -1,0 +1,154 @@
+---
+title: List Intersection Sorter Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 12:00:00
+tags:
+  - List Comparison
+  - Data Analysis
+  - Research Tool
+  - List Sorting
+  - Intersection Tool
+---
+
+<style>
+  #main-div {
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  }
+ .result-textarea {
+    margin-top: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-4">List Intersection Sorter</h1><div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-12 text-center">
+      <p class="lead">The List Intersection Sorter Tool is a web-based utility designed to help users compare and sort two lists of items based on their intersection, union, or difference. This tool is particularly useful for data analysis, research, and list comparison tasks, allowing users to easily identify common or unique elements between two lists. With its user-friendly interface and fast sorting capabilities, the List Intersection Sorter Tool is an essential resource for anyone working with large datasets or lists of information.</p>
+    </div>
+  </div>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <label for="list1" class="form-label">List 1</label>
+      <textarea id="list1" class="form-control" rows="10"></textarea>
+    </div>
+    <div class="col-md-6">
+      <label for="list2" class="form-label">List 2</label>
+      <textarea id="list2" class="form-control" rows="10"></textarea>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-md-4">
+      <label for="sorting-method" class="form-label">Sorting Method</label>
+      <select id="sorting-method" class="form-select">
+        <option value="intersection">Intersection</option>
+        <option value="union">Union</option>
+        <option value="difference">Difference</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <button id="sort-button" class="btn btn-primary mt-4">Sort</button>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <label for="result" class="form-label">Result</label>
+      <textarea id="result" class="form-control result-textarea" rows="10" readonly></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <h2 class="mb-4">How the List Intersection Sorter Tool Works</h2>
+      <p class="lead">The tool uses a simple yet effective formula to compare and sort the two input lists. The formula is based on set theory operations, which allow the tool to identify common or unique elements between the two lists. The sorting method can be selected from three options: intersection, union, or difference.</p>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Sorting Method</th>
+            <th>Description</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Intersection</td>
+            <td>Returns a list of elements common to both input lists.</td>
+            <td>List 1: [a, b, c], List 2: [b, c, d], Result: [b, c]</td>
+          </tr>
+          <tr>
+            <td>Union</td>
+            <td>Returns a list of all unique elements from both input lists.</td>
+            <td>List 1: [a, b, c], List 2: [b, c, d], Result: [a, b, c, d]</td>
+          </tr>
+          <tr>
+            <td>Difference</td>
+            <td>Returns a list of elements that are in List 1 but not in List 2, and vice versa.</td>
+            <td>List 1: [a, b, c], List 2: [b, c, d], Result: [a, d]</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <h2 class="mb-4">10 Common Use Cases for the List Intersection Sorter Tool</h2>
+      <ol class="list-group list-group-numbered">
+        <li>Identifying common customers between two sales regions</li>
+        <li>Comparing product features between two competing companies</li>
+        <li>Finding unique skills among a group of job applicants</li>
+        <li-Analyzing overlap between two marketing campaigns</li>
+        <li>Identifying common genes between two species</li>
+        <li>Comparing course offerings between two educational institutions</li>
+        <li>Finding unique words in a piece of text</li>
+        <li>Identifying common suppliers between two manufacturing companies</li>
+        <li>Comparing features between two software products</li>
+        <li>Analyzing overlap between two social media audiences</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  const list1Textarea = document.getElementById('list1');
+  const list2Textarea = document.getElementById('list2');
+  const sortingMethodSelect = document.getElementById('sorting-method');
+  const sortButton = document.getElementById('sort-button');
+  const resultTextarea = document.getElementById('result');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    list1Textarea.value = startParam;
+  }
+
+  sortButton.addEventListener('click', () => {
+    const list1 = list1Textarea.value.trim().split('\n').filter(item => item!== '');
+    const list2 = list2Textarea.value.trim().split('\n').filter(item => item!== '');
+    const sortingMethod = sortingMethodSelect.value;
+
+    if (list1.length === 0 || list2.length === 0) {
+      resultTextarea.value = 'Please enter both lists.';
+      return;
+    }
+
+    let result;
+    switch (sortingMethod) {
+      case 'intersection':
+        result = list1.filter(item => list2.includes(item));
+        break;
+      case 'union':
+        result = [...new Set([...list1,...list2])];
+        break;
+      case 'difference':
+        result = list1.filter(item =>!list2.includes(item)).concat(list2.filter(item =>!list1.includes(item)));
+        break;
+      default:
+        resultTextarea.value = 'Invalid sorting method.';
+        return;
+    }
+
+    resultTextarea.value = result.join('\n');
+  });
+</script>

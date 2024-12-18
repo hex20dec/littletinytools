@@ -1,0 +1,207 @@
+---
+title: Duplicate Value Sorter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Data Sorting
+  - Duplicate Values
+  - Data Cleaning
+  - Productivity Tool
+  - Data Organization
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div.input-group {
+    margin-bottom: 1rem;
+  }
+  #main-div.table {
+    margin-bottom: 1rem;
+  }
+  #main-div.table th, #main-div.table td {
+    vertical-align: middle;
+  }
+  #main-div.alert {
+    margin-top: 1rem;
+  }
+</style>
+
+<div id="main-div">
+  <h1> Duplicate Value Sorter App</h1><div class="container mt-5">
+  <h1>Duplicate Value Sorter App</h1>
+  <p class="lead">The Duplicate Value Sorter App is an intuitive web tool designed to simplify data organization and identification of duplicate values. By utilizing this tool, users can effortlessly sort their data, identify duplicates, and separate unique values, thereby enhancing data productivity and facilitating informed decision-making. Optimized for user convenience, this app streamlines data cleaning and organization processes, making it an indispensable resource for anyone dealing with extensive datasets.</p>
+</div>
+  <p>Sort and identify duplicate values in your data with ease.</p>
+  <div class="input-group">
+    <label for="input-data">Enter your data (one value per line):</label>
+    <textarea class="form-control" id="input-data" rows="10"></textarea>
+  </div>
+  <button class="btn btn-primary" id="sort-button">Sort and Identify Duplicates</button>
+  <div class="alert alert-info" id="info-alert" style="display: none;"></div>
+  <div class="alert alert-danger" id="error-alert" style="display: none;"></div>
+  <h2>Sorted Data:</h2>
+  <div id="sorted-data"></div>
+  <h2>Unique Values:</h2>
+  <div id="unique-values"></div>
+  <h2>Duplicate Values:</h2>
+  <div id="duplicate-values"></div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p class="lead">The Duplicate Value Sorter App operates on a straightforward principle. It takes a dataset provided by the user, which can contain numbers, words, or any other type of data, and processes it to identify duplicate entries. Here is a simplified formula explaining the process:</p>
+  <ul>
+    <li>Gather input data from the user.</li>
+    <li>Sort the data alphabetically or numerically, depending on the data type.</li>
+    <li>Identify and mark duplicate values.</li>
+    <li>Separate unique values from the duplicates.</li>
+    <li>Display the sorted data, along with the unique and duplicate values.</li>
+  </ul>
+  <p class="lead">To illustrate the functionality, consider the following table showing how the app might process a dataset of numbers:</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Input Data</th>
+        <th>Sorted Data</th>
+        <th>Unique Values</th>
+        <th>Duplicate Values</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>5, 2, 8, 2, 1</td>
+        <td>1, 2, 2, 5, 8</td>
+        <td>1, 5, 8</td>
+        <td>2 (twice)</td>
+      </tr>
+      <tr>
+        <td>10, 7, 3, 7, 3</td>
+        <td>3, 3, 7, 7, 10</td>
+        <td>10</td>
+        <td>3 (twice), 7 (twice)</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <p class="lead">The Duplicate Value Sorter App has a wide range of applications across different sectors. Here are ten of the most common use cases:</p>
+  <ol>
+    <li><b>Data Cleaning:</b> Removing duplicates from datasets to ensure data integrity and accuracy.</li>
+    <li><b>Marketing Analysis:</b> Identifying duplicate customer entries in marketing databases to avoid redundant campaigns.</li>
+    <li><b>Financial Auditing:</b> Detecting duplicate transactions or entries in financial records to prevent fraud.</li>
+    <li><b>Research Studies:</b> Eliminating duplicate data points to maintain the validity of research findings.</li>
+    <li><b>Customer Relationship Management (CRM):</b> Managing customer data efficiently by removing duplicates and ensuring each customer has a unique entry.</li>
+    <li><b>Inventory Management:</b> Identifying duplicate stock entries to optimize inventory levels and reduce storage costs.</li>
+    <li><b>AI and Machine Learning:</b> Preprocessing data by removing duplicates to improve the accuracy of AI and ML models.</li>
+    <li><b>E-commerce:</b> Preventing duplicate orders or customer accounts to enhance user experience and reduce operational costs.</li>
+    <li><b>Human Resources:</b> Managing employee data and benefits by ensuring there are no duplicate entries.</li>
+    <li><b>Education:</b> Cleaning student databases to avoid confusion and ensure accurate student records.</li>
+  </ol>
+</div><script>
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const startValue = urlParams.get('start');
+  document.getElementById('input-data').value = startValue? startValue : '';
+
+  const sortButton = document.getElementById('sort-button');
+  const inputTextArea = document.getElementById('input-data');
+  const sortedDataDiv = document.getElementById('sorted-data');
+  const uniqueValuesDiv = document.getElementById('unique-values');
+  const duplicateValuesDiv = document.getElementById('duplicate-values');
+  const infoAlert = document.getElementById('info-alert');
+  const errorAlert = document.getElementById('error-alert');
+
+  sortButton.addEventListener('click', () => {
+    const inputData = inputTextArea.value.trim();
+    if (!inputData) {
+      errorAlert.innerHTML = 'Please enter some data.';
+      errorAlert.style.display = 'block';
+      return;
+    }
+
+    const data = inputData.split('\n').map((value) => value.trim());
+    const sortedData = data.slice().sort((a, b) => {
+      if (isNaN(a) || isNaN(b)) {
+        return a.localeCompare(b);
+      } else {
+        return parseFloat(a) - parseFloat(b);
+      }
+    });
+
+    const uniqueValues = [...new Set(data)];
+    const duplicateValues = {};
+
+    sortedData.forEach((value) => {
+      if (duplicateValues[value]) {
+        duplicateValues[value]++;
+      } else if (data.indexOf(value)!== data.lastIndexOf(value)) {
+        duplicateValues[value] = 2;
+      }
+    });
+
+    const sortedDataHtml = sortedData.map((value, index) => {
+      if (duplicateValues[value]) {
+        return `<tr><td>${index + 1}</td><td>${value}</td><td class="text-danger">Duplicate</td></tr>`;
+      } else {
+        return `<tr><td>${index + 1}</td><td>${value}</td><td></td></tr>`;
+      }
+    }).join('');
+
+    const uniqueValuesHtml = uniqueValues.map((value) => `<tr><td>${value}</td></tr>`).join('');
+
+    const duplicateValuesHtml = Object.keys(duplicateValues).map((value) => {
+      return `<tr><td>${value}</td><td>${duplicateValues[value]} times</td></tr>`;
+    }).join('');
+
+    sortedDataDiv.innerHTML = `
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Value</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${sortedDataHtml}
+        </tbody>
+      </table>
+    `;
+
+    uniqueValuesDiv.innerHTML = `
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Unique Values</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${uniqueValuesHtml}
+        </tbody>
+      </table>
+    `;
+
+    duplicateValuesDiv.innerHTML = `
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Value</th>
+            <th>Frequency</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${duplicateValuesHtml}
+        </tbody>
+      </table>
+    `;
+
+    infoAlert.style.display = 'none';
+    errorAlert.style.display = 'none';
+  });
+</script>

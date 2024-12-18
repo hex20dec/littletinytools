@@ -1,0 +1,142 @@
+---
+title: Text Sorting Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Text Sorting
+  - Organize Lists
+  - Ignore Whitespace
+  - Case Insensitive
+  - Data Entry
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .input-textarea,.output-textarea {
+    resize: vertical;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="mb-3">Text Sorting Tool</h1><div class="header-section p-3 mb-2 bg-light text-dark">
+  <p class="lead">The Text Sorting Tool is a powerful online utility that enables users to organize and sort lists of text in a quick and efficient manner. With its user-friendly interface and advanced features, this tool is perfect for individuals who need to manage large amounts of text data, such as data entry professionals, researchers, and writers. Whether you need to sort text in ascending or descending order, ignore whitespace, or perform case-insensitive sorting, this tool has got you covered, making it an essential resource for anyone looking to streamline their text sorting tasks and boost productivity.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <label for="input-text" class="form-label">Input Text:</label>
+      <textarea id="input-text" class="form-control input-textarea" rows="10" aria-describedby="input-text-help"></textarea>
+      <div id="input-text-help" class="form-text">Enter or paste the text you want to sort.</div>
+    </div>
+    <div class="col-md-6">
+      <label for="output-text" class="form-label">Sorted Text:</label>
+      <textarea id="output-text" class="form-control output-textarea" rows="10" readonly aria-describedby="output-text-help"></textarea>
+      <div id="output-text-help" class="form-text">Sorted text will be displayed here.</div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-6">
+      <label for="sorting-order" class="form-label">Sorting Order:</label>
+      <select id="sorting-order" class="form-select">
+        <option value="ascending">Ascending</option>
+        <option value="descending">Descending</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <div class="form-check">
+        <input id="ignore-case" class="form-check-input" type="checkbox" value="" aria-describedby="ignore-case-help">
+        <label class="form-check-label" for="ignore-case">Ignore Case</label>
+        <div id="ignore-case-help" class="form-text">Check to ignore case while sorting.</div>
+      </div>
+    </div>
+  </div>
+  <button id="sort-button" class="btn btn-primary mt-3" aria-describedby="sort-button-help">Sort</button>
+  <div id="sort-button-help" class="form-text">Click to sort the input text.</div>
+</div>
+
+<div class="explanation-section p-3 mb-2 bg-light text-dark">
+  <h2 class="mb-3">How it Works</h2>
+  <p class="lead">The Text Sorting Tool uses a simple yet effective formula to sort text: it splits the input text into individual lines, trims any unnecessary whitespace, and then compares each line to determine its position in the sorted output. The tool also takes into account the user's chosen sorting order (ascending or descending) and whether to ignore case or not.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Input Text</th>
+        <th>Sorting Order</th>
+        <th>Ignore Case</th>
+        <th>Sorted Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>hello<br>world<br>abc</td>
+        <td>Ascending</td>
+        <td>No</td>
+        <td>abc<br>hello<br>world</td>
+      </tr>
+      <tr>
+        <td>HELLO<br>world<br>abc</td>
+        <td>Ascending</td>
+        <td>Yes</td>
+        <td>abc<br>HELLO<br>world</td>
+      </tr>
+      <tr>
+        <td>hello<br>world<br>abc</td>
+        <td>Descending</td>
+        <td>No</td>
+        <td>world<br>hello<br>abc</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-3 mb-2 bg-light text-dark">
+  <h2 class="mb-3">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Data entry professionals: quickly sort large datasets to ensure accuracy and efficiency.</li>
+    <li class="list-group-item">Researchers: organize and analyze large amounts of text data to identify patterns and trends.</li>
+    <li class="list-group-item">Writers: sort and organize notes, outlines, and drafts to streamline the writing process.</li>
+    <li class="list-group-item">Students: sort and prioritize study materials, such as notes and vocabulary lists.</li>
+    <li class="list-group-item">Marketers: sort and analyze customer feedback and survey responses to inform marketing strategies.</li>
+    <li class="list-group-item">Developers: sort and organize code snippets and debugging logs to identify issues and improve efficiency.</li>
+    <li class="list-group-item">Transcriptionists: sort and organize transcript text to ensure accuracy and meet deadlines.</li>
+    <li class="list-group-item">Content creators: sort and organize content ideas, outlines, and drafts to streamline the content creation process.</li>
+    <li class="list-group-item">Scientists: sort and analyze large datasets to identify patterns and trends in scientific research.</li>
+    <li class="list-group-item">Business owners: sort and analyze customer data to inform business decisions and improve customer satisfaction.</li>
+  </ul>
+</div><script>
+  const inputText = document.getElementById('input-text');
+  const outputText = document.getElementById('output-text');
+  const sortingOrder = document.getElementById('sorting-order');
+  const ignoreCase = document.getElementById('ignore-case');
+  const sortButton = document.getElementById('sort-button');
+
+  // Preload input field with value from query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    inputText.value = startValue;
+  }
+
+  sortButton.addEventListener('click', () => {
+    const input = inputText.value.trim();
+    if (input === '') {
+      outputText.value = '';
+      alert('Please enter some text to sort.');
+      return;
+    }
+
+    const lines = input.split('\n').map(line => line.trim());
+    const sortedLines = lines.sort((a, b) => {
+      if (ignoreCase.checked) {
+        a = a.toLowerCase();
+        b = b.toLowerCase();
+      }
+      if (sortingOrder.value === 'ascending') {
+        return a.localeCompare(b);
+      } else {
+        return b.localeCompare(a);
+      }
+    });
+    outputText.value = sortedLines.join('\n');
+  });
+</script>

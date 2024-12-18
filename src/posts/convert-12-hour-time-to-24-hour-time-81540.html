@@ -1,0 +1,163 @@
+---
+title: 12-Hour to 24-Hour Time Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Time Converter
+  - 12-Hour to 24-Hour
+  - Time Format
+  - Converter Tool
+  - Time Management
+---
+
+<style>
+  #main-div {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  #main-div input[type="text"] {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  #main-div button[type="button"] {
+    width: 100%;
+    height: 40px;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #main-div button[type="button"]:hover {
+    background-color: #3e8e41;
+  }
+  #main-div .alert {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center">12-Hour to 24-Hour Time Converter</h1><div class="header-section p-5 text-center">
+    <h1 class="display-4">12-Hour to 24-Hour Time Converter</h1>
+    <p class="lead">Easily convert time from 12-hour format to 24-hour format with our online time converter tool. This tool is perfect for individuals who need to switch between 12-hour and 24-hour clock formats, such as military personnel, pilots, or international travelers. Our time converter tool is simple, efficient, and provides accurate results. Try it now and make time conversions a breeze.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="time" class="form-label">Enter Time (HH:MM AM/PM)</label>
+      <input type="text" id="time" class="form-control" placeholder="HH:MM AM/PM" aria-label="Time" aria-describedby="time-help">
+      <div id="time-help" class="form-text">Enter time in 12-hour format (e.g., 08:30 AM)</div>
+    </div>
+    <button type="button" id="convert-btn" class="btn btn-primary">Convert</button>
+    <div id="result" class="mt-3"></div>
+    <div id="error" class="alert alert-warning" role="alert"></div>
+  </form>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How it Works</h2>
+    <p>The time conversion process is straightforward. To convert a 12-hour time to a 24-hour time, you can use a simple formula: 
+    - If the time is in the morning (AM), the hours remain the same, unless it's 12:00 AM, in which case it becomes 00:00.
+    - If the time is in the afternoon or evening (PM), you add 12 to the hours, unless it's 12:00 PM, in which case it remains 12:00.
+    Here is an example table illustrating some common conversions:</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>12-Hour Time</th>
+                <th>24-Hour Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>08:30 AM</td>
+                <td>08:30</td>
+            </tr>
+            <tr>
+                <td>05:45 PM</td>
+                <td>17:45</td>
+            </tr>
+            <tr>
+                <td>12:00 AM</td>
+                <td>00:00</td>
+            </tr>
+            <tr>
+                <td>12:00 PM</td>
+                <td>12:00</td>
+            </tr>
+            <tr>
+                <td>11:59 PM</td>
+                <td>23:59</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2>Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">1. <strong>Military Operations</strong>: Military personnel often use 24-hour clock formats for coordination and communication.</li>
+        <li class="list-group-item">2. <strong>Aviation</strong>: Pilots and air traffic controllers use 24-hour clock formats to avoid confusion and ensure safe flight operations.</li>
+        <li class="list-group-item">3. <strong>International Travel</strong>: Travelers often need to convert time zones and formats when traveling abroad, making a 12-hour to 24-hour time converter essential.</li>
+        <li class="list-group-item">4. <strong>Global Business</strong>: Companies operating globally often use 24-hour clock formats to coordinate meetings and conferences across different time zones.</li>
+        <li class="list-group-item">5. <strong>Emergency Services</strong>: Emergency responders, such as police and firefighters, often use 24-hour clock formats for dispatch and coordination.</li>
+        <li class="list-group-item">6. <strong>Medical Procedures</strong>: Medical professionals may use 24-hour clock formats to schedule appointments, procedures, and medication administration.</li>
+        <li class="list-group-item">7. <strong>Transportation</strong>: Train and bus schedules often use 24-hour clock formats to avoid confusion and ensure timely departures and arrivals.</li>
+        <li class="list-group-item">8. <strong>Logistics and Supply Chain</strong>: Companies involved in logistics and supply chain management use 24-hour clock formats to coordinate deliveries and shipments.</li>
+        <li class="list-group-item">9. <strong>Scientific Research</strong>: Scientists often use 24-hour clock formats to record and analyze data, especially in fields like astronomy and space exploration.</li>
+        <li class="list-group-item">10. <strong>Computer Programming</strong>: Programmers often use 24-hour clock formats when working with timestamps and scheduling algorithms.</li>
+    </ul>
+</div><script>
+  const timeInput = document.getElementById('time');
+  const convertBtn = document.getElementById('convert-btn');
+  const resultDiv = document.getElementById('result');
+  const errorDiv = document.getElementById('error');
+
+  // Preload input field with query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startTime = urlParams.get('start');
+  if (startTime) {
+    timeInput.value = startTime;
+  }
+
+  convertBtn.addEventListener('click', convertTime);
+
+  function convertTime() {
+    const time = timeInput.value.trim();
+    const timeRegex = /^(\d{1,2}):(\d{2})\s?(AM|PM|am|pm)$/;
+    const match = time.match(timeRegex);
+
+    if (match) {
+      const hours = parseInt(match[1]);
+      const minutes = parseInt(match[2]);
+      const amPm = match[3].toUpperCase();
+
+      let hours24 = hours;
+      if (amPm === 'PM' && hours < 12) {
+        hours24 += 12;
+      } else if (amPm === 'AM' && hours === 12) {
+        hours24 = 0;
+      }
+
+      const time24 = `${hours24.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+      resultDiv.innerText = `Time in 24-hour format: ${time24}`;
+      errorDiv.innerText = '';
+    } else {
+      errorDiv.innerText = 'Invalid time format. Please use HH:MM AM/PM.';
+      resultDiv.innerText = '';
+    }
+  }
+</script>

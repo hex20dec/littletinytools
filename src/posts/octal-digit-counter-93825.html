@@ -1,0 +1,124 @@
+---
+title: Octal Digit Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Octal Digit Counter
+  - Number Analysis
+  - Data Analysis
+  - Computer Programming
+  - Web Application
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+  }
+  #error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Octal Digit Counter</h1><div class="container mt-5">
+  <p class="text-center fs-5">The Octal Digit Counter is a web-based tool designed to analyze and count the occurrences of each digit in a given octal number. This tool is particularly useful for computer programming and data analysis tasks, providing a quick and efficient way to process and understand octal data. With its user-friendly interface and advanced algorithms, the Octal Digit Counter is an essential resource for professionals and enthusiasts alike, offering insights into the composition of octal numbers and facilitating informed decision-making in various fields.</p>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <input type="text" id="octal-number" class="form-control" placeholder="Octal Number" aria-label="Octal Number" value="">
+      <div id="error-message" class="mt-2"></div>
+      <button id="count-button" class="btn btn-primary mt-2">Count</button>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+      <table id="result-table" class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Digit</th>
+            <th scope="col">Count</th>
+          </tr>
+        </thead>
+        <tbody id="result-table-body">
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The Octal Digit Counter uses a simple yet effective formula to count the occurrences of each digit in an octal number. The formula can be explained as follows: each digit in the octal number is examined individually, and a running tally is kept for each unique digit encountered. The result is a comprehensive breakdown of the digit counts, providing a clear understanding of the octal number's composition.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Octal Number</th>
+        <th scope="col">Digit Counts</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>10</td>
+        <td>1: 1, 0: 1</td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>1: 1, 2: 1</td>
+      </tr>
+      <tr>
+        <td>123</td>
+        <td>1: 1, 2: 1, 3: 1</td>
+      </tr>
+      <!-- Add more rows as needed -->
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <ul>
+    <li><strong>Computer Programming</strong>: The Octal Digit Counter is useful for analyzing and understanding octal data in programming tasks.</li>
+    <li><strong>Data Analysis</strong>: This tool helps analysts examine and process large datasets containing octal numbers.</li>
+    <li><strong>Quality Assurance</strong>: The Octal Digit Counter can be used to test and validate octal data in various applications.</li>
+    <li><strong>Education</strong>: Students and teachers can use this tool to learn about octal numbers and their properties.</li>
+    <li><strong>Research</strong>: Researchers can utilize the Octal Digit Counter to analyze and process large amounts of octal data in various fields of study.</li>
+    <li><strong>Web Development</strong>: Web developers can use this tool to test and validate octal data in web applications.</li>
+    <li><strong>Networking</strong>: Network administrators can use the Octal Digit Counter to analyze and understand octal data in network protocols.</li>
+    <li><strong>Cryptography</strong>: This tool can be used to analyze and process octal data in cryptographic applications.</li>
+    <li><strong>Scientific Computing</strong>: Scientists can use the Octal Digit Counter to analyze and process large amounts of octal data in scientific simulations.</li>
+    <li><strong>Engineering</strong>: Engineers can use this tool to analyze and understand octal data in various engineering applications.</li>
+  </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const start = urlParams.get('start');
+  document.getElementById('octal-number').value = start;
+
+  document.getElementById('count-button').addEventListener('click', function() {
+    const octalNumber = document.getElementById('octal-number').value;
+    if (!/^[0-7]+$/.test(octalNumber)) {
+      document.getElementById('error-message').innerText = 'Invalid octal number. Please enter a valid octal number.';
+      document.getElementById('result-table-body').innerHTML = '';
+    } else {
+      document.getElementById('error-message').innerText = '';
+      const digitCounts = {};
+      for (let i = 0; i < octalNumber.length; i++) {
+        const digit = octalNumber[i];
+        if (digitCounts[digit]) {
+          digitCounts[digit]++;
+        } else {
+          digitCounts[digit] = 1;
+        }
+      }
+      const resultTableBody = document.getElementById('result-table-body');
+      resultTableBody.innerHTML = '';
+      for (const digit in digitCounts) {
+        const row = document.createElement('tr');
+        const digitCell = document.createElement('td');
+        digitCell.innerText = digit;
+        const countCell = document.createElement('td');
+        countCell.innerText = digitCounts[digit];
+        row.appendChild(digitCell);
+        row.appendChild(countCell);
+        resultTableBody.appendChild(row);
+      }
+    }
+  });
+</script>

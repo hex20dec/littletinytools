@@ -1,0 +1,149 @@
+---
+title: Mars Date Difference Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 14:30:00
+tags:
+  - Astronomy
+  - Space Exploration
+  - Planetary Science
+  - Mars Date Calculator
+  - Date Difference Calculator
+---
+
+<style>
+  #main-div {
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+  }
+  label {
+    font-weight: bold;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center">Mars Date Difference Calculator</h1><div class="container mt-5 mb-5">
+    <h1 class="text-center">Mars Date Difference Calculator</h1>
+    <p class="text-center fs-5">Calculate the difference between two dates in Mars years with our easy-to-use Mars Date Difference Calculator. This tool allows you to input start and end dates in Earth years and calculates the difference in Mars years, taking into account the planet's longer orbital period. Whether you're an astronomy enthusiast, a space exploration scientist, or simply curious about the Red Planet, our Mars Date Difference Calculator is the perfect tool for you.</p>
+</div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form>
+          <div class="mb-3">
+            <label for="start-date" class="form-label">Start Date (YYYY-MM-DD)</label>
+            <input type="date" id="start-date" class="form-control" value="<?php echo $_GET['start'] ?? ''; ?>">
+          </div>
+          <div class="mb-3">
+            <label for="end-date" class="form-label">End Date (YYYY-MM-DD)</label>
+            <input type="date" id="end-date" class="form-control">
+          </div>
+          <button type="button" id="calculate-button" class="btn btn-primary">Calculate Date Difference</button>
+          <div class="mb-3">
+            <label for="date-difference" class="form-label">Date Difference in Mars Years</label>
+            <input type="text" id="date-difference" class="form-control" readonly>
+          </div>
+          <div id="error-message" class="error-message"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5 mb-5">
+    <h2 class="text-center">How it Works</h2>
+    <p class="text-center fs-5">The Mars Date Difference Calculator uses a simple formula to calculate the difference between two dates in Mars years. The formula is based on the fact that a Mars year is approximately 687 Earth days. The calculator takes the start and end dates as input, calculates the difference in Earth days, and then divides that number by 687 to get the difference in Mars years.</p>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Earth Days</th>
+                <th>Mars Years</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>0.0015</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>0.0146</td>
+            </tr>
+            <tr>
+                <td>50</td>
+                <td>0.0730</td>
+            </tr>
+            <tr>
+                <td>100</td>
+                <td>0.1460</td>
+            </tr>
+            <tr>
+                <td>365</td>
+                <td>0.5310</td>
+            </tr>
+            <tr>
+                <td>687</td>
+                <td>1.0000</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="container mt-5 mb-5">
+    <h2 class="text-center">Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Astronomy research: Calculate the difference in Mars years between two astronomical events, such as planetary alignments or solar eclipses.</li>
+        <li class="list-group-item">Space mission planning: Determine the time difference between two space missions to Mars, taking into account the planet's longer orbital period.</li>
+        <li class="list-group-item">Climate modeling: Study the effects of climate change on Mars by calculating the difference in temperature or atmospheric pressure over a given period.</li>
+        <li class="list-group-item">Geological mapping: Calculate the time difference between two geological events, such as volcanic eruptions or tectonic activity, to better understand Mars' geological history.</li>
+        <li class="list-group-item">Space exploration education: Teach students about the Martian calendar and the difference between Earth and Mars years.</li>
+        <li class="list-group-item">Science fiction writing: Create realistic storylines involving Mars colonization or space travel by calculating the time difference between Earth and Mars.</li>
+        <li class="list-group-item>Planetary comparison: Compare the orbital periods of Mars and other planets in our solar system to better understand their relative positions and movements.</li>
+        <li class="list-group-item>Interplanetary travel: Calculate the time difference between two interplanetary trips to Mars, taking into account the planet's longer orbital period.</li>
+        <li class="list-group-item>Historical research: Study the history of Mars exploration by calculating the time difference between two historical events, such as the launch of the first Mars rover or the discovery of water on Mars.</li>
+        <li class="list-group-item>Future mission planning: Plan future missions to Mars by calculating the time difference between the launch and arrival dates, taking into account the planet's longer orbital period.</li>
+    </ul>
+</div><script>
+  const startDateInput = document.getElementById('start-date');
+  const endDateInput = document.getElementById('end-date');
+  const calculateButton = document.getElementById('calculate-button');
+  const dateDifferenceInput = document.getElementById('date-difference');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  calculateButton.addEventListener('click', () => {
+    const startDate = startDateInput.value;
+    const endDate = endDateInput.value;
+
+    if (!startDate || !endDate) {
+      errorMessageDiv.textContent = 'Please enter both start and end dates.';
+      return;
+    }
+
+    const startDateParts = startDate.split('-');
+    const endDateParts = endDate.split('-');
+
+    if (startDateParts.length !== 3 || endDateParts.length !== 3) {
+      errorMessageDiv.textContent = 'Invalid date format. Please use YYYY-MM-DD.';
+      return;
+    }
+
+    const startDateObject = new Date(startDate);
+    const endDateObject = new Date(endDate);
+
+    if (isNaN(startDateObject.getTime()) || isNaN(endDateObject.getTime())) {
+      errorMessageDiv.textContent = 'Invalid date. Please enter a valid date.';
+      return;
+    }
+
+    if (startDateObject > endDateObject) {
+      errorMessageDiv.textContent = 'Start date cannot be after end date.';
+      return;
+    }
+
+    const earthDaysDifference = Math.round((endDateObject - startDateObject) / (1000 * 3600 * 24));
+    const marsYearsDifference = earthDaysDifference / 687;
+
+    dateDifferenceInput.value = `The date difference is ${marsYearsDifference.toFixed(2)} Mars years`;
+    errorMessageDiv.textContent = '';
+  });
+</script>

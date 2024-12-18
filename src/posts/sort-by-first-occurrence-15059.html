@@ -1,0 +1,176 @@
+---
+title: Text Sorting Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Text Analysis
+  - Research Tool
+  - Writing Assistant
+  - Data Processing
+  - Productivity App
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div textarea, #main-div button {
+    border-radius: 0.25rem;
+  }
+  #main-div table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  #main-div th, #main-div td {
+    border: 1px solid #444;
+    padding: 0.5rem;
+    text-align: left;
+  }
+  #main-div th {
+    background-color: #333;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Text Sorting Tool</h1><div class="container-fluid p-5 bg-light">
+    <h2 class="display-5 fw-bold text-center">Unlock the Power of Text Analysis with Our Text Sorting Tool</h2>
+    <p class="fs-5 text-center">Discover how our innovative text sorting tool can help you efficiently sort a list of words or phrases based on their first occurrence in a given text, revolutionizing the way you approach text analysis and research.</p>
+</div>
+  <p>Sort a list of words or phrases based on their first occurrence in a given text.</p>
+  <form>
+    <div class="mb-3">
+      <label for="text-input">Text:</label>
+      <textarea class="form-control" id="text-input" rows="10"></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="list-input">List of words or phrases:</label>
+      <textarea class="form-control" id="list-input" rows="5"></textarea>
+    </div>
+    <div class="d-flex justify-content-center mb-3">
+      <button class="btn btn-primary me-2" id="sort-btn">Sort</button>
+      <button class="btn btn-secondary" id="reset-btn">Reset</button>
+    </div>
+  </form>
+  <div id="result-div">
+    <h2>Sorted List:</h2>
+    <table id="result-table" class="table">
+      <thead>
+        <tr>
+          <th>Word/Phrase</th>
+          <th>First Occurrence Position</th>
+        </tr>
+      </thead>
+      <tbody id="result-tbody">
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="container-fluid p-5">
+    <h3 class="display-6 fw-bold">How the Text Sorting Tool Works</h3>
+    <p class="fs-5">Our text sorting tool uses a simple yet effective formula to sort a list of words or phrases based on their first occurrence in a given text. The formula can be broken down into the following steps:</p>
+    <ol class="fs-5">
+        <li>Enter a list of words or phrases and a given text into the tool.</li>
+        <li>The tool searches for each word or phrase in the list within the given text.</li>
+        <li>The tool records the position of the first occurrence of each word or phrase in the text.</li>
+        <li>The tool sorts the list of words or phrases based on their first occurrence position in the text.</li>
+    </ol>
+    <h4 class="display-6 fw-bold">Example Use Cases</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Text</th>
+                <th>List of Words or Phrases</th>
+                <th>Sorted List</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>This is a sample text.</td>
+                <td>sample, text, this</td>
+                <td>this, sample, text</td>
+            </tr>
+            <tr>
+                <td>The quick brown fox jumps over the lazy dog.</td>
+                <td>fox, dog, cat</td>
+                <td>fox, dog, cat (not found)</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="container-fluid p-5 bg-light">
+    <h3 class="display-6 fw-bold">Top 10 Use Cases for the Text Sorting Tool</h3>
+    <ul class="fs-5">
+        <li><strong>Research and analysis</strong>: Sort a list of keywords based on their frequency or first occurrence in a research paper or article.</li>
+        <li><strong>Content writing</strong>: Use the tool to optimize the structure and flow of your content by sorting key phrases and sentences.</li>
+        <li><strong>SEO optimization</strong>: Identify and sort keywords based on their relevance and frequency in your website's content.</li>
+        <li><strong>Text summarization</strong>: Sort a list of key points or phrases based on their importance and relevance in a text summary.</li>
+        <li><strong>Language learning</strong>: Use the tool to sort vocabulary lists based on their frequency or first occurrence in a language learning text.</li>
+        <li><strong>Data analysis</strong>: Sort and analyze large datasets by sorting lists of words or phrases based on their frequency or first occurrence.</li>
+        <li><strong>Marketing and advertising</strong>: Optimize marketing campaigns by sorting keywords and phrases based on their relevance and frequency.</li>
+        <li><strong>Education and training</strong>: Use the tool to create interactive learning materials by sorting lists of words or phrases based on their difficulty or relevance.</li>
+        <li><strong>Writing assistance</strong>: Get help with writing by sorting lists of words or phrases based on their context and relevance.</li>
+        <li><strong>Productivity and organization</strong>: Use the tool to sort and prioritize tasks and to-do lists based on their importance and urgency.</li>
+    </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    document.getElementById('text-input').value = startParam;
+  }
+
+  const textInput = document.getElementById('text-input');
+  const listInput = document.getElementById('list-input');
+  const sortBtn = document.getElementById('sort-btn');
+  const resetBtn = document.getElementById('reset-btn');
+  const resultDiv = document.getElementById('result-div');
+  const resultTable = document.getElementById('result-table');
+  const resultTbody = document.getElementById('result-tbody');
+
+  sortBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const text = textInput.value.trim();
+    const list = listInput.value.trim().split('\n').map((item) => item.trim());
+    if (text && list.length > 0) {
+      const result = [];
+      list.forEach((item) => {
+        const position = text.indexOf(item);
+        if (position!== -1) {
+          result.push({ item, position });
+        } else {
+          result.push({ item, position: 'Not found' });
+        }
+      });
+      result.sort((a, b) => {
+        if (a.position === 'Not found') return 1;
+        if (b.position === 'Not found') return -1;
+        return a.position - b.position;
+      });
+      resultTbody.innerHTML = '';
+      result.forEach((item) => {
+        const row = document.createElement('tr');
+        const wordCell = document.createElement('td');
+        const positionCell = document.createElement('td');
+        wordCell.textContent = item.item;
+        positionCell.textContent = item.position;
+        row.appendChild(wordCell);
+        row.appendChild(positionCell);
+        resultTbody.appendChild(row);
+      });
+      resultDiv.style.display = 'block';
+    } else {
+      alert('Please enter both text and list of words or phrases.');
+    }
+  });
+
+  resetBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    textInput.value = '';
+    listInput.value = '';
+    resultTbody.innerHTML = '';
+    resultDiv.style.display = 'none';
+  });
+</script>

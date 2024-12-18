@@ -1,0 +1,135 @@
+---
+title: List Sorter Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 12:00:00
+tags:
+  - List Sorter
+  - Productivity Tool
+  - Organization
+  - Time Management
+  - Utility App
+---
+
+<style>
+  #main-div {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  #main-div textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-family: monospace;
+  }
+  #main-div button {
+    margin: 10px 0;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #ccc;
+  }
+</style>
+
+<div id="main-div">
+  <h1>List Sorter Tool</h1><div class="header-section p-5 text-center bg-light">
+  <p class="lead">The List Sorter Tool is a free online utility that helps users organize and sort lists of items in ascending or descending order. This tool is designed to save time and increase productivity by providing a simple and efficient way to manage lists. With its user-friendly interface and advanced sorting capabilities, the List Sorter Tool is an essential resource for anyone looking to streamline their workflow and improve their overall organization.</p>
+</div>
+  <label for="list-input">List of Items</label>
+  <textarea id="list-input" placeholder="Enter one item per line"></textarea>
+  <button id="sort-ascending-btn" class="btn btn-primary">Sort Ascending</button>
+  <button id="sort-descending-btn" class="btn btn-primary">Sort Descending</button>
+  <button id="clear-btn" class="btn btn-secondary">Clear</button>
+  <p id="error-message" style="color: red;"></p>
+</div>
+
+<div class="explanation-section p-5 bg-white">
+  <h2>How it Works</h2>
+  <p>The List Sorter Tool uses a simple yet effective formula to sort lists of items. The formula works by comparing each item in the list and rearranging them in the desired order. This is done using a process called locale comparison, which takes into account the alphabetical order of the items.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Unsorted List</th>
+        <th>Sorted List (Ascending)</th>
+        <th>Sorted List (Descending)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Orange, Apple, Banana</td>
+        <td>Apple, Banana, Orange</td>
+        <td>Orange, Banana, Apple</td>
+      </tr>
+      <tr>
+        <td>Cat, Dog, Elephant</td>
+        <td>Cat, Dog, Elephant</td>
+        <td>Elephant, Dog, Cat</td>
+      </tr>
+      <tr>
+        <td>Car, Bike, Train</td>
+        <td>Bike, Car, Train</td>
+        <td>Train, Car, Bike</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5 bg-light">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Sorting to-do lists by priority</li>
+    <li class="list-group-item">Organizing inventory lists by product name or price</li>
+    <li class="list-group-item">Managing lists of contacts or customers</li>
+    <li class="list-group-item">Creating sorted lists of tasks or projects</li>
+    <li class="list-group-item">Sorting lists of numbers or dates</li>
+    <li class="list-group-item">Organizing lists of files or documents</li>
+    <li class="list-group-item">Managing lists of employees or team members</li>
+    <li class="list-group-item">Sorting lists of products or services by category</li>
+    <li class="list-group-item">Creating sorted lists of research or data</li>
+    <li class="list-group-item">Organizing lists of reminders or notifications</li>
+  </ul>
+</div><script>
+  const listInput = document.getElementById('list-input');
+  const sortAscendingBtn = document.getElementById('sort-ascending-btn');
+  const sortDescendingBtn = document.getElementById('sort-descending-btn');
+  const clearBtn = document.getElementById('clear-btn');
+  const errorMessage = document.getElementById('error-message');
+
+  // Preload input field with query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    listInput.value = startValue;
+  }
+
+  sortAscendingBtn.addEventListener('click', () => {
+    const list = listInput.value.trim().split('\n').filter(item => item!== '');
+    if (list.length === 0) {
+      errorMessage.textContent = 'Please enter a list of items.';
+      return;
+    }
+    const sortedList = list.sort((a, b) => a.localeCompare(b));
+    listInput.value = sortedList.join('\n');
+  });
+
+  sortDescendingBtn.addEventListener('click', () => {
+    const list = listInput.value.trim().split('\n').filter(item => item!== '');
+    if (list.length === 0) {
+      errorMessage.textContent = 'Please enter a list of items.';
+      return;
+    }
+    const sortedList = list.sort((a, b) => b.localeCompare(a));
+    listInput.value = sortedList.join('\n');
+  });
+
+  clearBtn.addEventListener('click', () => {
+    listInput.value = '';
+    errorMessage.textContent = '';
+  });
+</script>

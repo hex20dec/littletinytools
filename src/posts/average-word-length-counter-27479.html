@@ -1,0 +1,128 @@
+---
+title: Calculate Average Word Length
+permalink: "/{{ title | uniqueSlug(page) }}/" 
+date: 2020-05-01 12:00:00
+tags:
+  - Text Analysis
+  - Word Length
+  - Writing Complexity
+  - Readability Score
+  - Grammar Checker
+---
+
+<style>
+  #main-div {
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  #main-div textarea {
+    min-height: 100px;
+    max-height: 300px;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="d-flex flex-column align-items-center justify-content-center">
+  <h1 class="mb-3">Calculate Average Word Length</h1><div class="container-fluid py-5 bg-light">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <p class="lead text-dark">The Calculate Average Word Length tool is a simple yet powerful online utility designed to analyze text and provide insights into its compositional structure. By calculating the average length of words within a given text, this tool offers a unique perspective on writing style, readability, and the complexity of language used. Whether you're a writer seeking to refine your craft, a student looking to analyze literary works, or a researcher interested in linguistic patterns, this tool is an invaluable resource for understanding the intricacies of text composition.</p>
+        </div>
+    </div>
+</div>
+  <textarea id="text-input" class="form-control w-50" placeholder="Enter your text here" rows="5"></textarea>
+  <button id="calculate-button" class="btn btn-primary w-25 mt-3">Calculate Average Word Length</button>
+  <p id="result" class="fw-bold w-50 mt-3"></p>
+  <label id="error-message" class="text-danger w-50 mt-3"></label>
+</div>
+
+<div class="container-fluid py-5 bg-light">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h2 class="mb-3">How It Works</h2>
+            <p class="lead text-dark">The Calculate Average Word Length tool operates on a straightforward principle: it takes the input text, breaks it down into individual words, calculates the length of each word (excluding punctuation), and then finds the average length by dividing the total length of all words by the number of words. This process can be represented in a simple formula:</p>
+            <p class="text-dark">Average Word Length = (Total Length of All Words) / (Number of Words)</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Text Example</th>
+                        <th>Average Word Length</th>
+                        <th>Total Words</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"Hello world this is a test."</td>
+                        <td>4.2</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td>"The quick brown fox jumps over the lazy dog."</td>
+                        <td>4.5</td>
+                        <td>9</td>
+                    </tr>
+                    <tr>
+                        <td>"Lorem ipsum dolor sit amet, consectetur adipiscing elit."</td>
+                        <td>5.3</td>
+                        <td>8</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div><div class="container-fluid py-5 bg-light">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h2 class="mb-3">Common Use Cases</h2>
+            <ul class="list-group">
+                <li class="list-group-item">Assessing the readability of academic papers and articles.</li>
+                <li class="list-group-item">Evaluating the complexity of language in literary works for analysis.</li>
+                <li class="list-group-item">Improving the clarity and conciseness of written content for marketing materials.</li>
+                <li class="list-group-item">Developing educational tools to teach about average word length and its implications on readability.</li>
+                <li class="list-group-item">Conducting linguistic research on the characteristics of different genres of writing.</li>
+                <li class="list-group-item">Optimizing web content to enhance user engagement and comprehension.</li>
+                <li class="list-group-item">Analyzing the writing styles of different authors across various periods and genres.</li>
+                <li class="list-group-item">Creating automated tools for grading and assessing student writing assignments.</li>
+                <li class="list-group-item">Enhancing the accessibility of digital content for readers with disabilities.</li>
+                <li class="list-group-item">Informing the development of language learning materials and curricula.</li>
+            </ul>
+        </div>
+    </div>
+</div><script>
+  const textInput = document.getElementById('text-input');
+  const calculateButton = document.getElementById('calculate-button');
+  const resultElement = document.getElementById('result');
+  const errorMessageElement = document.getElementById('error-message');
+
+  calculateButton.addEventListener('click', calculateAverageWordLength);
+
+  function calculateAverageWordLength() {
+    const text = textInput.value.trim();
+    if (!text) {
+      errorMessageElement.textContent = 'Please enter some text';
+      resultElement.textContent = '';
+      return;
+    }
+    const words = text.replace(/[^\w\s]/gi, '').split(/\s+/);
+    const wordLengths = words.map(word => word.length);
+    const totalWordLength = wordLengths.reduce((a, b) => a + b, 0);
+    const averageWordLength = totalWordLength / wordLengths.length;
+    resultElement.textContent = `Average word length: ${averageWordLength.toFixed(2)} | Total words: ${wordLengths.length}`;
+    errorMessageElement.textContent = '';
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startText = urlParams.get('start');
+  if (startText) {
+    textInput.value = startText;
+  }
+
+  textInput.addEventListener('input', () => {
+    errorMessageElement.textContent = '';
+    resultElement.textContent = '';
+  });
+</script>

@@ -1,0 +1,180 @@
+---
+title: Unique Value Sorter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - data organization
+  - list sorting
+  - unique values
+  - productivity tool
+  - data analysis
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  #main-div textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+  }
+  #main-div button {
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+  #main-div.message {
+    font-size: 0.9rem;
+    color: #666;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Unique Value Sorter App</h1><div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-12">
+      <p class="lead">The Unique Value Sorter App is a simple yet powerful tool designed to help users sort and extract unique values from a list of data. With its intuitive interface, this app makes it easy to organize and analyze large datasets by removing duplicates and arranging the remaining values in a logical order. Whether you're working with numbers, text, or a combination of both, the Unique Value Sorter App is the perfect solution for anyone looking to streamline their data management process and gain valuable insights from their information.</p>
+    </div>
+  </div>
+</div>
+  <label for="input-list">Enter a list of values separated by commas or newline:</label>
+  <textarea id="input-list" placeholder="Enter a list of values separated by commas or newline"></textarea>
+  <button id="sort-button">Sort</button>
+  <button id="clear-button">Clear</button>
+  <label for="unique-values">Unique Values:</label>
+  <textarea id="unique-values" readonly></textarea>
+  <p class="message" id="message"></p>
+</div>
+
+<div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>How it Works</h2>
+      <p>The Unique Value Sorter App uses a simple yet effective formula to sort and extract unique values from a list of data. The process can be broken down into the following steps:</p>
+      <ol>
+        <li>Split the input list into individual values using commas or newline characters as delimiters.</li>
+        <li>Remove any duplicate values from the list by creating a set of unique values.</li>
+        <li>Sort the unique values in ascending order using a combination of numerical and alphabetical sorting.</li>
+      </ol>
+      <p>For example, if you input the following list of values:</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Input Value</th>
+            <th>Unique Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1, 2, 2, 3, 4, 4, 5</td>
+            <td>1, 2, 3, 4, 5</td>
+          </tr>
+          <tr>
+            <td>a, b, b, c, d, d, e</td>
+            <td>a, b, c, d, e</td>
+          </tr>
+          <tr>
+            <td>1.1, 2.2, 2.2, 3.3, 4.4, 4.4, 5.5</td>
+            <td>1.1, 2.2, 3.3, 4.4, 5.5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Common Use Cases</h2>
+      <ul>
+        <li>Data cleaning and preprocessing for machine learning models</li>
+        <li>Removing duplicates from customer lists or email databases</li>
+        <li>Organizing and analyzing survey or feedback data</li>
+        <li>Extracting unique keywords or phrases from large text datasets</li>
+        <li>Streamlining inventory management by removing duplicate product codes</li>
+        <li>Identifying unique IP addresses or user agents in log files</li>
+        <li>Sorting and extracting unique values from CSV or Excel files</li>
+        <li>Preprocessing data for data visualization or business intelligence tools</li>
+        <li>Removing duplicates from lists of names, addresses, or phone numbers</li>
+        <li>Optimizing database queries by removing duplicate values</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  const inputList = document.getElementById('input-list');
+  const sortButton = document.getElementById('sort-button');
+  const clearButton = document.getElementById('clear-button');
+  const uniqueValues = document.getElementById('unique-values');
+  const message = document.getElementById('message');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    inputList.value = startValue;
+  }
+
+  sortButton.addEventListener('click', () => {
+    const input = inputList.value.trim();
+    if (input === '') {
+      message.textContent = 'Please enter a list of values.';
+      return;
+    }
+
+    const values = input.split(/[\n,]+/);
+    const unique = [...new Set(values)];
+    unique.sort((a, b) => {
+      if (isNaN(a) || isNaN(b)) {
+        return a.localeCompare(b);
+      } else {
+        return parseFloat(a) - parseFloat(b);
+      }
+    });
+
+    uniqueValues.value = unique.join('\n');
+    message.textContent = `Found ${unique.length} unique values.`;
+  });
+
+  clearButton.addEventListener('click', () => {
+    inputList.value = '';
+    uniqueValues.value = '';
+    message.textContent = '';
+  });
+
+  // Add accessibility features
+  inputList.addEventListener('focus', () => {
+    inputList.setAttribute('aria-label', 'Input list of values');
+  });
+
+  sortButton.addEventListener('focus', () => {
+    sortButton.setAttribute('aria-label', 'Sort unique values');
+  });
+
+  clearButton.addEventListener('focus', () => {
+    clearButton.setAttribute('aria-label', 'Clear input and unique values');
+  });
+
+  // Optimize for SEO
+  const metaDescription = document.createElement('meta');
+  metaDescription.setAttribute('name', 'description');
+  metaDescription.setAttribute('content', 'Unique Value Sorter App - Sort and extract unique values from a list of data.');
+  document.head.appendChild(metaDescription);
+
+  const metaKeywords = document.createElement('meta');
+  metaKeywords.setAttribute('name', 'keywords');
+  metaKeywords.setAttribute('content', 'data organization, list sorting, unique values, productivity tool, data analysis');
+  document.head.appendChild(metaKeywords);
+</script>

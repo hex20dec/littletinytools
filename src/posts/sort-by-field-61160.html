@@ -1,0 +1,198 @@
+---
+title: "Table Sorting Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-15 12:00:00
+tags:
+  - Table Sorting
+  - Data Organization
+  - Productivity Tool
+  - Data Management
+  - Web Application
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  #main-div th, #main-div td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+  }
+  #main-div th {
+    background-color: #333;
+    color: #fff;
+  }
+  #main-div.btn {
+    margin-bottom: 10px;
+  }
+</style>
+
+<div id="main-div"><div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Table Sorting Tool: Efficiently Organize Your Data</h1>
+      <p>This table sorting tool is a web-based application designed to help users efficiently organize and manage their data. With its user-friendly interface, you can easily sort tables by different fields and orders, making it an essential productivity tool for data management. Whether you're working with small or large datasets, this tool provides a simple and effective way to arrange your data in a meaningful and useful way, saving you time and increasing your productivity.</p>
+    </div>
+  </div>
+</div>
+  <div class="mb-3">
+    <label for="sort-field" class="form-label">Sort by:</label>
+    <select id="sort-field" class="form-select">
+      <option value="name">Name</option>
+      <option value="age">Age</option>
+      <option value="city">City</option>
+    </select>
+  </div>
+  <div class="mb-3">
+    <label for="sort-order" class="form-label">Sort order:</label>
+    <select id="sort-order" class="form-select">
+      <option value="asc">Ascending</option>
+      <option value="desc">Descending</option>
+    </select>
+  </div>
+  <button id="sort-btn" class="btn btn-primary">Sort</button>
+  <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  <table id="table" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>City</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>John Doe</td>
+        <td>30</td>
+        <td>New York</td>
+      </tr>
+      <tr>
+        <td>Jane Doe</td>
+        <td>25</td>
+        <td>Los Angeles</td>
+      </tr>
+      <tr>
+        <td>Bob Smith</td>
+        <td>40</td>
+        <td>Chicago</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>How it Works</h2>
+      <p>The table sorting tool works by using a simple yet effective algorithm to rearrange the data in the table based on the selected field and order. The formula for sorting can be explained as follows: if the order is ascending, the tool arranges the data in the table from the smallest to the largest value based on the selected field, and if the order is descending, it arranges the data from the largest to the smallest value.</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Sort Field</th>
+            <th>Sort Order</th>
+            <th>Example Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Name</td>
+            <td>Ascending</td>
+            <td>Bob Smith, Jane Doe, John Doe</td>
+          </tr>
+          <tr>
+            <td>Age</td>
+            <td>Descending</td>
+            <td>40, 30, 25</td>
+          </tr>
+          <tr>
+            <td>City</td>
+            <td>Ascending</td>
+            <td>Chicago, Los Angeles, New York</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Common Use Cases</h2>
+      <ul>
+        <li><strong>Data Analysis</strong>: Use the table sorting tool to analyze large datasets and identify trends and patterns.</li>
+        <li><strong>Reporting</strong>: Sort data to generate reports and present findings in a clear and concise manner.</li>
+        <li><strong>Research</strong>: Use the tool to organize and sort data for research studies and academic papers.</li>
+        <li><strong>Business Intelligence</strong>: Sort data to inform business decisions and identify areas for improvement.</li>
+        <li><strong>Education</strong>: Use the tool to teach students about data management and analysis.</li>
+        <li><strong>Marketing</strong>: Sort data to analyze customer behavior and preferences.</li>
+        <li><strong>Finance</strong>: Use the tool to sort financial data and identify trends and patterns.</li>
+        <li><strong>Human Resources</strong>: Sort data to manage employee information and analyze HR metrics.</li>
+        <li><strong>Healthcare</strong>: Use the tool to sort medical data and identify trends and patterns.</li>
+        <li><strong>Government</strong>: Sort data to analyze demographic information and inform policy decisions.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  const sortFieldSelect = document.getElementById('sort-field');
+  const sortOrderSelect = document.getElementById('sort-order');
+  const sortBtn = document.getElementById('sort-btn');
+  const resetBtn = document.getElementById('reset-btn');
+  const table = document.getElementById('table');
+  const tbody = table.getElementsByTagName('tbody')[0];
+
+  let data = [
+    { name: 'John Doe', age: 30, city: 'New York' },
+    { name: 'Jane Doe', age: 25, city: 'Los Angeles' },
+    { name: 'Bob Smith', age: 40, city: 'Chicago' }
+  ];
+
+  function renderTable(data) {
+    tbody.innerHTML = '';
+    data.forEach(item => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${item.name}</td>
+        <td>${item.age}</td>
+        <td>${item.city}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  function sortData(field, order) {
+    data.sort((a, b) => {
+      if (order === 'asc') {
+        if (a[field] < b[field]) return -1;
+        if (a[field] > b[field]) return 1;
+        return 0;
+      } else {
+        if (a[field] < b[field]) return 1;
+        if (a[field] > b[field]) return -1;
+        return 0;
+      }
+    });
+  }
+
+  sortBtn.addEventListener('click', () => {
+    const field = sortFieldSelect.value;
+    const order = sortOrderSelect.value;
+    sortData(field, order);
+    renderTable(data);
+  });
+
+  resetBtn.addEventListener('click', () => {
+    data = [
+      { name: 'John Doe', age: 30, city: 'New York' },
+      { name: 'Jane Doe', age: 25, city: 'Los Angeles' },
+      { name: 'Bob Smith', age: 40, city: 'Chicago' }
+    ];
+    renderTable(data);
+  });
+
+  renderTable(data);
+</script>

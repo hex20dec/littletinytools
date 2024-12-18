@@ -1,0 +1,194 @@
+---
+title: Alphanumeric Sorter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 12:00:00
+tags:
+  - Alphanumeric Sorter
+  - Text Sorting
+  - Alphabetical Order
+  - Numerical Order
+  - Productivity Tool
+---
+
+<style>
+  #main-div {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+ .input-textarea {
+    height: 200px;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+  }
+
+ .output-textarea {
+    height: 200px;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+ .button-container {
+    margin-top: 10px;
+  }
+
+ .button-container button {
+    margin: 5px;
+  }
+
+ .checkbox-container {
+    margin-top: 10px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Alphanumeric Sorter App</h1><div class="header-section p-5 text-center bg-light">
+    <h1>Alphanumeric Sorter App: Simplifying Data Organization</h1>
+    <p class="lead">The Alphanumeric Sorter App is a versatile online tool designed to help users efficiently organize and sort alphanumeric data in either alphabetical or numerical order, making data management and analysis easier and more accessible.</p>
+</div>
+  <div class="row">
+    <div class="col-12">
+      <textarea id="input-textarea" class="form-control input-textarea" placeholder="Enter your list of alphanumeric items, one item per line"></textarea>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 button-container">
+      <button id="sort-az-button" class="btn btn-primary">Sort A-Z</button>
+      <button id="sort-09-button" class="btn btn-primary">Sort 0-9</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 checkbox-container">
+      <input type="checkbox" id="case-insensitive-checkbox" class="form-check-input">
+      <label for="case-insensitive-checkbox" class="form-check-label">Case Insensitive</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <textarea id="output-textarea" class="form-control output-textarea" readonly></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How It Works</h2>
+    <p>The Alphanumeric Sorter App operates based on a straightforward yet powerful algorithm that can handle both alphabetical and numerical sorting with ease. The process can be broken down into a simple formula:</p>
+    <ul>
+        <li>Input: Enter your list of alphanumeric items, one item per line.</li>
+        <li>Selection: Choose whether to sort your list in alphabetical (A-Z) or numerical (0-9) order.</li>
+        <li>Option: Decide if the sorting should be case-insensitive or not.</li>
+        <li>Output: The sorted list is displayed in a separate area, making it easy to read and further analyze or use as needed.</li>
+    </ul>
+    <p>For example, if you input a list of items mixed with letters and numbers, the app can sort them in ascending order based on either their alphabetical sequence or their numerical values, depending on your selection.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Original List</th>
+                <th>Sorted Alphabetically</th>
+                <th>Sorted Numerically</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>A1, B2, A3, B1</td>
+                <td>A1, A3, B1, B2</td>
+                <td>A1, B1, A3, B2</td>
+            </tr>
+            <tr>
+                <td>C10, C5, C1, C20</td>
+                <td>C1, C5, C10, C20</td>
+                <td>C1, C5, C10, C20</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2>Common Use Cases</h2>
+    <ol>
+        <li><strong>Data Organization:</strong> Easily sort and organize large datasets that include alphanumeric identifiers.</li>
+        <li><strong>Inventory Management:</strong> Keep track of stock by sorting items based on their alphanumeric codes or names.</li>
+        <li><strong>Student Records:</strong> Manage student lists, sorting them by name, ID, or any other alphanumeric identifier.</li>
+        <li><strong>Product Cataloging:</strong> Sort products by their model numbers or names for easier customer access.</li>
+        <li><strong>Library Management:</strong> Organize books and resources based on their alphanumeric cataloging system.</li>
+        <li><strong>Scientific Research:</strong> Sort and analyze data from experiments or studies that use alphanumeric codes.</li>
+        <li><strong>Customer Lists:</strong> Manage customer databases, sorting contacts by name, ID, or any other relevant alphanumeric field.</li>
+        <li><strong>Financial Records:</strong> Organize financial transactions or accounts by their alphanumeric identifiers.</li>
+        <li><strong>Event Planning:</strong> Sort attendees, sponsors, or participants in events based on alphanumeric data.</li>
+        <li><strong>Audit and Compliance:</strong> Use the tool to sort and verify alphanumeric data for audit trails or compliance checks.</li>
+    </ol>
+</div><script>
+  const inputTextarea = document.getElementById('input-textarea');
+  const sortAzButton = document.getElementById('sort-az-button');
+  const sort09Button = document.getElementById('sort-09-button');
+  const caseInsensitiveCheckbox = document.getElementById('case-insensitive-checkbox');
+  const outputTextarea = document.getElementById('output-textarea');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    inputTextarea.value = startValue;
+  }
+
+  sortAzButton.addEventListener('click', () => {
+    const inputText = inputTextarea.value.trim();
+    if (inputText) {
+      const lines = inputText.split('\n');
+      const sortedLines = lines.sort((a, b) => {
+        if (caseInsensitiveCheckbox.checked) {
+          return a.localeCompare(b, undefined, { sensitivity: 'base' });
+        } else {
+          return a.localeCompare(b);
+        }
+      });
+      outputTextarea.value = sortedLines.join('\n');
+    } else {
+      outputTextarea.value = '';
+    }
+  });
+
+  sort09Button.addEventListener('click', () => {
+    const inputText = inputTextarea.value.trim();
+    if (inputText) {
+      const lines = inputText.split('\n');
+      const sortedLines = lines.sort((a, b) => {
+        const numA = parseInt(a.replace(/[^0-9]/g, ''));
+        const numB = parseInt(b.replace(/[^0-9]/g, ''));
+        if (isNaN(numA)) return 1;
+        if (isNaN(numB)) return -1;
+        return numA - numB;
+      });
+      outputTextarea.value = sortedLines.join('\n');
+    } else {
+      outputTextarea.value = '';
+    }
+  });
+
+  caseInsensitiveCheckbox.addEventListener('change', () => {
+    if (sortAzButton.disabled) return;
+    const inputText = inputTextarea.value.trim();
+    if (inputText) {
+      const lines = inputText.split('\n');
+      const sortedLines = lines.sort((a, b) => {
+        if (caseInsensitiveCheckbox.checked) {
+          return a.localeCompare(b, undefined, { sensitivity: 'base' });
+        } else {
+          return a.localeCompare(b);
+        }
+      });
+      outputTextarea.value = sortedLines.join('\n');
+    } else {
+      outputTextarea.value = '';
+    }
+  });
+</script>

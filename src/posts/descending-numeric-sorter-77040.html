@@ -1,0 +1,137 @@
+---
+title: Descending Numeric Sorter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 14:30:00
+tags:
+  - Sorting App
+  - Descending Order
+  - Numeric Sorter
+  - Web Tool
+  - Productivity
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  #main-div input[type="text"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  #main-div button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+  #main-div.error-message {
+    color: #f00;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  @media (max-width: 768px) {
+    #main-div {
+      padding: 20px;
+    }
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="mb-4">Descending Numeric Sorter</h1><div class="container mt-5">
+  <p class="lead">The Descending Numeric Sorter is a web-based tool designed to help users efficiently organize lists of numbers in descending order. With its user-friendly interface and robust functionality, this tool is perfect for individuals who need to quickly sort numerical data for various applications, including data analysis, research, and everyday productivity tasks. By simply entering a list of numbers separated by commas or spaces and clicking the "Sort in Descending Order" button, users can obtain the sorted list, making it easier to identify patterns, trends, and insights within their data.</p>
+</div>
+  <label for="input-numbers">Enter a list of numbers separated by commas or spaces:</label>
+  <input type="text" id="input-numbers" class="form-control" placeholder="Example: 1, 2, 3, 4, 5" value="">
+  <button id="sort-button" class="btn btn-primary mt-3">Sort in Descending Order</button>
+  <div id="output" class="mt-4"></div>
+  <div id="error-message" class="error-message"></div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The Descending Numeric Sorter uses a simple yet effective approach to sort lists of numbers. The formula behind this tool can be explained as follows: each number in the input list is compared to every other number, and the largest number is placed first, followed by the next largest, and so on, until the smallest number is placed last. This process is repeated until the entire list is sorted in descending order.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Input List</th>
+        <th>Sorted List</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>10, 5, 8, 3</td>
+        <td>10, 8, 5, 3</td>
+      </tr>
+      <tr>
+        <td>20, 15, 30, 25</td>
+        <td>30, 25, 20, 15</td>
+      </tr>
+      <tr>
+        <td>1, 2, 3, 4, 5</td>
+        <td>5, 4, 3, 2, 1</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Data analysis: Sort numerical data to identify trends and patterns</li>
+    <li class="list-group-item">Research: Organize experimental results or survey data in descending order</li>
+    <li class="list-group-item">Finance: Sort financial data, such as stock prices or transactions, in descending order</li>
+    <li class="list-group-item">Education: Help students understand numerical concepts, such as ordering and comparing numbers</li>
+    <li class="list-group-item">Productivity: Quickly sort to-do lists or task priorities in descending order</li>
+    <li class="list-group-item">Gaming: Sort game scores or leaderboards in descending order</li>
+    <li class="list-group-item">Sports: Organize athletic performance data, such as scores or times, in descending order</li>
+    <li class="list-group-item">Science: Sort experimental data, such as temperature readings or measurement results</li>
+    <li class="list-group-item">Engineering: Organize design specifications or technical data in descending order</li>
+    <li class="list-group-item">Business: Sort customer data, such as sales figures or customer feedback, in descending order</li>
+  </ul>
+</div><script>
+  const inputField = document.getElementById('input-numbers');
+  const sortButton = document.getElementById('sort-button');
+  const outputField = document.getElementById('output');
+  const errorMessage = document.getElementById('error-message');
+
+  // Preload input field with query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    inputField.value = startValue;
+  }
+
+  sortButton.addEventListener('click', () => {
+    const input = inputField.value.trim();
+    if (input === '') {
+      errorMessage.textContent = 'Please enter a list of numbers.';
+      return;
+    }
+
+    try {
+      const numbers = input.replace(/\s+/g, ',').split(',').map(Number);
+      const sortedNumbers = numbers.filter(num =>!isNaN(num)).sort((a, b) => b - a);
+      outputField.textContent = sortedNumbers.join(', ');
+      errorMessage.textContent = '';
+    } catch (error) {
+      errorMessage.textContent = 'Invalid input. Please enter a list of numbers separated by commas or spaces.';
+    }
+  });
+
+  // Accessibility implementation
+  inputField.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      sortButton.click();
+    }
+  });
+</script>

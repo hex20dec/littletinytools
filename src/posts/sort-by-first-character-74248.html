@@ -1,0 +1,130 @@
+---
+title: Simple Text Sorter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-01-01 12:00:00
+tags:
+  - text sorter
+  - alphabetize
+  - organization tool
+  - productivity
+  - text utility
+---
+
+<style>
+  #main-div {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  #main-div textarea {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 16px;
+  }
+  #main-div button {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Simple Text Sorter</h1><div class="container mt-5">
+  <h2>Boost Productivity with Our Simple Text Sorter Tool</h2>
+  <p>This simple text sorter is a versatile online tool designed to help individuals and professionals alike in organizing and alphabetizing text entries efficiently. By leveraging advanced algorithms, it enables users to arrange their text in ascending order with ease, making it an indispensable asset for enhancing productivity and streamlining workflow processes. Perfect for students, writers, and anyone who needs to organize lists, sentences, or paragraphs, this tool is intuitive, free, and accessible from any device with an internet connection.</p>
+</div>
+  <label for="input-text">Enter text to sort:</label>
+  <textarea id="input-text" class="form-control"></textarea>
+  <button id="sort-button" class="btn btn-primary">Sort</button>
+  <label for="output-text">Sorted text:</label>
+  <textarea id="output-text" class="form-control" readonly></textarea>
+</div>
+
+<div class="container mt-5">
+  <h3>How the Text Sorter Works</h3>
+  <p>The text sorter operates based on a straightforward principle: it takes the input text, breaks it down into individual lines, and then rearranges these lines in alphabetical order based on the first character of each line. This process is case-insensitive, ensuring that the sorting is not affected by the use of uppercase or lowercase letters.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Input Text</th>
+        <th>Sorted Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Zebra</td>
+        <td>Apple</td>
+      </tr>
+      <tr>
+        <td>Apple</td>
+        <td>Banana</td>
+      </tr>
+      <tr>
+        <td>Banana</td>
+        <td>Zebra</td>
+      </tr>
+      <!-- Add more rows for demonstration -->
+    </tbody>
+  </table>
+  <p>This tool is particularly useful for managing lists, creating bibliographies, or organizing notes in a systematic manner.</p>
+</div><div class="container mt-5">
+  <h3>10 Common Use Cases for the Simple Text Sorter</h3>
+  <ol>
+    <li><strong>Alphabetizing References:</strong> Sort lists of authors or references in alphabetical order for academic or professional papers.</li>
+    <li><strong>Organizing Shopping Lists:</strong> Arrange grocery items in a coherent order to make shopping more efficient.</li>
+    <li><strong>Managing To-Do Lists:</strong> Prioritize tasks by sorting them alphabetically or by urgency.</li>
+    <li><strong>Creating Bibliographies:</strong> Automatically sort book titles or authors for research projects.</li>
+    <li><strong>Streamlining Notes:</strong> Organize classroom or meeting notes in a logical sequence.</li>
+    <li><strong>Editing Documents:</strong> Use the tool to standardize and organize sections of documents, like menus or catalog entries.</li>
+    <li><strong>Preparing Presentations:</strong> Sort points or topics in a presentation to improve coherence and flow.</li>
+    <li><strong>Writing and Proofreading:</strong> Assist in organizing chapters, sections, or index entries in manuscripts.</li>
+    <li><strong>Data Entry:</strong> Simplify data organization tasks by sorting information in lists or databases.</li>
+    <li><strong>Education:</strong> Help students learn alphabetization skills in an interactive and practical way.</li>
+  </ol>
+</div><script>
+  const inputText = document.getElementById('input-text');
+  const sortButton = document.getElementById('sort-button');
+  const outputText = document.getElementById('output-text');
+
+  sortButton.addEventListener('click', () => {
+    const text = inputText.value.trim();
+    if (text === '') {
+      outputText.value = '';
+      return;
+    }
+    const lines = text.split('\n');
+    const sortedLines = lines.sort((a, b) => {
+      const charA = a.trim()[0].toLowerCase();
+      const charB = b.trim()[0].toLowerCase();
+      if (charA < charB) return -1;
+      if (charA > charB) return 1;
+      return 0;
+    });
+    outputText.value = sortedLines.join('\n');
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    inputText.value = startParam;
+  }
+</script>

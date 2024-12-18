@@ -1,0 +1,142 @@
+---
+title: Text Length Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Text Length Counter
+  - Character Counter
+  - Word Counter
+  - Sentence Counter
+  - Writing Tool
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  #main-div textarea {
+    width: 100%;
+    height: 200px;
+    padding: 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+  }
+  #main-div button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+  #main-div.counters {
+    margin-top: 1rem;
+  }
+  #main-div.counters div {
+    margin-bottom: 0.5rem;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1>Text Length Counter App</h1><div class="header-section p-5 text-center">
+    <p class="lead">The Text Length Counter App is a free online tool designed to help users calculate the length of their text in characters, words, and sentences. This versatile tool is perfect for writers, students, and professionals who need to track the length of their content, whether it's for a social media post, a blog article, or an academic paper. With its simple and intuitive interface, the Text Length Counter App makes it easy to get accurate counts and stay within word limits.</p>
+</div>
+  <label for="text-input">Enter your text:</label>
+  <textarea id="text-input" placeholder="Start typing..."></textarea>
+  <div class="counters">
+    <div id="character-count">Characters: 0</div>
+    <div id="word-count">Words: 0</div>
+    <div id="sentence-count">Sentences: 0</div>
+  </div>
+  <button id="reset-button">Reset</button>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How it Works</h2>
+    <p>The Text Length Counter App uses a simple formula to calculate the length of the input text. The formula is based on the following steps:</p>
+    <ol>
+        <li>Count the number of characters in the input text, including spaces and punctuation.</li>
+        <li>Split the input text into words by counting the number of spaces between words.</li>
+        <li>Count the number of sentences in the input text by looking for sentence-ending punctuation marks such as periods, exclamation points, and question marks.</li>
+    </ol>
+    <h2>Example Use Cases</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Input Text</th>
+                <th>Characters</th>
+                <th>Words</th>
+                <th>Sentences</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>This is a sample text.</td>
+                <td>20</td>
+                <td>5</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>This is another sample text with multiple sentences. It has two sentences.</td>
+                <td>56</td>
+                <td>13</td>
+                <td>2</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2>10 Common Use Cases for the Text Length Counter App</h2>
+    <ol>
+        <li>Counting characters for social media posts, such as tweets or Facebook updates.</li>
+        <li>Tracking word count for blog articles or academic papers.</li>
+        <li>Calculating sentence count for essays or reports.</li>
+        <li>Measuring text length for website content, such as product descriptions or landing pages.</li>
+        <li>Checking character limits for text messages or SMS marketing campaigns.</li>
+        <li>Monitoring word count for email marketing campaigns or newsletters.</li>
+        <li>Counting sentences for technical writing, such as user manuals or instructions.</li>
+        <li>Tracking text length for SEO purposes, such as optimizing meta descriptions or titles.</li>
+        <li>Calculating character count for data entry or transcription tasks.</li>
+        <li>Measuring text length for creative writing, such as short stories or poetry.</li>
+    </ol>
+</div><script>
+  const textInput = document.getElementById('text-input');
+  const characterCount = document.getElementById('character-count');
+  const wordCount = document.getElementById('word-count');
+  const sentenceCount = document.getElementById('sentence-count');
+  const resetButton = document.getElementById('reset-button');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startX = urlParams.get('start');
+  if (startX) {
+    textInput.value = startX;
+    updateCounters();
+  }
+
+  textInput.addEventListener('input', updateCounters);
+  resetButton.addEventListener('click', reset);
+
+  function updateCounters() {
+    const text = textInput.value;
+    const characters = text.length;
+    const words = text.trim().split(/\s+/).length;
+    const sentences = text.match(/[^.!?]*[.!?]/g)? text.match(/[^.!?]*[.!?]/g).length : 0;
+    characterCount.innerText = `Characters: ${characters}`;
+    wordCount.innerText = `Words: ${words}`;
+    sentenceCount.innerText = `Sentences: ${sentences}`;
+  }
+
+  function reset() {
+    textInput.value = '';
+    updateCounters();
+  }
+</script>

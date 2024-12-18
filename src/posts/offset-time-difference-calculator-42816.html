@@ -1,0 +1,171 @@
+---
+title: Offset Time Difference Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-15 12:00:00
+tags:
+  - Time Zone Calculator
+  - Offset Time Difference
+  - Date and Time Converter
+  - Travel Planning Tool
+  - International Business Helper
+---
+
+<style>
+  #main-div {
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+ .btn {
+    margin-top: 1rem;
+  }
+ .result {
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-4">Offset Time Difference Calculator</h1><div class="header-section p-5 text-center bg-primary text-white">
+  <p class="lead">The Offset Time Difference Calculator is a powerful online tool designed to help individuals and businesses navigate the complexities of time zones, providing accurate calculations of time differences between various zones, making it an essential resource for international travel, communication, and commerce, while adhering to the highest standards of SEO optimization for enhanced discoverability and user experience.</p>
+</div>
+  <form id="calculator-form">
+    <div class="mb-3">
+      <label for="time-zone-1" class="form-label">Time Zone 1</label>
+      <select id="time-zone-1" class="form-select">
+        <option value="UTC">UTC</option>
+        <option value="EST">EST</option>
+        <option value="PST">PST</option>
+        <option value="GMT">GMT</option>
+        <option value="CET">CET</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="date-1" class="form-label">Date</label>
+      <input type="date" id="date-1" class="form-control" value="<?php echo $_GET['start'];?>">
+    </div>
+    <div class="mb-3">
+      <label for="time-1" class="form-label">Time</label>
+      <input type="time" id="time-1" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label for="time-zone-2" class="form-label">Time Zone 2</label>
+      <select id="time-zone-2" class="form-select">
+        <option value="UTC">UTC</option>
+        <option value="EST">EST</option>
+        <option value="PST">PST</option>
+        <option value="GMT">GMT</option>
+        <option value="CET">CET</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="date-2" class="form-label">Date</label>
+      <input type="date" id="date-2" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label for="time-2" class="form-label">Time</label>
+      <input type="time" id="time-2" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Calculate</button>
+  </form>
+  <div id="result" class="result"></div>
+</div>
+
+<div class="explanation-section p-5">
+  <h2 class="mb-4">How the Calculator Works</h2>
+  <p>The calculator uses a simple yet effective formula to determine the time difference between two zones. The formula is based on the concept of time zone offsets, where each zone is assigned a specific offset value relative to Coordinated Universal Time (UTC). By applying these offsets to the input dates and times, the calculator can accurately calculate the time difference between the two zones.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Time Zone 1</th>
+        <th>Time Zone 2</th>
+        <th>Time Difference</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UTC</td>
+        <td>EST</td>
+        <td>-5 hours</td>
+      </tr>
+      <tr>
+        <td>UTC</td>
+        <td>PST</td>
+        <td>-8 hours</td>
+      </tr>
+      <tr>
+        <td>EST</td>
+        <td>CET</td>
+        <td>+6 hours</td>
+      </tr>
+      <!-- Add more examples here -->
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5">
+  <h2 class="mb-4">Common Use Cases for the Offset Time Difference Calculator</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Scheduling international meetings and conferences</li>
+    <li class="list-group-item">Coordinating global travel itineraries</li>
+    <li class="list-group-item">Managing international business operations and supply chains</li>
+    <li class="list-group-item">Conducting online transactions and e-commerce across time zones</li>
+    <li class="list-group-item">Planning events and activities across different time zones</li>
+    <li class="list-group-item">Communicating with friends and family across different time zones</li>
+    <li class="list-group-item">Scheduling social media posts and online marketing campaigns</li>
+    <li class="list-group-item">Conducting market research and analysis across different time zones</li>
+    <li class="list-group-item">Providing customer support and services across different time zones</li>
+    <li class="list-group-item">Managing international logistics and shipping operations</li>
+  </ul>
+</div><script>
+  const form = document.getElementById('calculator-form');
+  const resultDiv = document.getElementById('result');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const timeZone1 = document.getElementById('time-zone-1').value;
+    const date1 = document.getElementById('date-1').value;
+    const time1 = document.getElementById('time-1').value;
+    const timeZone2 = document.getElementById('time-zone-2').value;
+    const date2 = document.getElementById('date-2').value;
+    const time2 = document.getElementById('time-2').value;
+
+    if (!date1 ||!time1 ||!date2 ||!time2) {
+      resultDiv.innerText = 'Please fill in all fields';
+      return;
+    }
+
+    const datetime1 = new Date(`${date1}T${time1}`);
+    const datetime2 = new Date(`${date2}T${time2}`);
+
+    const offset1 = getOffset(timeZone1);
+    const offset2 = getOffset(timeZone2);
+
+    datetime1.setHours(datetime1.getHours() + offset1);
+    datetime2.setHours(datetime2.getHours() + offset2);
+
+    const difference = Math.abs(datetime1 - datetime2);
+    const hours = Math.floor(difference / 36e5);
+    const minutes = Math.floor((difference % 36e5) / 6e4);
+
+    resultDiv.innerText = `The time difference is ${hours} hours and ${minutes} minutes`;
+  });
+
+  function getOffset(timeZone) {
+    switch (timeZone) {
+      case 'UTC':
+        return 0;
+      case 'EST':
+        return -5;
+      case 'PST':
+        return -8;
+      case 'GMT':
+        return 0;
+      case 'CET':
+        return 1;
+      default:
+        return 0;
+    }
+  }
+</script>

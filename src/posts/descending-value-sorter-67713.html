@@ -1,0 +1,138 @@
+---
+title: Descending Number Sorter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Sorter App
+  - Number Sorting
+  - Descending Order
+  - Bootstrap 5
+  - Vanilla JS
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div button {
+    margin-bottom: 1rem;
+  }
+  #main-div ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  #main-div li {
+    margin-bottom: 0.5rem;
+  }
+  #main-div.error {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1>Descending Number Sorter</h1><div class="container mt-5">
+  <p class="lead">Discover the power of efficient number sorting with our Descending Number Sorter tool, designed to arrange a list of numbers in descending order with ease and precision, leveraging the capabilities of modern web technology to provide a seamless user experience, making it an invaluable resource for students, professionals, and anyone seeking to simplify their data organization tasks.</p>
+</div>
+  <label for="original-list">Original list:</label>
+  <ul id="original-list"></ul>
+  <label for="numbers-input">Enter numbers (separated by commas):</label>
+  <input type="text" id="numbers-input" placeholder="e.g. 1, 2, 3, 4, 5" class="form-control">
+  <button id="sort-button" class="btn btn-primary">Sort</button>
+  <label for="sorted-list">Sorted list (descending order):</label>
+  <ul id="sorted-list"></ul>
+  <div id="error-message" class="error"></div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The Descending Number Sorter operates on a straightforward principle: it takes a list of numbers as input, processes them to ensure they are in the correct format, and then applies a sorting algorithm to rearrange these numbers from largest to smallest. This is achieved through a simple, intuitive interface where users can input their numbers, separated by commas, and then initiate the sorting process with a click of a button.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Input Numbers</th>
+        <th>Sorted Numbers (Descending)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>5, 2, 8, 1, 9</td>
+        <td>9, 8, 5, 2, 1</td>
+      </tr>
+      <tr>
+        <td>10, 20, 30, 40, 50</td>
+        <td>50, 40, 30, 20, 10</td>
+      </tr>
+      <tr>
+        <td>100, 25, 35, 15, 45</td>
+        <td>100, 45, 35, 25, 15</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <ol>
+    <li><strong>Data Analysis:</strong> Sorting numbers in descending order is crucial for identifying the highest values in a dataset, which can be vital in data analysis for understanding trends and patterns.</li>
+    <li><strong>Education:</strong> Students can use this tool to learn about number sorting algorithms and understand the concept of descending order in a practical and interactive way.</li>
+    <li><strong>Scientific Research:</strong> Researchers often need to sort large datasets, and being able to quickly arrange numbers in descending order can save time and increase productivity.</li>
+    <li><strong>Financial Planning:</strong> In personal finance, sorting expenses or income in descending order can help in prioritizing budget allocations.</li>
+    <li><strong>Marketing Analytics:</strong> Marketers can use sorted data to understand customer behavior, with the highest values often indicating the most significant trends or responses.</li>
+    <li><strong>Programming and Coding:</strong> For developers, this tool can serve as a simple example of how number sorting can be implemented, useful for beginners or for quick reference.</li>
+    <li><strong>Quality Control:</strong> In manufacturing, sorting quality control data in descending order can help in identifying the most critical issues that need immediate attention.</li>
+    <li><strong>Logistics and Supply Chain:</strong> Sorting delivery routes or package weights in descending order can optimize logistics operations, reducing costs and improving efficiency.</li>
+    <li><strong>Sports and Fitness:</strong> Athletes and coaches can use sorted data to track performance metrics, such as race times or lift weights, to monitor progress and set goals.</li>
+    <li><strong>Business Operations:</strong> Business owners can sort sales data, customer interactions, or operational metrics in descending order to make informed decisions about where to focus their efforts.</li>
+  </ol>
+</div><script>
+  const numbersInput = document.getElementById('numbers-input');
+  const sortButton = document.getElementById('sort-button');
+  const originalList = document.getElementById('original-list');
+  const sortedList = document.getElementById('sorted-list');
+  const errorMessage = document.getElementById('error-message');
+
+  // Preload input field with query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    numbersInput.value = startValue;
+  }
+
+  sortButton.addEventListener('click', () => {
+    const inputNumbers = numbersInput.value.trim();
+    if (!inputNumbers) {
+      errorMessage.textContent = 'Please enter numbers separated by commas.';
+      return;
+    }
+
+    try {
+      const numbersArray = inputNumbers.split(',').map(num => parseFloat(num.trim()));
+      if (numbersArray.some(isNaN)) {
+        throw new Error('Invalid input. Please enter numbers only.');
+      }
+
+      const sortedNumbers = numbersArray.slice().sort((a, b) => b - a);
+      originalList.innerHTML = '';
+      sortedList.innerHTML = '';
+
+      numbersArray.forEach(num => {
+        const li = document.createElement('li');
+        li.textContent = num;
+        originalList.appendChild(li);
+      });
+
+      sortedNumbers.forEach(num => {
+        const li = document.createElement('li');
+        li.textContent = num;
+        sortedList.appendChild(li);
+      });
+
+      errorMessage.textContent = '';
+    } catch (error) {
+      errorMessage.textContent = error.message;
+    }
+  });
+</script>

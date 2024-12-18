@@ -1,0 +1,136 @@
+---
+title: Character Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Character Counter
+  - Text Input
+  - Limit Tracker
+  - Writing Tool
+  - Productivity App
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .char-count {
+    font-size: 18px;
+  }
+ .char-exceeded {
+    color: #dc3545;
+  }
+  #reset-btn {
+    margin-left: 10px;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mt-5">Character Counter App</h1><div class="container mt-5">
+  <h2>Character Counter Tool: Optimize Your Text with Ease</h2>
+  <p>This character counter app is designed to help users track and limit the number of characters in their text, making it an essential tool for writing, editing, and optimizing content for various platforms, including social media, blogs, and websites, while also improving overall productivity and content quality.</p>
+</div>
+  <div class="row mb-3">
+    <label for="max-char" class="col-form-label col-sm-2">Maximum Characters:</label>
+    <div class="col-sm-10">
+      <input type="number" class="form-control" id="max-char" value="200">
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-sm-12">
+      <textarea class="form-control" id="text-input" rows="10"></textarea>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <span class="char-count" id="char-count">0</span>
+      <span class="char-count">/</span>
+      <span class="char-count" id="max-char-display">200</span>
+      <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h3>How it Works</h3>
+  <p>The character counter tool uses a simple formula to calculate the number of characters in the input text: <strong>Total Characters = Number of Letters + Number of Spaces + Number of Punctuation Marks</strong>. This formula provides an accurate count of characters, helping users stay within the desired limit.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Input Text Length</th>
+        <th>Character Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Short text (less than 50 characters)</td>
+        <td>0-50 characters</td>
+      </tr>
+      <tr>
+        <td>Medium text (50-200 characters)</td>
+        <td>50-200 characters</td>
+      </tr>
+      <tr>
+        <td>Long text (more than 200 characters)</td>
+        <td>200+ characters</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h3>Common Use Cases for the Character Counter Tool</h3>
+  <ul class="list-group">
+    <li class="list-group-item">Social media post optimization: Ensure your tweets, Facebook posts, and Instagram captions are within the character limit.</li>
+    <li class="list-group-item">Blog post writing: Keep your article introductions concise and within the recommended character limit.</li>
+    <li class="list-group-item">Website content optimization: Optimize your website's meta titles, descriptions, and headings for better search engine ranking.</li>
+    <li class="list-group-item">Text message character limit: Stay within the character limit for SMS messages to avoid multiple message splits.</li>
+    <li class="list-group-item">Email subject line optimization: Craft attention-grabbing subject lines that fit within the recommended character limit.</li>
+    <li class="list-group-item">Title tag optimization: Write descriptive and concise title tags that fit within the recommended character limit.</li>
+    <li class="list-group-item">Meta description optimization: Craft compelling and informative meta descriptions that fit within the recommended character limit.</li>
+    <li class="list-group-item">Content editing: Use the character counter tool to edit and refine your content to fit specific character limits.</li>
+    <li class="list-group-item">SEO optimization: Optimize your content for search engines by ensuring it meets the recommended character limits for various elements.</li>
+    <li class="list-group-item">Product description writing: Write concise and informative product descriptions that fit within the recommended character limit.</li>
+  </ul>
+</div><script>
+  const textInput = document.getElementById('text-input');
+  const maxCharInput = document.getElementById('max-char');
+  const charCount = document.getElementById('char-count');
+  const maxCharDisplay = document.getElementById('max-char-display');
+  const resetBtn = document.getElementById('reset-btn');
+
+  // Preload input field with value from query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    textInput.value = startValue;
+    updateCharCount();
+  }
+
+  textInput.addEventListener('input', updateCharCount);
+  maxCharInput.addEventListener('input', updateMaxChar);
+
+  function updateCharCount() {
+    const charLength = textInput.value.length;
+    charCount.textContent = charLength;
+    if (charLength > parseInt(maxCharInput.value)) {
+      charCount.classList.add('char-exceeded');
+    } else {
+      charCount.classList.remove('char-exceeded');
+    }
+  }
+
+  function updateMaxChar() {
+    maxCharDisplay.textContent = maxCharInput.value;
+    updateCharCount();
+  }
+
+  resetBtn.addEventListener('click', resetApp);
+
+  function resetApp() {
+    textInput.value = '';
+    maxCharInput.value = '200';
+    charCount.textContent = '0';
+    charCount.classList.remove('char-exceeded');
+    maxCharDisplay.textContent = '200';
+  }
+</script>

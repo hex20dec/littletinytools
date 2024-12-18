@@ -1,0 +1,128 @@
+---
+title: Stopword Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Stopword Counter
+  - Text Analysis
+  - Writing Tool
+  - Readability Score
+  - SEO Optimization
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  #main-div textarea {
+    width: 100%;
+    height: 200px;
+    padding: 1rem;
+    font-size: 1rem;
+  }
+  #main-div button {
+    margin-top: 1rem;
+  }
+  #main-div p {
+    margin-top: 1rem;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="mb-3">Stopword Counter App</h1><div class="container mt-5">
+  <p class="lead">The Stopword Counter App is a powerful tool designed to help writers, editors, and SEO specialists analyze and optimize their text by identifying and counting stopwords. Stopwords are common words like "the", "and", "a", etc. that do not add much value to the content and can affect the readability and SEO score of an article or webpage. By using this app, users can refine their writing, improve content clarity, and enhance their website's search engine ranking.</p>
+</div>
+  <label for="text-input">Enter your text:</label>
+  <textarea id="text-input" class="form-control"></textarea>
+  <button id="count-stopwords-btn" class="btn btn-primary mt-3">Count Stopwords</button>
+  <p id="result" class="mb-3"></p>
+</div>
+
+<div class="container mt-5">
+  <h2>How the Stopword Counter App Works</h2>
+  <p>The Stopword Counter App uses a simple yet effective formula to count stopwords in a given text. The formula involves the following steps: 
+    <ol>
+      <li>Text Preprocessing: The app converts the input text to lowercase and removes punctuation and special characters.</li>
+      <li>Word Tokenization: The preprocessed text is then split into individual words or tokens.</li>
+      <li>Stopword Matching: The app uses a list of predefined stopwords to match against each word in the tokenized text.</li>
+      <li>Counting Stopwords: The app counts the occurrences of each stopword in the text and calculates the total number of stopwords.</li>
+    </ol>
+  </p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Input Text</th>
+        <th>Total Stopwords</th>
+        <th>Stopwords and Frequencies</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>This is a sample text.</td>
+        <td>2</td>
+        <td>is: 1, a: 1</td>
+      </tr>
+      <tr>
+        <td>The quick brown fox jumps over the lazy dog.</td>
+        <td>2</td>
+        <td>the: 2</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>Common Use Cases for the Stopword Counter App</h2>
+  <ul>
+    <li><strong>SEO Optimization</strong>: The app helps SEO specialists optimize their website's content by minimizing the use of stopwords and improving keyword density.</li>
+    <li><strong>Content Writing</strong>: Writers can use the app to refine their writing style, reduce wordiness, and enhance content clarity.</li>
+    <li><strong>Text Analysis</strong>: The app is useful for text analysis tasks, such as sentiment analysis, topic modeling, and text classification.</li>
+    <li><strong>Readability Score</strong>: The app helps calculate the readability score of a text by counting stopwords and other linguistic features.</li>
+    <li><strong>Academic Research</strong>: Researchers can use the app to analyze and visualize linguistic patterns in large datasets.</li>
+    <li><strong>Language Learning</strong>: The app can be used as a tool for language learners to practice writing and improve their linguistic skills.</li>
+    <li><strong>Content Editing</strong>: Editors can use the app to review and refine content, ensuring it is engaging, clear, and concise.</li>
+    <li><strong>Marketing Automation</strong>: The app can be integrated with marketing automation tools to optimize and personalize content for better customer engagement.</li>
+    <li><strong>Natural Language Processing</strong>: The app is useful for NLP tasks, such as text preprocessing, tokenization, and named entity recognition.</li>
+    <li><strong>Web Development</strong>: The app can be used to develop web applications that require text analysis, such as chatbots, sentiment analysis tools, and content recommendation systems.</li>
+  </ul>
+</div><script>
+  const textInput = document.getElementById('text-input');
+  const countStopwordsBtn = document.getElementById('count-stopwords-btn');
+  const resultParagraph = document.getElementById('result');
+  const stopwords = ['the', 'and', 'a', 'an', 'in', 'is', 'it', 'of', 'to'];
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    textInput.value = startParam;
+  }
+
+  countStopwordsBtn.addEventListener('click', countStopwords);
+
+  function countStopwords() {
+    const text = textInput.value;
+    if (!text) {
+      resultParagraph.textContent = 'Please enter some text.';
+      return;
+    }
+
+    const textLowerCase = text.toLowerCase();
+    const words = textLowerCase.replace(/[^\w\s]|_/g, '').split(/\s+/);
+    const stopwordCounts = {};
+
+    stopwords.forEach(stopword => {
+      const regex = new RegExp(`\\b${stopword}\\b`, 'g');
+      const matches = words.filter(word => regex.test(word));
+      stopwordCounts[stopword] = matches.length;
+    });
+
+    const totalStopwords = Object.values(stopwordCounts).reduce((acc, count) => acc + count, 0);
+    const stopwordsList = Object.entries(stopwordCounts).map(([stopword, count]) => `${stopword}: ${count}`).join(', ');
+
+    resultParagraph.textContent = `Total stopwords: ${totalStopwords}. Stopwords and their frequencies: ${stopwordsList}`;
+  }
+</script>

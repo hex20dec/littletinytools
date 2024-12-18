@@ -1,0 +1,203 @@
+---
+title: Null Value Sorter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Data Analysis
+  - Null Value Sorting
+  - Data Visualization
+  - Data Cleaning
+  - Data Organization
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+  #main-div textarea {
+    resize: vertical;
+  }
+  #main-div.sorted-data {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  #main-div.null-values, #main-div.non-null-values {
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+  }
+  #main-div.null-values {
+    background-color: #f0f0f0;
+  }
+  #main-div.non-null-values {
+    background-color: #ddeeff;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Null Value Sorter App</h1><div class="header-section p-5 text-center">
+  <p class="lead">The Null Value Sorter App is a powerful tool designed to help users sort and organize data by identifying and separating null or empty values, making it an essential asset for data analysis, visualization, and cleaning. With its user-friendly interface and advanced sorting options, this app enables users to efficiently manage and process large datasets, saving time and increasing productivity. Whether you're a data scientist, researcher, or business analyst, the Null Value Sorter App is the perfect solution for all your data organization needs.</p>
+</div>
+  <p>This app helps you sort and organize data by identifying and separating null or empty values.</p>
+  <form>
+    <textarea id="input-data" placeholder="Enter your data here, separated by commas or new lines" rows="10" cols="50"></textarea>
+    <button type="button" id="sort-button" class="btn btn-primary">Sort</button>
+    <select id="sorting-options" class="form-select">
+      <option value="sort-by-null">Sort by null values</option>
+      <option value="sort-by-non-null">Sort by non-null values</option>
+      <option value="remove-null">Remove null values</option>
+    </select>
+  </form>
+  <div class="sorted-data">
+    <h2>Sorted Data</h2>
+    <div id="null-values" class="null-values">
+      <h3>Null Values</h3>
+      <ul id="null-values-list"></ul>
+    </div>
+    <div id="non-null-values" class="non-null-values">
+      <h3>Non-Null Values</h3>
+      <ul id="non-null-values-list"></ul>
+    </div>
+  </div>
+  <button type="button" id="download-button" class="btn btn-secondary">Download as CSV</button>
+  <p id="error-message" style="color: #ff0000;"></p>
+</div>
+
+<div class="explanation-section p-5">
+  <h2>How it Works</h2>
+  <p>The Null Value Sorter App uses a simple yet effective formula to sort and separate null values from non-null values. The formula can be explained as follows: if a row contains one or more null values, it is categorizes as a null value row; otherwise, it is categorized as a non-null value row. This formula is applied to each row in the dataset, allowing for efficient and accurate sorting.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Row Number</th>
+        <th>Null Values</th>
+        <th>Non-Null Values</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>NULL, Value2, NULL</td>
+        <td>Value1, Value3</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Value1, NULL, Value3</td>
+        <td>NULL, Value2</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>NULL, NULL, NULL</td>
+        <td>Value1, Value2, Value3</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Data cleaning and preprocessing for machine learning models</li>
+    <li class="list-group-item">Identifying and removing missing values in datasets</li>
+    <li class="list-group-item">Organizing and structuring data for data visualization</li>
+    <li class="list-group-item">Data analysis and reporting for business intelligence</li>
+    <li class="list-group-item">Scientific research and data analysis</li>
+    <li class="list-group-item">Data migration and integration</li>
+    <li class="list-group-item">Quality control and data validation</li>
+    <li class="list-group-item">Data transformation and formatting</li>
+    <li class="list-group-item">Data storage and archiving</li>
+    <li class="list-group-item">Compliance and regulatory reporting</li>
+  </ul>
+</div><script>
+  const inputTextArea = document.getElementById('input-data');
+  const sortButton = document.getElementById('sort-button');
+  const sortingOptions = document.getElementById('sorting-options');
+  const nullValuesList = document.getElementById('null-values-list');
+  const nonNullValuesList = document.getElementById('non-null-values-list');
+  const downloadButton = document.getElementById('download-button');
+  const errorMessage = document.getElementById('error-message');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const startValue = urlSearchParams.get('start');
+  if (startValue) {
+    inputTextArea.value = startValue;
+  }
+
+  sortButton.addEventListener('click', () => {
+    // Validate user input
+    const inputData = inputTextArea.value.trim();
+    if (!inputData) {
+      errorMessage.textContent = 'Please enter some data';
+      return;
+    }
+
+    // Parse the input data
+    const lines = inputData.split('\n');
+    const data = lines.map(line => line.split(','));
+
+    // Sort the data based on the selected option
+    const sortingOption = sortingOptions.value;
+    let sortedData;
+    if (sortingOption === 'sort-by-null') {
+      sortedData = data.sort((a, b) => {
+        const aNull = a.includes('');
+        const bNull = b.includes('');
+        if (aNull &&!bNull) return -1;
+        if (!aNull && bNull) return 1;
+        return 0;
+      });
+    } else if (sortingOption === 'sort-by-non-null') {
+      sortedData = data.sort((a, b) => {
+        const aNull = a.includes('');
+        const bNull = b.includes('');
+        if (aNull &&!bNull) return 1;
+        if (!aNull && bNull) return -1;
+        return 0;
+      });
+    } else if (sortingOption === 'remove-null') {
+      sortedData = data.filter(row =>!row.includes(''));
+    }
+
+    // Update the sorted data section
+    nullValuesList.innerHTML = '';
+    nonNullValuesList.innerHTML = '';
+    sortedData.forEach((row, index) => {
+      const rowHtml = row.map(cell => cell || '&nbsp;').join(',');
+      if (row.includes('')) {
+        const nullValueItem = document.createElement('li');
+        nullValueItem.textContent = `Row ${index + 1}: ${rowHtml}`;
+        nullValuesList.appendChild(nullValueItem);
+      } else {
+        const nonNullValueItem = document.createElement('li');
+        nonNullValueItem.textContent = `Row ${index + 1}: ${rowHtml}`;
+        nonNullValuesList.appendChild(nonNullValueItem);
+      }
+    });
+
+    // Hide the error message
+    errorMessage.textContent = '';
+  });
+
+  downloadButton.addEventListener('click', () => {
+    // Download the sorted data as a CSV file
+    const sortedData = [];
+    const nullValues = nullValuesList.children;
+    const nonNullValues = nonNullValuesList.children;
+    Array.from(nullValues).forEach(nullValue => {
+      const row = nullValue.textContent.split(': ')[1].split(',');
+      sortedData.push(row);
+    });
+    Array.from(nonNullValues).forEach(nonNullValue => {
+      const row = nonNullValue.textContent.split(': ')[1].split(',');
+      sortedData.push(row);
+    });
+
+    const csvData = sortedData.map(row => row.join(',')).join('\n');
+    const csvBlob = new Blob([csvData], { type: 'text/csv' });
+    const csvUrl = URL.createObjectURL(csvBlob);
+    const csvLink = document.createElement('a');
+    csvLink.href = csvUrl;
+    csvLink.download = 'sorted_data.csv';
+    csvLink.click();
+  });
+</script>

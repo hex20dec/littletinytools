@@ -1,0 +1,158 @@
+---
+title: Word Length Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Word Counter
+  - Text Analysis
+  - Writing Tool
+  - Language Learning
+  - Editing Assistant
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    padding: 20px;
+  }
+  #main-div table {
+    border-collapse: collapse;
+  }
+  #main-div th, #main-div td {
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center">Word Length Counter App</h1><div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="text-center">Word Length Counter App</h1>
+            <p class="lead">The Word Length Counter App is a simple yet powerful tool designed to analyze and count the length of words within a given text. This tool is perfect for writers, editors, and language learners looking to improve their writing skills, understand word patterns, and optimize their content for better readability and engagement. With its user-friendly interface, users can easily input their text and receive instant word length analysis, making it an invaluable resource for anyone working with written content.</p>
+        </div>
+    </div>
+</div>
+  <form class="mb-3">
+    <div class="mb-3">
+      <textarea class="form-control" id="input-text" rows="10" placeholder="Enter your text here..."></textarea>
+    </div>
+    <button type="button" class="btn btn-primary" id="count-button">Count Word Length</button>
+  </form>
+  <div id="result-table" class="table-responsive">
+    <table class="table table-striped table-bordered" aria-describedby="word length table">
+      <caption>Word Length Table</caption>
+      <thead>
+        <tr>
+          <th scope="col">Word</th>
+          <th scope="col">Length</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+      </tbody>
+    </table>
+  </div>
+  <p id="error-message" class="text-danger"></p>
+</div>
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <h2 class="text-center mb-3">How It Works</h2>
+            <p class="lead">The Word Length Counter App works by using a straightforward formula to calculate the length of each word within the input text. The formula can be explained as follows: 
+                <ol>
+                    <li>Split the input text into individual words based on spaces or punctuation.</li>
+                    <li>Remove any non-alphanumeric characters from each word to clean it.</li>
+                    <li>Count the number of characters in each cleaned word to determine its length.</li>
+                </ol>
+                This process results in a detailed table showing each word and its corresponding length, providing users with a clear and comprehensive overview of their text's composition.</p>
+            <h2 class="text-center mt-5 mb-3">Example Use Cases Table</h2>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Word</th>
+                        <th scope="col">Length</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Hello</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>World</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>This</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Is</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Test</td>
+                        <td>4</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div><div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <h2 class="text-center mb-3">Top 10 Use Cases for the Word Length Counter App</h2>
+            <ol class="lead">
+                <li><strong>Content Optimization:</strong> Writers can use the tool to optimize their content for better readability and SEO by balancing word lengths and improving overall sentence structure.</li>
+                <li><strong>Language Learning:</strong> Learners can analyze texts in their target language to understand common word lengths and patterns, helping them to improve their reading and writing skills.</li>
+                <li><strong>Editing Assistance:</strong> Editors can quickly scan texts for overly long or short words, suggesting improvements to enhance clarity and flow.</li>
+                <li><strong>Writing Research:</strong> Researchers can study word length distributions in different genres or authors to identify unique writing styles and trends.</li>
+                <li><strong>Education:</strong> Teachers can use the tool to teach students about word length, syllable count, and the importance of vocabulary in written communication.</li>
+                <li><strong>Marketing Analysis:</strong> Marketers can analyze competitors' content to identify successful word length strategies and apply them to their own marketing materials.</li>
+                <li><strong>Text Summarization:</strong> The tool can aid in summarizing long texts by identifying key words based on their length and frequency.</li>
+                <li><strong>Poetry and Creative Writing:</strong> Poets and writers can experiment with word lengths to create specific rhythms, meters, or emotional impacts in their work.</li>
+                <li><strong>Accessibility Improvement:</strong> Content creators can use the tool to ensure their text is accessible by avoiding very long words that might be difficult for some readers to understand.</li>
+                <li><strong>Academic Research:</strong> Scholars can use word length analysis as part of linguistic or literary analyses to explore how language usage changes over time or across different cultures.</li>
+            </ol>
+        </div>
+    </div>
+</div><script>
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const startValue = urlParams.get('start');
+  document.getElementById('input-text').value = startValue? startValue : '';
+
+  const countButton = document.getElementById('count-button');
+  const inputText = document.getElementById('input-text');
+  const tableBody = document.getElementById('table-body');
+  const errorMessage = document.getElementById('error-message');
+
+  countButton.addEventListener('click', () => {
+    const text = inputText.value.trim();
+    if (text === '') {
+      errorMessage.textContent = 'Please enter some text to count word length.';
+      return;
+    }
+    errorMessage.textContent = '';
+
+    const words = text.split(/\s+/);
+    const wordLengths = words.map(word => {
+      const cleanWord = word.replace(/[^\w]/g, '');
+      return { word: cleanWord, length: cleanWord.length };
+    });
+    tableBody.innerHTML = '';
+    wordLengths.forEach(wordLength => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${wordLength.word}</td>
+        <td>${wordLength.length}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+  });
+</script>

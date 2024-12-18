@@ -1,0 +1,109 @@
+---
+title: Hyphen Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Hyphen Counter
+  - Text Analysis
+  - Writing Tool
+  - Editing Assistant
+  - Productivity App
+---
+
+<style>
+  #main-div {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+ .error-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+  }
+</style>
+
+<div id="main-div" class="container">
+  <h1>Hyphen Counter App</h1><div class="header-section bg-light p-3 mb-3 border-bottom">
+  <p class="lead">The Hyphen Counter App is a simple yet effective online tool designed to count the number of hyphens in a given text. This user-friendly application is perfect for writers, editors, and anyone who needs to analyze text for hyphen usage. With its intuitive interface, the Hyphen Counter App saves time and effort, providing accurate results instantly. Whether you're checking for consistency in formatting or tracking hyphen usage for stylistic purposes, this app is an indispensable tool for anyone working with text.</p>
+</div>
+  <p>Enter your text below to count the number of hyphens:</p>
+  <textarea id="input-text" class="form-control" placeholder="Enter your text here..." rows="10"></textarea>
+  <button id="count-hyphens" class="btn btn-primary mt-3">Count Hyphens</button>
+  <div id="result" class="alert alert-info mt-3"></div>
+  <div id="error" class="error-message mt-3"></div>
+</div>
+
+<div class="explanation-section p-3 mb-3">
+  <h2>How it Works</h2>
+  <p>The Hyphen Counter App uses a straightforward formula to calculate the number of hyphens in the input text. The formula can be explained as follows: Count the total number of occurrences of the hyphen character (-) within the given text. This formula ensures an accurate count, regardless of the text's length or complexity.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Text Example</th>
+        <th>Hyphen Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>No hyphens here</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>One-hyphen</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>Multiple-hyphens-here</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>Hyphenated-text-with-multiple-words</td>
+        <td>5</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-3">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Checking consistency in formatting for academic or professional writing</li>
+    <li class="list-group-item">Tracking hyphen usage in marketing materials for brand consistency</li>
+    <li class="list-group-item">Analyzing text for stylistic purposes, such as in creative writing or journalism</li>
+    <li class="list-group-item">Verifying adherence to style guides, such as the Chicago Manual of Style or AP Stylebook</li>
+    <li class="list-group-item">Editing and proofreading documents to ensure error-free text</li>
+    <li class="list-group-item">Converting text to other formats, such as e-books or audiobooks, where hyphenation may be critical</li>
+    <li class="list-group-item">Developing language learning materials, where accurate hyphenation is essential</li>
+    <li class="list-group-item">Creating SEO-optimized content, where hyphen usage can impact search engine rankings</li>
+    <li class="list-group-item">Preparing documents for translation, where hyphenation can affect the accuracy of the translation</li>
+    <li class="list-group-item">Ensuring accessibility in digital documents, where proper hyphenation can improve readability</li>
+  </ul>
+</div><script>
+  const inputText = document.getElementById('input-text');
+  const countHyphensButton = document.getElementById('count-hyphens');
+  const resultDiv = document.getElementById('result');
+  const errorDiv = document.getElementById('error');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    inputText.value = startValue;
+  }
+
+  countHyphensButton.addEventListener('click', () => {
+    const text = inputText.value.trim();
+    if (text === '') {
+      errorDiv.innerText = 'Please enter some text.';
+      resultDiv.innerText = '';
+    } else {
+      errorDiv.innerText = '';
+      const hyphenCount = (text.match(/-/g) || []).length;
+      if (hyphenCount === 0) {
+        resultDiv.innerText = 'No hyphens found in the text.';
+      } else {
+        resultDiv.innerText = `Total hyphens: ${hyphenCount}`;
+      }
+    }
+  });
+</script>

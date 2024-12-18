@@ -1,0 +1,154 @@
+---
+title: Time Zone Converter - KST to PST
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-25 12:00:00
+tags:
+  - Time Zone Converter
+  - KST to PST
+  - Time Conversion
+  - International Time
+  - Travel Planning
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input[type="date"],
+  #main-div input[type="time"] {
+    width: 100%;
+    height: 2.5rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  #main-div button {
+    width: 100%;
+    height: 2.5rem;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+  #main-div .result {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <header class="row mb-4">
+    <h1 class="col-12 text-center">KST to PST Converter</h1><div class="container mt-5">
+  <p class="text-center">The KST to PST Converter is a handy tool designed to help individuals convert time zones from Korea Standard Time (KST) to Pacific Standard Time (PST) with ease. This tool is perfect for travelers, businesses, and anyone who needs to coordinate schedules across different time zones. With its user-friendly interface and accurate calculations, this converter eliminates the need for manual time zone conversions, saving you time and reducing the risk of errors. Whether you're planning a trip, scheduling a meeting, or simply need to stay in sync with colleagues and friends in different parts of the world, the KST to PST Converter is the perfect solution for all your time zone conversion needs.</p>
+</div>
+  </header>
+  <main class="row">
+    <section class="col-12 col-md-6 offset-md-3">
+      <form id="convert-form">
+        <label for="kst-date">KST Date:</label>
+        <input type="date" id="kst-date" name="kst-date" required>
+        <label for="kst-time">KST Time:</label>
+        <input type="time" id="kst-time" name="kst-time" required>
+        <button type="submit" id="convert-btn">Convert to PST</button>
+      </form>
+      <div id="result" class="result"></div>
+      <div id="error" class="alert alert-danger" role="alert"></div>
+    </section>
+  </main>
+</div>
+
+<div class="container mt-5">
+  <h2 class="mb-3">How it Works</h2>
+  <p>The KST to PST Converter works by taking into account the time difference between the two time zones. Korea Standard Time (KST) is 17 hours ahead of Pacific Standard Time (PST). When you enter a date and time in KST, the converter calculates the equivalent date and time in PST by subtracting 17 hours from the input time. This calculation is done automatically, providing you with an accurate and instant conversion.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>KST Date</th>
+        <th>KST Time</th>
+        <th>PST Date</th>
+        <th>PST Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>2024-09-16</td>
+        <td>10:00 AM</td>
+        <td>2024-09-15</td>
+        <td>5:00 PM</td>
+      </tr>
+      <tr>
+        <td>2024-09-16</td>
+        <td>11:00 AM</td>
+        <td>2024-09-15</td>
+        <td>6:00 PM</td>
+      </tr>
+      <tr>
+        <td>2024-09-16</td>
+        <td>12:00 PM</td>
+        <td>2024-09-15</td>
+        <td>7:00 PM</td>
+      </tr>
+      <!-- Add more rows to demonstrate different conversions -->
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="mb-3">Common Use Cases for the KST to PST Converter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Travel planning: Convert your travel itinerary to ensure you arrive at your destination on time.</li>
+    <li class="list-group-item">Business meetings: Schedule meetings with colleagues or clients in different time zones with ease.</li>
+    <li class="list-group-item">Online events: Plan online events, such as webinars or conferences, that cater to a global audience.</li>
+    <li class="list-group-item">Social media management: Schedule social media posts to reach your audience at the right time, regardless of their time zone.</li>
+    <li class="list-group-item">International shipping: Calculate delivery times for packages shipped between Korea and the United States.</li>
+    <li class="list-group-item">Financial transactions: Convert transaction times to ensure accurate recording and processing of financial transactions.</li>
+    <li class="list-group-item">Education: Help students and educators coordinate learning schedules across different time zones.</li>
+    <li class="list-group-item">Sports and entertainment: Plan and coordinate international sports events or entertainment shows.</li>
+    <li class="list-group-item">Healthcare: Coordinate medical appointments and consultations with healthcare professionals in different time zones.</li>
+    <li class="list-group-item">Government and diplomacy: Facilitate international communication and coordination between governments and diplomatic missions.</li>
+  </ul>
+</div><script>
+  const convertForm = document.getElementById('convert-form');
+  const kstDateInput = document.getElementById('kst-date');
+  const kstTimeInput = document.getElementById('kst-time');
+  const convertBtn = document.getElementById('convert-btn');
+  const resultDiv = document.getElementById('result');
+  const errorDiv = document.getElementById('error');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startDate = urlParams.get('start');
+  if (startDate) {
+    kstDateInput.value = startDate;
+  }
+
+  convertForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const kstDate = kstDateInput.value;
+    const kstTime = kstTimeInput.value;
+    if (!kstDate || !kstTime) {
+      errorDiv.textContent = 'Please fill in both date and time fields.';
+      return;
+    }
+    try {
+      const kstDateTime = new Date(`${kstDate}T${kstTime}:00+09:00`);
+      const pstDateTime = new Date(kstDateTime.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }));
+      const pstDate = pstDateTime.toLocaleDateString('en-US');
+      const pstTime = pstDateTime.toLocaleTimeString('en-US');
+      resultDiv.innerHTML = `<p>KST ${kstDate} ${kstTime} is PST ${pstDate} ${pstTime}</p>`;
+      errorDiv.textContent = '';
+    } catch (error) {
+      errorDiv.textContent = 'Invalid date or time format. Please try again.';
+    }
+  });
+</script>

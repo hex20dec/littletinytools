@@ -1,0 +1,120 @@
+---
+title: ASCII Character Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-20 14:30:00
+tags:
+  - ASCII character counter
+  - text input
+  - character limit
+  - writer's tool
+  - developer's tool
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    padding: 20px;
+  }
+  #main-div label {
+    margin-bottom: 10px;
+  }
+  #main-div.form-control {
+    margin-bottom: 20px;
+  }
+  #main-div.fw-bold {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  #main-div.btn {
+    margin-top: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>ASCII Character Counter App</h1><div class="container mt-5 pt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center">The ASCII Character Counter App is a simple yet powerful tool designed to help writers, developers, and anyone working with text to accurately count the number of ASCII characters in a given piece of text. By providing a straightforward interface where users can input their text, the app calculates and displays the ASCII character count in real-time, supporting the creation of content that adheres to specific character limits or requirements, thereby enhancing productivity and precision in various professional and personal contexts.</p>
+    </div>
+  </div>
+</div>
+  <label for="text-input">Enter your text</label>
+  <textarea id="text-input" class="form-control" placeholder="Type or paste your text here"></textarea>
+  <p id="char-count" class="fw-bold">ASCII character count: 0</p>
+  <button id="reset-btn" class="btn btn-secondary">Reset</button>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2>How It Works</h2>
+      <p>The app utilizes a straightforward formula to count the ASCII characters: it takes each character from the input text, checks if its ASCII value is less than 128 (which defines the ASCII character set), and then sums up all the characters that meet this criterion. This process is repeated every time the input text changes, ensuring that the character count is always up-to-date.</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Input Text</th>
+            <th>ASCII Character Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hello World!</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>This is a test.</td>
+            <td>14</td>
+          </tr>
+          <tr>
+            <td>ASCII characters only.</td>
+            <td>20</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2>Common Use Cases</h2>
+      <ul>
+        <li><strong>Writing Articles and Blog Posts:</strong> Ensuring that articles fit within specific word or character limits.</li>
+        <li><strong>Developing Website Content:</strong> Optimizing text for SEO and user experience, adhering to character limits for titles, descriptions, and headings.</li>
+        <li><strong>Creating Social Media Posts:</strong> Crafting posts that fit within the character limits of different social media platforms.</li>
+        <li><strong>Preparing Academic Papers:</strong> Counting characters for abstracts, titles, and other elements that have strict character limits.</li>
+        <li><strong>Designing User Interfaces (UI):</strong> Determining the length of text that can be displayed in UI elements like labels and tooltips.</li>
+        <li><strong>Composing Email Subject Lines:</strong> Writing subject lines that are concise and effective, within the recommended character limits.</li>
+        <li><strong>Optimizing Product Descriptions:</strong> Writing product descriptions that are informative, yet concise, to improve readability and sales.</li>
+        <li><strong>Developing Mobile Apps:</strong> Adhering to character limits for app names, descriptions, and other metadata.</li>
+        <li><strong>Creating Advertisements:</strong> Fitting ad copy within character limits for different ad formats and platforms.</li>
+        <li><strong>Managing Database Entries:</strong> Ensuring that text entries fit within the database's field size limitations.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  const textInput = document.getElementById('text-input');
+  const charCount = document.getElementById('char-count');
+  const resetBtn = document.getElementById('reset-btn');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    textInput.value = startValue;
+    updateCharCount();
+  }
+
+  textInput.addEventListener('input', updateCharCount);
+  resetBtn.addEventListener('click', resetInput);
+
+  function updateCharCount() {
+    const text = textInput.value;
+    const charCountValue = text.split('').filter(char => char.charCodeAt(0) < 128).length;
+    charCount.textContent = `ASCII character count: ${charCountValue}`;
+  }
+
+  function resetInput() {
+    textInput.value = '';
+    charCount.textContent = 'ASCII character count: 0';
+  }
+</script>

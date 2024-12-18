@@ -1,0 +1,179 @@
+---
+title: Pipe Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-15 12:00:00
+tags:
+  - Pipe Counter
+  - Construction Tool
+  - Plumbing Calculator
+  - DIY Helper
+  - Pipe Tracker
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+ .count-display {
+    font-size: 24px;
+    font-weight: bold;
+  }
+ .input-field {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 18px;
+  }
+ .button {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 18px;
+    background-color: #4CAF50;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+ .button:hover {
+    background-color: #3e8e41;
+  }
+ .target-reached {
+    color: #4CAF50;
+    font-weight: bold;
+  }
+</style>
+
+<div id="main-div" class="container mt-5 pt-5">
+  <h1 class="text-center mb-5">Pipe Counter App</h1><div class="header-section p-5 text-center bg-primary text-white">
+    <p class="fs-5">The Pipe Counter App is a versatile online tool designed to simplify pipe counting and tracking for various applications, including construction, plumbing, and DIY projects. This user-friendly app allows you to easily increment, decrement, or reset pipe counts, set target numbers, and track remaining pipes, making it an indispensable resource for professionals and individuals alike. With its intuitive interface and real-time updates, the Pipe Counter App streamlines pipe management, enhancing productivity and accuracy in a wide range of scenarios.</p>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="count-display text-center mb-3">Current Count: <span id="current-count">0</span></div>
+      <button class="button mb-3" id="increment-btn">Increment</button>
+      <button class="button mb-3" id="decrement-btn">Decrement</button>
+      <button class="button mb-3" id="reset-btn">Reset</button>
+      <input type="number" class="input-field" id="target-input" placeholder="Enter target number of pipes" value)>
+      <div class="count-display text-center mb-3">Remaining Pipes: <span id="remaining-pipes">0</span></div>
+      <div class="text-center" id="target-reached-message"></div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-3">How it Works</h2>
+    <p class="fs-5">The Pipe Counter App operates based on a simple, yet effective formula: <strong>Remaining Pipes = Target Count - Current Count</strong>. This formula allows you to set a target number of pipes and track the remaining pipes in real-time as you increment or decrement the current count.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Target Count</th>
+                <th>Current Count</th>
+                <th>Remaining Pipes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>10</td>
+                <td>5</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>20</td>
+                <td>10</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>50</td>
+                <td>20</td>
+                <td>30</td>
+            </tr>
+            <tr>
+                <td>100</td>
+                <td>50</td>
+                <td>50</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-3">Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Construction projects: tracking pipe installations and remaining pipes needed.</li>
+        <li class="list-group-item">Plumbing repairs: counting and tracking pipes for replacement or maintenance.</li>
+        <li class="list-group-item">DIY home improvement: tracking pipe counts for various projects, such as bathroom or kitchen renovations.</li>
+        <li class="list-group-item">Industrial applications: monitoring pipe inventories and tracking usage in manufacturing or processing facilities.</li>
+        <li class="list-group-item">Landscaping and irrigation: counting and tracking pipes for sprinkler systems and other outdoor projects.</li>
+        <li class="list-group-item">Pipe distributors and suppliers: managing inventory and tracking pipe shipments.</li>
+        <li class="list-group-item">Renovation and remodeling: tracking pipe removals and installations during renovation projects.</li>
+        <li class="list-group-item">Pipe fabrication and manufacturing: tracking pipe production and inventory.</li>
+        <li class="list-group-item">Civil engineering: tracking pipe counts for infrastructure projects, such as roads, bridges, and tunnels.</li>
+        <li class="list-group-item">Facilities management: monitoring pipe systems and tracking maintenance and repairs in commercial and industrial settings.</li>
+    </ul>
+</div><script>
+  const currentCountSpan = document.getElementById('current-count');
+  const incrementBtn = document.getElementById('increment-btn');
+  const decrementBtn = document.getElementById('decrement-btn');
+  const resetBtn = document.getElementById('reset-btn');
+  const targetInput = document.getElementById('target-input');
+  const remainingPipesSpan = document.getElementById('remaining-pipes');
+  const targetReachedMessage = document.getElementById('target-reached-message');
+
+  let currentCount = 0;
+  let targetCount = 0;
+
+  incrementBtn.addEventListener('click', () => {
+    currentCount++;
+    currentCountSpan.textContent = currentCount;
+    updateRemainingPipes();
+  });
+
+  decrementBtn.addEventListener('click', () => {
+    if (currentCount > 0) {
+      currentCount--;
+    }
+    currentCountSpan.textContent = currentCount;
+    updateRemainingPipes();
+  });
+
+  resetBtn.addEventListener('click', () => {
+    currentCount = 0;
+    currentCountSpan.textContent = currentCount;
+    updateRemainingPipes();
+  });
+
+  targetInput.addEventListener('input', () => {
+    targetCount = parseInt(targetInput.value);
+    if (!isNaN(targetCount)) {
+      updateRemainingPipes();
+    }
+  });
+
+  function updateRemainingPipes() {
+    if (targetCount > 0) {
+      const remainingPipes = targetCount - currentCount;
+      remainingPipesSpan.textContent = remainingPipes;
+      if (remainingPipes === 0) {
+        targetReachedMessage.textContent = 'Target reached!';
+        targetReachedMessage.classList.add('target-reached');
+      } else {
+        targetReachedMessage.textContent = '';
+        targetReachedMessage.classList.remove('target-reached');
+      }
+    } else {
+      remainingPipesSpan.textContent = 0;
+      targetReachedMessage.textContent = '';
+      targetReachedMessage.classList.remove('target-reached');
+    }
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startQueryParam = urlParams.get('start');
+  if (startQueryParam) {
+    targetInput.value = startQueryParam;
+    targetCount = parseInt(startQueryParam);
+    updateRemainingPipes();
+  }
+</script>

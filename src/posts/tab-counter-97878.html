@@ -1,0 +1,134 @@
+---
+title: Tab Counter App - Boost Your Productivity
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Tab Counter
+  - Browser Extension
+  - Productivity Tool
+  - Tab Management
+  - Browser Organization
+---
+
+<style>
+  #main-div {
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+  }
+ .warning-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <header class="d-flex justify-content-center mb-4">
+    <h1>Tab Counter</h1><div class="header-section container mt-5">
+  <p class="lead text-center">The Tab Counter App is a productivity tool designed to help users manage their browser tabs efficiently. By providing a simple and intuitive interface, this app enables users to keep track of their open tabs, set custom limits, and receive warnings when exceeding those limits. With its user-friendly features, the Tab Counter App aims to boost productivity and organization for individuals who work with multiple tabs open simultaneously, making it an essential browser extension for anyone looking to streamline their workflow.</p>
+</div>
+  </header>
+  <div class="d-flex justify-content-center mb-4">
+    <p id="tab-count" class="fs-1">0</p>
+  </div>
+  <div class="d-flex justify-content-center mb-4">
+    <button id="reset-button" class="btn btn-primary">Reset Counter</button>
+  </div>
+  <div class="d-flex justify-content-center mb-4">
+    <input id="tab-limit" type="number" class="form-control" placeholder="Set custom tab limit" value="">
+    <p id="warning-message" class="warning-message ms-2"></p>
+  </div>
+</div>
+
+<div class="explanation-section container mt-5">
+  <h2>How it Works</h2>
+  <p>The Tab Counter App utilizes a straightforward formula to track and manage open tabs: <strong>Current Tab Count = Total Number of Open Tabs</strong>. This formula allows users to monitor their tab count in real-time, enabling them to make informed decisions about their browser organization.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Tab Count</th>
+        <th>Warning Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0-5</td>
+        <td>No warning</td>
+      </tr>
+      <tr>
+        <td>6-10</td>
+        <td>Warning: approaching custom limit</td>
+      </tr>
+      <tr>
+        <td>11+</td>
+        <td>Warning: exceeded custom limit</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>This table illustrates the different scenarios and corresponding warning statuses, demonstrating how the Tab Counter App adapts to the user's needs and preferences.</p>
+</div><div class="use-cases-section container mt-5">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Researchers: keeping track of multiple sources and references while working on a project</li>
+    <li class="list-group-item">Developers: managing multiple code windows, documentation, and testing environments</li>
+    <li class="list-group-item">Students: organizing study materials, online resources, and research papers</li>
+    <li class="list-group-item">Writers: keeping track of multiple drafts, research, and references while working on an article or book</li>
+    <li class="list-group-item">Marketers: managing social media accounts, analytics, and content creation tools</li>
+    <li class="list-group-item">Designers: organizing design inspiration, resources, and project files</li>
+    <li class="list-group-item">Entrepreneurs: keeping track of business resources, industry news, and customer interactions</li>
+    <li class="list-group-item">Data analysts: managing data sources, statistical models, and data visualization tools</li>
+    <li class="list-group-item">Customer support agents: organizing customer interactions, knowledge bases, and troubleshooting resources</li>
+    <li class="list-group-item">Project managers: tracking project progress, team communication, and resource allocation</li>
+  </ul>
+</div><script>
+  const tabCountElement = document.getElementById('tab-count');
+  const resetButton = document.getElementById('reset-button');
+  const tabLimitInput = document.getElementById('tab-limit');
+  const warningMessage = document.getElementById('warning-message');
+
+  let currentTabCount = 0;
+  let customTabLimit = null;
+
+  function countTabs() {
+    // Simulate counting tabs for demonstration purposes
+    currentTabCount = Math.floor(Math.random() * 10) + 1;
+    tabCountElement.textContent = currentTabCount;
+  }
+
+  function resetCounter() {
+    currentTabCount = 0;
+    tabCountElement.textContent = currentTabCount;
+    warningMessage.textContent = '';
+  }
+
+  function checkTabLimit() {
+    if (customTabLimit!== null && currentTabCount > customTabLimit) {
+      warningMessage.textContent = 'You have exceeded your custom tab limit!';
+    } else {
+      warningMessage.textContent = '';
+    }
+  }
+
+  function handleTabLimitInput() {
+    const input = tabLimitInput.value;
+    if (input === '') {
+      customTabLimit = null;
+    } else if (isNaN(input) || input <= 0) {
+      warningMessage.textContent = 'Please enter a valid positive integer.';
+    } else {
+      customTabLimit = parseInt(input);
+      checkTabLimit();
+    }
+  }
+
+  countTabs();
+
+  resetButton.addEventListener('click', resetCounter);
+  tabLimitInput.addEventListener('input', handleTabLimitInput);
+
+  // Preload input field with value from query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue!== null) {
+    tabLimitInput.value = startValue;
+    handleTabLimitInput();
+  }
+</script>

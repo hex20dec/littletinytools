@@ -1,0 +1,129 @@
+---
+title: String Sorting Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-07-15 14:30:00
+tags:
+  - String Sorting
+  - Text Organization
+  - Data Analysis
+  - Research Tool
+  - Productivity App
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    color: #fff;
+  }
+  #error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div">
+  <h1>String Sorting Tool</h1><div class="container-fluid py-5 bg-primary text-white">
+  <div class="container">
+    <p class="lead fs-4">The String Sorting Tool is a free online tool designed to help users sort lists of strings in a straightforward and efficient manner. It allows users to input a list of strings, one string per line, and then sorts them based on the last character of each string, making it an invaluable resource for data analysis, research, and productivity. With its intuitive interface and rapid sorting capabilities, this tool is perfect for anyone looking to organize and make sense of their string data, whether for personal, academic, or professional purposes.</p>
+  </div>
+</div>
+  <form>
+    <div class="form-floating mb-3">
+      <textarea class="form-control" id="input-field" placeholder="Enter a list of strings, one string per line" rows="10"></textarea>
+      <label for="input-field">Input Strings</label>
+    </div>
+    <button type="button" class="btn btn-primary" id="sort-button">Sort Strings</button>
+  </form>
+  <textarea class="form-control" id="output-field" rows="10" readonly></textarea>
+  <div id="error-message"></div>
+</div>
+
+<div class="container-fluid py-5 bg-light">
+  <div class="container">
+    <h2>How it Works</h2>
+    <p>The String Sorting Tool uses a simple yet effective method to sort the input strings. It looks at the last character of each string and compares it with the last character of the other strings. If the last character of one string comes before the last character of another string alphabetically, then the first string is placed before the second string in the sorted list.</p>
+    <h2>Example Use Cases</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Input String</th>
+          <th>Sorted Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>apple</td>
+          <td>Based on the last character 'E', the string 'apple' will be sorted accordingly.</td>
+        </tr>
+        <tr>
+          <td>banana</td>
+          <td>Based on the last character 'A', the string 'banana' will be sorted before strings ending with characters that come after 'A' alphabetically.</td>
+        </tr>
+        <tr>
+          <td>cherry</td>
+          <td>Based on the last character 'Y', the string 'cherry' will be sorted after strings ending with characters that come before 'Y' alphabetically.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container-fluid py-5 bg-primary text-white">
+  <div class="container">
+    <h2>10 Common Use Cases for the String Sorting Tool</h2>
+    <ol>
+      <li>Organizing lists of keywords for SEO purposes</li>
+      <li>Sorting data for research studies</li>
+      <li>Managing lists of names or titles</li>
+      <li>Analyzing text data for patterns or trends</li>
+      <li>Preparing data for import into databases or spreadsheets</li>
+      <li>Sorting lists of URLs or web addresses</li>
+      <li>Organizing content for blogs or articles</li>
+      <li>Managing lists of inventory or products</li>
+      <li>Sorting data for educational or academic purposes</li>
+      <li>Preparing data for visualization or reporting</li>
+    </ol>
+  </div>
+</div><script>
+  const inputField = document.getElementById('input-field');
+  const outputField = document.getElementById('output-field');
+  const sortButton = document.getElementById('sort-button');
+  const errorMessage = document.getElementById('error-message');
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+
+  if (startValue) {
+    inputField.value = startValue;
+  }
+
+  sortButton.addEventListener('click', () => {
+    const inputStrings = inputField.value.trim().split('\n').filter(string => string!== '');
+    if (inputStrings.length === 0) {
+      errorMessage.innerText = 'Please enter a list of strings';
+      return;
+    }
+    const sortedStrings = inputStrings.sort((a, b) => {
+      const lastCharA = a.slice(-1);
+      const lastCharB = b.slice(-1);
+      if (lastCharA < lastCharB) {
+        return -1;
+      } else if (lastCharA > lastCharB) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    outputField.value = sortedStrings.join('\n');
+    errorMessage.innerText = '';
+  });
+
+  inputField.addEventListener('input', () => {
+    errorMessage.innerText = '';
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' && event.target === inputField) {
+      sortButton.click();
+    }
+  });
+</script>

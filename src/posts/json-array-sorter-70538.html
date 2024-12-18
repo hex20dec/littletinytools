@@ -1,0 +1,158 @@
+---
+title: "JSON Array Sorter"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-15 14:30:00
+tags:
+  - JSON
+  - Array
+  - Sorter
+  - Developer
+  - Tool
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div.form-control {
+    margin-bottom: 1rem;
+  }
+  #main-div.btn {
+    margin-bottom: 1rem;
+  }
+  #main-div.row {
+    margin-bottom: 1rem;
+  }
+</style>
+
+<div id="main-div">
+  <h1>JSON Array Sorter</h1><div class="header-section bg-light p-5 mb-4">
+    <p class="text-dark">The JSON Array Sorter is a powerful online tool that enables developers and users to efficiently sort JSON arrays in a variety of ways, including alphabetical, reverse alphabetical, numeric, and reverse numeric orders. This tool is designed to simplify the process of organizing and manipulating JSON data, making it an indispensable asset for anyone working with JavaScript or JSON-formatted content. With its intuitive interface and robust functionality, the JSON Array Sorter is the ideal solution for developers, designers, and users seeking to streamline their workflow and improve productivity.</p>
+</div>
+  <div class="row">
+    <div class="col-md-12">
+      <label for="json-input">Enter JSON Array:</label>
+      <textarea id="json-input" class="form-control" rows="10" placeholder='["item1", "item2", "item3"]'></textarea>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <label for="sort-by">Sort By:</label>
+      <select id="sort-by" class="form-select">
+        <option value="alphabetical">Alphabetical</option>
+        <option value="reverse-alphabetical">Reverse Alphabetical</option>
+        <option value="numeric">Numeric</option>
+        <option value="reverse-numeric">Reverse Numeric</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <button id="sort-button" class="btn btn-primary">Sort</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <label for="sorted-json">Sorted JSON Array:</label>
+      <textarea id="sorted-json" class="form-control" rows="10" readonly></textarea>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <button id="copy-button" class="btn btn-secondary">Copy to Clipboard</button>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section bg-light p-5 mb-4">
+    <h2>How it Works</h2>
+    <p class="text-dark">The JSON Array Sorter utilizes a simple yet effective formula to sort JSON arrays: it compares each element in the array based on the selected sorting criteria (alphabetical, reverse alphabetical, numeric, or reverse numeric), and rearranges the elements in the specified order. This process can be represented by the following formula:</p>
+    <p class="text-dark">Sorted Array = Original Array sorted by (Criteria)</p>
+    <p class="text-dark">For example, if the original array is ["dog", "cat", "apple", "banana"] and the sorting criteria is alphabetical, the sorted array would be ["apple", "banana", "cat", "dog"].</p>
+    <h2>Example Use Cases</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Original Array</th>
+                <th>Sorting Criteria</th>
+                <th>Sorted Array</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>["dog", "cat", "apple", "banana"]</td>
+                <td>Alphabetical</td>
+                <td>["apple", "banana", "cat", "dog"]</td>
+            </tr>
+            <tr>
+                <td>["10", "5", "20", "15"]</td>
+                <td>Numeric</td>
+                <td>["5", "10", "15", "20"]</td>
+            </tr>
+            <tr>
+                <td>["hello", "world", "abc", "xyz"]</td>
+                <td>Reverse Alphabetical</td>
+                <td>["xyz", "world", "hello", "abc"]</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section bg-light p-5 mb-4">
+    <h2>Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Sorting data in a web application or mobile app</li>
+        <li class="list-group-item">Organizing JSON data for analysis or reporting</li>
+        <li class="list-group-item">Preparing data for import into a database or spreadsheet</li>
+        <li class="list-group-item">Validating or debugging JSON data</li>
+        <li class="list-group-item">Converting JSON data to a different format, such as CSV or XML</li>
+        <li class="list-group-item">Performing data manipulation or transformation tasks</li>
+        <li class="list-group-item">Creating or editing JSON configuration files</li>
+        <li class="list-group-item">Testing or optimizing JSON-based APIs or web services</li>
+        <li class="list-group-item">Developing or debugging JSON-based applications</li>
+        <li class="list-group-item">Improving data visualization or reporting in a web application</li>
+    </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    document.getElementById('json-input').value = startParam;
+  }
+
+  document.getElementById('sort-button').addEventListener('click', () => {
+    const jsonArray = document.getElementById('json-input').value;
+    try {
+      const array = JSON.parse(jsonArray);
+      const sortBy = document.getElementById('sort-by').value;
+      let sortedArray;
+      switch (sortBy) {
+        case 'alphabetical':
+          sortedArray = array.sort((a, b) => a.localeCompare(b));
+          break;
+        case 'reverse-alphabetical':
+          sortedArray = array.sort((a, b) => b.localeCompare(a));
+          break;
+        case 'numeric':
+          sortedArray = array.sort((a, b) => Number(a) - Number(b));
+          break;
+        case 'reverse-numeric':
+          sortedArray = array.sort((a, b) => Number(b) - Number(a));
+          break;
+        default:
+          throw new Error('Invalid sort by option');
+      }
+      document.getElementById('sorted-json').value = JSON.stringify(sortedArray, null, 2);
+    } catch (error) {
+      document.getElementById('sorted-json').value = 'Invalid JSON array';
+    }
+  });
+
+  document.getElementById('copy-button').addEventListener('click', () => {
+    const sortedJson = document.getElementById('sorted-json').value;
+    navigator.clipboard.writeText(sortedJson).then(() => {
+      alert('Sorted JSON array copied to clipboard');
+    }, () => {
+      alert('Failed to copy sorted JSON array to clipboard');
+    });
+  });
+</script>

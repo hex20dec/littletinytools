@@ -1,0 +1,157 @@
+---
+title: Roman Numeral Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Roman Numerals
+  - Counter App
+  - Educational Tool
+  - History
+  - Math
+---
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  #count-display {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+</style>
+
+<div id="main-div" class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh;">
+  <div id="count-display" class="display-1">I</div>
+  <div class="d-flex justify-content-center">
+    <button id="decrement-btn" class="btn btn-secondary" aria-label="Decrement">-</button>
+    <button id="increment-btn" class="btn btn-primary" aria-label="Increment">+</button>
+  </div>
+</div>
+
+<div class="container mt-5 mb-5">
+  <h2>How it Works</h2>
+  <p>The Roman Numeral Counter uses a simple yet effective formula to convert integers to Roman numerals. This formula is based on the standard rules of Roman numeral conversion, where each numeral is replaced by a combination of seven letters: I, V, X, L, C, D, and M.</p>
+  <p>The formula works as follows: each integer is broken down into its decimal equivalents, and then replaced by the corresponding Roman numeral. For example, the number 4 is written as IV, because it is one less than 5 (V). Similarly, the number 9 is written as IX, because it is one less than 10 (X).</p>
+  <h3>Example Conversions</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Integer</th>
+        <th>Roman Numeral</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>I</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>II</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>III</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>IV</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>V</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>VI</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>VII</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>VIII</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>IX</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>X</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5 mb-5">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting integers to Roman numerals for academic or historical purposes</li>
+    <li class="list-group-item">Creating Roman numeral-based puzzles or games</li>
+    <li class="list-group-item">Designing Roman numeral-inspired art or architecture</li>
+    <li class="list-group-item">Converting dates or years to Roman numerals for formal or traditional events</li>
+    <li class="list-group-item">Creating Roman numeral-based quizzes or tests</li>
+    <li class="list-group-item">Converting numbers to Roman numerals for use in branding or marketing materials</li>
+    <li class="list-group-item">Creating Roman numeral-based educational resources or lesson plans</li>
+    <li class="list-group-item">Converting integers to Roman numerals for use in coding or programming projects</li>
+    <li class="list-group-item">Designing Roman numeral-based interfaces or user experiences</li>
+    <li class="list-group-item">Converting numbers to Roman numerals for use in creative writing or storytelling</li>
+  </ul>
+</div><script>
+  const countDisplay = document.getElementById('count-display');
+  const incrementBtn = document.getElementById('increment-btn');
+  const decrementBtn = document.getElementById('decrement-btn');
+  let count = 1;
+
+  function updateCountDisplay() {
+    countDisplay.textContent = toRomanNumeral(count);
+  }
+
+  function toRomanNumeral(num) {
+    const romanNumerals = {
+      1000: 'M',
+      900: 'CM',
+      500: 'D',
+      400: 'CD',
+      100: 'C',
+      90: 'XC',
+      50: 'L',
+      40: 'XL',
+      10: 'X',
+      9: 'IX',
+      5: 'V',
+      4: 'IV',
+      1: 'I'
+    };
+
+    let result = '';
+    for (const value in romanNumerals) {
+      while (num >= value) {
+        result += romanNumerals[value];
+        num -= value;
+      }
+    }
+    return result;
+  }
+
+  incrementBtn.addEventListener('click', () => {
+    count++;
+    updateCountDisplay();
+  });
+
+  decrementBtn.addEventListener('click', () => {
+    if (count > 1) {
+      count--;
+      updateCountDisplay();
+    }
+  });
+
+  // Initialize count from query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startCount = urlParams.get('start');
+  if (startCount &&!isNaN(startCount) && startCount >= 1) {
+    count = parseInt(startCount);
+    updateCountDisplay();
+  }
+</script>
