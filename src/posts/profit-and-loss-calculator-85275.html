@@ -1,0 +1,148 @@
+---
+title: Profit and Loss Calculator - Easy Financial Calculations
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - finance
+  - calculator
+  - profit
+  - loss
+  - accounting
+---
+
+<style>
+  #main-div {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+
+ .error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-4">Profit and Loss Calculator</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center">The Profit and Loss Calculator is a free online tool designed to help individuals and businesses calculate their financial gains or losses from a transaction. By entering the cost price and selling price of a product or service, users can easily determine whether they have made a profit or incurred a loss, as well as calculate the percentage gain or loss. This calculator is an essential tool for anyone involved in buying and selling, including entrepreneurs, investors, and small business owners, and is a valuable resource for understanding the financial implications of business decisions.</p>
+    </div>
+  </div>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="cost-price" class="form-label">Cost Price</label>
+      <input type="number" id="cost-price" class="form-control" placeholder="Enter cost price" step="0.01" required>
+    </div>
+    <div class="mb-3">
+      <label for="selling-price" class="form-label">Selling Price</label>
+      <input type="number" id="selling-price" class="form-control" placeholder="Enter selling price" step="0.01" required>
+    </div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <button type="submit" class="btn btn-primary">Calculate</button>
+    </div>
+    <div id="error-message" class="mb-3 error-message"></div>
+    <div id="result" class="mb-3"></div>
+  </form>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mb-4">How it Works</h2>
+      <p>The Profit and Loss Calculator uses a simple formula to calculate the financial gain or loss from a transaction. The formula is: Profit = Selling Price - Cost Price, and Loss = Cost Price - Selling Price. By plugging in the cost price and selling price, users can calculate the profit or loss, as well as the percentage gain or loss. For example, if the cost price is $100 and the selling price is $120, the profit would be $20, and the percentage gain would be 20%.</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Cost Price</th>
+            <th>Selling Price</th>
+            <th>Profit/Loss</th>
+            <th>Percentage Gain/Loss</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>$100</td>
+            <td>$120</td>
+            <td>$20</td>
+            <td>20%</td>
+          </tr>
+          <tr>
+            <td>$50</td>
+            <td>$60</td>
+            <td>$10</td>
+            <td>20%</td>
+          </tr>
+          <tr>
+            <td>$200</td>
+            <td>$180</td>
+            <td>-$20</td>
+            <td>-10%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mb-4">Common Use Cases</h2>
+      <ul>
+        <li>Calculating profit or loss from buying and selling stocks or real estate</li>
+        <li>Determining the financial gain or loss from a business transaction</li>
+        <li>Understanding the financial implications of a business decision</li>
+        <li>Calculating the return on investment (ROI) for a business or investment</li>
+        <li>Determining the break-even point for a business or product</li>
+        <li>Calculating the profit margin for a business or product</li>
+        <li>Understanding the impact of discounts or promotions on profit or loss</li>
+        <li>Calculating the financial gain or loss from a foreign exchange transaction</li>
+        <li>Determining the financial implications of a change in market conditions</li>
+        <li>Calculating the profit or loss from a rental property or investment</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  const costPriceInput = document.getElementById('cost-price');
+  const sellingPriceInput = document.getElementById('selling-price');
+  const calculateButton = document.querySelector('button[type="submit"]');
+  const errorMessage = document.getElementById('error-message');
+  const resultDiv = document.getElementById('result');
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+
+  if (startValue) {
+    costPriceInput.value = startValue;
+  }
+
+  calculateButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    const costPrice = parseFloat(costPriceInput.value);
+    const sellingPrice = parseFloat(sellingPriceInput.value);
+
+    if (isNaN(costPrice) || isNaN(sellingPrice)) {
+      errorMessage.textContent = 'Please enter valid numbers';
+      resultDiv.textContent = '';
+    } else if (costPrice < 0 || sellingPrice < 0) {
+      errorMessage.textContent = 'Please enter positive numbers';
+      resultDiv.textContent = '';
+    } else {
+      const profit = sellingPrice - costPrice;
+      const loss = costPrice - sellingPrice;
+      let resultText = '';
+
+      if (profit > 0) {
+        const percentageProfit = (profit / costPrice) * 100;
+        resultText = `Profit: $${profit.toFixed(2)} (${percentageProfit.toFixed(2)}%)`;
+      } else if (loss > 0) {
+        const percentageLoss = (loss / costPrice) * 100;
+        resultText = `Loss: $${loss.toFixed(2)} (${percentageLoss.toFixed(2)}%)`;
+      } else {
+        resultText = 'No profit or loss';
+      }
+
+      errorMessage.textContent = '';
+      resultDiv.textContent = resultText;
+    }
+  });
+</script>

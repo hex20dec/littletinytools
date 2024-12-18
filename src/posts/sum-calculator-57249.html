@@ -1,0 +1,159 @@
+---
+title: Simple Sum Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Sum Calculator
+  - Arithmetic Operations
+  - Basic Math
+  - Online Calculator
+  - Free Calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Simple Sum Calculator</h1><div class="header-section p-5 bg-light text-center">
+    <p class="lead">The Simple Sum Calculator is a free online tool designed to calculate the sum of multiple numbers quickly and efficiently. It allows users to input numbers one per line, separated by commas or spaces, and provides the total sum in real-time. This calculator is perfect for anyone looking to perform basic arithmetic operations, including students, professionals, and individuals who need to calculate sums for personal or business purposes. With its user-friendly interface and instant results, the Simple Sum Calculator is an essential tool for anyone who wants to simplify their calculations and save time.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="input-field" class="form-label">Enter numbers (one per line or separated by comma or space):</label>
+      <textarea id="input-field" class="form-control" rows="5"></textarea>
+      <div class="error-message" id="error-message"></div>
+    </div>
+    <button type="button" class="btn btn-primary" id="calculate-button">Calculate Sum</button>
+    <button type="button" class="btn btn-secondary" id="clear-button">Clear</button>
+  </form>
+  <div class="card mt-3">
+    <div class="card-body">
+      <h5 class="card-title">Result:</h5>
+      <p class="card-text" id="result-field"></p>
+    </div>
+  </div>
+  <div class="card mt-3">
+    <div class="card-body">
+      <h5 class="card-title">Calculation History:</h5>
+      <ul id="history-field" class="list-group">
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-3">How it Works</h2>
+    <p class="lead">The Simple Sum Calculator uses a straightforward formula to calculate the sum of multiple numbers: Sum = a + b + c +..., where a, b, c, and so on are the input numbers. This formula is applied in real-time as the user inputs the numbers, providing an instant result.</p>
+    <h2 class="mb-3">Example Use Cases</h2>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Input</th>
+                <th>Sum</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1, 2, 3</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>10, 20, 30</td>
+                <td>60</td>
+            </tr>
+            <tr>
+                <td>5, 5, 5</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>2, 4, 6, 8</td>
+                <td>20</td>
+            </tr>
+            <tr>
+                <td>1, 3, 5, 7, 9</td>
+                <td>25</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-3">Common Use Cases for the Simple Sum Calculator</h2>
+    <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Calculating the total cost of items in a shopping list</li>
+        <li class="list-group-item">Determining the total amount of money spent on a project</li>
+        <li class="list-group-item">Finding the sum of a series of numbers in a mathematical problem</li>
+        <li class="list-group-item">Calculating the total weight or quantity of items in a shipment</li>
+        <li class="list-group-item">Determining the total score or points earned in a game or competition</li>
+        <li class="list-group-item">Calculating the sum of a set of Exam scores or grades</li>
+        <li class="list-group-item">Finding the total amount of time spent on a task or project</li>
+        <li class="list-group-item">Calculating the sum of a series of temperatures or other measurements</li>
+        <li class="list-group-item">Determining the total amount of data or storage used by a computer or device</li>
+        <li class="list-group-item">Calculating the sum of a set of financial transactions or expenses</li>
+    </ol>
+</div><script>
+  const inputField = document.getElementById('input-field');
+  const calculateButton = document.getElementById('calculate-button');
+  const clearButton = document.getElementById('clear-button');
+  const resultField = document.getElementById('result-field');
+  const historyField = document.getElementById('history-field');
+  const errorMessage = document.getElementById('error-message');
+
+  let calculationHistory = [];
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    inputField.value = startValue;
+  }
+
+  calculateButton.addEventListener('click', calculateSum);
+  clearButton.addEventListener('click', clearInput);
+  inputField.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      calculateSum();
+    }
+  });
+
+  function calculateSum() {
+    const input = inputField.value.trim();
+    if (!input) {
+      errorMessage.textContent = 'Please enter numbers to calculate';
+      return;
+    }
+
+    try {
+      const numbers = input.replace(/\n/g, ',').split(/,|\s+/).map(Number);
+      const sum = numbers.reduce((a, b) => a + b, 0);
+      resultField.textContent = `Sum: ${sum}`;
+      calculationHistory.push(`Input: ${input} | Sum: ${sum}`);
+      renderHistory();
+      errorMessage.textContent = '';
+    } catch (error) {
+      errorMessage.textContent = 'Invalid input. Please enter numbers only.';
+    }
+  }
+
+  function clearInput() {
+    inputField.value = '';
+    resultField.textContent = '';
+    calculationHistory = [];
+    renderHistory();
+    errorMessage.textContent = '';
+  }
+
+  function renderHistory() {
+    historyField.innerHTML = '';
+    calculationHistory.forEach((historyItem) => {
+      const historyListItem = document.createElement('LI');
+      historyListItem.classList.add('list-group-item');
+      historyListItem.textContent = historyItem;
+      historyField.appendChild(historyListItem);
+    });
+  }
+</script>

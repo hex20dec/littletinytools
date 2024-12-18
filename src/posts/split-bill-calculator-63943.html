@@ -1,0 +1,153 @@
+---
+title: Split Bill Calculator - Easily Divide Expenses with Friends and Family
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-15 12:00:00
+tags:
+  - Bill Splitter
+  - Expense Calculator
+  - Split Expenses
+  - Bill Divider
+  - Cost Splitter
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  input[type="number"] {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+  }
+  button {
+    width: 100%;
+    height: 40px;
+    background-color: #4CAF50;
+    color: #ffffff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #3e8e41;
+  }
+ .result {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Split Bill Calculator</h1><div class="header-section p-5 text-center bg-light">
+  <h2>Discover the Power of Easy Bill Splitting with Our Calculator</h2>
+  <p>This bill splitter tool is designed to simplify the process of dividing expenses among friends, family, or colleagues, ensuring a stress-free experience when it comes to shared costs. By providing a straightforward and user-friendly interface, our calculator helps you calculate each person's share of the bill quickly and accurately, taking into account the total bill amount, number of people, and any additional tips or taxes. With this tool, you can enjoy stress-free outings and effortless expense management, all while maintaining harmony among your group.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="totalBill" class="form-label">Total Bill</label>
+      <input type="number" id="totalBill" class="form-control" value="" step="0.01" min="0">
+    </div>
+    <div class="mb-3">
+      <label for="numberOfPeople" class="form-label">Number of People</label>
+      <input type="number" id="numberOfPeople" class="form-control" value="1" step="1" min="1">
+    </div>
+    <div class="mb-3">
+      <label for="tipsTaxes" class="form-label">Tips/Taxes (optional)</label>
+      <input type="number" id="tipsTaxes" class="form-control" value="0" step="0.01" min="0">
+    </div>
+    <button type="button" class="btn btn-primary" id="calculateButton">Calculate</button>
+    <div id="result" class="result"></div>
+  </form>
+</div>
+
+<div class="explanation-section p-5 bg-light">
+  <h3>How Our Bill Splitter Works</h3>
+  <p>The formula behind our bill splitter is simple yet effective: <b>Total Amount With Tips/Taxes ÷ Number of People = Amount Per Person</b>. This means if you have a total bill of $100, including $10 for tips and taxes, and you're splitting it among 4 people, the calculation would be ($100 + $10) ÷ 4 = $110 ÷ 4 = $27.50 per person.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Total Bill</th>
+        <th>Tips/Taxes</th>
+        <th>Number of People</th>
+        <th>Amount Per Person</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>$50</td>
+        <td>$5</td>
+        <td>2</td>
+        <td>$27.50</td>
+      </tr>
+      <tr>
+        <td>$100</td>
+        <td>$10</td>
+        <td>4</td>
+        <td>$27.50</td>
+      </tr>
+      <tr>
+        <td>$200</td>
+        <td>$20</td>
+        <td>8</td>
+        <td>$27.50</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5 bg-light">
+  <h3>10 Common Use Cases for Our Bill Splitter Tool</h3>
+  <ul class="list-group">
+    <li class="list-group-item">Dining out with friends and splitting the bill evenly.</li>
+    <li class="list-group-item">Dividing household expenses among roommates.</li>
+    <li class="list-group-item">Calculating shared travel costs, including accommodations and food.</li>
+    <li class="list-group-item">Splitting the cost of event tickets or reservations among a group.</li>
+    <li class="list-group-item">Sharing utility bills in a shared living space.</li>
+    <li class="list-group-item">Dividing the cost of groceries among family members.</li>
+    <li class="list-group-item">Calculating each person's share for group purchases, such as a birthday gift.</li>
+    <li class="list-group-item">Managing expenses for group projects or business ventures.</li>
+    <li class="list-group-item">Splitting childcare costs among parents or guardians.</li>
+    <li class="list-group-item">Dividing costs for group hobbies or activities, such as sports equipment or art supplies.</li>
+  </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  const totalBillInput = document.getElementById('totalBill');
+  const numberOfPeopleInput = document.getElementById('numberOfPeople');
+  const tipsTaxesInput = document.getElementById('tipsTaxes');
+  const calculateButton = document.getElementById('calculateButton');
+  const resultDiv = document.getElementById('result');
+
+  if (startValue) {
+    totalBillInput.value = startValue;
+  }
+
+  calculateButton.addEventListener('click', () => {
+    const totalBill = parseFloat(totalBillInput.value);
+    const numberOfPeople = parseInt(numberOfPeopleInput.value);
+    const tipsTaxes = parseFloat(tipsTaxesInput.value);
+
+    if (isNaN(totalBill) || isNaN(numberOfPeople) || isNaN(tipsTaxes)) {
+      resultDiv.innerText = 'Please enter valid numbers';
+      return;
+    }
+
+    if (numberOfPeople <= 0) {
+      resultDiv.innerText = 'Number of people must be greater than 0';
+      return;
+    }
+
+    const totalAmountWithTipsTaxes = totalBill + tipsTaxes;
+    const amountPerPerson = totalAmountWithTipsTaxes / numberOfPeople;
+
+    resultDiv.innerText = `Each person owes: $${amountPerPerson.toFixed(2)}`;
+  });
+</script>

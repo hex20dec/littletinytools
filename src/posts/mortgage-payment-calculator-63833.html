@@ -1,0 +1,173 @@
+---
+title: Mortgage Payment Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 14:30:00
+tags:
+  - Mortgage Calculator
+  - Loan Calculator
+  - Financial Tools
+  - Homebuyers
+  - Mortgage Brokers
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+ .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container mt-5">
+    <h1 class="mb-3">Mortgage Payment Calculator</h1><div class="container mt-5">
+  <p class="fs-5 text-muted">The Mortgage Payment Calculator is an online tool designed to help homebuyers and mortgage brokers determine the monthly payment, total interest, and total amount payable on a mortgage loan. By providing the loan amount, interest rate, and loan term, users can accurately calculate their mortgage payments and make informed decisions when purchasing a home. This calculator is a valuable resource for anyone looking to understand the financial implications of a mortgage and plan their finances accordingly.</p>
+</div>
+    <form>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="loanAmount">Loan Amount</label>
+          <input type="number" id="loanAmount" class="form-control" value="" min="0" step="0.01" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="interestRate">Interest Rate (%)</label>
+          <input type="number" id="interestRate" class="form-control" value="" min="0" max="100" step="0.01" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="loanTerm">Loan Term (years)</label>
+          <input type="number" id="loanTerm" class="form-control" value="" min="1" step="1" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mb-3">
+          <button type="button" id="calculateBtn" class="btn btn-primary">Calculate</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mb-3">
+          <div id="results"></div>
+          <div id="error_message" class="error-message"></div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="mb-3">How the Calculator Works</h2>
+  <p class="fs-5 text-muted">The Mortgage Payment Calculator uses a formula to calculate the monthly payment, total interest, and total amount payable on a mortgage loan. The formula is based on the following equation: M = P [ i (1 + i)^n ] / [ (1 + i)^n – 1], where M is the monthly payment, P is the principal loan amount, i is the monthly interest rate, and n is the number of payments.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Loan Amount</th>
+        <th>Interest Rate</th>
+        <th>Loan Term</th>
+        <th>Monthly Payment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>$100,000</td>
+        <td>4%</td>
+        <td>30 years</td>
+        <td>$477.42</td>
+      </tr>
+      <tr>
+        <td>$150,000</td>
+        <td>5%</td>
+        <td>20 years</td>
+        <td>$971.29</td>
+      </tr>
+      <tr>
+        <td>$200,000</td>
+        <td>6%</td>
+        <td>15 years</td>
+        <td>$1,733.64</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="mb-3">Common Use Cases for the Mortgage Payment Calculator</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Determining the affordability of a home based on monthly payments</li>
+    <li class="list-group-item">Comparing different mortgage options and interest rates</li>
+    <li class="list-group-item">Planning for long-term financial goals, such as retirement or saving for a down payment</li>
+    <li class="list-group-item">Understanding the impact of interest rates on mortgage payments</li>
+    <li class="list-group-item">Calculating the total cost of a mortgage over the life of the loan</li>
+    <li class="list-group-item">Evaluating the pros and cons of different loan terms, such as 15-year vs. 30-year mortgages</li>
+    <li class="list-group-item">Assessing the financial implications of refinancing a mortgage</li>
+    <li class="list-group-item">Creating a budget and managing expenses as a homeowner</li>
+    <li class="list-group-item">Researching and comparing mortgage rates and terms from different lenders</li>
+    <li class="list-group-item">Making informed decisions about mortgage insurance and other financial products</li>
+  </ul>
+</div><script>
+  const loanAmountInput = document.getElementById('loanAmount');
+  const interestRateInput = document.getElementById('interestRate');
+  const loanTermInput = document.getElementById('loanTerm');
+  const calculateBtn = document.getElementById('calculateBtn');
+  const resultsDiv = document.getElementById('results');
+  const errorMessageDiv = document.getElementById('error_message');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startAmount = urlParams.get('start');
+  if (startAmount) {
+    loanAmountInput.value = startAmount;
+  }
+
+  calculateBtn.addEventListener('click', () => {
+    const loanAmount = parseFloat(loanAmountInput.value);
+    const interestRate = parseFloat(interestRateInput.value) / 100 / 12;
+    const loanTerm = parseInt(loanTermInput.value) * 12;
+
+    if (isNaN(loanAmount) || loanAmount <= 0) {
+      showError('Invalid loan amount');
+      return;
+    }
+
+    if (isNaN(interestRate) || interestRate <= 0) {
+      showError('Invalid interest rate');
+      return;
+    }
+
+    if (isNaN(loanTerm) || loanTerm <= 0) {
+      showError('Invalid loan term');
+      return;
+    }
+
+    const monthlyPayment = calculateMonthlyPayment(loanAmount, interestRate, loanTerm);
+    const totalInterest = calculateTotalInterest(loanAmount, interestRate, loanTerm);
+    const totalAmount = calculateTotalAmount(loanAmount, totalInterest);
+
+    resultsDiv.innerHTML = `
+      <p>Monthly Payment: $${monthlyPayment.toFixed(2)}</p>
+      <p>Total Interest: $${totalInterest.toFixed(2)}</p>
+      <p>Total Amount: $${totalAmount.toFixed(2)}</p>
+    `;
+
+    errorMessageDiv.innerText = '';
+  });
+
+  function calculateMonthlyPayment(loanAmount, interestRate, loanTerm) {
+    return loanAmount * (interestRate * Math.pow(1 + interestRate, loanTerm)) / (Math.pow(1 + interestRate, loanTerm) - 1);
+  }
+
+  function calculateTotalInterest(loanAmount, interestRate, loanTerm) {
+    const monthlyPayment = calculateMonthlyPayment(loanAmount, interestRate, loanTerm);
+    return monthlyPayment * loanTerm - loanAmount;
+  }
+
+  function calculateTotalAmount(loanAmount, totalInterest) {
+    return loanAmount + totalInterest;
+  }
+
+  function showError(message) {
+    errorMessageDiv.innerText = message;
+  }
+</script>

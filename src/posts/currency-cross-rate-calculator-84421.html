@@ -1,0 +1,166 @@
+---
+title: Currency Cross Rate Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-06-01 12:00:00
+tags:
+  - Currency Exchange
+  - Cross Rate Calculator
+  - Forex
+  - Exchange Rates
+  - Currency Converter
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Currency Cross Rate Calculator</h1><div class="header-section p-5 text-center">
+    <p class="lead">The Currency Cross Rate Calculator is a powerful tool designed to help individuals and businesses convert currencies quickly and accurately. With its intuitive interface and comprehensive list of supported currencies, this calculator is an essential resource for anyone looking to navigate the complex world of international finance and trade, making it an ideal solution for forecasting exchange rates, calculating exchange rate risks, and managing foreign exchange transactions.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <label for="from-currency" class="form-label">From:</label>
+      <select id="from-currency" class="form-select">
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="JPY">JPY</option>
+        <option value="GBP">GBP</option>
+        <option value="AUD">AUD</option>
+        <option value="CAD">CAD</option>
+        <option value="CHF">CHF</option>
+        <option value="CNY">CNY</option>
+        <option value="INR">INR</option>
+        <option value="RUB">RUB</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label for="to-currency" class="form-label">To:</label>
+      <select id="to-currency" class="form-select">
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="JPY">JPY</option>
+        <option value="GBP">GBP</option>
+        <option value="AUD">AUD</option>
+        <option value="CAD">CAD</option>
+        <option value="CHF">CHF</option>
+        <option value="CNY">CNY</option>
+        <option value="INR">INR</option>
+        <option value="RUB">RUB</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <label for="amount" class="form-label">Amount:</label>
+      <input id="amount" type="number" class="form-control" placeholder="Enter amount" step="0.01">
+      <div id="error-message" class="error-message"></div>
+    </div>
+  </div>
+  <button id="calculate-button" class="btn btn-primary">Calculate</button>
+  <div id="result"></div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How it Works</h2>
+    <p>The Currency Cross Rate Calculator utilizes a formula that takes into account the current exchange rates between different currency pairs. The formula can be simplified as: result = amount * exchange_rate, where amount is the value to be converted and exchange_rate is the current rate between the two selected currencies. This approach ensures that the conversions are accurate and up-to-date, providing users with reliable information to make informed financial decisions.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Currency Pair</th>
+                <th>Exchange Rate</th>
+                <th>Example Conversion</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>USD to EUR</td>
+                <td>1 USD = 0.88 EUR</td>
+                <td>100 USD = 88 EUR</td>
+            </tr>
+            <tr>
+                <td>EUR to USD</td>
+                <td>1 EUR = 1.14 USD</td>
+                <td>100 EUR = 114 USD</td>
+            </tr>
+            <tr>
+                <td>JPY to USD</td>
+                <td>1 JPY = 0.0091 USD</td>
+                <td>100 JPY = 0.91 USD</td>
+            </tr>
+            <!-- Add more rows for different currency pairs -->
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2>Common Use Cases</h2>
+    <ol>
+        <li><strong>International Travel:</strong> Quickly convert your money to the local currency of your destination to avoid high fees at airports or banks.</li>
+        <li><strong>Import/Export Businesses:</strong> Calculate the cost of goods in different currencies to negotiate better prices and manage exchange rate risks.</li>
+        <li><strong>Forex Trading:</strong> Stay up-to-date with the latest exchange rates to make informed trading decisions and maximize profits.</li>
+        <li><strong>Online Shopping:</strong> Compare prices in different currencies to find the best deals and avoid overpaying due to exchange rate fluctuations.</li>
+        <li><strong>Remittances:</strong> Send money to family or friends abroad by converting your currency to theirs, ensuring they receive the maximum amount.</li>
+        <li><strong>Financial Planning:</strong> Plan your finances by converting different income sources or expenses to a single currency for easier budgeting.</li>
+        <li><strong>E-commerce:</strong> Convert prices of products to different currencies to expand your customer base and increase sales globally.</li>
+        <li><strong>Education Abroad:</strong> Calculate tuition fees and living expenses in foreign currencies to plan your education budget effectively.</li>
+        <li><strong>Retirement Planning:</strong> Consider the impact of exchange rates on your retirement savings if you plan to live abroad or receive pensions in different currencies.</li>
+        <li><strong>Tax Calculations:</strong> Convert income or expenses to the required currency for tax purposes, ensuring compliance with tax laws and regulations.</li>
+    </ol>
+</div><script>
+  const fromCurrencySelect = document.getElementById('from-currency');
+  const toCurrencySelect = document.getElementById('to-currency');
+  const amountInput = document.getElementById('amount');
+  const calculateButton = document.getElementById('calculate-button');
+  const resultDiv = document.getElementById('result');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  const exchangeRates = {
+    'USD': {'EUR': 0.88, 'JPY': 110.24, 'GBP': 0.76, 'AUD': 1.48, 'CAD': 1.23, 'CHF': 0.93, 'CNY': 6.47, 'INR': 74.83, 'RUB': 74.35},
+    'EUR': {'USD': 1.14, 'JPY': 125.23, 'GBP': 0.86, 'AUD': 1.67, 'CAD': 1.39, 'CHF': 1.05, 'CNY': 7.34, 'INR': 84.91, 'RUB': 84.19},
+    'JPY': {'USD': 0.0091, 'EUR': 0.008, 'GBP': 0.0069, 'AUD': 0.013, 'CAD': 0.011, 'CHF': 0.0084, 'CNY': 0.059, 'INR': 0.68, 'RUB': 0.67},
+    'GBP': {'USD': 1.32, 'EUR': 1.16, 'JPY': 145.51, 'AUD': 1.95, 'CAD': 1.62, 'CHF': 1.22, 'CNY': 8.53, 'INR': 98.19, 'RUB': 97.51},
+    'AUD': {'USD': 0.68, 'EUR': 0.6, 'JPY': 77.19, 'GBP': 0.51, 'CAD': 0.83, 'CHF': 0.63, 'CNY': 4.38, 'INR': 50.31, 'RUB': 49.93},
+    'CAD': {'USD': 0.81, 'EUR': 0.72, 'JPY': 90.31, 'GBP': 0.62, 'AUD': 1.21, 'CHF': 0.76, 'CNY': 5.27, 'INR': 60.83, 'RUB': 60.45},
+    'CHF': {'USD': 1.08, 'EUR': 0.95, 'JPY': 118.39, 'GBP': 0.82, 'AUD': 1.59, 'CAD': 1.32, 'CNY': 6.96, 'INR': 80.51, 'RUB': 79.93},
+    'CNY': {'USD': 0.15, 'EUR': 0.14, 'JPY': 16.93, 'GBP': 0.12, 'AUD': 0.23, 'CAD': 0.19, 'CHF': 0.14, 'INR': 11.56, 'RUB': 11.45},
+    'INR': {'USD': 0.013, 'EUR': 0.012, 'JPY': 0.59, 'GBP': 0.01, 'AUD': 0.02, 'CAD': 0.016, 'CHF': 0.012, 'CNY': 0.086, 'RUB': 0.085},
+    'RUB': {'USD': 0.013, 'EUR': 0.012, 'JPY': 0.59, 'GBP': 0.01, 'AUD': 0.02, 'CAD': 0.016, 'CHF': 0.013, 'CNY': 0.087, 'INR': 1.02}
+  };
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startCurrency = urlParams.get('start');
+  if (startCurrency) {
+    amountInput.value = startCurrency;
+  }
+
+  calculateButton.addEventListener('click', () => {
+    const fromCurrency = fromCurrencySelect.value;
+    const toCurrency = toCurrencySelect.value;
+    const amount = amountInput.value;
+
+    if (isNaN(amount) || amount <= 0) {
+      errorMessageDiv.textContent = 'Invalid amount. Please enter a positive number.';
+      return;
+    }
+
+    if (fromCurrency === toCurrency) {
+      resultDiv.textContent = 'No conversion needed. You selected the same currency for both "From" and "To".';
+      return;
+    }
+
+    const exchangeRate = exchangeRates[fromCurrency][toCurrency];
+    if (!exchangeRate) {
+      resultDiv.textContent = 'Exchange rate not available for this currency pair.';
+      return;
+    }
+
+    const result = amount * exchangeRate;
+    resultDiv.textContent = `${amount} ${fromCurrency} = ${result.toFixed(2)} ${toCurrency}`;
+    errorMessageDiv.textContent = '';
+  });
+</script>

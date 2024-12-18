@@ -1,0 +1,226 @@
+---
+title: Total Travel Distance Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - travel calculator
+  - distance calculator
+  - trip planner
+  - logistics tool
+  - commute planner
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div button {
+    margin-top: 0.5rem;
+  }
+  #main-div table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  #main-div th, #main-div td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+  }
+  #main-div th {
+    background-color: #333;
+    color: #fff;
+  }
+  #main-div td {
+    background-color: #444;
+    color: #fff;
+  }
+</style>
+
+<div id="main-div">
+  <header class="mb-4">
+    <h1>Total Travel Distance Calculator</h1><div class="header-section px-4 py-2 bg-light border-bottom">
+    <p class="lead">The Total Travel Distance Calculator is a convenient online tool designed to help travelers, logistics professionals, and anyone in need of calculating the total distance of a multi-leg journey. With this calculator, users can easily input distances for each leg of their trip in various units, including kilometers, miles, and nautical miles, and then convert the total distance to their preferred unit. This tool is perfect for planning road trips, flights, or sea voyages, and it simplifies the process of determining the total distance traveled. By using this calculator, individuals can save time and reduce errors associated with manual calculations, making it an indispensable resource for anyone who needs to calculate distances on a regular basis.</p>
+</div>
+  </header>
+  <section class="mb-4">
+    <table class="table table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Leg</th>
+          <th scope="col">Distance</th>
+          <th scope="col">Unit</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody id="distance-table-body">
+        <tr>
+          <td>1</td>
+          <td><input type="number" id="distance-1" value="" class="form-control"></td>
+          <td><select id="unit-1" class="form-select">
+            <option value="km">Kilometers</option>
+            <option value="miles">Miles</option>
+            <option value="nautical-miles">Nautical Miles</option>
+          </select></td>
+          <td><button class="btn btn-danger" onclick="removeRow(this)">Remove</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-primary" onclick="addRow()">Add Row</button>
+  </section>
+  <section class="mb-4">
+    <label for="total-unit">Select Unit:</label>
+    <select id="total-unit" class="form-select">
+      <option value="km">Kilometers</option>
+      <option value="miles">Miles</option>
+      <option value="nautical-miles">Nautical Miles</option>
+    </select>
+  </section>
+  <section class="mb-4">
+    <label for="total-distance">Total Distance:</label>
+    <input type="text" id="total-distance" class="form-control" readonly>
+    <label id="total-unit-label" for="total-distance"></label>
+  </section>
+  <section class="mb-4">
+    <button class="btn btn-primary" onclick="calculateTotalDistance()">Calculate</button>
+    <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+  </section>
+</div>
+
+<div class="explanation-section px-4 py-2">
+    <h2 class="mb-3">How the Total Travel Distance Calculator Works</h2>
+    <p>The Total Travel Distance Calculator operates based on a simple formula that sums up the distances of each leg of a journey. The formula is as follows:</p>
+    <ul>
+        <li>For each leg, the distance is converted to a standard unit (e.g., kilometers) if necessary.</li>
+        <li>The converted distances are then added together to obtain the total distance traveled.</li>
+        <li>Finally, the total distance can be converted to the user's preferred unit (e.g., miles or nautical miles).</li>
+    </ul>
+    <p>To illustrate this process, consider the following example table, which shows the conversion of distances from different units to kilometers:</p>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Distance (in input unit)</th>
+                <th>Input Unit</th>
+                <th>Distance (in kilometers)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>10</td>
+                <td>Miles</td>
+                <td>16.0934</td>
+            </tr>
+            <tr>
+                <td>20</td>
+                <td>Nautical Miles</td>
+                <td>37.04</td>
+            </tr>
+            <tr>
+                <td>30</td>
+                <td>Kilometers</td>
+                <td>30</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section px-4 py-2 bg-light">
+    <h2 class="mb-3">Common Use Cases for the Total Travel Distance Calculator</h2>
+    <ol>
+        <li><strong>Planning Road Trips:</strong> Calculate the total distance of a road trip to estimate fuel consumption, travel time, and accommodation needs.</li>
+        <li><strong>Logistics and Shipping:</strong> Determine the total distance of shipments to calculate transportation costs, fuel consumption, and delivery times.</li>
+        <li><strong>Flight Planning:</strong> Calculate the total distance of a flight to estimate fuel consumption, flight time, and aircraft performance.</li>
+        <li><strong>Sea Voyage Planning:</strong> Determine the total distance of a sea voyage to estimate fuel consumption, travel time, and provisions needed.</li>
+        <li><strong>Bicycle Touring:</strong> Calculate the total distance of a bicycle tour to estimate travel time, accommodation needs, and nutrition requirements.</li>
+        <li><strong>Hiking and Backpacking:</strong> Determine the total distance of a hiking or backpacking trip to estimate travel time, accommodation needs, and nutrition requirements.</li>
+        <li><strong>Marathon Training:</strong> Calculate the total distance of a training program to estimate progress, set goals, and plan nutrition and recovery strategies.</li>
+        <li><strong>GPS Tracking:</strong> Use the calculator to verify the accuracy of GPS tracking data and estimate the total distance traveled.</li>
+        <li><strong>Travel Blogging:</strong> Calculate the total distance of a trip to create engaging content, track progress, and estimate expenses.</li>
+        <li><strong>Research and Development:</strong> Use the calculator to analyze and compare the performance of different vehicles, fuels, or technologies over various distances.</li>
+    </ol>
+</div><script>
+  let rows = 1;
+  const distanceTableBody = document.getElementById('distance-table-body');
+  const totalUnitSelect = document.getElementById('total-unit');
+  const totalUnitLabel = document.getElementById('total-unit-label');
+  const totalDistanceInput = document.getElementById('total-distance');
+
+  totalUnitSelect.addEventListener('change', (e) => {
+    totalUnitLabel.textContent = e.target.value === 'km'? 'Kilometers' : e.target.value === 'miles'? 'Miles' : 'Nautical Miles';
+  });
+
+  function addRow() {
+    rows++;
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${rows}</td>
+      <td><input type="number" id="distance-${rows}" class="form-control"></td>
+      <td><select id="unit-${rows}" class="form-select">
+        <option value="km">Kilometers</option>
+        <option value="miles">Miles</option>
+        <option value="nautical-miles">Nautical Miles</option>
+      </select></td>
+      <td><button class="btn btn-danger" onclick="removeRow(this)">Remove</button></td>
+    `;
+    distanceTableBody.appendChild(row);
+  }
+
+  function removeRow(button) {
+    const row = button.parentNode.parentNode;
+    distanceTableBody.removeChild(row);
+    rows--;
+    updateRowNumbers();
+  }
+
+  function updateRowNumbers() {
+    const rows = distanceTableBody.children;
+    for (let i = 0; i < rows.length; i++) {
+      rows[i].children[0].textContent = i + 1;
+    }
+  }
+
+  function calculateTotalDistance() {
+    let totalDistance = 0;
+    const rows = distanceTableBody.children;
+    for (let i = 0; i < rows.length; i++) {
+      const distanceInput = rows[i].children[1].children[0];
+      const unitSelect = rows[i].children[2].children[0];
+      const distance = parseFloat(distanceInput.value);
+      if (isNaN(distance)) {
+        alert('Please enter a valid distance');
+        return;
+      }
+      const unit = unitSelect.value;
+      if (unit === 'km') {
+        totalDistance += distance;
+      } else if (unit === 'miles') {
+        totalDistance += distance * 1.60934;
+      } else if (unit === 'nautical-miles') {
+        totalDistance += distance * 1.852;
+      }
+    }
+    const totalUnit = totalUnitSelect.value;
+    if (totalUnit === 'km') {
+      totalDistanceInput.value = totalDistance.toFixed(2);
+    } else if (totalUnit === 'miles') {
+      totalDistanceInput.value = (totalDistance / 1.60934).toFixed(2);
+    } else if (totalUnit === 'nautical-miles') {
+      totalDistanceInput.value = (totalDistance / 1.852).toFixed(2);
+    }
+  }
+
+  function clearAll() {
+    const rows = distanceTableBody.children;
+    for (let i = 0; i < rows.length; i++) {
+      rows[i].children[1].children[0].value = '';
+    }
+    totalDistanceInput.value = '';
+  }
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    document.getElementById('distance-1').value = startValue;
+  }
+</script>

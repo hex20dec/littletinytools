@@ -1,0 +1,128 @@
+---
+title: Sum Calculator App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Sum Calculator
+  - Basic Arithmetic
+  - Number Cruncher
+  - Math Helper
+  - Calculation Tool
+---
+
+<style>
+  #main-div {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center">Sum Calculator App</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="lead">The Sum Calculator App is a user-friendly online tool designed to simplify basic arithmetic operations by calculating the sum of multiple numbers. With its intuitive interface, users can easily input numbers separated by commas or spaces and obtain the total sum in real-time, making it an essential resource for students, professionals, and individuals alike who require quick and accurate calculations, and it supports search engine optimization (SEO) best practices for optimal online visibility.</p>
+    </div>
+  </div>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="numbers" class="form-label">Enter numbers separated by commas or spaces:</label>
+      <input type="text" class="form-control" id="numbers" aria-describedby="numbersHelp" value="<?php echo $_GET['start'];?>">
+      <div id="numbersHelp" class="form-text">Example: 10, 20, 30 or 10 20 30</div>
+    </div>
+    <button type="button" class="btn btn-primary" id="calculate-btn">Calculate Sum</button>
+    <button type="button" class="btn btn-secondary" id="clear-btn">Clear</button>
+  </form>
+  <div class="alert alert-primary" role="alert" id="result"></div>
+  <div class="error-message" id="error-message"></div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2>How it Works</h2>
+      <p>The Sum Calculator App employs a straightforward formula to calculate the sum of input numbers: it adds each number together, using the basic arithmetic operation of addition. This process can be represented as: Sum = Number 1 + Number 2 + Number 3 +... + Number N, where N represents the total count of numbers input by the user.</p>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Numbers</th>
+            <th>Sum</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1, 2, 3</td>
+            <td>6</td>
+          </tr>
+          <tr>
+            <td>10, 20, 30</td>
+            <td>60</td>
+          </tr>
+          <tr>
+            <td>5, 5, 5</td>
+            <td>15</td>
+          </tr>
+          <tr>
+            <td>2, 4, 6, 8</td>
+            <td>20</td>
+          </tr>
+          <tr>
+            <td>10, 10, 10, 10</td>
+            <td>40</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2>Common Use Cases</h2>
+      <ul>
+        <li>Calculating total costs of items in a shopping list</li>
+        <li>Determining the sum of scores in a game or quiz</li>
+        <li>Adding up the total amount of hours worked in a week</li>
+        <li>Calculating the total distance traveled on a road trip</li>
+        <li>Summing up the total points in a sports competition</li>
+        <li>Calculating the total weight of items in a shipment</li>
+        <li>Determining the sum of grades in a class or course</li>
+        <li>Adding up the total amount of money in a budget</li>
+        <li>Calculating the total number of words in a document</li>
+        <li>Summing up the total time spent on a project or task</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  const calculateBtn = document.getElementById('calculate-btn');
+  const clearBtn = document.getElementById('clear-btn');
+  const numbersInput = document.getElementById('numbers');
+  const resultDiv = document.getElementById('result');
+  const errorDiv = document.getElementById('error-message');
+
+  calculateBtn.addEventListener('click', calculateSum);
+  clearBtn.addEventListener('click', clearInput);
+
+  function calculateSum() {
+    const numbers = numbersInput.value.trim().replace(/\s+/g, ',').split(',');
+    const numbersArray = numbers.map(num => parseFloat(num));
+    const sum = numbersArray.reduce((a, b) => a + b, 0);
+    const isValid = numbersArray.every(num =>!isNaN(num));
+    if (isValid) {
+      resultDiv.innerText = `The sum is: ${sum}`;
+      errorDiv.innerText = '';
+    } else {
+      errorDiv.innerText = 'Invalid input. Please enter only numbers separated by commas or spaces.';
+      resultDiv.innerText = '';
+    }
+  }
+
+  function clearInput() {
+    numbersInput.value = '';
+    resultDiv.innerText = '';
+    errorDiv.innerText = '';
+  }
+</script>

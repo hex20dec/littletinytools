@@ -1,0 +1,163 @@
+---
+title: Value Per Dollar Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 14:30:00
+tags:
+  - Value Per Dollar
+  - Calculator
+  - Financial Tool
+  - Shopping Assistant
+  - Price Comparison
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+ .input-group {
+    margin-bottom: 1rem;
+  }
+ .result {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Value Per Dollar Calculator</h1><div class="header-section p-5 text-center bg-light">
+    <p class="lead">The Value Per Dollar Calculator is a financial tool designed to help individuals make informed purchasing decisions by comparing the value of different items based on their price and quantity. By calculating the value per dollar, consumers can easily determine which item offers the best value for their money, making it an essential shopping assistant for anyone looking to save money and make smart financial choices.</p>
+</div>
+  <form>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="price1">Price of Item 1:</label>
+        <div class="input-group">
+          <input type="number" id="price1" class="form-control" step="0.01" min="0" required>
+          <span class="input-group-text">$</span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="quantity1">Quantity or Unit of Item 1:</label>
+        <div class="input-group">
+          <input type="number" id="quantity1" class="form-control" step="0.01" min="0" required>
+          <span class="input-group-text">units</span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="price2">Price of Item 2 (optional):</label>
+        <div class="input-group">
+          <input type="number" id="price2" class="form-control" step="0.01" min="0">
+          <span class="input-group-text">$</span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="quantity2">Quantity or Unit of Item 2 (optional):</label>
+        <div class="input-group">
+          <input type="number" id="quantity2" class="form-control" step="0.01" min="0">
+          <span class="input-group-text">units</span>
+        </div>
+      </div>
+    </div>
+    <button type="button" id="calculate-btn" class="btn btn-primary">Calculate</button>
+    <p id="result" class="result"></p>
+    <p id="error" class="text-danger"></p>
+  </form>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How it Works</h2>
+    <p>The Value Per Dollar Calculator uses a simple formula to calculate the value per dollar of an item: Value Per Dollar = Quantity / Price. This formula allows consumers to compare the value of different items and make informed purchasing decisions.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Value Per Dollar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>$10</td>
+                <td>2 units</td>
+                <td>0.20 units/$</td>
+            </tr>
+            <tr>
+                <td>$20</td>
+                <td>4 units</td>
+                <td>0.20 units/$</td>
+            </tr>
+            <tr>
+                <td>$5</td>
+                <td>1 unit</td>
+                <td>0.20 units/$</td>
+            </tr>
+            <!-- Add more rows to the table as needed -->
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2>Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Comparing the value of different brands of a product</li>
+        <li class="list-group-item">Determining the best value for a specific quantity of an item</li>
+        <li class="list-group-item">Evaluating the cost-effectiveness of a product or service</li>
+        <li class="list-group-item">Making informed purchasing decisions for bulk items</li>
+        <li class="list-group-item">Comparing the value of similar products from different retailers</li>
+        <li class="list-group-item">Calculating the value per dollar for a specific item or product</li>
+        <li class="list-group-item">Evaluating the impact of discounts or promotions on the value per dollar</li>
+        <li class="list-group-item">Determining the best value for a specific budget or price point</li>
+        <li class="list-group-item">Comparing the value of different sizes or quantities of an item</li>
+        <li class="list-group-item">Making smart financial choices for everyday purchases</li>
+    </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    document.getElementById('price1').value = startValue;
+  }
+
+  document.getElementById('calculate-btn').addEventListener('click', calculate);
+
+  function calculate() {
+    const price1 = parseFloat(document.getElementById('price1').value);
+    const quantity1 = parseFloat(document.getElementById('quantity1').value);
+    const price2 = document.getElementById('price2').value? parseFloat(document.getElementById('price2').value) : null;
+    const quantity2 = document.getElementById('quantity2').value? parseFloat(document.getElementById('quantity2').value) : null;
+
+    if (isNaN(price1) || isNaN(quantity1)) {
+      document.getElementById('error').innerText = 'Please enter valid numbers for Price and Quantity of Item 1';
+      return;
+    }
+
+    if (price2!== null && quantity2!== null) {
+      if (isNaN(price2) || isNaN(quantity2)) {
+        document.getElementById('error').innerText = 'Please enter valid numbers for Price and Quantity of Item 2';
+        return;
+      }
+    }
+
+    const valuePerDollar1 = quantity1 / price1;
+    let result = `Value per dollar for Item 1: ${valuePerDollar1.toFixed(2)}`;
+
+    if (price2!== null && quantity2!== null) {
+      const valuePerDollar2 = quantity2 / price2;
+      result += `<br>Value per dollar for Item 2: ${valuePerDollar2.toFixed(2)}`;
+      if (valuePerDollar1 > valuePerDollar2) {
+        result += `<br>Item 1 has a better value per dollar`;
+      } else if (valuePerDollar1 < valuePerDollar2) {
+        result += `<br>Item 2 has a better value per dollar`;
+      } else {
+        result += `<br>Both items have the same value per dollar`;
+      }
+    }
+
+    document.getElementById('result').innerHTML = result;
+    document.getElementById('error').innerText = '';
+  }
+</script>

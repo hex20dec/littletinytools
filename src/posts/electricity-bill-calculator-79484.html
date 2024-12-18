@@ -1,0 +1,176 @@
+---
+title: Electricity Bill Calculator App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 12:00:00
+tags:
+  - Electricity Bill Calculator
+  - Energy Consumption
+  - Cost Estimator
+  - Budget Planner
+  - Utility Bills
+---
+
+<style>
+  #main-div {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  #main-div label {
+    margin-bottom: 10px;
+  }
+
+  #main-div input, #main-div select {
+    margin-bottom: 20px;
+  }
+
+  #main-div button {
+    margin-top: 10px;
+  }
+
+  #main-div #result {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  #main-div #error {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Electricity Bill Calculator</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <p class="text-info">The Electricity Bill Calculator is a tool designed to help individuals and businesses estimate their electricity bills based on their energy consumption, rate plan, and cost per kilowatt-hour (kWh). This calculator provides an accurate and reliable way to calculate electricity bills, allowing users to budget and plan their energy expenses effectively. With its user-friendly interface and simple calculation process, the Electricity Bill Calculator is an essential tool for anyone looking to manage their energy costs and reduce their environmental impact.</p>
+    </div>
+  </div>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="energy-consumption">Energy Consumption (kWh):</label>
+      <input type="number" id="energy-consumption" class="form-control" step="0.01" min="0">
+    </div>
+    <div class="mb-3">
+      <label for="rate-plan">Rate Plan:</label>
+      <select id="rate-plan" class="form-select">
+        <option value="residential">Residential</option>
+        <option value="commercial">Commercial</option>
+        <option value="industrial">Industrial</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="cost-per-kwh">Cost per kWh:</label>
+      <input type="number" id="cost-per-kwh" class="form-control" step="0.01" min="0">
+    </div>
+    <button type="button" id="calculate-btn" class="btn btn-primary">Calculate</button>
+  </form>
+  <div id="result"></div>
+  <div id="error"></div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>How it Works</h2>
+      <p class="text-info">The Electricity Bill Calculator uses a simple formula to estimate electricity bills: Total Bill = Energy Consumption (kWh) x Cost per kWh. This formula takes into account the amount of energy consumed and the cost of that energy, providing an accurate estimate of the total bill.</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Energy Consumption (kWh)</th>
+            <th>Cost per kWh</th>
+            <th>Total Bill</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>100</td>
+            <td>0.15</td>
+            <td>$15.00</td>
+          </tr>
+          <tr>
+            <td>200</td>
+            <td>0.15</td>
+            <td>$30.00</td>
+          </tr>
+          <tr>
+            <td>300</td>
+            <td>0.15</td>
+            <td>$45.00</td>
+          </tr>
+          <tr>
+            <td>400</td>
+            <td>0.15</td>
+            <td>$60.00</td>
+          </tr>
+          <tr>
+            <td>500</td>
+            <td>0.15</td>
+            <td>$75.00</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Common Use Cases</h2>
+      <ul class="list-group">
+        <li class="list-group-item">Residential energy bill estimation</li>
+        <li class="list-group-item">Commercial energy bill estimation</li>
+        <li class="list-group-item">Industrial energy bill estimation</li>
+        <li class="list-group-item">Energy budget planning</li>
+        <li class="list-group-item">Energy cost comparison</li>
+        <li class="list-group-item">Renewable energy system sizing</li>
+        <li class="list-group-item">Energy efficiency analysis</li>
+        <li class="list-group-item">Carbon footprint calculation</li>
+        <li class="list-group-item">Energy audit preparation</li>
+        <li class="list-group-item">Sustainable energy planning</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    document.getElementById('energy-consumption').value = startValue;
+  }
+
+  const calculateBtn = document.getElementById('calculate-btn');
+  calculateBtn.addEventListener('click', calculateBill);
+
+  function calculateBill() {
+    const energyConsumption = document.getElementById('energy-consumption').value;
+    const ratePlan = document.getElementById('rate-plan').value;
+    const costPerKwh = document.getElementById('cost-per-kwh').value;
+
+    if (energyConsumption === '' || costPerKwh === '') {
+      document.getElementById('error').innerText = 'Please fill in all fields';
+      return;
+    }
+
+    const energyConsumptionNum = parseFloat(energyConsumption);
+    const costPerKwhNum = parseFloat(costPerKwh);
+
+    if (isNaN(energyConsumptionNum) || isNaN(costPerKwhNum)) {
+      document.getElementById('error').innerText = 'Invalid input';
+      return;
+    }
+
+    if (energyConsumptionNum < 0 || costPerKwhNum < 0) {
+      document.getElementById('error').innerText = 'Please enter a positive number';
+      return;
+    }
+
+    const totalBill = energyConsumptionNum * costPerKwhNum;
+    document.getElementById('result').innerText = `Your estimated electricity bill is: $${totalBill.toFixed(2)}`;
+    document.getElementById('error').innerText = '';
+  }
+</script>

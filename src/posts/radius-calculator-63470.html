@@ -1,0 +1,184 @@
+---
+title: Circle Radius Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Circle Calculator
+  - Radius Calculator
+  - Math Tool
+  - Geometry Calculator
+  - Online Calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+ .input-group {
+    margin-bottom: 1rem;
+  }
+ .btn {
+    margin-bottom: 1rem;
+  }
+ .result {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-3">Circle Radius Calculator</h1><div class="header-section p-5 bg-primary text-white text-center">
+  <p class="lead">The Circle Radius Calculator is an online tool designed to calculate the radius of a circle given its circumference, diameter, or area. With its simple and intuitive interface, this calculator is perfect for students, engineers, and anyone who needs to perform calculations involving circles. Whether you're working on a math problem, designing a circular structure, or simply curious about the properties of circles, this tool is sure to provide you with accurate and reliable results. By using this calculator, you can save time and effort, and focus on more complex tasks, making it an essential resource for anyone who works with circles.</p>
+</div>
+  <form>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="parameter" class="form-label">Select Parameter:</label>
+        <select id="parameter" class="form-select">
+          <option value="circumference">Circumference</option>
+          <option value="diameter">Diameter</option>
+          <option value="area">Area</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="value" class="form-label">Enter Value:</label>
+        <input type="number" id="value" class="form-control" step="0.01" min="0">
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-6">
+        <button type="button" id="calculate" class="btn btn-primary">Calculate Radius</button>
+      </div>
+      <div class="col-md-6">
+        <button type="button" id="reset" class="btn btn-secondary">Reset</button>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <label for="result" class="form-label">Calculated Radius:</label>
+        <input type="text" id="result" class="form-control" readonly>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="explanation-section p-5">
+  <h2 class="mb-3">How the Circle Radius Calculator Works</h2>
+  <p class="lead">The Circle Radius Calculator uses a simple formula to calculate the radius of a circle based on the input parameter. The formula is as follows:</p>
+  <ul>
+    <li>For circumference: radius = circumference / (2 * π)</li>
+    <li>For diameter: radius = diameter / 2</li>
+    <li>For area: radius = √(area / π)</li>
+  </ul>
+  <p class="lead">Here is a table showing some examples of calculations:</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Value</th>
+        <th>Calculated Radius</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Circumference</td>
+        <td>10</td>
+        <td>1.59</td>
+      </tr>
+      <tr>
+        <td>Diameter</td>
+        <td>10</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>Area</td>
+        <td>10</td>
+        <td>1.78</td>
+      </tr>
+      <tr>
+        <td>Circumference</td>
+        <td>20</td>
+        <td>3.18</td>
+      </tr>
+      <tr>
+        <td>Diameter</td>
+        <td>20</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>Area</td>
+        <td>20</td>
+        <td>2.52</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5">
+  <h2 class="mb-3">Common Use Cases for the Circle Radius Calculator</h2>
+  <ul>
+    <li>Calculating the radius of a circular tank given its circumference</li>
+    <li>Designing a circular structure, such as a bridge or a building, and needing to calculate the radius</li>
+    <li>Solving math problems involving circles, such as calculating the area or circumference of a circle</li>
+    <li>Calculating the radius of a circular pipe or tube given its diameter</li>
+    <li>Designing a circular garden or patio and needing to calculate the radius</li>
+    <li>Calculating the radius of a circular mirror or glass given its diameter</li>
+    <li>Solving problems involving circular motions, such as calculating the radius of a circular orbit</li>
+    <li>Designing a circular antenna or satellite dish and needing to calculate the radius</li>
+    <li>Calculating the radius of a circular wheel or gear given its diameter</li>
+    <li>Solving problems involving circular wave patterns, such as calculating the radius of a wavefront</li>
+  </ul>
+</div><script>
+  const parameterSelect = document.getElementById('parameter');
+  const valueInput = document.getElementById('value');
+  const calculateButton = document.getElementById('calculate');
+  const resetButton = document.getElementById('reset');
+  const resultInput = document.getElementById('result');
+
+  const pi = Math.PI;
+
+  calculateButton.addEventListener('click', calculateRadius);
+  resetButton.addEventListener('click', resetForm);
+
+  function calculateRadius() {
+    const parameter = parameterSelect.value;
+    const value = parseFloat(valueInput.value);
+
+    if (isNaN(value) || value < 0) {
+      alert('Please enter a valid positive number');
+      return;
+    }
+
+    let radius;
+    switch (parameter) {
+      case 'circumference':
+        radius = value / (2 * pi);
+        break;
+      case 'diameter':
+        radius = value / 2;
+        break;
+      case 'area':
+        radius = Math.sqrt(value / pi);
+        break;
+      default:
+        alert('Invalid parameter');
+        return;
+    }
+
+    resultInput.value = radius.toFixed(2);
+  }
+
+  function resetForm() {
+    parameterSelect.value = 'circumference';
+    valueInput.value = '';
+    resultInput.value = '';
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    valueInput.value = startValue;
+  }
+</script>

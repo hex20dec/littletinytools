@@ -1,0 +1,122 @@
+---
+title: Building Height Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - building height calculator
+  - construction tools
+  - architecture calculator
+  - building design
+  - height calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container mt-5">
+    <h1 class="text-center">Building Height Calculator</h1><div class="header-section p-5 text-center bg-primary text-white">
+  <p class="lead">The Building Height Calculator is a web-based tool designed to estimate the total height of a building based on the number of floors and the average height of each floor. This calculator is particularly useful for architects, engineers, and construction professionals who need to quickly determine the height of a building for planning and design purposes. By providing a simple and accurate way to calculate building height, this tool can help streamline the design and construction process, ensuring that buildings are safe, functional, and meet regulatory requirements.</p>
+</div>
+    <form>
+      <div class="mb-3">
+        <label for="numFloors" class="form-label">Number of floors:</label>
+        <input type="number" class="form-control" id="numFloors" min="1" required>
+      </div>
+      <div class="mb-3">
+        <label for="avgFloorHeight" class="form-label">Average floor height (in feet or meters):</label>
+        <input type="number" class="form-control" id="avgFloorHeight" min="0.1" step="0.1" required>
+      </div>
+      <button type="button" class="btn btn-primary" id="calculate-btn">Calculate</button>
+    </form>
+    <div class="alert alert-info mt-3" id="result" role="alert"></div>
+    <div class="error-message" id="error-message"></div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+  <h2 class="mb-3">How it Works</h2>
+  <p class="lead">The Building Height Calculator uses a simple formula to estimate the total height of a building: Total Height = Number of Floors x Average Floor Height. This formula is based on the assumption that each floor has a uniform height, and that the building has a flat roof. The calculator then converts the total height from feet to meters, providing a convenient and accurate way to determine the height of a building in different units of measurement.</p>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Number of Floors</th>
+        <th>Average Floor Height (feet)</th>
+        <th>Total Height (feet)</th>
+        <th>Total Height (meters)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>10</td>
+        <td>10</td>
+        <td>3.05</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>12</td>
+        <td>60</td>
+        <td>18.29</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>15</td>
+        <td>150</td>
+        <td>45.72</td>
+      </tr>
+      <!-- Add more rows to the table as needed -->
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5">
+  <h2 class="mb-3">Top 10 Use Cases for the Building Height Calculator</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Determining the height of a building for planning and design purposes</li>
+    <li class="list-group-item">Calculating the total height of a building for construction and engineering purposes</li>
+    <li class="list-group-item">Estimating the height of a building for property valuation and assessment purposes</li>
+    <li class="list-group-item">Determining the feasibility of a building project based on height restrictions</li>
+    <li class="list-group-item">Calculating the total height of a building for insurance and risk assessment purposes</li>
+    <li class="list-group-item">Determining the height of a building for compliance with building codes and regulations</li>
+    <li class="list-group-item">Estimating the cost of materials and labor based on the height of a building</li>
+    <li class="list-group-item">Determining the environmental impact of a building based on its height and design</li>
+    <li class="list-group-item">Calculating the total height of a building for tax and accounting purposes</li>
+    <li class="list-group-item">Determining the height of a building for marketing and promotional purposes</li>
+  </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  const numFloorsInput = document.getElementById('numFloors');
+  const avgFloorHeightInput = document.getElementById('avgFloorHeight');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resultDiv = document.getElementById('result');
+  const errorDiv = document.getElementById('error-message');
+
+  if (startValue) {
+    numFloorsInput.value = startValue;
+  }
+
+  calculateBtn.addEventListener('click', () => {
+    const numFloors = parseFloat(numFloorsInput.value);
+    const avgFloorHeight = parseFloat(avgFloorHeightInput.value);
+
+    if (isNaN(numFloors) || isNaN(avgFloorHeight)) {
+      errorDiv.textContent = 'Please enter valid numbers';
+      resultDiv.textContent = '';
+    } else if (numFloors <= 0 || avgFloorHeight <= 0) {
+      errorDiv.textContent = 'Please enter positive numbers';
+      resultDiv.textContent = '';
+    } else {
+      const totalHeightFeet = numFloors * avgFloorHeight;
+      const totalHeightMeters = totalHeightFeet * 0.3048;
+      resultDiv.textContent = `The estimated height of the building is ${totalHeightFeet.toFixed(2)} feet or ${totalHeightMeters.toFixed(2)} meters. Please note that this is an estimate and may vary depending on various factors such as building design and construction.`;
+      errorDiv.textContent = '';
+    }
+  });
+</script>

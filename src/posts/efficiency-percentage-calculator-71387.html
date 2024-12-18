@@ -1,0 +1,139 @@
+---
+title: Efficiency Percentage Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Efficiency Calculator
+  - Productivity Tool
+  - Process Optimization
+  - Business Calculator
+  - Student Resource
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #333333;
+  }
+ .error-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    padding: 0.5rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center mb-5">Efficiency Percentage Calculator</h1><div class="container mt-5">
+  <p class="text-center fs-5">The Efficiency Percentage Calculator is a free online tool designed to help individuals and businesses measure their productivity and efficiency. By providing the actual output and maximum possible output, users can calculate their efficiency percentage and identify areas for improvement. This tool is perfect for students, professionals, and business owners looking to optimize their processes and maximize their output. With its user-friendly interface and accurate calculations, the Efficiency Percentage Calculator is an essential resource for anyone seeking to boost their productivity and achieve their goals.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="actual-output" class="form-label">Actual Output</label>
+      <input type="number" id="actual-output" class="form-control" placeholder="Enter actual output" step="any">
+    </div>
+    <div class="mb-3">
+      <label for="maximum-possible-output" class="form-label">Maximum Possible Output</label>
+      <input type="number" id="maximum-possible-output" class="form-control" placeholder="Enter maximum possible output" step="any">
+    </div>
+    <button type="button" class="btn btn-primary" id="calculate-button">Calculate Efficiency</button>
+  </form>
+  <div id="result" class="mt-5"></div>
+  <div id="error-message" class="error-message" style="display: none;"></div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="text-center mb-3">How it Works</h2>
+  <p class="fs-5">The Efficiency Percentage Calculator uses a simple formula to calculate efficiency: (Actual Output / Maximum Possible Output) x 100. This formula provides a clear and concise way to measure productivity and identify areas for improvement.</p>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Actual Output</th>
+        <th>Maximum Possible Output</th>
+        <th>Efficiency Percentage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>50</td>
+        <td>100</td>
+        <td>50%</td>
+      </tr>
+      <tr>
+        <td>75</td>
+        <td>100</td>
+        <td>75%</td>
+      </tr>
+      <tr>
+        <td>90</td>
+        <td>100</td>
+        <td>90%</td>
+      </tr>
+      <tr>
+        <td>25</td>
+        <td>50</td>
+        <td>50%</td>
+      </tr>
+      <tr>
+        <td>40</td>
+        <td>50</td>
+        <td>80%</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="text-center mb-3">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Students: Calculate efficiency in completing assignments and studying for exams.</li>
+    <li class="list-group-item">Professionals: Measure productivity in the workplace and identify areas for improvement.</li>
+    <li class="list-group-item">Business Owners: Optimize business processes and increase efficiency in production and sales.</li>
+    <li class="list-group-item">Project Managers: Calculate efficiency in project completion and resource allocation.</li>
+    <li class="list-group-item">Manufacturers: Measure efficiency in production and identify areas for cost reduction.</li>
+    <li class="list-group-item">Marketing Teams: Calculate efficiency in campaign execution and return on investment.</li>
+    <li class="list-group-item">Sales Teams: Measure efficiency in sales performance and customer engagement.</li>
+    <li class="list-group-item">Financial Analysts: Calculate efficiency in financial planning and budgeting.</li>
+    <li class="list-group-item">Quality Control Teams: Measure efficiency in quality control processes and defect reduction.</li>
+    <li class="list-group-item">Operations Managers: Optimize operational efficiency and reduce waste in supply chain management.</li>
+  </ul>
+</div><script>
+  const actualOutputInput = document.getElementById('actual-output');
+  const maximumPossibleOutputInput = document.getElementById('maximum-possible-output');
+  const calculateButton = document.getElementById('calculate-button');
+  const resultDiv = document.getElementById('result');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    actualOutputInput.value = startValue;
+  }
+
+  calculateButton.addEventListener('click', calculateEfficiency);
+
+  function calculateEfficiency() {
+    const actualOutput = parseFloat(actualOutputInput.value);
+    const maximumPossibleOutput = parseFloat(maximumPossibleOutputInput.value);
+
+    if (isNaN(actualOutput) || isNaN(maximumPossibleOutput)) {
+      displayErrorMessage('Please enter valid numbers');
+      return;
+    }
+
+    if (actualOutput < 0 || maximumPossibleOutput <= 0) {
+      displayErrorMessage('Actual output must be non-negative and maximum possible output must be positive');
+      return;
+    }
+
+    const efficiency = (actualOutput / maximumPossibleOutput) * 100;
+    resultDiv.innerText = `Efficiency Percentage: ${efficiency.toFixed(2)}%`;
+    errorMessageDiv.style.display = 'none';
+  }
+
+  function displayErrorMessage(message) {
+    errorMessageDiv.innerText = message;
+    errorMessageDiv.style.display = 'block';
+    resultDiv.innerText = '';
+  }
+</script>

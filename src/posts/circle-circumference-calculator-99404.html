@@ -1,0 +1,148 @@
+---
+title: Circle Circumference Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Circle Calculator
+  - Circumference Calculator
+  - Math Tool
+  - Geometry Calculator
+  - Online Calculator
+---
+
+<style>
+  #main-div {
+    padding: 20px;
+    color: #ffffff;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center">Circle Circumference Calculator</h1><div class="container mt-5 mb-5">
+    <p class="text-center fs-5">The Circle Circumference Calculator is a web-based tool designed to help users calculate the circumference of a circle given its radius or diameter. With a simple and intuitive interface, this calculator provides an easy-to-use solution for anyone looking to calculate the circumference of a circle, whether for mathematical, engineering, or design purposes. By utilizing the formula C = 2πr or C = πd, this calculator provides accurate and precise calculations, making it an essential tool for students, professionals, and anyone looking to work with circles.</p>
+</div>
+  <form class="row g-3 needs-validation" id="calculator-form" novalidate>
+    <div class="col-md-12">
+      <label for="input-value" class="form-label">Enter Radius or Diameter:</label>
+      <div class="input-group">
+        <input type="number" class="form-control" id="input-value" aria-describedby="input-type" required>
+        <select class="form-select" id="input-type" aria-label="Select input type">
+          <option value="radius">Radius</option>
+          <option value="diameter">Diameter</option>
+        </select>
+      </div>
+      <div class="invalid-feedback">Please enter a valid number.</div>
+    </div>
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Calculate</button>
+      <button class="btn btn-secondary" type="reset">Reset</button>
+    </div>
+  </form>
+  <p id="result" class="text-center"></p>
+  <p id="formula" class="text-center">Formula: C = 2πr or C = πd</p>
+  <p id="error-message" class="text-center error-message"></p>
+</div>
+
+<div class="container mt-5 mb-5">
+    <h2 class="text-center mb-3">How it Works</h2>
+    <p class="text-center fs-5">The Circle Circumference Calculator uses a simple formula to calculate the circumference of a circle: C = 2πr or C = πd, where C is the circumference, π is a mathematical constant representing the ratio of a circle's circumference to its diameter, and r is the radius or d is the diameter of the circle.</p>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Radius (r)</th>
+                <th>Diameter (d)</th>
+                <th>Circumference (C)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>6.28</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>4</td>
+                <td>12.57</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>6</td>
+                <td>18.85</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>8</td>
+                <td>25.13</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>10</td>
+                <td>31.42</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="container mt-5 mb-5">
+    <h2 class="text-center mb-3">10 Common Use Cases for the Circle Circumference Calculator</h2>
+    <ul class="list-group list-group-numbered">
+        <li class="list-group-item">Calculating the circumference of a circle for mathematical problems</li>
+        <li class="list-group-item">Designing circular shapes for engineering projects</li>
+        <li class="list-group-item">Calculating the perimeter of a circle for architectural designs</li>
+        <li class="list-group-item">Determining the circumference of a circle for physics experiments</li>
+        <li class="list-group-item">Creating circular patterns for graphic design</li>
+        <li class="list-group-item">Calculating the circumference of a circle for sports equipment design</li>
+        <li class="list-group-item">Designing circular paths for landscaping projects</li>
+        <li class="list-group-item">Calculating the circumference of a circle for manufacturing processes</li>
+        <li class="list-group-item">Determining the circumference of a circle for astronomy research</li>
+        <li class="list-group-item">Creating circular models for 3D printing</li>
+    </ul>
+</div><script>
+  const calculatorForm = document.getElementById('calculator-form');
+  const inputValue = document.getElementById('input-value');
+  const inputType = document.getElementById('input-type');
+  const resultElement = document.getElementById('result');
+  const formulaElement = document.getElementById('formula');
+  const errorMessageElement = document.getElementById('error-message');
+
+  const pi = Math.PI;
+
+  calculatorForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const value = parseFloat(inputValue.value);
+    const type = inputType.value;
+    if (isNaN(value) || value < 0) {
+      errorMessageElement.textContent = 'Please enter a valid positive number.';
+      return;
+    }
+    errorMessageElement.textContent = '';
+    let circumference;
+    if (type === 'radius') {
+      circumference = 2 * pi * value;
+    } else {
+      circumference = pi * value;
+    }
+    resultElement.textContent = `The circumference is: ${circumference.toFixed(2)}`;
+  });
+
+  calculatorForm.addEventListener('reset', () => {
+    resultElement.textContent = '';
+    errorMessageElement.textContent = '';
+    inputValue.value = '';
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    inputValue.value = startValue;
+  }
+
+  inputValue.addEventListener('input', () => {
+    if (inputValue.value === '') {
+      resultElement.textContent = '';
+      errorMessageElement.textContent = '';
+    }
+  });
+</script>

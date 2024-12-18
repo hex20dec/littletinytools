@@ -1,0 +1,128 @@
+---
+title: Average Calculator App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Average Calculator
+  - Online Calculator
+  - Math Tool
+  - Statistics Calculator
+  - Number Cruncher
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5 text-center">
+  <h1 class="mb-3">Average Calculator</h1><div class="container mt-5 text-center">
+  <p class="lead">The Average Calculator App is a free online tool designed to calculate the average of a set of numbers. This math tool is perfect for students, teachers, and anyone who needs to calculate averages quickly and easily. With its simple and intuitive interface, you can calculate the average of a list of numbers in just a few seconds, making it an essential resource for anyone who works with numbers.</p>
+</div>
+  <h2 class="mb-5">Calculate the average of a set of numbers</h2>
+  <form>
+    <div class="mb-3">
+      <label for="numbers" class="form-label">Enter numbers (separated by commas)</label>
+      <input type="text" class="form-control" id="numbers" aria-describedby="numbersHelp" placeholder="e.g. 1, 2, 3, 4, 5">
+      <div id="numbersHelp" class="form-text"></div>
+    </div>
+    <button type="button" class="btn btn-primary me-2" id="calculate-btn">Calculate Average</button>
+    <button type="button" class="btn btn-secondary" id="clear-btn">Clear</button>
+  </form>
+  <p class="mt-4" id="result"></p>
+  <p class="error-message" id="error-message"></p>
+</div>
+
+<div class="container mt-5">
+  <h2 class="mb-3">How it Works</h2>
+  <p class="mb-4">The Average Calculator App uses a simple formula to calculate the average of a set of numbers: Add up all the numbers, and then divide by the total count of numbers. This can be represented by the formula: Average = (Sum of all numbers) / (Total count of numbers).</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Numbers</th>
+        <th>Sum</th>
+        <th>Count</th>
+        <th>Average</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1, 2, 3</td>
+        <td>6</td>
+        <td>3</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>4, 5, 6</td>
+        <td>15</td>
+        <td>3</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>7, 8, 9</td>
+        <td>24</td>
+        <td>3</td>
+        <td>8</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="mb-3">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Calculating grades for a class of students</li>
+    <li class="list-group-item">Determining the average score of a sports team</li>
+    <li class="list-group-item">Finding the average price of a set of products</li>
+    <li class="list-group-item">Calculating the average temperature for a given period</li>
+    <li class="list-group-item">Determining the average attendance at an event</li>
+    <li class="list-group-item">Calculating the average speed of a vehicle</li>
+    <li class="list-group-item">Finding the average cost of living in a city</li>
+    <li class="list-group-item">Calculating the average return on investment (ROI)</li>
+    <li class="list-group-item">Determining the average time spent on a task</li>
+    <li class="list-group-item">Calculating the average rating of a product or service</li>
+  </ul>
+</div><script>
+  const numbersInput = document.getElementById('numbers');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const clearBtn = document.getElementById('clear-btn');
+  const resultPara = document.getElementById('result');
+  const errorMessagePara = document.getElementById('error-message');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    numbersInput.value = startValue;
+  }
+
+  calculateBtn.addEventListener('click', calculateAverage);
+  clearBtn.addEventListener('click', clearInput);
+
+  function calculateAverage() {
+    const numbers = numbersInput.value.trim();
+    if (!numbers) {
+      errorMessagePara.textContent = 'Please enter a set of numbers';
+      return;
+    }
+    const numbersArray = numbers.split(',');
+    const numbersSanitized = numbersArray.map(num => num.trim());
+    const isValidInput = numbersSanitized.every(num =>!isNaN(parseFloat(num)));
+    if (!isValidInput) {
+      errorMessagePara.textContent = 'Invalid input. Please enter only numbers separated by commas';
+      return;
+    }
+    const sum = numbersSanitized.reduce((acc, num) => acc + parseFloat(num), 0);
+    const average = sum / numbersSanitized.length;
+    resultPara.textContent = `Average: ${average}`;
+    errorMessagePara.textContent = '';
+  }
+
+  function clearInput() {
+    numbersInput.value = '';
+    resultPara.textContent = '';
+    errorMessagePara.textContent = '';
+  }
+</script>

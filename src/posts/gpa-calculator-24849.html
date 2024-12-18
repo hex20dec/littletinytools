@@ -1,0 +1,212 @@
+---
+title: Easy GPA Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+- GPA Calculator
+- Student Tools
+- Academic Performance
+- Grade Tracker
+- Scholarship Helper
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center mt-5">GPA Calculator</h1><div class="container mt-5">
+  <p class="text-center">The Easy GPA Calculator is a free online tool designed to help students calculate their grade point average (GPA) quickly and accurately. With this tool, users can add multiple courses, select their grades, and enter the corresponding credits to obtain their overall GPA. The calculator uses a simple and intuitive interface, making it easy for students to track their academic performance and stay on top of their grades. Whether you're a high school student or a college undergraduate, this GPA calculator is an essential resource for anyone looking to monitor their progress and achieve their academic goals.</p>
+</div>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form>
+          <div class="mb-3">
+            <label for="grade" class="form-label">Grade</label>
+            <select id="grade" class="form-select">
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+              <option value="F">F</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="credits" class="form-label">Credits</label>
+            <input type="number" id="credits" class="form-control" value="" min="1" max="10">
+          </div>
+          <button type="button" id="add-course" class="btn btn-primary mb-3">Add Course</button>
+          <div id="courses"></div>
+          <button type="button" id="calculate-gpa" class="btn btn-success mb-3">Calculate GPA</button>
+          <button type="button" id="clear" class="btn btn-danger mb-3">Clear</button>
+          <p id="gpa-result" class="mt-3"></p>
+          <p id="error-message" class="error-message"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2>How the GPA Calculator Works</h2>
+  <p>The GPA calculator uses a formula to calculate the grade point average based on the grades and credits entered by the user. The formula is as follows: Total Points / Total Credits = GPA. Where Total Points is the sum of the points earned for each course, and Total Credits is the sum of the credits for each course.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Grade</th>
+        <th>Credits</th>
+        <th>Points</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>A</td>
+        <td>1-10</td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>B</td>
+        <td>1-10</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>C</td>
+        <td>1-10</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>D</td>
+        <td>1-10</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>F</td>
+        <td>1-10</td>
+        <td>0</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>For example, if a student has taken two courses, one with a grade of A and 3 credits, and another with a grade of B and 4 credits, the total points would be (4 x 3) + (3 x 4) = 12 + 12 = 24, and the total credits would be 3 + 4 = 7. The GPA would then be 24 / 7 = 3.43.</p>
+</div><div class="container mt-5">
+  <h2>Common Use Cases for the GPA Calculator</h2>
+  <ol>
+    <li>High school students can use the GPA calculator to track their grades and stay on top of their academic performance.</li>
+    <li>College students can use the calculator to monitor their progress and ensure they are meeting the GPA requirements for their degree program.</li>
+    <li>Students applying to graduate school can use the calculator to calculate their undergraduate GPA and ensure they meet the admission requirements.</li>
+    <li>Athletes can use the calculator to ensure they are meeting the GPA requirements for their athletic scholarship.</li>
+    <li>Students on academic probation can use the calculator to track their progress and ensure they are meeting the GPA requirements to get off probation.</li>
+    <li>Parents can use the calculator to monitor their child's academic performance and provide guidance and support as needed.</li>
+    <li>Academic advisors can use the calculator to help students plan their course schedule and ensure they are meeting the GPA requirements for their degree program.</li>
+    <li>Students can use the calculator to compare their GPA to the national average and see how they stack up against their peers.</li>
+    <li>Students can use the calculator to set academic goals and track their progress over time.</li>
+    <li>Students can use the calculator to determine the impact of a bad grade on their overall GPA and make informed decisions about retaking a course or seeking help from a tutor.</li>
+  </ol>
+</div><script>
+  const addCourseButton = document.getElementById('add-course');
+  const calculateGpaButton = document.getElementById('calculate-gpa');
+  const clearButton = document.getElementById('clear');
+  const coursesDiv = document.getElementById('courses');
+  const gpaResult = document.getElementById('gpa-result');
+  const errorMessage = document.getElementById('error-message');
+  let courses = [];
+
+  addCourseButton.addEventListener('click', () => {
+    const gradeSelect = document.createElement('select');
+    gradeSelect.className = 'form-select mb-3';
+    gradeSelect.innerHTML = `
+      <option value="A">A</option>
+      <option value="B">B</option>
+      <option value="C">C</option>
+      <option value="D">D</option>
+      <option value="F">F</option>
+    `;
+
+    const creditsInput = document.createElement('input');
+    creditsInput.type = 'number';
+    creditsInput.className = 'form-control mb-3';
+    creditsInput.min = 1;
+    creditsInput.max = 10;
+
+    const removeButton = document.createElement('button');
+    removeButton.type = 'button';
+    removeButton.className = 'btn btn-danger mb-3';
+    removeButton.textContent = 'Remove';
+
+    const courseDiv = document.createElement('div');
+    courseDiv.className = 'mb-3';
+
+    courseDiv.appendChild(gradeSelect);
+    courseDiv.appendChild(creditsInput);
+    courseDiv.appendChild(removeButton);
+
+    coursesDiv.appendChild(courseDiv);
+
+    removeButton.addEventListener('click', () => {
+      courseDiv.remove();
+    });
+
+    courses.push({ grade: gradeSelect, credits: creditsInput });
+  });
+
+  calculateGpaButton.addEventListener('click', () => {
+    const grades = courses.map(course => course.grade.value);
+    const credits = courses.map(course => parseInt(course.credits.value));
+
+    if (grades.length === 0 || credits.length === 0) {
+      errorMessage.textContent = 'Please add at least one course';
+      return;
+    }
+
+    let totalPoints = 0;
+    let totalCredits = 0;
+
+    for (let i = 0; i < grades.length; i++) {
+      let points = 0;
+      switch (grades[i]) {
+        case 'A':
+          points = 4;
+          break;
+        case 'B':
+          points = 3;
+          break;
+        case 'C':
+          points = 2;
+          break;
+        case 'D':
+          points = 1;
+          break;
+        case 'F':
+          points = 0;
+          break;
+      }
+
+      totalPoints += points * credits[i];
+      totalCredits += credits[i];
+    }
+
+    const gpa = totalPoints / totalCredits;
+    gpaResult.textContent = `GPA: ${gpa.toFixed(2)}`;
+    errorMessage.textContent = '';
+  });
+
+  clearButton.addEventListener('click', () => {
+    coursesDiv.innerHTML = '';
+    gpaResult.textContent = '';
+    errorMessage.textContent = '';
+    courses = [];
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const start = urlParams.get('start');
+  if (start) {
+    const gradeSelect = document.getElementById('grade');
+    gradeSelect.value = start;
+  }
+</script>

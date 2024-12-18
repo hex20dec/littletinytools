@@ -1,0 +1,168 @@
+---
+title: Circle Diameter Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Circle Calculator
+  - Diameter Calculator
+  - Math Tool
+  - Geometry Calculator
+  - Online Calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mt-5">Circle Diameter Calculator</h1><div class="container mt-5">
+  <p class="text-center fs-5">The Circle Diameter Calculator is a free online tool designed to calculate the diameter of a circle given the radius, circumference, or area. This calculator uses the mathematical formulas for the relationship between the diameter and other circle properties to provide accurate results. With its user-friendly interface, you can easily calculate the diameter of a circle for various applications, including geometry, engineering, and design. Whether you're a student, professional, or DIY enthusiast, this calculator is a valuable resource for anyone working with circles.</p>
+</div>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="radius" class="form-label">Radius:</label>
+        <input type="number" id="radius" class="form-control" step="any">
+      </div>
+      <div class="col-md-6">
+        <label for="circumference" class="form-label">Circumference:</label>
+        <input type="number" id="circumference" class="form-control" step="any">
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-6">
+        <label for="area" class="form-label">Area:</label>
+        <input type="number" id="area" class="form-control" step="any">
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-6">
+        <button id="calculate-btn" class="btn btn-primary">Calculate Diameter</button>
+        <button id="reset-btn" class="btn btn-secondary">Reset</button>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-6">
+        <p id="result"></p>
+        <p id="formula" class="text-muted"></p>
+        <p id="error-message" class="error-message"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="mb-3">How it Works</h2>
+  <p>The Circle Diameter Calculator uses the following formulas to calculate the diameter:</p>
+  <ul>
+    <li>diameter = 2 * radius</li>
+    <li>diameter = circumference / π</li>
+    <li>diameter = sqrt(4 * area / π)</li>
+  </ul>
+  <p>These formulas are based on the mathematical relationships between the diameter and other circle properties.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Radius</th>
+        <th>Diameter</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>6</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>8</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>10</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="mb-3">Common Use Cases</h2>
+  <ol>
+    <li>Calculating the diameter of a circle for geometry and trigonometry problems</li>
+    <li>Determining the size of a circle for engineering and design applications</li>
+    <li>Converting between different units of measurement for circle properties</li>
+    <li>Calculating the diameter of a circle for architectural and construction projects</li>
+    <li>Determining the size of a circle for artistic and creative projects</li>
+    <li>Calculating the diameter of a circle for scientific and research applications</li>
+    <li>Converting between different formulas for calculating the diameter of a circle</li>
+    <li>Calculating the diameter of a circle for educational and teaching purposes</li>
+    <li>Determining the size of a circle for manufacturing and production applications</li>
+    <li>Calculating the diameter of a circle for quality control and inspection purposes</li>
+  </ol>
+</div><script>
+  const radiusInput = document.getElementById('radius');
+  const circumferenceInput = document.getElementById('circumference');
+  const areaInput = document.getElementById('area');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resetBtn = document.getElementById('reset-btn');
+  const resultElement = document.getElementById('result');
+  const formulaElement = document.getElementById('formula');
+  const errorMessageElement = document.getElementById('error-message');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    radiusInput.value = startValue;
+  }
+
+  calculateBtn.addEventListener('click', calculateDiameter);
+  resetBtn.addEventListener('click', resetForm);
+
+  function calculateDiameter() {
+    const radius = parseFloat(radiusInput.value);
+    const circumference = parseFloat(circumferenceInput.value);
+    const area = parseFloat(areaInput.value);
+
+    if (radius && circumference && area) {
+      errorMessageElement.textContent = 'Please select only one option';
+      return;
+    }
+
+    if (radius) {
+      const diameter = 2 * radius;
+      resultElement.textContent = `The diameter is: ${diameter}`;
+      formulaElement.textContent = `Formula: diameter = 2 * radius`;
+    } else if (circumference) {
+      const diameter = circumference / Math.PI;
+      resultElement.textContent = `The diameter is: ${diameter}`;
+      formulaElement.textContent = `Formula: diameter = circumference / π`;
+    } else if (area) {
+      const diameter = Math.sqrt(4 * area / Math.PI);
+      resultElement.textContent = `The diameter is: ${diameter}`;
+      formulaElement.textContent = `Formula: diameter = sqrt(4 * area / π)`;
+    } else {
+      errorMessageElement.textContent = 'Please enter a value';
+    }
+  }
+
+  function resetForm() {
+    radiusInput.value = '';
+    circumferenceInput.value = '';
+    areaInput.value = '';
+    resultElement.textContent = '';
+    formulaElement.textContent = '';
+    errorMessageElement.textContent = '';
+  }
+</script>

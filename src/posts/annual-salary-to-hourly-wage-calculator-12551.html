@@ -1,0 +1,166 @@
+---
+title: Annual Salary to Hourly Wage Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - salary calculator
+  - hourly wage calculator
+  - annual salary converter
+  - budgeting tool
+  - financial planning
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 400px;
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  #main-div input, #main-div select {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+  }
+  #main-div button {
+    width: 100%;
+    height: 40px;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+  #result {
+    margin-top: 20px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Annual Salary to Hourly Wage Calculator</h1><div class="header-section p-5 text-center bg-light">
+    <p class="lead">The Annual Salary to Hourly Wage Calculator is a free online tool designed to help individuals and businesses quickly and accurately convert annual salaries to hourly wages. By providing your annual salary, hours worked per week, and weeks worked per year, this calculator can help you determine your hourly wage, making it easier to budget, plan finances, and make informed decisions about employment opportunities.</p>
+</div>
+  <label for="annual-salary">Annual Salary:</label>
+  <input type="number" id="annual-salary" placeholder="Enter your annual salary">
+  <label for="hours-per-week">Hours per week:</label>
+  <select id="hours-per-week">
+    <option value="20">20 hours/week</option>
+    <option value="30">30 hours/week</option>
+    <option value="35">35 hours/week</option>
+    <option value="40">40 hours/week</option>
+  </select>
+  <label for="weeks-per-year">Weeks per year:</label>
+  <select id="weeks-per-year">
+    <option value="48">48 weeks/year</option>
+    <option value="50">50 weeks/year</option>
+    <option value="52">52 weeks/year</option>
+  </select>
+  <button id="calculate-btn">Calculate</button>
+  <div id="result"></div>
+  <div id="error-msg"></div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How it Works</h2>
+    <p>The Annual Salary to Hourly Wage Calculator uses a simple formula to calculate your hourly wage: Hourly Wage = Annual Salary / (Hours per Week * Weeks per Year). This formula takes into account the number of hours you work per week and the number of weeks you work per year to provide an accurate calculation of your hourly wage.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Annual Salary</th>
+                <th>Hours per Week</th>
+                <th>Weeks per Year</th>
+                <th>Hourly Wage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>$40,000</td>
+                <td>40</td>
+                <td>52</td>
+                <td>$19.23</td>
+            </tr>
+            <tr>
+                <td>$50,000</td>
+                <td>35</td>
+                <td>50</td>
+                <td>$28.57</td>
+            </tr>
+            <tr>
+                <td>$60,000</td>
+                <td>30</td>
+                <td>48</td>
+                <td>$41.67</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2>Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Determining hourly wage for budgeting and financial planning</li>
+        <li class="list-group-item">Comparing employment opportunities based on hourly wage</li>
+        <li class="list-group-item">Calculating overtime pay or extra hours worked</li>
+        <li class="list-group-item">Converting annual salary to hourly wage for freelancing or consulting work</li>
+        <li class="list-group-item">Evaluating salary offers from different employers</li>
+        <li class="list-group-item">Calculating hourly wage for part-time or seasonal work</li>
+        <li class="list-group-item">Determining hourly wage for internships or apprenticeships</li>
+        <li class="list-group-item">Converting annual salary to hourly wage for tax purposes</li>
+        <li class="list-group-item">Calculating hourly wage for benefits or compensation packages</li>
+        <li class="list-group-item">Evaluating the cost of hiring employees or contractors based on hourly wage</li>
+    </ul>
+</div><script>
+  const annualSalaryInput = document.getElementById('annual-salary');
+  const hoursPerWeekSelect = document.getElementById('hours-per-week');
+  const weeksPerYearSelect = document.getElementById('weeks-per-year');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resultDiv = document.getElementById('result');
+  const errorMsgDiv = document.getElementById('error-msg');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    annualSalaryInput.value = startValue;
+  }
+
+  calculateBtn.addEventListener('click', calculateHourlyWage);
+
+  function calculateHourlyWage() {
+    const annualSalary = parseFloat(annualSalaryInput.value);
+    const hoursPerWeek = parseFloat(hoursPerWeekSelect.value);
+    const weeksPerYear = parseFloat(weeksPerYearSelect.value);
+
+    if (isNaN(annualSalary) || annualSalary <= 0) {
+      setErrorMsg('Please enter a valid annual salary');
+      return;
+    }
+
+    if (hoursPerWeek <= 0 || weeksPerYear <= 0) {
+      setErrorMsg('Please select valid hours per week and weeks per year');
+      return;
+    }
+
+    const hourlyWage = annualSalary / (hoursPerWeek * weeksPerYear);
+    const roundedHourlyWage = hourlyWage.toFixed(2);
+
+    resultDiv.innerText = `Your hourly wage is: $${roundedHourlyWage}`;
+    errorMsgDiv.innerText = '';
+  }
+
+  function setErrorMsg(msg) {
+    errorMsgDiv.innerText = msg;
+    resultDiv.innerText = '';
+  }
+</script>

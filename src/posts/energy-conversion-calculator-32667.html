@@ -1,0 +1,173 @@
+---
+title: Energy Conversion Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Energy Conversion
+  - Unit Conversion
+  - Calculator
+  - Energy Calculator
+  - Conversion Tool
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Energy Conversion Calculator</h1><div class="header-section p-5 text-center bg-light">
+  <p class="lead">The Energy Conversion Calculator is a free online tool that allows users to convert between different units of energy, including Joules, Kilowatt-hours, and Calories. This calculator is designed to provide accurate and reliable conversions, making it a valuable resource for students, scientists, and professionals working with energy-related fields. With its user-friendly interface and comprehensive conversion capabilities, the Energy Conversion Calculator is an essential tool for anyone looking to simplify their energy calculations.</p>
+</div>
+  <form class="row g-3 needs-validation" novalidate>
+    <div class="col-md-6">
+      <label for="from-unit" class="form-label">From:</label>
+      <select id="from-unit" class="form-select" required>
+        <option value="">Select unit</option>
+        <option value="Joules">Joules</option>
+        <option value="Kilowatt-hours">Kilowatt-hours</option>
+        <option value="Calories">Calories</option>
+      </select>
+      <div class="invalid-feedback">Please select a unit.</div>
+    </div>
+    <div class="col-md-6">
+      <label for="to-unit" class="form-label">To:</label>
+      <select id="to-unit" class="form-select" required>
+        <option value="">Select unit</option>
+        <option value="Joules">Joules</option>
+        <option value="Kilowatt-hours">Kilowatt-hours</option>
+        <option value="Calories">Calories</option>
+      </select>
+      <div class="invalid-feedback">Please select a unit.</div>
+    </div>
+    <div class="col-md-12">
+      <label for="value" class="form-label">Value:</label>
+      <input type="number" id="value" class="form-control" required step="any" min="0">
+      <div class="invalid-feedback">Please enter a valid number.</div>
+    </div>
+    <div class="col-md-12">
+      <button class="btn btn-primary" type="submit">Convert</button>
+    </div>
+    <div class="col-md-12">
+      <p id="result" class="mb-0"></p>
+      <p id="error-message" class="error-message mb-0"></p>
+    </div>
+  </form>
+</div>
+
+<div class="explanation-section p-5">
+  <h2 class="mb-4">How the Energy Conversion Calculator Works</h2>
+  <p class="mb-4">The Energy Conversion Calculator uses a simple formula to convert between different units of energy. The formula is based on the conversion factors between each unit, which are as follows:</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>From Unit</th>
+        <th>To Unit</th>
+        <th>Conversion Factor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Joules</td>
+        <td>Kilowatt-hours</td>
+        <td>0.000277778</td>
+      </tr>
+      <tr>
+        <td>Joules</td>
+        <td>Calories</td>
+        <td>0.239006</td>
+      </tr>
+      <tr>
+        <td>Kilowatt-hours</td>
+        <td>Joules</td>
+        <td>3600000</td>
+      </tr>
+      <tr>
+        <td>Kilowatt-hours</td>
+        <td>Calories</td>
+        <td>860.421</td>
+      </tr>
+      <tr>
+        <td>Calories</td>
+        <td>Joules</td>
+        <td>4.184</td>
+      </tr>
+      <tr>
+        <td>Calories</td>
+        <td>Kilowatt-hours</td>
+        <td>0.00116278</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="mt-4">For example, to convert 1000 Joules to Kilowatt-hours, the calculator would multiply 1000 by the conversion factor of 0.000277778, resulting in 0.277778 Kilowatt-hours.</p>
+</div><div class="use-cases-section p-5">
+  <h2 class="mb-4">Common Use Cases for the Energy Conversion Calculator</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting energy consumption from Kilowatt-hours to Joules for scientific calculations</li>
+    <li class="list-group-item">Calculating the energy content of food in Calories and converting it to Joules for nutritional analysis</li>
+    <li class="list-group-item">Converting energy production from Joules to Kilowatt-hours for industrial applications</li>
+    <li class="list-group-item">Determining the energy efficiency of a system by converting energy input and output from different units</li>
+    <li class="list-group-item">Comparing the energy content of different fuels, such as gasoline and diesel, in various units</li>
+    <li class="list-group-item">Calculating the energy cost of operating a device or system in different units, such as Kilowatt-hours and Joules</li>
+    <li class="list-group-item">Converting energy consumption data from one unit to another for environmental impact assessments</li>
+    <li class="list-group-item">Determining the energy required to perform a specific task, such as heating water, in different units</li>
+    <li class="list-group-item">Comparing the energy efficiency of different appliances, such as refrigerators and air conditioners, in various units</li>
+    <li class="list-group-item">Calculating the energy content of renewable energy sources, such as solar and wind power, in different units</li>
+  </ul>
+</div><script>
+  const form = document.querySelector('form');
+  const fromUnitSelect = document.getElementById('from-unit');
+  const toUnitSelect = document.getElementById('to-unit');
+  const valueInput = document.getElementById('value');
+  const resultPara = document.getElementById('result');
+  const errorMessagePara = document.getElementById('error-message');
+
+  const conversionFactors = {
+    'Joules': {'Joules': 1, 'Kilowatt-hours': 0.000277778, 'Calories': 0.239006},
+    'Kilowatt-hours': {'Joules': 3600000, 'Kilowatt-hours': 1, 'Calories': 860.421},
+    'Calories': {'Joules': 4.184, 'Kilowatt-hours': 0.00116278, 'Calories': 1}
+  };
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const fromUnit = fromUnitSelect.value;
+    const toUnit = toUnitSelect.value;
+    const value = valueInput.value;
+
+    if (!fromUnit ||!toUnit ||!value) {
+      if (!fromUnit) {
+        fromUnitSelect.classList.add('is-invalid');
+      } else {
+        fromUnitSelect.classList.remove('is-invalid');
+      }
+      if (!toUnit) {
+        toUnitSelect.classList.add('is-invalid');
+      } else {
+        toUnitSelect.classList.remove('is-invalid');
+      }
+      if (!value || isNaN(value) || value < 0) {
+        valueInput.classList.add('is-invalid');
+      } else {
+        valueInput.classList.remove('is-invalid');
+      }
+      return;
+    }
+
+    const conversionFactor = conversionFactors[fromUnit][toUnit];
+    const result = value * conversionFactor;
+    resultPara.textContent = `${value} ${fromUnit} is equal to ${result} ${toUnit}`;
+    errorMessagePara.textContent = '';
+  });
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    valueInput.value = startValue;
+  }
+</script>

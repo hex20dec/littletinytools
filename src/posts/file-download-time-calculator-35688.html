@@ -1,0 +1,183 @@
+---
+title: File Download Time Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - File Download Time Calculator
+  - Download Time Estimator
+  - Internet Speed Calculator
+  - File Size Calculator
+  - Download Manager
+---
+
+<style>
+  #main-div {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  select, input[type="number"] {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  button {
+    width: 100%;
+    height: 40px;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #3e8e41;
+  }
+  #result {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <h2>File Download Time Calculator</h2><div class="header-section bg-light p-3 mb-3">
+  <h1>File Download Time Calculator: Estimate Your Download Time with Ease</h1>
+  <p>This tool is designed to help users calculate the estimated time it takes to download a file based on its size and the user's internet speed. With this calculator, you can easily determine how long it will take to download your favorite movies, music, or software, and plan your time accordingly. Whether you have a slow or fast internet connection, this tool will provide you with an accurate estimate of the download time, helping you to manage your bandwidth and stay productive.</p>
+</div>
+  <form>
+    <label for="file-size">File Size:</label>
+    <input type="number" id="file-size" step="0.01" placeholder="Enter file size in MB or GB">
+    <label for="file-size-unit">File Size Unit:</label>
+    <select id="file-size-unit">
+      <option value="MB">MB</option>
+      <option value="GB">GB</option>
+    </select>
+    <label for="internet-speed">Internet Speed:</label>
+    <select id="internet-speed">
+      <option value="1">1 Mbps</option>
+      <option value="5">5 Mbps</option>
+      <option value="10">10 Mbps</option>
+      <option value="20">20 Mbps</option>
+      <option value="50">50 Mbps</option>
+      <option value="100">100 Mbps</option>
+    </select>
+    <label for="internet-speed-unit">Internet Speed Unit:</label>
+    <select id="internet-speed-unit">
+      <option value="Mbps">Mbps</option>
+      <option value="MB/s">MB/s ( equivalent to 8 Mbps )</option>
+    </select>
+    <button id="calculate-btn">Calculate</button>
+  </form>
+  <div id="result"></div>
+</div>
+
+<div class="explanation-section bg-light p-3 mb-3">
+  <h2>How the File Download Time Calculator Works</h2>
+  <p>The calculation is based on a simple formula: Download Time = File Size / Internet Speed. This formula takes into account the file size in megabytes (MB) or gigabytes (GB) and the internet speed in megabits per second (Mbps) or megabytes per second (MB/s).</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>File Size (MB)</th>
+        <th>Internet Speed (Mbps)</th>
+        <th>Download Time (seconds)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>100</td>
+        <td>1</td>
+        <td>800</td>
+      </tr>
+      <tr>
+        <td>500</td>
+        <td>5</td>
+        <td>800</td>
+      </tr>
+      <tr>
+        <td>1000</td>
+        <td>10</td>
+        <td>800</td>
+      </tr>
+      <tr>
+        <td>2000</td>
+        <td>20</td>
+        <td>800</td>
+      </tr>
+      <tr>
+        <td>5000</td>
+        <td>50</td>
+        <td>800</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>This table illustrates how the download time changes based on different file sizes and internet speeds. By using this calculator, you can get an accurate estimate of the download time for your specific needs.</p>
+</div><div class="use-cases-section bg-light p-3">
+  <h2>Common Use Cases for the File Download Time Calculator</h2>
+  <ul>
+    <li><strong>Downloading movies and TV shows</strong>: Estimate the time it takes to download your favorite movies and TV shows.</li>
+    <li><strong>Transferring large files</strong>: Calculate the time it takes to transfer large files, such as videos, software, or documents.</li>
+    <li><strong>Uploading files to cloud storage</strong>: Determine the time it takes to upload files to cloud storage services like Google Drive, Dropbox, or OneDrive.</li>
+    <li><strong>Downloading software and updates</strong>: Estimate the time it takes to download software updates, patches, or new installations.</li>
+    <li><strong>Transferring data between devices</strong>: Calculate the time it takes to transfer data between devices, such as from a phone to a computer.</li>
+    <li><strong>Downloading music and podcasts</strong>: Estimate the time it takes to download music and podcasts.</li>
+    <li><strong>Uploading videos to YouTube</strong>: Determine the time it takes to upload videos to YouTube.</li>
+    <li><strong>Downloading e-books and documents</strong>: Calculate the time it takes to download e-books and documents.</li>
+    <li><strong>Transferring files between cloud storage services</strong>: Estimate the time it takes to transfer files between cloud storage services.</li>
+    <li><strong>Downloading games and game updates</strong>: Determine the time it takes to download games and game updates.</li>
+  </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  const fileSizeInput = document.getElementById('file-size');
+  fileSizeInput.value = startValue;
+
+  document.getElementById('calculate-btn').addEventListener('click', (e) => {
+    e.preventDefault();
+    const fileSize = parseFloat(fileSizeInput.value);
+    const fileSizeUnit = document.getElementById('file-size-unit').value;
+    const internetSpeed = parseFloat(document.getElementById('internet-speed').value);
+    const internetSpeedUnit = document.getElementById('internet-speed-unit').value;
+
+    if (isNaN(fileSize) || fileSize <= 0) {
+      alert('Please enter a valid file size');
+      return;
+    }
+
+    let fileSizeInMB = fileSize;
+    if (fileSizeUnit === 'GB') {
+      fileSizeInMB = fileSize * 1024;
+    }
+
+    let internetSpeedInMbps = internetSpeed;
+    if (internetSpeedUnit === 'MB/s') {
+      internetSpeedInMbps = internetSpeed * 8;
+    }
+
+    const downloadTimeInSeconds = fileSizeInMB / internetSpeedInMbps;
+    const downloadTimeInMinutes = downloadTimeInSeconds / 60;
+    const downloadTimeInHours = downloadTimeInSeconds / 3600;
+
+    let result = '';
+    if (downloadTimeInSeconds < 60) {
+      result = `Download time: ${downloadTimeInSeconds.toFixed(2)} seconds`;
+    } else if (downloadTimeInMinutes < 60) {
+      result = `Download time: ${downloadTimeInMinutes.toFixed(2)} minutes`;
+    } else {
+      result = `Download time: ${downloadTimeInHours.toFixed(2)} hours`;
+    }
+
+    document.getElementById('result').innerText = result;
+  });
+</script>

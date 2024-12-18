@@ -1,0 +1,146 @@
+---
+title: Points Reward Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Points Reward Calculator
+  - Loyalty Programs
+  - Rewards Schemes
+  - Points Tracker
+  - Reward Calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center mb-3">Points Reward Calculator</h1><div class="header-section p-5 text-center">
+    <p class="fs-5">The Points Reward Calculator is a free online tool designed to help individuals track and calculate their progress towards earning rewards in loyalty programs. By entering the number of points earned and selecting a desired reward, users can determine the total points required to redeem the reward, the remaining points needed, and their progress towards achieving their goal. This calculator is a valuable resource for anyone participating in points-based rewards schemes, providing a clear and concise way to monitor and manage points balances.</p>
+</div>
+  <form class="row g-3 justify-content-center">
+    <div class="col-md-6">
+      <label for="points" class="form-label">Enter your points</label>
+      <input type="number" id="points" class="form-control" value="" min="0">
+      <div class="error-message" id="points-error"></div>
+    </div>
+    <div class="col-md-6">
+      <label for="reward" class="form-label">Select a reward</label>
+      <select id="reward" class="form-select">
+        <option value="100">Reward 1 (100 points)</option>
+        <option value="200">Reward 2 (200 points)</option>
+        <option value="500">Reward 3 (500 points)</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label for="required-points" class="form-label">Points required for reward</label>
+      <input type="number" id="required-points" class="form-control" readonly>
+    </div>
+    <div class="col-md-6">
+      <label for="remaining-points" class="form-label">Remaining points needed</label>
+      <input type="number" id="remaining-points" class="form-control" readonly>
+    </div>
+    <div class="col-md-6">
+      <label for="progress" class="form-label">Progress towards reward</label>
+      <input type="number" id="progress" class="form-control" readonly>
+      <div class="progress mt-2">
+        <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    </div>
+    <div class="col-md-6 d-grid">
+      <button type="button" id="calculate" class="btn btn-primary">Calculate Reward</button>
+    </div>
+  </form>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-3">How the Calculator Works</h2>
+    <p class="fs-5">The Points Reward Calculator uses a simple formula to calculate the progress towards a reward: <strong>Progress = (Earned Points / Total Points Required) * 100</strong>. This formula provides a clear and accurate representation of the user's progress towards earning a reward.</p>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Earned Points</th>
+                <th>Total Points Required</th>
+                <th>Remaining Points Needed</th>
+                <th>Progress</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>50</td>
+                <td>100</td>
+                <td>50</td>
+                <td>50%</td>
+            </tr>
+            <tr>
+                <td>100</td>
+                <td>200</td>
+                <td>100</td>
+                <td>50%</td>
+            </tr>
+            <tr>
+                <td>200</td>
+                <td>500</td>
+                <td>300</td>
+                <td>40%</td>
+            </tr>
+            <tr>
+                <td>500</td>
+                <td>1000</td>
+                <td>500</td>
+                <td>50%</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-3">Common Use Cases for the Points Reward Calculator</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Tracking progress towards rewards in loyalty programs</li>
+        <li class="list-group-item">Determining the number of points required to redeem a specific reward</li>
+        <li class="list-group-item">Calculating the remaining points needed to earn a reward</li>
+        <li class="list-group-item">Monitoring points balances and adjusting spending habits to maximize rewards</li>
+        <li class="list-group-item">Comparing rewards programs and determining which one offers the best value</li>
+        <li class="list-group-item">Setting goals and creating a plan to earn rewards in a specific timeframe</li>
+        <li class="list-group-item">Understanding the value of points and making informed decisions about redemption options</li>
+        <li class="list-group-item">Identifying opportunities to earn bonus points or accelerate progress towards rewards</li>
+        <li class="list-group-item">Managing multiple rewards accounts and tracking progress towards multiple rewards</li>
+        <li class="list-group-item">Optimizing rewards strategies to maximize earnings and minimize waste</li>
+    </ul>
+</div><script>
+  const params = new URLSearchParams(window.location.search);
+  const start = params.get('start');
+  document.getElementById('points').value = start;
+
+  const pointsInput = document.getElementById('points');
+  const rewardSelect = document.getElementById('reward');
+  const requiredPointsInput = document.getElementById('required-points');
+  const remainingPointsInput = document.getElementById('remaining-points');
+  const progressInput = document.getElementById('progress');
+  const progressBar = document.getElementById('progress-bar');
+  const calculateButton = document.getElementById('calculate');
+  const pointsError = document.getElementById('points-error');
+
+  calculateButton.addEventListener('click', calculateReward);
+
+  function calculateReward() {
+    const points = parseInt(pointsInput.value);
+    const reward = parseInt(rewardSelect.value);
+    if (isNaN(points) || points < 0) {
+      pointsError.textContent = 'Please enter a valid number of points';
+      return;
+    }
+    pointsError.textContent = '';
+    requiredPointsInput.value = reward;
+    remainingPointsInput.value = Math.max(reward - points, 0);
+    const progress = (points / reward) * 100;
+    progressInput.value = progress.toFixed(2);
+    progressBar.style.width = `${progress}%`;
+    progressBar.getAttributeNode('aria-valuenow').value = progress;
+  }
+</script>

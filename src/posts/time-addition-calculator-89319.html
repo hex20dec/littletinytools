@@ -1,0 +1,161 @@
+---
+title: Time Addition Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Time Calculator
+  - Time Addition
+  - Cumulative Time
+  - Time Tracking
+  - Productivity Tool
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input[type="number"] {
+    width: 50px;
+    height: 30px;
+    margin-right: 10px;
+  }
+  #main-div button {
+    margin-top: 10px;
+  }
+ .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Time Addition Calculator</h1><div class="container mt-5">
+  <p class="text-center fs-5">The Time Addition Calculator is a free online tool designed to simplify the process of adding multiple time values together, providing a quick and easy way to calculate cumulative time, making it an essential productivity tool for anyone looking to manage their time more efficiently, and is particularly useful for time tracking, scheduling, and time management purposes.</p>
+</div>
+  <form id="time-form">
+    <div id="input-fields" class="row justify-content-center">
+      <div class="col-md-6">
+        <label for="hours">Hours:</label>
+        <input type="number" id="hours-0" value="" min="0" max="23">
+        <label for="minutes">Minutes:</label>
+        <input type="number" id="minutes-0" value="" min="0" max="59">
+        <button type="button" class="btn btn-primary" id="add-field-btn">+</button>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success mt-3" id="calculate-btn">Calculate</button>
+  </form>
+  <div id="result" class="mt-3"></div>
+  <div id="error-message" class="error-message mt-3"></div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="text-center">How it Works</h2>
+  <p class="fs-5">The Time Addition Calculator works by using a simple formula: it adds up all the hours and minutes input by the user, then converts any excess minutes into hours, ensuring an accurate calculation of the total time.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Hours</th>
+        <th>Minutes</th>
+        <th>Total Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>30</td>
+        <td>1 hour 30 minutes</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>45</td>
+        <td>2 hours 45 minutes</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>15</td>
+        <td>3 hours 15 minutes</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>60</td>
+        <td>5 hours 0 minutes</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>30</td>
+        <td>5 hours 30 minutes</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="text-center">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Time tracking for work hours or projects</li>
+    <li class="list-group-item">Scheduling appointments or meetings</li>
+    <li class="list-group-item">Calculating cumulative time for travel or transportation</li>
+    <li class="list-group-item">Managing study time or homework schedule</li>
+    <li class="list-group-item">Calculating time spent on hobbies or leisure activities</li>
+    <li class="list-group-item">Tracking time spent on tasks or chores</li>
+    <li class="list-group-item">Planning and scheduling events or conferences</li>
+    <li class="list-group-item">Calculating time differences between time zones</li>
+    <li class="list-group-item">Managing time spent on exercise or physical activity</li>
+    <li class="list-group-item">Tracking time spent on reading or learning new skills</li>
+  </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    const [hours, minutes] = startValue.split(':').map(Number);
+    document.getElementById('hours-0').value = hours;
+    document.getElementById('minutes-0').value = minutes;
+  }
+
+  const inputFields = document.getElementById('input-fields');
+  const addFieldBtn = document.getElementById('add-field-btn');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resultDiv = document.getElementById('result');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  let fieldCount = 0;
+
+  addFieldBtn.addEventListener('click', () => {
+    fieldCount++;
+    const newField = document.createElement('div');
+    newField.innerHTML = `
+      <label for="hours-${fieldCount}">Hours:</label>
+      <input type="number" id="hours-${fieldCount}" min="0" max="23">
+      <label for="minutes-${fieldCount}">Minutes:</label>
+      <input type="number" id="minutes-${fieldCount}" min="0" max="59">
+    `;
+    inputFields.appendChild(newField);
+  });
+
+  calculateBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const hoursInputs = document.querySelectorAll('input[id^="hours-"]');
+    const minutesInputs = document.querySelectorAll('input[id^="minutes-"]');
+    let totalHours = 0;
+    let totalMinutes = 0;
+
+    for (let i = 0; i < hoursInputs.length; i++) {
+      const hoursValue = parseInt(hoursInputs[i].value);
+      const minutesValue = parseInt(minutesInputs[i].value);
+      if (isNaN(hoursValue) || isNaN(minutesValue)) {
+        errorMessageDiv.textContent = 'Please enter valid time values';
+        return;
+      }
+      totalHours += hoursValue;
+      totalMinutes += minutesValue;
+    }
+
+    totalHours += Math.floor(totalMinutes / 60);
+    totalMinutes %= 60;
+
+    const result = `${totalHours} hours and ${totalMinutes} minutes`;
+    resultDiv.textContent = result;
+    errorMessageDiv.textContent = '';
+  });
+</script>

@@ -1,0 +1,199 @@
+---
+title: Calculate Your Body Mass Index (BMI) with Our Easy-to-Use Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - BMI Calculator
+  - Body Mass Index
+  - Weight Status
+  - Health and Wellness
+  - Fitness Tool
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+ .input-group {
+    margin-bottom: 10px;
+  }
+ .btn {
+    background-color: #4CAF50;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+ .btn:hover {
+    background-color: #3e8e41;
+  }
+ .result {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container mt-5">
+    <h1 class="text-center">Body Mass Index (BMI) Calculator</h1><div class="header-section p-5 text-center bg-primary text-white">
+    <p class="lead fs-4">The Body Mass Index (BMI) Calculator is a simple and widely used tool to assess weight status, providing a reliable indication of whether your weight is in a healthy range for your height. By using this calculator, you can determine your BMI and understand the associated health risks, helping you make informed decisions about your lifestyle and wellness.</p>
+</div>
+    <p class="text-center">BMI is a simple and widely used measurement to assess weight status.</p>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form>
+          <div class="input-group">
+            <label for="weight" class="input-group-text">Weight</label>
+            <input type="number" id="weight" class="form-control" value="" step="any" required>
+            <select id="weight-unit" class="form-select">
+              <option value="kg">kg</option>
+              <option value="lbs">lbs</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="height" class="input-group-text">Height</label>
+            <input type="number" id="height" class="form-control" value="" step="any" required>
+            <select id="height-unit" class="form-select">
+              <option value="m">m</option>
+              <option value="cm">cm</option>
+              <option value="ft">ft</option>
+              <option value="in">in</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-primary" onclick="calculateBMI()">Calculate BMI</button>
+        </form>
+        <div class="result" id="result"></div>
+        <div class="legend">
+          <p>Underweight: BMI < 18.5</p>
+          <p>Normal weight: BMI = 18.5-24.9</p>
+          <p>Overweight: BMI = 25-29.9</p>
+          <p>Obese: BMI ≥ 30</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-4">How the BMI Calculator Works</h2>
+    <p class="lead fs-5">The BMI calculator uses a formula to calculate your Body Mass Index, which is defined as your weight in kilograms divided by the square of your height in meters. The formula is as follows: BMI = weight (in kg) / height (in meters)².</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Weight (kg)</th>
+                <th>Height (m)</th>
+                <th>BMI</th>
+                <th>Weight Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>60</td>
+                <td>1.6</td>
+                <td>23.44</td>
+                <td>Normal weight</td>
+            </tr>
+            <tr>
+                <td>70</td>
+                <td>1.7</td>
+                <td>24.22</td>
+                <td>Normal weight</td>
+            </tr>
+            <tr>
+                <td>80</td>
+                <td>1.8</td>
+                <td>24.69</td>
+                <td>Normal weight</td>
+            </tr>
+            <tr>
+                <td>60</td>
+                <td>1.5</td>
+                <td>26.67</td>
+                <td>Overweight</td>
+            </tr>
+            <tr>
+                <td>90</td>
+                <td>1.9</td>
+                <td>25.06</td>
+                <td>Overweight</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-4">Common Use Cases for the BMI Calculator</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Monitoring weight loss or gain progress</li>
+        <li class="list-group-item">Assessing health risks associated with being underweight or overweight</li>
+        <li class="list-group-item">Determining a healthy weight range for athletic performance</li>
+        <li class="list-group-item">Evaluating the effectiveness of a diet or exercise program</li>
+        <li class="list-group-item">Assessing the risk of chronic diseases, such as diabetes or heart disease</li>
+        <li class="list-group-item">Monitoring growth and development in children and adolescents</li>
+        <li class="list-group-item">Assessing the nutritional status of patients with eating disorders</li>
+        <li class="list-group-item">Evaluating the impact of lifestyle changes on overall health and wellness</li>
+        <li class="list-group-item">Providing a baseline measurement for health and fitness assessments</li>
+        <li class="list-group-item">Supporting healthy lifestyle habits and disease prevention</li>
+    </ul>
+</div><script>
+  function calculateBMI() {
+    const weight = parseFloat(document.getElementById('weight').value);
+    const height = parseFloat(document.getElementById('height').value);
+    const weightUnit = document.getElementById('weight-unit').value;
+    const heightUnit = document.getElementById('height-unit').value;
+
+    if (isNaN(weight) || isNaN(height)) {
+      alert('Invalid input. Please enter a valid weight and height.');
+      return;
+    }
+
+    let weightInKg;
+    let heightInM;
+
+    switch (weightUnit) {
+      case 'kg':
+        weightInKg = weight;
+        break;
+      case 'lbs':
+        weightInKg = weight * 0.453592;
+        break;
+    }
+
+    switch (heightUnit) {
+      case 'm':
+        heightInM = height;
+        break;
+      case 'cm':
+        heightInM = height / 100;
+        break;
+      case 'ft':
+        heightInM = height * 0.3048;
+        break;
+      case 'in':
+        heightInM = height * 0.0254;
+        break;
+    }
+
+    const bmi = weightInKg / (heightInM ** 2);
+
+    let weightStatus;
+    if (bmi < 18.5) {
+      weightStatus = 'Underweight';
+    } else if (bmi < 25) {
+      weightStatus = 'Normal weight';
+    } else if (bmi < 30) {
+      weightStatus = 'Overweight';
+    } else {
+      weightStatus = 'Obese';
+    }
+
+    document.getElementById('result').innerHTML = `Your BMI is ${bmi.toFixed(2)} (${weightStatus})`;
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    document.getElementById('weight').value = startValue;
+  }
+</script>

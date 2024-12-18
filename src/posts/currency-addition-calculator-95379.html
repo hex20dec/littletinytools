@@ -1,0 +1,158 @@
+---
+title: Currency Addition Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-15 12:00:00
+tags:
+  - Currency Calculator
+  - Finance Tool
+  - Personal Finance
+  - Accounting
+  - Travel Expenses
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+ .error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-3">Currency Addition Calculator</h1><div class="container mb-4">
+  <p class="lead">The Currency Addition Calculator is a versatile online tool designed to simplify the process of adding multiple currency values together. Whether you're managing personal finances, handling travel expenses, or dealing with international transactions, this calculator helps you quickly and accurately sum up different amounts in various currencies. By using this tool, you can easily keep track of your expenditures, convert between currencies, and make informed financial decisions. With its user-friendly interface and straightforward functionality, the Currency Addition Calculator is an essential resource for anyone looking to streamline their financial calculations and stay on top of their finances.</p>
+</div>
+  <form>
+    <div class="mb-3" id="input-fields">
+      <label for="value" class="form-label">Value</label>
+      <div class="input-group">
+        <input type="number" id="value" step="any" class="form-control" value="" aria-label="Value" aria-describedby="currency">
+        <select id="currency" class="form-select" aria-label="Currency">
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          <option value="JPY">JPY</option>
+          <option value="GBP">GBP</option>
+          <option value="AUD">AUD</option>
+        </select>
+      </div>
+    </div>
+    <button type="button" id="add-row" class="btn btn-primary mb-3">Add Row</button>
+    <button type="button" id="calculate-total" class="btn btn-primary">Calculate Total</button>
+    <div id="total" class="mb-3"></div>
+    <div id="error-message" class="error-message mb-3"></div>
+  </form>
+</div>
+
+<div class="container mb-4">
+  <h2>How it Works</h2>
+  <p>The Currency Addition Calculator operates based on a simple yet effective formula: it sums up the values of different currencies by recognizing and grouping similar currencies together. This process can be broken down into the following steps:
+    <ol>
+      <li>Input your values along with their respective currencies.</li>
+      <li>The calculator recognizes the currency of each input value.</li>
+      <li>It groups input values by their currency type.</li>
+      <li>Finally, it calculates the total value for each currency group and displays the results.</li>
+    </ol>
+  </p>
+  <h2>Example Use Cases Table</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Value</th>
+        <th>Currency</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>10</td>
+        <td>USD</td>
+        <td>10 USD</td>
+      </tr>
+      <tr>
+        <td>20</td>
+        <td>USD</td>
+        <td>30 USD</td>
+      </tr>
+      <tr>
+        <td>15</td>
+        <td>EUR</td>
+        <td>15 EUR</td>
+      </tr>
+      <tr>
+        <td>30</td>
+        <td>EUR</td>
+        <td>45 EUR</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mb-4">
+  <h2>10 Common Use Cases for the Currency Addition Calculator</h2>
+  <ol>
+    <li><strong>Travel Planning:</strong> Calculate the total cost of your trip by adding up expenses in different currencies.</li>
+    <li><strong>International Shopping:</strong> Compare prices and calculate the total cost of items in different currencies.</li>
+    <li><strong>Foreign Investment:</strong> Calculate the total value of your investments in different currencies.</li>
+    <li><strong>Import/Export Business:</strong> Calculate the total cost of goods and services in different currencies.</li>
+    <li><strong>Personal Finance:</strong> Track your expenses and income in different currencies.</li>
+    <li><strong>Currency Exchange:</strong> Calculate the equivalent value of different currencies.</li>
+    <li><strong>Tax Calculations:</strong> Calculate the total tax liability in different currencies.</li>
+    <li><strong>Accounting:</strong> Calculate the total value of assets and liabilities in different currencies.</li>
+    <li><strong>Financial Reporting:</strong> Calculate the total revenue and expenses in different currencies.</li>
+    <li><strong>E-commerce:</strong> Calculate the total cost of goods and services in different currencies for online transactions.</li>
+  </ol>
+</div><script>
+  const inputFields = document.getElementById('input-fields');
+  const addRowButton = document.getElementById('add-row');
+  const calculateTotalButton = document.getElementById('calculate-total');
+  const totalDiv = document.getElementById('total');
+  const errorMessageDiv = document.getElementById('error-message');
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+
+  if (startValue) {
+    const valueInput = inputFields.querySelector('input');
+    valueInput.value = startValue;
+  }
+
+  addRowButton.addEventListener('click', () => {
+    const newInputField = inputFields.cloneNode(true);
+    inputFields.parentNode.appendChild(newInputField);
+  });
+
+  calculateTotalButton.addEventListener('click', () => {
+    const inputFieldsArray = document.querySelectorAll('#input-fields input');
+    const currencies = document.querySelectorAll('#input-fields select');
+    const values = Array.from(inputFieldsArray).map((input, index) => {
+      const value = parseFloat(input.value);
+      const currency = currencies[index].value;
+      return { value, currency };
+    });
+    const total = {};
+    let error = false;
+
+    values.forEach((valueObject) => {
+      if (isNaN(valueObject.value)) {
+        error = true;
+        errorMessageDiv.textContent = 'Please enter a valid number';
+      } else {
+        if (!total[valueObject.currency]) {
+          total[valueObject.currency] = 0;
+        }
+        total[valueObject.currency] += valueObject.value;
+      }
+    });
+
+    if (error) return;
+
+    totalDiv.innerHTML = '';
+    Object.keys(total).forEach((currency) => {
+      const totalValue = total[currency];
+      const totalElement = document.createElement('p');
+      totalElement.textContent = `${currency}: ${totalValue}`;
+      totalDiv.appendChild(totalElement);
+    });
+  });
+</script>

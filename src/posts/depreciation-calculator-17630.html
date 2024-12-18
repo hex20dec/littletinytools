@@ -1,0 +1,205 @@
+---
+title: Depreciation Calculator Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Depreciation Calculator
+  - Asset Depreciation
+  - Financial Calculator
+  - Tax Calculator
+  - Business Calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+  }
+  #main-div table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  #main-div th, #main-div td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  #main-div th {
+    background-color: #f0f0f0;
+  }
+ .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Depreciation Calculator</h1><div class="header-section bg-light p-5 text-center">
+  <p class="fs-5">The Depreciation Calculator is a valuable tool for businesses and individuals to calculate the depreciation of assets over time. Depreciation is the decrease in value of an asset due to wear and tear, obsolescence, or other factors. This calculator uses the straight-line method and declining balance method to provide an accurate calculation of depreciation. With its user-friendly interface and ability to handle different depreciation methods, this tool is an essential resource for anyone looking to calculate asset depreciation.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="initial-value" class="form-label">Initial Value</label>
+      <input type="number" class="form-control" id="initial-value" placeholder="Enter initial value" value="">
+    </div>
+    <div class="mb-3">
+      <label for="useful-life" class="form-label">Useful Life (years)</label>
+      <input type="number" class="form-control" id="useful-life" placeholder="Enter useful life">
+    </div>
+    <div class="mb-3">
+      <label for="residual-value" class="form-label">Residual Value</label>
+      <input type="number" class="form-control" id="residual-value" placeholder="Enter residual value">
+    </div>
+    <div class="mb-3">
+      <label for="depreciation-method" class="form-label">Depreciation Method</label>
+      <select class="form-select" id="depreciation-method">
+        <option value="straight-line">Straight-Line Method</option>
+        <option value="declining-balance">Declining Balance Method</option>
+      </select>
+    </div>
+    <button type="button" class="btn btn-primary" id="calculate-depreciation">Calculate Depreciation</button>
+  </form>
+  <div id="result"></div>
+</div>
+
+<div class="explanation-section p-5">
+  <h2>How it Works</h2>
+  <p class="fs-5">The Depreciation Calculator works by using the following formula: Annual Depreciation = (Initial Value - Residual Value) / Useful Life. This formula is used for the straight-line method. For the declining balance method, the formula is: Annual Depreciation = Book Value x Declining Balance Rate.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Useful Life (years)</th>
+        <th>Initial Value</th>
+        <th>Residual Value</th>
+        <th>Depreciation Method</th>
+        <th>Annual Depreciation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>5</td>
+        <td>$10,000</td>
+        <td>$2,000</td>
+        <td>Straight-Line</td>
+        <td>$1,600</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>$20,000</td>
+        <td>$5,000</td>
+        <td>Declining Balance</td>
+        <td>$3,000</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>$15,000</td>
+        <td>$3,000</td>
+        <td>Straight-Line</td>
+        <td>$1,714</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Calculating depreciation for tax purposes</li>
+    <li class="list-group-item">Determining the book value of assets for financial reporting</li>
+    <li class="list-group-item">Evaluating the cost of owning and maintaining assets</li>
+    <li class="list-group-item">Comparing different depreciation methods for assets</li>
+    <li class="list-group-item">Calculating depreciation for lease agreements</li>
+    <li class="list-group-item">Determining the salvage value of assets at the end of their useful life</li>
+    <li class="list-group-item">Calculating depreciation for philanthropic donations of assets</li>
+    <li class="list-group-item">Evaluating the impact of depreciation on cash flow and profitability</li>
+    <li class="list-group-item">Comparing the cost of owning assets versus leasing them</li>
+    <li class="list-group-item">Calculating depreciation for assets used in research and development</li>
+  </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  document.getElementById('initial-value').value = startValue;
+
+  document.getElementById('calculate-depreciation').addEventListener('click', calculateDepreciation);
+
+  function calculateDepreciation() {
+    const initialValue = parseFloat(document.getElementById('initial-value').value);
+    const usefulLife = parseFloat(document.getElementById('useful-life').value);
+    const residualValue = parseFloat(document.getElementById('residual-value').value);
+    const depreciationMethod = document.getElementById('depreciation-method').value;
+
+    if (isNaN(initialValue) || isNaN(usefulLife) || isNaN(residualValue)) {
+      displayErrorMessage('Please enter valid numbers');
+      return;
+    }
+
+    if (initialValue <= 0 || usefulLife <= 0 || residualValue < 0) {
+      displayErrorMessage('Please enter positive numbers for initial value and useful life, and a non-negative number for residual value');
+      return;
+    }
+
+    if (residualValue > initialValue) {
+      displayErrorMessage('Residual value cannot be greater than initial value');
+      return;
+    }
+
+    let annualDepreciation;
+    if (depreciationMethod === 'straight-line') {
+      annualDepreciation = (initialValue - residualValue) / usefulLife;
+    } else {
+      const straightLineRate = (initialValue - residualValue) / usefulLife;
+      const decliningBalanceRate = straightLineRate * 2;
+      annualDepreciation = initialValue * decliningBalanceRate;
+    }
+
+    const result = [];
+    let accumulatedDepreciation = 0;
+    let bookValue = initialValue;
+    for (let year = 1; year <= usefulLife; year++) {
+      if (depreciationMethod === 'straight-line') {
+        const annualDepreciation = (initialValue - residualValue) / usefulLife;
+        accumulatedDepreciation += annualDepreciation;
+        bookValue -= annualDepreciation;
+      } else {
+        const annualDepreciation = bookValue * decliningBalanceRate;
+        accumulatedDepreciation += annualDepreciation;
+        bookValue -= annualDepreciation;
+      }
+      result.push({
+        year,
+        annualDepreciation: annualDepreciation.toFixed(2),
+        accumulatedDepreciation: accumulatedDepreciation.toFixed(2),
+        bookValue: bookValue.toFixed(2)
+      });
+    }
+
+    displayResult(result);
+  }
+
+  function displayErrorMessage(message) {
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = `<p class="error-message">${message}</p>`;
+  }
+
+  function displayResult(result) {
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Annual Depreciation</th>
+            <th>Accumulated Depreciation</th>
+            <th>Book Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${result.map(row => `
+            <tr>
+              <td>${row.year}</td>
+              <td>${row.annualDepreciation}</td>
+              <td>${row.accumulatedDepreciation}</td>
+              <td>${row.bookValue}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  }
+</script>

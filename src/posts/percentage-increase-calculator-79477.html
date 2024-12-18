@@ -1,0 +1,147 @@
+---
+title: Percentage Increase Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Percentage Increase Calculator
+  - Finance Calculator
+  - Statistics Calculator
+  - Math Calculator
+  - Online Calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <header class="mb-4">
+    <h1 class="text-center">Percentage Increase Calculator</h1><div class="header-section p-5 text-center bg-light">
+  <p class="lead">The Percentage Increase Calculator is a free online tool that calculates the percentage increase between two numbers, providing a quick and easy way to determine the difference between an original value and a new value. This calculator is useful for a wide range of applications, including finance, statistics, and mathematics, and is designed to be user-friendly and straightforward to use. With its simple and intuitive interface, users can easily input the original and new values, and the calculator will instantly display the percentage increase and the actual increase amount, making it an essential tool for anyone looking to calculate percentage increases with ease and accuracy.</p>
+</div>
+  </header>
+  <main class="container mx-auto">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form>
+          <div class="mb-3">
+            <label for="original-value" class="form-label">Original Value</label>
+            <input type="number" id="original-value" class="form-control" step="any" value="">
+          </div>
+          <div class="mb-3">
+            <label for="new-value" class="form-label">New Value</label>
+            <input type="number" id="new-value" class="form-control" step="any">
+          </div>
+          <button type="button" id="calculate-increase" class="btn btn-primary">Calculate Increase</button>
+          <div id="error-message" class="error-message mt-2"></div>
+          <div id="result" class="mt-2"></div>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="explanation-section p-5">
+  <h2 class="mb-3">How it Works</h2>
+  <p>The Percentage Increase Calculator uses a simple formula to calculate the percentage increase between two numbers. The formula is: ((New Value - Original Value) / Original Value) * 100. This formula calculates the difference between the new value and the original value, divides it by the original value, and then multiplies by 100 to get the percentage increase.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Original Value</th>
+        <th>New Value</th>
+        <th>Percentage Increase</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>100</td>
+        <td>120</td>
+        <td>20%</td>
+      </tr>
+      <tr>
+        <td>50</td>
+        <td>75</td>
+        <td>50%</td>
+      </tr>
+      <tr>
+        <td>200</td>
+        <td>250</td>
+        <td>25%</td>
+      </tr>
+      <tr>
+        <td>150</td>
+        <td>200</td>
+        <td>33.33%</td>
+      </tr>
+      <tr>
+        <td>300</td>
+        <td>400</td>
+        <td>33.33%</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5">
+  <h2 class="mb-3">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Calculating the percentage increase in sales revenue from one year to the next</li>
+    <li class="list-group-item">Determining the percentage increase in stock prices over a given period</li>
+    <li class="list-group-item">Calculating the percentage increase in website traffic or social media engagement</li>
+    <li class="list-group-item">Determining the percentage increase in the cost of living or inflation rate</li>
+    <li class="list-group-item">Calculating the percentage increase in productivity or efficiency</li>
+    <li class="list-group-item">Determining the percentage increase in student test scores or academic achievement</li>
+    <li class="list-group-item">Calculating the percentage increase in website conversion rates or lead generation</li>
+    <li class="list-group-item">Determining the percentage increase in employee salaries or benefits</li>
+    <li class="list-group-item">Calculating the percentage increase in customer satisfaction or retention rates</li>
+    <li class="list-group-item">Determining the percentage increase in market share or competitive advantage</li>
+  </ul>
+</div><script>
+  const originalValueInput = document.getElementById('original-value');
+  const newValueInput = document.getElementById('new-value');
+  const calculateButton = document.getElementById('calculate-increase');
+  const errorMessageElement = document.getElementById('error-message');
+  const resultElement = document.getElementById('result');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue!== null &&!isNaN(parseFloat(startValue))) {
+    originalValueInput.value = startValue;
+  }
+
+  calculateButton.addEventListener('click', calculatePercentageIncrease);
+
+  function calculatePercentageIncrease() {
+    const originalValue = parseFloat(originalValueInput.value);
+    const newValue = parseFloat(newValueInput.value);
+
+    if (isNaN(originalValue) || isNaN(newValue)) {
+      displayErrorMessage('Please enter valid numbers');
+      return;
+    }
+
+    if (originalValue <= 0) {
+      displayErrorMessage('Original value must be greater than zero');
+      return;
+    }
+
+    const percentageIncrease = ((newValue - originalValue) / originalValue) * 100;
+    const increaseAmount = newValue - originalValue;
+
+    displayResult(percentageIncrease, increaseAmount);
+  }
+
+  function displayErrorMessage(message) {
+    errorMessageElement.textContent = message;
+    resultElement.textContent = '';
+  }
+
+  function displayResult(percentageIncrease, increaseAmount) {
+    errorMessageElement.textContent = '';
+    resultElement.textContent = `The percentage increase is ${percentageIncrease.toFixed(2)}% (increase of ${increaseAmount.toFixed(2)})`;
+  }
+</script>

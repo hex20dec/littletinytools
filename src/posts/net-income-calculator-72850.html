@@ -1,0 +1,171 @@
+---
+title: Net Income Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Net Income Calculator
+  - Tax Deductions
+  - Financial Planning
+  - Salary Calculator
+  - Personal Finance
+---
+
+<style>
+  #main-div {
+    padding: 20px;
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Net Income Calculator</h1><div class="header-section p-5 text-center bg-light">
+  <p class="lead">
+    The Net Income Calculator is a simple yet powerful tool designed to help individuals and families estimate their take-home pay after accounting for various tax deductions and filing statuses. 
+    By utilizing this calculator, users can input their gross income, number of dependents, filing status, and other deductions to calculate their net income, providing a clear understanding of their financial situation.
+  </p>
+</div>
+  <form id="calculator-form">
+    <div class="mb-3">
+      <label for="gross-income" class="form-label">Gross Income:</label>
+      <input type="number" id="gross-income" class="form-control" value="" required>
+    </div>
+    <div class="mb-3">
+      <label for="number-of-dependents" class="form-label">Number of Dependents:</label>
+      <input type="number" id="number-of-dependents" class="form-control" value="0" required>
+    </div>
+    <div class="mb-3">
+      <label for="filing-status" class="form-label">Filing Status:</label>
+      <select id="filing-status" class="form-select" required>
+        <option value="" disabled selected>Choose a filing status</option>
+        <option value="single">Single</option>
+        <option value="married">Married</option>
+        <option value="head-of-household">Head of Household</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="other-deductions" class="form-label">Other Deductions:</label>
+      <input type="number" id="other-deductions" class="form-control" value="0" required>
+    </div>
+    <button type="submit" class="btn btn-primary" id="calculate-net-income">Calculate Net Income</button>
+  </form>
+  <div id="result-section" class="mt-3">
+    <label for="net-income" class="form-label">Net Income:</label>
+    <p id="net-income"></p>
+    <p id="error-message" class="error-message"></p>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+  <h2>How the Net Income Calculator Works</h2>
+  <p>
+    The calculator uses a straightforward formula to determine net income: 
+    <strong>Net Income = Gross Income - Total Deductions</strong>, where Total Deductions include standard deductions based on filing status, deductions for dependents, and other specified deductions.
+  </p>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Gross Income</th>
+        <th>Filing Status</th>
+        <th>Number of Dependents</th>
+        <th>Other Deductions</th>
+        <th>Net Income</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>$50,000</td>
+        <td>Single</td>
+        <td>0</td>
+        <td>$0</td>
+        <td>$35,600</td>
+      </tr>
+      <tr>
+        <td>$75,000</td>
+        <td>Married</td>
+        <td>2</td>
+        <td>$5,000</td>
+        <td>$50,350</td>
+      </tr>
+      <tr>
+        <td>$100,000</td>
+        <td>Head of Household</td>
+        <td>1</td>
+        <td>$10,000</td>
+        <td>$65,150</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    This table illustrates hypothetical examples of how different inputs can affect the calculated net income. 
+    Actual numbers may vary based on individual circumstances and tax laws.
+  </p>
+</div><div class="use-cases-section p-5">
+  <h2>10 Common Use Cases for the Net Income Calculator</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Estimating take-home pay for budgeting purposes.</li>
+    <li class="list-group-item">Determining the impact of salary changes on net income.</li>
+    <li class="list-group-item">Comparing net income across different job offers.</li>
+    <li class="list-group-item">Planning for tax season and potential refunds or liabilities.</li>
+    <li class="list-group-item">Assessing the financial impact of adding dependents.</li>
+    <li class="list-group-item">Evaluating the effects of filing status changes (e.g., single to married).</li>
+    <li class="list-group-item">Calculating the benefits of increasing deductions through charitable donations.</li>
+    <li class="list-group-item">Understanding how other deductions (e.g., mortgage interest, medical expenses) affect net income.</li>
+    <li class="list-group-item">Making informed decisions about retirement contributions and their tax implications.</li>
+    <li class="list-group-item">Educating oneself on how tax law changes might influence personal net income.</li>
+  </ol>
+</div><script>
+  const calculatorForm = document.getElementById('calculator-form');
+  const grossIncomeInput = document.getElementById('gross-income');
+  const numberOfDependentsInput = document.getElementById('number-of-dependents');
+  const filingStatusSelect = document.getElementById('filing-status');
+  const otherDeductionsInput = document.getElementById('other-deductions');
+  const calculateNetIncomeButton = document.getElementById('calculate-net-income');
+  const resultSection = document.getElementById('result-section');
+  const netIncomeParagraph = document.getElementById('net-income');
+  const errorMessageParagraph = document.getElementById('error-message');
+  const urlParams = new URLSearchParams(window.location.search);
+  const standardDeductions = {
+    single: 12400,
+    married: 24800,
+    'head-of-household': 18650,
+  };
+  const dependentDeduction = 500;
+
+  grossIncomeInput.value = urlParams.get('start') || '';
+
+  calculatorForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const grossIncome = parseFloat(grossIncomeInput.value);
+    const numberOfDependents = parseInt(numberOfDependentsInput.value);
+    const filingStatus = filingStatusSelect.value;
+    const otherDeductions = parseFloat(otherDeductionsInput.value);
+
+    if (isNaN(grossIncome) || isNaN(otherDeductions)) {
+      errorMessageParagraph.textContent = 'Please enter valid numbers for gross income and other deductions.';
+      return;
+    }
+
+    if (numberOfDependents < 0 || filingStatus === '') {
+      errorMessageParagraph.textContent = 'Please enter valid number of dependents and select a filing status.';
+      return;
+    }
+
+    const standardDeduction = standardDeductions[filingStatus];
+    const totalDeductions = standardDeduction + (dependentDeduction * numberOfDependents) + otherDeductions;
+    const netIncome = grossIncome - totalDeductions;
+
+    if (netIncome < 0) {
+      errorMessageParagraph.textContent = 'Net income cannot be negative.';
+      return;
+    }
+
+    netIncomeParagraph.textContent = `Your net income is: $${netIncome.toFixed(2)}`;
+    errorMessageParagraph.textContent = '';
+  });
+</script>

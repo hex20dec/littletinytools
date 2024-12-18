@@ -1,0 +1,200 @@
+---
+title: Weight Addition Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 12:00:00
+tags:
+  - weight calculator
+  - unit conversion
+  - shipping calculator
+  - cooking calculator
+  - construction calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div select {
+    margin-bottom: 1rem;
+  }
+  #main-div button {
+    margin-bottom: 1rem;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="mb-4">Weight Addition Calculator</h1><div class="header-section p-5 text-center">
+    <p class="h2">The Weight Addition Calculator is an online tool designed to simplify the process of adding multiple weights and converting them into a single unit of measurement, such as kilograms, grams, ounces, or pounds. Whether you're a cook, a contractor, or a shipping expert, this calculator is the perfect solution for all your weight-related calculations, providing accurate and efficient results with just a few clicks.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <label for="weight1" class="form-label">Weight 1</label>
+      <input type="number" id="weight1" value="" class="form-control" step="0.01" min="0">
+      <select id="unit1" class="form-select mt-2">
+        <option value="kg">Kilograms (kg)</option>
+        <option value="grams">Grams (g)</option>
+        <option value="oz">Ounces (oz)</option>
+        <option value="lbs">Pounds (lbs)</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <button id="add-weight" class="btn btn-primary mt-4">Add Weight</button>
+    </div>
+  </div>
+  <div id="weights-container" class="mt-4"></div>
+  <button id="calculate-total" class="btn btn-success mt-4">Calculate Total</button>
+  <div id="total-weight" class="mt-4"></div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-4">How the Weight Addition Calculator Works</h2>
+    <p>The calculator uses a simple formula to add multiple weights and convert them into a single unit of measurement. The formula is as follows: Total Weight (in kg) = Weight 1 (in kg) + Weight 2 (in kg) +... + Weight n (in kg), where each weight is converted to kilograms before being added to the total.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Weight (in pounds)</th>
+                <th>Weight (in kilograms)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1 pound</td>
+                <td>0.45 kilograms</td>
+            </tr>
+            <tr>
+                <td>2 pounds</td>
+                <td>0.91 kilograms</td>
+            </tr>
+            <tr>
+                <td>3 pounds</td>
+                <td>1.36 kilograms</td>
+            </tr>
+            <tr>
+                <td>4 pounds</td>
+                <td>1.81 kilograms</td>
+            </tr>
+            <tr>
+                <td>5 pounds</td>
+                <td>2.27 kilograms</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-4">10 Common Use Cases for the Weight Addition Calculator</h2>
+    <ol class="list-group">
+        <li class="list-group-item">Cooking and recipe conversions: Use the calculator to convert ingredient weights and measurements for your favorite recipes.</li>
+        <li class="list-group-item">Shipping and logistics: Calculate the total weight of packages and shipments to determine shipping costs and handling requirements.</li>
+        <li class="list-group-item">Construction and building: Use the calculator to convert and add weights of materials, such as lumber, steel, and concrete, for construction projects.</li>
+        <li class="list-group-item">Science and research: Convert and add weights of samples, substances, and materials for scientific experiments and research projects.</li>
+        <li class="list-group-item">Fitness and exercise: Track your progress and calculate your total weight lifted or moved during workouts.</li>
+        <li class="list-group-item">Agriculture and farming: Use the calculator to convert and add weights of crops, livestock, and equipment for farm management and planning.</li>
+        <li class="list-group-item">Manufacturing and production: Calculate the total weight of products, materials, and components for manufacturing and production processes.</li>
+        <li class="list-group-item">Medical and healthcare: Convert and add weights of patients, medications, and medical supplies for healthcare applications.</li>
+        <li class="list-group-item">Transportation and travel: Calculate the total weight of luggage, cargo, and vehicles for transportation and travel purposes.</li>
+        <li class="list-group-item">Education and teaching: Use the calculator as a teaching tool to help students understand weight conversion and calculation concepts.</li>
+    </ol>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  const weight1Input = document.getElementById('weight1');
+  if (startValue) {
+    weight1Input.value = startValue;
+  }
+
+  const addWeightButton = document.getElementById('add-weight');
+  const weightsContainer = document.getElementById('weights-container');
+  let weightId = 2;
+
+  addWeightButton.addEventListener('click', () => {
+    const weightInput = document.createElement('input');
+    weightInput.type = 'number';
+    weightInput.id = `weight${weightId}`;
+    weightInput.className = 'form-control mt-2';
+    weightInput.step = '0.01';
+    weightInput.min = '0';
+
+    const unitSelect = document.createElement('select');
+    unitSelect.id = `unit${weightId}`;
+    unitSelect.className = 'form-select mt-2';
+    const unitOptions = [
+      { value: 'kg', text: 'Kilograms (kg)' },
+      { value: 'grams', text: 'Grams (g)' },
+      { value: 'oz', text: 'Ounces (oz)' },
+      { value: 'lbs', text: 'Pounds (lbs)' }
+    ];
+    unitOptions.forEach(option => {
+      const optionElement = document.createElement('option');
+      optionElement.value = option.value;
+      optionElement.text = option.text;
+      unitSelect.appendChild(optionElement);
+    });
+
+    const removeButton = document.createElement('button');
+    removeButton.type = 'button';
+    removeButton.className = 'btn btn-danger mt-2';
+    removeButton.textContent = 'Remove';
+    removeButton.addEventListener('click', () => {
+      weightsContainer.removeChild(removeButton.parentNode);
+    });
+
+    const weightContainer = document.createElement('div');
+    weightContainer.className = 'row';
+    weightContainer.appendChild(weightInput);
+    weightContainer.appendChild(unitSelect);
+    weightContainer.appendChild(removeButton);
+    weightsContainer.appendChild(weightContainer);
+
+    weightId++;
+  });
+
+  const calculateTotalButton = document.getElementById('calculate-total');
+  const totalWeightDiv = document.getElementById('total-weight');
+
+  calculateTotalButton.addEventListener('click', () => {
+    const weights = [];
+    const unit1 = document.getElementById('unit1').value;
+    const weight1 = parseFloat(document.getElementById('weight1').value);
+    if (!isNaN(weight1)) {
+      weights.push({ value: weight1, unit: unit1 });
+    }
+
+    for (let i = 2; i < weightId; i++) {
+      const weightInput = document.getElementById(`weight${i}`);
+      const unitSelect = document.getElementById(`unit${i}`);
+      if (weightInput && unitSelect) {
+        const weightValue = parseFloat(weightInput.value);
+        const unit = unitSelect.value;
+        if (!isNaN(weightValue)) {
+          weights.push({ value: weightValue, unit: unit });
+        }
+      }
+    }
+
+    if (weights.length === 0) {
+      totalWeightDiv.textContent = 'Please enter at least one weight value.';
+      return;
+    }
+
+    const totalWeight = weights.reduce((acc, current) => {
+      let currentValue = current.value;
+      switch (current.unit) {
+        case 'grams':
+          currentValue /= 1000;
+          break;
+        case 'oz':
+          currentValue /= 35.274;
+          break;
+        case 'lbs':
+          currentValue /= 2.205;
+          break;
+      }
+      return acc + currentValue;
+    }, 0);
+
+    totalWeightDiv.textContent = `Total weight: ${totalWeight.toFixed(2)} kg`;
+  });
+</script>

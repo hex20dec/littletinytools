@@ -1,0 +1,162 @@
+---
+title: Tax Liability Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Tax Calculator
+  - Income Tax
+  - Tax Liability
+  - Finance Tool
+  - Tax Planning
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div select {
+    margin-bottom: 1rem;
+  }
+  #main-div button {
+    margin-top: 1rem;
+  }
+  #main-div.list-group-item {
+    padding: 0.5rem;
+  }
+  #main-div.alert {
+    margin-top: 1rem;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Tax Calculator</h1><div class="header-section p-5 text-center bg-primary text-white">
+    <p class="fs-4">The Tax Liability Calculator is a free online tool designed to help individuals estimate their tax liability based on their gross income, tax rate, and number of dependents. By using this calculator, users can gain a better understanding of their tax obligations and make informed decisions about their financial planning. With its simple and intuitive interface, the Tax Liability Calculator is an essential resource for anyone looking to navigate the complexities of tax law and ensure they are in compliance with all tax regulations.</p>
+</div>
+  <section class="input-section mb-5">
+    <form>
+      <div class="mb-3">
+        <label for="grossIncome" class="form-label">Gross Income:</label>
+        <input type="number" id="grossIncome" class="form-control" value="" required>
+      </div>
+      <div class="mb-3">
+        <label for="taxRate" class="form-label">Tax Rate:</label>
+        <select id="taxRate" class="form-select" required>
+          <option value="">Select Tax Rate</option>
+          <option value="0.10">10%</option>
+          <option value="0.20">20%</option>
+          <option value="0.30">30%</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="dependents" class="form-label">Number of Dependents:</label>
+        <input type="number" id="dependents" class="form-control" value="0" required>
+      </div>
+      <button type="button" id="calculateBtn" class="btn btn-primary d-grid gap-2 d-md-flex justify-content-md-end">Calculate</button>
+    </form>
+  </section>
+  <section class="calculation-section mb-5" style="display: none;">
+    <h2>Calculation Steps:</h2>
+    <ul class="list-group">
+      <li class="list-group-item">Gross Income: <span id="grossIncomeDisplay"></span></li>
+      <li class="list-group-item">Tax Rate: <span id="taxRateDisplay"></span></li>
+      <li class="list-group-item">Number of Dependents: <span id="dependentsDisplay"></span></li>
+      <li class="list-group-item">Tax Liability: <span id="taxLiabilityDisplay"></span></li>
+    </ul>
+  </section>
+  <section class="result-section mb-5" style="display: none;">
+    <h2>Result:</h2>
+    <div class="alert alert-success" id="resultDisplay"></div>
+    <button type="button" id="resetBtn" class="btn btn-secondary d-grid gap-2 d-md-flex justify-content-md-end">Reset</button>
+  </section>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-4">How the Tax Liability Calculator Works</h2>
+    <p class="fs-5">The Tax Liability Calculator uses a simple formula to estimate tax liability: Tax Liability = Gross Income * Tax Rate - (Number of Dependents * 1000). This formula takes into account the user's gross income, tax rate, and number of dependents to provide an accurate estimate of their tax liability.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Gross Income</th>
+                <th>Tax Rate</th>
+                <th>Number of Dependents</th>
+                <th>Tax Liability</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>$50,000</td>
+                <td>10%</td>
+                <td>2</td>
+                <td>$4,000</td>
+            </tr>
+            <tr>
+                <td>$75,000</td>
+                <td>20%</td>
+                <td>1</td>
+                <td>$14,000</td>
+            </tr>
+            <tr>
+                <td>$100,000</td>
+                <td>30%</td>
+                <td>3</td>
+                <td>$27,000</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-4">Top 10 Use Cases for the Tax Liability Calculator</h2>
+    <ol class="list-group numbered">
+        <li class="list-group-item">Estimating tax liability for individuals and families</li>
+        <li class="list-group-item">Planning for tax deductions and credits</li>
+        <li class="list-group-item">Determining the impact of tax rate changes on tax liability</li>
+        <li class="list-group-item">Comparing tax liability across different states or countries</li>
+        <li class="list-group-item">Estimating self-employment tax liability</li>
+        <li class="list-group-item">Calculating tax liability for investments and capital gains</li>
+        <li class="list-group-item">Understanding the impact of dependents on tax liability</li>
+        <li class="list-group-item">Planning for tax obligations when starting a new business</li>
+        <li class="list-group-item">Estimating tax liability for retirement income</li>
+        <li class="list-group-item">Comparing tax liability across different income levels and tax brackets</li>
+    </ol>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    document.getElementById('grossIncome').value = startValue;
+  }
+
+  const calculateBtn = document.getElementById('calculateBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  calculateBtn.addEventListener('click', calculateTax);
+  resetBtn.addEventListener('click', resetForm);
+
+  function calculateTax() {
+    const grossIncome = parseFloat(document.getElementById('grossIncome').value);
+    const taxRate = parseFloat(document.getElementById('taxRate').value);
+    const dependents = parseInt(document.getElementById('dependents').value);
+    if (isNaN(grossIncome) || isNaN(taxRate) || isNaN(dependents)) {
+      alert('Invalid input. Please enter valid numbers.');
+      return;
+    }
+    const taxLiability = grossIncome * taxRate - (dependents * 1000);
+    document.getElementById('grossIncomeDisplay').textContent = grossIncome;
+    document.getElementById('taxRateDisplay').textContent = taxRate * 100 + '%';
+    document.getElementById('dependentsDisplay').textContent = dependents;
+    document.getElementById('taxLiabilityDisplay').textContent = taxLiability;
+    document.getElementById('resultDisplay').textContent = 'Your tax liability is: ' + taxLiability;
+    document.querySelector('.calculation-section').style.display = 'block';
+    document.querySelector('.result-section').style.display = 'block';
+  }
+
+  function resetForm() {
+    document.getElementById('grossIncome').value = '';
+    document.getElementById('taxRate').value = '';
+    document.getElementById('dependents').value = '0';
+    document.querySelector('.calculation-section').style.display = 'none';
+    document.querySelector('.result-section').style.display = 'none';
+  }
+</script>

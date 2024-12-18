@@ -1,0 +1,150 @@
+---
+title: Unit Price Calculator - Compare Prices Easily
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-07-15 14:30:00
+tags:
+  - Unit Price Calculator
+  - Price Comparison
+  - Cost-Effective Shopping
+  - Online Shopping Tool
+  - Discount Calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+ .input-field {
+    margin-bottom: 1rem;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Unit Price Calculator</h1><div class="container mt-5">
+  <p class="text-center lead">The Unit Price Calculator is a handy online tool designed to help consumers make informed purchase decisions by comparing the prices of different products based on their unit prices. Whether you're shopping for groceries, household essentials, or any other product, this calculator provides a quick and easy way to determine which option offers the best value for your money, taking into account the price and quantity of each item, and expressing the result in a convenient unit of measurement.</p>
+</div>
+  <form>
+    <div class="input-field">
+      <label for="price">Price:</label>
+      <input type="number" id="price" step="0.01" min="0" value="" class="form-control" required>
+    </div>
+    <div class="input-field">
+      <label for="quantity">Quantity/Weight:</label>
+      <input type="number" id="quantity" step="0.01" min="0" value="" class="form-control" required>
+    </div>
+    <div class="input-field">
+      <label for="unit">Unit of Measurement:</label>
+      <select id="unit" class="form-select">
+        <option value="ounce">per ounce</option>
+        <option value="pound">per pound</option>
+        <option value="gram">per gram</option>
+        <option value="kilogram">per kilogram</option>
+        <option value="liter">per liter</option>
+        <option value="milliliter">per milliliter</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Calculate Unit Price</button>
+    <div class="input-field">
+      <label for="result">Unit Price:</label>
+      <input type="text" id="result" class="form-control" readonly>
+    </div>
+    <div class="error-message" id="error-message"></div>
+  </form>
+</div>
+
+<div class="container mt-5">
+  <h2 class="mb-3">How the Unit Price Calculator Works</h2>
+  <p>The calculator uses a simple formula to determine the unit price of a product: Unit Price = Total Price / Quantity. This formula allows you to easily compare the prices of different products, even if they have different quantities or units of measurement.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Total Price</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>$10.00</td>
+        <td>2 pounds</td>
+        <td>$5.00 per pound</td>
+      </tr>
+      <tr>
+        <td>$15.00</td>
+        <td>3 pounds</td>
+        <td>$5.00 per pound</td>
+      </tr>
+      <tr>
+        <td>$20.00</td>
+        <td>4 pounds</td>
+        <td>$5.00 per pound</td>
+      </tr>
+      <tr>
+        <td>$8.00</td>
+        <td>1 kilogram</td>
+        <td>$8.00 per kilogram</td>
+      </tr>
+      <tr>
+        <td>$12.00</td>
+        <td>1.5 kilograms</td>
+        <td>$8.00 per kilogram</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="mb-3">10 Common Use Cases for the Unit Price Calculator</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Comparing prices of different brands of cereal</li>
+    <li class="list-group-item">Determining the best value for laundry detergent</li>
+    <li class="list-group-item">Calculating the unit price of meat or produce</li>
+    <li class="list-group-item">Comparing prices of different sizes of snacks</li>
+    <li class="list-group-item">Finding the best deal on household cleaning supplies</li>
+    <li class="list-group-item">Calculating the unit price of pet food</li>
+    <li class="list-group-item">Comparing prices of different types of coffee or tea</li>
+    <li class="list-group-item">Determining the best value for personal care products</li>
+    <li class="list-group-item">Calculating the unit price of baby formula or diapers</li>
+    <li class="list-group-item">Comparing prices of different brands of bottled water</li>
+  </ol>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  const priceInput = document.getElementById('price');
+  const quantityInput = document.getElementById('quantity');
+  const unitSelect = document.getElementById('unit');
+  const calculateButton = document.querySelector('button[type="submit"]');
+  const resultInput = document.getElementById('result');
+  const errorMessage = document.getElementById('error-message');
+
+  if (startValue) {
+    priceInput.value = startValue;
+  }
+
+  calculateButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    const price = parseFloat(priceInput.value);
+    const quantity = parseFloat(quantityInput.value);
+    const unit = unitSelect.value;
+
+    if (isNaN(price) || isNaN(quantity)) {
+      errorMessage.textContent = 'Please enter a valid price and quantity.';
+      return;
+    }
+
+    if (price <= 0 || quantity <= 0) {
+      errorMessage.textContent = 'Please enter a positive price and quantity.';
+      return;
+    }
+
+    const unitPrice = price / quantity;
+    resultInput.value = `$${unitPrice.toFixed(2)} ${unit}`;
+    errorMessage.textContent = '';
+  });
+</script>

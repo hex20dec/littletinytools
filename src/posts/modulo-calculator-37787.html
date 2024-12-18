@@ -1,0 +1,142 @@
+---
+title: Modulo Calculator Tool
+permalink: "/{{ title | uniqueSlug(page) }}/" 
+date: 2020-05-01 12:00:00
+tags:
+  - Modulo Calculator
+  - Online Calculator
+  - Math Tool
+  - Division Tool
+  - Remainder Calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div.form-control {
+    margin-bottom: 1rem;
+  }
+  #main-div.btn {
+    margin-bottom: 1rem;
+  }
+  #main-div.alert {
+    margin-bottom: 1rem;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center mb-4">Modulo Calculator</h1><div class="container mt-5">
+  <p class="lead text-center">The Modulo Calculator Tool is an online mathematical instrument designed to compute the remainder of an integer division operation, also known as the modulo operation. It takes two inputs, the dividend and the divisor, and calculates the remainder when the dividend is divided by the divisor, providing a simple and efficient way to perform this fundamental arithmetic operation. With its user-friendly interface and instant calculations, this tool is ideal for students, programmers, and anyone who needs to quickly and accurately determine the remainder of a division operation.</p>
+</div>
+  <form>
+    <div class="row mb-3">
+      <label for="dividend" class="col-sm-2 col-form-label">Dividend</label>
+      <div class="col-sm-10">
+        <input type="number" class="form-control" id="dividend" value="">
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="divisor" class="col-sm-2 col-form-label">Divisor</label>
+      <div class="col-sm-10">
+        <input type="number" class="form-control" id="divisor">
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary" id="calculate-btn">Calculate</button>
+    <div class="row mb-3">
+      <label for="result" class="col-sm-2 col-form-label">Result</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="result" readonly>
+      </div>
+    </div>
+    <div id="error-message" class="alert alert-danger" role="alert"></div>
+  </form>
+</div>
+
+<div class="container mt-5">
+  <h2 class="mb-3">How it Works</h2>
+  <p>The Modulo Calculator Tool uses a simple formula to calculate the remainder of an integer division operation: Result = Dividend mod Divisor. This can be expressed as: Result = Dividend - (Divisor * Quotient), where Quotient is the largest whole number that can be divided into the Dividend without exceeding it.</p>
+  <table class="table table-striped mt-3">
+    <thead>
+      <tr>
+        <th>Dividend</th>
+        <th>Divisor</th>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>17</td>
+        <td>5</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>23</td>
+        <td>7</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>11</td>
+        <td>3</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>45</td>
+        <td>9</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>28</td>
+        <td>4</td>
+        <td>0</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="mb-3">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Checking if a number is even or odd by using the modulo operator with 2.</li>
+    <li class="list-group-item">Determining the remainder of a division operation in mathematics and programming.</li>
+    <li class="list-group-item">Converting between different units of measurement, such as inches to feet or meters to centimeters.</li>
+    <li class="list-group-item">Calculating the number of days in a month or the number of hours in a day.</li>
+    <li class="list-group-item">Finding the greatest common divisor (GCD) of two numbers using the Euclidean algorithm.</li>
+    <li class="list-group-item">Validating credit card numbers using the Luhn algorithm, which relies on the modulo operator.</li>
+    <li class="list-group-item">Generating random numbers or pseudorandom numbers for simulations or modeling.</li>
+    <li class="list-group-item">Creating cyclical patterns or repeating sequences in music, art, or design.</li>
+    <li class="list-group-item">Simplifying complex fractions or rational expressions in algebra.</li>
+    <li class="list-group-item">Modeling real-world phenomena, such as population growth or chemical reactions, using mathematical equations.</li>
+  </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  document.getElementById('dividend').value = startValue;
+
+  const calculateBtn = document.getElementById('calculate-btn');
+  const dividendInput = document.getElementById('dividend');
+  const divisorInput = document.getElementById('divisor');
+  const resultInput = document.getElementById('result');
+  const errorMessage = document.getElementById('error-message');
+
+  calculateBtn.addEventListener('click', () => {
+    const dividend = parseFloat(dividendInput.value);
+    const divisor = parseFloat(divisorInput.value);
+
+    if (isNaN(dividend) || isNaN(divisor)) {
+      errorMessage.textContent = 'Invalid input. Please enter a valid number.';
+      return;
+    }
+
+    if (divisor === 0) {
+      errorMessage.textContent = 'Cannot divide by zero.';
+      return;
+    }
+
+    const result = dividend % divisor;
+    resultInput.value = result;
+    errorMessage.textContent = '';
+  });
+</script>

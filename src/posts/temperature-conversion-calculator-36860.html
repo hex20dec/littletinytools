@@ -1,0 +1,182 @@
+---
+title: Temperature Conversion Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Temperature Conversion
+  - Calculator
+  - Celsius
+  - Fahrenheit
+  - Kelvin
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Temperature Conversion Calculator</h1><div class="container mt-5">
+  <p class="text-center fs-5">The Temperature Conversion Calculator is a simple and intuitive tool designed to convert temperatures between Celsius, Fahrenheit, and Kelvin scales. This online calculator provides a convenient and accurate way to perform temperature conversions, making it an essential resource for scientists, engineers, and anyone who needs to work with different temperature units. With its user-friendly interface and precise calculations, this temperature converter is an ideal solution for various applications, including scientific research, cooking, and weather forecasting.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="temperature-value" class="form-label">Temperature Value:</label>
+      <input type="number" id="temperature-value" class="form-control" value="" step="any">
+    </div>
+    <div class="mb-3">
+      <label for="input-unit" class="form-label">Input Unit:</label>
+      <select id="input-unit" class="form-select">
+        <option value="celsius">Celsius</option>
+        <option value="fahrenheit">Fahrenheit</option>
+        <option value="kelvin">Kelvin</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="output-unit" class="form-label">Output Unit:</label>
+      <select id="output-unit" class="form-select">
+        <option value="celsius">Celsius</option>
+        <option value="fahrenheit">Fahrenheit</option>
+        <option value="kelvin">Kelvin</option>
+      </select>
+    </div>
+    <button type="button" id="convert-button" class="btn btn-primary">Convert</button>
+    <div id="result" class="mt-3"></div>
+    <div id="error-message" class="error-message mt-3"></div>
+  </form>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The temperature conversion process involves a simple formula that takes into account the input temperature value and the conversion factor between the input and output units. The formula can be explained as follows: to convert a temperature from one unit to another, we multiply the input temperature by a conversion factor, which is determined by the specific units involved. For example, to convert Celsius to Fahrenheit, we multiply the Celsius temperature by 9/5 and then add 32.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Input Temperature (°C)</th>
+        <th>Output Temperature (°F)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0</td>
+        <td>32</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>50</td>
+      </tr>
+      <tr>
+        <td>20</td>
+        <td>68</td>
+      </tr>
+      <tr>
+        <td>30</td>
+        <td>86</td>
+      </tr>
+      <tr>
+        <td>40</td>
+        <td>104</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>This table illustrates the conversion of temperatures from Celsius to Fahrenheit for a range of input values. By using the temperature conversion calculator, you can easily perform similar conversions between different temperature units.</p>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <ol>
+    <li><strong>Scientific Research</strong>: Temperature conversion is essential in various scientific fields, such as physics, chemistry, and biology, where experiments and measurements often require precise temperature control.</li>
+    <li><strong>Cooking and Recipe Conversion</strong>: When following recipes from different countries or regions, it's often necessary to convert temperatures between units to ensure accurate cooking results.</li>
+    <li><strong>Weather Forecasting</strong>: Temperature conversion is crucial in meteorology, where temperatures are often reported in different units, such as Celsius or Fahrenheit.</li>
+    <li><strong>Engineering and Construction</strong>: Temperature conversion is important in various engineering applications, such as designing heating and cooling systems, where precise temperature calculations are necessary.</li>
+    <li><strong>Travel and Tourism</strong>: When traveling to different countries, it's useful to be able to convert temperatures between units to understand the local weather conditions.</li>
+    <li><strong>Medical Applications</strong>: Temperature conversion is used in medical fields, such as pharmacy and medicine, where precise temperature control is essential for storing and handling sensitive substances.</li>
+    <li><strong>Food Safety and Storage</strong>: Temperature conversion is important in the food industry, where temperatures must be controlled to ensure food safety and quality.</li>
+    <li><strong>Aerospace and Aviation</strong>: Temperature conversion is critical in the aerospace industry, where precise temperature calculations are necessary for designing and operating aircraft and spacecraft systems.</li>
+    <li><strong>Automotive Industry</strong>: Temperature conversion is used in the automotive industry, where temperatures must be controlled to ensure optimal engine performance and fuel efficiency.</li>
+    <li><strong>Education and Teaching</strong>: Temperature conversion is an essential concept in science education, where students learn about different temperature units and how to convert between them.</li>
+  </ol>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  document.getElementById('temperature-value').value = startValue;
+
+  const convertButton = document.getElementById('convert-button');
+  const temperatureValueInput = document.getElementById('temperature-value');
+  const inputUnitSelect = document.getElementById('input-unit');
+  const outputUnitSelect = document.getElementById('output-unit');
+  const resultDiv = document.getElementById('result');
+  const errorDiv = document.getElementById('error-message');
+
+  convertButton.addEventListener('click', () => {
+    const temperatureValue = parseFloat(temperatureValueInput.value);
+    const inputUnit = inputUnitSelect.value;
+    const outputUnit = outputUnitSelect.value;
+
+    if (isNaN(temperatureValue)) {
+      errorDiv.innerText = 'Please enter a valid temperature value.';
+      resultDiv.innerText = '';
+      return;
+    }
+
+    if (inputUnit === outputUnit) {
+      errorDiv.innerText = 'Input and output units are the same.';
+      resultDiv.innerText = '';
+      return;
+    }
+
+    let ConvertedTemperature;
+    switch (inputUnit) {
+      case 'celsius':
+        switch (outputUnit) {
+          case 'fahrenheit':
+            ConvertedTemperature = temperatureValue * 9 / 5 + 32;
+            break;
+          case 'kelvin':
+            ConvertedTemperature = temperatureValue + 273.15;
+            break;
+        }
+        break;
+      case 'fahrenheit':
+        switch (outputUnit) {
+          case 'celsius':
+            ConvertedTemperature = (temperatureValue - 32) * 5 / 9;
+            break;
+          case 'kelvin':
+            ConvertedTemperature = (temperatureValue - 32) * 5 / 9 + 273.15;
+            break;
+        }
+        break;
+      case 'kelvin':
+        switch (outputUnit) {
+          case 'celsius':
+            ConvertedTemperature = temperatureValue - 273.15;
+            break;
+          case 'fahrenheit':
+            ConvertedTemperature = (temperatureValue - 273.15) * 9 / 5 + 32;
+            break;
+        }
+        break;
+    }
+
+    resultDiv.innerText = `${temperatureValue} ${getFullUnitName(inputUnit)} is equal to ${ConvertedTemperature.toFixed(2)} ${getFullUnitName(outputUnit)}`;
+    errorDiv.innerText = '';
+  });
+
+  function getFullUnitName(unit) {
+    switch (unit) {
+      case 'celsius':
+        return '°C';
+      case 'fahrenheit':
+        return '°F';
+      case 'kelvin':
+        return 'K';
+    }
+  }
+</script>
