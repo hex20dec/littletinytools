@@ -1,6 +1,5 @@
 // const eleventyNavigationPlugin = require("@11ty/eleventy-navigation");
 const uniqueSlug = require('./filters/uniqueSlug');
-console.log("Loading Eleventy config...");
 
 module.exports = function(eleventyConfig) {
   // Add Nunjucks as a templating engine
@@ -37,6 +36,8 @@ module.exports = function(eleventyConfig) {
     // console.log('DEBUG length: ', value.length);
     return 'debugging...';
   });
+
+
 
   return {
     dir: {
