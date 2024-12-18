@@ -1,0 +1,144 @@
+---
+title: Time Difference in Milliseconds Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Time Calculator
+  - Milliseconds Calculator
+  - Timestamp Converter
+  - Date Time Calculator
+  - Time Difference Calculator
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Time Difference in Milliseconds Calculator</h1><div class="container mt-5">
+  <p class="text-center fs-5">Our Time Difference in Milliseconds Calculator is a free online tool that calculates the time difference between two given times in milliseconds. This calculator takes into account the date and time in the format YYYY-MM-DD HH:MM:SS, making it easy to find the exact time difference in milliseconds between any two points in time. With its user-friendly interface and precise calculations, this tool is perfect for developers, programmers, and anyone looking to calculate time differences with accuracy.</p>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form>
+        <div class="mb-3">
+          <label for="start-time" class="visually-hidden">Start Time</label>
+          <input type="text" id="start-time" class="form-control" placeholder="Start Time (YYYY-MM-DD HH:MM:SS)" value="<?php echo $_GET['start']; ?>">
+        </div>
+        <div class="mb-3">
+          <label for="end-time" class="visually-hidden">End Time</label>
+          <input type="text" id="end-time" class="form-control" placeholder="End Time (YYYY-MM-DD HH:MM:SS)">
+        </div>
+        <button type="button" id="calculate-btn" class="btn btn-primary">Calculate</button>
+        <div class="mb-3">
+          <label for="result" class="visually-hidden">Result</label>
+          <input type="text" id="result" class="form-control" readonly>
+        </div>
+        <div id="error-message" class="error-message"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="text-center">How it Works</h2>
+  <p class="fs-5">The time difference in milliseconds is calculated by subtracting the start time from the end time. This can be represented by the formula: Time Difference (in milliseconds) = |End Time - Start Time|, where the end time and start time are converted into milliseconds since the Unix epoch (January 1, 1970, 00:00:00 UTC).</p>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Time Difference (in milliseconds)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>2022-01-01 00:00:00</td>
+        <td>2022-01-01 00:00:01</td>
+        <td>1000</td>
+      </tr>
+      <tr>
+        <td>2022-01-01 00:00:00</td>
+        <td>2022-01-01 00:00:10</td>
+        <td>10000</td>
+      </tr>
+      <tr>
+        <td>2022-01-01 00:00:00</td>
+        <td>2022-01-01 00:01:00</td>
+        <td>60000</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="text-center">Common Use Cases</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Measuring the execution time of a program or a block of code in milliseconds.</li>
+    <li class="list-group-item">Calculating the time difference between two events or timestamps in milliseconds.</li>
+    <li class="list-group-item">Converting time intervals from seconds or minutes to milliseconds.</li>
+    <li class="list-group-item">Determining the latency or delay between two points in a network or system in milliseconds.</li>
+    <li class="list-group-item">Synchronizing clocks or timing devices in milliseconds.</li>
+    <li class="list-group-item">Measuring the response time of a web application or API in milliseconds.</li>
+    <li class="list-group-item">Calculating the time difference between two dates or datetime values in milliseconds.</li>
+    <li class="list-group-item">Converting date and time values from one time zone to another in milliseconds.</li>
+    <li class="list-group-item">Analyzing the performance of a system or application over time in milliseconds.</li>
+    <li class="list-group-item">Generating timestamps or datetime values with millisecond precision.</li>
+  </ol>
+</div><script>
+  const startTimeInput = document.getElementById('start-time');
+  const endTimeInput = document.getElementById('end-time');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resultInput = document.getElementById('result');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  calculateBtn.addEventListener('click', calculateTimeDifference);
+
+  function calculateTimeDifference() {
+    const startTime = startTimeInput.value;
+    const endTime = endTimeInput.value;
+
+    if (!startTime || !endTime) {
+      showError('Please enter both start and end times.');
+      return;
+    }
+
+    const startTimeParts = startTime.split(' ');
+    const endTimeParts = endTime.split(' ');
+
+    const startTimeDate = new Date(startTimeParts[0]);
+    const startTimeTime = startTimeParts[1].split(':');
+    startTimeDate.setHours(startTimeTime[0]);
+    startTimeDate.setMinutes(startTimeTime[1]);
+    startTimeDate.setSeconds(startTimeTime[2]);
+
+    const endTimeDate = new Date(endTimeParts[0]);
+    const endTimeTime = endTimeParts[1].split(':');
+    endTimeDate.setHours(endTimeTime[0]);
+    endTimeDate.setMinutes(endTimeTime[1]);
+    endTimeDate.setSeconds(endTimeTime[2]);
+
+    if (isNaN(startTimeDate.getTime()) || isNaN(endTimeDate.getTime())) {
+      showError('Invalid date or time format. Please use YYYY-MM-DD HH:MM:SS.');
+      return;
+    }
+
+    const timeDifference = Math.abs(endTimeDate.getTime() - startTimeDate.getTime());
+    const milliseconds = timeDifference;
+
+    resultInput.value = milliseconds;
+    errorMessageDiv.textContent = '';
+  }
+
+  function showError(message) {
+    errorMessageDiv.textContent = message;
+  }
+</script>

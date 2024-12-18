@@ -1,0 +1,164 @@
+---
+title: Calculate Days to Next Workday
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-14 12:00:00
+tags:
+  - Days to Next Workday Calculator
+  - Work Schedule Planner
+  - Task Deadline Calculator
+  - Workday Calculator
+  - Productivity Tool
+---
+
+<style>
+  #main-div {
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <header class="mb-5">
+    <h1 class="display-4">Days to Next Workday Calculator</h1><div class="container mt-5">
+  <p class="lead">The Days to Next Workday Calculator is a productivity tool designed to help individuals plan their work schedule and task deadlines more efficiently. This calculator takes into account the current date and a target date, then calculates the number of days until the next workday, excluding weekends and holidays. With this tool, users can easily determine the number of working days between two dates, making it an essential resource for professionals, students, and anyone looking to manage their time more effectively.</p>
+</div>
+  </header>
+  <section class="row mb-5">
+    <div class="col-md-6">
+      <p class="lead">Current Date: <span id="current-date"></span></p>
+    </div>
+    <div class="col-md-6">
+      <label for="target-date" class="form-label">Select a target date:</label>
+      <input type="date" id="target-date" class="form-control" value="<?php echo $_GET['start']; ?>">
+    </div>
+  </section>
+  <section class="row mb-5">
+    <div class="col-md-12 text-center">
+      <button id="calculate-button" class="btn btn-primary">Calculate</button>
+    </div>
+  </section>
+  <section class="row mb-5">
+    <div class="col-md-12 text-center">
+      <p id="result" class="lead"></p>
+      <p id="error-message" class="error-message"></p>
+    </div>
+  </section>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p class="lead">The Days to Next Workday Calculator uses a simple formula to calculate the number of days until the next workday. The formula is based on the current date and the target date, taking into account the day of the week and excluding weekends.</p>
+  <p class="lead">Here's a breakdown of the calculation process:</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Current Date</th>
+        <th>Target Date</th>
+        <th>Days to Next Workday</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Monday, March 14</td>
+        <td>Friday, March 18</td>
+        <td>3 days</td>
+      </tr>
+      <tr>
+        <td>Tuesday, March 15</td>
+        <td>Monday, March 21</td>
+        <td>5 days</td>
+      </tr>
+      <tr>
+        <td>Wednesday, March 16</td>
+        <td>Tuesday, March 22</td>
+        <td>5 days</td>
+      </tr>
+      <!-- Add more rows to the table as needed -->
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <p class="lead">The Days to Next Workday Calculator has a wide range of applications across various industries and professions. Here are 10 common use cases:</p>
+  <ul class="list-group">
+    <li class="list-group-item">Project managers can use the calculator to plan and schedule tasks and deadlines.</li>
+    <li class="list-group-item">HR professionals can use the calculator to determine the number of working days for employee leave and vacations.</li>
+    <li class="list-group-item">Business owners can use the calculator to plan and schedule meetings and appointments.</li>
+    <li class="list-group-item">Students can use the calculator to plan and schedule study sessions and deadlines.</li>
+    <li class="list-group-item">Financial analysts can use the calculator to determine the number of working days for financial transactions and reports.</li>
+    <li class="list-group-item">Marketing professionals can use the calculator to plan and schedule marketing campaigns and promotions.</li>
+    <li class="list-group-item">Sales teams can use the calculator to plan and schedule sales calls and meetings.</li>
+    <li class="list-group-item">Customer support teams can use the calculator to determine the number of working days for response times and resolution targets.</li>
+    <li class="list-group-item">IT professionals can use the calculator to plan and schedule system updates and maintenance.</li>
+    <li class="list-group-item">Logistics and supply chain managers can use the calculator to plan and schedule shipments and deliveries.</li>
+  </ul>
+</div><script>
+  const currentDateElement = document.getElementById('current-date');
+  const targetDateElement = document.getElementById('target-date');
+  const calculateButton = document.getElementById('calculate-button');
+  const resultElement = document.getElementById('result');
+  const errorMessageElement = document.getElementById('error-message');
+
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const calculateDaysToNextWorkday = (targetDate) => {
+    const targetDateObject = new Date(targetDate);
+    const currentDateString = formatDate(new Date());
+    const currentWeekday = new Date(currentDateString).getDay();
+
+    let nextWorkdayDate;
+    if (currentWeekday === 0 || currentWeekday === 6) {
+      // If today is Sunday or Saturday, move to next Monday
+      targetDateObject.setDate(targetDateObject.getDate() + (7 - targetDateObject.getDay() + 1));
+    }
+
+    while (targetDateObject.getDay() === 0 || targetDateObject.getDay() === 6) {
+      // If target date is Saturday or Sunday, move to next Monday
+      targetDateObject.setDate(targetDateObject.getDate() + (7 - targetDateObject.getDay() + 1));
+    }
+
+    nextWorkdayDate = formatDate(targetDateObject);
+    const nextWorkdayDateObject = new Date(nextWorkdayDate);
+    const difference = Math.round((nextWorkdayDateObject - new Date()) / (1000 * 3600 * 24));
+
+    return difference;
+  };
+
+  calculateButton.addEventListener('click', () => {
+    const targetDate = targetDateElement.value;
+    if (!targetDate) {
+      errorMessageElement.textContent = 'Please select a target date';
+      resultElement.textContent = '';
+      return;
+    }
+
+    const daysToNextWorkday = calculateDaysToNextWorkday(targetDate);
+    if (daysToNextWorkday < 0) {
+      errorMessageElement.textContent = 'Target date is in the past';
+      resultElement.textContent = '';
+    } else {
+      resultElement.textContent = `There are ${daysToNextWorkday} days until the next workday`;
+      errorMessageElement.textContent = '';
+    }
+  });
+
+  const today = new Date();
+  const currentDateString = formatDate(today);
+  currentDateElement.textContent = currentDateString;
+
+  // Initialize date field with query parameter value
+  if (window.location.search) {
+    const queryParameters = new URLSearchParams(window.location.search);
+    const startDate = queryParameters.get('start');
+    if (startDate) {
+      targetDateElement.value = startDate;
+    }
+  }
+</script>

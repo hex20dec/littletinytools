@@ -1,0 +1,168 @@
+---
+title: Date Subtraction Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 12:00:00
+tags:
+  - Date Calculator
+  - Time Interval
+  - Event Planning
+  - Travel Planning
+  - Date Subtraction
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div .form-group {
+    margin-bottom: 1rem;
+  }
+  #main-div .card {
+    background-color: #333;
+    border: none;
+    border-radius: 0.25rem;
+  }
+  #main-div .card-body {
+    padding: 1rem;
+  }
+  #main-div .alert {
+    margin-top: 1rem;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center">Date Subtraction Calculator</h1><div class="container mt-5 mb-5">
+    <h1 class="text-center">Date Subtraction Calculator</h1>
+    <p class="text-center">The Date Subtraction Calculator is an online tool that allows users to calculate the difference between two dates in days, weeks, months, and years. This tool is extremely useful for event planning, travel planning, and any other situation where you need to calculate a time interval. With its simple and user-friendly interface, you can easily calculate the difference between two dates and plan your activities accordingly. This calculator supports various date formats and provides accurate results, making it a reliable tool for anyone looking to calculate a time difference.</p>
+</div>
+  <form>
+    <div class="form-group mb-3">
+      <label for="start-date">Start Date:</label>
+      <input type="date" id="start-date" name="start-date" value="<?php echo $_GET['start']; ?>" required>
+    </div>
+    <div class="form-group mb-3">
+      <label for="end-date">End Date:</label>
+      <input type="date" id="end-date" name="end-date" required>
+    </div>
+    <button type="button" id="calculate-btn" class="btn btn-primary mb-3">Calculate</button>
+  </form>
+  <div id="result"></div>
+  <div id="error" class="alert alert-danger text-center" style="display: none;"></div>
+</div>
+
+<div class="container mt-5 mb-5">
+    <h2 class="text-center">How it Works</h2>
+    <p class="text-center">The Date Subtraction Calculator works by taking two dates as input and calculating the difference between them in days, weeks, months, and years. The formula used to calculate the difference is as follows: 
+        <ol>
+            <li>Calculate the difference in milliseconds between the two dates.</li>
+            <li>Convert the difference in milliseconds to days, weeks, months, and years.</li>
+        </ol>
+    </p>
+    <h3 class="text-center">Example Use Cases</h3>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Days</th>
+                <th>Weeks</th>
+                <th>Months</th>
+                <th>Years</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2022-01-01</td>
+                <td>2022-01-15</td>
+                <td>14</td>
+                <td>2</td>
+                <td>0.46</td>
+                <td>0.038</td>
+            </tr>
+            <tr>
+                <td>2022-06-01</td>
+                <td>2022-12-31</td>
+                <td>213</td>
+                <td>30.43</td>
+                <td>7.1</td>
+                <td>0.58</td>
+            </tr>
+            <tr>
+                <td>2020-03-01</td>
+                <td>2022-03-01</td>
+                <td>730</td>
+                <td>104.29</td>
+                <td>24.33</td>
+                <td>2</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="container mt-5 mb-5">
+    <h2 class="text-center">Top 10 Use Cases for the Date Subtraction Calculator</h2>
+    <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Event planning: Calculate the time left before an event to plan and prepare.</li>
+        <li class="list-group-item">Travel planning: Calculate the duration of a trip to plan and book accommodations and activities.</li>
+        <li class="list-group-item">Birthday and anniversary calculations: Calculate the age of a person or the number of years since a couple got married.</li>
+        <li class="list-group-item">Project management: Calculate the time left to complete a project or task to prioritize and allocate resources.</li>
+        <li class="list-group-item">Marketing campaigns: Calculate the duration of a marketing campaign to plan and evaluate its effectiveness.</li>
+        <li class="list-group-item">Financial calculations: Calculate the time left to pay off a loan or credit card debt to plan and budget.</li>
+        <li class="list-group-item">Education and learning: Calculate the time left to complete a course or degree to plan and prioritize studies.</li>
+        <li class="list-group-item">Fitness and exercise: Calculate the time left to reach a fitness goal or complete a workout program to plan and track progress.</li>
+        <li class="list-group-item">Holidays and celebrations: Calculate the time left before a holiday or celebration to plan and prepare.</li>
+        <li class="list-group-item">Retirement planning: Calculate the time left before retirement to plan and prepare for the future.</li>
+    </ol>
+</div><script>
+  const startDateInput = document.getElementById('start-date');
+  const endDateInput = document.getElementById('end-date');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resultDiv = document.getElementById('result');
+  const errorDiv = document.getElementById('error');
+
+  calculateBtn.addEventListener('click', calculateDateSubtraction);
+
+  function calculateDateSubtraction() {
+    const startDate = new Date(startDateInput.value);
+    const endDate = new Date(endDateInput.value);
+
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      setError('Invalid date format. Please use YYYY-MM-DD.');
+      return;
+    }
+
+    if (endDate < startDate) {
+      setError('End date cannot be before start date.');
+      return;
+    }
+
+    const dateDiff = endDate.getTime() - startDate.getTime();
+    const days = Math.floor(dateDiff / (1000 * 60 * 60 * 24));
+    const weeks = Math.floor(days / 7);
+    const months = Math.floor(days / 30);
+    const years = Math.floor(days / 365);
+
+    const resultHtml = `
+      <div class="card">
+        <div class="card-body">
+          <h5 class="text-center">Result</h5>
+          <p>Days: ${days}</p>
+          <p>Weeks: ${weeks}</p>
+          <p>Months: ${months}</p>
+          <p>Years: ${years}</p>
+        </div>
+      </div>
+    `;
+
+    resultDiv.innerHTML = resultHtml;
+    errorDiv.style.display = 'none';
+  }
+
+  function setError(message) {
+    errorDiv.innerText = message;
+    errorDiv.style.display = 'block';
+    resultDiv.innerHTML = '';
+  }
+</script>
