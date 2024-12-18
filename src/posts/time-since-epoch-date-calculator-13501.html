@@ -1,0 +1,133 @@
+---
+title: Time Since Epoch Date Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Time Calculator
+  - Epoch Date
+  - Date Converter
+  - Unix Time
+  - Time Converter
+---
+
+<style>
+  #main-div {
+    padding: 20px;
+    max-width: 500px;
+    margin: 40px auto;
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .input-group {
+    margin-bottom: 20px;
+  }
+  .btn {
+    width: 100%;
+  }
+  .result {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center">Time Since Epoch Date Calculator</h1><div class="container mt-5 mb-5">
+    <h1>Time Since Epoch Date Calculator: Unlocking the Power of Unix Time Conversion</h1>
+    <p class="lead">Discover the ultimate tool for calculating the time difference between a given date and the epoch date (January 1, 1970, 00:00:00 UTC), providing a precise conversion in seconds, with a user-friendly interface and accurate results.</p>
+</div>
+  <form>
+    <div class="input-group">
+      <label for="date-input">Enter a date (YYYY-MM-DD)</label>
+      <input type="date" id="date-input" value="{{ start }}" class="form-control">
+    </div>
+    <button type="button" class="btn btn-primary" id="calculate-btn">Calculate Time Difference</button>
+    <div class="result" id="result"></div>
+    <div id="current-date"></div>
+    <div id="error-message" class="text-danger"></div>
+  </form>
+</div>
+
+<div class="container mt-5 mb-5">
+    <h2>How it Works</h2>
+    <p>The time since epoch date calculator utilizes a straightforward formula to compute the time difference: Time Difference (in seconds) = (User Input Date - Epoch Date) / 1000. This formula ensures an accurate conversion, where the epoch date serves as the reference point.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Input Date</th>
+                <th>Time Difference (seconds)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2022-01-01</td>
+                <td>1638460800</td>
+            </tr>
+            <tr>
+                <td>2022-06-01</td>
+                <td>1654041600</td>
+            </tr>
+            <tr>
+                <td>2023-01-01</td>
+                <td>1672531200</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="container mt-5 mb-5">
+    <h2>10 Common Use Cases for the Time Since Epoch Date Calculator</h2>
+    <ol>
+        <li><strong>UNIX Time Stamp Conversion</strong>: Convert UNIX timestamps to human-readable dates and vice versa.</li>
+        <li><strong>System Administration</strong>: Calculate the time elapsed since system installation or last update.</li>
+        <li><strong>Software Development</strong>: Use epoch time for timestamping events, logging, or scheduling purposes.</li>
+        <li><strong>Scientific Research</strong>: Analyze time-series data or track experiment durations using epoch time.</li>
+        <li><strong>Data Analysis</strong>: Convert epoch time to human-readable formats for data visualization or reporting.</li>
+        <li><strong>Cryptography</strong>: Utilize epoch time for timestamping digital signatures or verifying document authenticity.</li>
+        <li><strong>Finance and Banking</stock>: Record transaction timestamps or calculate interest rates based on epoch time.</li>
+        <li><strong>Internet of Things (IoT)</strong>: Synchronize device timestamps or track sensor data using epoch time.</li>
+        <li><strong>Gaming</strong>: Use epoch time for game development, such as tracking player progress or scheduling events.</li>
+        <li><strong>Education</strong>: Teach students about epoch time, UNIX timestamps, and time conversion in computer science or programming courses.</li>
+    </ol>
+</div><script>
+  const dateInput = document.getElementById('date-input');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resultDiv = document.getElementById('result');
+  const currentDateDiv = document.getElementById('current-date');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  calculateBtn.addEventListener('click', calculateTimeDifference);
+
+  function calculateTimeDifference() {
+    const userInput = dateInput.value;
+    const epochDate = new Date('1970-01-01T00:00:00.000Z');
+    let userDate;
+
+    try {
+      userDate = new Date(userInput + 'T00:00:00.000Z');
+      if (isNaN(userDate.getTime())) {
+        throw new Error('Invalid date');
+      }
+    } catch (error) {
+      errorMessageDiv.textContent = 'Invalid date. Please enter a valid date in YYYY-MM-DD format.';
+      return;
+    }
+
+    const timeDifference = Math.floor((userDate.getTime() - epochDate.getTime()) / 1000);
+    resultDiv.textContent = `Time difference: ${timeDifference} seconds`;
+
+    const currentDate = new Date();
+    const utcCurrentDate = new Date(currentDate.toUTCString());
+    const utcTimeDifference = Math.floor((utcCurrentDate.getTime() - epochDate.getTime()) / 1000);
+    currentDateDiv.textContent = `Current date and time in UTC: ${utcCurrentDate.toLocaleString()} (Time difference: ${utcTimeDifference} seconds)`;
+
+    errorMessageDiv.textContent = '';
+  }
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const start = urlParams.get('start');
+  if (start) {
+    dateInput.value = start;
+  }
+</script>

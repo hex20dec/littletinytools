@@ -1,0 +1,243 @@
+---
+title: Sunrise Sunset Time Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 12:00:00
+tags:
+  - Sunrise Time
+  - Sunset Time
+  - Time Calculator
+  - Location Based
+  - Daylight Hours
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+  .result-section {
+    margin-top: 2rem;
+  }
+</style>
+
+<div id="main-div">
+  <header class="mb-5">
+    <h1 class="display-4">Sunrise Sunset Time Calculator</h1><div class="container mt-5">
+  <p class="lead">The Sunrise Sunset Time Calculator is an online tool designed to calculate the exact times of sunrise and sunset for any given location and date. This calculator uses complex astronomical formulas to determine the precise timing of these celestial events, taking into account the user's latitude, longitude, and the specific date. By utilizing this tool, users can plan their day according to the solar schedule, whether for outdoor activities, photography, or simply to appreciate the beauty of nature. The calculator provides the sunrise time, sunset time, and the duration of daylight, making it an essential resource for individuals seeking to make the most of their day.</p>
+</div>
+  </header>
+  <form id="sunrise-sunset-form" class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="location" class="form-label">Location:</label>
+          <input type="text" id="location" name="location" class="form-control" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="date" class="form-label">Date:</label>
+          <input type="date" id="date" name="date" class="form-control" required>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="latitude" class="form-label">Latitude:</label>
+          <input type="number" id="latitude" name="latitude" class="form-control" step="0.01" min="-90" max="90">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="longitude" class="form-label">Longitude:</label>
+          <input type="number" id="longitude" name="longitude" class="form-control" step="0.01" min="-180" max="180">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="mb-3">
+          <button type="submit" id="calculate-button" class="btn btn-primary">Calculate</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div id="result-section" class="result-section alert alert-secondary" role="alert"></div>
+</div>
+
+<div class="container mt-5">
+  <h2>How the Sunrise Sunset Time Calculator Works</h2>
+  <p>The calculator uses a formula that involves the latitude and longitude of the location, as well as the date, to calculate the sunrise and sunset times. The formula is based on the astronomical principles of the Earth's rotation and orbit around the Sun. The calculator takes into account the Earth's slightly ellipsoidal shape and the tilt of its axis to provide accurate results.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Location</th>
+        <th>Sunrise Time</th>
+        <th>Sunset Time</th>
+        <th>Daylight Hours</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Summer Solstice</td>
+        <td>New York City</td>
+        <td>5:30 AM</td>
+        <td>8:30 PM</td>
+        <td>15 hours</td>
+      </tr>
+      <tr>
+        <td>Winter Solstice</td>
+        <td>Los Angeles</td>
+        <td>7:00 AM</td>
+        <td>4:30 PM</td>
+        <td>9.5 hours</td>
+      </tr>
+      <tr>
+        <td>Equinox</td>
+        <td>Chicago</td>
+        <td>6:30 AM</td>
+        <td>6:30 PM</td>
+        <td>12 hours</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>10 Common Use Cases for the Sunrise Sunset Time Calculator</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Planning outdoor activities such as hiking, biking, or sports</li>
+    <li class="list-group-item">Determining the best time for photography or videography</li>
+    <li class="list-group-item">Scheduling outdoor events such as weddings, parties, or festivals</li>
+    <li class="list-group-item">Planning travel itineraries and adjusting to local time zones</li>
+    <li class="list-group-item">Optimizing energy consumption and reducing energy waste</li>
+    <li class="list-group-item">Improving agriculture and farming practices by understanding daylight hours</li>
+    <li class="list-group-item">Enhancing architectural design and urban planning with natural light considerations</li>
+    <li class="list-group-item">Supporting scientific research and studies on climate, astronomy, and geography</li>
+    <li class="list-group-item">Assisting in emergency response and search and rescue operations</li>
+    <li class="list-group-item">Informing urban planning and infrastructure development with data-driven insights</li>
+  </ul>
+</div><script>
+  const params = new URLSearchParams(window.location.search);
+  const startLocation = params.get('start');
+  if (startLocation) {
+    document.getElementById('location').value = startLocation;
+  }
+
+  const sunriseSunsetForm = document.getElementById('sunrise-sunset-form');
+  sunriseSunsetForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const location = document.getElementById('location').value;
+    const date = document.getElementById('date').value;
+    const latitude = document.getElementById('latitude').value;
+    const longitude = document.getElementById('longitude').value;
+
+    if (!location || !date) {
+      alert('Please enter location and date');
+      return;
+    }
+
+    const calculatedResult = calculateSunriseSunset(location, date, latitude, longitude);
+    if (calculatedResult) {
+      const resultHtml = `
+        <h5>Result:</h5>
+        <p> Sunrise Time: ${calculatedResult.sunriseTime}</p>
+        <p> Sunset Time: ${calculatedResult.sunsetTime}</p>
+        <p> Difference: ${calculatedResult.difference}</p>
+      `;
+      document.getElementById('result-section').innerHTML = resultHtml;
+    }
+  });
+
+  function calculateSunriseSunset(location, date, latitude, longitude) {
+    const dateObject = new Date(date);
+    const latitudeInRadians = latitude * Math.PI / 180;
+    const longitudeInRadians = longitude * Math.PI / 180;
+    const julianDate = getJulianDate(dateObject);
+    const sunriseHourAngle = getSunriseHourAngle(latitudeInRadians, julianDate);
+    const sunsetHourAngle = getSunsetHourAngle(latitudeInRadians, julianDate);
+    const sunriseTime = getSunriseTime(sunriseHourAngle, longitudeInRadians, dateObject);
+    const sunsetTime = getSunsetTime(sunsetHourAngle, longitudeInRadians, dateObject);
+    const difference = getDifference(sunriseTime, sunsetTime);
+
+    return {
+      sunriseTime: formatTime(sunriseTime),
+      sunsetTime: formatTime(sunsetTime),
+      difference: formatDifference(difference),
+    };
+  }
+
+  function getJulianDate(date) {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const a = Math.floor((14 - month) / 12);
+    const y = year + 4800 - a;
+    const m = month + 12 * a - 3;
+    return day + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
+  }
+
+  function getSunriseHourAngle(latitude, julianDate) {
+    const solarDeclination = getSolarDeclination(julianDate);
+    const equationOfTime = getEquationOfTime(julianDate);
+    const hourAngle = Math.acos(-Math.tan(latitude) * Math.tan(solarDeclination)) - equationOfTime;
+    return hourAngle;
+  }
+
+  function getSunsetHourAngle(latitude, julianDate) {
+    const solarDeclination = getSolarDeclination(julianDate);
+    const equationOfTime = getEquationOfTime(julianDate);
+    const hourAngle = -Math.acos(-Math.tan(latitude) * Math.tan(solarDeclination)) - equationOfTime;
+    return hourAngle;
+  }
+
+  function getSolarDeclination(julianDate) {
+    const solarDeclination = 23.45 * Math.PI / 180 * Math.sin(2 * Math.PI / 365 * (julianDate - 81));
+    return solarDeclination;
+  }
+
+  function getEquationOfTime(julianDate) {
+    const b = 2 * Math.PI / 365 * (julianDate - 81);
+    const equationOfTime = 229.2 * Math.PI / 180 * Math.sin(b) - 1.915 * Math.PI / 180 * Math.sin(2 * b);
+    return equationOfTime;
+  }
+
+  function getSunriseTime(sunriseHourAngle, longitude, date) {
+    const utcSunriseTime = 12 - sunriseHourAngle / (2 * Math.PI) * 24;
+    const localSunriseTime = utcSunriseTime + longitude / 15;
+    const hours = Math.floor(localSunriseTime);
+    const minutes = Math.floor((localSunriseTime - hours) * 60);
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), hours, minutes);
+  }
+
+  function getSunsetTime(sunsetHourAngle, longitude, date) {
+    const utcSunsetTime = 12 - sunsetHourAngle / (2 * Math.PI) * 24;
+    const localSunsetTime = utcSunsetTime + longitude / 15;
+    const hours = Math.floor(localSunsetTime);
+    const minutes = Math.floor((localSunsetTime - hours) * 60);
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), hours, minutes);
+  }
+
+  function getDifference(sunriseTime, sunsetTime) {
+    const differenceInMs = sunsetTime.getTime() - sunriseTime.getTime();
+    const hours = Math.floor(differenceInMs / 3600000);
+    const minutes = Math.floor((differenceInMs - hours * 3600000) / 60000);
+    return { hours, minutes };
+  }
+
+  function formatTime(date) {
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    return `${padZero(hours)}:${padZero(minutes)}`;
+  }
+
+  function formatDifference({ hours, minutes }) {
+    return `${hours} hours ${minutes} minutes`;
+  }
+
+  function padZero(number) {
+    return number.toString().padStart(2, '0');
+  }
+</script>

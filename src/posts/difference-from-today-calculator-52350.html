@@ -1,0 +1,160 @@
+---
+title: "Difference from Today Calculator - Find Out the Time Elapsed"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-07-21 14:30:00
+tags:
+  - Date Calculator
+  - Time Difference
+  - Date Difference
+  - Event Countdown
+  - Time Elapsed
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  .result-section {
+    margin-top: 20px;
+  }
+  .input-field {
+    width: 70%;
+  }
+  @media (max-width: 768px) {
+    .input-field {
+      width: 100%;
+    }
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Difference from Today Calculator</h1><div class="container mt-5">
+  <p class="text-center fs-5">The Difference from Today Calculator is an online tool designed to calculate the time elapsed between a given date and the current date, providing the difference in days, weeks, months, and years. This calculator is useful for various purposes, including event planning, project management, and personal reminiscence. With its user-friendly interface and accurate calculations, this tool is an essential resource for anyone looking to measure time differences.</p>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="input-group mb-3">
+        <label class="input-group-text" for="date-input">Enter a date:</label>
+        <input type="text" id="date-input" class="form-control input-field" placeholder="MM/DD/YYYY or YYYY-MM-DD" aria-label="Enter a date" aria-describedby="date-input">
+        <select id="date-format" class="form-select">
+          <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+          <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+        </select>
+        <button class="btn btn-primary" id="calculate-btn">Calculate</button>
+      </div>
+    </div>
+  </div>
+  <div class="result-section">
+    <h2>Result:</h2>
+    <p id="days-diff"></p>
+    <p id="weeks-diff"></p>
+    <p id="months-diff"></p>
+    <p id="years-diff"></p>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The Difference from Today Calculator uses a simple formula to calculate the time difference between two dates. The formula can be explained as follows: the calculator takes the input date and the current date, then calculates the difference in milliseconds. This difference is then converted into days, weeks, months, and years, providing a comprehensive overview of the time elapsed.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Days</th>
+        <th>Weeks</th>
+        <th>Months</th>
+        <th>Years</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1 day</td>
+        <td>0.14 weeks</td>
+        <td>0.03 months</td>
+        <td>0.003 years</td>
+      </tr>
+      <tr>
+        <td>7 days</td>
+        <td>1 week</td>
+        <td>0.23 months</td>
+        <td>0.02 years</td>
+      </tr>
+      <tr>
+        <td>30 days</td>
+        <td>4.29 weeks</td>
+        <td>1 month</td>
+        <td>0.08 years</td>
+      </tr>
+      <tr>
+        <td>365 days</td>
+        <td>52.14 weeks</td>
+        <td>12 months</td>
+        <td>1 year</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <ol>
+    <li>Event planning: Calculate the time left until a wedding, birthday, or anniversary.</li>
+    <li>Project management: Track the time elapsed since a project started or was completed.</li>
+    <li>Personal reminiscence: Calculate the time since a memorable event, such as a first date or a graduation.</li>
+    <li>Business deadlines: Determine the time left until a deadline or a meeting.</li>
+    <li>Travel planning: Calculate the time until a trip or vacation.</li>
+    <li>Sports and fitness: Track the time since a workout or a competition.</li>
+    <li>Education: Calculate the time until a exam or a semester ends.</li>
+    <li>Finance: Determine the time since an investment or a loan was made.</li>
+    <li>Marketing: Calculate the time until a product launch or a promotion ends.</li>
+    <li>Health and wellness: Track the time since a medical procedure or a treatment started.</li>
+  </ol>
+</div><script>
+  const calculateBtn = document.getElementById('calculate-btn');
+  const dateInput = document.getElementById('date-input');
+  const dateFormatSelect = document.getElementById('date-format');
+  const daysDiff = document.getElementById('days-diff');
+  const weeksDiff = document.getElementById('weeks-diff');
+  const monthsDiff = document.getElementById('months-diff');
+  const yearsDiff = document.getElementById('years-diff');
+
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const startDate = urlSearchParams.get('start');
+  if (startDate) {
+    dateInput.value = startDate;
+  }
+
+  calculateBtn.addEventListener('click', calculateDifference);
+
+  function calculateDifference() {
+    const userInput = dateInput.value;
+    const selectedDateFormat = dateFormatSelect.value;
+    let inputDate;
+
+    try {
+      if (selectedDateFormat === 'MM/DD/YYYY') {
+        const dateParts = userInput.split('/');
+        inputDate = new Date(dateParts[2], dateParts[0] - 1, dateParts[1]);
+      } else if (selectedDateFormat === 'YYYY-MM-DD') {
+        const dateParts = userInput.split('-');
+        inputDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+      }
+
+      if (isNaN(inputDate.getTime())) {
+        throw new Error('Invalid date');
+      }
+
+      const currentDate = new Date();
+      const differenceInMs = Math.abs(inputDate.getTime() - currentDate.getTime());
+      const differenceInDays = Math.floor(differenceInMs / (1000 * 60 * 60 * 24));
+      const differenceInWeeks = Math.floor(differenceInDays / 7);
+      const differenceInMonths = Math.floor(differenceInDays / 30);
+      const differenceInYears = Math.floor(differenceInDays / 365);
+
+      daysDiff.innerText = `Difference in days: ${differenceInDays}`;
+      weeksDiff.innerText = `Difference in weeks: ${differenceInWeeks}`;
+      monthsDiff.innerText = `Difference in months: ${differenceInMonths}`;
+      yearsDiff.innerText = `Difference in years: ${differenceInYears}`;
+    } catch (error) {
+      alert('Invalid date. Please enter a valid date.');
+    }
+  }
+</script>

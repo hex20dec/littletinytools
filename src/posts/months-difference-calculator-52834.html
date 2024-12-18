@@ -1,0 +1,137 @@
+---
+title: Months Difference Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - date calculator
+  - month difference
+  - time calculator
+  - project timeline
+  - age calculator
+---
+
+<style>
+  #main-div {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+  .error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="h2 mb-3">Months Difference Calculator</h1><div class="container mt-5">
+    <p class="text-center">The Months Difference Calculator is a powerful online tool designed to help you calculate the difference in months between two dates. Whether you're planning a project timeline, calculating age, or simply need to determine the number of months between two dates, this tool is the perfect solution. With its user-friendly interface and precise calculations, you can easily determine the exact number of months between any two dates, making it an essential resource for anyone looking to simplify their date calculations.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="start-date" class="form-label">Start Date</label>
+      <input type="date" id="start-date" class="form-control" value="<?php echo $_GET['start'] ?? '' ?>">
+    </div>
+    <div class="mb-3">
+      <label for="end-date" class="form-label">End Date</label>
+      <input type="date" id="end-date" class="form-control">
+    </div>
+    <button type="button" id="calculate-btn" class="btn btn-primary">Calculate</button>
+    <div class="mb-3">
+      <label for="result" class="form-label">Result</label>
+      <input type="text" id="result" class="form-control" readonly>
+    </div>
+    <div id="error-message" class="error-message"></div>
+  </form>
+</div>
+
+<div class="container mt-5">
+    <h2 class="h4 mb-3">How it Works</h2>
+    <p>The Months Difference Calculator works by using a simple formula to calculate the difference in months between two dates. The formula takes into account the year and month of each date, and calculates the total number of months between them. This can be represented as: (End Year - Start Year) * 12 + (End Month - Start Month). For example, if you want to calculate the difference between January 2020 and June 2022, the calculator would calculate (2022 - 2020) * 12 + (6 - 1) = 2 * 12 + 5 = 24 + 5 = 29 months.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Months Difference</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>January 2020</td>
+                <td>January 2021</td>
+                <td>12 months</td>
+            </tr>
+            <tr>
+                <td>June 2020</td>
+                <td>June 2022</td>
+                <td>24 months</td>
+            </tr>
+            <tr>
+                <td>December 2019</td>
+                <td>December 2020</td>
+                <td>12 months</td>
+            </tr>
+            <tr>
+                <td>March 2020</td>
+                <td>September 2022</td>
+                <td>29 months</td>
+            </tr>
+            <tr>
+                <td>January 2020</td>
+                <td>June 2022</td>
+                <td>29 months</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="container mt-5">
+    <h2 class="h4 mb-3">Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Project timeline planning: Calculate the number of months between project start and end dates to plan resources and timelines.</li>
+        <li class="list-group-item">Age calculation: Determine the age of a person or entity by calculating the number of months between their birth date and current date.</li>
+        <li class="list-group-item">Time management: Calculate the number of months between two dates to manage time effectively and prioritize tasks.</li>
+        <li class="list-group-item">Financial planning: Determine the number of months between two dates to plan financial investments, loans, or savings.</li>
+        <li class="list-group-item">Event planning: Calculate the number of months between event dates to plan and prepare for events, conferences, or meetings.</li>
+        <li class="list-group-item">Legal and contractual purposes: Calculate the number of months between dates to determine contract durations, notice periods, or statute of limitations.</li>
+        <li class="list-group-item">Education and research: Determine the number of months between dates to plan research projects, academic timelines, or study schedules.</li>
+        <li class="list-group-item">Personal goal setting: Calculate the number of months between dates to set and achieve personal goals, such as fitness or learning objectives.</li>
+        <li class="list-group-item">Business planning: Determine the number of months between dates to plan business strategies, marketing campaigns, or product launches.</li>
+        <li class="list-group-item">Travel planning: Calculate the number of months between travel dates to plan and book trips, flights, or accommodations.</li>
+    </ul>
+</div><script>
+  const startDateInput = document.getElementById('start-date');
+  const endDateInput = document.getElementById('end-date');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resultInput = document.getElementById('result');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  calculateBtn.addEventListener('click', calculateMonthsDifference);
+
+  function calculateMonthsDifference() {
+    const startDate = new Date(startDateInput.value);
+    const endDate = new Date(endDateInput.value);
+
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      errorMessageDiv.textContent = 'Invalid date format. Please use YYYY-MM-DD.';
+      return;
+    }
+
+    if (startDate > endDate) {
+      errorMessageDiv.textContent = 'Start date should be before end date.';
+      return;
+    }
+
+    const monthsDifference = calculateMonthsBetweenDates(startDate, endDate);
+    resultInput.value = monthsDifference + ' months';
+
+    errorMessageDiv.textContent = '';
+  }
+
+  function calculateMonthsBetweenDates(startDate, endDate) {
+    const startYear = startDate.getFullYear();
+    const startMonth = startDate.getMonth();
+    const endYear = endDate.getFullYear();
+    const endMonth = endDate.getMonth();
+
+    const monthsDifference = (endYear - startYear) * 12 + (endMonth - startMonth);
+    return monthsDifference;
+  }
+</script>

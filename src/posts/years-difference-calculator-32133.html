@@ -1,0 +1,165 @@
+---
+title: Calculate Years Difference Between Two Dates Instantly
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Date Calculator
+  - Years Difference
+  - Age Calculator
+  - Anniversary Calculator
+  - Event Calculator
+---
+
+<style>
+  #main-div {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  input[type="date"] {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  button {
+    width: 100%;
+    height: 40px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #0069d9;
+  }
+  #result {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .error {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-4">Years Difference Calculator</h1><div class="header-section p-5 text-center bg-light">
+    <h1 class="mb-4">Years Difference Calculator</h1>
+    <p class="lead">Calculate the difference in years between two dates instantly with our free online years difference calculator. Simply enter two dates in the format YYYY-MM-DD and click the calculate button to get the result. This tool is useful for calculating age, anniversary, or event duration in years. Our years difference calculator is easy to use, accurate, and provides instant results.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="start-date">Start Date:</label>
+      <input type="date" id="start-date" placeholder="Start Date">
+    </div>
+    <div class="mb-3">
+      <label for="end-date">End Date:</label>
+      <input type="date" id="end-date" placeholder="End Date">
+    </div>
+    <button type="button" id="calculate-btn">Calculate</button>
+    <div id="result"></div>
+    <div id="error" class="error"></div>
+  </form>
+</div>
+
+<div class="explanation-section p-5 mt-5">
+    <h2 class="mb-4">How the Years Difference Calculator Works</h2>
+    <p>The years difference calculator uses a simple formula to calculate the difference in years between two dates. The formula is: difference in years = (end date - start date) / 365. This formula takes into account the number of days between the two dates and converts it to years.</p>
+    <table class="table table-striped table-bordered mt-5">
+        <thead>
+            <tr>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Difference in Years</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2020-01-01</td>
+                <td>2021-01-01</td>
+                <td>1 year</td>
+            </tr>
+            <tr>
+                <td>2019-06-01</td>
+                <td>2022-06-01</td>
+                <td>3 years</td>
+            </tr>
+            <tr>
+                <td>2015-01-01</td>
+                <td>2025-01-01</td>
+                <td>10 years</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5 mt-5">
+    <h2 class="mb-4">10 Common Use Cases for the Years Difference Calculator</h2>
+    <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Calculate age: Find out how old someone is by entering their birth date and the current date.</li>
+        <li class="list-group-item">Calculate anniversary: Determine the number of years since a couple's wedding day or the founding of a company.</li>
+        <li class="list-group-item">Calculate event duration: Find out how many years an event has been running, such as a festival or a conference.</li>
+        <li class="list-group-item">Calculate project timeline: Determine the number of years a project has been in progress or how many years are left until completion.</li>
+        <li class="list-group-item">Calculate retirement age: Calculate how many years until someone reaches retirement age.</li>
+        <li class="list-group-item">Calculate years since graduation: Find out how many years have passed since someone graduated from college or university.</li>
+        <li class="list-group-item">Calculate years of service: Determine the number of years an employee has been working for a company.</li>
+        <li class="list-group-item">Calculate years since a milestone: Calculate how many years have passed since a significant event, such as the founding of a business or the launch of a product.</li>
+        <li class="list-group-item">Calculate years until a milestone: Determine how many years are left until a significant event, such as a wedding or a birthday.</li>
+        <li class="list-group-item">Calculate years of experience: Calculate how many years someone has been working in a particular field or industry.</li>
+    </ol>
+</div><script>
+  const startDateInput = document.getElementById('start-date');
+  const endDateInput = document.getElementById('end-date');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resultDiv = document.getElementById('result');
+  const errorDiv = document.getElementById('error');
+
+  // Preload start date from query parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const startDateParam = urlParams.get('start');
+  if (startDateParam) {
+    startDateInput.value = startDateParam;
+  }
+
+  calculateBtn.addEventListener('click', () => {
+    const startDate = startDateInput.value;
+    const endDate = endDateInput.value;
+
+    // Validate input
+    if (!startDate || !endDate) {
+      errorDiv.textContent = 'Please enter both start and end dates.';
+      return;
+    }
+
+    const startDateObj = new Date(startDate);
+    const endDateObj = new Date(endDate);
+
+    if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) {
+      errorDiv.textContent = 'Invalid date format. Please use YYYY-MM-DD.';
+      return;
+    }
+
+    if (endDateObj < startDateObj) {
+      errorDiv.textContent = 'End date cannot be before start date.';
+      return;
+    }
+
+    // Calculate difference in years
+    const differenceInMs = endDateObj.getTime() - startDateObj.getTime();
+    const differenceInDays = differenceInMs / (1000 * 60 * 60 * 24);
+    const differenceInYears = Math.floor(differenceInDays / 365);
+
+    // Display result
+    resultDiv.textContent = `The difference is ${differenceInYears} years.`;
+    errorDiv.textContent = '';
+  });
+</script>

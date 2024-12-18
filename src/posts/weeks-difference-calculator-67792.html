@@ -1,0 +1,141 @@
+---
+title: Weeks Difference Calculator - Easy Date Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 12:00:00
+tags:
+  - date calculator
+  - weeks difference
+  - time calculator
+  - scheduling tool
+  - planning app
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  label {
+    color: #fff;
+  }
+  .error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Weeks Difference Calculator</h1><div class="container mt-5">
+  <p class="text-center fs-5">The Weeks Difference Calculator is a simple and efficient online tool designed to calculate the number of weeks between two specific dates. This user-friendly calculator allows you to input a start date and an end date, and then provides you with the exact number of weeks between these dates. Whether you're planning events, scheduling appointments, or simply need to determine the duration between two dates, this calculator is an essential resource for anyone looking to simplify their time management and organization.</p>
+</div>
+  <form>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="start-date" class="form-label">Start Date</label>
+        <input type="date" id="start-date" class="form-control" value="<?php echo $_GET['start']; ?>">
+      </div>
+      <div class="col-md-6">
+        <label for="end-date" class="form-label">End Date</label>
+        <input type="date" id="end-date" class="form-control">
+      </div>
+    </div>
+    <button type="button" id="calculate-btn" class="btn btn-primary mx-auto d-block">Calculate</button>
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label for="result" class="form-label">Result</label>
+        <input type="text" id="result" class="form-control" readonly>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <p id="error-message" class="error-message"></p>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="container mt-5">
+  <h2 class="text-center">How the Weeks Difference Calculator Works</h2>
+  <p class="fs-5">The calculator uses a simple formula to calculate the number of weeks between two dates. This formula can be explained as follows: First, calculate the difference in days between the two dates by subtracting the start date from the end date. Then, divide this difference by 7 to get the number of weeks. For example, if the difference in days is 30, the calculator would divide 30 by 7, resulting in approximately 4.29 weeks. The calculator then rounds down to the nearest whole number, providing you with the exact number of full weeks between the two dates.</p>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Number of Weeks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>2022-01-01</td>
+        <td>2022-01-08</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>2022-01-01</td>
+        <td>2022-01-15</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>2022-01-01</td>
+        <td>2022-01-22</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>2022-01-01</td>
+        <td>2022-01-29</td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>2022-01-01</td>
+        <td>2022-02-05</td>
+        <td>5</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="text-center">10 Common Use Cases for the Weeks Difference Calculator</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Event planning: Calculate the number of weeks until a specific event, such as a wedding or conference.</li>
+    <li class="list-group-item">Scheduling appointments: Determine the number of weeks between appointments or meetings.</li>
+    <li class="list-group-item">Time management: Calculate the number of weeks available to complete a project or task.</li>
+    <li class="list-group-item">Vacation planning: Determine the number of weeks until a vacation or holiday.</li>
+    <li class="list-group-item">Pregnancy calculator: Calculate the number of weeks until a due date.</li>
+    <li class="list-group-item">Billing cycles: Determine the number of weeks between billing cycles or payment due dates.</li>
+    <li class="list-group-item">Marketing campaigns: Calculate the number of weeks until a marketing campaign or promotion.</li>
+    <li class="list-group-item">Project timelines: Determine the number of weeks required to complete a project or task.</li>
+    <li class="list-group-item">Travel planning: Calculate the number of weeks until a trip or travel date.</li>
+    <li class="list-group-item">Goal setting: Determine the number of weeks available to achieve a specific goal or objective.</li>
+  </ol>
+</div><script>
+  const startDateInput = document.getElementById('start-date');
+  const endDateInput = document.getElementById('end-date');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resultInput = document.getElementById('result');
+  const errorMessage = document.getElementById('error-message');
+
+  calculateBtn.addEventListener('click', calculateWeeksDifference);
+
+  function calculateWeeksDifference() {
+    const startDate = new Date(startDateInput.value);
+    const endDate = new Date(endDateInput.value);
+
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      errorMessage.textContent = 'Invalid dates. Please enter valid dates.';
+      resultInput.value = '';
+      return;
+    }
+
+    if (startDate > endDate) {
+      errorMessage.textContent = 'Start date cannot be after end date.';
+      resultInput.value = '';
+      return;
+    }
+
+    const differenceInTime = endDate.getTime() - startDate.getTime();
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+    const differenceInWeeks = Math.floor(differenceInDays / 7);
+
+    resultInput.value = differenceInWeeks;
+    errorMessage.textContent = '';
+  }
+</script>

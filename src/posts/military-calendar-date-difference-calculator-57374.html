@@ -1,0 +1,204 @@
+---
+title: Military Date Difference Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-05-01 12:00:00
+tags:
+  - Military Date Calculator
+  - Date Difference Calculator
+  - Military Calendar Converter
+  - Date Converter
+  - Military Time Calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1>Military Date Difference Calculator</h1><div class="header-section bg-primary text-white p-5 text-center">
+    <p>The Military Date Difference Calculator is a straightforward online tool that calculates the difference between two dates in various units, including days, weeks, months, and years. This calculator is particularly useful for military personnel, recruiters, and anyone who needs to calculate date differences for official purposes. With its user-friendly interface and precise calculations, this tool is an essential resource for anyone looking to determine the time gap between two dates.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="start-date" class="form-label">Start Date:</label>
+      <input type="text" id="start-date" class="form-control" placeholder="DD MMM YYYY" value="">
+    </div>
+    <div class="mb-3">
+      <label for="end-date" class="form-label">End Date:</label>
+      <input type="text" id="end-date" class="form-control" placeholder="DD MMM YYYY">
+    </div>
+    <button type="button" id="calculate-btn" class="btn btn-primary">Calculate Difference</button>
+    <div class="mb-3">
+      <label for="result" class="form-label">Result:</label>
+      <input type="text" id="result" class="form-control"readonly>
+    </div>
+    <div class="mb-3">
+      <label for="unit" class="form-label">Unit:</label>
+      <select id="unit" class="form-select">
+        <option value="days">Days</option>
+        <option value="weeks">Weeks</option>
+        <option value="months">Months</option>
+        <option value="years">Years</option>
+      </select>
+    </div>
+    <div id="error-message" class="error-message"></div>
+  </form>
+  <div id="settings" class="accordion accordion-flush">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="settings-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#settings-collapse" aria-expanded="false" aria-controls="settings-collapse">
+          Settings
+        </button>
+      </h2>
+      <div id="settings-collapse" class="accordion-collapse collapse" aria-labelledby="settings-header">
+        <div class="accordion-body">
+          <div class="mb-3">
+            <label for="date-format" class="form-label">Date Format:</label>
+            <select id="date-format" class="form-select">
+              <option value="DD MMM YYYY">DD MMM YYYY</option>
+              <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-3">How it Works</h2>
+    <p>The Military Date Difference Calculator uses a simple formula to calculate the difference between two dates. The formula is as follows: Difference = |End Date - Start Date|, where the difference is calculated in the selected unit (days, weeks, months, or years).</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Difference (Days)</th>
+                <th>Difference (Weeks)</th>
+                <th>Difference (Months)</th>
+                <th>Difference (Years)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2022-01-01</td>
+                <td>2022-01-15</td>
+                <td>14</td>
+                <td>2</td>
+                <td>0.5</td>
+                <td>0.04</td>
+            </tr>
+            <tr>
+                <td>2022-02-01</td>
+                <td>2022-03-01</td>
+                <td>28</td>
+                <td>4</td>
+                <td>1</td>
+                <td>0.08</td>
+            </tr>
+            <tr>
+                <td>2022-03-01</td>
+                <td>2022-04-01</td>
+                <td>31</td>
+                <td>4.4</td>
+                <td>1</td>
+                <td>0.08</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-3">Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Calculating the time difference between two dates for military service records</li>
+        <li class="list-group-item">Determining the duration of a training program or course</li>
+        <li class="list-group-item">Figuring out the time gap between two events or appointments</li>
+        <li class="list-group-item">Calculating the difference between two dates for official documents, such as contracts or certificates</li>
+        <li class="list-group-item">Determining the length of a project or mission</li>
+        <li class="list-group-item">Calculating the time difference between two dates for travel or vacation planning</li>
+        <li class="list-group-item">Figuring out the duration of a leave of absence or vacation</li>
+        <li class="list-group-item">Calculating the time difference between two dates for scheduling purposes</li>
+        <li class="list-group-item">Determining the time gap between two dates for historical or research purposes</li>
+        <li class="list-group-item">Calculating the difference between two dates for personal or professional planning</li>
+    </ul>
+</div><script>
+  const startDateInput = document.getElementById('start-date');
+  const endDateInput = document.getElementById('end-date');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resultInput = document.getElementById('result');
+  const unitSelect = document.getElementById('unit');
+  const errorMessageDiv = document.getElementById('error-message');
+  const settingsSelect = document.getElementById('date-format');
+
+  // Preload start date from query parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const startDate = urlParams.get('start');
+  if (startDate) {
+    startDateInput.value = startDate;
+  }
+
+  calculateBtn.addEventListener('click', calculateDifference);
+
+  function calculateDifference() {
+    const startDate = startDateInput.value;
+    const endDate = endDateInput.value;
+    const unit = unitSelect.value;
+
+    if (!startDate || !endDate) {
+      errorMessageDiv.innerText = 'Please enter both start and end dates.';
+      return;
+    }
+
+    const dateFormat = settingsSelect.value;
+    let startDateObj;
+    let endDateObj;
+
+    try {
+      if (dateFormat === 'DD MMM YYYY') {
+        const [day, month, year] = startDate.split(' ');
+        startDateObj = new Date(`${month} ${day}, ${year}`);
+        const [endDay, endMonth, endYear] = endDate.split(' ');
+        endDateObj = new Date(`${endMonth} ${endDay}, ${endYear}`);
+      } else {
+        startDateObj = new Date(startDate);
+        endDateObj = new Date(endDate);
+      }
+    } catch (error) {
+      errorMessageDiv.innerText = 'Invalid date format. Please use the selected format.';
+      return;
+    }
+
+    if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) {
+      errorMessageDiv.innerText = 'Invalid date. Please enter a valid date.';
+      return;
+    }
+
+    const difference = Math.abs(endDateObj.getTime() - startDateObj.getTime());
+    let result;
+
+    switch (unit) {
+      case 'days':
+        result = Math.ceil(difference / (1000 * 3600 * 24));
+        break;
+      case 'weeks':
+        result = Math.ceil(difference / (1000 * 3600 * 24 * 7));
+        break;
+      case 'months':
+        result = Math.ceil(difference / (1000 * 3600 * 24 * 30));
+        break;
+      case 'years':
+        result = Math.ceil(difference / (1000 * 3600 * 24 * 365));
+        break;
+      default:
+        result = '';
+    }
+
+    resultInput.value = `${result} ${unit}`;
+    errorMessageDiv.innerText = '';
+  }
+</script>

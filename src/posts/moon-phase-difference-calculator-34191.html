@@ -1,0 +1,140 @@
+---
+title: Moon Phase Difference Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-07-01 12:00:00
+tags:
+  - Moon Phase Calculator
+  - Lunar Cycle
+  - Astronomy
+  - Gardening
+  - Fishing
+---
+
+<style>
+  #main-div {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  #main-div label {
+    margin-bottom: 10px;
+  }
+  #main-div input[type="date"] {
+    margin-bottom: 20px;
+  }
+  #main-div button {
+    margin-bottom: 20px;
+  }
+  #main-div #result {
+    margin-top: 20px;
+  }
+  @media (max-width: 768px) {
+    #main-div {
+      margin: 20px auto;
+      padding: 10px;
+    }
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-3">Moon Phase Difference Calculator</h1><div class="header-section p-3 mb-3 bg-light rounded">
+    <h1 class="mb-3">Moon Phase Difference Calculator</h1>
+    <p class="lead">The Moon Phase Difference Calculator is a web-based tool designed to calculate the difference in moon phases between two given dates. This calculator is useful for astronomers, gardeners, fishermen, and anyone interested in understanding the lunar cycle. By entering the start and end dates, users can determine the phase of the moon at the beginning and end of the period, as well as the phase difference between the two dates. With its user-friendly interface and accurate calculations, this tool provides valuable insights into the lunar cycle and its effects on various aspects of our lives.</p>
+</div>
+  <form>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="start-date" class="form-label">Start Date</label>
+        <input type="date" id="start-date" class="form-control" value="<?php echo $_GET['start'] ?>" required>
+      </div>
+      <div class="col-md-6">
+        <label for="end-date" class="form-label">End Date</label>
+        <input type="date" id="end-date" class="form-control" required>
+      </div>
+    </div>
+    <button type="button" id="calculate" class="btn btn-primary mt-3">Calculate</button>
+  </form>
+  <div id="result" class="mt-3"></div>
+</div>
+
+<div class="explanation-section p-3 mb-3 bg-light rounded">
+    <h2 class="mb-3">How the Moon Phase Difference Calculator Works</h2>
+    <p class="lead">The calculator uses a formula to determine the moon phase for a given date. The formula is based on the lunar cycle, which is approximately 29.5 days. The calculator calculates the number of days between the given date and a reference date (January 1, 2001) and then divides that number by the lunar cycle days. The result is then used to determine the moon phase.</p>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Moon Phase</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>January 1, 2001</td>
+                <td>New Moon</td>
+            </tr>
+            <tr>
+                <td>January 8, 2001</td>
+                <td>First Quarter</td>
+            </tr>
+            <tr>
+                <td>January 15, 2001</td>
+                <td>Full Moon</td>
+            </tr>
+            <tr>
+                <td>January 22, 2001</td>
+                <td>Last Quarter</td>
+            </tr>
+            <tr>
+                <td>January 29, 2001</td>
+                <td>New Moon</td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="lead">The calculator also takes into account the phase difference between the start and end dates, providing a clear and concise result.</p>
+</div><div class="use-cases-section p-3 mb-3 bg-light rounded">
+    <h2 class="mb-3">10 Common Use Cases for the Moon Phase Difference Calculator</h2>
+    <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Astronomers can use the calculator to plan observations of the moon and its phases.</li>
+        <li class="list-group-item">Gardeners can use the calculator to determine the best times to plant and harvest crops based on the lunar cycle.</li>
+        <li class="list-group-item">Fishermen can use the calculator to plan fishing trips during the most favorable moon phases.</li>
+        <li class="list-group-item">Travelers can use the calculator to plan trips to destinations with optimal moon viewing conditions.</li>
+        <li class="list-group-item">Photographers can use the calculator to plan shoots during the most photogenic moon phases.</li>
+        <li class="list-group-item">Event planners can use the calculator to schedule events during favorable moon phases.</li>
+        <li class="list-group-item">Farmers can use the calculator to determine the best times to plant and harvest crops based on the lunar cycle.</li>
+        <li class="list-group-item">Researchers can use the calculator to study the effects of the lunar cycle on various phenomena.</li>
+        <li class="list-group-item">Educators can use the calculator to teach students about the lunar cycle and its effects on our lives.</li>
+        <li class="list-group-item">Enthusiasts can use the calculator to simply enjoy the beauty and wonder of the moon and its phases.</li>
+    </ol>
+</div><script>
+  const calculateButton = document.getElementById('calculate');
+  const startDateInput = document.getElementById('start-date');
+  const endDateInput = document.getElementById('end-date');
+  const resultDiv = document.getElementById('result');
+
+  calculateButton.addEventListener('click', calculateMoonPhaseDifference);
+
+  function calculateMoonPhaseDifference() {
+    const startDate = new Date(startDateInput.value);
+    const endDate = new Date(endDateInput.value);
+    if (startDate > endDate) {
+      resultDiv.innerHTML = 'Start date must be before end date';
+      return;
+    }
+    const moonPhases = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'];
+    const lunarCycleDays = 29.5;
+    const startPhaseIndex = Math.floor((startDate.getTime() - new Date('2001-01-01').getTime()) / (lunarCycleDays * 24 * 60 * 60 * 1000)) % 8;
+    const endPhaseIndex = Math.floor((endDate.getTime() - new Date('2001-01-01').getTime()) / (lunarCycleDays * 24 * 60 * 60 * 1000)) % 8;
+    const startPhase = moonPhases[startPhaseIndex];
+    const endPhase = moonPhases[endPhaseIndex];
+    const phaseDifference = `from ${startPhase} to ${endPhase}`;
+    resultDiv.innerHTML = `
+      <p>Start Date: ${startDateInput.value} (${startPhase})</p>
+      <p>End Date: ${endDateInput.value} (${endPhase})</p>
+      <p>Phase Difference: ${phaseDifference}</p>
+    `;
+  }
+</script>

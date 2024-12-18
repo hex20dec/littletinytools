@@ -1,0 +1,138 @@
+---
+title: "Days Since Birthdate Calculator"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 12:00:00
+tags:
+  - Age Calculator
+  - Days Since Birth
+  - Birthday Calculator
+  - Age in Days
+  - How Old Am I
+---
+
+<style>
+  #main-div {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  label {
+    margin-bottom: 10px;
+  }
+  .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-4">Days Since Birthdate Calculator</h1><div class="container-fluid py-5 bg-light">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1>Discover Your Age in Days with Our Days Since Birthdate Calculator</h1>
+            <p class="lead">Our days since birthdate calculator is a simple yet powerful tool that helps you calculate your age in days. This calculator takes into account the difference between your birthdate and the current date, providing you with an accurate calculation of your age in days. Whether you're curious about your age or looking to plan a special celebration, our calculator is the perfect tool for you.</p>
+        </div>
+    </div>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="birthdate" class="form-label">Birthdate:</label>
+      <input type="date" id="birthdate" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary" id="calculate-btn">Calculate</button>
+  </form>
+  <div id="result" class="mt-4"></div>
+  <div id="current-date" class="mt-4"></div>
+  <div id="birthdate-display" class="mt-4"></div>
+  <div id="error-message" class="error-message mt-4"></div>
+</div>
+
+<div class="container-fluid py-5">
+    <div class="row">
+        <div class="col-12">
+            <h2>How Our Days Since Birthdate Calculator Works</h2>
+            <p>The calculation is based on the simple formula: Age in Days = (Current Date - Birthdate) / (1000 * 3600 * 24), where the result is the number of days that have passed since your birthdate.</p>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Birthdate</th>
+                        <th>Current Date</th>
+                        <th>Age in Days</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1990-01-01</td>
+                        <td>2022-01-01</td>
+                        <td>11688</td>
+                    </tr>
+                    <tr>
+                        <td>1995-06-15</td>
+                        <td>2022-01-01</td>
+                        <td>9732</td>
+                    </tr>
+                    <tr>
+                        <td>2000-12-25</td>
+                        <td>2022-01-01</td>
+                        <td>7932</td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div><div class="container-fluid py-5 bg-light">
+    <div class="row">
+        <div class="col-12">
+            <h2>10 Common Use Cases for Our Days Since Birthdate Calculator</h2>
+            <ol>
+                <li><strong>Planning a birthday party</strong>: Use our calculator to determine how many days old the birthday person will be on their special day.</li>
+                <li><strong>Creating a personalized gift</strong>: A customized gift with the recipient's age in days can be a unique and thoughtful present.</li>
+                <li><strong>Tracking aging progress</strong>: Use our calculator to monitor how many days have passed since a specific date, helping you keep track of time.</li>
+                <li><strong>Research and statistics</strong>: Our calculator can be used to collect data on age distribution and demographics.</li>
+                <li><strong>Education and learning</strong>: The calculator can be a useful tool for teaching concepts like time, dates, and aging.</li>
+                <li><strong>Personal milestones</strong>: Track the number of days since a significant life event, such as a wedding or graduation.</li>
+                <li><strong>Social media and online content</strong>: Share fun facts and trivia about age and birthdays on social media platforms.</li>
+                <li><strong>Health and wellness</strong>: Monitor the passage of time since a medical procedure or health milestone.</li>
+                <li><strong>Marketing and advertising</strong>: Use our calculator to create targeted campaigns based on age and demographics.</li>
+                <li><strong>Genealogy and family history</strong>: Research and calculate the age of ancestors and relatives.</li>
+            </ol>
+        </div>
+    </div>
+</div><script>
+  const birthdateInput = document.getElementById('birthdate');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resultDiv = document.getElementById('result');
+  const currentDateDiv = document.getElementById('current-date');
+  const birthdateDisplayDiv = document.getElementById('birthdate-display');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    birthdateInput.value = startParam;
+  }
+
+  calculateBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const birthdate = birthdateInput.value;
+    if (!birthdate) {
+      errorMessageDiv.innerText = 'Please enter a valid birthdate.';
+      return;
+    }
+    const birthdateObj = new Date(birthdate);
+    if (isNaN(birthdateObj.getTime())) {
+      errorMessageDiv.innerText = 'Invalid birthdate format. Please use YYYY-MM-DD.';
+      return;
+    }
+    const today = new Date();
+    const ageInDays = Math.floor((today - birthdateObj) / (1000 * 3600 * 24));
+    resultDiv.innerText = `You are ${ageInDays} days old.`;
+    currentDateDiv.innerText = `Current Date: ${today.toLocaleDateString()}`;
+    birthdateDisplayDiv.innerText = `Birthdate: ${birthdateObj.toLocaleDateString()}`;
+    errorMessageDiv.innerText = '';
+  });
+</script>
