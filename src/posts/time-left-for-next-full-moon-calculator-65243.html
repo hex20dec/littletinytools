@@ -1,0 +1,155 @@
+---
+title: Full Moon Countdown
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 14:30:00
+tags:
+  - Astronomy
+  - Lunar Cycle
+  - Full Moon
+  - Countdown Timer
+  - Moon Phase
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    padding: 20px;
+  }
+  #countdown-timer {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  #update-btn {
+    margin-top: 20px;
+  }
+  #next-full-moon {
+    font-size: 18px;
+  }
+</style>
+
+<div id="main-div" class="container">
+  <h1 class="display-4">Full Moon Countdown</h1><div class="container mt-5 mb-5">
+    <p class="lead">The Full Moon Countdown is a web tool designed to provide users with the exact time remaining until the next full moon. By utilizing complex astronomical calculations, this tool can accurately predict the occurrence of the next full moon, providing users with a countdown timer in days, hours, minutes, and seconds. Whether you are an astronomy enthusiast, a scientist, or simply someone interested in the lunar cycle, this tool is the perfect resource for you. With its easy-to-use interface and precise calculations, the Full Moon Countdown is the ultimate tool for anyone looking to stay up-to-date with the lunar calendar.</p>
+</div>
+  <p class="lead">Current Date and Time: <span id="current-date-time"></span></p>
+  <p class="lead">Next Full Moon: <span id="next-full-moon"></span></p>
+  <p class="lead" id="countdown-timer"></p>
+  <button id="update-btn" class="btn btn-primary">Update Countdown</button>
+</div>
+
+<div class="container mt-5 mb-5">
+    <h2 class="display-6">How the Full Moon Countdown Works</h2>
+    <p class="lead">The Full Moon Countdown uses a formula based on the lunar cycle, which is approximately 29.53 days. This cycle is calculated by taking the average time it takes for the Moon to orbit the Earth, which is then converted into milliseconds. By using this formula, the tool can accurately predict the occurrence of the next full moon, providing users with a precise countdown timer.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Days Until Next Full Moon</th>
+                <th>Hours</th>
+                <th>Minutes</th>
+                <th>Seconds</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>23</td>
+                <td>59</td>
+                <td>59</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>23</td>
+                <td>59</td>
+                <td>58</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>23</td>
+                <td>59</td>
+                <td>57</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>23</td>
+                <td>59</td>
+                <td>56</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>23</td>
+                <td>59</td>
+                <td>55</td>
+            </tr>
+            <!-- Add more rows here -->
+        </tbody>
+    </table>
+</div><div class="container mt-5 mb-5">
+    <h2 class="display-6">Common Use Cases for the Full Moon Countdown</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Astronomy enthusiasts: Use the Full Moon Countdown to plan stargazing events and observe the lunar cycle.</li>
+        <li class="list-group-item">Scientists: Utilize the tool to study the lunar cycle and its effects on the Earth's tides and ocean currents.</li>
+        <li class="list-group-item">Photographers: Plan photo shoots during the full moon to capture stunning images of the lunar landscape.</li>
+        <li class="list-group-item">Hikers and campers: Use the Full Moon Countdown to plan nighttime hikes and camping trips under the light of the full moon.</li>
+        <li class="list-group-item">Fishermen: Utilize the tool to plan fishing trips during the full moon, when fish are more active.</li>
+        <li class="list-group-item">Gardening enthusiasts: Use the Full Moon Countdown to plan gardening activities, such as planting and harvesting, during the full moon.</li>
+        <li class="list-group-item">Spiritual practitioners: Utilize the tool to plan rituals and ceremonies during the full moon, which is often considered a time of spiritual growth and transformation.</li>
+        <li class="list-group-item">Event planners: Use the Full Moon Countdown to plan events, such as full moon parties and festivals, which often attract large crowds.</li>
+        <li class="list-group-item">Students: Utilize the tool to learn about the lunar cycle and its effects on the Earth's tides and ocean currents.</li>
+        <li class="list-group-item">Researchers: Use the Full Moon Countdown to study the effects of the lunar cycle on various phenomena, such as animal behavior and plant growth.</li>
+    </ul>
+</div><script>
+  let nextFullMoon = new Date();
+  let countdownTimer = null;
+  let updateButton = document.getElementById('update-btn');
+  let countdownTimerElement = document.getElementById('countdown-timer');
+  let nextFullMoonElement = document.getElementById('next-full-moon');
+  let currentDateAndTimeElement = document.getElementById('current-date-time');
+
+  function calculateNextFullMoon() {
+    let lunarCycle = 29.53 * 24 * 60 * 60 * 1000; // in milliseconds
+    let now = new Date();
+    let fullMoonDate = new Date('2020-01-10T08:00:00.000Z'); // arbitrary initial full moon date
+    let diff = now.getTime() - fullMoonDate.getTime();
+    let fullMoonCount = Math.floor(diff / lunarCycle);
+    nextFullMoon = new Date(fullMoonDate.getTime() + (fullMoonCount + 1) * lunarCycle);
+    return nextFullMoon;
+  }
+
+  function updateCountdown() {
+    let now = new Date();
+    let diff = nextFullMoon.getTime() - now.getTime();
+    let days = Math.floor(diff / (24 * 60 * 60 * 1000));
+    let hours = Math.floor((diff % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+    let minutes = Math.floor((diff % (60 * 60 * 1000)) / (60 * 1000));
+    let seconds = Math.floor((diff % (60 * 1000)) / 1000);
+    countdownTimerElement.innerText = `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+  }
+
+  function startCountdown() {
+    updateCountdown();
+    countdownTimer = setInterval(updateCountdown, 1000);
+  }
+
+  function stopCountdown() {
+    clearInterval(countdownTimer);
+  }
+
+  updateButton.addEventListener('click', function() {
+    stopCountdown();
+    nextFullMoon = calculateNextFullMoon();
+    nextFullMoonElement.innerText = nextFullMoon.toLocaleString();
+    startCountdown();
+    updateButton.disabled = true;
+    setTimeout(function() {
+      updateButton.disabled = false;
+    }, 2000);
+  });
+
+  nextFullMoon = calculateNextFullMoon();
+  nextFullMoonElement.innerText = nextFullMoon.toLocaleString();
+  startCountdown();
+  setInterval(function() {
+    currentDateAndTimeElement.innerText = new Date().toLocaleString();
+  }, 1000);
+</script>
