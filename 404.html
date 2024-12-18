@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="/assets/styles/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="/assets/styles/layout.css"> -->
+    <title>Little Tiny Tools</title>
+    <meta name="google-adsense-account" content="ca-pub-9239838040277193">
+    <meta name="description" content="Little Tiny Tools is a collection of free online tools that help you solve everyday problems.">
+    <meta name="keywords" content="Little Tiny Tools, online tools, free tools, web tools, utilities, calculators, converters, generators">
+    <meta name="author" content="Little Tiny Tools">
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Bitter&display=swap');
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9239838040277193"
+    crossorigin="anonymous"></script>
+  </head>
+  <!-- Google tag (gtag.js) -->
+  <body data-bs-theme="dark">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J0QX0DVBPC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-J0QX0DVBPC');
+    </script>
+
+    <main class="container mt-4">
+      <!-- <h2 class="mb-4">Oops! No tool found (404)</h2> -->
+      <div class="content">
+
+<style>
+  *{
+    --bs-font-sans-serif: "Bitter", sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --bs-body-font-family: var(--bs-font-sans-serif);
+    font-family: var(--bs-body-font-family);
+  }
+  header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        color: white;
+        z-index: 1;
+        width: 100%;
+        text-align: center;
+        opacity: 0.2;
+      }
+      h1,h4{
+        margin: 1rem;
+      }
+  a,a:link,a:hover,a:visited,a:active {
+    color: white;
+    display: inline-block;
+    /* text-decoration: none  ; */
+  }
+  body {
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+  }
+  #game {
+    width: 100vw;
+    height: 100vh;
+    background: #1a1a1a;
+    position: relative;
+    cursor: none;
+  }
+  #cursor {
+    width: 20px;
+    height: 20px;
+    background: #ffff00;
+    border-radius: 50%;
+    position: absolute;
+    pointer-events: none;
+  }
+  .ghost {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    pointer-events: none;
+  }
+  .ghost svg {
+    width: 100%;
+    height: 100%;
+  }
+  #pause-instructions {
+    font-size: 18px;
+  }
+  #instructions {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    text-align: center;
+    color: white;
+  }
+  #start-btn {
+    padding: 20px 40px;
+    font-size: 24px;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  #start-btn:hover {
+    background: #45a049;
+  }
+  #score {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 24px;
+    display: none;
+  }
+  #game-over,
+  #pause-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 32px;
+    text-align: center;
+    display: none;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+  }
+  .bullet {
+    width: 6px;
+    height: 12px;
+    background: yellow;
+    position: absolute;
+    pointer-events: none;
+    border-radius: 3px;
+  }
+  .bullet-pack {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    background: #ffd700;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #ffd700;
+    animation: pulse 1s infinite;
+  }
+  .bullet-count {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-size: 24px;
+    display: none;
+  }
+  .explosion {
+    position: absolute;
+    pointer-events: none;
+    width: 30px;
+    height: 30px;
+    animation: explode 0.5s forwards;
+  }
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  @keyframes explode {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+</style>
+
+<div id="game">
+  <header class="navbar navbar-expand-lg">
+    <div class="container" id="logo-container">
+      <a class="navbar-brand" href="/">
+        <h1 class="navbar-brand mb-0">Little Tiny Tools</h1>
+      </a>
+      <h4>Never fear, 404 is here</h4>
+
+    </div>
+    
+  </header>
+
+  <div id="cursor"></div>
+  <div id="instructions">
+    <button id="start-btn">Start Game</button>
+    <br />
+    1. Move your mouse to control the Player<br />
+    2. Collect bullet packs to get more bullets<br />
+    3. Press spacebar to shoot<br />
+  </div>
+
+  <div id="score">Score: <span id="score-value">0</span></div>
+  <div id="game-over">
+    Game Over!<br />
+    Final Score: <span id="final-score">0</span><br />
+    Click anywhere to try again
+  </div>
+  <div id="pause-message">
+    PAUSED<br />Click to resume<br />
+    <div id="pause-instructions">
+      1. Move your mouse to control the Player<br />
+      2. Collect bullet packs to get more bullets<br />
+      3. Press spacebar to shoot<br />
+    </div>
+  </div>
+  <div class="bullet-count">Bullets: <span id="bullet-value">0</span></div>
+</div>
+
+<script>
+  const game = document.getElementById("game");
+  const cursor = document.getElementById("cursor");
+  const startBtn = document.getElementById("start-btn");
+  const instructions = document.getElementById("instructions");
+  const scoreDisplay = document.getElementById("score");
+  const scoreValue = document.getElementById("score-value");
+  const gameOver = document.getElementById("game-over");
+  const finalScore = document.getElementById("final-score");
+  const pauseMessage = document.getElementById("pause-message");
+
+  const ghostColors = ["#FF0000", "#FFB8FF", "#00FFFF", "#FFB852"];
+  let ghosts = [];
+  let isGameRunning = false;
+  let isPaused = false;
+  let score = 0;
+  let speedMultiplier = 2;
+  let speedIncreaseInterval;
+  let ghostAddInterval;
+  let cursorPos = { x: 0, y: 0 };
+
+  let bullets = [];
+  let bulletPacks = [];
+  let bulletCount = 0;
+  let bulletPackInterval;
+  const bulletValue = document.getElementById("bullet-value");
+  const bulletCountDisplay = document.querySelector(".bullet-count");
+
+  function createGhostSVG(color) {
+    return `
+                <svg viewBox="0 0 32 32">
+    <path d="M4 28V12C4 5.373 9.373 0 16 0s12 5.373 12 12v16c0 0-3 2-6 0s-6-2-6 0s-6 2-6 0s-3-2-6 0z" 
+                          fill="${color}"/>
+                    <circle cx="11" cy="12" r="3" fill="white"/>
+                    <circle cx="21" cy="12" r="3" fill="white"/>
+                    <circle cx="10" cy="12" r="1.5" fill="black"/>
+                    <circle cx="22" cy="12" r="1.5" fill="black"/>
+                                   </svg>
+            `;
+  }
+
+  // Mouse movement
+  game.addEventListener("mousemove", (e) => {
+    cursorPos.x = e.clientX;
+    cursorPos.y = e.clientY;
+    cursor.style.left = cursorPos.x - 10 + "px";
+    cursor.style.top = cursorPos.y - 10 + "px";
+  });
+
+  // Start game
+  startBtn.addEventListener("click", startGame);
+  game.addEventListener("click", (e) => {
+    if (e.target === startBtn) return;
+
+    if (!isGameRunning && gameOver.style.display === "block") {
+      resetGame();
+      startGame();
+    } else if (isGameRunning) {
+      togglePause();
+    }
+  });
+
+  function togglePause() {
+    isPaused = !isPaused;
+    pauseMessage.style.display = isPaused ? "block" : "none";
+  }
+
+  function startGame() {
+    isGameRunning = true;
+    isPaused = false;
+    score = 0;
+    speedMultiplier = 1;
+    scoreValue.textContent = score;
+    instructions.style.display = "none";
+    scoreDisplay.style.display = "block";
+    gameOver.style.display = "none";
+    pauseMessage.style.display = "none";
+
+    // Create initial ghosts
+    createGhosts(4);
+
+    // Start score increment
+    const scoreInterval = setInterval(() => {
+      if (isGameRunning && !isPaused) {
+        score += 1;
+        scoreValue.textContent = score;
+      }
+      if (!isGameRunning) {
+        clearInterval(scoreInterval);
+      }
+    }, 100);
+
+    // Increase speed over time
+    speedIncreaseInterval = setInterval(() => {
+      if (isGameRunning && !isPaused && speedMultiplier < 2) {
+        speedMultiplier += 0.1;
+      }
+    }, 5000);
+
+    // Add new ghost every 5 seconds
+    ghostAddInterval = setInterval(() => {
+      if (isGameRunning && !isPaused) {
+        createGhosts(1);
+      }
+    }, 2000);
+
+    bulletCount = 0;
+    bulletValue.textContent = bulletCount;
+    bulletCountDisplay.style.display = "block";
+
+    // Add bullet pack spawning
+    bulletPackInterval = setInterval(() => {
+      if (isGameRunning && !isPaused) {
+        spawnBulletPack();
+      }
+    }, 4000);
+  }
+
+  function createGhosts(count) {
+    for (let i = 0; i < count; i++) {
+      const ghost = document.createElement("div");
+      ghost.className = "ghost";
+      const color = ghostColors[Math.floor(Math.random() * ghostColors.length)];
+      ghost.innerHTML = createGhostSVG(color);
+      game.appendChild(ghost);
+
+      const ghostData = {
+        element: ghost,
+        x: 0,
+        y: 0,
+        speedX: 0,
+        speedY: 0,
+        baseSpeed: 2 + Math.random() * 2,
+        wanderAngle: Math.random() * Math.PI * 2,
+      };
+
+      ghosts.push(ghostData);
+      animateGhost(ghostData);
+    }
+  }
+
+  function animateGhost(ghost) {
+    function update() {
+      if (!isGameRunning) return;
+      if (isPaused) {
+        requestAnimationFrame(update);
+        return;
+      }
+
+      // Update wander angle
+      ghost.wanderAngle += (Math.random() - 0.5) * 0.5;
+
+      // Calculate direction to player with wander influence
+      const dx = cursorPos.x - ghost.x;
+      const dy = cursorPos.y - ghost.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      // Combine tracking and wandering
+      const trackingWeight = 0.7;
+      const wanderWeight = 0.3;
+
+      ghost.speedX =
+        (trackingWeight * (dx / dist) +
+          wanderWeight * Math.cos(ghost.wanderAngle)) *
+        ghost.baseSpeed *
+        speedMultiplier;
+
+      ghost.speedY =
+        (trackingWeight * (dy / dist) +
+          wanderWeight * Math.sin(ghost.wanderAngle)) *
+        ghost.baseSpeed *
+        speedMultiplier;
+
+      ghost.x += ghost.speedX;
+      ghost.y += ghost.speedY;
+
+      // Keep ghosts in bounds
+      ghost.x = Math.max(0, Math.min(window.innerWidth - 30, ghost.x));
+      ghost.y = Math.max(0, Math.min(window.innerHeight - 30, ghost.y));
+
+      // Update position
+      ghost.element.style.left = ghost.x + "px";
+      ghost.element.style.top = ghost.y + "px";
+
+      // Check collision with cursor
+      const cursorRect = cursor.getBoundingClientRect();
+      const ghostRect = ghost.element.getBoundingClientRect();
+
+      if (checkCollision(cursorRect, ghostRect)) {
+        endGame();
+        return;
+      }
+
+      checkBulletPackCollection();
+
+      requestAnimationFrame(update);
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  function checkCollision(rect1, rect2) {
+    return !(
+      rect1.right < rect2.left ||
+      rect1.left > rect2.right ||
+      rect1.bottom < rect2.top ||
+      rect1.top > rect2.bottom
+    );
+  }
+
+  function endGame() {
+    isGameRunning = false;
+    finalScore.textContent = score;
+    gameOver.style.display = "block";
+    scoreDisplay.style.display = "none";
+    bulletCountDisplay.style.display = "none";
+    pauseMessage.style.display = "none";
+    clearInterval(speedIncreaseInterval);
+    clearInterval(ghostAddInterval);
+    clearInterval(bulletPackInterval);
+  }
+
+  function resetGame() {
+    ghosts.forEach((ghost) => ghost.element.remove());
+    ghosts = [];
+
+    ghosts.forEach((ghost) => ghost.element.remove());
+    ghosts = [];
+    bullets.forEach((bullet) => bullet.element.remove());
+    bullets = [];
+    bulletPacks.forEach((pack) => pack.element.remove());
+    bulletPacks = [];
+  }
+
+  function spawnBulletPack() {
+    const pack = document.createElement("div");
+    pack.className = "bullet-pack";
+
+    // Spawn away from edges
+    const x = 40 + Math.random() * (window.innerWidth - 80);
+    const y = 40 + Math.random() * (window.innerHeight - 80);
+
+    pack.style.left = x + "px";
+    pack.style.top = y + "px";
+    game.appendChild(pack);
+
+    const packData = {
+      element: pack,
+      x: x,
+      y: y,
+    };
+
+    bulletPacks.push(packData);
+  }
+
+  function checkBulletPackCollection() {
+    const cursorRect = cursor.getBoundingClientRect();
+
+    bulletPacks = bulletPacks.filter((pack) => {
+      const packRect = pack.element.getBoundingClientRect();
+      if (checkCollision(cursorRect, packRect)) {
+        bulletCount += 3;
+        bulletValue.textContent = bulletCount;
+        pack.element.remove();
+        return false;
+      }
+      return true;
+    });
+  }
+
+  function createExplosion(x, y, color) {
+    const explosion = document.createElement("div");
+    explosion.className = "explosion";
+    explosion.style.left = x + "px";
+    explosion.style.top = y + "px";
+    explosion.style.backgroundColor = color;
+    game.appendChild(explosion);
+
+    setTimeout(() => {
+      explosion.remove();
+    }, 500);
+  }
+
+  function shoot() {
+    if (bulletCount > 0 && isGameRunning && !isPaused) {
+      bulletCount--;
+      bulletValue.textContent = bulletCount;
+
+      const bullet = document.createElement("div");
+      bullet.className = "bullet";
+      bullet.style.left = cursorPos.x - 3 + "px";
+      bullet.style.top = cursorPos.y - 6 + "px";
+      game.appendChild(bullet);
+
+      const bulletData = {
+        element: bullet,
+        x: cursorPos.x - 3,
+        y: cursorPos.y - 6,
+        speed: 10,
+      };
+
+      bullets.push(bulletData);
+      animateBullet(bulletData);
+    }
+  }
+
+  function animateBullet(bullet) {
+    function update() {
+      if (!isGameRunning || isPaused) {
+        requestAnimationFrame(update);
+        return;
+      }
+
+      bullet.y -= bullet.speed;
+      bullet.element.style.top = bullet.y + "px";
+
+      // Check collision with ghosts
+      const bulletRect = bullet.element.getBoundingClientRect();
+
+      for (let i = ghosts.length - 1; i >= 0; i--) {
+        const ghost = ghosts[i];
+        const ghostRect = ghost.element.getBoundingClientRect();
+
+        if (checkCollision(bulletRect, ghostRect)) {
+          // Create explosion effect
+          createExplosion(
+            ghost.x,
+            ghost.y,
+            ghost.element.querySelector("path").getAttribute("fill")
+          );
+
+          // Remove ghost and bullet
+          ghost.element.remove();
+          ghosts.splice(i, 1);
+          bullet.element.remove();
+          bullets = bullets.filter((b) => b !== bullet);
+          return;
+        }
+      }
+
+      // Remove bullet if it goes off screen
+      if (bullet.y < -20) {
+        bullet.element.remove();
+        bullets = bullets.filter((b) => b !== bullet);
+        return;
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "Space") {
+      shoot();
+    }
+  });
+</script>
+      </div>
+    </main>
+
+<!-- 
+    <footer class="py-3">
+      <div class="container">
+        <p class="text-center">
+
+          <small>&copy; <span id="year"></span> Little Tiny Tools</small>
+        </p>
+      </div>
+    </footer>
+    
+    <script src="/assets/scripts/main.js"></script> -->
+  </body>
+</html>
