@@ -40,40 +40,6 @@ module.exports = function(eleventyConfig) {
     return 'debugging...';
   });
 
-
-
-
-  // Create a folder for skipped files
-  const errorFolder = '_error_files';
-  if (!fs.existsSync(errorFolder)) {
-    fs.mkdirSync(errorFolder); // Create the folder if it doesn't exist
-  }
-
-  // Catch errors during file processing
-  eleventyConfig.on('beforeWatch', (changedFiles) => {
-    console.log('Watching files for changes:', changedFiles);
-  });
-
-  // Add a transform to handle syntax errors in templates
-  eleventyConfig.addTransform('catch-errors', async (content, outputPath) => {
-    try {
-      // Ensure the file is being processed normally
-      return content;
-    } catch (error) {
-      console.error(`Error transforming file: ${outputPath}`);
-      console.error(error.message);
-
-      // Move the problematic file to the error folder
-      const fileName = path.basename(outputPath);
-      const destination = path.join(errorFolder, fileName);
-      fs.renameSync(outputPath, destination);
-
-      // Skip rendering for this file
-      return '';
-    }
-  });
-
-
   return {
     dir: {
       input: "src",
