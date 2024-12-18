@@ -1,0 +1,159 @@
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-3">Binary to Decimal and IST to UTC Converters</h1><div class="container mt-5 mb-5">
+  <p class="text-center fs-5">The Binary to Decimal and IST to UTC Converters is an online tool designed to simplify the process of converting binary numbers to decimal equivalents and Indian Standard Time (IST) to Coordinated Universal Time (UTC). This tool is particularly useful for developers, programmers, and individuals who frequently work with binary code and need to convert time zones for international communication or collaboration. With its user-friendly interface and instant conversion capabilities, this tool saves time and effort, making it an essential resource for anyone looking to streamline their workflow and improve productivity.</p>
+</div>
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <div class="mb-3">
+        <label for="binary-input" class="form-label">Binary Number</label>
+        <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)" value="">
+      </div>
+      <button id="binary-convert-button" class="btn btn-primary">Convert</button>
+      <div class="mb-3">
+        <label for="decimal-output" class="form-label">Decimal Equivalent</label>
+        <input type="text" id="decimal-output" class="form-control" readonly>
+      </div>
+      <div id="binary-error-message" class="error-message"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>IST to UTC Converter</h2>
+      <div class="mb-3">
+        <label for="ist-input" class="form-label">Time in IST (HH:MM:SS)</label>
+        <input type="text" id="ist-input" class="form-control" placeholder="Enter time in IST format (e.g. 14:30:00)" value="">
+      </div>
+      <div class="mb-3">
+        <label for="date-select" class="form-label">Select Date</label>
+        <select id="date-select" class="form-select">
+          <option value="current">Current Date</option>
+          <option value="specific">Specific Date</option>
+        </select>
+      </div>
+      <div id="specific-date-input" class="mb-3" style="display: none;">
+        <label for="specific-date" class="form-label">Enter Specific Date (YYYY-MM-DD)</label>
+        <input type="text" id="specific-date" class="form-control" placeholder="Enter specific date (e.g. 2022-01-01)">
+      </div>
+      <button id="ist-convert-button" class="btn btn-primary">Convert</button>
+      <div class="mb-3">
+        <label for="utc-output" class="form-label">Time in UTC (HH:MM:SS)</label>
+        <input type="text" id="utc-output" class="form-control" readonly>
+      </div>
+      <div id="ist-error-message" class="error-message"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5 mb-5">
+  <h2>How it Works</h2>
+  <p>The Binary to Decimal Converter uses a simple formula to convert binary numbers to decimal equivalents. The formula is based on the positional notation of binary digits, where each digit's value is multiplied by 2 raised to the power of its position, counting from right to left and starting at 0. For example, the binary number 1010 can be converted to decimal as follows: (1 * 2^3) + (0 * 2^2) + (1 * 2^1) + (0 * 2^0) = 8 + 0 + 2 + 0 = 10.</p>
+  <h2>Use Cases Examples</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1011</td>
+        <td>11</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2>IST to UTC Conversion</h2>
+  <p>The IST to UTC Converter works by taking into account the time difference between Indian Standard Time and Coordinated Universal Time. IST is 5 hours and 30 minutes ahead of UTC, so the converter subtracts this offset from the input time to get the equivalent time in UTC. For example, if the input time is 14:30:00 IST, the converter will subtract 5 hours and 30 minutes to get the UTC time, which would be 09:00:00 UTC.</p>
+</div><div class="container mt-5 mb-5">
+  <h2>Common Use Cases</h2>
+  <ol>
+    <li>Converting binary code to decimal for programming and development purposes</li>
+    <li>Coordinating time zones for international business meetings and conferences</li>
+    <li>Converting IST to UTC for online transactions and payments</li>
+    <li>Streamlining workflow and improving productivity by automating time zone conversions</li>
+    <li>Facilitating communication and collaboration between teams working in different time zones</li>
+    <li>Converting binary data to decimal for data analysis and visualization</li>
+    <li>Converting IST to UTC for travel and tourism purposes</li>
+    <li>Coordinating time zones for online events and webinars</li>
+    <li>Converting binary code to decimal for educational and training purposes</li>
+    <li>Converting IST to UTC for scientific research and data collection</li>
+  </ol>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    document.getElementById('binary-input').value = startValue;
+  }
+
+  document.getElementById('binary-convert-button').addEventListener('click', () => {
+    const binaryInput = document.getElementById('binary-input').value;
+    if (!/^[01]+$/.test(binaryInput)) {
+      document.getElementById('binary-error-message').innerText = 'Invalid binary number';
+      return;
+    }
+    const decimalOutput = parseInt(binaryInput, 2);
+    document.getElementById('decimal-output').value = decimalOutput;
+    document.getElementById('binary-error-message').innerText = '';
+  });
+
+  document.getElementById('date-select').addEventListener('change', () => {
+    if (document.getElementById('date-select').value === 'specific') {
+      document.getElementById('specific-date-input').style.display = 'block';
+    } else {
+      document.getElementById('specific-date-input').style.display = 'none';
+    }
+  });
+
+  document.getElementById('ist-convert-button').addEventListener('click', () => {
+    const istInput = document.getElementById('ist-input').value;
+    if (!/^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/.test(istInput)) {
+      document.getElementById('ist-error-message').innerText = 'Invalid time format';
+      return;
+    }
+    const dateSelect = document.getElementById('date-select').value;
+    let date;
+    if (dateSelect === 'current') {
+      date = new Date();
+    } else {
+      const specificDate = document.getElementById('specific-date').value;
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(specificDate)) {
+        document.getElementById('ist-error-message').innerText = 'Invalid date format';
+        return;
+      }
+      date = new Date(specificDate + 'T' + istInput);
+    }
+    const utcOffset = 330; // IST is 5 hours and 30 minutes ahead of UTC
+    const utcDate = new Date(date.getTime() - utcOffset * 60 * 1000);
+    const utcHours = utcDate.getUTCHours().toString().padStart(2, '0');
+    const utcMinutes = utcDate.getUTCMinutes().toString().padStart(2, '0');
+    const utcSeconds = utcDate.getUTCSeconds().toString().padStart(2, '0');
+    document.getElementById('utc-output').value = `${utcHours}:${utcMinutes}:${utcSeconds}`;
+    document.getElementById('ist-error-message').innerText = '';
+  });
+</script>

@@ -1,0 +1,188 @@
+---
+title: AEDT to PST Time Zone Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Time Zone Converter
+  - AEDT
+  - PST
+  - Date and Time
+  - Time Conversion
+---
+
+<style>
+  #main-div {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  #main-div input, #main-div select {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  #main-div button {
+    width: 100%;
+    height: 40px;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+  #main-div #result {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  #main-div #error {
+    color: #f00;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center">AEDT to PST Time Zone Converter</h1><div class="container mt-5 mb-5">
+    <h1 class="text-center">AEDT to PST Time Zone Converter</h1>
+    <p class="text-center">Our AEDT to PST converter is a free online tool that allows you to easily convert time from Australian Eastern Daylight Time (AEDT) to Pacific Standard Time (PST). This time zone converter is essential for anyone who needs to schedule meetings, events, or appointments across different time zones. With our user-friendly interface, you can quickly and accurately convert AEDT to PST and vice versa, eliminating the risk of confusion and miscommunication.</p>
+</div>
+  <form id="conversion-form">
+    <label for="time">Enter time in AEDT format (HH:MM)</label>
+    <input type="text" id="time" value="" placeholder="HH:MM">
+    <label for="date">Select date</label>
+    <select id="date">
+      <option value="current">Current date</option>
+      <option value="specific">Specific date</option>
+    </select>
+    <input type="date" id="specific-date" style="display:none;">
+    <button type="submit" id="convert-button">Convert</button>
+    <div id="result"></div>
+    <div id="error"></div>
+  </form>
+</div>
+
+<div class="container mt-5 mb-5">
+    <h2 class="text-center">How it Works</h2>
+    <p class="text-center">The AEDT to PST converter uses a simple formula to calculate the time difference between the two time zones. Since AEDT is 17 hours ahead of PST, we subtract 17 hours from the AEDT time to get the equivalent PST time. For example, if it's 10:00 AM AEDT, the equivalent PST time would be 5:00 PM (previous day).</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>AEDT Time</th>
+                <th>PST Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>12:00 AM AEDT</td>
+                <td>7:00 PM (previous day) PST</td>
+            </tr>
+            <tr>
+                <td>6:00 AM AEDT</td>
+                <td>1:00 AM PST</td>
+            </tr>
+            <tr>
+                <td>12:00 PM AEDT</td>
+                <td>7:00 PM (previous day) PST</td>
+            </tr>
+            <tr>
+                <td>6:00 PM AEDT</td>
+                <td>1:00 AM PST</td>
+            </tr>
+            <tr>
+                <td>12:00 AM (next day) AEDT</td>
+                <td>7:00 PM PST</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="container mt-5 mb-5">
+    <h2 class="text-center">Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Scheduling international meetings or conference calls between Australia and the United States</li>
+        <li class="list-group-item">Coordinating events or appointments with clients or partners in different time zones</li>
+        <li class="list-group-item">Traveling from Australia to the United States and needing to adjust to the local time zone</li>
+        <li class="list-group-item">Conducting online business or e-commerce transactions with customers in different time zones</li>
+        <li class="list-group-item">Communicating with friends or family members who live in different time zones</li>
+        <li class="list-group-item">Planning a trip or vacation to the United States and needing to know the local time zone</li>
+        <li class="list-group-item">Participating in online courses or educational programs that are offered in different time zones</li>
+        <li class="list-group-item">Working with a remote team or collaborating with colleagues in different time zones</li>
+        <li class="list-group-item">Monitoring stock markets or financial news in different time zones</li>
+        <li class="list-group-item">Watching live sports or events that are broadcast in different time zones</li>
+    </ul>
+</div><script>
+  const conversionForm = document.getElementById('conversion-form');
+  const timeInput = document.getElementById('time');
+  const dateSelect = document.getElementById('date');
+  const specificDateInput = document.getElementById('specific-date');
+  const convertButton = document.getElementById('convert-button');
+  const resultDiv = document.getElementById('result');
+  const errorDiv = document.getElementById('error');
+  const urlParams = new URLSearchParams(window.location.search);
+  const startTime = urlParams.get('start');
+
+  if (startTime) {
+    timeInput.value = startTime;
+  }
+
+  dateSelect.addEventListener('change', () => {
+    if (dateSelect.value === 'specific') {
+      specificDateInput.style.display = 'block';
+    } else {
+      specificDateInput.style.display = 'none';
+    }
+  });
+
+  conversionForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const time = timeInput.value;
+    const date = dateSelect.value;
+    const specificDate = specificDateInput.value;
+    const isValidTime = validateTime(time);
+
+    if (!isValidTime) {
+      errorDiv.innerText = 'Invalid time format. Please use HH:MM.';
+      return;
+    }
+
+    constaedtTime = new Date();
+    const [hours, minutes] = time.split(':').map(Number);
+
+    if (date === 'specific') {
+      aedtTime = new Date(specificDate + 'T' + time + ':00');
+    } else {
+      aedtTime.setHours(hours);
+      aedtTime.setMinutes(minutes);
+    }
+
+    const pstTime = convertAedtToPst(aedtTime);
+    resultDiv.innerText = `PST time: ${pstTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`;
+
+    errorDiv.innerText = '';
+  });
+
+  function validateTime(time) {
+    const timeRegex = /^([01][0-9]|2[0-3]):([0-5][0-9])$/;
+    return timeRegex.test(time);
+  }
+
+  function convertAedtToPst(aedtTime) {
+    const pstOffset = -17 * 60 * 60 * 1000; // 17 hours in milliseconds
+    const pstTime = new Date(aedtTime.getTime() + pstOffset);
+    return pstTime;
+  }
+</script>

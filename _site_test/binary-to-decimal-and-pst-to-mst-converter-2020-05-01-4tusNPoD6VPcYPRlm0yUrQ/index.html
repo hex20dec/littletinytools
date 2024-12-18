@@ -1,0 +1,142 @@
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center mb-4">Binary to Decimal and PST to MST Converter</h1><div class="container mt-5 mb-5">
+  <h1 class="text-center mb-4">Binary to Decimal and PST to MST Converter</h1>
+  <p class="text-center text-secondary">This online tool serves as a convenient solution for converting binary numbers to decimal equivalents and Pacific Standard Time (PST) to Mountain Standard Time (MST). It is designed to efficiently handle these conversions, offering a straightforward and user-friendly interface for a seamless experience. Whether you are working with binary codes or navigating time zones, this tool simplifies the process, ensuring accuracy and ease of use.</p>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="mb-3">Binary to Decimal Converter</h2>
+      <div class="mb-3">
+        <label for="binaryInput" class="form-label">Binary Number</label>
+        <input type="text" id="binaryInput" class="form-control" placeholder="Enter a binary number (e.g. 1010)" value="?start">
+      </div>
+      <button id="convertButton" class="btn btn-primary">Convert</button>
+      <div class="mb-3">
+        <label for="decimalOutput" class="form-label">Decimal Equivalent</label>
+        <input type="text" id="decimalOutput" class="form-control" readonly>
+      </div>
+      <div id="binaryError" class="error-message"></div>
+    </div>
+    <div class="col-md-6">
+      <h2 class="mb-3">PST to MST Converter</h2>
+      <div class="mb-3">
+        <label for="pstInput" class="form-label">Date and Time (PST)</label>
+        <input type="datetime-local" id="pstInput" class="form-control">
+      </div>
+      <button id="pstConvertButton" class="btn btn-primary">Convert</button>
+      <div class="mb-3">
+        <label for="mstOutput" class="form-label">Date and Time (MST)</label>
+        <input type="text" id="mstOutput" class="form-control" readonly>
+      </div>
+      <div id="pstError" class="error-message"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mb-5">
+  <h2 class="mb-3 text-center">How It Works</h2>
+  <p class="text-secondary">The binary to decimal conversion is based on the principle that each binary digit (or bit) in a binary number represents a power of 2. Starting from the rightmost bit (which is the 2^0 position), each bit's value doubles as you move to the left (2^1, 2^2, 2^3, etc.). To convert binary to decimal, you multiply each binary digit by its corresponding power of 2 and then sum all those values.</p>
+  <table class="table table-striped table-bordered mt-3">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1011</td>
+        <td>11</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="text-secondary mt-3">For the PST to MST conversion, it is crucial to understand that MST is one hour ahead of PST. Therefore, when converting a time from PST to MST, you simply add one hour to the original time. This principle guides the conversion process, ensuring that the resulting time in MST accurately reflects the one-hour difference.</p>
+</div><div class="container mb-5">
+  <h2 class="mb-3 text-center">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Web development: Converting binary data to decimal for easier manipulation and processing.</li>
+    <li class="list-group-item">Data analysis: Understanding and converting binary codes in data sets for clearer insights.</li>
+    <li class="list-group-item">Programming: Frequently converting between binary and decimal for coding purposes.</li>
+    <li class="list-group-item">International communication: Coordinating schedules across different time zones, particularly between PST and MST.</li>
+    <li class="list-group-item">Travel planning: Accurately converting time zones to plan flights, meetings, and itineraries.</li>
+    <li class="list-group-item">Business operations: Managing teams or clients across PST and MST for synchronized business activities.</li>
+    <li class="list-group-item">Educational purposes: Teaching students about binary and decimal conversions, and time zone differences.</li>
+    <li class="list-group-item">Research: Analyzing data that involves binary codes and time-sensitive information.</li>
+    <li class="list-group-item">Telecommunications: Ensuring accurate time conversions for international and interstate communications.</li>
+    <li class="list-group-item">Software development: Incorporating time zone and binary conversion functionalities into applications.</li>
+  </ul>
+</div><script>
+  const binaryInput = document.getElementById('binaryInput');
+  const convertButton = document.getElementById('convertButton');
+  const decimalOutput = document.getElementById('decimalOutput');
+  const binaryError = document.getElementById('binaryError');
+
+  const pstInput = document.getElementById('pstInput');
+  const pstConvertButton = document.getElementById('pstConvertButton');
+  const mstOutput = document.getElementById('mstOutput');
+  const pstError = document.getElementById('pstError');
+
+  convertButton.addEventListener('click', () => {
+    const binaryValue = binaryInput.value.trim();
+    if (!binaryValue) {
+      binaryError.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryValue)) {
+      binaryError.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    decimalOutput.value = decimalValue;
+    binaryError.textContent = '';
+  });
+
+  pstConvertButton.addEventListener('click', () => {
+    const pstValue = pstInput.value.trim();
+    if (!pstValue) {
+      pstError.textContent = 'Please enter a date and time';
+      return;
+    }
+    const pstDate = new Date(pstValue);
+    if (isNaN(pstDate.getTime())) {
+      pstError.textContent = 'Invalid date and time';
+      return;
+    }
+    const mstDate = new Date(pstDate.getTime() - 3600000);
+    mstOutput.value = mstDate.toLocaleString();
+    pstError.textContent = '';
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const start = urlParams.get('start');
+  if (start) {
+    binaryInput.value = start;
+  }
+</script>

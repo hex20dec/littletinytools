@@ -1,0 +1,175 @@
+---
+title: "IST to CST Time Zone Converter"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Time Zone Converter
+  - IST to CST
+  - Travel
+  - Business
+  - International Time
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <header class="mb-5">
+    <h1 class="display-4">IST to CST Converter</h1><div class="container mt-5">
+  <p class="lead">The IST to CST Converter is a time zone conversion tool that helps users convert Indian Standard Time (IST) to Central Standard Time (CST). This tool is essential for individuals who need to communicate or conduct business across these two time zones. With its user-friendly interface, users can easily input the time in IST and get the equivalent time in CST, making it a valuable resource for travelers, business professionals, and anyone who needs to coordinate activities across different time zones.</p>
+</div>
+  </header>
+  <main class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <form>
+        <div class="mb-3">
+          <label for="ist-time" class="form-label">Enter time in IST (HH:MM)</label>
+          <input type="text" id="ist-time" class="form-control" placeholder="HH:MM" aria-label="IST Time" required>
+          <div class="error-message" id="error-ist-time"></div>
+        </div>
+        <div class="mb-3">
+          <label for="ist-ampm" class="form-label">Select AM/PM for IST</label>
+          <select id="ist-ampm" class="form-select" aria-label="IST AM/PM">
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+        </div>
+        <button type="button" id="convert-btn" class="btn btn-primary mb-3">Convert to CST</button>
+        <div class="mb-3">
+          <label for="cst-time" class="form-label">Equivalent time in CST</label>
+          <input type="text" id="cst-time" class="form-control" placeholder="HH:MM AM/PM" aria-label="CST Time" readonly>
+        </div>
+        <div class="mb-3">
+          <label for="cst-ampm" class="form-label">Select AM/PM for CST</label>
+          <select id="cst-ampm" class="form-select" aria-label="CST AM/PM" disabled>
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </main>
+</div>
+
+<div class="container mt-5">
+  <h2 class="mb-3">How it Works</h2>
+  <p class="lead">The IST to CST Converter uses a simple formula to calculate the equivalent time in CST. The formula is based on the time difference between the two time zones, which is 11.5 hours. The converter takes into account the AM/PM designation in both time zones to ensure accurate conversions.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>IST Time</th>
+        <th>CST Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>12:00 AM IST</td>
+        <td>12:30 PM (previous day) CST</td>
+      </tr>
+      <tr>
+        <td>6:00 AM IST</td>
+        <td>6:30 PM (previous day) CST</td>
+      </tr>
+      <tr>
+        <td>12:00 PM IST</td>
+        <td>12:30 AM CST</td>
+      </tr>
+      <tr>
+        <td>6:00 PM IST</td>
+        <td>6:30 AM CST</td>
+      </tr>
+      <tr>
+        <td>12:00 AM IST (next day)</td>
+        <td>12:30 PM CST</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="mb-3">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Traveling from India to the United States and needing to coordinate flight schedules and hotel reservations.</li>
+    <li class="list-group-item">Conducting business meetings or conference calls with clients or colleagues in different time zones.</li>
+    <li class="list-group-item">Coordinating international shipping and logistics across different time zones.</li>
+    <li class="list-group-item">Communicating with friends and family members who live in different time zones.</li>
+    <li class="list-group-item">Planning international events or conferences and needing to schedule activities across different time zones.</li>
+    <li class="list-group-item">Working with international teams and needing to coordinate work schedules and deadlines.</li>
+    <li class="list-group-item">Studying or researching in a field that requires coordination with international partners or institutions.</li>
+    <li class="list-group-item">Participating in international online communities or forums and needing to coordinate with members across different time zones.</li>
+    <li class="list-group-item">Planning international travel itineraries and needing to coordinate with tour operators or travel agencies.</li>
+    <li class="list-group-item">Conducting international market research or analysis and needing to coordinate with data providers or research partners.</li>
+  </ul>
+</div><script>
+  const istTimeInput = document.getElementById('ist-time');
+  const istAmPmSelect = document.getElementById('ist-ampm');
+  const convertBtn = document.getElementById('convert-btn');
+  const cstTimeInput = document.getElementById('cst-time');
+  const cstAmPmSelect = document.getElementById('cst-ampm');
+  const errorIstTime = document.getElementById('error-ist-time');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    istTimeInput.value = startParam;
+  }
+
+  convertBtn.addEventListener('click', () => {
+    const istTime = istTimeInput.value.trim();
+    const istAmPm = istAmPmSelect.value;
+    const isValidTime = validateTime(istTime);
+    if (!isValidTime) {
+      errorIstTime.textContent = 'Invalid time format. Please use HH:MM.';
+      return;
+    }
+    errorIstTime.textContent = '';
+
+    const istHours = parseInt(istTime.split(':')[0]);
+    const istMinutes = parseInt(istTime.split(':')[1]);
+    const cstHours = convertIstToCst(istHours, istMinutes, istAmPm);
+    const cstMinutes = istMinutes;
+    const cstAmPm = getAmPm(cstHours);
+
+    cstTimeInput.value = `${padZero(cstHours)}:${padZero(cstMinutes)} ${cstAmPm}`;
+    cstAmPmSelect.value = cstAmPm;
+  });
+
+  function validateTime(time) {
+    const regex = /^([01][0-9]|2[0-3]):([0-5][0-9])$/;
+    return regex.test(time);
+  }
+
+  function convertIstToCst(istHours, istMinutes, istAmPm) {
+    const istOffset = 5.5; // IST is 5.5 hours ahead of UTC
+    const cstOffset = -6; // CST is 6 hours behind UTC
+    const offset = istOffset - cstOffset;
+    let hours = istHours + offset;
+    if (hours > 23) {
+      hours -= 24;
+    } else if (hours < 0) {
+      hours += 24;
+    }
+    return hours;
+  }
+
+  function getAmPm(hours) {
+    if (hours < 12) {
+      return 'AM';
+    } else {
+      return 'PM';
+    }
+  }
+
+  function padZero(num) {
+    return num.toString().padStart(2, '0');
+  }
+</script>

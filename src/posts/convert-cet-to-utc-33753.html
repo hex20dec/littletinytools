@@ -1,0 +1,133 @@
+---
+title: Time Zone Converter - CET to UTC
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-01 12:00:00
+tags:
+  - Time Zone Converter
+  - CET
+  - UTC
+  - Date and Time Conversion
+  - Travel Planning
+---
+
+<style>
+  #main-div {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .input-field {
+    margin-bottom: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center">CET to UTC Converter</h1><div class="container mt-5">
+    <h2>Introduction to Time Zone Conversion: A Comprehensive Guide</h2>
+    <p>Converting time zones is a crucial aspect of global communication, travel, and business. With the world operating in different time zones, it's essential to understand how to convert between them accurately. The Central European Time (CET) and Coordinated Universal Time (UTC) are two of the most commonly used time zones. Our tool provides a simple and efficient way to convert CET to UTC, taking into account daylight saving time (DST) and standard time. This guide will walk you through the process of time zone conversion, explaining the formula behind it and providing examples of different use cases.</p>
+</div>
+  <form id="converter-form">
+    <div class="row">
+      <div class="col-12 input-field">
+        <label for="date">Date (DD/MM/YYYY)</label>
+        <input type="text" id="date" name="date" placeholder="DD/MM/YYYY" value="<?php echo $_GET['start']; ?>">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 input-field">
+        <label for="time">Time (HH:MM)</label>
+        <input type="text" id="time" name="time" placeholder="HH:MM">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary w-100">Convert Time</button>
+      </div>
+    </div>
+  </form>
+  <div id="output" class="mt-4"></div>
+  <p>Note: CET is 1 hour ahead of UTC during standard time and 2 hours ahead during daylight saving time.</p>
+</div>
+
+<div class="container mt-5">
+    <h2>How Time Zone Conversion Works</h2>
+    <p>The formula for converting CET to UTC is based on the time difference between the two time zones. During standard time, CET is 1 hour ahead of UTC, and during daylight saving time, it is 2 hours ahead. The conversion formula can be expressed as follows: UTC = CET - (1 or 2 hours), depending on whether it's standard time or daylight saving time.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>CET Time</th>
+                <th>UTC Time (Standard Time)</th>
+                <th>UTC Time (Daylight Saving Time)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>12:00 PM</td>
+                <td>11:00 AM</td>
+                <td>10:00 AM</td>
+            </tr>
+            <tr>
+                <td>06:00 PM</td>
+                <td>05:00 PM</td>
+                <td>04:00 PM</td>
+            </tr>
+            <tr>
+                <td>09:00 AM</td>
+                <td>08:00 AM</td>
+                <td>07:00 AM</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="container mt-5">
+    <h2>Common Use Cases for Time Zone Conversion</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Scheduling international meetings and conferences</li>
+        <li class="list-group-item">Coordinating global events and broadcasts</li>
+        <li class="list-group-item">Travel planning and itinerary management</li>
+        <li class="list-group-item">Conducting international business and trade</li>
+        <li class="list-group-item">Communicating with friends and family across different time zones</li>
+        <li class="list-group-item">Managing remote teams and workers across different time zones</li>
+        <li class="list-group-item">Synchronizing clocks and timekeeping systems</li>
+        <li class="list-group-item">Astronomical observations and research</li>
+        <li class="list-group-item">Weather forecasting and climate monitoring</li>
+        <li class="list-group-item">Navigation and transportation scheduling</li>
+    </ul>
+</div><script>
+  const form = document.getElementById('converter-form');
+  const dateInput = document.getElementById('date');
+  const timeInput = document.getElementById('time');
+  const output = document.getElementById('output');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const date = dateInput.value;
+    const time = timeInput.value;
+    const cetDate = `${date} ${time}`;
+    const cet = new Date(cetDate);
+    const utc = new Date(cet.toLocaleString('en-GB', { timeZone: 'UTC' }));
+    const dst = isDst(cet);
+    const offset = dst ? 2 : 1;
+    const utcDate = new Date(cet.getTime() - (offset * 60 * 60 * 1000));
+    output.innerHTML = `UTC: ${utcDate.toLocaleString('en-GB', { timeZone: 'UTC' })} (${dst ? 'Daylight Saving Time' : 'Standard Time'})`;
+  });
+
+  function isDst(date) {
+    const march = new Date(date.getFullYear(), 2, 31);
+    const october = new Date(date.getFullYear(), 9, 31);
+    const start = new Date(march.getFullYear(), 2, 31, 1, 0, 0);
+    const end = new Date(october.getFullYear(), 9, 31, 1, 0, 0);
+    while (start.getDay() !== 0) {
+      start.setDate(start.getDate() - 1);
+    }
+    while (end.getDay() !== 0) {
+      end.setDate(end.getDate() - 1);
+    }
+    start.setHours(1, 0, 0);
+    end.setHours(1, 0, 0);
+    return date >= start && date < end;
+  }
+</script>

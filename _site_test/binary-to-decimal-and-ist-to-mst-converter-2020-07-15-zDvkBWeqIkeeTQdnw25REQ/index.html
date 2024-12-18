@@ -1,0 +1,180 @@
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Binary to Decimal and IST to MST Converter</h1><div class="header-section mt-5">
+  <p class="text-center fs-5">The Binary to Decimal and IST to MST Converter is a versatile online tool that allows users to seamlessly convert binary numbers to decimal equivalents and Indian Standard Time (IST) to Mountain Standard Time (MST). With its user-friendly interface and advanced conversion capabilities, this tool is perfect for professionals, students, and anyone who needs to perform these conversions quickly and accurately. The Binary to Decimal conversion is based on the binary number system, where each digit can have one of two values - 0 or 1, and the decimal equivalent is calculated by multiplying each binary digit by the corresponding power of 2 and adding the results. On the other hand, the IST to MST conversion takes into account the 12 hours and 30 minutes difference between the two time zones, ensuring accurate and reliable results.</p>
+</div>
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <div class="mb-3">
+        <label for="binaryInput" class="form-label">Binary Number</label>
+        <input type="text" id="binaryInput" class="form-control" placeholder="Enter a binary number (e.g. 1010)" value="<?php echo $_GET['start']; ?>">
+      </div>
+      <button id="binaryConvertBtn" class="btn btn-primary">Convert</button>
+      <div class="mb-3">
+        <label for="decimalOutput" class="form-label">Decimal Equivalent</label>
+        <input type="text" id="decimalOutput" class="form-control" readonly>
+      </div>
+      <div id="binaryErrorMessage" class="error-message"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>IST to MST Converter</h2>
+      <div class="mb-3">
+        <label for="istInput" class="form-label">IST Time</label>
+        <input type="text" id="istInput" class="form-control" placeholder="HH:MM:SS">
+      </div>
+      <button id="istConvertBtn" class="btn btn-primary">Convert</button>
+      <div class="mb-3">
+        <label for="mstOutput" class="form-label">MST Time</label>
+        <input type="text" id="mstOutput" class="form-control" readonly>
+      </div>
+      <div id="istErrorMessage" class="error-message"></div>
+      <p>The time difference between IST and MST is 12 hours and 30 minutes.</p>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section mt-5">
+  <h2>How the Conversion Works</h2>
+  <p>The binary to decimal conversion is based on the following formula: Decimal Number = (Binary Digit 1 * 2^n) + (Binary Digit 2 * 2^(n-1)) + ... + (Binary Digit n * 2^0), where n is the number of binary digits.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1000</td>
+        <td>8</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The IST to MST conversion is based on the time difference between the two time zones. For example, if the IST time is 12:00:00, the corresponding MST time would be 11:30:00 PM (previous day).</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>IST Time</th>
+        <th>MST Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>12:00:00</td>
+        <td>11:30:00 PM (previous day)</td>
+      </tr>
+      <tr>
+        <td>13:00:00</td>
+        <td>12:30:00 AM</td>
+      </tr>
+      <tr>
+        <td>14:00:00</td>
+        <td>1:30:00 AM</td>
+      </tr>
+      <tr>
+        <td>15:00:00</td>
+        <td>2:30:00 AM</td>
+      </tr>
+      <tr>
+        <td>16:00:00</td>
+        <td>3:30:00 AM</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section mt-5">
+  <h2>Common Use Cases for the Binary to Decimal and IST to MST Converter</h2>
+  <ul>
+    <li>Converting binary code to decimal for programming and coding purposes</li>
+    <li>Coordinating with team members or clients across different time zones (IST and MST)</li>
+    <li>Scheduling appointments or meetings with people in different time zones</li>
+    <li>Converting IST time to MST time for travel or business purposes</li>
+    <li>Calculating time differences for international communication or collaboration</li>
+    <li>Converting decimal numbers to binary for cryptographic or security purposes</li>
+    <li>Understanding binary and decimal number systems for educational purposes</li>
+    <li>Converting IST time to MST time for online events or webinars</li>
+    <li>Coordinating with teams or partners in different regions or countries</li>
+    <li>Calculating time zones for international trade or commerce</li>
+  </ul>
+</div><script>
+  const binaryInput = document.getElementById('binaryInput');
+  const binaryConvertBtn = document.getElementById('binaryConvertBtn');
+  const decimalOutput = document.getElementById('decimalOutput');
+  const binaryErrorMessage = document.getElementById('binaryErrorMessage');
+
+  const istInput = document.getElementById('istInput');
+  const istConvertBtn = document.getElementById('istConvertBtn');
+  const mstOutput = document.getElementById('mstOutput');
+  const istErrorMessage = document.getElementById('istErrorMessage');
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binaryValue = binaryInput.value;
+    if (!binaryValue) {
+      binaryErrorMessage.textContent = 'Please enter a binary number';
+      return;
+    }
+    try {
+      const decimalValue = parseInt(binaryValue, 2);
+      decimalOutput.value = decimalValue;
+      binaryErrorMessage.textContent = '';
+    } catch (error) {
+      binaryErrorMessage.textContent = 'Invalid binary number';
+    }
+  });
+
+  istConvertBtn.addEventListener('click', () => {
+    const istValue = istInput.value;
+    if (!istValue) {
+      istErrorMessage.textContent = 'Please enter an IST time';
+      return;
+    }
+    const timeParts = istValue.split(':');
+    if (timeParts.length !== 3) {
+      istErrorMessage.textContent = 'Invalid time format';
+      return;
+    }
+    const hours = parseInt(timeParts[0]);
+    const minutes = parseInt(timeParts[1]);
+    const seconds = parseInt(timeParts[2]);
+    if (isNaN(hours) || isNaN(minutes) || isNaN(seconds)) {
+      istErrorMessage.textContent = 'Invalid time format';
+      return;
+    }
+    const date = new Date();
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    date.setSeconds(seconds);
+    const mstDate = new Date(date.getTime() - 12 * 60 * 60 * 1000 - 30 * 60 * 1000);
+    const mstHours = mstDate.getUTCHours().toString().padStart(2, '0');
+    const mstMinutes = mstDate.getUTCMinutes().toString().padStart(2, '0');
+    const mstSeconds = mstDate.getUTCSeconds().toString().padStart(2, '0');
+    mstOutput.value = `${mstHours}:${mstMinutes}:${mstSeconds}`;
+    istErrorMessage.textContent = '';
+  });
+</script>

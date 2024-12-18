@@ -1,0 +1,140 @@
+
+<style>
+  #main-div {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  #main-div input, #main-div button {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  #main-div button {
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+
+  #main-div .error-message {
+    color: #f00;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal Converter</h1><div class="header-section p-5 text-center bg-light">
+    <h1>Binary to Decimal Converter</h1>
+    <p class="lead">This binary to decimal converter is a free online tool that converts binary numbers to their decimal equivalents. It is a simple yet powerful tool that can be used by programmers, mathematicians, and anyone who needs to work with binary and decimal numbers. With its user-friendly interface and real-time validation, this tool makes it easy to convert binary numbers to decimal numbers quickly and accurately. Whether you are working on a programming project, solving a math problem, or just need to convert a binary number for fun, this binary to decimal converter is the perfect tool for you.</p>
+</div>
+  <label for="binary-number">Binary Number:</label>
+  <input type="text" id="binary-number" placeholder="Enter a binary number (e.g. 1010)">
+  <button id="convert-button">Convert</button>
+  <label for="decimal-equivalent">Decimal Equivalent:</label>
+  <input type="text" id="decimal-equivalent" readonly>
+  <div class="error-message" id="error-message"></div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How it Works</h2>
+    <p>The binary to decimal converter uses a simple formula to convert binary numbers to decimal numbers. The formula is based on the principle that each binary digit (0 or 1) represents a power of 2. The formula is as follows: decimal number = (binary digit 1 * 2^n) + (binary digit 2 * 2^(n-1)) + ... + (binary digit n * 2^0), where n is the number of binary digits.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1000</td>
+                <td>8</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2>Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Converting binary numbers to decimal numbers for programming projects</li>
+        <li class="list-group-item">Solving math problems that involve binary and decimal numbers</li>
+        <li class="list-group-item">Working with computer networks and IP addresses</li>
+        <li class="list-group-item">Developing web applications that use binary and decimal numbers</li>
+        <li class="list-group-item">Converting binary numbers to decimal numbers for data analysis and science</li>
+        <li class="list-group-item">Creating and testing algorithms that use binary and decimal numbers</li>
+        <li class="list-group-item">Teaching and learning about binary and decimal numbers in school</li>
+        <li class="list-group-item">Converting binary numbers to decimal numbers for gaming and game development</li>
+        <li class="list-group-item">Working with cryptographic hash functions and encryption algorithms</li>
+        <li class="list-group-item">Developing artificial intelligence and machine learning models that use binary and decimal numbers</li>
+    </ul>
+</div><script>
+  const binaryNumberInput = document.getElementById('binary-number');
+  const convertButton = document.getElementById('convert-button');
+  const decimalEquivalentInput = document.getElementById('decimal-equivalent');
+  const errorMessage = document.getElementById('error-message');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryNumberInput.value = startValue;
+  }
+
+  convertButton.addEventListener('click', () => {
+    const binaryNumber = binaryNumberInput.value.trim();
+    if (!binaryNumber) {
+      errorMessage.textContent = 'Please enter a binary number';
+      return;
+    }
+
+    try {
+      const decimalEquivalent = parseInt(binaryNumber, 2);
+      decimalEquivalentInput.value = decimalEquivalent;
+      errorMessage.textContent = '';
+    } catch (error) {
+      errorMessage.textContent = 'Invalid binary number';
+    }
+  });
+
+  // Add event listener to input field for real-time validation
+  binaryNumberInput.addEventListener('input', () => {
+    const binaryNumber = binaryNumberInput.value.trim();
+    if (!/^[01]+$/.test(binaryNumber)) {
+      errorMessage.textContent = 'Invalid binary number';
+    } else {
+      errorMessage.textContent = '';
+    }
+  });
+</script>

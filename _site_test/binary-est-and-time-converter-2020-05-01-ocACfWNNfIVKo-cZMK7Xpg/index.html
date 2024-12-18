@@ -1,0 +1,161 @@
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  #main-div input, #main-div select {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  #main-div button {
+    width: 100%;
+    height: 40px;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+  #main-div p {
+    margin-bottom: 20px;
+  }
+  .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container">
+  <h1 class="text-center">Binary, EST & Time Converter</h1><div class="container">
+  <p class="text-center fs-5">The Binary, EST & Time Converter is an online tool designed to simplify the conversion process between binary numbers and decimal numbers, as well as between EST (Eastern Standard Time) and GMT (Greenwich Mean Time). This convenient tool allows users to easily convert binary to decimal and vice versa, while also providing a straightforward way to convert time zones, making it an essential resource for programmers, developers, and anyone working with time-sensitive applications or international collaborations.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary-input">Binary Number:</label>
+      <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)">
+      <button id="binary-convert-btn">Convert</button>
+      <p id="decimal-output"></p>
+      <p id="binary-error" class="error-message"></p>
+    </div>
+    <div class="col-md-6">
+      <h2>EST to GMT Converter</h2>
+      <label for="est-input">EST Time:</label>
+      <input type="text" id="est-input" placeholder="Enter EST time (e.g. 12:00:00)">
+      <button id="est-convert-btn">Convert</button>
+      <p id="gmt-output"></p>
+      <p id="est-error" class="error-message"></p>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="text-center">How it Works</h2>
+  <p class="fs-5">The binary to decimal conversion is based on the positional notation of the binary number system, where each digit (or bit) in a binary number represents an increasing power of 2, starting from the right. To convert binary to decimal, we multiply each binary digit by its corresponding power of 2 and then add all the results together.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1000</td>
+        <td>8</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="fs-5 mt-5">The EST to GMT conversion is based on the time difference between the two time zones. EST is 5 hours behind GMT, so to convert EST to GMT, we simply add 5 hours to the EST time.</p>
+</div><div class="container mt-5">
+  <h2 class="text-center">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting binary code to decimal for programming purposes</li>
+    <li class="list-group-item">Coordinating international meetings across different time zones</li>
+    <li class="list-group-item">Scheduling global events and appointments</li>
+    <li class="list-group-item">Converting timestamps for data analysis and processing</li>
+    <li class="list-group-item">Verifying time-sensitive transactions and financial operations</li>
+    <li class="list-group-item">Synchronizing clocks and timekeeping systems across different locations</li>
+    <li class="list-group-item">Facilitating communication between team members in different time zones</li>
+    <li class="list-group-item">Converting time zones for travel and tourism purposes</li>
+    <li class="list-group-item">Managing global supply chains and logistics operations</li>
+    <li class="list-group-item">Conducting international business and trade operations</li>
+  </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryError = document.getElementById('binary-error');
+
+  const estInput = document.getElementById('est-input');
+  const estConvertBtn = document.getElementById('est-convert-btn');
+  const gmtOutput = document.getElementById('gmt-output');
+  const estError = document.getElementById('est-error');
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binaryValue = binaryInput.value;
+    if (/^[01]+$/.test(binaryValue)) {
+      const decimalValue = parseInt(binaryValue, 2);
+      decimalOutput.textContent = `Decimal Equivalent: ${decimalValue}`;
+      binaryError.textContent = '';
+    } else {
+      binaryError.textContent = 'Invalid binary number';
+    }
+  });
+
+  estConvertBtn.addEventListener('click', () => {
+    const estValue = estInput.value;
+    if (/^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/.test(estValue)) {
+      const estTime = estValue.split(':').map(Number);
+      const gmtTime = [estTime[0] - 5, estTime[1], estTime[2]];
+      if (gmtTime[0] < 0) {
+        gmtTime[0] = 24 + gmtTime[0];
+      }
+      gmtOutput.textContent = `GMT Time: ${String(gmtTime[0]).padStart(2, '0')}:${String(gmtTime[1]).padStart(2, '0')}:${String(gmtTime[2]).padStart(2, '0')}`;
+      estError.textContent = '';
+    } else {
+      estError.textContent = 'Invalid EST time';
+    }
+  });
+
+  // Get query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    binaryInput.value = startParam;
+  }
+</script>

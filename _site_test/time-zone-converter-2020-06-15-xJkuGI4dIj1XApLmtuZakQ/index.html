@@ -1,0 +1,157 @@
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div select, #main-div input {
+    margin-bottom: 1rem;
+  }
+  #main-div button {
+    margin-bottom: 1rem;
+  }
+  #main-div .result {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  #main-div .error {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="mb-4">Time Zone Converter</h1><div class="container mt-5">
+  <p class="mb-4">Discover the power of seamless time zone conversion with our intuitive tool, designed to simplify global communication and scheduling. By providing an easy-to-use interface for converting time zones, our tool helps individuals and businesses alike navigate the complexities of international time differences, ensuring that everyone is on the same page, no matter where they are in the world. With support for a wide range of time zones in IANA format, our tool is the perfect solution for anyone looking to overcome the challenges of time zone conversion, whether you're planning a meeting, scheduling a call, or simply trying to stay in touch with loved ones across the globe.</p>
+</div>
+  <form>
+    <label for="time-zone">Select a time zone:</label>
+    <select id="time-zone" class="form-select">
+      <option value="America/New_York">America/New_York</option>
+      <option value="Europe/London">Europe/London</option>
+      <option value="Asia/Tokyo">Asia/Tokyo</option>
+      <option value="Australia/Sydney">Australia/Sydney</option>
+      <option value="Other">Other</option>
+    </select>
+    <input type="text" id="other-time-zone" class="form-control" placeholder="Enter other time zone" aria-label="Other time zone" aria-describedby="other-time-zone-help" style="display: none;">
+    <small id="other-time-zone-help" class="form-text text-muted">Enter a valid IANA time zone (e.g. America/New_York)</small>
+    <button type="button" id="convert-button" class="btn btn-primary mt-2">Convert</button>
+  </form>
+  <div id="result" class="mt-4"></div>
+  <div id="error" class="error mt-4"></div>
+  <div id="available-time-zones" class="mt-4">
+    <h2>Available time zones:</h2>
+    <ul id="time-zones-list" class="list-group">
+      <li class="list-group-item">America/New_York</li>
+      <li class="list-group-item">Europe/London</li>
+      <li class="list-group-item">Asia/Tokyo</li>
+      <li class="list-group-item">Australia/Sydney</li>
+    </ul>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="mb-4">How it Works</h2>
+  <p>The time zone conversion process can be explained through a simple formula: Desired Time = Base Time + (Difference between Time Zones). This means that if you know the base time in one time zone and the difference between that time zone and the desired time zone, you can easily calculate the desired time. For example, if it's 10:00 AM in New York (Eastern Time Zone) and you want to know the time in London (Greenwich Mean Time), you would subtract 5 hours from the base time, resulting in 5:00 PM (15:00) in London, considering New York is GMT-5 during standard time.</p>
+  <table class="table table-striped mt-4">
+    <thead>
+      <tr>
+        <th>Time Zone</th>
+        <th>UTC Offset</th>
+        <th>Example Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>America/New_York</td>
+        <td>UTC-5</td>
+        <td>10:00 AM (15:00 UTC)</td>
+      </tr>
+      <tr>
+        <td>Europe/London</td>
+        <td>UTC+0</td>
+        <td>3:00 PM (15:00 UTC)</td>
+      </tr>
+      <tr>
+        <td>Asia/Tokyo</td>
+        <td>UTC+9</td>
+        <td>12:00 AM (next day, 15:00 UTC)</td>
+      </tr>
+      <tr>
+        <td>Australia/Sydney</td>
+        <td>UTC+11</td>
+        <td>2:00 AM (next day, 15:00 UTC)</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="mb-4">10 Common Use Cases for Our Time Zone Converter Tool</h2>
+  <ol class="list-group mt-4">
+    <li class="list-group-item">Scheduling international meetings and conference calls across different time zones.</li>
+    <li class="list-group-item">Coordinating global events, such as webinars, workshops, or online conferences.</li>
+    <li class="list-group-item">Planning travel itineraries, including flights, hotel bookings, and local activities.</li>
+    <li class="list-group-item">Managing international business operations, including supply chain management and logistics.</li>
+    <li class="list-group-item">Staying in touch with friends and family living in different time zones.</li>
+    <li class="list-group-item">Conducting market research and analyzing global market trends.</li>
+    <li class="list-group-item">Scheduling social media posts and online advertising campaigns across different time zones.</li>
+    <li class="list-group-item">Managing international customer support and service operations.</li>
+    <li class="list-group-item">Planning and executing global marketing campaigns and product launches.</li>
+    <li class="list-group-item">Analyzing and reporting on global sales and revenue data.</li>
+  </ol>
+</div><script>
+  const timeZoneSelect = document.getElementById('time-zone');
+  const otherTimeZoneInput = document.getElementById('other-time-zone');
+  const convertButton = document.getElementById('convert-button');
+  const resultDiv = document.getElementById('result');
+  const errorDiv = document.getElementById('error');
+  const availableTimeZonesList = document.getElementById('time-zones-list');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startTimeZone = urlParams.get('start');
+  if (startTimeZone) {
+    timeZoneSelect.value = startTimeZone;
+  }
+
+  // Add event listener to the select dropdown
+  timeZoneSelect.addEventListener('change', (e) => {
+    if (e.target.value === 'Other') {
+      otherTimeZoneInput.style.display = 'block';
+    } else {
+      otherTimeZoneInput.style.display = 'none';
+    }
+  });
+
+  // Add event listener to the convert button
+  convertButton.addEventListener('click', () => {
+    const selectedTimeZone = timeZoneSelect.value;
+    const otherTimeZone = otherTimeZoneInput.value;
+    let timeZoneToConvert;
+    if (selectedTimeZone === 'Other') {
+      timeZoneToConvert = otherTimeZone;
+    } else {
+      timeZoneToConvert = selectedTimeZone;
+    }
+
+    // Validate the input time zone
+    if (!timeZoneToConvert) {
+      errorDiv.textContent = 'Please select a time zone or enter a valid IANA time zone';
+      resultDiv.textContent = '';
+      return;
+    }
+
+    // Convert the time zone to IANA format
+    const ianaTimeZone = timeZoneToConvert;
+    resultDiv.textContent = `The IANA time zone for ${timeZoneToConvert} is: ${ianaTimeZone}`;
+    errorDiv.textContent = '';
+  });
+
+  // Make the available time zones list accessible
+  availableTimeZonesList.setAttribute('role', 'list');
+  const timeZonesListItems = availableTimeZonesList.children;
+  for (let i = 0; i < timeZonesListItems.length; i++) {
+    timeZonesListItems[i].setAttribute('role', 'listitem');
+  }
+</script>

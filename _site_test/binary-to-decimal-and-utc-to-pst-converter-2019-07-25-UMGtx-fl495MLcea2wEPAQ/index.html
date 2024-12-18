@@ -1,0 +1,190 @@
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center mb-3">Binary to Decimal and UTC to PST Converter</h1><div class="header-section p-5 text-center bg-primary text-white">
+    <p class="lead">The Binary to Decimal and UTC to PST Converter is an online tool that allows users to convert binary numbers to decimal numbers and UTC time to PST time. This tool is designed to be user-friendly and provides accurate conversions. With its simple and intuitive interface, users can easily convert binary numbers and UTC time to decimal numbers and PST time, making it a valuable resource for developers, programmers, and individuals who work with different time zones and number systems.</p>
+</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2 class="mb-3">Binary to Decimal Converter</h2>
+        <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)" maxlength="20">
+        <button id="binary-convert-btn" class="btn btn-primary mt-2">Convert</button>
+        <input type="text" id="decimal-output" class="form-control mt-2" readonly>
+        <p id="binary-error" class="error-message"></p>
+      </div>
+      <div class="col-md-6">
+        <h2 class="mb-3">UTC to PST Converter</h2>
+        <input type="text" id="utc-input" class="form-control" placeholder="Enter UTC time (HH:MM or HH:MM:SS)">
+        <button id="utc-convert-btn" class="btn btn-primary mt-2">Convert</button>
+        <input type="text" id="pst-output" class="form-control mt-2" readonly>
+        <select id="date-format" class="form-select mt-2">
+          <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+          <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+        </select>
+        <p id="utc-error" class="error-message"></p>
+        <p id="current-utc" class="mt-2">Current UTC: <span id="current-utc-time"></span></p>
+        <p id="current-pst" class="mt-2">Current PST: <span id="current-pst-time"></span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-3">How it Works</h2>
+    <p>The Binary to Decimal Converter works by taking a binary number as input and converting it to a decimal number using the formula: Decimal Number = (Binary Number)2. This formula is based on the binary number system, where each digit in the binary number represents a power of 2.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1011</td>
+                <td>11</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>The UTC to PST Converter works by taking a UTC time as input and converting it to a PST time by subtracting 8 hours. This is based on the fact that PST is 8 hours behind UTC.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>UTC Time</th>
+                <th>PST Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>12:00:00</td>
+                <td>04:00:00</td>
+            </tr>
+            <tr>
+                <td>13:30:00</td>
+                <td>05:30:00</td>
+            </tr>
+            <tr>
+                <td>14:45:00</td>
+                <td>06:45:00</td>
+            </tr>
+            <tr>
+                <td>15:50:00</td>
+                <td>07:50:00</td>
+            </tr>
+            <tr>
+                <td>16:55:00</td>
+                <td>08:55:00</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-3">Common Use Cases</h2>
+    <ol>
+        <li>Converting binary numbers to decimal numbers for programming and development purposes.</li>
+        <li>Converting UTC time to PST time for scheduling and coordination purposes.</li>
+        <li>Handling time zone differences for international business and communication.</li>
+        <li>Working with binary data and converting it to decimal for analysis and processing.</li>
+        <li>Developing software and applications that require binary and decimal conversions.</li>
+        <li>Converting UTC time to PST time for travel and tourism purposes.</li>
+        <li>Handling time zone differences for online meetings and conferences.</li>
+        <li>Converting binary numbers to decimal numbers for scientific and research purposes.</li>
+        <li>Working with time zone differences for global marketing and advertising campaigns.</li>
+        <li>Developing systems and applications that require accurate time zone conversions.</li>
+    </ol>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryError = document.getElementById('binary-error');
+
+  const utcInput = document.getElementById('utc-input');
+  const utcConvertBtn = document.getElementById('utc-convert-btn');
+  const pstOutput = document.getElementById('pst-output');
+  const utcError = document.getElementById('utc-error');
+  const currentUtc = document.getElementById('current-utc-time');
+  const currentPst = document.getElementById('current-pst-time');
+  const dateFormatSelect = document.getElementById('date-format');
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binaryValue = binaryInput.value;
+    if (binaryValue === '') {
+      binaryError.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryValue)) {
+      binaryError.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    decimalOutput.value = decimalValue;
+    binaryError.textContent = '';
+  });
+
+  utcConvertBtn.addEventListener('click', () => {
+    const utcValue = utcInput.value;
+    if (utcValue === '') {
+      utcError.textContent = 'Please enter a UTC time';
+      return;
+    }
+    const utcTime = new Date('1970-01-01T' + utcValue + 'Z');
+    if (isNaN(utcTime.getTime())) {
+      utcError.textContent = 'Invalid UTC time';
+      return;
+    }
+    const pstTime = new Date(utcTime.getTime() - 8 * 60 * 60 * 1000);
+    const pstHour = pstTime.getUTCHours();
+    const pstMinute = pstTime.getUTCMinutes();
+    const pstSecond = pstTime.getUTCSeconds();
+    pstOutput.value = `${padZero(pstHour)}:${padZero(pstMinute)}:${padZero(pstSecond)}`;
+    utcError.textContent = '';
+  });
+
+  function padZero(value) {
+    return (value < 10 ? '0' : '') + value;
+  }
+
+  setInterval(() => {
+    const currentTime = new Date();
+    const utcHour = currentTime.getUTCHours();
+    const utcMinute = currentTime.getUTCMinutes();
+    const utcSecond = currentTime.getUTCSeconds();
+    currentUtc.textContent = `${padZero(utcHour)}:${padZero(utcMinute)}:${padZero(utcSecond)}`;
+    const pstTime = new Date(currentTime.getTime() - 8 * 60 * 60 * 1000);
+    const pstHour = pstTime.getUTCHours();
+    const pstMinute = pstTime.getUTCMinutes();
+    const pstSecond = pstTime.getUTCSeconds();
+    currentPst.textContent = `${padZero(pstHour)}:${padZero(pstMinute)}:${padZero(pstSecond)}`;
+  }, 1000);
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+</script>

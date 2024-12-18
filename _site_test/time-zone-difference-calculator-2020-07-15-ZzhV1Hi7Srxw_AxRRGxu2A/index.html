@@ -1,0 +1,183 @@
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .input-field {
+    margin-bottom: 1rem;
+  }
+  .result-area {
+    margin-top: 1rem;
+  }
+</style>
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center mb-4">Time Zone Difference Calculator</h1><div class="container mt-5">
+  <p class="text-center fs-5">The Time Zone Difference Calculator is an online tool designed to help users calculate the time difference between two different time zones. This handy tool allows users to select two time zones and input the respective times, providing a clear and concise result, including the time difference and whether one time zone is ahead or behind the other. With its user-friendly interface and easy-to-use functionality, this calculator is perfect for anyone who needs to coordinate meetings, schedule appointments, or simply stay in touch with friends and family across different time zones.</p>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <label for="timezone1">Time Zone 1:</label>
+      <select id="timezone1" class="form-select input-field">
+        <option value="UTC">UTC</option>
+        <option value="EST">EST</option>
+        <option value="PST">PST</option>
+        <option value="GMT">GMT</option>
+        <option value="CET">CET</option>
+        <option value="AEST">AEST</option>
+      </select>
+      <label for="time1">Time 1 (HH:MM):</label>
+      <input type="text" id="time1" class="form-control input-field" placeholder="HH:MM" value="">
+    </div>
+    <div class="col-md-6">
+      <label for="timezone2">Time Zone 2:</label>
+      <select id="timezone2" class="form-select input-field">
+        <option value="UTC">UTC</option>
+        <option value="EST">EST</option>
+        <option value="PST">PST</option>
+        <option value="GMT">GMT</option>
+        <option value="CET">CET</option>
+        <option value="AEST">AEST</option>
+      </select>
+      <label for="time2">Time 2 (HH:MM):</label>
+      <input type="text" id="time2" class="form-control input-field" placeholder="HH:MM">
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <button id="calculate-btn" class="btn btn-primary">Calculate Difference</button>
+    </div>
+  </div>
+  <div class="result-area">
+    <p id="result"></p>
+  </div>
+</div>
+<div class="container mt-5">
+  <h2 class="text-center mb-4">How it Works</h2>
+  <p class="fs-5">The Time Zone Difference Calculator works by using a simple formula to calculate the time difference between two time zones. The formula is based on the offset of each time zone from Coordinated Universal Time (UTC). The time difference is calculated by subtracting the UTC offset of the first time zone from the UTC offset of the second time zone, and then adding the result to the time difference in minutes.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Time Zone 1</th>
+        <th>Time Zone 2</th>
+        <th>Time Difference</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UTC</td>
+        <td>EST</td>
+        <td>-5 hours</td>
+      </tr>
+      <tr>
+        <td>UTC</td>
+        <td>PST</td>
+        <td>-8 hours</td>
+      </tr>
+      <tr>
+        <td>EST</td>
+        <td>PST</td>
+        <td>-3 hours</td>
+      </tr>
+      <tr>
+        <td>GMT</td>
+        <td>CET</td>
+        <td>+1 hour</td>
+      </tr>
+      <tr>
+        <td>AEST</td>
+        <td>UTC</td>
+        <td>+10 hours</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="text-center mb-4">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Coordinating international business meetings across different time zones</li>
+    <li class="list-group-item">Scheduling online events, such as webinars or conferences, for a global audience</li>
+    <li class="list-group-item">Planning travel itineraries and adjusting to new time zones</li>
+    <li class="list-group-item">Staying in touch with friends and family who live in different time zones</li>
+    <li class="list-group-item">Conducting remote work with team members across different time zones</li>
+    <li class="list-group-item">Monitoring international sports events, such as the Olympics or World Cup</li>
+    <li class="list-group-item">Tracking global financial markets and stock exchanges</li>
+    <li class="list-group-item">Scheduling social media posts for a global audience</li>
+    <li class="list-group-item">Coordinating logistics and shipping across different time zones</li>
+    <li class="list-group-item">Planning and executing international marketing campaigns</li>
+  </ul>
+</div><script>
+  const timezone1Select = document.getElementById('timezone1');
+  const timezone2Select = document.getElementById('timezone2');
+  const time1Input = document.getElementById('time1');
+  const time2Input = document.getElementById('time2');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resultArea = document.getElementById('result');
+
+  const timezoneOffsets = {
+    'UTC': 0,
+    'EST': -5,
+    'PST': -8,
+    'GMT': 0,
+    'CET': 1,
+    'AEST': 10
+  };
+
+  calculateBtn.addEventListener('click', () => {
+    const timezone1 = timezone1Select.value;
+    const timezone2 = timezone2Select.value;
+    const time1 = time1Input.value;
+    const time2 = time2Input.value;
+
+    if (!time1 || !time2) {
+      resultArea.textContent = 'Please enter both times';
+      return;
+    }
+
+    const time1Parts = time1.split(':');
+    const time2Parts = time2.split(':');
+
+    if (time1Parts.length !== 2 || time2Parts.length !== 2) {
+      resultArea.textContent = 'Invalid time format. Please use HH:MM';
+      return;
+    }
+
+    const hours1 = parseInt(time1Parts[0]);
+    const minutes1 = parseInt(time1Parts[1]);
+    const hours2 = parseInt(time2Parts[0]);
+    const minutes2 = parseInt(time2Parts[1]);
+
+    if (isNaN(hours1) || isNaN(minutes1) || isNaN(hours2) || isNaN(minutes2)) {
+      resultArea.textContent = 'Invalid time. Please enter numbers only';
+      return;
+    }
+
+    if (hours1 < 0 || hours1 > 23 || minutes1 < 0 || minutes1 > 59 || hours2 < 0 || hours2 > 23 || minutes2 < 0 || minutes2 > 59) {
+      resultArea.textContent = 'Invalid time. Please enter a time between 00:00 and 23:59';
+      return;
+    }
+
+    const totalMinutes1 = hours1 * 60 + minutes1;
+    const totalMinutes2 = hours2 * 60 + minutes2;
+
+    const timezoneOffset1 = timezoneOffsets[timezone1];
+    const timezoneOffset2 = timezoneOffsets[timezone2];
+
+    const timezoneDifference = (timezoneOffset2 - timezoneOffset1) * 60;
+
+    const timeDifference = totalMinutes2 - totalMinutes1 + timezoneDifference;
+
+    let hoursDifference = Math.floor(Math.abs(timeDifference) / 60);
+    let minutesDifference = Math.abs(timeDifference) % 60;
+
+    if (timeDifference < 0) {
+      resultArea.textContent = `${timezone2} is ${hoursDifference} hours and ${minutesDifference} minutes behind ${timezone1}`;
+    } else if (timeDifference > 0) {
+      resultArea.textContent = `${timezone2} is ${hoursDifference} hours and ${minutesDifference} minutes ahead of ${timezone1}`;
+    } else {
+      resultArea.textContent = `${timezone1} and ${timezone2} are in the same time zone`;
+    }
+  });
+</script>

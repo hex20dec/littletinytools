@@ -1,0 +1,143 @@
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  .error-message {
+    color: #f00;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container mt-5">
+    <h1 class="text-center">Binary to Decimal and UTC to MST Converter</h1><div class="container mt-5 text-center">
+    <p>This Binary to Decimal and UTC to MST Converter is a versatile online tool designed to perform two distinct functions: converting binary numbers to decimal equivalents and converting UTC (Coordinated Universal Time) to MST (Mountain Standard Time). With its user-friendly interface, it's an ideal resource for students, professionals, and anyone looking to seamlessly navigate between these different numerical and time zone systems, ensuring accuracy and efficiency in their work or studies. The converter is optimized for ease of use, providing clear input fields for binary numbers and UTC times, along with options for handling daylight saving adjustments, making it a valuable asset for various applications.</p>
+</div>
+    <div class="row mt-5">
+      <div class="col-md-6">
+        <h2>Binary to Decimal Converter</h2>
+        <label for="binary-input">Binary Number:</label>
+        <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)">
+        <button id="binary-convert-btn" class="btn btn-primary mt-2">Convert</button>
+        <p id="decimal-output" class="mt-2"></p>
+        <p id="binary-error" class="error-message"></p>
+      </div>
+      <div class="col-md-6">
+        <h2>UTC to MST Converter</h2>
+        <label for="utc-input">UTC Time:</label>
+        <input type="text" id="utc-input" class="form-control" placeholder="Enter UTC time (e.g. 12:30:00)">
+        <select id="dst-select" class="form-select mt-2">
+          <option value="MST">MST (UTC-7)</option>
+          <option value="MDT">MDT (UTC-6)</option>
+        </select>
+        <button id="utc-convert-btn" class="btn btn-primary mt-2">Convert</button>
+        <p id="mst-output" class="mt-2"></p>
+        <p id="utc-error" class="error-message"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+    <h2>How the Converter Works</h2>
+    <p>The conversion process from binary to decimal is based on the positional value of each digit in the binary number. Each digit's value is multiplied by 2 raised to the power of its position, counting from right to left and starting at 0. For example, the binary number 1010 is converted as follows: (1 * 2^3) + (0 * 2^2) + (1 * 2^1) + (0 * 2^0) = 8 + 0 + 2 + 0 = 10. This process can be represented by the formula: Decimal = Σ (binary digit * 2^(position)).</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1000</td>
+                <td>8</td>
+            </tr>
+        </tbody>
+    </table>
+    <p><br>The UTC to MST conversion involves adjusting the UTC time by the offset for MST, which is UTC-7. For instance, if the UTC time is 12:00:00, the equivalent MST time would be 05:00:00. This conversion is crucial for coordinating activities across different time zones.</p>
+</div><div class="container mt-5">
+    <h2>Common Use Cases for the Binary to Decimal and UTC to MST Converter</h2>
+    <ol>
+        <li><strong>Programming and Web Development:</strong> Developers often need to convert between binary and decimal when working with programming languages, especially in low-level programming or when dealing with binary data formats.</li>
+        <li><strong>Data Analysis:</strong> Analysts working with binary data, such as images or audio files, may need to understand and convert binary values for analysis or debugging purposes.</li>
+        <li><strong>Cryptography:</strong> Cryptographic techniques frequently rely on binary operations, making the conversion between binary and decimal essential for security professionals.</li>
+        <li><strong>Network Administration:</strong> Network administrators may encounter binary data when configuring network devices or troubleshooting network issues.</li>
+        <li><strong>International Business and Communication:</strong> Companies operating across time zones use UTC and local time zone conversions (like UTC to MST) to schedule meetings, deliveries, or other time-sensitive activities.</li>
+        <li><strong>Global Event Planning:</strong> Organizers of global events, such as webinars or international conferences, need to convert UTC to local time zones to reach a broader audience.</li>
+        <li><strong>Travel and Tourism:</strong> Travelers can use the UTC to MST conversion to plan their trips more accurately, especially when moving across time zones.</li>
+        <li><strong>Scientific Research:</strong> Scientists collaborating globally may need to convert between time zones to coordinate experiments or data collection.</li>
+        <li><strong>Education:</strong> Students learning about computer science, programming, or global studies can benefit from understanding binary and time zone conversions.</li>
+        <li><strong>Financial Transactions:</strong> Financial institutions operating globally require accurate time conversions to settle transactions and manage international markets.</li>
+    </ol>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  const binaryInput = document.getElementById('binary-input');
+  const utcInput = document.getElementById('utc-input');
+  const binaryConvertBtn = document.getElementById('binary-convert-btn');
+  const utcConvertBtn = document.getElementById('utc-convert-btn');
+  const decimalOutput = document.getElementById('decimal-output');
+  const mstOutput = document.getElementById('mst-output');
+  const binaryError = document.getElementById('binary-error');
+  const utcError = document.getElementById('utc-error');
+  const dstSelect = document.getElementById('dst-select');
+
+  binaryInput.value = startValue || '';
+
+  binaryConvertBtn.addEventListener('click', () => {
+    const binaryValue = binaryInput.value;
+    if (!/^[01]+$/.test(binaryValue)) {
+      binaryError.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    decimalOutput.textContent = `Decimal Equivalent: ${decimalValue}`;
+    binaryError.textContent = '';
+  });
+
+  utcConvertBtn.addEventListener('click', () => {
+    const utcValue = utcInput.value;
+    const dstValue = dstSelect.value;
+    if (!/^\d{2}:\d{2}:\d{2}$/.test(utcValue)) {
+      utcError.textContent = 'Invalid UTC time';
+      return;
+    }
+    const [hours, minutes, seconds] = utcValue.split(':').map(Number);
+    if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59) {
+      utcError.textContent = 'Invalid UTC time';
+      return;
+    }
+    let offset;
+    if (dstValue === 'MST') {
+      offset = -7;
+    } else {
+      offset = -6;
+    }
+    const mstHours = (hours + offset + 24) % 24;
+    const mstMinutes = minutes;
+    const mstSeconds = seconds;
+    mstOutput.textContent = `MST Time: ${String(mstHours).padStart(2, '0')}:${String(mstMinutes).padStart(2, '0')}:${String(mstSeconds).padStart(2, '0')}`;
+    utcError.textContent = '';
+  });
+</script>

@@ -1,0 +1,122 @@
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">IST to MST Converter</h1><div class="container mt-5">
+  <p class="text-center fs-5">The IST to MST Time Zone Converter is a handy online tool that allows users to convert Indian Standard Time (IST) to Mountain Standard Time (MST) with ease. This tool is perfect for individuals who need to schedule meetings, appointments, or events across different time zones, providing accurate and reliable time conversions. By using this tool, users can avoid the hassle of manual time conversions and ensure that they are always on schedule, no matter the time zone.</p>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <label for="ist-time" class="form-label">Enter IST Time</label>
+      <input type="text" id="ist-time" class="form-control" placeholder="HH:MM AM/PM" value}`}>
+      <div id="error-message" class="error-message"></div>
+      <label for="date" class="form-label mt-2">Select Date</label>
+      <input type="date" id="date" class="form-control">
+      <button id="convert-button" class="btn btn-primary mt-2">Convert</button>
+      <div class="mt-2">
+        <label for="mst-time" class="form-label">MST Time</label>
+        <input type="text" id="mst-time" class="form-control" readonly>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="text-center">How it Works</h2>
+  <p class="text-center fs-5">The IST to MST Time Zone Converter uses a simple formula to convert time zones: it takes the input time in IST, adds or subtracts the time difference between the two zones, and displays the equivalent time in MST. The time difference between IST and MST is 11.5 hours, with IST being ahead of MST. For example, if it's 12:00 PM IST, the equivalent time in MST would be 12:30 AM (previous day).</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>IST Time</th>
+        <th>MST Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>12:00 AM</td>
+        <td>11:30 AM (previous day)</td>
+      </tr>
+      <tr>
+        <td>6:00 AM</td>
+        <td>5:30 PM (previous day)</td>
+      </tr>
+      <tr>
+        <td>12:00 PM</td>
+        <td>12:30 AM</td>
+      </tr>
+      <tr>
+        <td>6:00 PM</td>
+        <td>6:30 AM</td>
+      </tr>
+      <tr>
+        <td>12:00 AM (next day)</td>
+        <td>11:30 AM</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="text-center">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Scheduling international meetings or conferences</li>
+    <li class="list-group-item">Coordinating with remote teams or employees across different time zones</li>
+    <li class="list-group-item">Planning international travel or vacations</li>
+    <li class="list-group-item">Conducting online business or e-commerce transactions across different time zones</li>
+    <li class="list-group-item">Staying in touch with friends or family members living abroad</li>
+    <li class="list-group-item">Monitoring global market trends or financial news</li>
+    <li class="list-group-item">Participating in online events or webinars</li>
+    <li class="list-group-item">Scheduling social media posts or online content</li>
+    <li class="list-group-item">Managing global supply chains or logistics</li>
+    <li class="list-group-item">Conducting research or data analysis across different time zones</li>
+  </ul>
+</div><script>
+  const istTimeInput = document.getElementById('ist-time');
+  const dateInput = document.getElementById('date');
+  const convertButton = document.getElementById('convert-button');
+  const mstTimeInput = document.getElementById('mst-time');
+  const errorMessage = document.getElementById('error-message');
+
+  convertButton.addEventListener('click', convertTime);
+
+  function convertTime() {
+    const istTime = istTimeInput.value;
+    const date = dateInput.value;
+
+    if (!isValidTime(istTime)) {
+      errorMessage.textContent = 'Invalid time format. Please use HH:MM AM/PM.';
+      return;
+    }
+
+    if (!date) {
+      errorMessage.textContent = 'Please select a date.';
+      return;
+    }
+
+    const istDate = new Date(`${date} ${istTime}`);
+    const mstDate = new Date(istDate.toLocaleString('en-US', { timeZone: 'America/Denver' }));
+
+    const mstTime = mstDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+    mstTimeInput.value = mstTime;
+    errorMessage.textContent = '';
+  }
+
+  function isValidTime(time) {
+    const timeRegex = /^([1-9]|1[0-2]):([0-5][0-9]) (AM|PM)$/;
+    return timeRegex.test(time);
+  }
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startTime = urlParams.get('start');
+  if (startTime) {
+    istTimeInput.value = startTime;
+  }
+</script>

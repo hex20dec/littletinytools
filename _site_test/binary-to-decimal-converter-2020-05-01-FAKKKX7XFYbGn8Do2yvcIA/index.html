@@ -1,0 +1,111 @@
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  input, button, select {
+    margin-bottom: 1rem;
+  }
+  .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Binary to Decimal Converter</h1><div class="container mt-5">
+  <p class="text-center lead">The Binary to Decimal Converter is a web-based tool that allows users to convert binary numbers to their decimal equivalents. This tool is essential for programmers, developers, and anyone working with binary data. The converter takes a binary number as input, checks for validity, and then converts it to its decimal equivalent, providing the result in a user-friendly format. With its simple and intuitive interface, this tool makes it easy to convert binary numbers to decimal, making it a valuable resource for anyone in need of this conversion.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="binaryInput" class="form-label">Binary Number</label>
+      <input type="text" id="binaryInput" class="form-control" placeholder="Enter a binary number (e.g. 1010)" aria-label="Binary Number">
+    </div>
+    <button type="button" id="convertButton" class="btn btn-primary">Convert</button>
+    <div class="mb-3">
+      <label for="decimalOutput" class="form-label">Decimal Equivalent</label>
+      <input type="text" id="decimalOutput" class="form-control" readonly aria-label="Decimal Equivalent">
+    </div>
+    <div id="errorDiv" class="error-message"></div>
+  </form>
+</div>
+
+<div class="container mt-5">
+  <h2 class="text-center mb-3">How it Works</h2>
+  <p class="lead">The conversion process involves a simple formula: each binary digit (0 or 1) is multiplied by the corresponding power of 2, and the results are summed to produce the decimal equivalent. This process can be illustrated by the following table, which shows some examples of binary to decimal conversions:</p>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1000</td>
+        <td>8</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="text-center mb-3">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting binary data from a database to a human-readable format</li>
+    <li class="list-group-item">Verifying the integrity of binary data by converting it to decimal and back to binary</li>
+    <li class="list-group-item">Converting binary IP addresses to decimal for network configuration</li>
+    <li class="list-group-item">Debugging binary code by converting it to decimal for easier analysis</li>
+    <li class="list-group-item">Educational purposes, such as teaching students about binary and decimal conversions</li>
+    <li class="list-group-item">Converting binary encryption keys to decimal for secure data transmission</li>
+    <li class="list-group-item">Converting binary checksums to decimal for data integrity verification</li>
+    <li class="list-group-item">Converting binary IDs to decimal for identification and tracking purposes</li>
+    <li class="list-group-item">Converting binary configuration files to decimal for easier modification</li>
+    <li class="list-group-item">Converting binary logs to decimal for analysis and troubleshooting</li>
+  </ul>
+</div><script>
+  const binaryInput = document.getElementById('binaryInput');
+  const convertButton = document.getElementById('convertButton');
+  const decimalOutput = document.getElementById('decimalOutput');
+  const errorDiv = document.getElementById('errorDiv');
+
+  convertButton.addEventListener('click', () => {
+    const binary = binaryInput.value.trim();
+    if (binary === '') {
+      errorDiv.innerText = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binary)) {
+      errorDiv.innerText = 'Invalid binary number. Please enter only 0s and 1s';
+      return;
+    }
+    const decimal = parseInt(binary, 2);
+    decimalOutput.value = decimal;
+    errorDiv.innerText = '';
+  });
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+</script>

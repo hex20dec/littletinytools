@@ -1,0 +1,152 @@
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+  }
+  .error-message {
+    color: red;
+  }
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="mb-3">Binary to Decimal and MST to CST Converter</h1><div class="container mt-5">
+  <p class="lead">This Binary to Decimal and MST to CST Converter is a versatile online tool designed to facilitate conversions between binary numbers and decimal equivalents, as well as between Mountain Standard Time (MST) and Central Standard Time (CST). The converter is user-friendly, providing instant results for binary to decimal conversions and time zone conversions, making it an indispensable resource for programmers, developers, and anyone working across different time zones or with binary data.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary-input">Binary Number:</label>
+      <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)" value="">
+      <button id="binary-convert-button" class="btn btn-primary mt-2">Convert</button>
+      <label for="decimal-output" class="mt-2">Decimal Equivalent:</label>
+      <input type="text" id="decimal-output" class="form-control" readonly>
+      <div id="binary-error-message" class="error-message"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>MST to CST Converter</h2>
+      <label for="mst-input">MST Time:</label>
+      <input type="text" id="mst-input" class="form-control" placeholder="Enter time in HH:MM AM/PM format">
+      <select id="am-pm-select" class="form-select mt-2">
+        <option value="AM">AM</option>
+        <option value="PM">PM</option>
+      </select>
+      <button id="mst-convert-button" class="btn btn-primary mt-2">Convert</button>
+      <label for="cst-output" class="mt-2">CST Time:</label>
+      <input type="text" id="cst-output" class="form-control" readonly>
+      <div id="mst-error-message" class="error-message"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2>How the Converter Works</h2>
+  <p>The binary to decimal conversion is based on the positional notation of the binary number system, where each digit (or bit) in a binary number represents an increasing power of 2, starting from the rightmost bit, which represents 2^0. To convert a binary number to decimal, you sum the powers of 2 represented by each '1' bit in the binary number.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The MST to CST conversion involves adding one hour to the MST time, as CST is one hour ahead of MST. For instance, if it's 10:00 AM MST, it would be 11:00 AM CST.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>MST Time</th>
+        <th>CST Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>08:00 AM</td>
+        <td>09:00 AM</td>
+      </tr>
+      <tr>
+        <td>12:00 PM</td>
+        <td>01:00 PM</td>
+      </tr>
+      <tr>
+        <td>06:00 PM</td>
+        <td>07:00 PM</td>
+      </tr>
+      <tr>
+        <td>10:00 PM</td>
+        <td>11:00 PM</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2\Common Use Cases for the Binary to Decimal and MST to CST Converter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting binary code in programming to decimal for easier understanding and debugging.</li>
+    <li class="list-group-item">Scheduling meetings or appointments across different time zones, specifically between MST and CST.</li>
+    <li class="list-group-item">Converting binary data from network packets or other sources to decimal for analysis.</li>
+    <li class="list-group-item">Planning travel between MST and CST time zones and adjusting schedules accordingly.</li>
+    <li class="list-group-item">Educational purposes, teaching students about binary and decimal number systems and time zone differences.</li>
+    <li class="list-group-item">Data analysis and conversion in scientific research that involves binary data and cross-time zone collaboration.</li>
+    <li class="list-group-item">Financial transactions and trading that occur across MST and CST time zones.</li>
+    <li class="list-group-item">Coordinating international events and webinars that require time zone adjustments.</li>
+    <li class="list-group-item">Debugging network issues that involve binary data exchange between devices in different time zones.</li>
+    <li class="list-group-item">Converting legacy binary system data to modern decimal-based systems for integration and compatibility.</li>
+  </ul>
+</div><script>
+  // Get URL query parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    document.getElementById('binary-input').value = startValue;
+  }
+
+  // Binary to Decimal Converter
+  document.getElementById('binary-convert-button').addEventListener('click', function() {
+    const binaryInput = document.getElementById('binary-input').value;
+    if (!/^[01]+$/.test(binaryInput)) {
+      document.getElementById('binary-error-message').innerHTML = 'Invalid binary number';
+      return;
+    }
+    const decimalOutput = parseInt(binaryInput, 2);
+    document.getElementById('decimal-output').value = decimalOutput;
+    document.getElementById('binary-error-message').innerHTML = '';
+  });
+
+  // MST to CST Converter
+  document.getElementById('mst-convert-button').addEventListener('click', function() {
+    const mstInput = document.getElementById('mst-input').value;
+    const amPmSelect = document.getElementById('am-pm-select').value;
+    if (!/^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/.test(mstInput + ' ' + amPmSelect)) {
+      document.getElementById('mst-error-message').innerHTML = 'Invalid time format. Please use HH:MM AM/PM';
+      return;
+    }
+    const mstTime = new Date('1970-01-01T' + mstInput + ' ' + amPmSelect);
+    const cstTime = new Date(mstTime.getTime() + 60 * 60 * 1000);
+    const cstHours = cstTime.getHours();
+    const cstMinutes = cstTime.getMinutes();
+    const cstAmPm = cstHours < 12 ? 'AM' : 'PM';
+    const cstHours12 = cstHours % 12 === 0 ? 12 : cstHours % 12;
+    document.getElementById('cst-output').value = `${cstHours12.toString().padStart(2, '0')}:${cstMinutes.toString().padStart(2, '0')} ${cstAmPm}`;
+    document.getElementById('mst-error-message').innerHTML = '';
+  });
+</script>

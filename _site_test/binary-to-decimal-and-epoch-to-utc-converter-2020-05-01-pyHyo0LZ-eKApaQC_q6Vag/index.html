@@ -1,0 +1,141 @@
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1>Binary to Decimal and Epoch to UTC Converter</h1><div class="header-section p-5 text-center">
+    <h1>Binary to Decimal and Epoch to UTC Converter: Unlocking the Code</h1>
+    <p>Discover the ultimate online tool for converting binary numbers to decimal equivalents and epoch time to UTC time. Our user-friendly converter is designed to simplify complex calculations, making it an essential resource for programmers, developers, and anyone working with binary and epoch data. With its intuitive interface and instant results, our converter is the perfect solution for anyone looking to decode binary and epoch values.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <div class="mb-3">
+        <label for="binary-input" class="form-label">Binary Number</label>
+        <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)" aria-label="Binary Number" aria-describedby="binary-input">
+      </div>
+      <button id="binary-convert-button" class="btn btn-primary">Convert</button>
+      <div class="mb-3">
+        <label for="decimal-output" class="form-label">Decimal Equivalent</label>
+        <input type="text" id="decimal-output" class="form-control" readonly aria-label="Decimal Equivalent" aria-describedby="decimal-output">
+      </div>
+      <div id="binary-error-message" class="error-message"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Epoch to UTC Converter</h2>
+      <div class="mb-3">
+        <label for="epoch-input" class="form-label">Epoch Time</label>
+        <input type="number" id="epoch-input" class="form-control" placeholder="Enter an epoch time value" aria-label="Epoch Time" aria-describedby="epoch-input">
+      </div>
+      <button id="epoch-convert-button" class="btn btn-primary">Convert</button>
+      <div class="mb-3">
+        <label for="utc-output" class="form-label">UTC Time</label>
+        <input type="text" id="utc-output" class="form-control" readonly aria-label="UTC Time" aria-describedby="utc-output">
+      </div>
+      <div id="epoch-error-message" class="error-message"></div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How it Works</h2>
+    <p>The binary to decimal conversion is based on the positional notation of the binary number system, where each digit (or bit) represents a power of 2. The conversion formula can be explained as follows: if we have a binary number (a series of 0s and 1s), we can convert it to decimal by multiplying each digit by the corresponding power of 2 and then summing the results. For example, the binary number 1010 can be converted to decimal as follows: (1 * 2^3) + (0 * 2^2) + (1 * 2^1) + (0 * 2^0) = 8 + 0 + 2 + 0 = 10.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1000</td>
+                <td>8</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>The epoch to UTC conversion is based on the number of seconds that have elapsed since January 1, 1970, at 00:00:00 UTC. Our converter takes the epoch time value as input and returns the equivalent UTC time.</p>
+</div><div class="use-cases-section p-5">
+    <h2>Common Use Cases</h2>
+    <ol>
+        <li>Converting binary data from a database or file to decimal for analysis or processing.</li>
+        <li>Translating epoch time stamps from a server or application to UTC time for synchronization or logging purposes.</li>
+        <li>Decoding binary protocols or messages from devices or networks.</li>
+        <li>Converting epoch time values from APIs or web services to UTC time for display or calculation.</li>
+        <li>Validating binary or epoch data for correct formatting or range.</li>
+        <li>Generating binary or epoch data for testing or simulation purposes.</li>
+        <li>Converting UTC time to epoch time for storage or transmission.</li>
+        <li>Debugging binary or epoch data issues in software or hardware applications.</li>
+        <li>Optimizing binary or epoch data storage or transmission for efficiency or performance.</li>
+        <li>Integrating binary or epoch data from different sources or systems.</li>
+    </ol>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertButton = document.getElementById('binary-convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryErrorMessage = document.getElementById('binary-error-message');
+
+  const epochInput = document.getElementById('epoch-input');
+  const epochConvertButton = document.getElementById('epoch-convert-button');
+  const utcOutput = document.getElementById('utc-output');
+  const epochErrorMessage = document.getElementById('epoch-error-message');
+
+  binaryConvertButton.addEventListener('click', () => {
+    const binaryValue = binaryInput.value.trim();
+    if (!binaryValue) {
+      binaryErrorMessage.textContent = 'Please enter a binary number';
+      return;
+    }
+    try {
+      const decimalValue = parseInt(binaryValue, 2);
+      decimalOutput.value = decimalValue;
+      binaryErrorMessage.textContent = '';
+    } catch (error) {
+      binaryErrorMessage.textContent = 'Invalid binary number';
+    }
+  });
+
+  epochConvertButton.addEventListener('click', () => {
+    const epochValue = epochInput.value.trim();
+    if (!epochValue) {
+      epochErrorMessage.textContent = 'Please enter an epoch time value';
+      return;
+    }
+    try {
+      const utcValue = new Date(parseInt(epochValue) * 1000).toISOString().replace('T', ' ').replace('Z', '');
+      utcOutput.value = utcValue;
+      epochErrorMessage.textContent = '';
+    } catch (error) {
+      epochErrorMessage.textContent = 'Invalid epoch time value';
+    }
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    epochInput.value = startValue;
+  }
+</script>

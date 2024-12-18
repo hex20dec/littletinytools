@@ -1,0 +1,175 @@
+---
+title: Time Zone Converter - KST to EST
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Time Zone Converter
+  - KST to EST
+  - Time Conversion
+  - Date and Time
+  - World Clock
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div select {
+    margin-bottom: 1rem;
+  }
+  #main-div button {
+    margin-bottom: 1rem;
+  }
+  #main-div #error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h1 class="text-center">KST to EST Converter</h1><div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1 class="text-center">KST to EST Converter</h1>
+            <p class="lead">Effortlessly convert time from Korean Standard Time (KST) to Eastern Standard Time (EST) using our user-friendly converter, ensuring accurate time conversions for personal, business, or travel purposes, making it an indispensable tool for anyone dealing with time differences between Korea and the East Coast of North America.</p>
+        </div>
+    </div>
+</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <form>
+          <div class="mb-3">
+            <label for="kst-time" class="form-label">KST Time (HH:MM)</label>
+            <input type="text" class="form-control" id="kst-time" value="<?php echo $_GET['start']; ?>">
+          </div>
+          <div class="mb-3">
+            <label for="am-pm" class="form-label">AM/PM</label>
+            <select class="form-select" id="am-pm">
+              <option value="AM">AM</option>
+              <option value="PM">PM</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-primary" id="convert-button">Convert</button>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div id="est-time" class="mb-3"></div>
+        <div id="time-difference" class="mb-3"></div>
+        <div id="error-message" class="mb-3"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center">How it Works</h2>
+            <p>The conversion from KST to EST involves subtracting 13 hours from the KST time. This can be represented by the formula: EST = (KST - 13) mod 24, where mod denotes the modulo operation to ensure the result falls within a 24-hour range. For example, if it's 10:00 AM KST, you would subtract 13 hours to get 9:00 PM EST the previous day.</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>KST Time</th>
+                        <th>EST Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>12:00 AM KST</td>
+                        <td>11:00 AM EST (previous day)</td>
+                    </tr>
+                    <tr>
+                        <td>1:00 AM KST</td>
+                        <td>12:00 PM EST (previous day)</td>
+                    </tr>
+                    <tr>
+                        <td>12:00 PM KST</td>
+                        <td>11:00 PM EST (previous day)</td>
+                    </tr>
+                    <tr>
+                        <td>1:00 PM KST</td>
+                        <td>12:00 AM EST</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div><div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center">Top 10 Use Cases for KST to EST Converter</h2>
+            <ol>
+                <li><strong>International Business Meetings:</strong> Schedule meetings with colleagues or clients in EST time zone, ensuring everyone is on the same page.</li>
+                <li><strong>Travel Planning:</strong> Plan your trip from Korea to the East Coast of North America, converting your travel schedule to local time.</li>
+                <li><strong>Online Education:</strong> Participate in online courses or webinars hosted in the EST time zone, converting session times to KST for attendance.</li>
+                <li><strong>Stock Market Trading:</strong> Convert trading hours to monitor and respond to market changes in real-time between Korea and the US stock markets.</li>
+                <li><strong>Global Sports Events:</strong> Follow and participate in international sports events, converting game times to local time for KST viewers.</li>
+                <li><strong>Social Media Management:</strong> Schedule social media posts to reach an EST audience, ensuring maximum engagement by posting at optimal local times.</li>
+                <li><strong>Remote Work:</strong> Collaborate with remote teams across time zones, using the converter to manage work schedules and deadlines.</li>
+                <li><strong>Family and Friends:</strong> Stay connected with loved ones living in the EST time zone, converting visitation or call times to accommodate both parties.</li>
+                <li><strong>News and Updates:</strong> Stay updated with the latest news from the EST time zone, converting broadcast times to KST for convenient viewing.</li>
+                <li><strong>Cultural Events:</strong> Participate in or follow cultural events, such as concerts or festivals, happening in the EST time zone, converting event times to KST for interested viewers.</li>
+            </ol>
+        </div>
+    </div>
+</div><script>
+  const kstTimeInput = document.getElementById('kst-time');
+  const amPmSelect = document.getElementById('am-pm');
+  const convertButton = document.getElementById('convert-button');
+  const estTimeDiv = document.getElementById('est-time');
+  const timeDifferenceDiv = document.getElementById('time-difference');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  convertButton.addEventListener('click', () => {
+    const kstTime = kstTimeInput.value.trim();
+    const amPm = amPmSelect.value;
+    if (kstTime === '') {
+      errorMessageDiv.innerText = 'Please enter a time';
+      return;
+    }
+    const timeParts = kstTime.split(':');
+    if (timeParts.length !== 2) {
+      errorMessageDiv.innerText = 'Invalid time format. Please use HH:MM';
+      return;
+    }
+    const hours = parseInt(timeParts[0]);
+    const minutes = parseInt(timeParts[1]);
+    if (isNaN(hours) || isNaN(minutes)) {
+      errorMessageDiv.innerText = 'Invalid time. Please use numbers only';
+      return;
+    }
+    if (hours < 0 || hours > 23) {
+      errorMessageDiv.innerText = 'Invalid hour. Please use a value between 0 and 23';
+      return;
+    }
+    if (minutes < 0 || minutes > 59) {
+      errorMessageDiv.innerText = 'Invalid minute. Please use a value between 0 and 59';
+      return;
+    }
+    let estHours = hours - 13;
+    if (estHours < 0) {
+      estHours += 24;
+    }
+    let estMinutes = minutes;
+    let estAmPm = 'AM';
+    if (estHours >= 12) {
+      estAmPm = 'PM';
+    }
+    if (estHours > 12) {
+      estHours -= 12;
+    }
+    estTimeDiv.innerText = `EST Time: ${estHours.toString().padStart(2, '0')}:${estMinutes.toString().padStart(2, '0')} ${estAmPm}`;
+    timeDifferenceDiv.innerText = `Time Difference: 13 hours`;
+    errorMessageDiv.innerText = '';
+  });
+</script>

@@ -1,0 +1,134 @@
+---
+title: Convert JST to MST Time Zone
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 14:30:00
+tags:
+  - Time Zone Converter
+  - JST to MST
+  - Date and Time
+  - Travel Planner
+  - Schedule Converter
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="h1">JST to MST Time Converter</h1><div class="container mt-5">
+  <p class="lead">The JST to MST Time Converter is a handy tool that helps individuals convert time from Japan Standard Time (JST) to Mountain Standard Time (MST) with ease. This tool is particularly useful for travelers, business professionals, and anyone who needs to coordinate with people in different time zones. Simply enter the time in JST, select the desired time format, and click the convert button to get the equivalent time in MST.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="jst-time" class="form-label">JST Time</label>
+      <input type="text" id="jst-time" class="form-control" placeholder="Enter time in JST" value="">
+    </div>
+    <div class="mb-3">
+      <label for="time-format" class="form-label">Time Format</label>
+      <select id="time-format" class="form-select">
+        <option value="HH:MM AM/PM">HH:MM AM/PM</option>
+        <option value="HH:MM:SS">HH:MM:SS</option>
+      </select>
+    </div>
+    <button type="button" id="convert-btn" class="btn btn-primary">Convert</button>
+    <div class="mb-3">
+      <label for="mst-time" class="form-label">MST Time</label>
+      <input type="text" id="mst-time" class="form-control" readonly>
+    </div>
+    <div id="error-message"></div>
+  </form>
+</div>
+
+<div class="container mt-5">
+  <h2 class="h2">How the Tool Works</h2>
+  <p class="lead">The JST to MST Time Converter uses a simple formula to calculate the time difference between Japan Standard Time (JST) and Mountain Standard Time (MST). The formula is based on the fact that JST is 16 hours ahead of MST. So, if the time in JST is HH:MM, the time in MST would be (HH - 16):MM.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>JST Time</th>
+        <th>MST Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>08:00 AM</td>
+        <td>04:00 PM (previous day)</td>
+      </tr>
+      <tr>
+        <td>12:00 PM</td>
+        <td>08:00 PM (previous day)</td>
+      </tr>
+      <tr>
+        <td>06:00 PM</td>
+        <td>02:00 AM</td>
+      </tr>
+      <tr>
+        <td>10:00 PM</td>
+        <td>06:00 AM</td>
+      </tr>
+      <tr>
+        <td>12:00 AM</td>
+        <td>08:00 PM (previous day)</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="h2">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Traveling from Japan to the United States and need to schedule meetings or appointments.</li>
+    <li class="list-group-item">Coordinating with colleagues or business partners in different time zones.</li>
+    <li class="list-group-item">Planning a trip to Japan and want to know the local time.</li>
+    <li class="list-group-item">Working with international clients and need to schedule conference calls or meetings.</li>
+    <li class="list-group-item">Monitoring global events and need to convert time zones.</li>
+    <li class="list-group-item">Participating in online events or webinars that are hosted in different time zones.</li>
+    <li class="list-group-item">Managing international social media campaigns and need to schedule posts.</li>
+    <li class="list-group-item">Conducting market research and need to analyze data from different time zones.</li>
+    <li class="list-group-item">Scheduling online lessons or tutoring sessions with students in different time zones.</li>
+    <li class="list-group-item">Creating content for a global audience and need to optimize timing for maximum engagement.</li>
+  </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  document.getElementById('jst-time').value = startValue;
+
+  const convertBtn = document.getElementById('convert-btn');
+  const jstTimeInput = document.getElementById('jst-time');
+  const timeFormatSelect = document.getElementById('time-format');
+  const mstTimeInput = document.getElementById('mst-time');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  convertBtn.addEventListener('click', () => {
+    const jstTime = jstTimeInput.value;
+    const timeFormat = timeFormatSelect.value;
+    const jstDate = new Date(`1970-01-01T${jstTime}+09:00`);
+    const mstDate = new Date(jstDate.toLocaleString('en-US', { timeZone: 'America/Denver' }));
+
+    let hours = mstDate.getHours();
+    let minutes = mstDate.getMinutes();
+    let seconds = mstDate.getSeconds();
+    let ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+
+    let mstTime;
+    if (timeFormat === 'HH:MM AM/PM') {
+      mstTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')} ${ampm}`;
+    } else {
+      mstTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    if (isNaN(mstDate.getTime())) {
+      errorMessageDiv.innerText = 'Invalid time format. Please use HH:MM or HH:MM:SS.';
+      mstTimeInput.value = '';
+    } else {
+      errorMessageDiv.innerText = '';
+      mstTimeInput.value = mstTime;
+    }
+  });
+</script>

@@ -1,0 +1,150 @@
+
+<style>
+  #main-div {
+    padding: 20px;
+    color: #fff;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+  label {
+    margin-bottom: 10px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal and UTC to CST Converter</h1><div class="container mt-5">
+    <h1>Binary to Decimal and UTC to CST Converter</h1>
+    <p>This tool is designed to simplify the conversion process between binary and decimal numbers, as well as between UTC and CST time zones. It provides an easy-to-use interface for users to input their values and obtain the desired output. Whether you're a developer, a student, or simply someone who needs to perform these conversions, this tool is here to help. With its user-friendly design and accurate calculations, you can rely on it to get the job done efficiently.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary-input">Binary Number</label>
+      <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" class="form-control">
+      <button id="binary-convert" class="btn btn-primary">Convert</button>
+      <label for="decimal-output">Decimal Equivalent</label>
+      <input type="text" id="decimal-output" readonly class="form-control">
+      <p id="binary-error" class="error-message"></p>
+    </div>
+    <div class="col-md-6">
+      <h2>UTC to CST Converter</h2>
+      <label for="utc-input">UTC Time</label>
+      <input type="text" id="utc-input" placeholder="Enter UTC time (e.g. 14:30:00)" class="form-control">
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="time-format" id="12-hour" value="12">
+        <label class="form-check-label" for="12-hour">12-hour format</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="time-format" id="24-hour" value="24" checked>
+        <label class="form-check-label" for="24-hour">24-hour format</label>
+      </div>
+      <button id="utc-convert" class="btn btn-primary">Convert</button>
+      <label for="cst-output">CST Time</label>
+      <input type="text" id="cst-output" readonly class="form-control">
+      <p id="utc-error" class="error-message"></p>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+    <h2>How it Works</h2>
+    <p>The binary to decimal converter uses a simple formula to calculate the decimal equivalent of a given binary number. The formula is based on the positional notation of the binary number, where each digit's value is multiplied by 2 raised to the power of its position, counting from right to left and starting at 0.</p>
+    <p>For example, the binary number 1010 can be calculated as follows: (1 * 2^3) + (0 * 2^2) + (1 * 2^1) + (0 * 2^0) = 8 + 0 + 2 + 0 = 10.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1011</td>
+                <td>11</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>The UTC to CST converter, on the other hand, takes into account the 6-hour difference between the two time zones. It subtracts 6 hours from the given UTC time to obtain the equivalent CST time. For example, if the UTC time is 14:30:00, the CST time would be 08:30:00.</p>
+</div><div class="container mt-5">
+    <h2>Common Use Cases</h2>
+    <ol>
+        <li><strong>Binary coding and programming</strong>: Developers and programmers often need to convert binary numbers to decimal and vice versa when working with binary code.</li>
+        <li><strong>Time zone conversions</strong>: Individuals and businesses that operate across different time zones need to convert UTC time to CST time to coordinate schedules and appointments.</li>
+        <li><strong>Scientific research and data analysis</strong>: Researchers and scientists often work with binary data and need to convert it to decimal for analysis and interpretation.</li>
+        <li><strong>Education and learning</strong>: Students and educators can use this tool to learn about binary and decimal number systems, as well as time zone conversions.</li>
+        <li><strong>International communication and collaboration</strong>: People who communicate and collaborate with others across different time zones need to convert UTC time to CST time to avoid confusion and misunderstandings.</li>
+        <li><strong>Travel and tourism</strong>: Travelers and tourists can use this tool to convert UTC time to CST time when traveling to or from the CST time zone.</li>
+        <li><strong>Business and finance</strong>: Companies and financial institutions that operate globally need to convert UTC time to CST time to coordinate financial transactions and business operations.</li>
+        <li><strong>Gaming and esports</strong>: Gamers and esports teams often need to convert UTC time to CST time to coordinate matches and tournaments.</li>
+        <li><strong>Weather forecasting and meteorology</strong>: Meteorologists and weather forecasters use UTC time to coordinate weather data and forecasts, and need to convert it to CST time for local weather reports.</li>
+        <li><strong>Astronomy and space exploration</strong>: Astronomers and space explorers use UTC time to coordinate astronomical observations and space missions, and need to convert it to CST time for local coordination and planning.</li>
+    </ol>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvert = document.getElementById('binary-convert');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryError = document.getElementById('binary-error');
+
+  const utcInput = document.getElementById('utc-input');
+  const utcConvert = document.getElementById('utc-convert');
+  const cstOutput = document.getElementById('cst-output');
+  const utcError = document.getElementById('utc-error');
+
+  binaryConvert.addEventListener('click', () => {
+    const binaryValue = binaryInput.value;
+    if (!/^[01]+$/.test(binaryValue)) {
+      binaryError.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    decimalOutput.value = decimalValue;
+    binaryError.textContent = '';
+  });
+
+  utcConvert.addEventListener('click', () => {
+    const utcValue = utcInput.value;
+    const timeFormat = document.querySelector('input[name="time-format"]:checked').value;
+    if (!/^\d{1,2}:\d{2}(:\d{2})?$/.test(utcValue)) {
+      utcError.textContent = 'Invalid UTC time';
+      return;
+    }
+    const [hours, minutes, seconds] = utcValue.split(':').map(Number);
+    let cstHours = hours - 6;
+    if (cstHours < 0) {
+      cstHours += 24;
+    }
+    let cstMinutes = minutes;
+    let cstSeconds = seconds;
+    if (timeFormat === '12') {
+      const amPm = cstHours < 12 ? 'AM' : 'PM';
+      cstHours = cstHours % 12 || 12;
+      cstOutput.value = `${cstHours}:${cstMinutes.toString().padStart(2, '0')}:${cstSeconds.toString().padStart(2, '0')} ${amPm}`;
+    } else {
+      cstOutput.value = `${cstHours.toString().padStart(2, '0')}:${cstMinutes.toString().padStart(2, '0')}:${cstSeconds.toString().padStart(2, '0')}`;
+    }
+    utcError.textContent = '';
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+</script>

@@ -1,0 +1,141 @@
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  .error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <header class="mb-4">
+    <h1 class="display-4">CST to AEDT Converter</h1><div class="header-section container mt-5">
+  <p class="lead">The CST to AEDT Converter is a time zone conversion tool that helps users convert Central Standard Time (CST) to Australian Eastern Daylight Time (AEDT). This online tool is designed to simplify the process of converting time zones, making it easier to communicate with people across different regions. With its user-friendly interface and accurate calculations, this converter is perfect for travelers, business professionals, and anyone who needs to coordinate activities across different time zones. By using this tool, users can easily convert CST to AEDT and vice versa, taking into account daylight saving time and other time zone differences.</p>
+</div>
+  </header>
+  <form id="time-form">
+    <div class="mb-3">
+      <label for="cst-time" class="form-label">CST Time</label>
+      <input type="text" id="cst-time" class="form-control" pattern="[0-9]{1,2}:[0-9]{2}" placeholder="HH:MM" aria-label="CST Time" required>
+    </div>
+    <div class="mb-3">
+      <label for="am-pm" class="form-label">AM/PM</label>
+      <select id="am-pm" class="form-select" aria-label="AM/PM" required>
+        <option value="AM">AM</option>
+        <option value="PM">PM</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary mb-3">Convert</button>
+  </form>
+  <div id="result" class="mb-4">
+    <h2 id="aedt-time-label" class="display-6">AEDT Time</h2>
+    <p id="aedt-time" class="lead"></p>
+    <p id="date" class="lead"></p>
+    <p id="error-message" class="error-message"></p>
+  </div>
+</div>
+
+<div class="explanation-section container mt-5">
+  <h2 class="display-6">How it Works</h2>
+  <p class="lead">The conversion from CST to AEDT is based on the difference in time zones. CST is 16 hours behind AEDT. To convert CST to AEDT, you need to add 16 hours to the CST time. Additionally, during daylight saving time, AEDT is 1 hour ahead of standard time. Our converter takes these factors into account to provide accurate conversions.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>CST Time</th>
+        <th>AEDT Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>12:00 AM (CST)</td>
+        <td>4:00 PM (AEDT)</td>
+      </tr>
+      <tr>
+        <td>6:00 AM (CST)</td>
+        <td>10:00 PM (AEDT)</td>
+      </tr>
+      <tr>
+        <td>12:00 PM (CST)</td>
+        <td>4:00 AM (AEDT) (next day)</td>
+      </tr>
+      <tr>
+        <td>6:00 PM (CST)</td>
+        <td>10:00 AM (AEDT) (next day)</td>
+      </tr>
+      <tr>
+        <td>12:00 AM (CST) (during DST)</td>
+        <td>5:00 PM (AEDT)</td>
+      </tr>
+      <tr>
+        <td>6:00 AM (CST) (during DST)</td>
+        <td>11:00 PM (AEDT)</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section container mt-5">
+  <h2 class="display-6">Common Use Cases for the CST to AEDT Converter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Coordinating business meetings between the US and Australia</li>
+    <li class="list-group-item">Planning travel itineraries across different time zones</li>
+    <li class="list-group-item">Communicating with friends and family who live in different regions</li>
+    <li class="list-group-item">Conducting international trade and commerce</li>
+    <li class="list-group-item">Scheduling online events and webinars</li>
+    <li class="list-group-item">Managing remote teams and employees across different time zones</li>
+    <li class="list-group-item">Creating schedules for international sporting events</li>
+    <li class="list-group-item">Planning international conferences and seminars</li>
+    <li class="list-group-item">Coordinating global marketing campaigns</li>
+    <li class="list-group-item">Managing global supply chains and logistics</li>
+  </ul>
+</div><script>
+  const timeForm = document.getElementById('time-form');
+  const cstTimeInput = document.getElementById('cst-time');
+  const amPmSelect = document.getElementById('am-pm');
+  const resultDiv = document.getElementById('result');
+  const aedtTimeElement = document.getElementById('aedt-time');
+  const dateElement = document.getElementById('date');
+  const errorelement = document.getElementById('error-message');
+
+  timeForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const cstTime = cstTimeInput.value.trim();
+    const amPm = amPmSelect.value;
+    if (!cstTime || !amPm) {
+      errorelement.textContent = 'Please fill in all fields';
+      return;
+    }
+    const cstHours = parseInt(cstTime.split(':')[0]);
+    const cstMinutes = parseInt(cstTime.split(':')[1]);
+    if (isNaN(cstHours) || isNaN(cstMinutes)) {
+      errorelement.textContent = 'Invalid time format';
+      return;
+    }
+    if (cstHours < 1 || cstHours > 12 || cstMinutes < 0 || cstMinutes > 59) {
+      errorelement.textContent = 'Invalid time';
+      return;
+    }
+    const cstDate = new Date();
+    cstDate.setHours(cstHours % 12 + (amPm === 'PM' ? 12 : 0));
+    cstDate.setMinutes(cstMinutes);
+    const aedtDate = new Date(cstDate.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+    aedtDate.setTime(aedtDate.getTime() + 16 * 60 * 60 * 1000); // Add 16 hours for AEDT
+    if (aedtDate.getTimezoneOffset() === -660) { // Check if AEDT is in daylight saving time
+      aedtDate.setTime(aedtDate.getTime() + 60 * 60 * 1000); // Add 1 hour for daylight saving time
+    }
+    const aedtHours = aedtDate.getHours();
+    const aedtMinutes = aedtDate.getMinutes();
+    const aedtDay = aedtDate.getDate();
+    const aedtMonth = aedtDate.getMonth() + 1;
+    const aedtYear = aedtDate.getFullYear();
+    aedtTimeElement.textContent = `${aedtHours.toString().padStart(2, '0')}:${aedtMinutes.toString().padStart(2, '0')}`;
+    dateElement.textContent = `${aedtDay}/${aedtMonth}/${aedtYear}`;
+    errorelement.textContent = '';
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startTime = urlParams.get('start');
+  if (startTime) {
+    cstTimeInput.value = startTime;
+  }
+</script>

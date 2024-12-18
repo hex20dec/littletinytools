@@ -1,0 +1,176 @@
+
+<style>
+  #main-div {
+    color: #ffffff;
+    padding: 20px;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="h1">Binary to Decimal Converter</h1><div class="container mt-5">
+  <p class="lead text-dark">The Binary to Decimal and MST to EST Converter is a versatile online tool that allows users to convert binary numbers to decimal equivalents and Mountain Standard Time (MST) to Eastern Standard Time (EST). This tool is designed to simplify the process of converting between these two different number systems and time zones, making it an essential resource for programmers, developers, and individuals who work with binary code and need to coordinate with others across different time zones.</p>
+</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="binaryNumber" class="form-label">Binary Number</label>
+        <input type="text" id="binaryNumber" class="form-control" placeholder="Enter a binary number (e.g. 1010)" value="<?php echo $_GET['start'];?>">
+      </div>
+      <div class="col-md-6">
+        <button type="button" id="convertBinary" class="btn btn-primary">Convert</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="decimalEquivalent" class="form-label">Decimal Equivalent</label>
+        <input type="text" id="decimalEquivalent" class="form-control" readonly>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div id="binaryError" class="alert alert-danger error-message" style="display: none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <h1 class="h1 mt-5">MST to EST Converter</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="mstTime" class="form-label">MST Time</label>
+        <input type="text" id="mstTime" class="form-control" placeholder="Enter time in MST (e.g. 10:00 AM)">
+      </div>
+      <div class="col-md-6">
+        <button type="button" id="convertMst" class="btn btn-primary">Convert</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="estTime" class="form-label">EST Time</label>
+        <input type="text" id="estTime" class="form-control" readonly>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div id="mstError" class="alert alert-danger error-message" style="display: none;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="h2">How it Works</h2>
+  <p class="text-dark">The binary to decimal conversion is based on the formula: Decimal Number = (2^0 * b0) + (2^1 * b1) + ... + (2^n * bn), where b0, b1, ..., bn are the binary digits and n is the number of digits. This formula is used to calculate the decimal equivalent of a given binary number.</p>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1000</td>
+        <td>8</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="text-dark">The MST to EST conversion is based on the time difference between the two time zones. MST is 2 hours behind EST, so the conversion is done by adding 2 hours to the MST time.</p>
+</div><div class="container mt-5">
+  <h2 class="h2">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting binary code to decimal for programming and development purposes</li>
+    <li class="list-group-item">Coordinating with team members across different time zones</li>
+    <li class="list-group-item">Scheduling appointments and meetings with clients in different time zones</li>
+    <li class="list-group-item">Converting MST time to EST time for travel and tourism purposes</li>
+    <li class="list-group-item">Converting binary numbers to decimal for mathematical and scientific calculations</li>
+    <li class="list-group-item">Converting EST time to MST time for business and trade purposes</li>
+    <li class="list-group-item">Using the converter as a reference tool for students learning binary code and time zones</li>
+    <li class="list-group-item">Converting binary code to decimal for data analysis and processing</li>
+    <li class="list-group-item">Coordinating with international partners and clients across different time zones</li>
+    <li class="list-group-item">Using the converter as a quick reference tool for converting between binary and decimal numbers</li>
+  </ul>
+</div><script>
+  const binaryNumberInput = document.getElementById('binaryNumber');
+  const convertBinaryButton = document.getElementById('convertBinary');
+  const decimalEquivalentInput = document.getElementById('decimalEquivalent');
+  const binaryErrorDiv = document.getElementById('binaryError');
+
+  const mstTimeInput = document.getElementById('mstTime');
+  const convertMstButton = document.getElementById('convertMst');
+  const estTimeInput = document.getElementById('estTime');
+  const mstErrorDiv = document.getElementById('mstError');
+
+  convertBinaryButton.addEventListener('click', () => {
+    const binaryNumber = binaryNumberInput.value;
+    if (isValidBinary(binaryNumber)) {
+      const decimalNumber = binaryToDecimal(binaryNumber);
+      decimalEquivalentInput.value = decimalNumber;
+      binaryErrorDiv.style.display = 'none';
+    } else {
+      binaryErrorDiv.style.display = 'block';
+      binaryErrorDiv.innerText = 'Invalid binary number';
+    }
+  });
+
+  convertMstButton.addEventListener('click', () => {
+    const mstTime = mstTimeInput.value;
+    if (isValidTime(mstTime)) {
+      const estTime = mstToEst(mstTime);
+      estTimeInput.value = estTime;
+      mstErrorDiv.style.display = 'none';
+    } else {
+      mstErrorDiv.style.display = 'block';
+      mstErrorDiv.innerText = 'Invalid time';
+    }
+  });
+
+  function isValidBinary(binaryNumber) {
+    return /^[01]+$/.test(binaryNumber);
+  }
+
+  function binaryToDecimal(binaryNumber) {
+    return parseInt(binaryNumber, 2);
+  }
+
+  function isValidTime(time) {
+    const regex = /^([1-9]|1[0-2]):([0-5][0-9])\s?(AM|PM)$/;
+    return regex.test(time);
+  }
+
+  function mstToEst(mstTime) {
+    const [time, period] = mstTime.split(' ');
+    const [hours, minutes] = time.split(':');
+    let estHours = parseInt(hours);
+    let estMinutes = parseInt(minutes);
+    if (period === 'PM' && estHours !== 12) {
+      estHours += 2;
+    } else if (period === 'AM' && estHours === 12) {
+      estHours = 2;
+    }
+    if (estHours > 12) {
+      estHours -= 12;
+      period = 'PM';
+    }
+    return `${estHours.toString().padStart(2, '0')}:${estMinutes.toString().padStart(2, '0')} ${period}`;
+  }
+</script>

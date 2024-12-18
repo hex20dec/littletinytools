@@ -1,0 +1,156 @@
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div select {
+    margin-bottom: 1rem;
+  }
+  #main-div button {
+    margin-bottom: 1rem;
+  }
+  #main-div .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center mt-3">Binary to Decimal and GMT to CST Converter</h1><div class="container mt-5">
+  <p class="text-center">The Binary to Decimal and GMT to CST Converter is an online tool that provides two primary functions: converting binary numbers to decimal equivalents and converting Greenwich Mean Time (GMT) to Central Standard Time (CST). This dual-purpose tool is designed to simplify the process of navigating between different numerical systems and time zones, making it an essential resource for programmers, developers, and individuals working across various geographical locations.</p>
+</div>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6">
+        <h2 class="text-center">Binary to Decimal Converter</h2>
+        <label for="binary-input">Binary Number:</label>
+        <input type="text" id="binary-input" placeholder="Enter a binary number (e.g. 1010)" class="form-control">
+        <button id="binary-convert-button" class="btn btn-primary">Convert</button>
+        <label for="decimal-output">Decimal Equivalent:</label>
+        <input type="text" id="decimal-output" readonly class="form-control">
+        <div id="binary-error-message" class="error-message"></div>
+      </div>
+      <div class="col-md-6">
+        <h2 class="text-center">GMT to CST Converter</h2>
+        <label for="gmt-input">GMT Time:</label>
+        <input type="text" id="gmt-input" placeholder="Enter GMT time (e.g. 12:00:00)" class="form-control">
+        <button id="gmt-convert-button" class="btn btn-primary">Convert</button>
+        <label for="cst-output">CST Time:</label>
+        <input type="text" id="cst-output" readonly class="form-control">
+        <div class="form-check">
+          <input type="checkbox" id="dst-checkbox" class="form-check-input">
+          <label for="dst-checkbox" class="form-check-label">Daylight Saving Time (DST)</label>
+        </div>
+        <div id="gmt-error-message" class="error-message"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="text-center">How it Works</h2>
+  <p>The binary to decimal conversion is based on the principle that each digit in a binary number represents a power of 2. The formula to convert binary to decimal is: decimal = (binary digit * 2^(position - 1)) + ... + (binary digit * 2^0), where position starts from the right at 1 and increases as you move left.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary</th>
+        <th>Decimal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1000</td>
+        <td>8</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The GMT to CST conversion takes into account the 6-hour difference between the two time zones. If Daylight Saving Time (DST) is observed, an additional 1 hour is subtracted from the CST time.</p>
+</div><div class="container mt-5">
+  <h2 class="text-center">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting binary code to decimal for programming purposes</li>
+    <li class="list-group-item">Coordinating international meetings across different time zones</li>
+    <li class="list-group-item">Scheduling global events and appointments</li>
+    <li class="list-group-item">Converting GMT time to CST for travel planning</li>
+    <li class="list-group-item">Understanding time differences for global communication and collaboration</li>
+    <li class="list-group-item">Converting binary data to decimal for data analysis and processing</li>
+    <li class="list-group-item">Creating schedules for international sports events and competitions</li>
+    <li class="list-group-item">Planning and executing global marketing campaigns</li>
+    <li class="list-group-item">Converting GMT time to CST for financial transactions and trading</li>
+    <li class="list-group-item">Managing global supply chains and logistics across different time zones</li>
+  </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const binaryConvertButton = document.getElementById('binary-convert-button');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryErrorMessage = document.getElementById('binary-error-message');
+
+  const gmtInput = document.getElementById('gmt-input');
+  const gmtConvertButton = document.getElementById('gmt-convert-button');
+  const cstOutput = document.getElementById('cst-output');
+  const dstCheckbox = document.getElementById('dst-checkbox');
+  const gmtErrorMessage = document.getElementById('gmt-error-message');
+
+  binaryConvertButton.addEventListener('click', () => {
+    const binaryValue = binaryInput.value;
+    if (binaryValue === '') {
+      binaryErrorMessage.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryValue)) {
+      binaryErrorMessage.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalValue = parseInt(binaryValue, 2);
+    decimalOutput.value = decimalValue;
+    binaryErrorMessage.textContent = '';
+  });
+
+  gmtConvertButton.addEventListener('click', () => {
+    const gmtValue = gmtInput.value;
+    if (gmtValue === '') {
+      gmtErrorMessage.textContent = 'Please enter a GMT time';
+      return;
+    }
+    const [hours, minutes, seconds] = gmtValue.split(':').map(Number);
+    if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59) {
+      gmtErrorMessage.textContent = 'Invalid GMT time';
+      return;
+    }
+    const cstHours = (hours - 6 + 24) % 24;
+    const cstMinutes = minutes;
+    const cstSeconds = seconds;
+    let cstValue = `${cstHours.toString().padStart(2, '0')}:${cstMinutes.toString().padStart(2, '0')}:${cstSeconds.toString().padStart(2, '0')}`;
+    if (dstCheckbox.checked) {
+      const dstCstHours = (cstHours - 1 + 24) % 24;
+      cstValue = `${dstCstHours.toString().padStart(2, '0')}:${cstMinutes.toString().padStart(2, '0')}:${cstSeconds.toString().padStart(2, '0')}`;
+    }
+    cstOutput.value = cstValue;
+    gmtErrorMessage.textContent = '';
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+</script>

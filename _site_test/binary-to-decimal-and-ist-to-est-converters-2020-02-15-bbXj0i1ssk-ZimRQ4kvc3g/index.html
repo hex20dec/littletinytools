@@ -1,0 +1,176 @@
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div textarea, #main-div select, #main-div button {
+    margin-bottom: 1rem;
+  }
+  #main-div .error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container mt-5">
+    <h1 class="text-center">Binary to Decimal and IST to EST Converters</h1><div class="container mt-5">
+  <p class="text-center">The Binary to Decimal and IST to EST Converters is a free online tool that enables users to convert binary numbers to decimal equivalents and Indian Standard Time (IST) to Eastern Standard Time (EST). This tool is designed to simplify the conversion process, making it easier for users to perform calculations and conversions quickly and accurately. With its user-friendly interface, the Binary to Decimal and IST to EST Converters are ideal for individuals, students, and professionals who need to convert binary numbers or time zones frequently.</p>
+</div>
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Binary to Decimal Converter</h2>
+        <label for="binary-number">Binary Number:</label>
+        <input type="text" id="binary-number" class="form-control" placeholder="Enter a binary number (e.g. 1010)" value="">
+        <button id="convert-binary" class="btn btn-primary">Convert</button>
+        <label for="decimal-equivalent">Decimal Equivalent:</label>
+        <input type="text" id="decimal-equivalent" class="form-control" readonly>
+        <div id="binary-error-message" class="error-message"></div>
+      </div>
+      <div class="col-md-6">
+        <h2>IST to EST Converter</h2>
+        <label for="ist-time">IST Time:</label>
+        <input type="text" id="ist-time" class="form-control" placeholder="Enter time in HH:MM:SS format">
+        <label for="date">Date:</label>
+        <input type="date" id="date" class="form-control">
+        <button id="convert-ist" class="btn btn-primary">Convert</button>
+        <label for="est-time">EST Time:</label>
+        <input type="text" id="est-time" class="form-control" readonly>
+        <div id="ist-error-message" class="error-message"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The binary to decimal conversion is based on the positional notation of the binary number system, where each digit represents a power of 2. The conversion formula is: Decimal Equivalent = (Binary Number)2, where the subscript 2 denotes the base-2 number system.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Decimal Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1010</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>1111</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>1011</td>
+        <td>11</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The IST to EST conversion is based on the time difference between the two time zones. IST is 10 hours and 30 minutes ahead of EST. The conversion formula is: EST Time = IST Time - 10 hours 30 minutes.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>IST Time</th>
+        <th>EST Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>12:00:00</td>
+        <td>01:30:00</td>
+      </tr>
+      <tr>
+        <td>13:00:00</td>
+        <td>02:30:00</td>
+      </tr>
+      <tr>
+        <td>14:00:00</td>
+        <td>03:30:00</td>
+      </tr>
+      <tr>
+        <td>15:00:00</td>
+        <td>04:30:00</td>
+      </tr>
+      <tr>
+        <td>16:00:00</td>
+        <td>05:30:00</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting binary code from programming languages to decimal for easier understanding</li>
+    <li class="list-group-item">Coordinating international meetings and conferences across different time zones</li>
+    <li class="list-group-item">Scheduling online events and webinars for global audiences</li>
+    <li class="list-group-item">Converting time zones for travel planning and itinerary management</li>
+    <li class="list-group-item">Understanding and converting binary data from digital devices and sensors</li>
+    <li class="list-group-item">Creating and managing schedules for international sports events and tournaments</li>
+    <li class="list-group-item">Converting binary data from scientific instruments and experiments</li>
+    <li class="list-group-item">Managing global supply chains and logistics operations</li>
+    <li class="list-group-item">Coordinating international financial transactions and trading</li>
+    <li class="list-group-item">Converting binary code from electronic devices and appliances</li>
+  </ul>
+</div><script>
+  const binaryNumberInput = document.getElementById('binary-number');
+  const convertBinaryButton = document.getElementById('convert-binary');
+  const decimalEquivalentInput = document.getElementById('decimal-equivalent');
+  const binaryErrorMessage = document.getElementById('binary-error-message');
+
+  const istTimeInput = document.getElementById('ist-time');
+  const dateInput = document.getElementById('date');
+  const convertIstButton = document.getElementById('convert-ist');
+  const estTimeInput = document.getElementById('est-time');
+  const istErrorMessage = document.getElementById('ist-error-message');
+
+  binaryNumberInput.value = new URLSearchParams(window.location.search).get('start') || '';
+
+  convertBinaryButton.addEventListener('click', () => {
+    const binaryNumber = binaryNumberInput.value.trim();
+    if (!binaryNumber) {
+      binaryErrorMessage.textContent = 'Please enter a binary number';
+      return;
+    }
+    if (!/^[01]+$/.test(binaryNumber)) {
+      binaryErrorMessage.textContent = 'Invalid binary number';
+      return;
+    }
+    const decimalEquivalent = parseInt(binaryNumber, 2);
+    decimalEquivalentInput.value = decimalEquivalent;
+    binaryErrorMessage.textContent = '';
+  });
+
+  convertIstButton.addEventListener('click', () => {
+    const istTime = istTimeInput.value.trim();
+    const date = dateInput.value.trim();
+    if (!istTime || !date) {
+      istErrorMessage.textContent = 'Please enter both time and date';
+      return;
+    }
+    if (!/^\d{2}:\d{2}:\d{2}$/.test(istTime)) {
+      istErrorMessage.textContent = 'Invalid time format';
+      return;
+    }
+    const istTimeParts = istTime.split(':');
+    const hours = parseInt(istTimeParts[0], 10);
+    const minutes = parseInt(istTimeParts[1], 10);
+    const seconds = parseInt(istTimeParts[2], 10);
+    const istDate = new Date(date + 'T' + istTime + '+05:30');
+    const estDate = new Date(istDate.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+    const estTime = estDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    estTimeInput.value = estTime;
+    istErrorMessage.textContent = '';
+  });
+</script>

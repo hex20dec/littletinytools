@@ -1,0 +1,150 @@
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+  .error-message {
+    color: #ff0000;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+</style>
+
+<div id="main-div" class="container mt-5 pt-5">
+  <h1 class="text-center">CET to EST Converter</h1><div class="container mt-5 pt-5">
+  <p class="text-center fs-5">The CET to EST Time Zone Converter is a handy tool designed to help individuals convert time from Central European Time (CET) to Eastern Standard Time (EST) effortlessly. This user-friendly converter takes into account the 6-hour difference between the two time zones and provides accurate conversions, considering daylight saving time (DST) for precision. Whether you're planning a trip, conducting international business, or simply need to coordinate with someone in a different time zone, this converter is an essential resource.</p>
+</div>
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <label for="cet-time" class="form-label">CET Time</label>
+      <input type="text" id="cet-time" class="form-control" placeholder="HH:MM" aria-describedby="cet-time-help">
+      <div id="cet-time-help" class="form-text">Enter time in 24-hour format (HH:MM)</div>
+      <button id="convert-btn" class="btn btn-primary mt-3">Convert</button>
+      <div id="error-message" class="error-message mt-3"></div>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <label for="est-time" class="form-label">EST Time</label>
+      <input type="text" id="est-time" class="form-control" readonly>
+      <div id="est-time-help" class="form-text">Converted time in EST</div>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <p>Note: CET is 6 hours ahead of EST. Please consider daylight saving time (DST) when converting time zones.</p>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5 pt-5">
+  <h2>How the CET to EST Converter Works</h2>
+  <p>The conversion process involves a simple mathematical formula: EST Time = CET Time - 6 hours. However, it's essential to consider DST adjustments when applicable. To illustrate the conversion process, here are some examples:</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>CET Time</th>
+        <th>EST Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>00:00</td>
+        <td>18:00 (previous day)</td>
+      </tr>
+      <tr>
+        <td>06:00</td>
+        <td>00:00</td>
+      </tr>
+      <tr>
+        <td>12:00</td>
+        <td>06:00</td>
+      </tr>
+      <tr>
+        <td>18:00</td>
+        <td>12:00</td>
+      </tr>
+      <tr>
+        <td>22:00</td>
+        <td>16:00</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Note: These examples assume standard time and do not account for DST adjustments.</p>
+</div><div class="container mt-5 pt-5">
+  <h2>Common Use Cases for the CET to EST Converter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Planning a trip from Europe to the East Coast of the United States</li>
+    <li class="list-group-item">Coordinating international business meetings or conferences</li>
+    <li class="list-group-item">Scheduling phone calls or video conferences with colleagues or clients in different time zones</li>
+    <li class="list-group-item">Tracking sports events or tournaments happening in different time zones</li>
+    <li class="list-group-item">Monitoring stock market or financial news from different regions</li>
+    <li class="list-group-item">Planning a virtual event or webinar with attendees from different time zones</li>
+    <li class="list-group-item">Converting time zones for social media or online content scheduling</li>
+    <li class="list-group-item">Assisting in logistics and transportation planning across different time zones</li>
+    <li class="list-group-item">Facilitating communication between teams or departments in different time zones</li>
+    <li class="list-group-item">Supporting education or research projects involving international collaborations</li>
+  </ul>
+</div><script>
+  const cetTimeInput = document.getElementById('cet-time');
+  const convertBtn = document.getElementById('convert-btn');
+  const estTimeInput = document.getElementById('est-time');
+  const errorMessage = document.getElementById('error-message');
+
+  // Preload input field with query parameter value
+  const urlParams = new URLSearchParams(window.location.search);
+  const startIndex = urlParams.get('start');
+  if (startIndex) {
+    cetTimeInput.value = startIndex;
+  }
+
+  convertBtn.addEventListener('click', () => {
+    const cetTime = cetTimeInput.value.trim();
+    if (!cetTime) {
+      errorMessage.textContent = 'Please enter a time in CET';
+      return;
+    }
+
+    const timeParts = cetTime.split(':');
+    if (timeParts.length !== 2) {
+      errorMessage.textContent = 'Invalid time format. Please use HH:MM';
+      return;
+    }
+
+    const hours = parseInt(timeParts[0], 10);
+    const minutes = parseInt(timeParts[1], 10);
+
+    if (isNaN(hours) || isNaN(minutes)) {
+      errorMessage.textContent = 'Invalid time format. Please use numbers only';
+      return;
+    }
+
+    if (hours < 0 || hours > 23) {
+      errorMessage.textContent = 'Invalid hour. Please enter a value between 0 and 23';
+      return;
+    }
+
+    if (minutes < 0 || minutes > 59) {
+      errorMessage.textContent = 'Invalid minutes. Please enter a value between 0 and 59';
+      return;
+    }
+
+    const cetDate = new Date();
+    cetDate.setHours(hours);
+    cetDate.setMinutes(minutes);
+
+    const estDate = new Date(cetDate.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+    const estHours = estDate.getHours();
+    const estMinutes = estDate.getMinutes();
+
+    const estTime = `${padZero(estHours)}:${padZero(estMinutes)}`;
+    estTimeInput.value = estTime;
+    errorMessage.textContent = '';
+  });
+
+  function padZero(num) {
+    return (num < 10 ? '0' : '') + num;
+  }
+</script>

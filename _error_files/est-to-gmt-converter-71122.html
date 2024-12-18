@@ -1,0 +1,184 @@
+---
+title: Time Zone Converter: Convert EST to GMT with Ease
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Time Zone Converter
+  - EST to GMT
+  - Date and Time
+  - Conversion Tool
+  - Time Zone Calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    margin: 20px auto;
+    max-width: 500px;
+    padding: 20px;
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  input, button {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+  }
+  input:focus, button:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  button {
+    background-color: #444;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #555;
+  }
+  .error-message {
+    color: #f00;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+</style>
+
+<div id="main-div" class="d-flex flex-column align-items-center">
+  <h1 class="text-center mb-3">EST to GMT Converter</h1><div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="text-center mb-3">Time Zone Converter: Simplify Your Global Connections</h1>
+            <p class="lead">Easily convert time zones with our intuitive tool, designed to help you navigate the complexities of global communication and scheduling. Whether you're coordinating with colleagues, scheduling international meetings, or simply wanting to stay in touch with loved ones across the globe, our time zone converter is the perfect solution.</p>
+        </div>
+    </div>
+</div>
+  <label for="est-time">Enter time in EST format (HH:MM:SS AM/PM):</label>
+  <input type="text" id="est-time" placeholder="HH:MM:SS AM/PM" value="?start=12:00:00 PM">
+  <button id="convert-btn" class="btn btn-primary mb-3">Convert to GMT</button>
+  <p id="gmt-time" class="text-center mb-2"></p>
+  <p id="offset-note" class="text-center mb-2"></p>
+  <p id="error-message" class="error-message"></p>
+</div>
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h2>How Our Time Zone Converter Works</h2>
+            <p>To convert time zones, our tool takes into account the differences in hours and minutes between the two zones. The formula for conversion can be thought of as: Target Time = Source Time + (Target Offset - Source Offset), where the offset is the difference in hours from Coordinated Universal Time (UTC). For example, to convert from Eastern Standard Time (EST) to Greenwich Mean Time (GMT), you would add 5 hours during standard time and 4 hours during daylight saving time.</p>
+            <table class="table table-striped text-center mt-3">
+                <thead>
+                    <tr>
+                        <th>EST Time</th>
+                        <th>GMT Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>12:00 PM EST</td>
+                        <td>5:00 PM GMT</td>
+                    </tr>
+                    <tr>
+                        <td>3:00 PM EST</td>
+                        <td>8:00 PM GMT</td>
+                    </tr>
+                    <tr>
+                        <td>6:00 PM EST</td>
+                        <td>11:00 PM GMT</td>
+                    </tr>
+                    <tr>
+                        <td>9:00 PM EST</td>
+                        <td>2:00 AM GMT (next day)</td>
+                    </tr>
+                    <tr>
+                        <td>12:00 AM EST</td>
+                        <td>5:00 AM GMT</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div><div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h2>Common Use Cases for Our Time Zone Converter</h2>
+            <ol class="list-group list-group-numbered mt-3">
+                <li>Scheduling international meetings with colleagues or clients in different time zones.</li>
+                <li>Coordinating global events, such as webinars or conferences, to ensure maximum participation.</li>
+                <li>Staying in touch with loved ones who live in different parts of the world.</li>
+                <li>Planning trips and booking flights, hotels, or other travel arrangements.</li>
+                <li>Conducting business with international partners or suppliers.</li>
+                <li>Participating in online communities or forums with members from around the world.</li>
+                <li>Watching live sports or entertainment events that are broadcast in different time zones.</li>
+                <li>Managing a remote team with members in different parts of the world.</li>
+                <li>Conducting market research or analyzing data from different time zones.</li>
+                <li>Providing customer support to clients in different time zones.</li>
+            </ol>
+        </div>
+    </div>
+</div><script>
+  const estTimeInput = document.getElementById('est-time');
+  const convertBtn = document.getElementById('convert-btn');
+  const gmtTimeDisplay = document.getElementById('gmt-time');
+  const offsetNote = document.getElementById('offset-note');
+  const errorMessage = document.getElementById('error-message');
+
+  const isValidTime = (time) => {
+    const regex = /^([1-9]|1[0-2]):([0-5][0-9]):([0-5][0-9]) (AM|PM)$/i;
+    return regex.test(time);
+  };
+
+  const convertESTtoGMT = (estTime) => {
+    const date = new Date();
+    const estTimeParts = estTime.split(' ');
+    const timeParts = estTimeParts[0].split(':');
+    const hours = parseInt(timeParts[0]);
+    const minutes = parseInt(timeParts[1]);
+    const seconds = parseInt(timeParts[2]);
+    const ampm = estTimeParts[1].toUpperCase();
+    let gmtHours = hours;
+    let gmtMinutes = minutes;
+    let gmtSeconds = seconds;
+
+    // Adjust for daylight saving time
+    const dstOffset = date.getTimezoneOffset() === -300 ? -4 : -5;
+    gmtHours += dstOffset;
+
+    // Handle 24-hour clock
+    if (ampm === 'PM' && hours === 12) {
+      gmtHours += 12;
+    } else if (ampm === 'AM' && hours === 12) {
+      gmtHours = 0;
+    }
+
+    // Handle invalid times
+    if (gmtHours < 0) {
+      gmtHours += 24;
+    } else if (gmtHours > 23) {
+      gmtHours -= 24;
+    }
+
+    return `${String(gmtHours).padStart(2, '0')}:${String(gmtMinutes).padStart(2, '0')}:${String(gmtSeconds).padStart(2, '0')}`;
+  };
+
+  const handleConvert = () => {
+    const estTime = estTimeInput.value.trim();
+    if (!isValidTime(estTime)) {
+      errorMessage.textContent = 'Invalid time format. Please use HH:MM:SS AM/PM.';
+      return;
+    }
+
+    const gmtTime = convertESTtoGMT(estTime);
+    gmtTimeDisplay.textContent = `GMT Time: ${gmtTime}`;
+    offsetNote.textContent = `Current offset: ${new Date().getTimezoneOffset() / 60} hours`;
+    errorMessage.textContent = '';
+  };
+
+  convertBtn.addEventListener('click', handleConvert);
+</script>

@@ -1,0 +1,147 @@
+
+<style>
+  #main-div {
+    color: #fff;
+    padding: 20px;
+  }
+  .error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Binary to Decimal and Time Zone Converter</h1><div class="header-section p-5 text-center">
+    <p class="lead">The Binary to Decimal and Time Zone Converter is a free online tool designed to convert binary numbers to decimal equivalents and Mountain Standard Time (MST) to Pacific Standard Time (PST). This tool is perfect for developers, programmers, and anyone who needs to perform these conversions quickly and accurately. With its simple and intuitive interface, you can easily convert binary numbers and time zones in just a few clicks, making it an essential resource for anyone working with binary code or dealing with different time zones.</p>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Binary to Decimal Converter</h2>
+      <label for="binary-input">Binary Number:</label>
+      <input type="text" id="binary-input" class="form-control" placeholder="Enter a binary number (e.g. 1010)">
+      <button class="btn btn-primary" id="convert-binary">Convert</button>
+      <p id="decimal-output" class="lead"></p>
+      <p id="binary-error" class="error-message"></p>
+    </div>
+    <div class="col-md-6">
+      <h2>MST to PST Converter</h2>
+      <label for="mst-input">MST Time:</label>
+      <input type="text" id="mst-input" class="form-control" placeholder="Enter time in MST (e.g. 10:00 AM)">
+      <p id="pst-output" class="lead"></p>
+      <p id="mst-error" class="error-message"></p>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-3">How it Works</h2>
+    <p class="lead">The binary to decimal conversion is based on the principle that each binary digit (or bit) represents a power of 2. The conversion formula can be expressed as: Decimal Number = (2^0 * b0) + (2^1 * b1) + (2^2 * b2) + ... + (2^n * bn), where b0, b1, b2, ..., bn are the binary digits and n is the number of bits.</p>
+    <h2 class="mb-3">Conversion Table</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Binary Number</th>
+                <th>Decimal Equivalent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1010</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>1101</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>1111</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>1000</td>
+                <td>8</td>
+            </tr>
+        </tbody>
+    </table>
+    <h2 class="mb-3">Time Zone Conversion</h2>
+    <p class="lead">The MST to PST conversion is based on the principle that PST is one hour behind MST. The conversion formula can be expressed as: PST Time = MST Time - 1 hour, unless the MST time is between 12:00 AM and 1:00 AM, in which case the PST time is the same as the MST time.</p>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-3">Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Converting binary code to decimal for debugging purposes</li>
+        <li class="list-group-item">Scheduling meetings across different time zones</li>
+        <li class="list-group-item">Converting binary data to decimal for data analysis</li>
+        <li class="list-group-item">Planning travel itineraries across different time zones</li>
+        <li class="list-group-item">Converting binary code to decimal for educational purposes</li>
+        <li class="list-group-item">Coordinating team workflows across different time zones</li>
+        <li class="list-group-item">Converting MST time to PST time for business meetings</li>
+        <li class="list-group-item">Converting binary data to decimal for scientific research</li>
+        <li class="list-group-item">Synchronizing clocks and schedules across different time zones</li>
+        <li class="list-group-item">Converting binary code to decimal for software development</li>
+    </ul>
+</div><script>
+  const binaryInput = document.getElementById('binary-input');
+  const convertBinaryButton = document.getElementById('convert-binary');
+  const decimalOutput = document.getElementById('decimal-output');
+  const binaryError = document.getElementById('binary-error');
+  const mstInput = document.getElementById('mst-input');
+  const pstOutput = document.getElementById('pst-output');
+  const mstError = document.getElementById('mst-error');
+
+  convertBinaryButton.addEventListener('click', () => {
+    const binaryValue = binaryInput.value;
+    if (isValidBinary(binaryValue)) {
+      const decimalValue = binaryToDecimal(binaryValue);
+      decimalOutput.textContent = `Decimal Equivalent: ${decimalValue}`;
+      binaryError.textContent = '';
+    } else {
+      binaryError.textContent = 'Invalid binary number';
+      decimalOutput.textContent = '';
+    }
+  });
+
+  mstInput.addEventListener('input', () => {
+    const mstValue = mstInput.value;
+    if (isValidTime(mstValue)) {
+      const pstValue = convertMstToPst(mstValue);
+      pstOutput.textContent = `PST Time: ${pstValue}`;
+      mstError.textContent = '';
+    } else {
+      mstError.textContent = 'Invalid time format';
+      pstOutput.textContent = '';
+    }
+  });
+
+  function isValidBinary(value) {
+    return /^[01]+$/.test(value);
+  }
+
+  function binaryToDecimal(value) {
+    return parseInt(value, 2);
+  }
+
+  function isValidTime(value) {
+    const regex = /^(\d{1,2}):(\d{2}) (AM|PM)$/;
+    return regex.test(value);
+  }
+
+  function convertMstToPst(value) {
+    const [hours, minutes, period] = value.match(/^(\d{1,2}):(\d{2}) (AM|PM)$/);
+    let newHours = parseInt(hours);
+    if (period === 'PM' && newHours !== 12) {
+      newHours -= 1;
+    } else if (period === 'AM' && newHours === 12) {
+      newHours = 11;
+    }
+    return `${newHours.toString().padStart(2, '0')}:${minutes} ${period === 'PM' ? 'AM' : 'PM'}`;
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+</script>
