@@ -1,0 +1,175 @@
+---
+title: Temperature Subtraction Memory Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 14:30:00
+tags:
+  - Temperature Calculator
+  - Memory Tool
+  - Web Application
+  - Vanilla JS
+  - Bootstrap 5
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div table {
+    color: #fff;
+  }
+  #main-div h1 {
+    color: #fff;
+  }
+  #main-div label {
+    color: #fff;
+  }
+  #main-div button {
+    background-color: #337ab7;
+    border-color: #337ab7;
+  }
+  #main-div button:hover {
+    background-color: #23527c;
+    border-color: #23527c;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container mt-5">
+    <h1>Temperature Subtraction Memory Tool</h1><div class="container mt-5 text-center">
+  <p class="lead">The Temperature Subtraction Memory Tool is a web-based application designed to simplify temperature subtraction calculations and store the results in a memory table for future reference, utilizing Bootstrap 5 for a sleek and responsive design, making it an ideal tool for scientists, researchers, and students working with temperature data, by providing a user-friendly interface to perform temperature subtractions and save the results for later use.</p>
+</div>
+    <div class="row mt-3">
+      <div class="col-md-6">
+        <label for="initial-temp" class="form-label">Initial Temperature (°C)</label>
+        <input type="number" id="initial-temp" class="form-control" value="">
+      </div>
+      <div class="col-md-6">
+        <label for="subtract-temp" class="form-label">Subtract Temperature (°C)</label>
+        <input type="number" id="subtract-temp" class="form-control">
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <button id="calculate-btn" class="btn btn-primary">Calculate</button>
+        <button id="save-btn" class="btn btn-success" style="display: none;">Save to Memory</button>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <p id="result"></p>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <h2>Memory</h2>
+        <table id="memory-table" class="table table-striped table-dark">
+          <thead>
+            <tr>
+              <th scope="col">Initial Temperature</th>
+              <th scope="col">Subtract Temperature</th>
+              <th scope="col">Result</th>
+            </tr>
+          </thead>
+          <tbody id="memory-tbody">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The Temperature Subtraction Memory Tool uses a simple formula to calculate the result of subtracting one temperature from another: Result = Initial Temperature - Subtract Temperature. This formula is applied to the input values provided by the user, and the result is displayed on the screen.</p>
+  <table class="table table-striped table-dark">
+    <thead>
+      <tr>
+        <th scope="col">Initial Temperature (°C)</th>
+        <th scope="col">Subtract Temperature (°C)</th>
+        <th scope="col">Result (°C)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>20</td>
+        <td>5</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>30</td>
+        <td>10</td>
+        <td>20</td>
+      </tr>
+      <tr>
+        <td>40</td>
+        <td>15</td>
+        <td>25</td>
+      </tr>
+      <!-- Add more rows as needed -->
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Calculating the temperature difference between two points in a scientific experiment</li>
+    <li class="list-group-item">Determining the temperature change in a system over time</li>
+    <li class="list-group-item">Converting temperatures between different scales (e.g., Celsius to Fahrenheit)</li>
+    <li class="list-group-item">Analyzing temperature data from weather forecasts or historical climate records</li>
+    <li class="list-group-item">Designing and optimizing heating and cooling systems for buildings</li>
+    <li class="list-group-item">Developing temperature-sensitive products, such as thermometers or thermostats</li>
+    <li class="list-group-item">Studying the effects of temperature on chemical reactions or biological processes</li>
+    <li class="list-group-item">Creating temperature-based models for predicting weather patterns or climate trends</li>
+    <li class="list-group-item">Monitoring and controlling temperature in industrial processes, such as manufacturing or food production</li>
+    <li class="list-group-item">Educating students about temperature and its applications in various fields of study</li>
+  </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startTemp = urlParams.get('start');
+  document.getElementById('initial-temp').value = startTemp;
+
+  const calculateBtn = document.getElementById('calculate-btn');
+  const saveBtn = document.getElementById('save-btn');
+  const resultP = document.getElementById('result');
+  const memoryTable = document.getElementById('memory-table');
+  const memoryTbody = document.getElementById('memory-tbody');
+
+  calculateBtn.addEventListener('click', calculateTemperature);
+
+  function calculateTemperature() {
+    const initialTemp = parseFloat(document.getElementById('initial-temp').value);
+    const subtractTemp = parseFloat(document.getElementById('subtract-temp').value);
+
+    if (isNaN(initialTemp) || isNaN(subtractTemp)) {
+      resultP.textContent = 'Invalid input. Please enter a valid temperature.';
+      return;
+    }
+
+    const result = initialTemp - subtractTemp;
+    resultP.textContent = `Result: ${result}°C`;
+    saveBtn.style.display = 'inline-block';
+    saveBtn.addEventListener('click', saveToMemory);
+  }
+
+  function saveToMemory() {
+    const initialTemp = document.getElementById('initial-temp').value;
+    const subtractTemp = document.getElementById('subtract-temp').value;
+    const result = resultP.textContent.split(': ')[1];
+
+    const row = document.createElement('tr');
+    const initialTempCell = document.createElement('td');
+    const subtractTempCell = document.createElement('td');
+    const resultCell = document.createElement('td');
+
+    initialTempCell.textContent = initialTemp;
+    subtractTempCell.textContent = subtractTemp;
+    resultCell.textContent = result;
+
+    row.appendChild(initialTempCell);
+    row.appendChild(subtractTempCell);
+    row.appendChild(resultCell);
+
+    memoryTbody.appendChild(row);
+    saveBtn.style.display = 'none';
+  }
+</script>

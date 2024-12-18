@@ -1,0 +1,130 @@
+---
+title: Celsius Temperature Rounding Tool
+permalink: "/{{ title | uniqueSlug(page) }}/" 
+date: 2020-05-01 12:00:00
+tags:
+- temperature converter
+- celsius rounding
+- scientific calculator
+- temperature tool
+- rounding app
+---
+
+<style>
+    #main-div {
+        font-family: Arial, sans-serif;
+        color: #fff;
+    }
+   .error-message {
+        color: #f00;
+    }
+</style>
+
+<div id="main-div" class="container mt-5">
+    <h1 class="text-center">Celsius Temperature Rounding Tool</h1><div class="header-section bg-primary text-white p-5 text-center">
+    <p class="fs-5">The Celsius Temperature Rounding Tool is a free online calculator designed to round Celsius temperatures to a specified number of decimal places, providing accurate and reliable results for scientists, researchers, and engineers working with temperature-sensitive applications, and is particularly useful for rounding temperatures in scientific research, weather forecasting, and industrial processes, among other fields, making it an essential tool for anyone who needs to work with precise temperature measurements.</p>
+</div>
+    <form>
+        <div class="mb-3">
+            <label for="celsius-value" class="form-label">Celsius Value</label>
+            <input type="number" class="form-control" id="celsius-value" placeholder="Enter temperature in Celsius" value="">
+        </div>
+        <div class="mb-3">
+            <label for="decimal-places" class="form-label">Decimal Places</label>
+            <select class="form-select" id="decimal-places">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+        <button type="button" class="btn btn-primary" id="round-button">Round</button>
+        <p class="mt-3" id="result"></p>
+        <p class="error-message" id="error-message"></p>
+    </form>
+</div>
+
+<div class="explanation-section mt-5 p-5">
+    <h2 class="mb-3">How it Works</h2>
+    <p class="fs-5">The tool uses a simple rounding formula to round the input Celsius temperature to the specified number of decimal places. This formula can be expressed as: Round(Celsius Temperature, Decimal Places), where the Celsius Temperature is the input value and the Decimal Places is the number of decimal places to round to.</p>
+    <table class="table table-striped mt-5">
+        <thead>
+            <tr>
+                <th>Celsius Temperature</th>
+                <th>Decimal Places</th>
+                <th>Rounded Temperature</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>23.4567</td>
+                <td>0</td>
+                <td>23</td>
+            </tr>
+            <tr>
+                <td>23.4567</td>
+                <td>1</td>
+                <td>23.5</td>
+            </tr>
+            <tr>
+                <td>23.4567</td>
+                <td>2</td>
+                <td>23.46</td>
+            </tr>
+            <tr>
+                <td>23.4567</td>
+                <td>3</td>
+                <td>23.457</td>
+            </tr>
+            <tr>
+                <td>23.4567</td>
+                <td>4</td>
+                <td>23.4567</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section mt-5 p-5">
+    <h2 class="mb-3">Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Weather forecasting: rounding temperatures to the nearest degree or tenth of a degree for public forecasts.</li>
+        <li class="list-group-item">Scientific research: rounding temperatures to multiple decimal places for precise laboratory measurements.</li>
+        <li class="list-group-item">Industrial processes: rounding temperatures to the nearest degree or tenth of a degree for quality control and monitoring.</li>
+        <li class="list-group-item">Food safety: rounding temperatures to the nearest degree or tenth of a degree to ensure safe food handling and storage.</li>
+        <li class="list-group-item">Medical applications: rounding temperatures to the nearest degree or tenth of a degree for patient monitoring and diagnosis.</li>
+        <li class="list-group-item">Construction: rounding temperatures to the nearest degree or tenth of a degree for building and materials testing.</li>
+        <li class="list-group-item">Agriculture: rounding temperatures to the nearest degree or tenth of a degree for crop monitoring and irrigation management.</li>
+        <li class="list-group-item">Chemical engineering: rounding temperatures to multiple decimal places for precise process control and monitoring.</li>
+        <li class="list-group-item">Environmental monitoring: rounding temperatures to the nearest degree or tenth of a degree for climate change research and monitoring.</li>
+        <li class="list-group-item">Education: rounding temperatures to the nearest degree or tenth of a degree for student experiments and projects.</li>
+    </ul>
+</div><script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    const celsiusValueInput = document.getElementById('celsius-value');
+    const decimalPlacesSelect = document.getElementById('decimal-places');
+    const roundButton = document.getElementById('round-button');
+    const resultParagraph = document.getElementById('result');
+    const errorMessageParagraph = document.getElementById('error-message');
+
+    if (startValue) {
+        celsiusValueInput.value = startValue;
+    }
+
+    roundButton.addEventListener('click', () => {
+        const celsiusValue = parseFloat(celsiusValueInput.value);
+        const decimalPlaces = parseInt(decimalPlacesSelect.value);
+
+        if (isNaN(celsiusValue)) {
+            errorMessageParagraph.textContent = 'Invalid input. Please enter a valid number.';
+            resultParagraph.textContent = '';
+        } else if (decimalPlaces < 0) {
+            errorMessageParagraph.textContent = 'Invalid decimal places. Please select a non-negative number.';
+            resultParagraph.textContent = '';
+        } else {
+            const roundedValue = celsiusValue.toFixed(decimalPlaces);
+            resultParagraph.textContent = `Rounded Celsius Value: ${roundedValue}`;
+            errorMessageParagraph.textContent = '';
+        }
+    });
+</script>

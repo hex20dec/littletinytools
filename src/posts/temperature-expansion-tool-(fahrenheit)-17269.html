@@ -1,0 +1,154 @@
+---
+title: Temperature Expansion Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Temperature Expansion
+  - Material Science
+  - Engineering
+  - Architecture
+  - DIY Tools
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input[type="number"] {
+    width: 100%;
+    height: 2.5rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #cccccc;
+    border-radius: 0.25rem;
+  }
+  #main-div button {
+    width: 100%;
+    height: 2.5rem;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #0069d9;
+  }
+  #main-div.alert {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #cccccc;
+    border-radius: 0.25rem;
+    background-color: #f0f0f0;
+    color: #000000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center mb-5">Temperature Expansion Tool (Fahrenheit)</h1><div class="header-section p-5 bg-primary text-white text-center">
+    <p class="lead">The Temperature Expansion Calculator is a web-based tool designed to help engineers, architects, and DIY enthusiasts calculate the expansion of materials due to temperature changes. This calculator uses the formula for thermal expansion, which takes into account the initial and final temperatures, the coefficient of thermal expansion, and the length of the material. By providing accurate calculations, this tool enables users to plan and design projects with precision, ensuring the structural integrity and safety of buildings, bridges, and other infrastructure. With its user-friendly interface and step-by-step calculations, the Temperature Expansion Calculator is an essential resource for anyone working with materials that are susceptible to thermal expansion.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="initial-temperature" class="form-label">Initial Temperature (°F)</label>
+      <input type="number" id="initial-temperature" class="form-control" step="any" required>
+    </div>
+    <div class="mb-3">
+      <label for="final-temperature" class="form-label">Final Temperature (°F)</label>
+      <input type="number" id="final-temperature" class="form-control" step="any" required>
+    </div>
+    <div class="mb-3">
+      <label for="coefficient-of-thermal-expansion" class="form-label">Coefficient of Thermal Expansion (in/in/°F)</label>
+      <input type="number" id="coefficient-of-thermal-expansion" class="form-control" step="any" required>
+    </div>
+    <div class="mb-3">
+      <label for="length-of-material" class="form-label">Length of Material (in)</label>
+      <input type="number" id="length-of-material" class="form-control" step="any" required>
+    </div>
+    <button type="submit" class="btn btn-primary mb-3">Calculate Expansion</button>
+    <div id="result" class="alert alert-success" role="alert"></div>
+  </form>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-3">How it Works</h2>
+    <p class="lead">The Temperature Expansion Calculator uses the following formula to calculate the expansion of a material: Expansion = Coefficient of Thermal Expansion x Length of Material x (Final Temperature - Initial Temperature). This formula is based on the principle that the expansion of a material is directly proportional to its length, the change in temperature, and the coefficient of thermal expansion.</p>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Initial Temperature (°F)</th>
+                <th>Final Temperature (°F)</th>
+                <th>Coefficient of Thermal Expansion (in/in/°F)</th>
+                <th>Length of Material (in)</th>
+                <th>Expansion (in)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>32</td>
+                <td>100</td>
+                <td>0.0000065</td>
+                <td>100</td>
+                <td>0.4425</td>
+            </tr>
+            <tr>
+                <td>50</td>
+                <td>150</td>
+                <td>0.000008</td>
+                <td>50</td>
+                <td>0.2</td>
+            </tr>
+            <tr>
+                <td>70</td>
+                <td>200</td>
+                <td>0.00001</td>
+                <td>200</td>
+                <td>1.3</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-3">Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Calculating the expansion of bridges and highway systems due to temperature changes</li>
+        <li class="list-group-item">Designing buildings and structures that require precise thermal expansion calculations</li>
+        <li class="list-group-item">Determining the thermal expansion of pipes and tubes in industrial applications</li>
+        <li class="list-group-item">Analyzing the effects of temperature changes on electrical and electronic components</li>
+        <li class="list-group-item">Calculating the expansion of concrete and asphalt pavements due to temperature changes</li>
+        <li class="list-group-item">Designing and optimizing heating, ventilation, and air conditioning (HVAC) systems</li>
+        <li class="list-group-item">Determining the thermal expansion of composites and other advanced materials</li>
+        <li class="list-group-item">Calculating the expansion of metal components and machinery due to temperature changes</li>
+        <li class="list-group-item">Analyzing the effects of temperature changes on medical equipment and devices</li>
+        <li class="list-group-item">Designing and optimizing thermal management systems for aerospace and defense applications</li>
+    </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startTemp = urlParams.get('start');
+  if (startTemp) {
+    document.getElementById('initial-temperature').value = startTemp;
+  }
+
+  const form = document.querySelector('form');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const initialTemp = parseFloat(document.getElementById('initial-temperature').value);
+    const finalTemp = parseFloat(document.getElementById('final-temperature').value);
+    const coefficient = parseFloat(document.getElementById('coefficient-of-thermal-expansion').value);
+    const length = parseFloat(document.getElementById('length-of-material').value);
+
+    if (isNaN(initialTemp) || isNaN(finalTemp) || isNaN(coefficient) || isNaN(length)) {
+      document.getElementById('result').innerHTML = 'Please enter valid numbers for all fields.';
+      document.getElementById('result').classList.remove('alert-success');
+      document.getElementById('result').classList.add('alert-danger');
+    } else {
+      const expansion = coefficient * length * (finalTemp - initialTemp);
+      document.getElementById('result').innerHTML = `The expansion of the material is ${expansion.toFixed(4)} inches.`;
+      document.getElementById('result').classList.remove('alert-danger');
+      document.getElementById('result').classList.add('alert-success');
+    }
+  });
+</script>

@@ -1,0 +1,261 @@
+---
+title: CSV Row Mapper
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - CSV Row Mapper
+  - Data Transformation
+  - CSV Files
+  - Data Analysts
+  - Data Organization
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+  }
+  #main-div table {
+    border-collapse: collapse;
+  }
+  #main-div th, #main-div td {
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  #main-div th {
+    background-color: #f0f0f0;
+  }
+  #main-div.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  #main-div.modal.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+</style>
+
+<div id="main-div">
+  <h1>CSV Row Mapper</h1><div class="header-section p-5 bg-light text-center">
+    <h1>CSV Row Mapper: A Powerful Data Transformation Tool</h1>
+    <p class="lead">The CSV Row Mapper is a web-based tool designed to help data analysts and professionals transform their CSV files with ease. With its intuitive interface and advanced transformation rules, this tool enables users to map rows, apply concatenation, substring, and replacement operations, and download the transformed data in CSV format. Whether you're working with large datasets or small files, the CSV Row Mapper is the perfect solution for all your data transformation needs. Discover how this tool can streamline your workflow and improve your productivity.</p>
+</div>
+  <p>Upload your CSV file and map rows to transform your data.</p>
+  <form id="upload-form">
+    <div class="mb-3">
+      <label for="file-input" class="form-label">Select a CSV file:</label>
+      <input type="file" id="file-input" class="form-control" accept=".csv">
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+  </form>
+  <div id="csv-data" class="mt-3"></div>
+  <button id="map-rows-btn" class="btn btn-secondary mt-3" style="display: none;">Map Rows</button>
+  <div id="modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Map Rows</h2>
+      <form id="map-rows-form">
+        <div class="mb-3">
+          <label for="source-row" class="form-label">Source Row:</label>
+          <input type="number" id="source-row" class="form-control" min="1">
+        </div>
+        <div class="mb-3">
+          <label for="target-row" class="form-label">Target Row:</label>
+          <input type="number" id="target-row" class="form-control" min="1">
+        </div>
+        <div class="mb-3">
+          <label for="transformation-rule" class="form-label">Transformation Rule:</label>
+          <select id="transformation-rule" class="form-select">
+            <option value="concatenation">Concatenation</option>
+            <option value="substring">Substring</option>
+            <option value="replacement">Replacement</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Mapping</button>
+      </form>
+    </div>
+  </div>
+  <div id="transformed-data" class="mt-3"></div>
+  <button id="download-btn" class="btn btn-success mt-3" style="display: none;">Download</button>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How it Works</h2>
+    <p>The CSV Row Mapper uses a simple yet powerful formula to transform your data: <strong>Transformation = Source Row + Transformation Rule + Target Row</strong>. This means that you can take any source row, apply a transformation rule (such as concatenation, substring, or replacement), and map the result to a target row. The tool also provides a range of use cases, including data cleaning, data merging, and data formatting.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Use Case</th>
+                <th>Source Row</th>
+                <th>Transformation Rule</th>
+                <th>Target Row</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Data Cleaning</td>
+                <td>Row 1</td>
+                <td>Replacement</td>
+                <td>Row 2</td>
+            </tr>
+            <tr>
+                <td>Data Merging</td>
+                <td>Row 2</td>
+                <td>Concatenation</td>
+                <td>Row 3</td>
+            </tr>
+            <tr>
+                <td>Data Formatting</td>
+                <td>Row 3</td>
+                <td>Substring</td>
+                <td>Row 4</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2>10 Common Use Cases for the CSV Row Mapper</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Data Cleaning: Remove duplicates, handle missing values, and perform data normalization.</li>
+        <li class="list-group-item">Data Merging: Combine data from multiple sources, merge rows, and create a unified dataset.</li>
+        <li class="list-group-item">Data Formatting: Convert data types, format dates and timestamps, and standardize data structures.</li>
+        <li class="list-group-item">Data Transformation: Apply mathematical operations, perform data aggregation, and create new columns.</li>
+        <li class="list-group-item">Data Quality Check: Validate data against rules, detect errors, and perform data profiling.</li>
+        <li class="list-group-item">Data Standardization: Standardize data formats, codes, and naming conventions.</li>
+        <li class="list-group-item">Data Enrichment: Add new data, append external data sources, and enhance existing data.</li>
+        <li class="list-group-item">Data Splitting: Split large datasets, divide data into subsets, and create smaller files.</li>
+        <li class="list-group-item">Data Reordering: Reorder rows, sort data, and rearrange columns.</li>
+        <li class="list-group-item">Data Export: Export transformed data to various formats, including CSV, Excel, and JSON.</li>
+    </ul>
+</div><script>
+  const fileInput = document.getElementById('file-input');
+  const uploadForm = document.getElementById('upload-form');
+  const csvDataDiv = document.getElementById('csv-data');
+  const mapRowsBtn = document.getElementById('map-rows-btn');
+  const modal = document.getElementById('modal');
+  const closeBtn = document.querySelector('.close');
+  const mapRowsForm = document.getElementById('map-rows-form');
+  const transformedDataDiv = document.getElementById('transformed-data');
+  const downloadBtn = document.getElementById('download-btn');
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+
+  if (startValue) {
+    fileInput.value = startValue;
+  }
+
+  uploadForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      const csvData = reader.result;
+      const rows = csvData.split('\n');
+      const table = document.createElement('table');
+      const thead = document.createElement('thead');
+      const tbody = document.createElement('tbody');
+      const headers = rows.shift().split(',');
+      headers.forEach((header) => {
+        const th = document.createElement('th');
+        th.textContent = header;
+        thead.appendChild(th);
+      });
+      table.appendChild(thead);
+      rows.forEach((row) => {
+        const tr = document.createElement('tr');
+        const cells = row.split(',');
+        cells.forEach((cell) => {
+          const td = document.createElement('td');
+          td.textContent = cell;
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      csvDataDiv.innerHTML = '';
+      csvDataDiv.appendChild(table);
+      mapRowsBtn.style.display = 'block';
+    };
+    reader.readAsText(file);
+  });
+
+  mapRowsBtn.addEventListener('click', () => {
+    modal.style.display = 'block';
+  });
+
+  closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  mapRowsForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const sourceRow = document.getElementById('source-row').value;
+    const targetRow = document.getElementById('target-row').value;
+    const transformationRule = document.getElementById('transformation-rule').value;
+    const csvData = csvDataDiv.textContent;
+    const rows = csvData.split('\n');
+    const transformedRows = rows.map((row, index) => {
+      if (index === parseInt(sourceRow) - 1) {
+        const cells = row.split(',');
+        let transformedCell;
+        switch (transformationRule) {
+          case 'concatenation':
+            transformedCell = cells.join('');
+            break;
+          case 'substring':
+            transformedCell = cells[0].substring(1, 3);
+            break;
+          case 'replacement':
+            transformedCell = cells[0].replace('old', 'new');
+            break;
+          default:
+            transformedCell = cells[0];
+        }
+        return transformedCell;
+      }
+      return row;
+    });
+    const transformedTable = document.createElement('table');
+    const transformedThead = document.createElement('thead');
+    const transformedTbody = document.createElement('tbody');
+    const transformedHeaders = rows.shift().split(',');
+    transformedHeaders.forEach((header) => {
+      const th = document.createElement('th');
+      th.textContent = header;
+      transformedThead.appendChild(th);
+    });
+    transformedTable.appendChild(transformedThead);
+    transformedRows.forEach((row) => {
+      const tr = document.createElement('tr');
+      const cells = row.split(',');
+      cells.forEach((cell) => {
+        const td = document.createElement('td');
+        td.textContent = cell;
+        tr.appendChild(td);
+      });
+      transformedTbody.appendChild(tr);
+    });
+    transformedTable.appendChild(transformedTbody);
+    transformedDataDiv.innerHTML = '';
+    transformedDataDiv.appendChild(transformedTable);
+    downloadBtn.style.display = 'block';
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    const csvData = transformedDataDiv.textContent;
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'transformed_data.csv';
+    a.click();
+  });
+</script>

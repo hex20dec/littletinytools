@@ -1,0 +1,133 @@
+---
+title: Temperature Precision Reduction Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 12:00:00
+tags:
+  - Temperature Converter
+  - Precision Reduction
+  - Celsius Converter
+  - Temperature Tool
+  - Precision Calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Temperature Precision Reduction Tool</h1><div class="header-section bg-primary text-white p-5 text-center">
+    <p class="fs-5">The Temperature Precision Reduction Tool is a web-based application designed to simplify temperature conversions by reducing the precision of a given temperature value in Celsius. This tool is particularly useful in various scientific, engineering, and everyday applications where temperature values need to be rounded to a specific number of decimal places, enhancing readability and usability. With its user-friendly interface, the tool allows users to input a temperature value and select the desired precision, providing the result in a clear and concise manner.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="temperature" class="form-label">Temperature (°C)</label>
+      <input type="number" step="any" class="form-control" id="temperature" aria-describedby="temperatureHelp" value="<?php echo $_GET['start'];?>">
+      <div id="temperatureHelp" class="form-text">Enter a temperature value in Celsius.</div>
+    </div>
+    <div class="mb-3">
+      <label for="precision" class="form-label">Desired Precision</label>
+      <select class="form-select" id="precision" aria-label="Select precision">
+        <option value="0">0 decimal places</option>
+        <option value="1">1 decimal place</option>
+        <option value="2">2 decimal places</option>
+      </select>
+    </div>
+    <button type="button" class="btn btn-primary" id="reduce-precision-button">Reduce Precision</button>
+    <div class="mb-3">
+      <label for="result" class="form-label">Result</label>
+      <input type="text" class="form-control" id="result" readonly>
+    </div>
+    <div id="error-message" class="error-message"></div>
+  </form>
+</div>
+
+<div class="explanation-section py-5">
+    <h2 class="text-center">How it Works</h2>
+    <p class="fs-5 text-center">The tool utilizes a simple yet effective formula to reduce the precision of the input temperature. The formula can be explained as follows: the input temperature value is rounded to the nearest value based on the selected precision. For instance, if the input temperature is 23.4567°C and the desired precision is 2 decimal places, the result would be 23.46°C.</p>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Input Temperature (°C)</th>
+                <th>Desired Precision</th>
+                <th>Result (°C)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>23.4567</td>
+                <td>0 decimal places</td>
+                <td>23°C</td>
+            </tr>
+            <tr>
+                <td>23.4567</td>
+                <td>1 decimal place</td>
+                <td>23.5°C</td>
+            </tr>
+            <tr>
+                <td>23.4567</td>
+                <td>2 decimal places</td>
+                <td>23.46°C</td>
+            </tr>
+            <tr>
+                <td>10.1234</td>
+                <td>0 decimal places</td>
+                <td>10°C</td>
+            </tr>
+            <tr>
+                <td>10.1234</td>
+                <td>1 decimal place</td>
+                <td>10.1°C</td>
+            </tr>
+            <tr>
+                <td>10.1234</td>
+                <td>2 decimal places</td>
+                <td>10.12°C</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section py-5">
+    <h2 class="text-center">Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Scientific research: reducing temperature precision for data analysis and presentation.</li>
+        <li class="list-group-item">Engineering applications: rounding temperature values for designs, simulations, and testing.</li>
+        <li class="list-group-item">Weather forecasting: simplifying temperature displays for public consumption.</li>
+        <li class="list-group-item">Cooking and recipe development: converting temperature values for recipe instructions.</li>
+        <li class="list-group-item">Medical applications: rounding temperature values for patient records and treatment plans.</li>
+        <li class="list-group-item">Climate monitoring: reducing temperature precision for long-term climate trend analysis.</li>
+        <li class="list-group-item">Education: teaching temperature conversions and rounding in science and math classes.</li>
+        <li class="list-group-item">Industrial quality control: verifying temperature values for manufacturing and production processes.</li>
+        <li class="list-group-item">Agricultural planning: using temperature data for crop management and yield prediction.</li>
+        <li class="list-group-item">Transportation and logistics: monitoring temperature-sensitive cargo during transportation.</li>
+    </ul>
+</div><script>
+  const temperatureInput = document.getElementById('temperature');
+  const precisionSelect = document.getElementById('precision');
+  const reducePrecisionButton = document.getElementById('reduce-precision-button');
+  const resultInput = document.getElementById('result');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  reducePrecisionButton.addEventListener('click', () => {
+    const temperatureValue = parseFloat(temperatureInput.value);
+    if (isNaN(temperatureValue)) {
+      errorMessageDiv.innerText = 'Invalid temperature value. Please enter a number.';
+      return;
+    }
+    const precisionValue = parseInt(precisionSelect.value);
+    const result = temperatureValue.toFixed(precisionValue);
+    resultInput.value = `${result}°C`;
+    errorMessageDiv.innerText = '';
+  });
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    temperatureInput.value = startValue;
+  }
+</script>

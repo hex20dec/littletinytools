@@ -1,0 +1,148 @@
+---
+title: CSV Row Counter App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 12:00:00
+tags:
+  - CSV Row Counter
+  - Data Analysis Tool
+  - CSV File Analyzer
+  - Row Counting App
+  - Data Management
+
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1>CSV Row Counter App</h1><div class="header-section bg-light p-5 text-center">
+    <p class="lead">The CSV Row Counter App is a free online tool designed to help users easily count the number of rows in a CSV (Comma Separated Values) file. With its simple and intuitive interface, this app allows users to upload their CSV file or paste the content directly into the tool, providing a quick and accurate row count. Whether you're a data analyst, researcher, or business professional, this tool is perfect for managing and analyzing large datasets, saving you time and increasing productivity. By using the CSV Row Counter App, you can streamline your workflow, make informed decisions, and focus on more critical tasks.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="csvFile" class="form-label">Upload CSV file</label>
+      <input type="file" id="csvFile" class="form-control" accept=".csv">
+    </div>
+    <div class="mb-3">
+      <label for="csvTextArea" class="form-label">Or paste CSV content</label>
+      <textarea id="csvTextArea" class="form-control" rows="10"></textarea>
+    </div>
+    <button type="button" id="countRowsBtn" class="btn btn-primary">Count Rows</button>
+    <div class="mb-3">
+      <label for="rowCount" class="form-label">Number of Rows</label>
+      <input type="text" id="rowCount" class="form-control" readonly>
+    </div>
+    <div id="errorMessage" class="error-message"></div>
+  </form>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How it Works</h2>
+    <p>The CSV Row Counter App uses a simple yet effective formula to count the number of rows in your CSV file. The formula works by:</p>
+    <ol>
+        <li>Reading the uploaded CSV file or pasted content</li>
+        <li>Splitting the content into individual rows based on the newline character</li>
+        <li>Filtering out any empty rows</li>
+        <li>Counting the remaining rows</li>
+    </ol>
+    <p>Here are some examples of row counts for different CSV files:</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>CSV File Size</th>
+                <th>Row Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Small (100 rows)</td>
+                <td>100</td>
+            </tr>
+            <tr>
+                <td>Medium (1,000 rows)</td>
+                <td>1,000</td>
+            </tr>
+            <tr>
+                <td>Large (10,000 rows)</td>
+                <td>10,000</td>
+            </tr>
+            <tr>
+                <td>Extra Large (50,000 rows)</td>
+                <td>50,000</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2>Common Use Cases</h2>
+    <ol>
+        <li><strong>Data Analysis</strong>: Quickly count the number of rows in a large dataset to determine the sample size or population size.</li>
+        <li><strong>Research</strong>: Use the CSV Row Counter App to count the number of survey responses, experiment results, or data points.</li>
+        <li><strong>Business Intelligence</strong>: Count the number of customer records, sales transactions, or inventory items in a CSV file.</li>
+        <li><strong>Marketing Automation</strong>: Use the app to count the number of email subscribers, leads, or customer interactions.</li>
+        <li><strong>Finance</strong>: Count the number of financial transactions, invoices, or payments in a CSV file.</li>
+        <li><strong>Education</strong>: Use the CSV Row Counter App to count the number of student records, grades, or attendance data.</li>
+        <li><strong>Healthcare</strong>: Count the number of patient records, medical claims, or clinical trial data.</li>
+        <li><strong>Government</strong>: Use the app to count the number of census data, voter records, or public health data.</li>
+        <li><strong>Non-Profit</strong>: Count the number of donor records, volunteer hours, or program participants.</li>
+        <li><strong>Personal Projects</strong>: Use the CSV Row Counter App to count the number of personal finance transactions, to-do lists, or habit trackers.</li>
+    </ol>
+</div><script>
+  const csvFileInput = document.getElementById('csvFile');
+  const csvTextArea = document.getElementById('csvTextArea');
+  const countRowsBtn = document.getElementById('countRowsBtn');
+  const rowCountInput = document.getElementById('rowCount');
+  const errorMessageDiv = document.getElementById('errorMessage');
+
+  countRowsBtn.addEventListener('click', countRows);
+
+  function countRows() {
+    const csvFile = csvFileInput.files[0];
+    const csvContent = csvTextArea.value.trim();
+
+    if (csvFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const csvData = reader.result;
+        const rows = csvData.split('\n').filter(row => row.trim()!== '');
+        rowCountInput.value = rows.length;
+      };
+      reader.readAsText(csvFile);
+    } else if (csvContent) {
+      const rows = csvContent.split('\n').filter(row => row.trim()!== '');
+      rowCountInput.value = rows.length;
+    } else {
+      errorMessageDiv.innerText = 'Please upload a CSV file or paste CSV content';
+    }
+  }
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    csvTextArea.value = startValue;
+  }
+
+  // Accessibility implementation
+  csvFileInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      countRows();
+    }
+  });
+
+  csvTextArea.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      countRows();
+    }
+  });
+
+  // SEO optimization
+  document.querySelector('meta[name="description"]').content = 'CSV Row Counter App - A simple tool to count the number of rows in a CSV file.';
+  document.querySelector('meta[name="keywords"]').content = 'CSV Row Counter, Data Analysis Tool, CSV File Analyzer, Row Counting App, Data Management';
+</script>

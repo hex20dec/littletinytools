@@ -1,0 +1,236 @@
+---
+title: CSV Column Mapper
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-20 14:30:00
+tags:
+  - CSV Column Mapper
+  - Data Analysis
+  - CSV Files
+  - Data Restructuring
+  - Web Application
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+  }
+ .drag-and-drop {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+ .drag-and-drop div {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>CSV Column Mapper</h1><div class="container mt-5 mb-5">
+  <h2>Unlock the Power of CSV Column Mapping with Our Intuitive Tool</h2>
+  <p>Discover how our CSV Column Mapper can simplify your data analysis workflow by allowing you to effortlessly rearrange and reorganize the columns of your CSV files. This innovative tool is designed to save you time and increase productivity, ensuring that you can focus on what matters most - extracting valuable insights from your data. Our CSV Column Mapper is user-friendly, efficient, and adaptable to your specific needs, making it an indispensable asset for anyone working with CSV files.</p>
+</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <form>
+          <div class="mb-3">
+            <label for="csvFile" class="form-label">Upload CSV File</label>
+            <input type="file" id="csvFile" class="form-control" accept=".csv">
+          </div>
+          <div class="mb-3">
+            <button type="button" id="uploadButton" class="btn btn-primary">Upload</button>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-6">
+        <div id="columnSelection"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="drag-and-drop" id="dragAndDrop"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <button type="button" id="downloadButton" class="btn btn-primary" disabled>Download Mapped CSV</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <pre id="preview"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5 mb-5">
+  <h3>How Our CSV Column Mapper Works</h3>
+  <p>The process of mapping CSV columns involves a straightforward yet powerful formula: <em>Column Selection + Drag-and-Drop Interface = Effortless Data Restructuring</em>. By leveraging this simple yet effective approach, our tool enables you to select the columns you wish to reorganize, and then intuitively rearrange them using a drag-and-drop interface. This method ensures that you maintain complete control over your data, allowing you to customize and refine it to meet your specific requirements.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Original Column Order</th>
+        <th>Mapped Column Order</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Column A, Column B, Column C</td>
+        <td>Column C, Column B, Column A</td>
+      </tr>
+      <tr>
+        <td>Column D, Column E, Column F</td>
+        <td>Column F, Column E, Column D</td>
+      </tr>
+      <tr>
+        <td>Column G, Column H, Column I</td>
+        <td>Column I, Column H, Column G</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>As illustrated in the table above, our CSV Column Mapper empowers you to transform and optimize your data, unlocking new possibilities for analysis and insight.</p>
+</div><div class="container mt-5 mb-5">
+  <h3>10 Common Use Cases for Our CSV Column Mapper</h3>
+  <ol>
+    <li><strong>Data Cleaning and Preprocessing</strong>: Rearrange columns to prepare your data for analysis, ensuring that it is properly formatted and organized.</li>
+    <li><strong>CSV File Conversion</strong>: Convert CSV files to other formats, such as Excel or JSON, by rearranging columns to match the target format's requirements.</li>
+    <li><strong>Data Visualization</strong>: Reorganize columns to create visually appealing and informative charts, graphs, and tables.</li>
+    <li><strong>Machine Learning Model Training</strong>: Prepare data for machine learning models by selecting and rearranging relevant columns.</li>
+    <li><strong>Business Intelligence Reporting</strong>: Create customized reports by mapping columns to extract specific data insights.</li>
+    <li><strong>Data Migration and Integration</strong>: Map columns to transfer data between different systems, applications, or databases.</li>
+    <li><strong>Scientific Research and Analysis</strong>: Rearrange columns to focus on specific variables and perform detailed analysis.</li>
+    <li><strong>Marketing and Customer Analysis</strong>: Reorganize columns to analyze customer data, behavior, and preferences.</li>
+    <li><strong>Financial Data Analysis</strong>: Map columns to analyze financial data, such as revenue, expenses, and profits.</li>
+    <li><strong>Geographic Information Systems (GIS) Analysis</strong>: Rearrange columns to analyze geographic data, such as location, distance, and spatial relationships.</li>
+  </ol>
+  <p>These use cases demonstrate the versatility and adaptability of our CSV Column Mapper, making it an essential tool for anyone working with CSV files.</p>
+</div><script>
+  const csvFileInput = document.getElementById('csvFile');
+  const uploadButton = document.getElementById('uploadButton');
+  const columnSelectionDiv = document.getElementById('columnSelection');
+  const dragAndDropDiv = document.getElementById('dragAndDrop');
+  const downloadButton = document.getElementById('downloadButton');
+  const previewDiv = document.getElementById('preview');
+
+  let csvData = [];
+  let selectedColumns = [];
+
+  uploadButton.addEventListener('click', () => {
+    const file = csvFileInput.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const csvText = reader.result;
+        const lines = csvText.split('\n');
+        const headers = lines[0].split(',');
+        csvData = lines.slice(1).map(line => {
+          const values = line.split(',');
+          return headers.reduce((obj, header, index) => {
+            obj[header] = values[index];
+            return obj;
+          }, {});
+        });
+
+        columnSelectionDiv.innerHTML = '';
+        headers.forEach(header => {
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.id = header;
+          checkbox.checked = true;
+          selectedColumns.push(header);
+          const label = document.createElement('label');
+          label.htmlFor = header;
+          label.textContent = header;
+          columnSelectionDiv.appendChild(checkbox);
+          columnSelectionDiv.appendChild(label);
+          columnSelectionDiv.appendChild(document.createElement('br'));
+        });
+
+        dragAndDropDiv.innerHTML = '';
+        selectedColumns.forEach(column => {
+          const div = document.createElement('div');
+          div.textContent = column;
+          div.draggable = true;
+          div.addEventListener('dragstart', e => {
+            e.dataTransfer.setData('text', column);
+          });
+          dragAndDropDiv.appendChild(div);
+        });
+
+        downloadButton.disabled = false;
+      };
+      reader.readAsText(file);
+    }
+  });
+
+  columnSelectionDiv.addEventListener('change', e => {
+    if (e.target.checked) {
+      selectedColumns.push(e.target.id);
+    } else {
+      selectedColumns = selectedColumns.filter(column => column!== e.target.id);
+    }
+
+    dragAndDropDiv.innerHTML = '';
+    selectedColumns.forEach(column => {
+      const div = document.createElement('div');
+      div.textContent = column;
+      div.draggable = true;
+      div.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('text', column);
+      });
+      dragAndDropDiv.appendChild(div);
+    });
+  });
+
+  dragAndDropDiv.addEventListener('dragover', e => {
+    e.preventDefault();
+  });
+
+  dragAndDropDiv.addEventListener('drop', e => {
+    e.preventDefault();
+    const column = e.dataTransfer.getData('text');
+    const div = document.createElement('div');
+    div.textContent = column;
+    div.draggable = true;
+    div.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text', column);
+    });
+    dragAndDropDiv.appendChild(div);
+    selectedColumns.push(column);
+  });
+
+  downloadButton.addEventListener('click', () => {
+    const csvText = [selectedColumns.join(',')].concat(csvData.map(row => {
+      return selectedColumns.map(column => row[column]).join(',');
+    })).join('\n');
+    const blob = new Blob([csvText], { type: 'text/csv' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'mapped_csv.csv';
+    link.click();
+  });
+
+  csvFileInput.addEventListener('change', () => {
+    previewDiv.textContent = '';
+    const file = csvFileInput.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const csvText = reader.result;
+        const lines = csvText.split('\n');
+        const headers = lines[0].split(',');
+        previewDiv.textContent = headers.join(',') + '\n' + lines[1];
+      };
+      reader.readAsText(file);
+    }
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    csvFileInput.value = startParam;
+  }
+</script>

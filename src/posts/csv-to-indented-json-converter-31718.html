@@ -1,0 +1,158 @@
+---
+title: CSV to Indented JSON Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - CSV Converter
+  - JSON Converter
+  - Data Conversion
+  - Web Development
+  - Data Analysis
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  #main-div textarea {
+    resize: vertical;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1>CSV to Indented JSON Converter</h1><div class="header-section p-5 text-center bg-light">
+    <h1>CSV to Indented JSON Converter</h1>
+    <p>This CSV to Indented JSON Converter is a web-based tool designed to simplify the process of converting Comma Separated Values (CSV) data into Indented JavaScript Object Notation (JSON) format. With its user-friendly interface, this tool enables users to easily paste their CSV data or upload a CSV file, and then convert it into a formatted JSON output. Whether you're a web developer, data analyst, or simply working with data, this tool is an essential resource for streamlining your data conversion needs and improving productivity.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="csv-input">Paste your CSV data or upload a file:</label>
+      <textarea id="csv-input" class="form-control" rows="10" cols="50"></textarea>
+      <input type="file" id="csv-file" class="form-control mt-2" accept=".csv">
+    </div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+      <button type="button" id="convert-btn" class="btn btn-primary">Convert to JSON</button>
+      <button type="button" id="clear-btn" class="btn btn-secondary">Clear</button>
+      <button type="button" id="copy-btn" class="btn btn-success">Copy JSON</button>
+    </div>
+    <div class="mb-3 mt-3">
+      <label for="json-output">Converted JSON data:</label>
+      <textarea id="json-output" class="form-control" rows="10" cols="50" readonly></textarea>
+      <div id="error-message" class="error-message"></div>
+    </div>
+  </form>
+</div>
+
+<div class="explanation-section p-5 bg-white">
+    <h2>How it Works</h2>
+    <p>The conversion process involves a straightforward formula: each row in the CSV data is treated as a separate object, with the first row serving as the header that defines the keys for each object. The subsequent rows are then processed, with each value in a row assigned to the corresponding key based on its position. This results in a clear, indented JSON format that is easy to read and work with.</p>
+    <h3>Example Use Case Table</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>CSV Input</th>
+                <th>JSON Output</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>name,age<br>John,25<br>Jane,30</td>
+                <td>[<br>  {"name": "John", "age": "25"},<br>  {"name": "Jane", "age": "30"}<br>]</td>
+            </tr>
+            <tr>
+                <td>id,product<br>1,Phone<br>2,Laptop</td>
+                <td>[<br>  {"id": "1", "product": "Phone"},<br>  {"id": "2", "product": "Laptop"}<br>]</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5 bg-light">
+    <h2>Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Converting CSV data from databases or spreadsheets into JSON for web development projects.</li>
+        <li class="list-group-item">Transforming CSV files into JSON format for easier data analysis and visualization.</li>
+        <li class="list-group-item">Preparing data for API requests or responses that require JSON format.</li>
+        <li class="list-group-item">Streamlining data import/export processes between different applications or services.</li>
+        <li class="list-group-item">Creating data samples or test cases in JSON format for software development and testing.</li>
+        <li class="list-group-item">Supporting data migration and integration tasks across various systems and platforms.</li>
+        <li class="list-group-item">Enabling efficient data exchange between web applications and backend services.</li>
+        <li class="list-group-item">Facilitating the creation of JSON-based configurations or settings files.</li>
+        <li class="list-group-item">Assisting in the development of mobile applications that require JSON data handling.</li>
+        <li class="list-group-item">Simplifying the process of generating JSON data for use in machine learning or artificial intelligence projects.</li>
+    </ul>
+</div><script>
+  const csvInput = document.getElementById('csv-input');
+  const csvFile = document.getElementById('csv-file');
+  const convertBtn = document.getElementById('convert-btn');
+  const clearBtn = document.getElementById('clear-btn');
+  const copyBtn = document.getElementById('copy-btn');
+  const jsonOutput = document.getElementById('json-output');
+  const errorMessage = document.getElementById('error-message');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('start')) {
+    csvInput.value = urlParams.get('start');
+  }
+
+  convertBtn.addEventListener('click', () => {
+    const csvData = csvInput.value.trim() || csvFile.files[0];
+    if (!csvData) {
+      errorMessage.innerText = 'Please enter or upload CSV data';
+      return;
+    }
+
+    let jsonData;
+    try {
+      if (csvFile.files[0]) {
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+          const csvText = fileReader.result;
+          jsonData = csvToJson(csvText);
+          jsonOutput.value = JSON.stringify(jsonData, null, 2);
+          errorMessage.innerText = '';
+        };
+        fileReader.readAsText(csvFile.files[0]);
+      } else {
+        jsonData = csvToJson(csvInput.value);
+        jsonOutput.value = JSON.stringify(jsonData, null, 2);
+        errorMessage.innerText = '';
+      }
+    } catch (error) {
+      errorMessage.innerText = 'Error converting CSV to JSON: ' + error.message;
+    }
+  });
+
+  clearBtn.addEventListener('click', () => {
+    csvInput.value = '';
+    csvFile.value = '';
+    jsonOutput.value = '';
+    errorMessage.innerText = '';
+  });
+
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(jsonOutput.value);
+  });
+
+  function csvToJson(csvData) {
+    const csvRows = csvData.split('\n');
+    const headers = csvRows.shift().split(',');
+    const jsonData = [];
+    csvRows.forEach((row) => {
+      const rowArray = row.split(',');
+      const rowObject = {};
+      headers.forEach((header, index) => {
+        rowObject[header] = rowArray[index];
+      });
+      jsonData.push(rowObject);
+    });
+    return jsonData;
+  }
+</script>

@@ -1,0 +1,174 @@
+---
+title: CSV Column Percentage Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - CSV Calculator
+  - Percentage Calculator
+  - Data Analysis
+  - CSV File
+  - Web-Based Tool
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+  }
+  #main-div table {
+    border-collapse: collapse;
+  }
+  #main-div th, #main-div td {
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  #main-div th {
+    background-color: #f0f0f0;
+  }
+  #main-div.error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div">
+  <h1>CSV Column Percentage Calculator</h1><div class="header-section p-3 mb-2 bg-light text-dark">
+  <p>This CSV Column Percentage Calculator is a web-based tool designed to calculate the percentage of each unique value in a selected column of a CSV file. It provides a simple and efficient way to analyze and understand the distribution of data in a CSV file, making it an essential tool for data analysis and visualization. With its user-friendly interface, you can easily upload your CSV file, select the column you want to analyze, and generate a table showing the count and percentage of each unique value in that column.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="fileInput" class="form-label">Upload CSV File:</label>
+      <input type="file" id="fileInput" class="form-control" accept=".csv">
+    </div>
+    <div class="mb-3">
+      <label for="columnSelect" class="form-label">Select Column:</label>
+      <select id="columnSelect" class="form-select">
+        <option value="">Select a column</option>
+      </select>
+    </div>
+    <button type="button" id="calculateButton" class="btn btn-primary">Calculate Percentages</button>
+    <div id="resultTable" class="mt-3"></div>
+    <div id="errorMessage" class="error-message"></div>
+  </form>
+</div>
+
+<div class="explanation-section p-3 mb-2 bg-light text-dark">
+  <h2>How it Works</h2>
+  <p>The CSV Column Percentage Calculator uses a simple formula to calculate the percentage of each unique value in a selected column. The formula is: (Count of unique value / Total count of values) * 100. This formula is applied to each unique value in the selected column, and the results are displayed in a table.</p>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Unique Value</th>
+        <th>Count</th>
+        <th>Percentage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Value 1</td>
+        <td>10</td>
+        <td>20%</td>
+      </tr>
+      <tr>
+        <td>Value 2</td>
+        <td>20</td>
+        <td>40%</td>
+      </tr>
+      <tr>
+        <td>Value 3</td>
+        <td>30</td>
+        <td>60%</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>For example, if we have a column with the following values: [Value 1, Value 1, Value 2, Value 2, Value 2, Value 3, Value 3, Value 3, Value 3, Value 3], the calculator will display the following table:</p>
+</div><div class="use-cases-section p-3 mb-2 bg-light text-dark">
+  <h2>Common Use Cases</h2>
+  <ul>
+    <li><strong>Data Analysis</strong>: Use the CSV Column Percentage Calculator to analyze the distribution of data in a CSV file and identify trends and patterns.</li>
+    <li><strong>Market Research</strong>: Use the calculator to analyze customer survey data and understand the demographics of your target audience.</li>
+    <li><strong>Scientific Research</strong>: Use the calculator to analyze data from scientific experiments and identify correlations and trends.</li>
+    <li><strong>Business Intelligence</strong>: Use the calculator to analyze sales data and understand customer purchasing habits.</li>
+    <li><strong>Education</strong>: Use the calculator to analyze student performance data and identify areas where students need improvement.</li>
+    <li><strong>Finance</strong>: Use the calculator to analyze financial data and understand investment trends and risks.</li>
+    <li><strong>Healthcare</strong>: Use the calculator to analyze patient data and understand the effectiveness of treatments and medications.</li>
+    <li><strong>Marketing</strong>: Use the calculator to analyze marketing campaign data and understand the effectiveness of different marketing strategies.</li>
+    <li><strong>Sports</strong>: Use the calculator to analyze player performance data and understand team strengths and weaknesses.</li>
+    <li><strong>Government</strong>: Use the calculator to analyze demographic data and understand population trends and needs.</li>
+  </ul>
+</div><script>
+  const fileInput = document.getElementById('fileInput');
+  const columnSelect = document.getElementById('columnSelect');
+  const calculateButton = document.getElementById('calculateButton');
+  const resultTable = document.getElementById('resultTable');
+  const errorMessage = document.getElementById('errorMessage');
+
+  let csvData = [];
+  let columnNames = [];
+
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const csvText = e.target.result;
+      csvData = csvText.split('\n').map((row) => row.split(','));
+      columnNames = csvData.shift();
+      columnSelect.innerHTML = '';
+      columnNames.forEach((column) => {
+        const option = document.createElement('option');
+        option.value = column;
+        option.text = column;
+        columnSelect.appendChild(option);
+      });
+    };
+    reader.readAsText(file);
+  });
+
+  calculateButton.addEventListener('click', () => {
+    if (!csvData.length) {
+      errorMessage.textContent = 'Please upload a CSV file';
+      return;
+    }
+    const selectedColumn = columnSelect.value;
+    if (!selectedColumn) {
+      errorMessage.textContent = 'Please select a column';
+      return;
+    }
+    const columnIndex = columnNames.indexOf(selectedColumn);
+    const columnData = csvData.map((row) => row[columnIndex]);
+    const uniqueValues = Array.from(new Set(columnData));
+    const result = uniqueValues.map((value) => {
+      const count = columnData.filter((x) => x === value).length;
+      const percentage = (count / columnData.length) * 100;
+      return { value, count, percentage };
+    });
+    result.sort((a, b) => b.percentage - a.percentage);
+    const tableHtml = `
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Value</th>
+            <th>Count</th>
+            <th>Percentage</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${result.map((row) => `
+            <tr>
+              <td>${row.value}</td>
+              <td>${row.count}</td>
+              <td>${row.percentage.toFixed(2)}%</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+    resultTable.innerHTML = tableHtml;
+    errorMessage.textContent = '';
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    fileInput.value = startValue;
+  }
+</script>

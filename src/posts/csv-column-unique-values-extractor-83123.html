@@ -1,0 +1,177 @@
+---
+title: CSV Column Unique Values Extractor
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 14:30:00
+tags:
+  - CSV Extractor
+  - Data Analysis
+  - Unique Values
+  - CSV Parser
+  - Data Cleansing
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div.alert {
+    margin-top: 1rem;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container mt-5">
+    <h1>CSV Column Unique Values Extractor</h1><div class="header-section p-5 text-center bg-primary text-white">
+    <h1>Unlock the Power of Your CSV Data with Our Unique Values Extractor</h1>
+    <p>Discover the easiest way to extract unique values from your CSV files, empowering you to make data-driven decisions with accuracy and speed. Our tool is designed to simplify the process of data analysis, providing you with a clear and concise overview of your data's unique values, and helping you to identify trends, patterns, and correlations that inform your business strategies.</p>
+</div>
+    <form>
+      <div class="mb-3">
+        <label for="csvFile" class="form-label">Upload CSV file:</label>
+        <input type="file" id="csvFile" class="form-control" accept=".csv">
+      </div>
+      <div class="mb-3">
+        <label for="columnName" class="form-label">Select column:</label>
+        <select id="columnName" class="form-select">
+          <option value="">Select column</option>
+        </select>
+      </div>
+      <button type="button" id="extractButton" class="btn btn-primary">Extract unique values</button>
+      <div class="mb-3">
+        <label for="uniqueValues" class="form-label">Unique values:</label>
+        <textarea id="uniqueValues" class="form-control" rows="10" readonly></textarea>
+      </div>
+      <div id="errorAlert" class="alert alert-danger d-none" role="alert"></div>
+    </form>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How Our Unique Values Extractor Works</h2>
+    <p>The process of extracting unique values from a CSV file involves a simple yet powerful formula: <strong>Unique Values = (Total Values) - (Duplicate Values)</strong>. This formula allows you to quickly identify the distinct values within a specified column, giving you a better understanding of your data's composition and enabling you to refine your analysis and decision-making processes.</p>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Column Name</th>
+                <th>Unique Values</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Name</td>
+                <td>John, Mary, David, Emily, Michael</td>
+            </tr>
+            <tr>
+                <td>Age</td>
+                <td>25, 30, 35, 40, 45</td>
+            </tr>
+            <tr>
+                <td>City</td>
+                <td>New York, Los Angeles, Chicago, Houston, Phoenix</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>This table illustrates how our tool can extract unique values from different columns, providing you with a clear and concise overview of your data's distinct values.</p>
+</div><div class="use-cases-section p-5">
+    <h2>10 Common Use Cases for Our Unique Values Extractor</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Data cleaning and preprocessing for machine learning models</li>
+        <li class="list-group-item">Identifying trends and patterns in customer data</li>
+        <li class="list-group-item">Analyzing sales data to inform marketing strategies</li>
+        <li class="list-group-item">Extracting unique values from survey responses</li>
+        <li class="list-group-item">Streamlining data entry processes by removing duplicates</li>
+        <li class="list-group-item">Conducting market research and competitor analysis</li>
+        <li class="list-group-item">Optimizing database performance by reducing data redundancy</li>
+        <li class="list-group-item">Generating reports and visualizations for business intelligence</li>
+        <li class="list-group-item">Validating data integrity and quality control</li>
+        <li class="list-group-item">Supporting data-driven decision-making in various industries</li>
+    </ul>
+    <p>These use cases demonstrate the versatility and value of our Unique Values Extractor, and how it can be applied to a wide range of data analysis tasks and industries.</p>
+</div><script>
+  const csvFileInput = document.getElementById('csvFile');
+  const columnNameSelect = document.getElementById('columnName');
+  const extractButton = document.getElementById('extractButton');
+  const uniqueValuesTextArea = document.getElementById('uniqueValues');
+  const errorAlert = document.getElementById('errorAlert');
+
+  csvFileInput.addEventListener('change', handleCsvFileChange);
+  extractButton.addEventListener('click', handleExtractButtonClick);
+
+  function handleCsvFileChange() {
+    const csvFile = csvFileInput.files[0];
+    if (!csvFile) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const csvData = reader.result;
+      const columnNames = getCsvColumnNames(csvData);
+      populateColumnNameSelect(columnNames);
+    };
+    reader.readAsText(csvFile);
+  }
+
+  function getCsvColumnNames(csvData) {
+    const rows = csvData.split('\n');
+    const columnNames = rows[0].split(',');
+    return columnNames;
+  }
+
+  function populateColumnNameSelect(columnNames) {
+    columnNameSelect.innerHTML = '';
+    columnNames.forEach((columnName) => {
+      const option = document.createElement('option');
+      option.value = columnName;
+      option.text = columnName;
+      columnNameSelect.appendChild(option);
+    });
+  }
+
+  function handleExtractButtonClick() {
+    const csvFile = csvFileInput.files[0];
+    if (!csvFile) {
+      showErrorAlert('Please select a CSV file');
+      return;
+    }
+
+    const selectedColumnName = columnNameSelect.value;
+    if (!selectedColumnName) {
+      showErrorAlert('Please select a column');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const csvData = reader.result;
+      const uniqueValues = getUniqueValues(csvData, selectedColumnName);
+      uniqueValuesTextArea.value = uniqueValues.join('\n');
+    };
+    reader.readAsText(csvFile);
+  }
+
+  function getUniqueValues(csvData, columnName) {
+    const rows = csvData.split('\n');
+    const columnValues = rows.slice(1).map((row) => {
+      const values = row.split(',');
+      return values[getColumnIndex(rows[0], columnName)];
+    });
+    const uniqueValues = [...new Set(columnValues)];
+    return uniqueValues;
+  }
+
+  function getColumnIndex(row, columnName) {
+    const columnNames = row.split(',');
+    return columnNames.indexOf(columnName);
+  }
+
+  function showErrorAlert(message) {
+    errorAlert.textContent = message;
+    errorAlert.classList.remove('d-none');
+    setTimeout(() => {
+      errorAlert.classList.add('d-none');
+    }, 3000);
+  }
+</script>

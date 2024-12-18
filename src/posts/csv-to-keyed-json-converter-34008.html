@@ -1,0 +1,128 @@
+---
+title: CSV to Keyed JSON Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-15 12:00:00
+tags:
+  - CSV Converter
+  - JSON Converter
+  - Data Conversion
+  - Developer Tools
+  - Data Analysis
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1>CSV to Keyed JSON Converter</h1><div class="container mt-5">
+  <p>This CSV to Keyed JSON Converter is a powerful online tool designed to simplify the process of converting Comma Separated Values (CSV) data into Keyed JSON format, enhancing data usability and compatibility across various applications and systems, especially for developers, data analysts, and anyone working with data conversion and analysis, providing a straightforward and efficient way to transform CSV data into a more versatile and widely adopted format.</p>
+</div>
+  <p>Paste your CSV data in the text area below, select the delimiter, and click the "Convert to JSON" button to convert your data to keyed JSON format.</p>
+  <div class="row">
+    <div class="col-md-12">
+      <textarea id="csv-data" class="form-control" rows="10" placeholder="Paste your CSV data here..."></textarea>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-6">
+      <select id="delimiter" class="form-select">
+        <option value=",">Comma (,)</option>
+        <option value=";">Semicolon (;)</option>
+        <option value="\t">Tab (\t)</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <button id="convert-button" class="btn btn-primary">Convert to JSON</button>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-12">
+      <textarea id="json-data" class="form-control" rows="10" readonly></textarea>
+    </div>
+  </div>
+  <div id="error-message" class="error-message"></div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The conversion process involves a simple yet effective formula: it takes the header row of the CSV data as keys and matches them with the corresponding values in each subsequent row, creating a keyed JSON object for each row. This process can be summarized as follows: for each row in the CSV data (excluding the header), create a JSON object where each key is a header from the CSV and the value is the corresponding entry in the row.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>CSV Row</th>
+        <th>Keyed JSON Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Header1,Header2,Header3</td>
+        <td>{}</td>
+      </tr>
+      <tr>
+        <td>Value1,Value2,Value3</td>
+        <td>{"Header1": "Value1", "Header2": "Value2", "Header3": "Value3"}</td>
+      </tr>
+      <tr>
+        <td>Value4,Value5,Value6</td>
+        <td>{"Header1": "Value4", "Header2": "Value5", "Header3": "Value6"}</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>10 Common Use Cases for CSV to Keyed JSON Converter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Data Migration: When moving data from an old system to a new one, converting CSV to JSON can ensure compatibility.</li>
+    <li class="list-group-item">Web Development: JSON is widely used in web development for exchanging data between the server and web application.</li>
+    <li class="list-group-item">Mobile App Development: JSON's simplicity and readability make it ideal for data storage and exchange in mobile apps.</li>
+    <li class="list-group-item">Data Analysis: Converting CSV to JSON can facilitate data analysis by making the data more accessible and manageable.</li>
+    <li class="list-group-item">Machine Learning: JSON format can be more convenient for feeding data into machine learning algorithms.</li>
+    <li class="list-group-item">API Integration: Many APIs use JSON for data exchange, making CSV to JSON conversion crucial for integrating with these services.</li>
+    <li class="list-group-item">Cloud Services: Cloud storage and computing services often prefer JSON for data handling and processing.</li>
+    <li class="list-group-item">Database Integration: Converting CSV data to JSON can be a step in integrating the data with NoSQL databases.</li>
+    <li class="list-group-item">Data Visualization: JSON data can be easily visualized using various libraries and tools, aiding in understanding and presenting data insights.</li>
+    <li class="list-group-item">Backup and Storage: JSON format can be used for storing and backing up data due to its human-readable and platform-independent nature.</li>
+  </ul>
+</div><script>
+  const csvDataElement = document.getElementById('csv-data');
+  const delimiterElement = document.getElementById('delimiter');
+  const convertButton = document.getElementById('convert-button');
+  const jsonDataElement = document.getElementById('json-data');
+  const errorMessageElement = document.getElementById('error-message');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    csvDataElement.value = startValue;
+  }
+
+  convertButton.addEventListener('click', () => {
+    const csvData = csvDataElement.value.trim();
+    const delimiter = delimiterElement.value;
+    if (!csvData) {
+      errorMessageElement.textContent = 'Please enter valid CSV data';
+      return;
+    }
+    try {
+      const csvRows = csvData.split('\n');
+      const keys = csvRows.shift().split(delimiter);
+      const jsonData = csvRows.map(row => {
+        const values = row.split(delimiter);
+        return keys.reduce((acc, key, index) => {
+          acc[key] = values[index];
+          return acc;
+        }, {});
+      });
+      jsonDataElement.value = JSON.stringify(jsonData, null, 2);
+      errorMessageElement.textContent = '';
+    } catch (error) {
+      errorMessageElement.textContent = 'Error converting CSV to JSON: ' + error.message;
+    }
+  });
+</script>

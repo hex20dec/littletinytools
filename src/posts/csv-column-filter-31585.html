@@ -1,0 +1,182 @@
+---
+title: CSV Column Filter Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 14:30:00
+tags:
+  - CSV Filter
+  - Data Analysis
+  - Column Filter
+  - CSV Tool
+  - Data Visualization
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div.table {
+    color: #fff;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="mb-3">CSV Column Filter Tool</h1><div class="container mt-5">
+  <p class="mb-3">The CSV Column Filter Tool is a powerful online utility designed to simplify data analysis by allowing users to easily filter and download specific columns from a CSV file. With its intuitive interface, users can upload their CSV files, select the columns they wish to view, and download the filtered data in a convenient CSV format. This tool is ideal for data analysts, researchers, and anyone looking to streamline their data processing workflow.</p>
+</div>
+  <p class="mb-3">Upload a CSV file, select columns to view, and download the filtered data.</p>
+  <input type="file" id="fileInput" class="btn btn-primary mb-3" accept=".csv">
+  <div id="column Selection" class="mb-3"></div>
+  <button id="filterButton" class="btn btn-success mb-3" disabled>Filter</button>
+  <table id="filteredTable" class="table table-striped mb-3"></table>
+  <button id="downloadButton" class="btn btn-secondary mb-3" disabled>Download</button>
+  <div id="feedback" class="mb-3"></div>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The CSV Column Filter Tool works by employing a straightforward yet efficient process. Here's a step-by-step breakdown:</p>
+  <ol>
+    <li>Users upload their CSV file to the tool.</li>
+    <li>The tool reads the CSV file and identifies the column names.</li>
+    <li>Users select the columns they wish to view and filter.</li>
+    <li>The tool filters the data based on the selected columns and displays the results in a table format.</li>
+    <li>Users can then download the filtered data in CSV format for further analysis or use.</li>
+  </ol>
+  <h2>Example Use Cases</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>CSV File</th>
+        <th>Selected Columns</th>
+        <th>Filtered Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>example1.csv</td>
+        <td>Column A, Column B</td>
+        <td>filtered_data1.csv</td>
+      </tr>
+      <tr>
+        <td>example2.csv</td>
+        <td>Column C, Column D</td>
+        <td>filtered_data2.csv</td>
+      </tr>
+      <tr>
+        <td>example3.csv</td>
+        <td>Column E, Column F</td>
+        <td>filtered_data3.csv</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>Top 10 Use Cases for the CSV Column Filter Tool</h2>
+  <ol>
+    <li>Data analysis: Quickly filter and analyze specific columns of data from large CSV files.</li>
+    <li>Research: Easily extract and download relevant data columns for research purposes.</li>
+    <li>Marketing: Filter customer data by specific columns to create targeted marketing campaigns.</li>
+    <li>Finance: Analyze financial data by filtering specific columns, such as expense categories or revenue streams.</li>
+    <li>HR: Filter employee data by specific columns, such as department or job title.</li>
+    <li>Sales: Analyze sales data by filtering specific columns, such as product categories or sales regions.</li>
+    <li>Customer service: Filter customer data by specific columns to identify trends and improve customer support.</li>
+    <li>Operations: Optimize business operations by filtering specific columns of data, such as inventory levels or supply chain metrics.</li>
+    <li>IT: Use the tool to filter log data or system metrics to troubleshoot issues or identify areas for improvement.</li>
+    <li>Education: Use the tool to filter student data by specific columns, such as grades or attendance records.</li>
+  </ol>
+</div><script>
+  const fileInput = document.getElementById('fileInput');
+  const columnSelection = document.getElementById('column Selection');
+  const filterButton = document.getElementById('filterButton');
+  const filteredTable = document.getElementById('filteredTable');
+  const downloadButton = document.getElementById('downloadButton');
+  const feedback = document.getElementById('feedback');
+
+  let csvData = [];
+  let columnNames = [];
+
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const csvText = event.target.result;
+      csvData = csvText.split('\n').map((row) => row.split(','));
+      columnNames = csvData.shift();
+      renderColumnSelection();
+    };
+    reader.readAsText(file);
+  });
+
+  function renderColumnSelection() {
+    columnSelection.innerHTML = '';
+    columnNames.forEach((columnName, index) => {
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.id = `column-${index}`;
+      checkbox.checked = true;
+      const label = document.createElement('label');
+      label.htmlFor = `column-${index}`;
+      label.textContent = columnName;
+      columnSelection.appendChild(checkbox);
+      columnSelection.appendChild(label);
+      columnSelection.appendChild(document.createElement('br'));
+    });
+    filterButton.disabled = false;
+  }
+
+  filterButton.addEventListener('click', () => {
+    const selectedColumns = [];
+    columnNames.forEach((columnName, index) => {
+      const checkbox = document.getElementById(`column-${index}`);
+      if (checkbox.checked) selectedColumns.push(index);
+    });
+    const filteredData = csvData.map((row) => selectedColumns.map((columnIndex) => row[columnIndex]));
+    renderFilteredTable(filteredData);
+    downloadButton.disabled = false;
+  });
+
+  function renderFilteredTable(data) {
+    filteredTable.innerHTML = '';
+    const thead = document.createElement('thead');
+    const tr = document.createElement('tr');
+    columnNames.forEach((columnName, index) => {
+      const th = document.createElement('th');
+      th.textContent = columnName;
+      tr.appendChild(th);
+    });
+    thead.appendChild(tr);
+    filteredTable.appendChild(thead);
+    const tbody = document.createElement('tbody');
+    data.forEach((row) => {
+      const tr = document.createElement('tr');
+      row.forEach((cell) => {
+        const td = document.createElement('td');
+        td.textContent = cell;
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+    filteredTable.appendChild(tbody);
+  }
+
+  downloadButton.addEventListener('click', () => {
+    const csvText = csvData.map((row) => row.join(',')).join('\n');
+    const blob = new Blob([csvText], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'filtered_data.csv';
+    a.click();
+  });
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    // No input field to preload in this example
+  }
+</script>

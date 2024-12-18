@@ -1,0 +1,163 @@
+---
+title: Round Kelvin Value Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 12:00:00
+tags:
+  - Kelvin converter
+  - Temperature converter
+  - Rounding tool
+  - Science calculator
+  - Engineering calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div select, #main-div button {
+    margin-bottom: 1rem;
+  }
+  #main-div button {
+    background-color: #0d6efd;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+  }
+  #main-div button:hover {
+    background-color: #0b5ed7;
+  }
+  #main-div #result {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  #main-div #error {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Round Kelvin Value</h1><div class="header-section p-5 text-center bg-light">
+    <h2>Discover the Power of Accurate Temperature Conversion with Our Round Kelvin Value Tool</h2>
+    <p>Converting Kelvin to a rounded value has never been easier. Our tool allows you to input a Kelvin value, choose the number of decimal places, and select a rounding mode to get an accurate result. Whether you're a scientist, engineer, or student, this tool is perfect for anyone who needs to work with temperature conversions. With its user-friendly interface and precise calculations, you can trust our Round Kelvin Value Tool to deliver accurate results every time.</p>
+</div>
+  <form class="row justify-content-center">
+    <div class="col-md-6">
+      <label for="kelvin-value">Kelvin Value:</label>
+      <input type="number" id="kelvin-value" class="form-control" value="">
+      <label for="decimal-places">Decimal Places:</label>
+      <select id="decimal-places" class="form-select">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+      <label for="rounding-mode">Rounding Mode:</label>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="rounding-mode" id="round-to-nearest" checked>
+        <label class="form-check-label" for="round-to-nearest">Round to Nearest</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="rounding-mode" id="round-up">
+        <label class="form-check-label" for="round-up">Round Up</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="rounding-mode" id="round-down">
+        <label class="form-check-label" for="round-down">Round Down</label>
+      </div>
+      <button type="button" id="round-button" class="btn btn-primary">Round</button>
+      <p id="result"></p>
+      <p id="error"></p>
+    </div>
+  </form>
+</div>
+
+<div class="explanation-section p-5 bg-white">
+    <h3>How it Works</h3>
+    <p>The Round Kelvin Value Tool uses a simple formula to round the input Kelvin value to the desired number of decimal places. The formula is as follows: rounded value = (input value * 10^decimal places) / 10^decimal places, where the rounding mode (round to nearest, round up, or round down) is applied to the result.</p>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Kelvin Value</th>
+                <th>Decimal Places</th>
+                <th>Rounding Mode</th>
+                <th>Rounded Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>10.1234</td>
+                <td>2</td>
+                <td>Round to Nearest</td>
+                <td>10.12</td>
+            </tr>
+            <tr>
+                <td>10.1234</td>
+                <td>2</td>
+                <td>Round Up</td>
+                <td>10.13</td>
+            </tr>
+            <tr>
+                <td>10.1234</td>
+                <td>2</td>
+                <td>Round Down</td>
+                <td>10.12</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5 bg-light">
+    <h3>10 Common Use Cases for the Round Kelvin Value Tool</h3>
+    <ul>
+        <li>Converting temperature readings from scientific instruments</li>
+        <li>Calculating temperature differences in engineering applications</li>
+        <li>Rounding temperature values for scientific research papers</li>
+        <li>Converting temperature units for recipe booklets</li>
+        <li>Calculating temperature gradients in weather forecasting</li>
+        <li>Rounding temperature values for medical research studies</li>
+        <li>Converting temperature units for automotive applications</li>
+        <li>Calculating temperature differences in materials science</li>
+        <li>Rounding temperature values for educational purposes</li>
+        <li>Converting temperature units for industrial processes</li>
+    </ul>
+</div><script>
+  const kelvinValueInput = document.getElementById('kelvin-value');
+  const decimalPlacesSelect = document.getElementById('decimal-places');
+  const roundingModeRadios = document.getElementsByName('rounding-mode');
+  const roundButton = document.getElementById('round-button');
+  const resultParagraph = document.getElementById('result');
+  const errorParagraph = document.getElementById('error');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    kelvinValueInput.value = startValue;
+  }
+
+  roundButton.addEventListener('click', () => {
+    const kelvinValue = parseFloat(kelvinValueInput.value);
+    if (isNaN(kelvinValue)) {
+      errorParagraph.textContent = 'Invalid input. Please enter a valid number.';
+      resultParagraph.textContent = '';
+      return;
+    }
+
+    const decimalPlaces = parseInt(decimalPlacesSelect.value);
+    let roundedValue;
+    if (roundingModeRadios[0].checked) {
+      roundedValue = Math.round(kelvinValue * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
+    } else if (roundingModeRadios[1].checked) {
+      roundedValue = Math.ceil(kelvinValue * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
+    } else if (roundingModeRadios[2].checked) {
+      roundedValue = Math.floor(kelvinValue * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
+    }
+
+    resultParagraph.textContent = `Rounded Kelvin Value: ${roundedValue} K`;
+    errorParagraph.textContent = '';
+  });
+</script>

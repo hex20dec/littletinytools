@@ -1,0 +1,150 @@
+---
+title: CSV Value Divider App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-15 12:00:00
+tags:
+  - csv divider
+  - data analysis
+  - research tools
+  - data processing
+  - csv splitter
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  #main-div input, #main-div textarea, #main-div select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #333;
+  }
+  #main-div button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+  #output-textarea {
+    height: 200px;
+    overflow-y: auto;
+  }
+</style>
+
+<div id="main-div">
+  <h1>CSV Value Divider App</h1><div class="header-section p-5 bg-primary text-white text-center">
+  <p class="lead">The CSV Value Divider App is a powerful online tool designed to simplify data analysis and processing by dividing CSV values with ease. With its user-friendly interface, this app allows users to input CSV data, select a divisor, and choose a division method to achieve accurate results. Whether you're a researcher, data analyst, or simply looking to streamline your data processing tasks, this app is an essential resource. By providing a straightforward and efficient way to divide CSV values, the CSV Value Divider App saves time and effort, enabling users to focus on more complex aspects of their work.</p>
+</div>
+  <label for="csv-input">Enter CSV data:</label>
+  <textarea id="csv-input" rows="5"></textarea>
+  <label for="divisor-input">Enter divisor:</label>
+  <input type="number" id="divisor-input" value="2">
+  <label for="division-method">Select division method:</label>
+  <select id="division-method">
+    <option value="divide-by-value">Divide each value by divisor</option>
+    <option value="divide-by-row">Divide by row</option>
+    <option value="divide-by-column">Divide by column</option>
+  </select>
+  <button id="divide-button">Divide</button>
+  <label for="output-textarea">Output:</label>
+  <textarea id="output-textarea" readonly></textarea>
+</div>
+
+<div class="explanation-section p-5">
+  <h2>How it Works</h2>
+  <p>The CSV Value Divider App operates on a simple yet effective principle: it takes the input CSV data and divides it according to the selected method and divisor. This can be represented by the formula: Result = Input Value / Divisor. For instance, if the division method is set to "divide by value" and the divisor is 2, each value in the CSV data will be divided by 2 to produce the output.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Input Value</th>
+        <th>Divisor</th>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>10</td>
+        <td>2</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>20</td>
+        <td>2</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>30</td>
+        <td>2</td>
+        <td>15</td>
+      </tr>
+      <!-- Add more rows for demonstration -->
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Dividing a list of numbers by a common factor for simplification.</li>
+    <li class="list-group-item">Scaling down large datasets for easier analysis.</li>
+    <li class="list-group-item">Converting between different units of measurement.</li>
+    <li class="list-group-item">Preparing data for statistical analysis by normalizing values.</li>
+    <li class="list-group-item">Streamlining financial data, such as expenses or revenues, for budgeting purposes.</li>
+    <li class="list-group-item">Simplifying complex mathematical problems by breaking them down into manageable parts.</li>
+    <li class="list-group-item">Collating and averaging scores or ratings for evaluation purposes.</li>
+    <li class="list-group-item">Adjusting recipe ingredients based on the number of servings.</li>
+    <li class="list-group-item">Converting between different currencies for international transactions.</li>
+    <li class="list-group-item">Calculating percentages or proportions of a whole dataset.</li>
+  </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  document.getElementById('csv-input').value = startValue || '';
+
+  document.getElementById('divide-button').addEventListener('click', () => {
+    const csvInput = document.getElementById('csv-input').value;
+    const divisorInput = document.getElementById('divisor-input').value;
+    const divisionMethod = document.getElementById('division-method').value;
+
+    if (!csvInput ||!divisorInput) {
+      alert('Please fill in all fields.');
+      return;
+    }
+
+    const csvValues = csvInput.split(',');
+    const divisor = parseInt(divisorInput);
+
+    if (isNaN(divisor) || divisor <= 0) {
+      alert('Invalid divisor. Please enter a positive number.');
+      return;
+    }
+
+    let output = '';
+    if (divisionMethod === 'divide-by-value') {
+      output = csvValues.map(value => parseInt(value) / divisor).join(',');
+    } else if (divisionMethod === 'divide-by-row') {
+      const rows = csvValues.length / divisor;
+      for (let i = 0; i < rows; i++) {
+        const rowValues = csvValues.slice(i * divisor, (i + 1) * divisor);
+        output += rowValues.join(',') + '\n';
+      }
+    } else if (divisionMethod === 'divide-by-column') {
+      const columns = divisor;
+      for (let i = 0; i < csvValues.length; i++) {
+        const columnValues = csvValues.filter((value, index) => index % columns === i);
+        output += columnValues.join(',') + '\n';
+      }
+    }
+
+    document.getElementById('output-textarea').value = output;
+  });
+</script>

@@ -1,0 +1,146 @@
+---
+title: Temperature Inversion Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Temperature Conversion
+  - Celsius to Fahrenheit
+  - Celsius to Kelvin
+  - Temperature Calculator
+  - Unit Conversion
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div select, #main-div button {
+    margin-bottom: 1rem;
+  }
+  #main-div button {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+  #error-message {
+    color: #f00;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center">Temperature Inversion Tool</h1><div class="container mt-5">
+  <p class="text-center fs-5">The Temperature Inversion Tool is a user-friendly online calculator designed to simplify temperature conversions between Celsius, Fahrenheit, and Kelvin. With its intuitive interface, users can quickly and accurately convert temperature values, making it an essential resource for scientists, engineers, and individuals requiring precise temperature measurements. By leveraging this tool, users can effortlessly switch between different temperature scales, ensuring accuracy and efficiency in their calculations.</p>
+</div>
+  <form>
+    <label for="temperature">Enter temperature in Celsius:</label>
+    <input type="number" id="temperature" step="any" value="" class="form-control">
+    <label for="conversion-type">Select conversion type:</label>
+    <select id="conversion-type" class="form-select">
+      <option value="fahrenheit">Celsius to Fahrenheit</option>
+      <option value="kelvin">Celsius to Kelvin</option>
+    </select>
+    <button type="button" id="convert-button" class="btn btn-primary">Convert</button>
+    <p id="result"></p>
+    <p id="error-message"></p>
+  </form>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The Temperature Inversion Tool employs a straightforward formula to perform temperature conversions. To convert Celsius to Fahrenheit, the tool uses the formula: Fahrenheit = (Celsius * 9/5) + 32. For Celsius to Kelvin conversions, the formula is: Kelvin = Celsius + 273.15. These formulas are used to calculate the converted temperature values, providing users with accurate results.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Celsius</th>
+        <th>Fahrenheit</th>
+        <th>Kelvin</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0</td>
+        <td>32</td>
+        <td>273.15</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>50</td>
+        <td>283.15</td>
+      </tr>
+      <tr>
+        <td>20</td>
+        <td>68</td>
+        <td>293.15</td>
+      </tr>
+      <tr>
+        <td>30</td>
+        <td>86</td>
+        <td>303.15</td>
+      </tr>
+      <tr>
+        <td>40</td>
+        <td>104</td>
+        <td>313.15</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting temperature values for scientific research and experiments</li>
+    <li class="list-group-item">Calculating temperature differences for engineering and design applications</li>
+    <li class="list-group-item">Determining temperature thresholds for industrial processes and manufacturing</li>
+    <li class="list-group-item">Converting temperature values for weather forecasting and climate modeling</li>
+    <li class="list-group-item">Calculating temperature changes for medical and healthcare applications</li>
+    <li class="list-group-item">Converting temperature values for cooking and food preparation</li>
+    <li class="list-group-item">Determining temperature limits for electronic devices and equipment</li>
+    <li class="list-group-item">Calculating temperature differences for architectural and construction projects</li>
+    <li class="list-group-item">Converting temperature values for automotive and aerospace applications</li>
+    <li class="list-group-item">Determining temperature thresholds for environmental monitoring and conservation</li>
+  </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  const temperatureInput = document.getElementById('temperature');
+  const conversionTypeSelect = document.getElementById('conversion-type');
+  const convertButton = document.getElementById('convert-button');
+  const resultParagraph = document.getElementById('result');
+  const errorMessageParagraph = document.getElementById('error-message');
+
+  temperatureInput.value = startValue;
+
+  convertButton.addEventListener('click', () => {
+    const temperatureValue = parseFloat(temperatureInput.value);
+    const conversionType = conversionTypeSelect.value;
+    errorMessageParagraph.textContent = '';
+
+    if (isNaN(temperatureValue)) {
+      errorMessageParagraph.textContent = 'Please enter a valid temperature value.';
+      return;
+    }
+
+    let result;
+    switch (conversionType) {
+      case 'fahrenheit':
+        result = (temperatureValue * 9 / 5) + 32;
+        resultParagraph.textContent = `${temperatureValue}°C is equal to ${result}°F`;
+        break;
+      case 'kelvin':
+        result = temperatureValue + 273.15;
+        resultParagraph.textContent = `${temperatureValue}°C is equal to ${result}K`;
+        break;
+      default:
+        console.error('Invalid conversion type');
+    }
+  });
+</script>

@@ -1,0 +1,178 @@
+---
+title: Temperature Batch Conversion Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 14:30:00
+tags:
+  - temperature conversion
+  - batch conversion
+  - celsius to fahrenheit
+  - celsius to kelvin
+  - temperature unit converter
+---
+
+<style>
+  #main-div {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  #input-textarea, #output-textarea {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+  }
+  #conversion-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #conversion-button:hover {
+    background-color: #3e8e41;
+  }
+ .error-message {
+    color: #f00;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Temperature Batch Conversion Tool</h1><div class="header-section p-3 mb-2 bg-light text-dark">
+    <h1>Temperature Batch Conversion Tool</h1>
+    <p>This temperature conversion tool allows users to convert a list of temperatures from Celsius to other temperature units, including Fahrenheit, Kelvin, and Rankine, providing a convenient and efficient way to perform batch conversions for various applications, such as scientific research, engineering, and everyday use, making it an essential resource for anyone working with temperatures in different units, and it's completely free to use, with no restrictions on the number of conversions or input values, and the results are provided in a clear and easy-to-read format, making it easy to understand and work with the converted temperatures.</p>
+</div>
+  <p>Convert a list of temperatures from Celsius to other temperature units.</p>
+  <label for="input-textarea">Input Temperatures (Celsius, one per line):</label>
+  <textarea id="input-textarea"></textarea>
+  <label for="conversion-unit">Conversion Unit:</label>
+  <select id="conversion-unit">
+    <option value="fahrenheit">Fahrenheit</option>
+    <option value="kelvin">Kelvin</option>
+    <option value="rankine">Rankine</option>
+  </select>
+  <button id="conversion-button">Convert</button>
+  <label for="output-textarea">Converted Temperatures:</label>
+  <textarea id="output-textarea" readonly></textarea>
+  <div class="error-message" id="error-message"></div>
+</div>
+
+<div class="explanation-section p-3 mb-2 bg-light text-dark">
+    <h2>How the Tool Works</h2>
+    <p>The temperature conversion tool uses a simple formula to convert temperatures from Celsius to other units. The formula is based on the following equations:</p>
+    <ul>
+        <li>Celsius to Fahrenheit: °F = (°C × 9/5) + 32</li>
+        <li>Celsius to Kelvin: K = °C + 273.15</li>
+        <li>Celsius to Rankine: °R = (°C + 273.15) × 9/5</li>
+    </ul>
+    <p>Here is a table showing some examples of conversions from Celsius to other units:</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Celsius (°C)</th>
+                <th>Fahrenheit (°F)</th>
+                <th>Kelvin (K)</th>
+                <th>Rankine (°R)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>0</td>
+                <td>32</td>
+                <td>273.15</td>
+                <td>491.67</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>50</td>
+                <td>283.15</td>
+                <td>506.67</td>
+            </tr>
+            <tr>
+                <td>20</td>
+                <td>68</td>
+                <td>293.15</td>
+                <td>521.67</td>
+            </tr>
+            <tr>
+                <td>30</td>
+                <td>86</td>
+                <td>303.15</td>
+                <td>536.67</td>
+            </tr>
+            <tr>
+                <td>40</td>
+                <td>104</td>
+                <td>313.15</td>
+                <td>551.67</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-3 mb-2 bg-light text-dark">
+    <h2>Common Use Cases for the Temperature Batch Conversion Tool</h2>
+    <ol>
+        <li>Scientific research: converting temperatures from Celsius to other units for data analysis and reporting.</li>
+        <li>Engineering: converting temperatures for design and testing of systems and equipment.</li>
+        <li>Cooking and recipes: converting temperatures from Celsius to Fahrenheit for cooking and baking.</li>
+        <li>Weather forecasting: converting temperatures from Celsius to other units for weather reporting and forecasting.</li>
+        <li>Climate monitoring: converting temperatures from Celsius to other units for climate monitoring and research.</li>
+        <li>Medical research: converting temperatures from Celsius to other units for medical research and studies.</li>
+        <li>Industrial processes: converting temperatures for industrial processes such as manufacturing and production.</li>
+        <li>Aerospace engineering: converting temperatures for aerospace engineering and design.</li>
+        <li>Chemical engineering: converting temperatures for chemical engineering and process design.</li>
+        <li>Education: using the tool as a teaching aid for students learning about temperature conversion and units.</li>
+    </ol>
+</div><script>
+  const inputTextArea = document.getElementById('input-textarea');
+  const outputTextArea = document.getElementById('output-textarea');
+  const conversionButton = document.getElementById('conversion-button');
+  const conversionUnitSelect = document.getElementById('conversion-unit');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    inputTextArea.value = startParam;
+  }
+
+  conversionButton.addEventListener('click', () => {
+    const inputTemperatures = inputTextArea.value.trim().split('\n').map(Number);
+    const conversionUnit = conversionUnitSelect.value;
+
+    if (inputTemperatures.some(isNaN)) {
+      errorMessageDiv.innerText = 'Invalid input temperatures. Please enter valid numbers.';
+      return;
+    }
+
+    if (inputTemperatures.length === 0) {
+      errorMessageDiv.innerText = 'Please enter at least one temperature.';
+      return;
+    }
+
+    const convertedTemperatures = inputTemperatures.map(temperature => {
+      switch (conversionUnit) {
+        case 'fahrenheit':
+          return temperature * 9 / 5 + 32;
+        case 'kelvin':
+          return temperature + 273.15;
+        case 'rankine':
+          return (temperature + 273.15) * 9 / 5;
+        default:
+          throw new Error(`Unsupported conversion unit: ${conversionUnit}`);
+      }
+    });
+
+    outputTextArea.value = convertedTemperatures.join('\n');
+    errorMessageDiv.innerText = '';
+  });
+</script>

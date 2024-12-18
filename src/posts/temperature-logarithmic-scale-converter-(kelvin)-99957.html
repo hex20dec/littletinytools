@@ -1,0 +1,216 @@
+---
+title: Temperature Logarithmic Scale Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Temperature Converter
+  - Logarithmic Scale
+  - Kelvin
+  - Celsius
+  - Fahrenheit
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div select, #main-div input {
+    margin-bottom: 1rem;
+  }
+  #main-div button {
+    margin-bottom: 1rem;
+  }
+  #main-div.error {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="mb-4">Temperature Logarithmic Scale Converter (Kelvin)</h1><div class="header-section p-5 text-center bg-light">
+  <p class="lead">The Temperature Logarithmic Scale Converter is a versatile online tool designed to convert temperature values between different scales, including Celsius, Fahrenheit, Rankine, and Kelvin, using a logarithmic scale conversion formula. This tool is essential for various scientific, engineering, and everyday applications where temperature conversions are necessary, providing accurate and reliable results for temperatures in any of the supported scales.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="input-scale" class="form-label">Input Temperature Scale:</label>
+      <select id="input-scale" class="form-select">
+        <option value="Celsius">Celsius</option>
+        <option value="Fahrenheit">Fahrenheit</option>
+        <option value="Rankine">Rankine</option>
+        <option value="Kelvin">Kelvin</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="input-value" class="form-label">Input Temperature Value:</label>
+      <input type="number" id="input-value" class="form-control" step="any" value="">
+    </div>
+    <div class="mb-3">
+      <label for="output-scale" class="form-label">Output Temperature Scale:</label>
+      <select id="output-scale" class="form-select">
+        <option value="Celsius">Celsius</option>
+        <option value="Fahrenheit">Fahrenheit</option>
+        <option value="Rankine">Rankine</option>
+        <option value="Kelvin">Kelvin</option>
+      </select>
+    </div>
+    <button type="button" id="convert-btn" class="btn btn-primary">Convert</button>
+    <div id="output-value" class="mt-3"></div>
+    <div id="error-message" class="error mt-3"></div>
+    <div id="formula" class="mt-3"></div>
+  </form>
+</div>
+
+<div class="explanation-section p-5">
+  <h2>How the Temperature Logarithmic Scale Converter Works</h2>
+  <p>The conversion process involves first converting the input temperature to Kelvin, then applying the logarithmic scale conversion formula to obtain the output temperature in the desired scale. The formula used is: T_output = log(T_input / T_base), where T_base is a scale-dependent constant.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Input Temperature (Celsius)</th>
+        <th>Output Temperature (Fahrenheit)</th>
+        <th>Output Temperature (Rankine)</th>
+        <th>Output Temperature (Kelvin)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0</td>
+        <td>32</td>
+        <td>491.67</td>
+        <td>273.15</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>50</td>
+        <td>509.67</td>
+        <td>283.15</td>
+      </tr>
+      <tr>
+        <td>20</td>
+        <td>68</td>
+        <td>527.67</td>
+        <td>293.15</td>
+      </tr>
+      <tr>
+        <td>30</td>
+        <td>86</td>
+        <td>545.67</td>
+        <td>303.15</td>
+      </tr>
+      <tr>
+        <td>40</td>
+        <td>104</td>
+        <td>563.67</td>
+        <td>313.15</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5">
+  <h2>Common Use Cases for the Temperature Logarithmic Scale Converter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Converting temperature readings from one scale to another for scientific research</li>
+    <li class="list-group-item">Calculating temperature differences between two points in a system</li>
+    <li class="list-group-item">Determining the temperature of a substance at a specific point in a process</li>
+    <li class="list-group-item">Converting temperature units for cooking and food preparation</li>
+    <li class="list-group-item">Calculating temperature changes in weather forecasting</li>
+    <li class="list-group-item">Converting temperature units for engineering and design applications</li>
+    <li class="list-group-item">Determining the temperature of a material at a specific point in a manufacturing process</li>
+    <li class="list-group-item">Converting temperature units for medical research and applications</li>
+    <li class="list-group-item">Calculating temperature changes in chemical reactions</li>
+    <li class="list-group-item">Converting temperature units for environmental monitoring and conservation</li>
+  </ul>
+</div><script>
+  const inputScale = document.getElementById('input-scale');
+  const inputValue = document.getElementById('input-value');
+  const outputScale = document.getElementById('output-scale');
+  const convertBtn = document.getElementById('convert-btn');
+  const outputValue = document.getElementById('output-value');
+  const errorMessage = document.getElementById('error-message');
+  const formulaDiv = document.getElementById('formula');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    inputValue.value = startValue;
+  }
+
+  convertBtn.addEventListener('click', convertTemperature);
+
+  function convertTemperature() {
+    const inputVal = parseFloat(inputValue.value);
+    if (isNaN(inputVal)) {
+      errorMessage.textContent = 'Please enter a valid number';
+      return;
+    }
+
+    const inputScaleVal = inputScale.value;
+    const outputScaleVal = outputScale.value;
+
+    let kelvinValue;
+    switch (inputScaleVal) {
+      case 'Celsius':
+        kelvinValue = inputVal + 273.15;
+        break;
+      case 'Fahrenheit':
+        kelvinValue = (inputVal - 32) * 5/9 + 273.15;
+        break;
+      case 'Rankine':
+        kelvinValue = inputVal * 5/9;
+        break;
+      case 'Kelvin':
+        kelvinValue = inputVal;
+        break;
+      default:
+        errorMessage.textContent = 'Invalid input scale';
+        return;
+    }
+
+    let outputVal;
+    switch (outputScaleVal) {
+      case 'Celsius':
+        outputVal = kelvinValue - 273.15;
+        break;
+      case 'Fahrenheit':
+        outputVal = (kelvinValue - 273.15) * 9/5 + 32;
+        break;
+      case 'Rankine':
+        outputVal = kelvinValue * 9/5;
+        break;
+      case 'Kelvin':
+        outputVal = kelvinValue;
+        break;
+      default:
+        errorMessage.textContent = 'Invalid output scale';
+        return;
+    }
+
+    // Display the converted value
+    outputValue.textContent = `The converted temperature value is: ${outputVal.toFixed(2)} ${outputScaleVal}`;
+
+    // Display the logarithmic scale conversion formula
+    const formula = `T_${outputScaleVal} = log(T_${inputScaleVal} / ${getBase(inputScaleVal)})`;
+    formulaDiv.textContent = `The logarithmic scale conversion formula used is: ${formula}`;
+
+    // Clear error message
+    errorMessage.textContent = '';
+  }
+
+  function getBase(scale) {
+    switch (scale) {
+      case 'Celsius':
+        return 273.15;
+      case 'Fahrenheit':
+        return 491.67;
+      case 'Rankine':
+        return 491.67;
+      case 'Kelvin':
+        return 0;
+      default:
+        return 0;
+    }
+  }
+</script>

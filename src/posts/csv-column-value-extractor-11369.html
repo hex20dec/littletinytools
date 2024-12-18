@@ -1,0 +1,186 @@
+---
+title: CSV Column Value Extractor
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - CSV Extractor
+  - Data Analysis
+  - CSV Tool
+  - Data Extraction
+  - CSV Column Extractor
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div.form-control, #main-div.form-select, #main-div.btn {
+    margin-bottom: 1rem;
+  }
+  #main-div.output-field {
+    height: 10rem;
+    resize: vertical;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-3">CSV Column Value Extractor</h1><div class="container mt-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <p class="lead">The CSV Column Value Extractor is a specialized web tool designed to extract specific column values from a CSV file. This tool streamlines the process of data analysis by allowing users to upload their CSV file, select the desired column, and extract the values with ease. With its user-friendly interface and efficient functionality, the CSV Column Value Extractor is an essential resource for anyone working with CSV data, including data analysts, researchers, and business professionals.</p>
+        </div>
+    </div>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="fileInput" class="form-label">Upload CSV File:</label>
+      <input type="file" id="fileInput" class="form-control" accept=".csv">
+    </div>
+    <div class="mb-3">
+      <label for="columnSelect" class="form-label">Select Column:</label>
+      <select id="columnSelect" class="form-select">
+        <option value="">Select Column</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="includeHeader">
+        <label class="form-check-label" for="includeHeader">
+          Include Column Header
+        </label>
+      </div>
+    </div>
+    <button type="button" id="extractButton" class="btn btn-primary">Extract Values</button>
+    <div class="mb-3">
+      <label for="outputField" class="form-label">Extracted Values:</label>
+      <textarea id="outputField" class="form-control output-field" readonly></textarea>
+    </div>
+  </form>
+</div>
+
+<div class="container mt-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2>How it Works</h2>
+            <p>The CSV Column Value Extractor uses a simple yet effective formula to extract the desired column values. The formula can be broken down into the following steps:</p>
+            <ol>
+                <li>Upload a CSV file to the tool.</li>
+                <li>Select the desired column from the dropdown menu.</li>
+                <li>Choose whether to include the column header in the extracted values.</li>
+                <li>Click the "Extract Values" button to retrieve the desired column values.</li>
+            </ol>
+            <h2>Example Use Cases</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>CSV File</th>
+                        <th>Selected Column</th>
+                        <th>Extracted Values</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>example1.csv</td>
+                        <td>Name</td>
+                        <td>John, Jane, Bob</td>
+                    </tr>
+                    <tr>
+                        <td>example2.csv</td>
+                        <td>Age</td>
+                        <td>25, 30, 35</td>
+                    </tr>
+                    <tr>
+                        <td>example3.csv</td>
+                        <td>City</td>
+                        <td>New York, Los Angeles, Chicago</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div><div class="container mt-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2>Common Use Cases</h2>
+            <ul>
+                <li>Data analysis: Extract specific column values to analyze trends and patterns in the data.</li>
+                <li>Research: Use the tool to extract relevant data from large datasets for research purposes.</li>
+                <li>Business reporting: Extract column values to generate reports and visualizations for business insights.</li>
+                <li>Marketing: Extract customer data from CSV files to create targeted marketing campaigns.</li>
+                <li>Finance: Extract financial data from CSV files to analyze expenses and revenue.</li>
+                <li>Education: Use the tool to extract data from CSV files for educational purposes, such as teaching data analysis concepts.</li>
+                <li>Science: Extract data from CSV files to analyze scientific data and trends.</li>
+                <li>Government: Use the tool to extract data from CSV files for government reporting and analysis.</li>
+                <li>Non-profit: Extract data from CSV files to analyze donor information and fundraising trends.</li>
+                <li>Personal projects: Use the tool to extract data from CSV files for personal projects, such as tracking expenses or analyzing habits.</li>
+            </ul>
+        </div>
+    </div>
+</div><script>
+  const fileInput = document.getElementById('fileInput');
+  const columnSelect = document.getElementById('columnSelect');
+  const includeHeader = document.getElementById('includeHeader');
+  const extractButton = document.getElementById('extractButton');
+  const outputField = document.getElementById('outputField');
+
+  let uploadedFile = null;
+  let columnNames = [];
+
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      uploadedFile = file;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const csvData = event.target.result;
+        const rows = csvData.split('\n');
+        columnNames = rows[0].split(',');
+        columnSelect.innerHTML = '';
+        columnNames.forEach((columnName) => {
+          const option = document.createElement('option');
+          option.value = columnName;
+          option.textContent = columnName;
+          columnSelect.appendChild(option);
+        });
+      };
+      reader.readAsText(file);
+    }
+  });
+
+  extractButton.addEventListener('click', () => {
+    if (uploadedFile && columnNames.length > 0) {
+      const selectedColumn = columnSelect.value;
+      const includeHeaderValue = includeHeader.checked;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const csvData = event.target.result;
+        const rows = csvData.split('\n');
+        const extractedValues = [];
+        if (includeHeaderValue) {
+          extractedValues.push(selectedColumn);
+        }
+        rows.slice(1).forEach((row) => {
+          const values = row.split(',');
+          const columnIndex = columnNames.indexOf(selectedColumn);
+          if (columnIndex!== -1) {
+            extractedValues.push(values[columnIndex]);
+          }
+        });
+        outputField.value = extractedValues.join('\n');
+      };
+      reader.readAsText(uploadedFile);
+    } else {
+      outputField.value = 'Please upload a CSV file and select a column.';
+    }
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    fileInput.value = startValue;
+  }
+</script>

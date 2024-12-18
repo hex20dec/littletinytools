@@ -1,0 +1,175 @@
+---
+title: CSV to SQL Delete Statements Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - CSV to SQL
+  - Delete Statements
+  - Database Administration
+  - Data Analysis
+  - SQL Generator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div.form-control {
+    margin-bottom: 1rem;
+  }
+  #main-div.btn {
+    margin-bottom: 1rem;
+  }
+  #main-div.textarea-output {
+    height: 300px;
+    overflow-y: auto;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-4">CSV to SQL Delete Statements Tool</h1><div class="header-section p-5 bg-primary text-white text-center">
+    <p class="lead">The CSV to SQL Delete Statements Tool is a web-based utility designed to simplify the process of generating SQL delete statements from CSV data. This tool is perfect for database administrators and data analysts who need to delete specific records from a database table based on values in a CSV file. By leveraging this tool, users can save time and reduce the risk of errors associated with manual data entry. With its user-friendly interface and robust functionality, the CSV to SQL Delete Statements Tool is an essential resource for anyone working with databases and CSV data.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="csvFile" class="form-label">Upload CSV File or Paste CSV Data</label>
+      <input type="file" id="csvFile" class="form-control" accept=".csv">
+      <textarea id="csvData" class="form-control" rows="5" placeholder="Paste CSV data here"></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="sqlDialect" class="form-label">SQL Dialect</label>
+      <select id="sqlDialect" class="form-select">
+        <option value="MySQL">MySQL</option>
+        <option value="PostgreSQL">PostgreSQL</option>
+        <option value="SQL Server">SQL Server</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="tableName" class="form-label">Table Name</label>
+      <input type="text" id="tableName" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label for="columnName" class="form-label">Column Name</label>
+      <input type="text" id="columnName" class="form-control">
+    </div>
+    <button type="button" id="generateButton" class="btn btn-primary">Generate SQL Delete Statements</button>
+    <textarea id="output" class="form-control textarea-output" readonly></textarea>
+  </form>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-4">How the Tool Works</h2>
+    <p class="lead">The CSV to SQL Delete Statements Tool uses a simple yet powerful formula to generate SQL delete statements. The formula works as follows: <em>DELETE FROM table_name WHERE column_name = value</em>, where <em>table_name</em> is the name of the database table, <em>column_name</em> is the name of the column containing the values to be deleted, and <em>value</em> is the value from the CSV file.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>CSV Value</th>
+                <th>SQL Dialect</th>
+                <th>Generated SQL Statement</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>abc123</td>
+                <td>MySQL</td>
+                <td>DELETE FROM my_table WHERE my_column = 'abc123';</td>
+            </tr>
+            <tr>
+                <td>def456</td>
+                <td>PostgreSQL</td>
+                <td>DELETE FROM my_table WHERE my_column = 'def456';</td>
+            </tr>
+            <tr>
+                <td>ghi789</td>
+                <td>SQL Server</td>
+                <td>DELETE FROM my_table WHERE my_column = 'ghi789';</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-4">Common Use Cases</h2>
+    <ol class="list-group">
+        <li class="list-group-item">Deleting duplicate records from a database table based on a unique identifier in a CSV file.</li>
+        <li class="list-group-item">Removing outdated or obsolete data from a database table using a CSV file containing the IDs or names of the records to be deleted.</li>
+        <li class="list-group-item">Cleaning up a database table by deleting records that do not meet certain criteria, such as invalid or missing data, using a CSV file containing the relevant information.</li>
+        <li class="list-group-item">Transferring data from a CSV file to a database table and deleting the corresponding records from the original data source.</li>
+        <li class="list-group-item">Automating the process of deleting records from a database table based on a schedule or trigger, using a CSV file as the data source.</li>
+        <li class="list-group-item">Testing and debugging database queries and applications by generating SQL delete statements from sample CSV data.</li>
+        <li class="list-group-item">Preparing data for analysis or reporting by deleting unnecessary or irrelevant records from a database table using a CSV file.</li>
+        <li class="list-group-item">Migrating data from an old database to a new one by generating SQL delete statements from a CSV file containing the data to be transferred.</li>
+        <li class="list-group-item">Deleting records from a database table that are no longer needed or relevant, such as log files or temporary data, using a CSV file containing the IDs or names of the records to be deleted.</li>
+        <li class="list-group-item">Improving data quality and integrity by deleting records that contain errors or inconsistencies, using a CSV file as the data source.</li>
+    </ol>
+</div><script>
+  const csvFileInput = document.getElementById('csvFile');
+  const csvDataInput = document.getElementById('csvData');
+  const sqlDialectSelect = document.getElementById('sqlDialect');
+  const tableNameInput = document.getElementById('tableName');
+  const columnNameInput = document.getElementById('columnName');
+  const generateButton = document.getElementById('generateButton');
+  const outputTextarea = document.getElementById('output');
+
+  let csvData = '';
+
+  csvFileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        csvData = event.target.result;
+        csvDataInput.value = csvData;
+      };
+      reader.readAsText(file);
+    }
+  });
+
+  csvDataInput.addEventListener('input', (e) => {
+    csvData = e.target.value;
+  });
+
+  generateButton.addEventListener('click', () => {
+    const sqlDialect = sqlDialectSelect.value;
+    const tableName = tableNameInput.value;
+    const columnName = columnNameInput.value;
+
+    if (!csvData ||!tableName ||!columnName) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    const lines = csvData.trim().split('\n');
+    const sqlStatements = [];
+
+    lines.forEach((line) => {
+      const value = line.trim();
+      if (value) {
+        let sqlStatement = `DELETE FROM ${tableName} WHERE ${columnName} = `;
+        switch (sqlDialect) {
+          case 'MySQL':
+            sqlStatement += `'${value}'`;
+            break;
+          case 'PostgreSQL':
+            sqlStatement += `$('${value}')`;
+            break;
+          case 'SQL Server':
+            sqlStatement += `'${value}'`;
+            break;
+        }
+        sqlStatements.push(sqlStatement + ';');
+      }
+    });
+
+    outputTextarea.value = sqlStatements.join('\n');
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    csvDataInput.value = startValue;
+    csvData = startValue;
+  }
+</script>

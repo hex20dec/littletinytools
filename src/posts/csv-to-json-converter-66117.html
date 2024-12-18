@@ -1,0 +1,168 @@
+---
+title: CSV to JSON Converter Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - CSV Converter
+  - JSON Converter
+  - Data Conversion
+  - Data Analysis
+  - File Converter
+---
+
+<style>
+  #main-div {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+  textarea {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+  }
+  button {
+    margin: 10px 0;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #3e8e41;
+  }
+ .error-message {
+    color: #f00;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+</style>
+
+<div id="main-div">
+  <h1>CSV to JSON Converter Tool</h1><div class="header-section bg-light p-3 mb-3">
+  <p class="text-center">The CSV to JSON Converter Tool is a free online tool that allows users to convert Comma Separated Values (CSV) data into JavaScript Object Notation (JSON) format with ease. This tool is designed to simplify the process of data conversion, making it easy to work with JSON data in various applications, such as web development, data analysis, and file conversion. With its user-friendly interface and fast conversion capabilities, this tool is an essential resource for anyone working with CSV and JSON data.</p>
+</div>
+  <p>Convert your CSV data to JSON format with ease.</p>
+  <div class="mb-3">
+    <label for="csv-input" class="form-label">Paste your CSV data here:</label>
+    <textarea id="csv-input" class="form-control"></textarea>
+  </div>
+  <button id="convert-button" class="btn btn-primary">Convert to JSON</button>
+  <div class="mb-3">
+    <label for="json-output" class="form-label">JSON output:</label>
+    <textarea id="json-output" class="form-control" readonly></textarea>
+  </div>
+  <button id="download-button" class="btn btn-secondary">Download JSON file</button>
+  <div id="error-message" class="error-message"></div>
+</div>
+
+<div class="explanation-section p-3">
+  <h2>How it Works</h2>
+  <p>The CSV to JSON Converter Tool uses a simple formula to convert CSV data into JSON format. The formula involves parsing the CSV data into rows and columns, and then converting each row into a JSON object. The process can be broken down into the following steps:</p>
+  <ol>
+    <li>Split the CSV data into rows using the newline character as a delimiter.</li>
+    <li>Split each row into columns using the comma as a delimiter.</li>
+    <li>Use the first row as the header to create a JSON object for each subsequent row.</li>
+    <li>Populate the JSON object with the corresponding values from each column.</li>
+  </ol>
+  <h2>Example Use Cases</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>CSV Data</th>
+        <th>JSON Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>name,age<br>John,25<br>Jane,30</td>
+        <td>[{"name": "John", "age": "25"}, {"name": "Jane", "age": "30"}]</td>
+      </tr>
+      <tr>
+        <td>id,name,price<br>1,Product A,10.99<br>2,Product B,9.99</td>
+        <td>[{"id": "1", "name": "Product A", "price": "10.99"}, {"id": "2", "name": "Product B", "price": "9.99"}]</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-3">
+  <h2>10 Common Use Cases for the CSV to JSON Converter Tool</h2>
+  <ul>
+    <li><strong>Data analysis</strong>: Convert CSV data into JSON format for easier analysis and visualization.</li>
+    <li><strong>Web development</strong>: Use the tool to convert CSV data into JSON format for use in web applications.</li>
+    <li><strong>File conversion</strong>: Convert CSV files into JSON files for use in various applications.</li>
+    <li><strong>API integration</strong>: Convert CSV data into JSON format for integration with APIs that expect JSON data.</li>
+    <li><strong>Machine learning</strong>: Convert CSV data into JSON format for use in machine learning models.</li>
+    <li><strong>Data migration</strong>: Convert CSV data into JSON format for migration to new systems or applications.</li>
+    <li><strong>JSON validation</strong>: Use the tool to validate JSON data and ensure it conforms to the expected format.</li>
+    <li><strong>Data transformation</strong>: Convert CSV data into JSON format and perform transformations on the data as needed.</li>
+    <li><strong>Report generation</strong>: Use the tool to convert CSV data into JSON format and generate reports based on the data.</li>
+    <li><strong>Research and development</strong>: Convert CSV data into JSON format for research and development purposes.</li>
+  </ul>
+</div><script>
+  const csvInput = document.getElementById('csv-input');
+  const convertButton = document.getElementById('convert-button');
+  const jsonOutput = document.getElementById('json-output');
+  const downloadButton = document.getElementById('download-button');
+  const errorMessage = document.getElementById('error-message');
+
+  // Preload input field with query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    csvInput.value = startValue;
+  }
+
+  convertButton.addEventListener('click', () => {
+    const csvData = csvInput.value.trim();
+    if (!csvData) {
+      errorMessage.textContent = 'Please enter valid CSV data.';
+      return;
+    }
+
+    try {
+      const jsonData = csvToJson(csvData);
+      jsonOutput.value = JSON.stringify(jsonData, null, 2);
+      errorMessage.textContent = '';
+    } catch (error) {
+      errorMessage.textContent = 'Error converting CSV to JSON: ' + error.message;
+    }
+  });
+
+  downloadButton.addEventListener('click', () => {
+    const jsonData = jsonOutput.value;
+    if (!jsonData) {
+      errorMessage.textContent = 'Please convert CSV data first.';
+      return;
+    }
+
+    const blob = new Blob([jsonData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'output.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  function csvToJson(csvData) {
+    const rows = csvData.split('\n');
+    const headers = rows.shift().split(',');
+    const jsonData = [];
+
+    for (const row of rows) {
+      const obj = {};
+      const values = row.split(',');
+      for (let i = 0; i < headers.length; i++) {
+        obj[headers[i].trim()] = values[i].trim();
+      }
+      jsonData.push(obj);
+    }
+
+    return jsonData;
+  }
+</script>

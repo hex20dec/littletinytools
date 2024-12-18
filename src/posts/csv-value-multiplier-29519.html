@@ -1,0 +1,221 @@
+---
+title: CSV Value Multiplier Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - CSV Tool
+  - Data Analysis
+  - Bulk Multiplication
+  - Comma Separated Values
+  - Productivity App
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input[type="file"] {
+    margin-bottom: 1rem;
+  }
+  #main-div table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  #main-div th, #main-div td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    text-align: left;
+  }
+  #main-div th {
+    background-color: #333;
+    color: #ffffff;
+  }
+  #main-div button {
+    margin-top: 1rem;
+  }
+  #main-div.error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1>CSV Value Multiplier</h1><div class="header-section p-5 text-center">
+  <h1>Unlock Efficient Data Analysis with Our CSV Value Multiplier Tool</h1>
+  <p>Discover a powerful online utility designed to simplify and accelerate your data processing tasks by multiplying specific values in your Comma Separated Values (CSV) files with precision and ease, making it an indispensable asset for data analysts, researchers, and businesses alike seeking to streamline their workflow and enhance productivity.</p>
+</div>
+  <p>This tool allows you to multiply specific values in a CSV file by a specified factor.</p>
+  <form id="csv-form">
+    <div class="mb-3">
+      <label for="csv-file" class="form-label">Upload CSV file:</label>
+      <input type="file" id="csv-file" class="form-control" accept=".csv" required>
+    </div>
+    <div class="mb-3">
+      <label for="columns" class="form-label">Select columns to multiply:</label>
+      <select id="columns" class="form-select" multiple required>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="factor" class="form-label">Enter multiplication factor:</label>
+      <input type="number" id="factor" class="form-control" step="0.01" required>
+    </div>
+    <button type="submit" id="apply-button" class="btn btn-primary" disabled>Apply</button>
+  </form>
+  <div id="result" style="display: none;">
+    <h2>Result:</h2>
+    <table id="result-table">
+      <thead>
+        <tr>
+          <th>Column</th>
+          <th>Multiplied Value</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <button id="download-button" class="btn btn-success">Download CSV</button>
+  </div>
+  <div id="error-message" class="error-message" style="display: none;"></div>
+</div>
+
+<div class="explanation-section p-5">
+  <h2>How Our CSV Value Multiplier Works</h2>
+  <p>The multiplication process is straightforward: you select the CSV file you wish to modify, choose the columns that require value multiplication, and input the multiplication factor. Our tool then processes this information, multiplying the values in the selected columns by the specified factor, and presents the results in a clear, downloadable CSV format, following the formula: New Value = Original Value * Factor.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Original Value</th>
+        <th>Multiplication Factor</th>
+        <th>New Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>10</td>
+        <td>2</td>
+        <td>20</td>
+      </tr>
+      <tr>
+        <td>50</td>
+        <td>3</td>
+        <td>150</td>
+      </tr>
+      <tr>
+        <td>20</td>
+        <td>4</td>
+        <td>80</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5">
+  <h2>Top 10 Use Cases for Our CSV Value Multiplier Tool</h2>
+  <ol>
+    <li><strong>Data Scaling:</strong> Quickly adjust data values for modeling or analysis by scaling them up or down uniformly.</li>
+    <li><strong>Currency Conversion:</strong> Convert currency values in a dataset by multiplying them by the current exchange rate.</li>
+    <li><strong>Unit Conversion:</strong> Easily convert between different units of measurement for physical quantities like length, weight, or area.</li>
+    <li><strong>Price Adjustments:</strong> Apply discounts or markups to product prices in bulk by multiplying their current prices by a factor.</li>
+    <li><strong>Statistical Analysis:</strong> Normalize or standardize data for statistical analysis by multiplying values by a common factor.</li>
+    <li><strong>Financial Planning:</strong> Calculate future investment values or forecast revenues by applying growth factors to current data.</li>
+    <li><strong>Scientific Research:</strong> Adjust experimental data for controlled variables or convert between different scales of measurement.</li>
+    <li><strong>Marketing Analytics:</strong> Analyze customer purchasing power by adjusting sales data based on regional price indices.</li>
+    <li><strong>Education:</strong> Create tailored learning materials by scaling educational content to suit different age groups or learning levels.</li>
+    <li><strong>Business Intelligence:</strong> Enhance decision-making by quickly adjusting business metrics like sales, revenue, or customer engagement in real-time.</li>
+  </ol>
+</div><script>
+  const csvForm = document.getElementById('csv-form');
+  const csvFileInput = document.getElementById('csv-file');
+  const columnsSelect = document.getElementById('columns');
+  const factorInput = document.getElementById('factor');
+  const applyButton = document.getElementById('apply-button');
+  const resultDiv = document.getElementById('result');
+  const resultTable = document.getElementById('result-table');
+  const downloadButton = document.getElementById('download-button');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  csvForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    applyButton.disabled = true;
+    const csvFile = csvFileInput.files[0];
+    const columns = Array.from(columnsSelect.selectedOptions).map((option) => option.value);
+    const factor = parseFloat(factorInput.value);
+    if (isNaN(factor)) {
+      errorMessageDiv.innerText = 'Invalid multiplication factor';
+      errorMessageDiv.style.display = 'block';
+      applyButton.disabled = false;
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const csvData = reader.result;
+      const rows = csvData.split('\n');
+      const headers = rows[0].split(',');
+      const data = rows.slice(1).map((row) => row.split(','));
+      const multipliedData = data.map((row) => {
+        return row.map((cell, index) => {
+          if (columns.includes(headers[index])) {
+            return parseFloat(cell) * factor;
+          }
+          return cell;
+        });
+      });
+      resultTable.tBodies[0].innerHTML = '';
+      multipliedData.forEach((row) => {
+        const rowElement = document.createElement('tr');
+        row.forEach((cell) => {
+          const cellElement = document.createElement('td');
+          cellElement.innerText = cell;
+          rowElement.appendChild(cellElement);
+        });
+        resultTable.tBodies[0].appendChild(rowElement);
+      });
+      resultDiv.style.display = 'block';
+      downloadButton.addEventListener('click', () => {
+        const csvContent = headers.join(',') + '\n' + multipliedData.map((row) => row.join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'multiplied_data.csv';
+        link.click();
+      });
+    };
+    reader.readAsText(csvFile);
+    applyButton.disabled = false;
+  });
+
+  csvFileInput.addEventListener('change', () => {
+    const csvFile = csvFileInput.files[0];
+    if (!csvFile) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const csvData = reader.result;
+      const rows = csvData.split('\n');
+      const headers = rows[0].split(',');
+      columnsSelect.innerHTML = '';
+      headers.forEach((header) => {
+        const option = document.createElement('option');
+        option.value = header;
+        option.text = header;
+        columnsSelect.appendChild(option);
+      });
+      applyButton.disabled = false;
+    };
+    reader.readAsText(csvFile);
+  });
+
+  factorInput.addEventListener('input', () => {
+    const factor = parseFloat(factorInput.value);
+    if (isNaN(factor)) {
+      applyButton.disabled = true;
+    } else {
+      applyButton.disabled = false;
+    }
+  });
+
+  if (window.location.search.includes('start=')) {
+    const startValue = window.location.search.split('start=')[1];
+    factorInput.value = startValue;
+  }
+</script>

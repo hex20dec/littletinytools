@@ -1,0 +1,199 @@
+---
+title: Temperature Comparison Memory Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Temperature Comparison
+  - Kelvin Converter
+  - Science Tool
+  - Temperature Calculator
+  - Scientific Application
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+ .result-message {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+</style>
+
+<div id="main-div">
+  <header class="mb-3">
+    <h1 class="text-center">Temperature Comparison Memory Tool (Kelvin)</h1><div class="header-section p-5 text-center bg-primary text-white">
+    <p class="lead">The Temperature Comparison Memory Tool is a web-based application designed to compare temperatures in Kelvin, providing users with a straightforward way to determine which temperature is higher, lower, or equal. This tool is particularly useful for scientists, researchers, and students who need to perform temperature comparisons as part of their work or studies. By utilizing this tool, users can easily input two temperature values and receive a clear comparison result, making it an indispensable resource for anyone working with temperature measurements.</p>
+</div>
+  </header>
+  <main>
+    <section class="mb-3">
+      <h2 class="mb-2">Input Temperatures</h2>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label for="temperature1" class="form-label">Temperature 1 (Kelvin)</label>
+          <input type="number" id="temperature1" class="form-control" value="" placeholder="Enter temperature in Kelvin">
+        </div>
+        <div class="col-md-6">
+          <label for="temperature2" class="form-label">Temperature 2 (Kelvin)</label>
+          <input type="number" id="temperature2" class="form-control" placeholder="Enter temperature in Kelvin">
+        </div>
+      </div>
+      <button id="compare-button" class="btn btn-primary mt-3">Compare</button>
+    </section>
+    <section class="mb-3">
+      <h2 class="mb-2">Comparison Result</h2>
+      <p id="result-message" class="result-message"></p>
+    </section>
+    <section class="mb-3">
+      <h2 class="mb-2">Stored Temperatures</h2>
+      <ul id="stored-temperatures" class="list-group">
+      </ul>
+      <button id="add-button" class="btn btn-success mt-3">Add to Storage</button>
+    </section>
+  </main>
+  <footer class="mt-3">
+    <p class="text-center">&copy; 2023 Temperature Comparison Memory Tool</p>
+  </footer>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-3">How the Tool Works</h2>
+    <p>The Temperature Comparison Memory Tool uses a simple formula to compare two temperature values: if temperature 1 is greater than temperature 2, then temperature 1 is higher; if temperature 1 is less than temperature 2, then temperature 1 is lower; if temperature 1 is equal to temperature 2, then the temperatures are equal. This comparison is performed using the following formula: comparison result = temperature 1 - temperature 2.</p>
+    <h2 class="mb-3">Example Use Cases</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Temperature 1 (K)</th>
+                <th>Temperature 2 (K)</th>
+                <th>Comparison Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>300</td>
+                <td>200</td>
+                <td>300 K is higher than 200 K</td>
+            </tr>
+            <tr>
+                <td>100</td>
+                <td>300</td>
+                <td>100 K is lower than 300 K</td>
+            </tr>
+            <tr>
+                <td>250</td>
+                <td>250</td>
+                <td>250 K is equal to 250 K</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-3">Common Use Cases for the Temperature Comparison Memory Tool</h2>
+    <ol>
+        <li>Comparing temperatures in scientific experiments to determine the effect of temperature on a particular phenomenon.</li>
+        <li>Converting temperatures between different units, such as Celsius to Kelvin or Fahrenheit to Kelvin.</li>
+        <li>Storing and retrieving temperature data for later analysis or comparison.</li>
+        <li>Determining the temperature difference between two locations or objects.</li>
+        <li>Calculating the average temperature of multiple data points.</li>
+        <li>Comparing temperature readings from different sensors or instruments.</li>
+        <li>Tracking temperature changes over time to identify trends or patterns.</li>
+        <li>Validating temperature data against a set of predefined criteria or thresholds.</li>
+        <li>Generating reports or graphs of temperature data for presentation or publication.</li>
+        <li>Integrating temperature data with other types of data, such as humidity or pressure, to gain a more comprehensive understanding of a system or process.</li>
+    </ol>
+</div><script>
+  const temperature1Input = document.getElementById('temperature1');
+  const temperature2Input = document.getElementById('temperature2');
+  const compareButton = document.getElementById('compare-button');
+  const resultMessage = document.getElementById('result-message');
+  const storedTemperaturesList = document.getElementById('stored-temperatures');
+  const addButton = document.getElementById('add-button');
+  const storedTemperatures = [];
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    temperature1Input.value = startValue;
+  }
+
+  compareButton.addEventListener('click', compareTemperatures);
+  addButton.addEventListener('click', addTemperatureToStorage);
+
+  function compareTemperatures() {
+    const temperature1 = parseFloat(temperature1Input.value);
+    const temperature2 = parseFloat(temperature2Input.value);
+
+    if (isNaN(temperature1) || isNaN(temperature2)) {
+      resultMessage.textContent = 'Please enter valid temperature values.';
+      return;
+    }
+
+    if (temperature1 > temperature2) {
+      resultMessage.textContent = `${temperature1} K is higher than ${temperature2} K`;
+    } else if (temperature1 < temperature2) {
+      resultMessage.textContent = `${temperature1} K is lower than ${temperature2} K`;
+    } else {
+      resultMessage.textContent = `${temperature1} K is equal to ${temperature2} K`;
+    }
+  }
+
+  function addTemperatureToStorage() {
+    const temperature1 = parseFloat(temperature1Input.value);
+    const temperature2 = parseFloat(temperature2Input.value);
+
+    if (isNaN(temperature1) || isNaN(temperature2)) {
+      resultMessage.textContent = 'Please enter valid temperature values.';
+      return;
+    }
+
+    const temperatureObject = {
+      temperature1: temperature1,
+      temperature2: temperature2
+    };
+
+    storedTemperatures.push(temperatureObject);
+    renderStoredTemperatures();
+  }
+
+  function renderStoredTemperatures() {
+    storedTemperaturesList.innerHTML = '';
+    storedTemperatures.forEach((temperature, index) => {
+      const list_item = document.createElement('li');
+      list_item.textContent = `Temperature 1: ${temperature.temperature1} K, Temperature 2: ${temperature.temperature2} K`;
+      list_item.classList.add('list-group-item');
+      const editButton = document.createElement('button');
+      editButton.textContent = 'Edit';
+      editButton.classList.add('btn', 'btn-sm', 'btn-primary');
+      editButton.addEventListener('click', () => editTemperature(index));
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.classList.add('btn', 'btn-sm', 'btn-danger');
+      deleteButton.addEventListener('click', () => deleteTemperature(index));
+      list_item.appendChild(editButton);
+      list_item.appendChild(deleteButton);
+      storedTemperaturesList.appendChild(list_item);
+    });
+  }
+
+  function editTemperature(index) {
+    const temperature1 = parseFloat(temperature1Input.value);
+    const temperature2 = parseFloat(temperature2Input.value);
+
+    if (isNaN(temperature1) || isNaN(temperature2)) {
+      resultMessage.textContent = 'Please enter valid temperature values.';
+      return;
+    }
+
+    storedTemperatures[index] = {
+      temperature1: temperature1,
+      temperature2: temperature2
+    };
+    renderStoredTemperatures();
+  }
+
+  function deleteTemperature(index) {
+    storedTemperatures.splice(index, 1);
+    renderStoredTemperatures();
+  }
+</script>

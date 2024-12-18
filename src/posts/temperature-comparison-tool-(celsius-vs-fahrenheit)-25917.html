@@ -1,0 +1,151 @@
+---
+title: Temperature Conversion Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Temperature Conversion
+  - Celsius to Fahrenheit
+  - Fahrenheit to Celsius
+  - Unit Conversion
+  - Temperature Calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center mt-5 mb-5">Temperature Comparison Tool</h1><div class="header-section pb-5">
+  <p class="text-center fs-5">The Temperature Conversion Tool is a free online calculator that allows users to convert temperatures from Celsius to Fahrenheit and vice versa. This tool is designed to provide accurate and quick conversions, making it a valuable resource for individuals in various fields such as science, engineering, and cooking. With its user-friendly interface and ability to perform instant conversions, this tool is perfect for anyone looking to effortlessly switch between Celsius and Fahrenheit temperature scales, making it an essential tool for everyday use and professional applications alike.</p>
+</div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="input-group mb-3">
+          <input id="celsius-input" type="number" class="form-control" placeholder="Celsius" aria-label="Celsius" aria-describedby="celsius-button">
+          <button id="celsius-button" class="btn btn-primary" type="button">Convert to Fahrenheit</button>
+        </div>
+        <div class="input-group mb-3">
+          <input id="fahrenheit-input" type="number" class="form-control" placeholder="Fahrenheit" aria-label="Fahrenheit" aria-describedby="fahrenheit-button">
+          <button id="fahrenheit-button" class="btn btn-primary" type="button">Convert to Celsius</button>
+        </div>
+        <div id="result" class="alert alert-primary" role="alert"></div>
+        <div id="error-message" class="error-message"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section pb-5">
+  <h2 class="text-center mb-3">How it Works</h2>
+  <p class="text-center fs-5">The Temperature Conversion Tool uses a simple formula to convert temperatures between Celsius and Fahrenheit. The formula is as follows: to convert Celsius to Fahrenheit, multiply the Celsius temperature by 9/5 and then add 32. To convert Fahrenheit to Celsius, subtract 32 from the Fahrenheit temperature and then multiply by 5/9. This formula is applied instantly when you enter a temperature value and click the conversion button, providing you with an accurate and rapid conversion.</p>
+  <table class="table table-striped table-bordered text-center">
+    <thead>
+      <tr>
+        <th>Celsius</th>
+        <th>Fahrenheit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0°C</td>
+        <td>32°F</td>
+      </tr>
+      <tr>
+        <td>10°C</td>
+        <td>50°F</td>
+      </tr>
+      <tr>
+        <td>20°C</td>
+        <td>68°F</td>
+      </tr>
+      <tr>
+        <td>30°C</td>
+        <td>86°F</td>
+      </tr>
+      <tr>
+        <td>40°C</td>
+        <td>104°F</td>
+      </tr>
+      <tr>
+        <td>50°C</td>
+        <td>122°F</td>
+      </tr>
+      <tr>
+        <td>60°C</td>
+        <td>140°F</td>
+      </tr>
+      <tr>
+        <td>70°C</td>
+        <td>158°F</td>
+      </tr>
+      <tr>
+        <td>80°C</td>
+        <td>176°F</td>
+      </tr>
+      <tr>
+        <td>90°C</td>
+        <td>194°F</td>
+      </tr>
+      <tr>
+        <td>100°C</td>
+        <td>212°F</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section pb-5">
+  <h2 class="text-center mb-3">Common Use Cases</h2>
+  <ul class="list-group text-center">
+    <li class="list-group-item">Cooking and baking, where precise temperature control is crucial</li>
+    <li class="list-group-item">Science experiments and research, where accurate temperature measurements are necessary</li>
+    <li class="list-group-item">Weather forecasting, where temperature conversions are essential for predicting weather patterns</li>
+    <li class="list-group-item">Engineering and construction, where temperature conversions are necessary for designing and building structures</li>
+    <li class="list-group-item">Medical applications, where precise temperature control is critical for patient care and treatment</li>
+    <li class="list-group-item">Travel and tourism, where understanding temperature differences between countries and regions is important</li>
+    <li class="list-group-item">Education and training, where temperature conversions are taught as part of science and math curricula</li>
+    <li class="list-group-item">Food safety and storage, where temperature control is essential for preventing food spoilage and contamination</li>
+    <li class="list-group-item">HVAC and climate control, where temperature conversions are necessary for designing and optimizing heating and cooling systems</li>
+    <li class="list-group-item">Aerospace and aviation, where precise temperature control is critical for ensuring the safety and performance of aircraft and spacecraft</li>
+  </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  const celsiusInput = document.getElementById('celsius-input');
+  const fahrenheitInput = document.getElementById('fahrenheit-input');
+  const celsiusButton = document.getElementById('celsius-button');
+  const fahrenheitButton = document.getElementById('fahrenheit-button');
+  const resultDiv = document.getElementById('result');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  if (startValue) {
+    celsiusInput.value = startValue;
+  }
+
+  celsiusButton.addEventListener('click', () => {
+    const celsiusValue = parseFloat(celsiusInput.value);
+    if (isNaN(celsiusValue)) {
+      errorMessageDiv.innerText = 'Please enter a valid temperature';
+      return;
+    }
+    const fahrenheitValue = (celsiusValue * 9/5) + 32;
+    resultDiv.innerText = `${celsiusValue}°C is equal to ${fahrenheitValue}°F`;
+    errorMessageDiv.innerText = '';
+  });
+
+  fahrenheitButton.addEventListener('click', () => {
+    const fahrenheitValue = parseFloat(fahrenheitInput.value);
+    if (isNaN(fahrenheitValue)) {
+      errorMessageDiv.innerText = 'Please enter a valid temperature';
+      return;
+    }
+    const celsiusValue = (fahrenheitValue - 32) * 5/9;
+    resultDiv.innerText = `${fahrenheitValue}°F is equal to ${celsiusValue}°C`;
+    errorMessageDiv.innerText = '';
+  });
+</script>

@@ -1,0 +1,187 @@
+---
+title: Temperature Sum Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Temperature Calculator
+  - Celsius Converter
+  - Math Tool
+  - Research Assistant
+  - Science Calculator
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  input[type="number"] {
+    width: 100%;
+    height: 2rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+  }
+  button {
+    width: 100%;
+    height: 2rem;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #3e8e41;
+  }
+ .error-message {
+    color: #f00;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="mb-3">Temperature Sum Calculator (Celsius)</h1><div class="container mt-5">
+  <p class="fs-4">The Temperature Sum Calculator is a user-friendly online tool designed to calculate the total temperature sum from multiple temperature inputs in Celsius. It's a versatile calculator that can be used in various scientific, educational, and everyday applications where temperature calculations are required, providing an accurate and efficient way to sum temperatures.</p>
+</div>
+  <div class="input-section mb-3">
+    <div id="temperature-inputs">
+      <label for="temperature-1">Temperature 1</label>
+      <input type="number" id="temperature-1" value="">
+    </div>
+    <button id="add-temperature-btn" class="mb-3">Add Temperature</button>
+  </div>
+  <div class="calculation-section mb-3">
+    <label for="total-temperature">Total Temperature</label>
+    <input type="number" id="total-temperature" readonly>
+  </div>
+  <div class="control-section mb-3">
+    <button id="calculate-btn" class="mb-2">Calculate</button>
+    <button id="reset-btn">Reset</button>
+  </div>
+  <div id="error-message" class="error-message"></div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="mb-3">How it Works</h2>
+  <p class="fs-5">The Temperature Sum Calculator works by taking multiple temperature inputs in Celsius, adding them together, and then displaying the total sum. This can be represented by the simple formula: Total Temperature = Temperature 1 + Temperature 2 +... + Temperature N, where N is the number of temperature inputs.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Temperature Input 1 (°C)</th>
+        <th>Temperature Input 2 (°C)</th>
+        <th>Total Temperature (°C)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>10</td>
+        <td>20</td>
+        <td>30</td>
+      </tr>
+      <tr>
+        <td>15</td>
+        <td>25</td>
+        <td>40</td>
+      </tr>
+      <tr>
+        <td>20</td>
+        <td>30</td>
+        <td>50</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="mb-3">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Calculating the average temperature of different locations over time.</li>
+    <li class="list-group-item">Determining the total temperature change in a scientific experiment.</li>
+    <li class="list-group-item">Converting a series of Fahrenheit temperatures to Celsius and summing them.</li>
+    <li class="list-group-item">Calculating the total heat energy transferred in a system.</li>
+    <li class="list-group-item">Analyzing temperature trends in weather forecasting.</li>
+    <li class="list-group-item">Engineering applications such as calculating the total temperature of a mixture of substances.</li>
+    <li class="list-group-item">Educational purposes to teach students about temperature and its calculations.</li>
+    <li class="list-group-item">Research in fields like biology, chemistry, and physics where temperature is a critical factor.</li>
+    <li class="list-group-item">Quality control in industries where temperature-sensitive products are manufactured.</li>
+    <li class="list-group-item">Environmental monitoring to track temperature changes in ecosystems.</li>
+  </ul>
+</div><script>
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const startValue = urlParams.get('start');
+
+  const mainDiv = document.getElementById('main-div');
+  const temperatureInputsDiv = document.getElementById('temperature-inputs');
+  const addTemperatureBtn = document.getElementById('add-temperature-btn');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resetBtn = document.getElementById('reset-btn');
+  const totalTemperatureInput = document.getElementById('total-temperature');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  let temperatureInputs = [];
+  let totalTemperature = 0;
+
+  if (startValue) {
+    const firstInput = document.getElementById('temperature-1');
+    firstInput.value = startValue;
+    temperatureInputs.push(firstInput);
+  }
+
+  addTemperatureBtn.addEventListener('click', () => {
+    const newInput = document.createElement('input');
+    newInput.type = 'number';
+    newInput.id = `temperature-${temperatureInputs.length + 1}`;
+    newInput.className = 'mb-3';
+    const newLabel = document.createElement('label');
+    newLabel.htmlFor = newInput.id;
+    newLabel.textContent = `Temperature ${temperatureInputs.length + 1}`;
+    temperatureInputsDiv.appendChild(newLabel);
+    temperatureInputsDiv.appendChild(newInput);
+    temperatureInputs.push(newInput);
+  });
+
+  calculateBtn.addEventListener('click', () => {
+    totalTemperature = 0;
+    let isValid = true;
+    temperatureInputs.forEach(input => {
+      const value = parseFloat(input.value);
+      if (isNaN(value)) {
+        isValid = false;
+        errorMessageDiv.textContent = 'Please enter a valid temperature';
+      } else {
+        totalTemperature += value;
+      }
+    });
+    if (isValid) {
+      totalTemperatureInput.value = totalTemperature;
+      errorMessageDiv.textContent = '';
+    }
+  });
+
+  resetBtn.addEventListener('click', () => {
+    temperatureInputs.forEach(input => {
+      input.value = '';
+    });
+    totalTemperatureInput.value = '';
+    temperatureInputs = [];
+    temperatureInputsDiv.innerHTML = '<label for="temperature-1">Temperature 1</label><input type="number" id="temperature-1" value="">';
+    const firstInput = document.getElementById('temperature-1');
+    temperatureInputs.push(firstInput);
+    errorMessageDiv.textContent = '';
+  });
+
+  // Accessibility features
+  mainDiv.tabIndex = 0;
+  mainDiv.addEventListener('keydown', event => {
+    if (event.key === 'Enter') {
+      calculateBtn.click();
+    }
+  });
+</script>

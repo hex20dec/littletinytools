@@ -1,0 +1,191 @@
+---
+title: CSV Column Uppercaser
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 14:30:00
+tags:
+  - CSV Converter
+  - Data Analysis
+  - Uppercase Converter
+  - CSV Editor
+  - Data Manipulation
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+ .invalid-feedback {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <h1 class="text-center">CSV Column Uppercaser</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-12 text-center">
+      <p class="lead">The CSV Column Uppercaser is a user-friendly web tool designed to convert specific columns within a CSV file to uppercase. With its intuitive interface, users can easily upload their CSV files, select the desired column for conversion, and obtain the modified data in a readable format. This tool simplifies data manipulation tasks, making it an essential resource for data analysts, researchers, and professionals who work extensively with CSV files.</p>
+    </div>
+  </div>
+</div>
+        <form id="csv-form">
+          <div class="mb-3">
+            <label for="csv-file" class="form-label">Upload CSV File:</label>
+            <input type="file" id="csv-file" name="csv-file" class="form-control" accept=".csv" required>
+            <div class="invalid-feedback">Please select a valid CSV file.</div>
+          </div>
+          <div class="mb-3">
+            <label for="column-select" class="form-label">Select Column to Uppercase:</label>
+            <select id="column-select" name="column-select" class="form-select" required>
+              <option value="" selected disabled>Select a column...</option>
+            </select>
+            <div class="invalid-feedback">Please select a valid column.</div>
+          </div>
+          <button type="submit" class="btn btn-primary">Convert to Uppercase</button>
+        </form>
+        <div class="mb-3">
+          <label for="output-text" class="form-label">Converted CSV Data:</label>
+          <textarea id="output-text" name="output-text" class="form-control" rows="10" readonly></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <h2>How it Works</h2>
+      <p>The CSV Column Uppercaser employs a straightforward formula to achieve the desired outcome: it reads the uploaded CSV file, identifies the selected column, and applies a conversion process to transform the text within that column to uppercase. This process can be broken down into the following steps:</p>
+      <ol>
+        <li>Data Input: Upload a CSV file to the tool.</li>
+        <li>Column Selection: Choose the column that requires uppercase conversion.</li>
+        <li>Conversion Process: The tool reads the selected column, converts the text to uppercase, and generates the modified data.</li>
+        <li>Output: The converted data is displayed in a readable format for easy reference or further processing.</li>
+      </ol>
+      <h2>Example Use Cases</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Column Name</th>
+            <th>Original Text</th>
+            <th>Uppercase Text</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Name</td>
+            <td>John Doe</td>
+            <td>JOHN DOE</td>
+          </tr>
+          <tr>
+            <td>City</td>
+            <td>New York</td>
+            <td>NEW YORK</td>
+          </tr>
+          <tr>
+            <td>Country</td>
+            <td>United States</td>
+            <td>UNITED STATES</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <h2>Common Use Cases</h2>
+      <ol>
+        <li><strong>Data Standardization:</strong> Converting column data to uppercase for consistency and easier comparison.</li>
+        <li><strong>Data Cleaning:</strong> Removing case sensitivity issues in CSV data to improve analysis and processing.</li>
+        <li><strong>Text Analysis:</strong> Preparing text data for analysis by converting it to a uniform case.</li>
+        <li><strong>Machine Learning:</strong> Preprocessing data for machine learning models that require consistent case formatting.</li>
+        <li><strong>Research:</strong> Converting data to uppercase for research purposes, such as data comparison and trend analysis.</li>
+        <li><strong>Data Migration:</strong> Converting data to uppercase during migration to a new system or database.</li>
+        <li><strong>Data Integration:</strong> Integrating data from different sources with consistent case formatting.</li>
+        <li><strong>Compliance:</strong> Ensuring data compliance with regulatory requirements that specify case formatting.</li>
+        <li><strong>Automation:</strong> Automating data processing tasks by converting data to uppercase.</li>
+        <li><strong>Reporting:</strong> Generating reports with consistent case formatting for better readability and understanding.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  const form = document.getElementById('csv-form');
+  const csvFileInput = document.getElementById('csv-file');
+  const columnSelect = document.getElementById('column-select');
+  const outputText = document.getElementById('output-text');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const csvFile = csvFileInput.files[0];
+    if (!csvFile) {
+      csvFileInput.setCustomValidity('Please select a valid CSV file.');
+      csvFileInput.reportValidity();
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const csvData = reader.result;
+      const columns = parseCSV(csvData).columns;
+      populateColumnSelect(columns);
+    };
+    reader.readAsText(csvFile);
+  });
+
+  function parseCSV(csvData) {
+    const rows = csvData.split('\n');
+    const columns = rows[0].split(',');
+    const data = rows.slice(1).map((row) => row.split(','));
+    return { columns, data };
+  }
+
+  function populateColumnSelect(columns) {
+    columnSelect.innerHTML = '';
+    columns.forEach((column) => {
+      const option = document.createElement('option');
+      option.value = column;
+      option.text = column;
+      columnSelect.appendChild(option);
+    });
+    columnSelect.disabled = false;
+  }
+
+  columnSelect.addEventListener('change', async () => {
+    const selectedColumn = columnSelect.value;
+    const csvFile = csvFileInput.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      const csvData = reader.result;
+      const { columns, data } = parseCSV(csvData);
+      const columnIndex = columns.indexOf(selectedColumn);
+      data.forEach((row) => {
+        row[columnIndex] = row[columnIndex].toUpperCase();
+      });
+      const uppercasedData = data.map((row) => row.join(',')).join('\n');
+      outputText.value = uppercasedData;
+    };
+    reader.readAsText(csvFile);
+  });
+
+  function getParameterByName(name) {
+    const url = new URL(window.location.href);
+    const param = url.searchParams.get(name);
+    return param;
+  }
+
+  const startParam = getParameterByName('start');
+  if (startParam) {
+    csvFileInput.value = startParam;
+  }
+</script>

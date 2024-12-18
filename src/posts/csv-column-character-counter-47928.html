@@ -1,0 +1,149 @@
+---
+title: CSV Column Character Counter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 14:30:00
+tags:
+  - CSV tools
+  - data analysis
+  - character counter
+  - csv processor
+  - data visualization
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div table {
+    margin-top: 1rem;
+  }
+  #main-div th, #main-div td {
+    padding: 0.5rem;
+    text-align: left;
+  }
+  #main-div th {
+    background-color: #333;
+  }
+  #main-div td {
+    background-color: #444;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1>CSV Column Character Counter</h1><div class="header-section bg-light p-5 mb-5">
+  <p class="lead">The CSV Column Character Counter is a web-based tool designed to help data analysts and researchers efficiently count the characters in each column of a CSV file. This tool is particularly useful for data visualization, data analysis, and CSV processing, as it provides a quick and easy way to understand the character distribution within a dataset. With its user-friendly interface, the CSV Column Character Counter is an essential tool for anyone working with CSV files, enabling them to make informed decisions and optimize their data processing workflows.</p>
+</div>
+  <label for="csv-data">Paste your CSV data here</label>
+  <textarea id="csv-data" class="form-control" rows="10" placeholder="Paste your CSV data here"></textarea>
+  <button id="count-characters" class="btn btn-primary float-end mt-2">Count Characters</button>
+  <div id="result" class="table-responsive mt-5"></div>
+  <div id="error" class="alert alert-danger mt-2" role="alert"></div>
+</div>
+
+<div class="explanation-section bg-light p-5 mb-5">
+  <h2>How it Works</h2>
+  <p class="lead">The CSV Column Character Counter uses a simple yet effective formula to calculate the character count for each column in the CSV file. The formula works by iterating through each row of the CSV file, splitting the row into individual columns, and then counting the characters in each column. The maximum character count for each column is then calculated and displayed in a table, providing a clear and concise overview of the character distribution within the dataset.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Column Name</th>
+        <th>Character Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Example Column 1</td>
+        <td>50</td>
+      </tr>
+      <tr>
+        <td>Example Column 2</td>
+        <td>100</td>
+      </tr>
+      <tr>
+        <td>Example Column 3</td>
+        <td>200</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section bg-light p-5 mb-5">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Data visualization: Use the CSV Column Character Counter to optimize data visualization by understanding the character distribution within a dataset.</li>
+    <li class="list-group-item">Data analysis: Utilize the tool to analyze large datasets and identify trends and patterns in character counts.</li>
+    <li class="list-group-item">CSV processing: The CSV Column Character Counter is an essential tool for CSV processing, enabling users to efficiently count characters and optimize data processing workflows.</li>
+    <li class="list-group-item">Research: Researchers can use the tool to analyze and understand the character distribution within large datasets, making informed decisions and optimizing research workflows.</li>
+    <li class="list-group-item">Data cleaning: The CSV Column Character Counter can be used to identify and clean data by detecting and removing unnecessary characters.</li>
+    <li class="list-group-item">Data transformation: Use the tool to transform data by converting character counts into other formats, such as numerical values.</li>
+    <li class="list-group-item">Quality control: The CSV Column Character Counter can be used to quality control datasets by detecting and correcting errors in character counts.</li>
+    <li class="list-group-item">Data integration: The tool can be used to integrate data from multiple sources by standardizing character counts and formats.</li>
+    <li class="list-group-item">Business intelligence: The CSV Column Character Counter can be used in business intelligence to analyze and understand customer data, optimizing marketing and sales strategies.</li>
+    <li class="list-group-item">Machine learning: The tool can be used in machine learning to preprocess data and optimize model performance by understanding character distribution within datasets.</li>
+  </ul>
+</div><script>
+  const csvDataInput = document.getElementById('csv-data');
+  const countCharactersButton = document.getElementById('count-characters');
+  const resultDiv = document.getElementById('result');
+  const errorDiv = document.getElementById('error');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    csvDataInput.value = startValue;
+  }
+
+  countCharactersButton.addEventListener('click', () => {
+    const csvData = csvDataInput.value.trim();
+    if (!csvData) {
+      errorDiv.textContent = 'Please paste your CSV data.';
+      errorDiv.classList.remove('d-none');
+      return;
+    }
+
+    try {
+      const csvRows = csvData.split('\n');
+      const columnNames = csvRows.shift().split(',');
+      const characterCounts = [];
+
+      columnNames.forEach((columnName, index) => {
+        let maxCharacters = 0;
+        csvRows.forEach((row) => {
+          const columnValue = row.split(',')[index];
+          if (columnValue.length > maxCharacters) {
+            maxCharacters = columnValue.length;
+          }
+        });
+        characterCounts.push({ columnName, characterCount: maxCharacters });
+      });
+
+      const tableHtml = `
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Column Name</th>
+              <th>Character Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${characterCounts.map((characterCount) => `
+              <tr>
+                <td>${characterCount.columnName}</td>
+                <td>${characterCount.characterCount}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+
+      resultDiv.innerHTML = tableHtml;
+      errorDiv.classList.add('d-none');
+    } catch (error) {
+      errorDiv.textContent = 'Error processing CSV data.';
+      errorDiv.classList.remove('d-none');
+    }
+  });
+</script>

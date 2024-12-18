@@ -1,0 +1,110 @@
+---
+title: CSV to Bulleted List Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - CSV Converter
+  - Bulleted List
+  - Text Formatter
+  - Productivity Tool
+  - Online Converter
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+ .form-control {
+    margin-bottom: 1rem;
+  }
+  #bulleted-list {
+    padding: 1rem;
+    border: 1px solid #cccccc;
+  }
+</style>
+
+<div id="main-div">
+  <h1>CSV to Bulleted List Converter</h1><div class="container mt-5">
+  <p class="text-center fs-5">The CSV to Bulleted List Converter is a free online tool that helps you convert comma-separated values (CSV) into a neatly formatted bulleted list. This tool is perfect for anyone looking to quickly and easily reformat their CSV data into a more readable and visually appealing format, making it ideal for use in documents, presentations, and web pages. With its simple and intuitive interface, you can easily paste your CSV data, click the convert button, and have a beautifully formatted bulleted list in seconds.</p>
+</div>
+  <label class="form-label" for="csv-data">Enter CSV data</label>
+  <textarea class="form-control" id="csv-data" rows="5" placeholder="Item 1, Item 2, Item 3"></textarea>
+  <button class="btn btn-primary" id="convert-button">Convert to Bulleted List</button>
+  <label class="form-label" for="bulleted-list">Bulleted List</label>
+  <textarea class="form-control" id="bulleted-list" rows="5" readonly></textarea>
+  <p id="error-message" style="color: #ff0000;"></p>
+</div>
+
+<div class="container mt-5">
+  <h2>How it Works</h2>
+  <p>The CSV to Bulleted List Converter uses a simple formula to convert your CSV data into a bulleted list. It works by splitting the input string into individual items using the comma as a delimiter, and then wrapping each item in a list item (li) tag. This process can be represented by the following formula: Bulleted List = [Item 1, Item 2,..., Item n] → [<li>Item 1</li>, <li>Item 2</li>,..., <li>Item n</li>].</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>CSV Input</th>
+        <th>Bulleted List Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Item 1, Item 2, Item 3</td>
+        <td><ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul></td>
+      </tr>
+      <tr>
+        <td>Apple, Banana, Orange</td>
+        <td><ul><li>Apple</li><li>Banana</li><li>Orange</li></ul></td>
+      </tr>
+      <tr>
+        <td>Car, Bike, Train</td>
+        <td><ul><li>Car</li><li>Bike</li><li>Train</li></ul></td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2>Common Use Cases</h2>
+  <ul>
+    <li><strong>Content creation</strong>: Use the CSV to Bulleted List Converter to quickly format lists of items for blog posts, articles, and social media content.</li>
+    <li><strong>Document formatting</strong>: Convert CSV data into bulleted lists for use in Microsoft Word, Google Docs, and other word processing software.</li>
+    <li><strong>Presentations</strong>: Use the converter to create visually appealing bulleted lists for PowerPoint, Google Slides, and other presentation software.</li>
+    <li><strong>Web development</strong>: Convert CSV data into bulleted lists for use in HTML, CSS, and JavaScript projects.</li>
+    <li><strong>Data analysis</strong>: Use the converter to quickly format large datasets for analysis and visualization.</li>
+    <li><strong>Product listings</strong>: Convert CSV data into bulleted lists for use in e-commerce product descriptions and listings.</li>
+    <li><strong>Recipe formatting</strong>: Use the converter to create neatly formatted ingredient lists and instructions for recipes.</li>
+    <li><strong>Event planning</strong>: Convert CSV data into bulleted lists for use in event planning documents, such as guest lists and agendas.</li>
+    <li><strong>Education</strong>: Use the converter to create formatted lists for educational materials, such as textbooks and study guides.</li>
+    <li><strong>Personal productivity</strong>: Convert CSV data into bulleted lists for use in to-do lists, shopping lists, and other personal productivity tools.</li>
+  </ul>
+</div><script>
+  const csvData = document.getElementById('csv-data');
+  const convertButton = document.getElementById('convert-button');
+  const bulletedList = document.getElementById('bulleted-list');
+  const errorMessage = document.getElementById('error-message');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    csvData.value = startValue;
+  }
+
+  convertButton.addEventListener('click', () => {
+    const csvValue = csvData.value.trim();
+    if (csvValue === '') {
+      errorMessage.textContent = 'Please enter CSV data';
+      return;
+    }
+
+    try {
+      const items = csvValue.split(',').map(item => item.trim());
+      const bulletedListValue = items.map(item => `<li>${item}</li>`).join('');
+      bulletedList.value = `<ul>${bulletedListValue}</ul>`;
+      errorMessage.textContent = '';
+    } catch (error) {
+      errorMessage.textContent = 'Error converting CSV data';
+    }
+  });
+</script>

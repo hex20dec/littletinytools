@@ -1,0 +1,147 @@
+---
+title: Average Temperature Calculator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - Temperature Calculator
+  - Average Temperature
+  - Celsius Converter
+  - Weather Tools
+  - Math Calculators
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input, #main-div button {
+    margin-bottom: 1rem;
+  }
+  #main-div.alert {
+    padding: 0.5rem;
+  }
+  #main-div.error {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-3">Average Temperature Calculator</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="lead">The Average Temperature Calculator is a user-friendly tool designed to simplify the process of calculating the average temperature from a set of given temperatures in Celsius. With its intuitive interface, users can easily input multiple temperatures, separated by commas or spaces, and instantly obtain the average temperature. This calculator is particularly useful for meteorologists, researchers, and individuals who need to analyze temperature data. By providing a straightforward and efficient way to calculate average temperatures, this tool helps users to better understand and work with temperature-related data.</p>
+    </div>
+  </div>
+</div>
+  <label for="temperatures">Enter temperatures in Celsius (separated by commas or spaces):</label>
+  <input type="text" id="temperatures" class="form-control" aria-label="Temperatures">
+  <button id="calculate-btn" class="btn btn-primary">Calculate Average Temperature</button>
+  <div id="result" class="alert alert-success" role="alert"></div>
+  <div id="error" class="error"></div>
+  <div id="count"></div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2>How it Works</h2>
+      <p>The Average Temperature Calculator uses a simple formula to calculate the average temperature: Average Temperature = (Sum of all temperatures) / (Number of temperatures). This formula ensures that the calculator provides accurate results, taking into account all the input temperatures.</p>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Temperatures (°C)</th>
+            <th>Average Temperature (°C)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>10, 20, 30</td>
+            <td>20.00</td>
+          </tr>
+          <tr>
+            <td>5, 15, 25</td>
+            <td>15.00</td>
+          </tr>
+          <tr>
+            <td>0, 10, 20, 30</td>
+            <td>15.00</td>
+          </tr>
+          <tr>
+            <td>-5, 5, 15</td>
+            <td>5.00</td>
+          </tr>
+          <tr>
+            <td>20, 25, 30, 35</td>
+            <td>27.50</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2>10 Common Use Cases for the Average Temperature Calculator</h2>
+      <ul>
+        <li><strong>Weather Forecasting</strong>: Calculate the average temperature for a given day or week to provide accurate weather forecasts.</li>
+        <li><strong>Climate Research</strong>: Analyze temperature data from different regions to understand climate patterns and trends.</li>
+        <li><strong>Agricultural Planning</strong>: Determine the average temperature for a specific area to optimize crop growth and development.</li>
+        <li><strong>Energy Consumption</strong>: Calculate the average temperature to estimate energy consumption and optimize heating and cooling systems.</li>
+        <li><strong>Health and Wellness</strong>: Monitor average temperatures to prevent heat-related illnesses and promote public health.</li>
+        <li><strong>Building Design</strong>: Use average temperature data to design energy-efficient buildings and optimize HVAC systems.</li>
+        <li><strong>Transportation Planning</strong>: Calculate the average temperature to optimize routes and schedules for transportation systems.</li>
+        <li><strong>Emergency Response</strong>: Use average temperature data to respond to heat-related emergencies and promote public safety.</li>
+        <li><strong>Environmental Monitoring</strong>: Monitor average temperatures to track environmental changes and promote sustainability.</li>
+        <li><strong>Scientific Research</strong>: Analyze average temperature data to understand complex scientific phenomena and promote new discoveries.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  const temperaturesInput = document.getElementById('temperatures');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resultDiv = document.getElementById('result');
+  const errorDiv = document.getElementById('error');
+  const countDiv = document.getElementById('count');
+
+  // Preload input field with query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    temperaturesInput.value = startValue;
+  }
+
+  calculateBtn.addEventListener('click', calculateAverageTemperature);
+
+  function calculateAverageTemperature() {
+    const temperatures = temperaturesInput.value.trim().split(/[\s,]+/);
+    const validTemperatures = [];
+
+    // Validate input temperatures
+    for (const temperature of temperatures) {
+      const numTemperature = parseFloat(temperature);
+      if (!isNaN(numTemperature) && numTemperature >= -273.15) {
+        validTemperatures.push(numTemperature);
+      }
+    }
+
+    if (validTemperatures.length === 0) {
+      errorDiv.innerText = 'Please enter valid temperature values.';
+      resultDiv.innerText = '';
+      countDiv.innerText = '';
+      return;
+    }
+
+    // Calculate average temperature
+    const sum = validTemperatures.reduce((a, b) => a + b, 0);
+    const average = sum / validTemperatures.length;
+
+    // Display result
+    resultDiv.innerText = `Average temperature: ${average.toFixed(2)}°C`;
+    countDiv.innerText = `Total temperatures: ${validTemperatures.length}`;
+    errorDiv.innerText = '';
+  }
+</script>

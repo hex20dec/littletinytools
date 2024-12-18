@@ -1,0 +1,170 @@
+---
+title: Temperature Addition Memory Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 10:00:00
+tags:
+  - Temperature Calculator
+  - Kelvin Converter
+  - Science Tool
+  - Research Assistant
+  - Temperature Tracker
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div input[type="number"] {
+    width: 100%;
+    height: 2.5rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+  }
+  #main-div button {
+    width: 100%;
+    height: 2.5rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #0069d9;
+  }
+  #main-div ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  #main-div li {
+    margin-bottom: 0.5rem;
+  }
+  #main-div.total-temperature {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
+  }
+</style>
+
+<div id="main-div" class="container mt-5 pt-5">
+  <h1 class="text-center mb-5">Temperature Addition Memory Tool (Kelvin)</h1><div class="container mt-5 pt-5">
+  <p class="text-center mb-5">The Temperature Addition Memory Tool is a user-friendly calculator designed to accumulate temperature values in Kelvin, providing a running total and a list of previously entered values. This tool is ideal for scientists, researchers, and students who need to track and calculate temperature readings in various applications, including physics, chemistry, and engineering. With its simple and intuitive interface, users can easily add temperature values, clear the list, and view the total temperature, making it an essential resource for anyone working with temperature measurements.</p>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <label for="temperature" class="form-label">Enter Temperature (K)</label>
+      <input type="number" id="temperature" class="form-control" value="">
+      <button id="add-temperature" class="btn btn-primary">Add Temperature</button>
+      <button id="clear-list" class="btn btn-secondary">Clear List</button>
+      <ul id="temperature-list" class="list-group mt-3"></ul>
+      <p id="total-temperature" class="total-temperature">Total Temperature: 0 K</p>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5 pt-5">
+  <h2 class="text-center mb-5">How it Works</h2>
+  <p>The Temperature Addition Memory Tool uses a basic formula to calculate the total temperature: Total Temperature = Σ (Temperature Values). This formula simply adds up all the temperature values entered by the user, providing a running total.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Temperature Value (K)</th>
+        <th>Total Temperature (K)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>10</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>20</td>
+        <td>30</td>
+      </tr>
+      <tr>
+        <td>30</td>
+        <td>60</td>
+      </tr>
+      <tr>
+        <td>40</td>
+        <td>100</td>
+      </tr>
+      <tr>
+        <td>50</td>
+        <td>150</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>This table illustrates how the tool calculates the total temperature by adding up each temperature value entered by the user.</p>
+</div><div class="container mt-5 pt-5">
+  <h2 class="text-center mb-5">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Tracking temperature readings in a laboratory setting</li>
+    <li class="list-group-item">Calculating the total temperature of a system in a physics or engineering application</li>
+    <li class="list-group-item">Monitoring temperature changes in a chemical reaction</li>
+    <li class="list-group-item">Recording temperature data for climate or weather research</li>
+    <li class="list-group-item">Analyzing temperature trends in a manufacturing process</li>
+    <li class="list-group-item">Converting temperature values between different units (e.g., Celsius to Kelvin)</li>
+    <li class="list-group-item">Calculating the average temperature of a set of readings</li>
+    <li class="list-group-item">Identifying temperature anomalies or outliers in a dataset</li>
+    <li class="list-group-item">Simulating temperature-related phenomena in a computational model</li>
+    <li class="list-group-item">Creating a temperature log for quality control or regulatory purposes</li>
+  </ul>
+</div><script>
+  const temperatureInput = document.getElementById('temperature');
+  const addTemperatureButton = document.getElementById('add-temperature');
+  const clearListButton = document.getElementById('clear-list');
+  const temperatureList = document.getElementById('temperature-list');
+  const totalTemperatureElement = document.getElementById('total-temperature');
+  let totalTemperature = 0;
+  let temperatureValues = [];
+
+  // Preload input field with query parameter value
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    temperatureInput.value = startValue;
+  }
+
+  addTemperatureButton.addEventListener('click', () => {
+    const temperatureValue = parseFloat(temperatureInput.value);
+    if (isNaN(temperatureValue) || temperatureValue < 0) {
+      alert('Please enter a valid temperature value in Kelvin.');
+      return;
+    }
+    temperatureValues.push(temperatureValue);
+    totalTemperature += temperatureValue;
+    updateTemperatureList();
+    updateTotalTemperature();
+    temperatureInput.value = '';
+  });
+
+  clearListButton.addEventListener('click', () => {
+    temperatureValues = [];
+    totalTemperature = 0;
+    updateTemperatureList();
+    updateTotalTemperature();
+  });
+
+  function updateTemperatureList() {
+    temperatureList.innerHTML = '';
+    temperatureValues.forEach((temperature, index) => {
+      const listItem = document.createElement('li');
+      listItem.textContent = `Temperature ${index + 1}: ${temperature} K`;
+      temperatureList.appendChild(listItem);
+    });
+  }
+
+  function updateTotalTemperature() {
+    totalTemperatureElement.textContent = `Total Temperature: ${totalTemperature.toFixed(2)} K`;
+  }
+</script>

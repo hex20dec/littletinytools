@@ -1,0 +1,156 @@
+---
+title: CSV Value Replacer Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - CSV Editor
+  - Data Analysis
+  - Spreadsheet Alternative
+  - CSV Value Replacement
+  - Data Management
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+ .form-control {
+    margin-bottom: 1rem;
+  }
+ .btn {
+    margin-bottom: 1rem;
+  }
+  #updated-csv-data {
+    resize: vertical;
+    min-height: 100px;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="mb-3">CSV Value Replacer Tool</h1><div class="container mt-5 mb-5">
+    <p class="fs-5 text-center">The CSV Value Replacer Tool is a powerful online utility designed to simplify the process of replacing specific values within Comma Separated Values (CSV) files. This tool is particularly useful for data management and analysis tasks, where modifying data directly within a spreadsheet can be cumbersome. By leveraging the capabilities of this tool, users can efficiently replace values across their CSV data, streamlining data preparation and editing processes, making it an indispensable resource for professionals and individuals alike who work with CSV files regularly.</p>
+</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <label for="csv-data">CSV Data:</label>
+        <textarea class="form-control" id="csv-data" placeholder="Paste your CSV data here..."></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="value-to-replace">Value to Replace:</label>
+        <input type="text" class="form-control" id="value-to-replace" value="<?php echo $_GET['start'];?>">
+      </div>
+      <div class="col-md-6">
+        <label for="replacement-value">Replacement Value:</label>
+        <input type="text" class="form-control" id="replacement-value">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <button class="btn btn-primary" id="replace-values-btn">Replace Values</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label for="updated-csv-data">Updated CSV Data:</label>
+        <textarea class="form-control" id="updated-csv-data" readonly></textarea>
+        <button class="btn btn-secondary" id="download-btn">Download</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5 mb-5">
+    <h2>How It Works</h2>
+    <p class="fs-5">The CSV Value Replacer Tool operates based on a straightforward yet powerful principle. It utilizes a text replacement algorithm that seeks out all occurrences of a specified value within a given CSV dataset and replaces them with a user-defined new value. This process can be understood through a simple formula:</p>
+    <p class="fs-5">Updated CSV Data = Original CSV Data with all occurrences of [Value to Replace] changed to [Replacement Value]</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Original Value</th>
+                <th>Value to Replace</th>
+                <th>Replacement Value</th>
+                <th>Updated Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>apple,banana,orange</td>
+                <td>banana</td>
+                <td>mango</td>
+                <td>apple,mango,orange</td>
+            </tr>
+            <tr>
+                <td>dog,cat,mouse</td>
+                <td>cat</td>
+                <td>bird</td>
+                <td>dog,bird,mouse</td>
+            </tr>
+            <tr>
+                <td>car,bike,train</td>
+                <td>bike</td>
+                <td>boat</td>
+                <td>car,boat,train</td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="fs-5">This table illustrates a few examples of how the replacement process works, demonstrating the tool's ability to efficiently update CSV data based on user input.</p>
+</div><div class="container mt-5 mb-5">
+    <h2>Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Data Cleaning: Replace incorrect or outdated information in CSV files to ensure data accuracy.</li>
+        <li class="list-group-item">Data Standardization: Standardize formatting across different datasets by replacing inconsistent values.</li>
+        <li class="list-group-item">Product Information Updates: Update product names, descriptions, or prices in e-commerce CSV files.</li>
+        <li class="list-group-item">Contact List Management: Replace old with new contact information in CSV files used for marketing or outreach purposes.</li>
+        <li class="list-group-item">Geographic Data Updates: Update city names, postal codes, or country names to reflect changes or corrections.</li>
+        <li class="list-group-item">Replacing Placeholder Values: Replace placeholder or temporary values with actual data in CSV files.</li>
+        <li class="list-group-item">Merge and Update: Merge data from different sources and replace conflicting information with unified values.</li>
+        <li class="list-group-item">Automating Repetitive Tasks: Automate the replacement of frequently updated values to save time and reduce manual effort.</li>
+        <li class="list-group-item">Preparing Data for Analysis: Replace values that could interfere with data analysis, such as missing or malformed data points.</li>
+        <li class="list-group-item">Compliance and Security: Replace sensitive information with anonymized or encrypted data to comply with data protection regulations.</li>
+    </ul>
+</div><script>
+  const csvDataEl = document.getElementById('csv-data');
+  const valueToReplaceEl = document.getElementById('value-to-replace');
+  const replacementValueEl = document.getElementById('replacement-value');
+  const replaceValuesBtnEl = document.getElementById('replace-values-btn');
+  const updatedCsvDataEl = document.getElementById('updated-csv-data');
+  const downloadBtnEl = document.getElementById('download-btn');
+
+  replaceValuesBtnEl.addEventListener('click', () => {
+    const csvData = csvDataEl.value;
+    const valueToReplace = valueToReplaceEl.value;
+    const replacementValue = replacementValueEl.value;
+
+    if (!csvData ||!valueToReplace ||!replacementValue) {
+      alert('Please fill in all fields.');
+      return;
+    }
+
+    const updatedCsvData = csvData.replace(new RegExp(valueToReplace, 'g'), replacementValue);
+    updatedCsvDataEl.value = updatedCsvData;
+  });
+
+  downloadBtnEl.addEventListener('click', () => {
+    const updatedCsvData = updatedCsvDataEl.value;
+    const blob = new Blob([updatedCsvData], { type: 'text/csv' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'updated_csv_data.csv';
+    link.click();
+  });
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    valueToReplaceEl.value = startValue;
+  }
+</script>

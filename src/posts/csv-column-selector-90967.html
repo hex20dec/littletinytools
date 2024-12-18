@@ -1,0 +1,192 @@
+---
+title: CSV Column Selector Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 14:30:00
+tags:
+  - CSV Tool
+  - Data Analysis
+  - Column Selector
+  - CSV Editor
+  - Data Management
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center mt-5">CSV Column Selector Tool</h1><div class="container mt-5">
+  <p class="text-center fs-5">The CSV Column Selector Tool is a web-based application designed to help users easily upload, select, and export specific columns from a CSV file. This tool is perfect for data analysts, researchers, and anyone working with large datasets who need to efficiently manage and manipulate their data. With its intuitive interface and robust functionality, the CSV Column Selector Tool simplifies the process of extracting and exporting relevant data, saving users time and increasing productivity.</p>
+</div>
+  <form class="mx-auto mt-5" style="max-width: 500px;">
+    <div class="mb-3">
+      <label for="csvFile" class="form-label">Upload CSV File</label>
+      <input type="file" id="csvFile" class="form-control" accept=".csv">
+    </div>
+    <div class="mb-3">
+      <div class="form-check">
+        <input type="checkbox" id="selectAll" class="form-check-input">
+        <label for="selectAll" class="form-check-label">Select All</label>
+      </div>
+      <div id="columnList" class="mb-3"></div>
+      <button type="button" id="generateCsv" class="btn btn-primary">Generate CSV</button>
+    </div>
+    <div class="mb-3">
+      <label for="preview" class="form-label">Preview</label>
+      <textarea id="preview" class="form-control" rows="5" readonly></textarea>
+    </div>
+    <div id="error" class="error-message mb-3"></div>
+  </form>
+</div>
+
+<div class="container mt-5">
+  <h2 class="mb-3">How it Works</h2>
+  <p>The CSV Column Selector Tool uses a simple, formula-based approach to select and export columns from a CSV file. The formula is as follows: <strong>Selected Columns = User Input (Column Selection) + Original CSV Data</strong>. This means that the tool takes the user's column selection as input, applies it to the original CSV data, and generates a new CSV file containing only the selected columns.</p>
+  <table class="table table-striped mt-3">
+    <thead>
+      <tr>
+        <th>Original CSV Data</th>
+        <th>Selected Columns</th>
+        <th>Exported CSV Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Name, Age, City</td>
+        <td>Name, Age</td>
+        <td>Name, Age</td>
+      </tr>
+      <tr>
+        <td>John, 25, New York</td>
+        <td>John, 25</td>
+        <td>John, 25</td>
+      </tr>
+      <tr>
+        <td>Jane, 30, London</td>
+        <td>Jane, 30</td>
+        <td>Jane, 30</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="mb-3">Common Use Cases</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Data cleaning and preprocessing: Use the CSV Column Selector Tool to remove unnecessary columns and prepare your data for analysis.</li>
+    <li class="list-group-item">Data visualization: Select specific columns to create targeted visualizations and gain insights into your data.</li>
+    <li class="list-group-item">Machine learning model training: Choose relevant columns to train and test machine learning models.</li>
+    <li class="list-group-item">Data integration: Use the tool to select and export columns that match the schema of other datasets for integration.</li>
+    <li class="list-group-item">Data anonymization: Remove sensitive columns to anonymize your data and protect user privacy.</li>
+    <li class="list-group-item">Research and analysis: Select specific columns to focus on specific research questions and hypotheses.</li>
+    <li class="list-group-item">Business intelligence: Use the tool to create targeted reports and dashboards by selecting relevant columns.</li>
+    <li class="list-group-item">Data migration: Select and export columns to migrate data to new systems or databases.</li>
+    <li class="list-group-item">Data archiving: Remove unnecessary columns to reduce storage space and improve data management.</li>
+    <li class="list-group-item">Compliance and regulatory requirements: Use the tool to select and export columns that meet specific regulatory requirements.</li>
+  </ol>
+</div><script>
+  const csvFileInput = document.getElementById('csvFile');
+  const selectAllCheckbox = document.getElementById('selectAll');
+  const columnListDiv = document.getElementById('columnList');
+  const generateCsvButton = document.getElementById('generateCsv');
+  const previewTextArea = document.getElementById('preview');
+  const errorDiv = document.getElementById('error');
+
+  let columns = [];
+  let selectedColumns = [];
+
+  csvFileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file || file.type!== 'text/csv') {
+      errorDiv.innerText = 'Please upload a valid CSV file.';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const csvData = event.target.result;
+      const csvRows = csvData.split('\n');
+      const headerRow = csvRows.shift().split(',');
+      columns = headerRow.map((column) => ({ name: column, selected: false }));
+      selectedColumns = [...columns];
+
+      columnListDiv.innerHTML = '';
+      columns.forEach((column, index) => {
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = `column-${index}`;
+        checkbox.checked = column.selected;
+        checkbox.addEventListener('change', (e) => {
+          column.selected = e.target.checked;
+          selectedColumns = columns.filter((column) => column.selected);
+          updatePreview();
+        });
+
+        const label = document.createElement('label');
+        label.htmlFor = `column-${index}`;
+        label.innerText = column.name;
+
+        const div = document.createElement('div');
+        div.classList.add('form-check');
+        div.appendChild(checkbox);
+        div.appendChild(label);
+
+        columnListDiv.appendChild(div);
+      });
+
+      selectAllCheckbox.addEventListener('change', (e) => {
+        columns.forEach((column) => {
+          column.selected = e.target.checked;
+          const checkbox = document.getElementById(`column-${columns.indexOf(column)}`);
+          checkbox.checked = e.target.checked;
+        });
+        selectedColumns = columns.filter((column) => column.selected);
+        updatePreview();
+      });
+
+      updatePreview();
+    };
+    reader.readAsText(file);
+  });
+
+  generateCsvButton.addEventListener('click', () => {
+    if (selectedColumns.length === 0) {
+      errorDiv.innerText = 'Please select at least one column.';
+      return;
+    }
+
+    const csvRows = [];
+    const headerRow = selectedColumns.map((column) => column.name);
+    csvRows.push(headerRow.join(','));
+
+    // Assuming csvData is the original CSV data
+    const csvData = csvFileInput.files[0];
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const csvText = event.target.result;
+      const csvArray = csvText.split('\n').map((row) => row.split(','));
+      csvArray.forEach((row) => {
+        const newRow = selectedColumns.map((column) => row[columns.indexOf(column)]);
+        csvRows.push(newRow.join(','));
+      });
+
+      const blob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${csvFileInput.files[0].name}_selected_columns.csv`;
+      a.click();
+    };
+    reader.readAsText(csvData);
+  });
+
+  function updatePreview() {
+    const previewText = selectedColumns.map((column) => column.name).join(',');
+    previewTextArea.value = previewText + '\n';
+    // Add more rows to the preview based on the original CSV data
+  }
+</script>

@@ -1,0 +1,179 @@
+---
+title: CSV Column Padding App
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 14:30:00
+tags:
+  - CSV Column Padding
+  - Data Analysis
+  - CSV Tools
+  - Data Formatting
+  - Text Processing
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+  #main-div.form-control {
+    margin-bottom: 1rem;
+  }
+  #main-div.btn {
+    margin-bottom: 1rem;
+  }
+  #main-div textarea {
+    resize: vertical;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="mb-4">CSV Column Padding App</h1><div class="header-section p-5 text-center">
+    <h1>CSV Column Padding App: Simplify Your Data Formatting</h1>
+    <p>Discover the ultimate solution for efficiently padding columns in your CSV data with ease, ensuring consistent formatting and improved readability for data analysis and processing purposes, utilizing a user-friendly interface and robust functionality to streamline your workflow.</p>
+</div>
+  <p class="mb-3">Paste your CSV data here and add padding to columns with ease.</p>
+  <div class="row">
+    <div class="col-md-12 mb-3">
+      <label for="csv-data" class="form-label">CSV Data:</label>
+      <textarea id="csv-data" class="form-control" rows="10" placeholder="Paste your CSV data here"></textarea>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label for="delimiter" class="form-label">Delimiter:</label>
+      <select id="delimiter" class="form-select">
+        <option value=",">Comma (,)</option>
+        <option value=";">Semicolon (;)</option>
+        <option value="\t">Tab (\t)</option>
+      </select>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="padding-char" class="form-label">Padding Character:</label>
+      <input type="text" id="padding-char" class="form-control" value=" " placeholder="Enter padding character">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label for="min-width" class="form-label">Minimum Column Width:</label>
+      <input type="number" id="min-width" class="form-control" value="10" placeholder="Enter minimum column width">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 mb-3">
+      <button id="add-padding-btn" class="btn btn-primary">Add Padding</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 mb-3">
+      <label for="padded-csv-data" class="form-label">Padded CSV Data:</label>
+      <textarea id="padded-csv-data" class="form-control" rows="10" readonly></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2>How it Works</h2>
+    <p>The CSV Column Padding App uses a straightforward approach to pad columns in your CSV data. The formula can be explained as follows: 
+        For each column in the CSV data, the app determines the minimum width required based on user input. It then pads each cell in the column with a specified character until it reaches the minimum width, ensuring that all cells in the column have a uniform width.
+    </p>
+    <h3>Example Use Cases</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Input CSV Data</th>
+                <th>Delimiter</th>
+                <th>Padding Character</th>
+                <th>Minimum Column Width</th>
+                <th>Output CSV Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>name,age</td>
+                <td>Comma (,)</td>
+                <td>Space</td>
+                <td>10</td>
+                <td>name    ,age    </td>
+            </tr>
+            <tr>
+                <td>John,25</td>
+                <td>Comma (,)</td>
+                <td>Space</td>
+                <td>10</td>
+                <td>John    ,25    </td>
+            </tr>
+            <tr>
+                <td>Jane,30</td>
+                <td>Comma (,)</td>
+                <td>Space</td>
+                <td>10</td>
+                <td>Jane    ,30    </td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2>Top 10 Use Cases for the CSV Column Padding App</h2>
+    <ol>
+        <li><strong>Data Analysis</strong>: Pad columns to ensure consistent formatting for easier data analysis and processing.</li>
+        <li><strong>Report Generation</strong>: Use the app to format CSV data for reports, making it easier to read and understand.</li>
+        <li><strong>Data Import/Export</strong>: Pad columns to ensure compatibility with different systems and software that require specific formatting.</li>
+        <li><strong>Text Processing</strong>: Utilize the app for text processing tasks, such as padding columns in CSV data for further processing.</li>
+        <li><strong>CSV Data Cleaning</strong>: Clean and format CSV data by padding columns to remove inconsistencies and improve data quality.</li>
+        <li><strong>Data Visualization</strong>: Prepare CSV data for visualization by padding columns, making it easier to create charts and graphs.</li>
+        <li><strong>Machine Learning</strong>: Format CSV data for machine learning models by padding columns to ensure consistent input data.</li>
+        <li><strong>Data Science</strong>: Use the app to format CSV data for data science applications, such as data mining and predictive analytics.</li>
+        <li><strong>Business Intelligence</strong>: Pad columns in CSV data to create consistent and readable reports for business intelligence purposes.</li>
+        <li><strong>Academic Research</strong>: Utilize the app to format CSV data for academic research, ensuring consistent formatting and improved readability.</li>
+    </ol>
+</div><script>
+  const csvDataTextarea = document.getElementById('csv-data');
+  const delimiterSelect = document.getElementById('delimiter');
+  const paddingCharInput = document.getElementById('padding-char');
+  const minWidthInput = document.getElementById('min-width');
+  const addPaddingBtn = document.getElementById('add-padding-btn');
+  const paddedCsvDataTextarea = document.getElementById('padded-csv-data');
+
+  addPaddingBtn.addEventListener('click', addPadding);
+
+  function addPadding() {
+    const csvData = csvDataTextarea.value.trim();
+    const delimiter = delimiterSelect.value;
+    const paddingChar = paddingCharInput.value;
+    const minWidth = parseInt(minWidthInput.value);
+
+    if (!csvData ||!delimiter ||!paddingChar ||!minWidth) {
+      alert('Please fill in all fields');
+      return;
+    }
+
+    const rows = csvData.split('\n');
+    const paddedRows = [];
+
+    for (let i = 0; i < rows.length; i++) {
+      const columns = rows[i].split(delimiter);
+      const paddedColumns = [];
+
+      for (let j = 0; j < columns.length; j++) {
+        const column = columns[j];
+        const paddedColumn = column.padEnd(minWidth, paddingChar);
+        paddedColumns.push(paddedColumn);
+      }
+
+      const paddedRow = paddedColumns.join(delimiter);
+      paddedRows.push(paddedRow);
+    }
+
+    const paddedCsvData = paddedRows.join('\n');
+    paddedCsvDataTextarea.value = paddedCsvData;
+  }
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    csvDataTextarea.value = startValue;
+  }
+</script>

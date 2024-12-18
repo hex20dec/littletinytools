@@ -1,0 +1,187 @@
+---
+title: CSV Email Column Validator
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-06-15 14:30:00
+tags:
+  - CSV Validator
+  - Email Validator
+  - Data Validation
+  - CSV Email Checker
+  - Email Validation Tool
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  #main-div h1 {
+    color: #fff;
+  }
+ .invalid-email {
+    color: #dc3545;
+  }
+ .valid-email {
+    color: #28a745;
+  }
+</style>
+
+<div id="main-div">
+  <header class="mb-4">
+    <h1 class="text-white">CSV Email Column Validator</h1><div class="header-section p-5 bg-primary text-white text-center">
+    <p class="lead">The CSV Email Column Validator is a powerful online tool designed to help users validate email addresses within CSV files. It allows users to upload their CSV files, select the column containing email addresses, and then validates each email address using a sophisticated algorithm. This tool is essential for businesses, marketers, and individuals who need to verify the accuracy of their email lists, ensuring that their communications reach the intended recipients. With its user-friendly interface and fast validation process, the CSV Email Column Validator is an indispensable resource for anyone looking to maintain the integrity of their email marketing campaigns.</p>
+</div>
+  </header>
+  <main class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <form>
+          <div class="mb-3">
+            <label for="csvFile" class="form-label text-white">Upload CSV file:</label>
+            <input type="file" id="csvFile" class="form-control" accept=".csv">
+          </div>
+          <div class="mb-3">
+            <label for="columnSelector" class="form-label text-white">Select column with email addresses:</label>
+            <select id="columnSelector" class="form-select">
+              <option value="">Select column</option>
+            </select>
+          </div>
+          <button type="button" id="validateButton" class="btn btn-primary">Validate</button>
+        </form>
+        <div id="results" class="mt-4">
+          <h2 class="text-white">Validation results:</h2>
+          <p id="totalEmails" class="text-white">Total email addresses: <span>0</span></p>
+          <p id="validEmails" class="text-white">Valid email addresses: <span>0</span></p>
+          <p id="invalidEmails" class="text-white">Invalid email addresses: <span>0</span></p>
+          <table id="emailTable" class="table table-striped table-dark">
+            <thead>
+              <tr>
+                <th scope="col">Email address</th>
+                <th scope="col">Validation status</th>
+              </tr>
+            </thead>
+            <tbody id="emailTableBody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="explanation-section p-5 bg-light">
+    <h2 class="mb-3">How it Works</h2>
+    <p class="lead">The CSV Email Column Validator uses a combination of techniques to verify the validity of email addresses. The process involves the following steps:</p>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Upload a CSV file: Users can upload their CSV files to the tool, which will then parse the data and make it available for validation.</li>
+        <li class="list-group-item">Select the email column: Users select the column within the CSV file that contains the email addresses they wish to validate.</li>
+        <li class="list-group-item">Validation: The tool applies a sophisticated validation algorithm to each email address, checking for proper formatting and syntax.</li>
+    </ul>
+    <h3 class="mt-4 mb-3">Example Use Cases</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Email Address</th>
+                <th scope="col">Validation Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>example@example.com</td>
+                <td>Valid</td>
+            </tr>
+            <tr>
+                <td>invalid_email</td>
+                <td>Invalid</td>
+            </tr>
+            <tr>
+                <td>another@example.com</td>
+                <td>Valid</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5 bg-primary text-white">
+    <h2 class="mb-3">Common Use Cases for the CSV Email Column Validator</h2>
+    <ol class="list-group list-group-flush">
+        <li class="list-group-item bg-light text-dark">Email marketing campaigns: Validate email lists before sending campaigns to ensure high deliverability rates.</li>
+        <li class="list-group-item bg-light text-dark">Lead generation: Verify email addresses collected from lead generation forms to prevent false or invalid leads.</li>
+        <li class="list-group-item bg-light text-dark">Customer database maintenance: Regularly clean and validate customer email addresses to maintain a healthy and accurate database.</li>
+        <li class="list-group-item bg-light text-dark">Data entry validation: Validate email addresses entered by users or employees to prevent typos or incorrect formatting.</li>
+        <li class="list-group-item bg-light text-dark">Email list cleaning: Remove invalid or bounced email addresses from lists to improve overall email marketing performance.</li>
+        <li class="list-group-item bg-light text-dark">Research and surveys: Validate email addresses collected from research participants or survey respondents to ensure accuracy and reliability.</li>
+        <li class="list-group-item bg-light text-dark">CRM data validation: Validate email addresses stored in CRM systems to ensure data accuracy and prevent errors.</li>
+        <li class="list-group-item bg-light text-dark">Transactional email validation: Validate email addresses used for transactional emails, such as password reset or account notifications.</li>
+        <li class="list-group-item bg-light text-dark">Abandoned cart emails: Validate email addresses associated with abandoned cart emails to recover lost sales and revenue.</li>
+        <li class="list-group-item bg-light text-dark">Welcome email validation: Validate email addresses used for welcome emails to ensure new customers receive important information and offers.</li>
+    </ol>
+</div><script>
+  const csvFileInput = document.getElementById('csvFile');
+  const columnSelector = document.getElementById('columnSelector');
+  const validateButton = document.getElementById('validateButton');
+  const resultsDiv = document.getElementById('results');
+  const emailTableBody = document.getElementById('emailTableBody');
+  const totalEmailsSpan = document.getElementById('totalEmails').querySelector('span');
+  const validEmailsSpan = document.getElementById('validEmails').querySelector('span');
+  const invalidEmailsSpan = document.getElementById('invalidEmails').querySelector('span');
+
+  let csvData = [];
+
+  csvFileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const csvText = event.target.result;
+        csvData = csvText.split('\n').map((row) => row.split(','));
+        const columnNames = csvData[0];
+        columnSelector.innerHTML = '';
+        columnNames.forEach((columnName, index) => {
+          const option = document.createElement('option');
+          option.value = index;
+          option.text = columnName;
+          columnSelector.appendChild(option);
+        });
+      };
+      reader.readAsText(file);
+    }
+  });
+
+  validateButton.addEventListener('click', () => {
+    if (csvData.length === 0) {
+      alert('Please upload a CSV file first.');
+      return;
+    }
+    const selectedColumnIndex = columnSelector.value;
+    if (selectedColumnIndex === '') {
+      alert('Please select a column first.');
+      return;
+    }
+    const emailAddresses = csvData.slice(1).map((row) => row[selectedColumnIndex]);
+    const validationResults = emailAddresses.map((email) => {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return emailRegex.test(email)? 'valid' : 'invalid';
+    });
+    const totalEmails = emailAddresses.length;
+    const validEmails = validationResults.filter((result) => result === 'valid').length;
+    const invalidEmails = validationResults.filter((result) => result === 'invalid').length;
+    totalEmailsSpan.textContent = totalEmails;
+    validEmailsSpan.textContent = validEmails;
+    invalidEmailsSpan.textContent = invalidEmails;
+    emailTableBody.innerHTML = '';
+    emailAddresses.forEach((email, index) => {
+      const row = document.createElement('tr');
+      const emailCell = document.createElement('td');
+      const statusCell = document.createElement('td');
+      emailCell.textContent = email;
+      statusCell.textContent = validationResults[index] === 'valid'? 'Valid' : 'Invalid';
+      if (validationResults[index] === 'invalid') {
+        statusCell.classList.add('invalid-email');
+      } else {
+        statusCell.classList.add('valid-email');
+      }
+      row.appendChild(emailCell);
+      row.appendChild(statusCell);
+      emailTableBody.appendChild(row);
+    });
+  });
+</script>

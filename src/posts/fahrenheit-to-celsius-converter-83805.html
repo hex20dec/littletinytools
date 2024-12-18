@@ -1,0 +1,167 @@
+---
+title: Fahrenheit to Celsius Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-20 14:00:00
+tags:
+  - Temperature Converter
+  - Fahrenheit to Celsius
+  - Unit Conversion
+  - Temperature Calculator
+  - Conversion Tool
+---
+
+<style>
+  #main-div {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  #main-div input[type="number"] {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  #main-div button {
+    width: 100%;
+    height: 40px;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+  #main-div.alert {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  #main-div.alert-danger {
+    background-color: #f2dede;
+    border-color: #eed3d7;
+    color: #b94a48;
+  }
+  #main-div.alert-success {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #468847;
+  }
+</style>
+
+<div id="main-div">
+  <h1>Fahrenheit to Celsius Converter</h1><div class="header-section p-5 text-center bg-light">
+    <p class="lead">The Fahrenheit to Celsius Converter is an online tool designed to simplify temperature conversions from Fahrenheit to Celsius. It is a free and easy-to-use calculator that provides accurate results, making it an essential resource for various fields such as science, engineering, and everyday applications. This converter uses a straightforward formula to calculate the Celsius equivalent of a given Fahrenheit temperature, providing users with a fast and reliable way to perform temperature conversions.</p>
+</div>
+  <form>
+    <label for="fahrenheit">Fahrenheit:</label>
+    <input type="number" id="fahrenheit" class="form-control" placeholder="Enter temperature in °F" value[]>
+    <button type="button" class="btn btn-primary" onclick="convertTemperature()">Convert to Celsius</button>
+    <label for="celsius">Celsius:</label>
+    <input type="number" id="celsius" class="form-control" placeholder="Temperature in °C" readonly>
+    <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+    <div id="success-message" class="alert alert-success" style="display: none;"></div>
+  </form>
+</div>
+
+<div class="explanation-section px-5 py-3">
+    <h2>How it Works</h2>
+    <p>The conversion process involves a simple formula: <b>Celsius = (Fahrenheit - 32) * 5/9</b>. This formula takes the Fahrenheit temperature as input, subtracts 32, multiplies the result by 5, and then divides it by 9 to obtain the equivalent temperature in Celsius.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Fahrenheit</th>
+                <th>Celsius</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>32</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>100</td>
+                <td>37.78</td>
+            </tr>
+            <tr>
+                <td>212</td>
+                <td>100</td>
+            </tr>
+            <tr>
+                <td>50</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>75</td>
+                <td>23.89</td>
+            </tr>
+            <tr>
+                <td>0</td>
+                <td>-17.78</td>
+            </tr>
+            <tr>
+                <td>-20</td>
+                <td>-28.89</td>
+            </tr>
+            <tr>
+                <td>-40</td>
+                <td>-40</td>
+            </tr>
+            <tr>
+                <td>150</td>
+                <td>65.56</td>
+            </tr>
+            <tr>
+                <td>200</td>
+                <td>93.33</td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section px-5 py-3">
+    <h2>Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Scientific research: Converting temperature readings from Fahrenheit to Celsius for accurate data analysis.</li>
+        <li class="list-group-item">Engineering applications: Ensuring precise temperature measurements for design, testing, and manufacturing purposes.</li>
+        <li class="list-group-item">Weather forecasting: Providing temperature forecasts in Celsius for international audiences.</li>
+        <li class="list-group-item">Cooking and recipes: Converting temperature settings from Fahrenheit to Celsius for precise cooking results.</li>
+        <li class="list-group-item>Medical applications: Accurate temperature monitoring and conversion for patient care and medical research.</li>
+        <li class="list-group-item">Automotive industry: Converting temperature readings for vehicle performance, diagnostics, and maintenance.</li>
+        <li class="list-group-item">Aviation and aerospace: Ensuring precise temperature measurements for flight operations, maintenance, and research.</li>
+        <li class="list-group-item">Environmental monitoring: Converting temperature data from Fahrenheit to Celsius for climate studies and research.</li>
+        <li class="list-group-item">Education and teaching: Using the converter as a learning tool for students to understand temperature conversions.</li>
+        <li class="list-group-item">International trade: Facilitating temperature conversions for imports, exports, and global commerce.</li>
+    </ul>
+</div><script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  document.getElementById('fahrenheit').value = startValue;
+
+  function convertTemperature() {
+    const fahrenheit = parseFloat(document.getElementById('fahrenheit').value);
+    if (isNaN(fahrenheit)) {
+      document.getElementById('error-message').innerText = 'Invalid input. Please enter a numeric value.';
+      document.getElementById('error-message').style.display = 'block';
+      document.getElementById('success-message').style.display = 'none';
+      return;
+    }
+    const celsius = (fahrenheit - 32) * 5 / 9;
+    document.getElementById('celsius').value = celsius.toFixed(2);
+    document.getElementById('error-message').style.display = 'none';
+    document.getElementById('success-message').innerText = 'Temperature converted successfully!';
+    document.getElementById('success-message').style.display = 'block';
+  }
+</script>

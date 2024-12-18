@@ -1,0 +1,123 @@
+---
+title: CSV to JSON Lines Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-07-15 14:30:00
+tags:
+  - CSV Converter
+  - JSON Lines
+  - Data Conversion
+  - Developer Tools
+  - Data Analysis
+---
+
+<style>
+  #main-div {
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+ .error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container">
+    <h1 class="mb-3">CSV to JSON Lines Converter</h1><div class="header-section p-5 bg-primary text-white text-center">
+  <p class="lead">The CSV to JSON Lines Converter is a powerful online tool designed to simplify the process of converting Comma Separated Values (CSV) files into JSON Lines format, enabling seamless data exchange and analysis across different platforms and applications. By leveraging this tool, users can efficiently transform their CSV data into a more versatile and widely-supported format, facilitating easier data integration, processing, and visualization. With its intuitive interface and robust conversion capabilities, this tool is an indispensable asset for developers, data analysts, and anyone working with CSV and JSON data.</p>
+</div>
+    <div class="row">
+      <div class="col-md-12">
+        <label for="csv-data" class="form-label">CSV Data</label>
+        <textarea id="csv-data" class="form-control" rows="10" placeholder="Paste your CSV data here..."></textarea>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <button id="convert-button" class="btn btn-primary">Convert to JSON Lines</button>
+        <p id="error-message" class="error-message"></p>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <label for="json-lines-data" class="form-label">JSON Lines Data</label>
+        <textarea id="json-lines-data" class="form-control" rows="10" readonly></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="explanation-section p-5">
+  <h2>How it Works</h2>
+  <p>The conversion process involves a simple, yet efficient formula: each row of the CSV data is parsed and split into individual values, which are then paired with their corresponding headers to form a JSON object. This object is subsequently stringified and appended to the resulting JSON Lines output, with each object separated by a newline character. The resulting JSON Lines data can be easily imported, processed, or analyzed using a wide range of tools and programming languages.</p>
+  <h2>Example Conversions</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>CSV Input</th>
+        <th>JSON Lines Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>"Name,Age,Country"\n"John,25,USA"</td>
+        <td>{"Name":"John","Age":"25","Country":"USA"}</td>
+      </tr>
+      <tr>
+        <td>"Name,Age,Country"\n"Jane,30,Canada"\n"Bob,35,Mexico"</td>
+        <td>{"Name":"Jane","Age":"30","Country":"Canada"}\n{"Name":"Bob","Age":"35","Country":"Mexico"}</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section p-5">
+  <h2>Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Data integration: Convert CSV data from various sources into JSON Lines format for easier integration with other systems and applications.</li>
+    <li class="list-group-item">Data analysis: Transform CSV data into JSON Lines format for analysis using popular data science tools and libraries.</li>
+    <li class="list-group-item">Web development: Use JSON Lines data in web applications, such as loading data into JavaScript arrays or objects.</li>
+    <li class="list-group-item">Machine learning: Prepare CSV data for machine learning models by converting it into JSON Lines format.</li>
+    <li class="list-group-item">Data visualization: Convert CSV data into JSON Lines format for visualization using popular data visualization libraries and tools.</li>
+    <li class="list-group-item">API integration: Convert CSV data into JSON Lines format for integration with APIs that expect JSON data.</li>
+    <li class="list-group-item">Big data processing: Use JSON Lines format to process large datasets in big data processing frameworks like Hadoop or Spark.</li>
+    <li class="list-group-item">Real-time data processing: Convert CSV data into JSON Lines format for real-time data processing using stream processing frameworks like Apache Kafka or Apache Flink.</li>
+    <li class="list-group-item">Cloud data storage: Store JSON Lines data in cloud-based data storage services like Amazon S3 or Google Cloud Storage.</li>
+    <li class="list-group-item">NoSQL databases: Import JSON Lines data into NoSQL databases like MongoDB or Couchbase for flexible data modeling and querying.</li>
+  </ul>
+</div><script>
+  const csvDataElement = document.getElementById('csv-data');
+  const convertButton = document.getElementById('convert-button');
+  const jsonLinesDataElement = document.getElementById('json-lines-data');
+  const errorMessageElement = document.getElementById('error-message');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    csvDataElement.value = startParam;
+  }
+
+  convertButton.addEventListener('click', () => {
+    const csvData = csvDataElement.value.trim();
+    if (!csvData) {
+      errorMessageElement.textContent = 'Please enter valid CSV data';
+      return;
+    }
+
+    try {
+      const csvRows = csvData.split('\n');
+      const headers = csvRows.shift().split(',');
+      const jsonData = csvRows.map((row) => {
+        const rowData = row.split(',');
+        const jsonRow = {};
+        headers.forEach((header, index) => {
+          jsonRow[header] = rowData[index];
+        });
+        return JSON.stringify(jsonRow);
+      }).join('\n');
+
+      jsonLinesDataElement.value = jsonData;
+      errorMessageElement.textContent = '';
+    } catch (error) {
+      errorMessageElement.textContent = 'Error converting CSV to JSON Lines: ' + error.message;
+    }
+  });
+</script>

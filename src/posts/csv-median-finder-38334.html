@@ -1,0 +1,170 @@
+---
+title: CSV Median Finder Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-01 12:00:00
+tags:
+  - CSV Median Calculator
+  - Data Analysis Tool
+  - Statistical Calculator
+  - CSV File Parser
+  - Median Finder App
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+
+  #main-div label {
+    margin-bottom: 0.5rem;
+  }
+
+  #main-div.error-message {
+    color: #ff0000;
+  }
+</style>
+
+<div id="main-div" class="container mt-5 pt-5">
+  <h1 class="text-center">CSV Median Finder</h1><div class="header-section bg-light p-5">
+    <p class="text-center lead">The CSV Median Finder Tool is a free online data analysis tool that calculates the median value of a selected column in a CSV file. With this tool, users can upload their CSV file, select a column, and get the median value instantly. This tool is perfect for data analysts, statisticians, and researchers who need to quickly calculate median values from large datasets. By using this tool, users can save time and effort, and focus on more complex data analysis tasks.</p>
+</div>
+  <form>
+    <div class="mb-3">
+      <label for="fileInput" class="form-label">Upload CSV file</label>
+      <input type="file" id="fileInput" class="form-control" accept=".csv">
+    </div>
+    <div class="mb-3">
+      <label for="columnSelect" class="form-label">Select column</label>
+      <select id="columnSelect" class="form-select">
+        <option value="">Please select a column</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <button type="button" id="calculateMedian" class="btn btn-primary">Calculate median</button>
+    </div>
+    <div class="mb-3">
+      <label for="medianDisplay" class="form-label">Median</label>
+      <input type="text" id="medianDisplay" class="form-control" readonly>
+    </div>
+    <div class="mb-3">
+      <div id="error-message" class="error-message"></div>
+    </div>
+  </form>
+</div>
+
+<div class="explanation-section bg-light p-5">
+    <h2 class="mb-4">How it Works</h2>
+    <p>The CSV Median Finder Tool uses a simple formula to calculate the median value of a selected column. The formula is based on the concept of median, which is the middle value of a dataset when it is arranged in order. The tool first sorts the data in the selected column, then it finds the middle value. If the dataset has an even number of values, the tool calculates the median as the average of the two middle values.</p>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Number of Values</th>
+                <th>Values</th>
+                <th>Median</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>3</td>
+                <td>1, 2, 3</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>1, 2, 3, 4</td>
+                <td>2.5</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>1, 2, 3, 4, 5</td>
+                <td>3</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>The tool also handles cases where the dataset contains non-numeric values. In such cases, the tool filters out the non-numeric values and calculates the median only for the numeric values.</p>
+</div><div class="use-cases-section bg-light p-5">
+    <h2 class="mb-4">Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Calculating median income from a dataset of salaries</li>
+        <li class="list-group-item">Finding the median price of a product from a dataset of prices</li>
+        <li class="list-group-item">Determining the median age of a population from a dataset of ages</li>
+        <li class="list-group-item">Analyzing the median score of a test from a dataset of test scores</li>
+        <li class="list-group-item">Identifying the median value of a stock from a dataset of stock prices</li>
+        <li class="list-group-item">Calculating the median temperature from a dataset of temperature readings</li>
+        <li class="list-group-item">Finding the median value of a dataset of exam scores</li>
+        <li class="list-group-item">Determining the median length of a dataset of measurements</li>
+        <li class="list-group-item">Analyzing the median value of a dataset of customer reviews</li>
+        <li class="list-group-item">Calculating the median value of a dataset of financial transactions</li>
+    </ul>
+    <p>These are just a few examples of the many use cases for the CSV Median Finder Tool. The tool is versatile and can be used in any situation where you need to calculate the median value of a dataset.</p>
+</div><script>
+  const fileInput = document.getElementById('fileInput');
+  const columnSelect = document.getElementById('columnSelect');
+  const calculateMedian = document.getElementById('calculateMedian');
+  const medianDisplay = document.getElementById('medianDisplay');
+  const errorMessage = document.getElementById('error-message');
+
+  let csvData = [];
+
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const csvText = event.target.result;
+      csvData = csvText.split('\n').map((row) => row.split(','));
+      const columns = csvData[0];
+      columnSelect.innerHTML = '';
+      columns.forEach((column) => {
+        const option = document.createElement('option');
+        option.value = column;
+        option.text = column;
+        columnSelect.appendChild(option);
+      });
+    };
+    reader.readAsText(file);
+  });
+
+  calculateMedian.addEventListener('click', () => {
+    if (!csvData.length) {
+      errorMessage.textContent = 'Please upload a CSV file';
+      return;
+    }
+
+    const selectedColumn = columnSelect.value;
+    if (!selectedColumn) {
+      errorMessage.textContent = 'Please select a column';
+      return;
+    }
+
+    const columnData = csvData.slice(1).map((row) => row[csvData[0].indexOf(selectedColumn)]);
+    const numericData = columnData.filter((value) =>!isNaN(parseFloat(value)));
+    if (!numericData.length) {
+      errorMessage.textContent = 'Selected column contains no numeric data';
+      return;
+    }
+
+    numericData.sort((a, b) => parseFloat(a) - parseFloat(b));
+    const median = calculateMedianValue(numericData);
+    medianDisplay.value = median.toString();
+    errorMessage.textContent = '';
+  });
+
+  function calculateMedianValue(data) {
+    const length = data.length;
+    if (length % 2 === 0) {
+      return (parseFloat(data[length / 2 - 1]) + parseFloat(data[length / 2])) / 2;
+    } else {
+      return parseFloat(data[Math.floor(length / 2)]);
+    }
+  }
+
+  // preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    // no input field to preload
+  }
+</script>

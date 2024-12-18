@@ -1,0 +1,130 @@
+---
+title: "CSV Header Adder Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 12:00:00
+tags:
+  - csv header adder
+  - csv tool
+  - data analysis
+  - csv editor
+  - data management
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+ .text-area {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <h1 class="mb-3">CSV Header Adder</h1><div class="container mt-5">
+  <p class="lead mb-4">The CSV Header Adder Tool is a free online utility that allows users to easily add headers to their CSV files, making it simpler to organize and analyze data. With this tool, users can paste their CSV data, enter their desired header names, and instantly generate an updated CSV file with the added headers. This tool is perfect for data analysts, researchers, and anyone who works with CSV files on a regular basis, providing a quick and efficient solution for adding headers to CSV files without requiring any technical expertise.</p>
+</div>
+  <p class="lead mb-4">Add headers to your CSV file with ease.</p>
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <textarea id="csv-data" class="text-area" placeholder="Paste your CSV data here..."></textarea>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <input id="header-names" type="text" class="form-control" placeholder="Enter header names separated by commas">
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <button id="add-headers" class="btn btn-primary">Add Headers</button>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <textarea id="updated-csv" class="text-area" readonly></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="mb-3">How it Works</h2>
+  <p class="lead mb-4">The CSV Header Adder Tool uses a simple yet effective formula to add headers to CSV files. The formula can be broken down into the following steps: 
+    <ol>
+      <li>Paste the CSV data into the input field.</li>
+      <li>Enter the desired header names, separated by commas, into the header input field.</li>
+      <li>Click the "Add Headers" button to generate the updated CSV file with the added headers.</li>
+    </ol>
+  </p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Input CSV Data</th>
+        <th>Header Names</th>
+        <th>Updated CSV Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1,2,3</td>
+        <td>Column A,Column B,Column C</td>
+        <td>Column A,Column B,Column C<br>1,2,3</td>
+      </tr>
+      <tr>
+        <td>4,5,6</td>
+        <td>Column X,Column Y,Column Z</td>
+        <td>Column X,Column Y,Column Z<br>4,5,6</td>
+      </tr>
+      <tr>
+        <td>7,8,9</td>
+        <td>Column 1,Column 2,Column 3</td>
+        <td>Column 1,Column 2,Column 3<br>7,8,9</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="mb-3">Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Data analysis: Adding headers to CSV files makes it easier to analyze and understand the data.</li>
+    <li class="list-group-item">Research: Researchers can use this tool to quickly add headers to large datasets, making it easier to work with the data.</li>
+    <li class="list-group-item">Data management: The tool can be used to add headers to CSV files before importing them into databases or spreadsheets.</li>
+    <li class="list-group-item">CSV file conversion: This tool can be used to convert CSV files with no headers to files with headers, making them easier to work with.</li>
+    <li class="list-group-item">Data visualization: Adding headers to CSV files makes it easier to create visualizations and charts, as the data is better organized.</li>
+    <li class="list-group-item">Machine learning: This tool can be used to prepare datasets for machine learning models by adding headers to the CSV files.</li>
+    <li class="list-group-item">Business intelligence: The tool can be used to add headers to CSV files used in business intelligence applications, making it easier to analyze and understand the data.</li>
+    <li class="list-group-item">Academic research: Students and professors can use this tool to quickly add headers to datasets, making it easier to work with the data.</li>
+    <li class="list-group-item">Marketing research: The tool can be used to add headers to CSV files used in marketing research, making it easier to analyze and understand customer data.</li>
+    <li class="list-group-item">Financial analysis: This tool can be used to add headers to CSV files used in financial analysis, making it easier to analyze and understand financial data.</li>
+  </ul>
+</div><script>
+  const csvData = document.getElementById('csv-data');
+  const headerNames = document.getElementById('header-names');
+  const addHeaders = document.getElementById('add-headers');
+  const updatedCsv = document.getElementById('updated-csv');
+
+  addHeaders.addEventListener('click', () => {
+    const csvDataValue = csvData.value.trim();
+    const headerNamesValue = headerNames.value.trim();
+
+    if (csvDataValue && headerNamesValue) {
+      const headers = headerNamesValue.split(',');
+      const csvRows = csvDataValue.split('\n');
+      const updatedCsvRows = [headers.join(',')].concat(csvRows);
+
+      updatedCsv.value = updatedCsvRows.join('\n');
+    } else {
+      alert('Please enter both CSV data and header names.');
+    }
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const start = urlParams.get('start');
+  if (start) {
+    headerNames.value = start;
+  }
+</script>

@@ -1,0 +1,175 @@
+---
+title: CSV to Fixed-Width Format Converter
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-15 12:00:00
+tags:
+  - CSV converter
+  - Fixed-Width format
+  - Data analysis
+  - Reporting tools
+  - Data conversion
+---
+
+<style>
+  #main-div {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+  #main-div label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  #main-div textarea {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #cccccc;
+  }
+  #main-div button {
+    width: 100%;
+    height: 40px;
+    background-color: #4CAF50;
+    color: #ffffff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #main-div button:hover {
+    background-color: #3e8e41;
+  }
+  #main-div.alert {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #cccccc;
+  }
+  #main-div.alert-success {
+    background-color: #dff0d8;
+    border-color: #8bc34a;
+    color: #3e8e41;
+  }
+  #main-div.alert-danger {
+    background-color: #f2dede;
+    border-color: #a94442;
+    color: #a94442;
+  }
+</style>
+
+<div id="main-div" class="container mt-5">
+  <header class="mb-5">
+    <h1 class="text-center">CSV to Fixed-Width Format</h1><div class="header-section p-5 text-center bg-primary text-white">
+    <p class="lead">The CSV to Fixed-Width Format Converter is a powerful online tool that allows users to easily convert Comma Separated Values (CSV) files into a fixed-width format, making it easier to read, analyze, and process data. This conversion is crucial for data analysis, reporting, and other applications where data needs to be presented in a structured and organized manner. With this tool, users can simply paste their CSV data, click the convert button, and receive their data in a fixed-width format, saving time and effort in data processing and manipulation.</p>
+</div>
+  </header>
+  <section class="mb-5">
+    <label for="csv-data">Paste your CSV data:</label>
+    <textarea id="csv-data" class="form-control"></textarea>
+    <button id="convert-btn" class="btn btn-primary mt-3">Convert to Fixed-Width</button>
+  </section>
+  <section class="mb-5">
+    <label for="fixed-width-data">Fixed-Width Data:</label>
+    <textarea id="fixed-width-data" class="form-control" readonly></textarea>
+  </section>
+  <footer class="text-center">
+    <a href="#" class="text-decoration-none text-reset">Back to homepage</a>
+  </footer>
+  <div id="alert" class="alert d-none" role="alert"></div>
+</div>
+
+<div class="explanation-section p-5">
+    <h2 class="mb-3">How it Works</h2>
+    <p class="lead">The conversion process involves calculating the maximum length of each column in the CSV data and then padding each column to the maximum length, resulting in a fixed-width format. This process can be represented by the following formula: Fixed-Width Data = (Max Column Length + Padding) x Number of Columns.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>CSV Data</th>
+                <th>Fixed-Width Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Name,Age,Country</td>
+                <td>Name          Age  Country     </td>
+            </tr>
+            <tr>
+                <td>John,25,USA</td>
+                <td>John          25   USA         </td>
+            </tr>
+            <tr>
+                <td>Jane,30,Canada</td>
+                <td>Jane          30   Canada       </td>
+            </tr>
+        </tbody>
+    </table>
+</div><div class="use-cases-section p-5">
+    <h2 class="mb-3">Common Use Cases</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Data analysis and reporting: Convert CSV data into a fixed-width format for easier analysis and reporting.</li>
+        <li class="list-group-item">Data migration: Convert CSV data into a fixed-width format for importing into legacy systems or databases.</li>
+        <li class="list-group-item">Data processing: Convert CSV data into a fixed-width format for easier processing and manipulation.</li>
+        <li class="list-group-item">Data integration: Convert CSV data into a fixed-width format for integrating with other systems or applications.</li>
+        <li class="list-group-item">Data visualization: Convert CSV data into a fixed-width format for creating visualizations and dashboards.</li>
+        <li class="list-group-item">Scientific research: Convert CSV data into a fixed-width format for analyzing and processing large datasets.</li>
+        <li class="list-group-item">Business intelligence: Convert CSV data into a fixed-width format for creating business intelligence reports and dashboards.</li>
+        <li class="list-group-item">Machine learning: Convert CSV data into a fixed-width format for training machine learning models.</li>
+        <li class="list-group-item">Data warehousing: Convert CSV data into a fixed-width format for storing and analyzing large datasets.</li>
+        <li class="list-group-item">Data governance: Convert CSV data into a fixed-width format for ensuring data quality and compliance.</li>
+    </ul>
+</div><script>
+  const csvData = document.getElementById('csv-data');
+  const convertBtn = document.getElementById('convert-btn');
+  const fixedWidthData = document.getElementById('fixed-width-data');
+  const alert = document.getElementById('alert');
+
+  // Preload the first input field with the value coming from the query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('start')) {
+    csvData.value = urlParams.get('start');
+  }
+
+  convertBtn.addEventListener('click', () => {
+    const csvDataValue = csvData.value.trim();
+    if (csvDataValue === '') {
+      alert.classList.remove('d-none', 'alert-success');
+      alert.classList.add('alert-danger');
+      alert.textContent = 'Please enter valid CSV data';
+      return;
+    }
+
+    try {
+      const csvDataArray = csvDataValue.split('\n');
+      const fixedWidthDataArray = [];
+      const maxLengths = {};
+
+      // Calculate the maximum length of each column
+      csvDataArray.forEach((row) => {
+        const columns = row.split(',');
+        columns.forEach((column, index) => {
+          if (!maxLengths[index] || column.length > maxLengths[index]) {
+            maxLengths[index] = column.length;
+          }
+        });
+      });
+
+      // Convert CSV data to fixed-width format
+      csvDataArray.forEach((row) => {
+        const columns = row.split(',');
+        let fixedWidthRow = '';
+        columns.forEach((column, index) => {
+          fixedWidthRow += column.padEnd(maxLengths[index] + 2);
+        });
+        fixedWidthDataArray.push(fixedWidthRow);
+      });
+
+      fixedWidthData.value = fixedWidthDataArray.join('\n');
+      alert.classList.remove('d-none', 'alert-danger');
+      alert.classList.add('alert-success');
+      alert.textContent = 'Conversion successful!';
+    } catch (error) {
+      alert.classList.remove('d-none', 'alert-success');
+      alert.classList.add('alert-danger');
+      alert.textContent = 'An error occurred during conversion: ' + error.message;
+    }
+  });
+</script>
