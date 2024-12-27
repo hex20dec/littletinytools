@@ -58,45 +58,25 @@
       {% endfor %}
     </section>
     <section id="related-tools-section">
-      <h5>Related tools:</h5>
-       
-      {# {% for i in range(0, 50) -%}
-        {% set randomTag = tags | random %}
-        {% set posts = collections[randomTag] %}
-
-        {% set randomPost = posts | random %}
-          
-          <a class='related-tool' href="{{ randomPost.url }}">{{ randomPost.data.title }}</a> 
-          
-      {%- endfor %} #}
-          
+      <h5>Related tools:</h5>          
       {% set selectedPosts = [] %}
       {% set maxLinks = 50 %}
-
       {% for i in range(0, 50) -%} {# Use a large number to ensure enough iterations #}
           {% if selectedPosts | length >= maxLinks %}
               {% set i = maxLinks %} {# Exit the loop by exhausting iterations #}
           {% endif %}
-
           {% set randomTag = tags | random %}
           {% set posts = collections[randomTag] %}
           {% set randomPost = posts | random %}
-
           {% if randomPost.url not in selectedPosts %}
               {% set selectedPosts = selectedPosts + [randomPost.url] %}
               <a class='related-tool' href="{{ randomPost.url }}">{{ randomPost.data.title }}</a>
           {% endif %}
       {%- endfor %}
-
-
-
-
-
     </section>
     <footer class="py-3">
       <div class="container">
         <p class="text-center">
-
           <small>&copy; <span id="year"></span> Little Tiny Tools</small>
         </p>
       </div>
