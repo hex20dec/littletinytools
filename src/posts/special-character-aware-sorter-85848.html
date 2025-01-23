@@ -1,0 +1,135 @@
+---
+title: "Special Character-Aware Sorter: Sort Words & Phrases with Ease"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-01-24 05:25:14
+metaDescription: "Sort words and phrases with special characters effortlessly. Perfect for social media, coding, and data organization. Try it now!"
+metaKeywords: "special character sorter, word organizer, hashtag sorter, list sorting tool, data organization, coding keywords, social media tool, sort with symbols, text sorter, online sorting tool"
+tags: ["text-sorter", "special-characters", "productivity-tool", "web-app", "sorting-tool"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <h1 class="text-center mt-4">Special Character-Aware Sorter</h1><div class="container bg-dark text-white p-4 rounded">
+  <p class="lead text-center mb-4">Why does sorting words with special characters feel like solving a puzzle? Whether it's hashtags, mentions, or symbols, organizing them can be a headache. Enter the <strong>Special Character-Aware Sorter</strong>—your new best friend for effortlessly sorting lists while keeping special characters in check. Just paste your words or phrases, choose your sorting method, and let the tool do the heavy lifting. From social media hashtags to coding keywords, this tool makes sorting as easy as pie. Say goodbye to manual rearranging and hello to a neatly organized list in seconds!</p>
+</div>
+  <p class="text-muted text-center mb-4">Enter your list of words or phrases below. The sorter will organize them while prioritizing special characters.</p>
+
+  <div class="mb-3">
+    <textarea id="input-text" class="form-control mb-3 bg-dark text-white" rows="10" placeholder="Enter one word or phrase per line. Example:
+apple
+@banana
+#cherry
+$date"></textarea>
+  </div>
+
+  <div class="mb-3">
+    <select id="sort-option" class="form-select mb-3 bg-dark text-white">
+      <option value="special-first">Sort by special characters first</option>
+      <option value="alphabetical">Sort by alphabetical order (ignore special characters)</option>
+    </select>
+  </div>
+
+  <div class="form-check mb-3">
+    <input type="checkbox" id="case-sensitive" class="form-check-input">
+    <label for="case-sensitive" class="form-check-label">Case-sensitive sorting</label>
+  </div>
+
+  <button id="sort-btn" class="btn btn-primary btn-lg d-block mx-auto mb-4">Sort List</button>
+
+  <div class="mb-3">
+    <textarea id="output-text" class="form-control mb-3 bg-dark text-white" rows="10" readonly></textarea>
+  </div>
+
+  <button id="copy-btn" class="btn btn-secondary mb-4">Copy to Clipboard</button>
+  <button id="reset-btn" class="btn btn-outline-danger">Reset</button>
+</div>
+
+<div class="container bg-light p-4 rounded mt-4">
+  <h2 class="mb-4">How It Works</h2>
+  <p class="mb-4">The tool works by prioritizing special characters (like @, #, $) at the beginning of words or phrases. Here’s the magic formula:</p>
+  <ol class="list-unstyled">
+    <li class="mb-2"><strong>Step 1:</strong> Input your list—one word or phrase per line.</li>
+    <li class="mb-2"><strong>Step 2:</strong> Choose your sorting preference: special characters first or alphabetical order.</li>
+    <li class="mb-2"><strong>Step 3:</strong> Toggle case sensitivity if needed (e.g., "Apple" vs "apple").</li>
+    <li class="mb-2"><strong>Step 4:</strong> Hit "Sort List" and watch your list transform instantly!</li>
+  </ol>
+  <p>Here’s a quick example of how it works:</p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Input</th>
+        <th>Sorted (Special Characters First)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>apple</td><td>@banana</td></tr>
+      <tr><td>@banana</td><td>#cherry</td></tr>
+      <tr><td>#cherry</td><td>apple</td></tr>
+      <tr><td>$date</td><td>date</td></tr>
+    </tbody>
+  </table>
+</div><div class="container bg-dark text-white p-4 rounded mt-4">
+  <h2 class="mb-4">10 Common Use Cases</h2>
+  <ul class="list-unstyled">
+    <li class="mb-2"><strong>1. Social Media:</strong> Organize hashtags and mentions for campaigns.</li>
+    <li class="mb-2"><strong>2. Coding:</strong> Sort keywords, variables, or function names with symbols.</li>
+    <li class="mb-2"><strong>3. Data Cleaning:</strong> Rearrange messy lists of items with special characters.</li>
+    <li class="mb-2"><strong>4. Email Campaigns:</strong> Sort email subject lines or taglines.</li>
+    <li class="mb-2"><strong>5. Inventory Management:</strong> Organize product codes or SKUs.</li>
+    <li class="mb-2"><strong>6. Academic Research:</strong> Sort citations or keywords with symbols.</li>
+    <li class="mb-2"><strong>7. Blogging:</strong> Arrange tags or categories for easier management.</li>
+    <li class="mb-2"><strong>8. Event Planning:</strong> Sort guest lists with special prefixes.</li>
+    <li class="mb-2"><strong>9. Gaming:</strong> Organize in-game usernames or tags.</li>
+    <li class="mb-2"><strong>10. Personal Projects:</strong> Keep your to-do lists or notes tidy.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const outputText = document.getElementById('output-text');
+    const sortBtn = document.getElementById('sort-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const sortOption = document.getElementById('sort-option');
+    const caseSensitive = document.getElementById('case-sensitive');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputText.value = startValue;
+    }
+
+    const sortList = () => {
+      const lines = inputText.value.split('\n').filter(line => line.trim() !== '');
+      const isCaseSensitive = caseSensitive.checked;
+
+      const sortedLines = lines.sort((a, b) => {
+        const aHasSpecial = /^[^a-zA-Z0-9]/.test(a);
+        const bHasSpecial = /^[^a-zA-Z0-9]/.test(b);
+
+        if (sortOption.value === 'special-first') {
+          if (aHasSpecial && !bHasSpecial) return -1;
+          if (!aHasSpecial && bHasSpecial) return 1;
+        }
+
+        const compareA = isCaseSensitive ? a : a.toLowerCase();
+        const compareB = isCaseSensitive ? b : b.toLowerCase();
+        return compareA.localeCompare(compareB);
+      });
+
+      outputText.value = sortedLines.join('\n');
+    };
+
+    sortBtn.addEventListener('click', sortList);
+
+    copyBtn.addEventListener('click', () => {
+      outputText.select();
+      document.execCommand('copy');
+      alert('Copied to clipboard!');
+    });
+
+    resetBtn.addEventListener('click', () => {
+      inputText.value = '';
+      outputText.value = '';
+    });
+  });
+</script>

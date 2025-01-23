@@ -1,0 +1,141 @@
+---
+title: "Index-Preserving Sorter: Sort Lists While Keeping Track of Original Positions"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-11-13 10:25:45
+metaDescription: "Sort your list while keeping track of original positions with the Index-Preserving Sorter. Simple, fast, and perfect for organizing tasks, rankings, and more!"
+metaKeywords: "index-preserving sorter, list sorter, organize tasks, ranking tool, alphabetical sorter, item tracker, sorting tool, list organizer, original position tracker, task manager"
+tags: ["sorting", "list organizer", "data tools", "productivity", "web app"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="mb-4">Index-Preserving Sorter</h1><div class="container bg-dark text-white p-4">
+  <p class="lead">Trying to sort a list but need to remember where each item originally was? It’s like trying to keep track of your groceries after reorganizing the fridge—everything ends up in the wrong place! The <strong>Index-Preserving Sorter</strong> is here to rescue you. This clever tool sorts your list while keeping tabs on each item’s original position, so you’ll never lose track again. Whether you’re organizing tasks, ranking preferences, or just curious about where things started, this tool makes it simple and fun. Say goodbye to the chaos and hello to organized bliss!</p>
+</div>
+  <p class="lead">Sort your list while keeping track of the original positions of each item.</p>
+
+  <div class="mb-4">
+    <label for="input-list" class="form-label">Enter your list items here, one per line:</label>
+    <textarea id="input-list" class="form-control bg-dark text-white" rows="5" placeholder="Apple&#10;Banana&#10;Cherry"></textarea>
+  </div>
+
+  <div class="mb-4">
+    <label for="sort-order" class="form-label">Sort Order:</label>
+    <select id="sort-order" class="form-select bg-dark text-white">
+      <option value="asc">Ascending</option>
+      <option value="desc">Descending</option>
+    </select>
+  </div>
+
+  <div class="mb-4">
+    <button id="sort-btn" class="btn btn-primary me-2">Sort</button>
+    <button id="clear-btn" class="btn btn-secondary">Clear</button>
+  </div>
+
+  <div id="output-section" class="d-none">
+    <h2 class="mb-3">Sorted List</h2>
+    <table class="table table-striped table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Original Index</th>
+          <th scope="col">Sorted Item</th>
+        </tr>
+      </thead>
+      <tbody id="sorted-list">
+      </tbody>
+    </table>
+  </div>
+
+  <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
+</div>
+
+<div class="container bg-dark text-white p-4">
+  <h2 class="mb-3">How It Works</h2>
+  <p>Here’s the magic behind the <strong>Index-Preserving Sorter</strong>:</p>
+  <ol>
+    <li>You enter your list items, one per line.</li>
+    <li>Choose your sorting order—ascending (A-Z) or descending (Z-A).</li>
+    <li>The tool sorts your list while remembering each item’s original position.</li>
+    <li>The result? A neatly organized list with a handy reference to where everything started.</li>
+  </ol>
+  <p>It’s like having a personal assistant who not only sorts your stuff but also keeps a record of its original spot!</p>
+
+  <h3 class="mt-4">Example Table</h3>
+  <table class="table table-striped table-dark">
+    <thead>
+      <tr>
+        <th scope="col">Original Index</th>
+        <th scope="col">Sorted Item</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Apple</td></tr>
+      <tr><td>2</td><td>Banana</td></tr>
+      <tr><td>3</td><td>Cherry</td></tr>
+      <tr><td>4</td><td>Date</td></tr>
+      <tr><td>5</td><td>Elderberry</td></tr>
+    </tbody>
+  </table>
+</div><div class="container bg-dark text-white p-4">
+  <h2 class="mb-3">10 Common Use Cases</h2>
+  <ul>
+    <li>Organizing tasks by priority while keeping their original order.</li>
+    <li>Ranking survey responses with a reference to their initial sequence.</li>
+    <li>Sorting a list of names alphabetically without losing track of their original positions.</li>
+    <li>Managing inventory items by category while maintaining their entry order.</li>
+    <li>Sorting student grades while preserving their initial submission order.</li>
+    <li>Ranking products based on customer reviews with a reference to their original listing.</li>
+    <li>Organizing event attendees alphabetically while keeping their registration order.</li>
+    <li>Sorting book titles in a library catalog with a reference to their shelf order.</li>
+    <li>Ranking team members by performance while maintaining their original roster order.</li>
+    <li>Sorting a playlist alphabetically without losing track of the original song order.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputList = document.getElementById('input-list');
+    const sortOrder = document.getElementById('sort-order');
+    const sortBtn = document.getElementById('sort-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const outputSection = document.getElementById('output-section');
+    const sortedList = document.getElementById('sorted-list');
+    const errorMessage = document.getElementById('error-message');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputList.value = startValue;
+    }
+
+    sortBtn.addEventListener('click', () => {
+      const items = inputList.value.split('\n').filter(item => item.trim() !== '');
+      if (items.length === 0) {
+        errorMessage.textContent = 'Please enter at least one item to sort.';
+        errorMessage.classList.remove('d-none');
+        outputSection.classList.add('d-none');
+        return;
+      }
+
+      const indexedItems = items.map((item, index) => ({ originalIndex: index + 1, item: item.trim() }));
+      const sortedItems = indexedItems.sort((a, b) => {
+        const comparison = a.item.localeCompare(b.item);
+        return sortOrder.value === 'asc' ? comparison : -comparison;
+      });
+
+      sortedList.innerHTML = sortedItems.map(item => `
+        <tr>
+          <td>${item.originalIndex}</td>
+          <td>${item.item}</td>
+        </tr>
+      `).join('');
+
+      outputSection.classList.remove('d-none');
+      errorMessage.classList.add('d-none');
+    });
+
+    clearBtn.addEventListener('click', () => {
+      inputList.value = '';
+      outputSection.classList.add('d-none');
+      errorMessage.classList.add('d-none');
+    });
+  });
+</script>

@@ -1,0 +1,174 @@
+---
+title: Recurring Event Interval Calculator - Plan Your Events Easily
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-12-26 08:16:17
+metaDescription: "Plan recurring events effortlessly with the Recurring Event Interval Calculator. Input start, end dates, and frequency to get a list of all event dates instantly."
+metaKeywords: "recurring event calculator, event date planner, frequency calculator, event scheduler, date interval tool, weekly planner, monthly planner, yearly planner, event organizer, recurring dates tool"
+tags: [event planning, calendar tool, recurring events, date calculator, scheduling tool]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row mb-3">
+    <div class="col-12">
+      <h1 class="h2 mb-4">Recurring Event Interval Calculator</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="row mb-3">
+    <div class="col-12">
+      <p class="lead">Planning recurring events can feel like juggling flaming swords—stressful and slightly dangerous. Whether it's weekly team meetings, monthly bill payments, or yearly anniversaries, keeping track of dates shouldn't be a headache. That's where the Recurring Event Interval Calculator steps in. This nifty tool takes your start date, end date, and frequency (daily, weekly, monthly, or yearly) and spits out a clear list of all the dates in between. No more mental math, no more missed events—just a simple, stress-free way to stay organized. Life's busy enough; let this tool handle the calendar chaos for you.</p>
+    </div>
+  </div>
+</div>
+      <form id="event-form" class="mb-4">
+        <div class="mb-3">
+          <label for="start-date" class="form-label">Start Date</label>
+          <input type="date" class="form-control bg-dark text-white" id="start-date" required>
+        </div>
+        <div class="mb-3">
+          <label for="end-date" class="form-label">End Date</label>
+          <input type="date" class="form-control bg-dark text-white" id="end-date" required>
+        </div>
+        <div class="mb-3">
+          <label for="frequency" class="form-label">Frequency</label>
+          <select class="form-select bg-dark text-white" id="frequency" required>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Calculate</button>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <h2 class="h4 mb-3">Event Dates</h2>
+      <div id="results" class="list-group"></div>
+      <div id="no-results" class="alert alert-info d-none">No events found within the specified range.</div>
+      <div id="error" class="alert alert-danger d-none">Please ensure the start date is before the end date.</div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row mb-3">
+    <div class="col-12">
+      <p class="h3 mb-4">How It Works</p>
+      <p>The Recurring Event Interval Calculator works by taking three key inputs:</p>
+      <ol>
+        <li><strong>Start Date</strong>: The date your recurring event begins.</li>
+        <li><strong>End Date</strong>: The date your recurring event ends.</li>
+        <li><strong>Frequency</strong>: How often the event repeats—daily, weekly, monthly, or yearly.</li>
+      </ol>
+      <p>Using these inputs, the tool calculates all the dates between the start and end dates based on the frequency you choose. For example, if you select a weekly frequency, it will add 7 days to the start date repeatedly until it reaches or surpasses the end date.</p>
+      <p>Here's a quick example:</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Frequency</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Output Dates</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Weekly</td>
+            <td>2023-10-01</td>
+            <td>2023-10-31</td>
+            <td>2023-10-01, 2023-10-08, 2023-10-15, 2023-10-22, 2023-10-29</td>
+          </tr>
+          <tr>
+            <td>Monthly</td>
+            <td>2023-01-01</td>
+            <td>2023-05-01</td>
+            <td>2023-01-01, 2023-02-01, 2023-03-01, 2023-04-01, 2023-05-01</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <div class="row mb-3">
+    <div class="col-12">
+      <p class="h3 mb-4">10 Common Use Cases</p>
+      <ul>
+        <li>Planning weekly team meetings or project check-ins.</li>
+        <li>Scheduling monthly bill payments or subscriptions.</li>
+        <li>Tracking yearly anniversaries, birthdays, or holidays.</li>
+        <li>Organizing daily workout routines or health reminders.</li>
+        <li>Setting up recurring social media posts or content calendars.</li>
+        <li>Planning seasonal gardening tasks or maintenance schedules.</li>
+        <li>Coordinating bi-weekly paychecks or financial reviews.</li>
+        <li>Managing quarterly business reviews or performance evaluations.</li>
+        <li>Scheduling school or university assignment due dates.</li>
+        <li>Planning weekly meal prep or grocery shopping days.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const startDateParam = urlParams.get('start');
+    if (startDateParam) {
+      document.getElementById('start-date').value = startDateParam;
+    }
+
+    const form = document.getElementById('event-form');
+    const resultsDiv = document.getElementById('results');
+    const noResultsDiv = document.getElementById('no-results');
+    const errorDiv = document.getElementById('error');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      errorDiv.classList.add('d-none');
+      noResultsDiv.classList.add('d-none');
+      resultsDiv.innerHTML = '';
+
+      const startDate = new Date(document.getElementById('start-date').value);
+      const endDate = new Date(document.getElementById('end-date').value);
+      const frequency = document.getElementById('frequency').value;
+
+      if (startDate >= endDate) {
+        errorDiv.classList.remove('d-none');
+        return;
+      }
+
+      const dates = calculateEventDates(startDate, endDate, frequency);
+      if (dates.length === 0) {
+        noResultsDiv.classList.remove('d-none');
+      } else {
+        dates.forEach(date => {
+          const dateItem = document.createElement('div');
+          dateItem.className = 'list-group-item bg-dark text-white';
+          dateItem.textContent = date.toLocaleDateString();
+          resultsDiv.appendChild(dateItem);
+        });
+      }
+    });
+
+    function calculateEventDates(startDate, endDate, frequency) {
+      const dates = [];
+      let currentDate = new Date(startDate);
+
+      while (currentDate <= endDate) {
+        dates.push(new Date(currentDate));
+        switch (frequency) {
+          case 'daily':
+            currentDate.setDate(currentDate.getDate() + 1);
+            break;
+          case 'weekly':
+            currentDate.setDate(currentDate.getDate() + 7);
+            break;
+          case 'monthly':
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            break;
+          case 'yearly':
+            currentDate.setFullYear(currentDate.getFullYear() + 1);
+            break;
+        }
+      }
+
+      return dates;
+    }
+  });
+</script>

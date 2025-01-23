@@ -1,0 +1,126 @@
+---
+title: "Kelvin Temperature Subtraction Tool - Quick & Easy Calculations"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-07-12 08:43:26
+metaDescription: "Easily subtract temperatures in Kelvin with this memory-enabled tool. Perfect for scientists, students, and curious minds!"
+metaKeywords: "temperature subtraction, Kelvin calculator, temperature difference tool, Kelvin subtractor, temperature memory tool, science calculator, heat transfer tool, temperature scale, physics tool, environmental studies tool"
+tags: ["temperature calculator", "Kelvin subtraction", "science tools", "engineering tools", "browser-based calculator"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Temperature Subtraction Memory Tool (Kelvin)</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="lead fs-4 mb-4">Why does subtracting temperatures in Kelvin feel like solving a puzzle? Whether you're a scientist, student, or just curious, the Temperature Subtraction Memory Tool is here to make your life simpler. With this tool, you can effortlessly subtract two temperatures in Kelvin, store your results, and even clear them when you're done—no more scribbling on paper or losing track of calculations. It’s fast, intuitive, and designed to save you time. Say goodbye to mental math and hello to accurate, stress-free temperature calculations!</p>
+    </div>
+  </div>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="temp1" class="form-label">Temperature 1 (K)</label>
+        <input type="number" class="form-control bg-dark text-white" id="temp1" placeholder="Enter temperature in Kelvin" aria-label="Temperature 1">
+      </div>
+      <div class="mb-3">
+        <label for="temp2" class="form-label">Temperature 2 (K)</label>
+        <input type="number" class="form-control bg-dark text-white" id="temp2" placeholder="Enter temperature in Kelvin" aria-label="Temperature 2">
+      </div>
+      <button id="subtractBtn" class="btn btn-primary w-100 mb-3">Subtract</button>
+      <div id="resultDisplay" class="alert alert-info text-center" role="alert" aria-live="polite" hidden>
+        Result: <span id="result"></span>
+      </div>
+      <div class="mt-4">
+        <h2 class="text-center mb-3">Memory</h2>
+        <ul id="memoryList" class="list-group bg-dark text-white" aria-label="Memory list"></ul>
+        <button id="clearMemoryBtn" class="btn btn-danger w-100 mt-3" disabled>Clear Memory</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="fs-5 mb-4">The tool works by taking two temperature values in Kelvin, subtracting the second from the first, and displaying the result. It also keeps a memory of your calculations, so you can revisit them anytime. Here's a simple breakdown:</p>
+      <p class="fs-5 mb-4"><strong>Formula:</strong> Result = Temperature 1 (K) - Temperature 2 (K)</p>
+      <p class="fs-5 mb-4">For example, if you subtract 300 K from 500 K, the result will be 200 K. The tool also stores this calculation in a list, so you can keep track of multiple results without losing them.</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Temperature 1 (K)</th>
+            <th>Temperature 2 (K)</th>
+            <th>Result (K)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>500</td><td>300</td><td>200</td></tr>
+          <tr><td>400</td><td>200</td><td>200</td></tr>
+          <tr><td>600</td><td>450</td><td>150</td></tr>
+          <tr><td>350</td><td>100</td><td>250</td></tr>
+          <tr><td>800</td><td>700</td><td>100</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="fs-4 mb-4">Here are 10 common use cases for the Temperature Subtraction Memory Tool:</p>
+      <ol class="fs-5">
+        <li>Calculating temperature differences in scientific experiments.</li>
+        <li>Comparing temperature changes in environmental studies.</li>
+        <li>Solving physics problems involving heat transfer.</li>
+        <li>Teaching students about temperature scales and calculations.</li>
+        <li>Analyzing temperature data in engineering projects.</li>
+        <li>Tracking temperature variations in chemical reactions.</li>
+        <li>Monitoring temperature differences in industrial processes.</li>
+        <li>Simplifying temperature calculations for hobbyists.</li>
+        <li>Storing and referencing past temperature calculations.</li>
+        <li>Quickly verifying temperature differences in research papers.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const temp1Input = document.getElementById('temp1');
+    const temp2Input = document.getElementById('temp2');
+    const subtractBtn = document.getElementById('subtractBtn');
+    const resultDisplay = document.getElementById('resultDisplay');
+    const resultText = document.getElementById('result');
+    const memoryList = document.getElementById('memoryList');
+    const clearMemoryBtn = document.getElementById('clearMemoryBtn');
+
+    // Preload first input field from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startTemp = urlParams.get('start');
+    if (startTemp && !isNaN(startTemp)) {
+      temp1Input.value = startTemp;
+    }
+
+    subtractBtn.addEventListener('click', () => {
+      const temp1 = parseFloat(temp1Input.value);
+      const temp2 = parseFloat(temp2Input.value);
+
+      if (isNaN(temp1) || isNaN(temp2)) {
+        alert('Please enter valid numbers for both temperatures.');
+        return;
+      }
+
+      const result = temp1 - temp2;
+      resultText.textContent = `${temp1} K - ${temp2} K = ${result} K`;
+      resultDisplay.hidden = false;
+
+      const memoryItem = document.createElement('li');
+      memoryItem.className = 'list-group-item bg-dark text-white';
+      memoryItem.textContent = `${temp1} K - ${temp2} K = ${result} K`;
+      memoryList.appendChild(memoryItem);
+
+      clearMemoryBtn.disabled = false;
+    });
+
+    clearMemoryBtn.addEventListener('click', () => {
+      memoryList.innerHTML = '';
+      clearMemoryBtn.disabled = true;
+    });
+  });
+</script>

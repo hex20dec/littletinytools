@@ -1,0 +1,142 @@
+---
+title: "Empty List-Aware Sorter - Sort Your Lists Effortlessly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-11-11 11:15:39
+metaDescription: "Sort and clean your lists effortlessly with the Empty List-Aware Sorter. Ignore empty entries and organize in seconds!"
+metaKeywords: "list sorter, clean lists, organize data, sort list online, list organizer, remove empty lines, sort alphabetically, list cleanup tool, online list sorter, sort text list"
+tags: ["list-sorter", "productivity-tool", "sorting-app", "web-tool", "task-organizer"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="text-center">
+    <h1 class="text-white mb-3">Empty List-Aware Sorter</h1><div class="container mt-5">
+  <div class="text-center">
+    <strong class="display-5 text-white mb-3">Empty List-Aware Sorter</strong>
+    <p class="text-muted">Why does sorting lists always feel like a chore, especially when half the entries are blank or incomplete? Whether you're organizing a to-do list, cleaning up a spreadsheet, or just trying to make sense of a messy data dump, this tool is here to save the day. The Empty List-Aware Sorter takes your jumbled list, ignores all the empty entries, and sorts the rest in either ascending or descending order. No more manual cleanup—just paste, click, and voilà! Your list is neat, tidy, and ready to use. Let’s make list-sorting as painless as scrolling through cat videos.</p>
+  </div>
+</div>
+    <p class="text-muted">Enter your list below, and we'll sort it while ignoring empty entries.</p>
+  </div>
+
+  <div class="mb-3">
+    <textarea id="input-list" class="form-control bg-dark text-white" rows="10" placeholder="Enter your list items here, one per line."></textarea>
+  </div>
+
+  <div class="mb-3">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="sort-order" id="ascending" value="ascending" checked>
+      <label class="form-check-label text-white" for="ascending">Ascending (A-Z / 0-9)</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="sort-order" id="descending" value="descending">
+      <label class="form-check-label text-white" for="descending">Descending (Z-A / 9-0)</label>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <button id="sort-btn" class="btn btn-primary me-2">Sort</button>
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+
+  <div class="border p-3 bg-dark text-white">
+    <h2 class="h5">Sorted List</h2>
+    <div id="output-list" class="lead"></div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="bg-dark text-white p-4 rounded">
+    <h2 class="h4">How It Works</h2>
+    <p>Here’s the magic formula behind this tool:</p>
+    <ol>
+      <li><strong>Input Your List:</strong> Paste or type your list into the text area. Each item should be on a new line.</li>
+      <li><strong>Choose Sorting Order:</strong> Pick between ascending (A-Z / 0-9) or descending (Z-A / 9-0).</li>
+      <li><strong>Sort & Clean:</strong> The tool filters out empty lines, sorts the remaining items, and displays the results instantly.</li>
+    </ol>
+    <p>It’s like having a personal assistant who skips the boring parts and gets straight to the good stuff.</p>
+
+    <h3 class="h5 mt-4">Example Table</h3>
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Original List</th>
+          <th scope="col">Sorted (Ascending)</th>
+          <th scope="col">Sorted (Descending)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Apple<br>Banana<br><br>Cherry</td>
+          <td>Apple<br>Banana<br>Cherry</td>
+          <td>Cherry<br>Banana<br>Apple</td>
+        </tr>
+        <tr>
+          <td>10<br>2<br><br>5</td>
+          <td>2<br>5<br>10</td>
+          <td>10<br>5<br>2</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container mt-4">
+  <div class="bg-light p-4 rounded">
+    <h2 class="h4">10 Common Use Cases</h2>
+    <ul class="list-group">
+      <li class="list-group-item">Cleaning up messy to-do lists.</li>
+      <li class="list-group-item">Organizing inventory or product lists.</li>
+      <li class="list-group-item">Sorting names for event invitations.</li>
+      <li class="list-group-item">Preparing data for reports or presentations.</li>
+      <li class="list-group-item">Filtering and organizing survey responses.</li>
+      <li class="list-group-item">Sorting email addresses or contact lists.</li>
+      <li class="list-group-item">Arranging keywords for SEO purposes.</li>
+      <li class="list-group-item">Simplifying student or employee rosters.</li>
+      <li class="list-group-item">Cleaning up CSV or spreadsheet data.</li>
+      <li class="list-group-item">Sorting random ideas or brainstorming notes.</li>
+    </ul>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const inputList = document.getElementById('input-list');
+    const outputList = document.getElementById('output-list');
+    const sortBtn = document.getElementById('sort-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const sortOrderRadios = document.querySelectorAll('input[name="sort-order"]');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputList.value = startValue;
+    }
+
+    sortBtn.addEventListener('click', function () {
+      const items = inputList.value
+        .split('\n')
+        .map(item => item.trim())
+        .filter(item => item.length > 0);
+
+      if (items.length === 0) {
+        outputList.textContent = 'No valid items to sort.';
+        return;
+      }
+
+      const sortOrder = Array.from(sortOrderRadios).find(radio => radio.checked).value;
+
+      const sortedItems = items.sort((a, b) => {
+        if (sortOrder === 'ascending') {
+          return a.localeCompare(b, undefined, { sensitivity: 'base' });
+        } else {
+          return b.localeCompare(a, undefined, { sensitivity: 'base' });
+        }
+      });
+
+      outputList.innerHTML = sortedItems.map(item => `<div>${item}</div>`).join('');
+    });
+
+    resetBtn.addEventListener('click', function () {
+      inputList.value = '';
+      outputList.textContent = '';
+      sortOrderRadios[0].checked = true;
+    });
+  });
+</script>

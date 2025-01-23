@@ -1,0 +1,116 @@
+---
+title: "Sort Words by Last Character - Unique Text Organizer"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-09-29 15:20:35
+metaDescription: "Sort words or phrases by their last character effortlessly. Perfect for writers, students, and organizers. Try it now!"
+metaKeywords: "sort words by last character, word sorting tool, alphabetize by last letter, creative word organization, word list organizer"
+tags: ["text sorting", "word organizer", "language tools", "productivity", "web app"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Sort by Last Character</h1><div class="container bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <strong class="display-4">Sort by Last Character</strong>
+    <p class="lead mt-3">Why does sorting words feel like solving a puzzle? Whether you're organizing a list of names, brainstorming ideas, or just playing with words, this tool takes the hassle out of sorting by focusing on the last character of each word or phrase. Simply type in your list, hit the "Sort" button, and watch your words magically rearrange themselves in alphabetical order based on their final letter. Perfect for writers, students, or anyone who loves a little order in their chaos. Sorting words has never been this fun—or this easy!</p>
+  </header>
+</div>
+    <p class="lead">Enter a list of words or phrases, and they will be sorted by their last character.</p>
+  </header>
+
+  <div class="mb-3">
+    <textarea id="input-text" class="form-control bg-dark text-white" rows="6" placeholder="Enter one word or phrase per line."></textarea>
+  </div>
+
+  <div class="mb-3">
+    <button id="sort-btn" class="btn btn-primary me-2">Sort</button>
+    <button id="clear-btn" class="btn btn-secondary">Clear</button>
+  </div>
+
+  <div class="mb-3">
+    <textarea id="output-text" class="form-control bg-dark text-white" rows="6" placeholder="Sorted list will appear here." readonly></textarea>
+  </div>
+
+  <footer class="text-center mt-4">
+    <p class="text-muted">This tool sorts words or phrases based on their last character. No external data is used.</p>
+  </footer>
+</div>
+
+<div class="container bg-dark text-white p-4">
+  <div class="mb-4">
+    <p class="h5">How It Works:</p>
+    <p class="mb-3">Here’s the secret sauce: the tool looks at the last character of every word or phrase you enter. It then sorts them alphabetically based on those final characters. If two words end with the same letter, it sorts them alphabetically as a tiebreaker. It’s like giving each word a unique identity based on its ending!</p>
+    <p class="h5">Example Table:</p>
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr>
+          <th>Original List</th>
+          <th>Sorted by Last Character</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>apple</td><td>banana</td></tr>
+        <tr><td>banana</td><td>apple</td></tr>
+        <tr><td>grape</td><td>grape</td></tr>
+        <tr><td>kiwi</td><td>kiwi</td></tr>
+        <tr><td>orange</td><td>orange</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container bg-dark text-white p-4">
+  <div class="mb-4">
+    <p class="h5">Top 10 Use Cases:</p>
+    <ol class="list-group list-group-numbered">
+      <li class="list-group-item bg-dark text-white">Organizing lists of names alphabetically by last name.</li>
+      <li class="list-group-item bg-dark text-white">Sorting song lyrics or poetry for creative projects.</li>
+      <li class="list-group-item bg-dark text-white">Preparing vocabulary lists for language learners.</li>
+      <li class="list-group-item bg-dark text-white">Creating a unique order for brainstorming sessions.</li>
+      <li class="list-group-item bg-dark text-white">Sorting keywords for SEO or content planning.</li>
+      <li class="list-group-item bg-dark text-white">Organizing book titles or movie names for personal libraries.</li>
+      <li class="list-group-item bg-dark text-white">Preparing lists of ingredients or recipes in a fun way.</li>
+      <li class="list-group-item bg-dark text-white">Sorting product names for inventory management.</li>
+      <li class="list-group-item bg-dark text-white">Creating unique word games or puzzles.</li>
+      <li class="list-group-item bg-dark text-white">Making your to-do lists more interesting and visually appealing.</li>
+    </ol>
+  </div>
+</div><script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const inputText = document.getElementById("input-text");
+    const outputText = document.getElementById("output-text");
+    const sortBtn = document.getElementById("sort-btn");
+    const clearBtn = document.getElementById("clear-btn");
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get("start");
+    if (startValue) {
+      inputText.value = startValue;
+    }
+
+    // Sort functionality
+    sortBtn.addEventListener("click", () => {
+      const inputLines = inputText.value.split("\n").filter(line => line.trim() !== "");
+      if (inputLines.length === 0) {
+        outputText.value = "";
+        return;
+      }
+
+      const sortedLines = inputLines.sort((a, b) => {
+        const lastCharA = a.trim().slice(-1).toLowerCase();
+        const lastCharB = b.trim().slice(-1).toLowerCase();
+        if (lastCharA === lastCharB) {
+          return a.trim().localeCompare(b.trim());
+        }
+        return lastCharA.localeCompare(lastCharB);
+      });
+
+      outputText.value = sortedLines.join("\n");
+    });
+
+    // Clear functionality
+    clearBtn.addEventListener("click", () => {
+      inputText.value = "";
+      outputText.value = "";
+    });
+  });
+</script>

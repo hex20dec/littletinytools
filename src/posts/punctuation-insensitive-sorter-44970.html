@@ -1,0 +1,127 @@
+---
+title: Punctuation-Insensitive Sorter - Sort Words & Phrases Easily
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-10-09 12:54:12
+metaDescription: "Sort your words or phrases alphabetically, ignoring punctuation. Perfect for organizing lists, cleaning data, and simplifying your workflow."
+metaKeywords: "punctuation-insensitive sorter, sort alphabetically, organize lists, clean data, alphabetize words, ignore punctuation, list sorter, text organizer, data sorting tool, alphabetical order tool"
+tags: [text-sorting, punctuation-removal, alphabetical-sorter, text-tool, productivity]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="text-center mb-3">Punctuation-Insensitive Sorter</h1><div class="container bg-dark text-white p-4">
+  <p class="lead text-center mb-4">Sorting lists can be a headache, especially when punctuation gets in the way. Why does "apple" end up after "banana?" just because of a stray comma? The Punctuation-Insensitive Sorter is here to save the day! This nifty tool organizes your words or phrases alphabetically, ignoring all those pesky punctuation marks. Whether you're cleaning up a messy list, organizing your notes, or prepping data for a project, this tool makes sorting a breeze. Say goodbye to manual rearranging and hello to simplicity—your lists will never look better!</p>
+</div>
+  <p class="text-center mb-4">Sort your list of words or phrases alphabetically, ignoring punctuation.</p>
+
+  <div class="mb-3">
+    <textarea id="input-text" class="form-control bg-dark text-white mb-3" rows="6" placeholder="Enter your list here, one item per line."></textarea>
+    <button id="sort-btn" class="btn btn-primary w-100 mb-3">Sort</button>
+  </div>
+
+  <div class="mb-3">
+    <textarea id="output-text" class="form-control bg-dark text-white mb-3" rows="6" placeholder="Sorted list will appear here." readonly></textarea>
+    <button id="clear-btn" class="btn btn-secondary w-100">Clear</button>
+  </div>
+</div>
+
+<div class="container bg-light p-4">
+  <div class="mb-4">
+    <strong>How It Works:</strong>
+    <p>The Punctuation-Insensitive Sorter follows a simple but powerful formula:</p>
+    <ol>
+      <li>It takes your list of words or phrases, one per line.</li>
+      <li>It strips away all punctuation, leaving only letters and spaces.</li>
+      <li>It sorts the cleaned-up list alphabetically, ignoring case (so "apple" and "Apple" are treated the same).</li>
+      <li>Finally, it preserves your original formatting, so your sorted list looks just like you entered it—but better organized!</li>
+    </ol>
+  </div>
+
+  <div class="mb-4">
+    <strong>Example Output:</strong>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Original List</th>
+          <th>Sorted List (Punctuation-Insensitive)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>banana, apple</td>
+          <td>apple, banana</td>
+        </tr>
+        <tr>
+          <td>zebra! apple?</td>
+          <td>apple? zebra!</td>
+        </tr>
+        <tr>
+          <td>Orange; grapefruit</td>
+          <td>grapefruit; Orange</td>
+        </tr>
+        <tr>
+          <td>kiwi - mango</td>
+          <td>kiwi - mango</td>
+        </tr>
+        <tr>
+          <td>pear; apple, banana</td>
+          <td>apple, banana; pear</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container bg-dark text-white p-4">
+  <strong>10 Common Use Cases for the Punctuation-Insensitive Sorter:</strong>
+  <ul>
+    <li>Organizing a list of names or titles with inconsistent punctuation.</li>
+    <li>Sorting a bibliography or reference list alphabetically.</li>
+    <li>Cleaning up a messy to-do list or shopping list.</li>
+    <li>Prepping data for spreadsheets or databases.</li>
+    <li>Sorting keywords for SEO or marketing campaigns.</li>
+    <li>Organizing song titles or playlist names.</li>
+    <li>Reordering a list of book or movie titles.</li>
+    <li>Sorting product names or inventory lists.</li>
+    <li>Cleaning up a list of email addresses or domain names.</li>
+    <li>Preparing a list of terms for a glossary or index.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const outputText = document.getElementById('output-text');
+    const sortBtn = document.getElementById('sort-btn');
+    const clearBtn = document.getElementById('clear-btn');
+
+    // Preload input from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    // Function to remove punctuation and sort
+    const sortList = (text) => {
+      const lines = text.split('\n').filter(line => line.trim() !== '');
+      const sortedLines = lines.map(line => ({
+        original: line,
+        cleaned: line.replace(/[^\w\s]/g, '').toLowerCase()
+      })).sort((a, b) => a.cleaned.localeCompare(b.cleaned))
+        .map(item => item.original);
+      return sortedLines.join('\n');
+    };
+
+    // Sort button click handler
+    sortBtn.addEventListener('click', () => {
+      const inputValue = inputText.value.trim();
+      if (!inputValue) {
+        outputText.value = 'Please enter a valid list of words or phrases.';
+        return;
+      }
+      outputText.value = sortList(inputValue);
+    });
+
+    // Clear button click handler
+    clearBtn.addEventListener('click', () => {
+      inputText.value = '';
+      outputText.value = '';
+    });
+  });
+</script>

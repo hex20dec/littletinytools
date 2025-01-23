@@ -1,0 +1,122 @@
+---
+title: "Bracket-Insensitive Sorter: Sort Lists While Ignoring Brackets"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-03-04 14:01:29
+metaDescription: "Sort lists alphabetically while ignoring brackets and parentheses. Perfect for organizing data, grocery lists, and more!"
+metaKeywords: "bracket sorter, list organizer, alphabetical sorter, ignore brackets, data sorting tool, list cleaner, parentheses sorter"
+tags: ["sorting-tool", "bracket-insensitive", "list-organizer", "productivity", "web-app"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="text-center mt-4">Bracket-Insensitive Sorter</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <p class="lead text-center">Why does sorting lists with brackets or parentheses always feel like solving a puzzle? If you've ever spent hours manually reordering items like "[Apple] Banana (Cherry)" only to realize the brackets are messing with your sorting logic, this tool is your new best friend. The Bracket-Insensitive Sorter takes your messy list, ignores all those pesky brackets and parentheses, and sorts the items alphabetically—fast and hassle-free. Whether you're organizing a grocery list, cataloging products, or cleaning up data, this tool makes it feel like magic. Say goodbye to frustration and hello to a perfectly sorted list in seconds!</p>
+    </div>
+  </div>
+</div>
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <textarea id="input-area" class="form-control w-100 mx-auto my-3 bg-dark text-white" rows="6" placeholder="Enter your list here, one item per line. Example: [Apple] Banana (Cherry)."></textarea>
+      <div class="d-flex justify-content-center my-3">
+        <button id="sort-btn" class="btn btn-primary mx-2">Sort List</button>
+        <button id="reset-btn" class="btn btn-secondary mx-2">Reset</button>
+      </div>
+      <textarea id="output-area" class="form-control w-100 mx-auto my-3 bg-dark text-white" rows="6" readonly></textarea>
+      <p class="text-muted small text-center">This tool sorts your list alphabetically while ignoring text in brackets. Example: [Apple] Banana (Cherry) → Banana [Apple] (Cherry).</p>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4">How It Works</h2>
+      <p>The Bracket-Insensitive Sorter uses a simple yet powerful logic to sort your list:</p>
+      <ol>
+        <li>It reads your list line by line, ignoring any text inside brackets <code>[...]</code> or parentheses <code>(...)</code>.</li>
+        <li>It compares the remaining text alphabetically, just like a dictionary.</li>
+        <li>Finally, it rearranges your list while preserving the original brackets and parentheses.</li>
+      </ol>
+      <p>For example, if you input:</p>
+      <pre class="bg-dark text-white p-3 rounded">[Apple] Banana
+(Cherry) Date</pre>
+      <p>The tool will sort it as:</p>
+      <pre class="bg-dark text-white p-3 rounded">Banana [Apple]
+Date (Cherry)</pre>
+      <h2 class="text-center mt-5 mb-4">Example Outputs</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Sorted Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>[Apple] Banana</td><td>Banana [Apple]</td></tr>
+          <tr><td>(Cherry) Date</td><td>Date (Cherry)</td></tr>
+          <tr><td>[Zebra] Apple</td><td>Apple [Zebra]</td></tr>
+          <tr><td>(Grape) Fig</td><td>Fig (Grape)</td></tr>
+          <tr><td>[Orange] Lemon</td><td>Lemon [Orange]</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4">10 Ways to Use the Bracket-Insensitive Sorter</h2>
+      <ul class="list-group">
+        <li class="list-group-item bg-dark text-white">Organizing grocery lists with optional items in brackets.</li>
+        <li class="list-group-item bg-dark text-white">Sorting product catalogs with variant names in parentheses.</li>
+        <li class="list-group-item bg-dark text-white">Cleaning up messy data exports from spreadsheets.</li>
+        <li class="list-group-item bg-dark text-white">Reordering to-do lists with priority levels in brackets.</li>
+        <li class="list-group-item bg-dark text-white">Sorting bibliographies with citations in parentheses.</li>
+        <li class="list-group-item bg-dark text-white">Managing inventory lists with product codes in brackets.</li>
+        <li class="list-group-item bg-dark text-white">Organizing event schedules with optional sessions in parentheses.</li>
+        <li class="list-group-item bg-dark text-white">Sorting playlists with song metadata in brackets.</li>
+        <li class="list-group-item bg-dark text-white">Reordering research notes with annotations in parentheses.</li>
+        <li class="list-group-item bg-dark text-white">Cleaning up database entries with additional info in brackets.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputArea = document.getElementById('input-area');
+    const outputArea = document.getElementById('output-area');
+    const sortBtn = document.getElementById('sort-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputArea.value = startValue;
+    }
+
+    const sortList = () => {
+      const input = inputArea.value.trim();
+      if (!input) {
+        outputArea.value = '';
+        return;
+      }
+
+      const lines = input.split('\n').filter(line => line.trim() !== '');
+      const sortedLines = lines.sort((a, b) => {
+        const cleanA = a.replace(/\[.*?\]|\(.*?\)/g, '').trim().toLowerCase();
+        const cleanB = b.replace(/\[.*?\]|\(.*?\)/g, '').trim().toLowerCase();
+        return cleanA.localeCompare(cleanB);
+      });
+
+      outputArea.value = sortedLines.join('\n');
+    };
+
+    const resetApp = () => {
+      inputArea.value = '';
+      outputArea.value = '';
+    };
+
+    sortBtn.addEventListener('click', sortList);
+    resetBtn.addEventListener('click', resetApp);
+  });
+</script>

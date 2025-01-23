@@ -1,0 +1,99 @@
+---
+title: "Slash Counter - Quickly Count Forward Slashes in Text"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-10-01 00:55:19
+metaDescription: "Count slashes in text instantly with the Slashes Counter. Perfect for URLs, file paths, and data formatting. Simple, fast, and free!"
+metaKeywords: "slash counter, count slashes, URL slash counter, file path counter, text formatting tool, online slash counter, slash counter tool, forward slash counter, slash counter online, text analysis tool"
+tags: ["web tool", "slash counter", "text utility", "developer tool", "formatting helper"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <textarea id="input-text" class="form-control bg-dark text-white mb-3" placeholder="Enter or paste your text here..." rows="6"></textarea>
+      <button id="count-button" class="btn btn-primary w-100 mb-3">Count Slashes</button>
+      <div class="alert alert-info bg-dark text-white">
+        <strong>Number of Slashes:</strong> <span id="result">0</span>
+      </div>
+      <button id="reset-button" class="btn btn-secondary w-100">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="h4">How It Works</h2>
+      <p>The Slashes Counter works by scanning your text and counting every forward slash (<code>/</code>) it finds. Think of it as a digital tally counter, but way faster and more accurate. Here’s the formula it follows:</p>
+      <p><strong>Total Slashes = Number of "/" in your text</strong></p>
+      <p>For example, if your text is <code>https://example.com/path</code>, the tool will count 4 slashes. Easy, right?</p>
+
+      <h2 class="h4 mt-4">Common Examples</h2>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Text</th>
+            <th>Slashes Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>https://example.com</td><td>2</td></tr>
+          <tr><td>/home/user/docs</td><td>3</td></tr>
+          <tr><td>2023/12/25</td><td>2</td></tr>
+          <tr><td>C:/Program Files/</td><td>2</td></tr>
+          <tr><td>1/2/3/4/5</td><td>4</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="h4">10 Common Use Cases for the Slashes Counter</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1. Validating URLs in web development projects.</li>
+        <li class="list-group-item">2. Formatting file paths in programming scripts.</li>
+        <li class="list-group-item">3. Counting date separators in formatted strings (e.g., 2023/12/25).</li>
+        <li class="list-group-item">4. Organizing data in CSV or similar formats.</li>
+        <li class="list-group-item">5. Debugging code to ensure proper slash usage.</li>
+        <li class="list-group-item">6. Parsing API endpoints for correct structure.</li>
+        <li class="list-group-item">7. Editing configuration files with path references.</li>
+        <li class="list-group-item">8. Verifying directory structures in documentation.</li>
+        <li class="list-group-item">9. Preparing data for import/export processes.</li>
+        <li class="list-group-item">10. Teaching or learning about string manipulation basics.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const inputText = document.getElementById('input-text');
+    const countButton = document.getElementById('count-button');
+    const resultDisplay = document.getElementById('result');
+    const resetButton = document.getElementById('reset-button');
+
+    // Preload text from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+      updateSlashCount();
+    }
+
+    // Count slashes function
+    function updateSlashCount() {
+      const text = inputText.value;
+      const slashCount = (text.match(/\//g) || []).length;
+      resultDisplay.textContent = slashCount;
+    }
+
+    // Event listeners
+    countButton.addEventListener('click', updateSlashCount);
+    resetButton.addEventListener('click', function () {
+      inputText.value = '';
+      resultDisplay.textContent = '0';
+    });
+
+    // Optional: Real-time counting
+    inputText.addEventListener('input', updateSlashCount);
+  });
+</script>

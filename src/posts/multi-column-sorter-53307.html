@@ -1,0 +1,228 @@
+---
+title: "Multi-Column Sorter: Organize Your Data Effortlessly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-01-15 02:10:01
+metaDescription: "Effortlessly sort and organize data with the Multi-Column Sorter. Simplify your workflow and save time with this easy-to-use tool."
+metaKeywords: "multi-column sorter, data sorting tool, organize data, spreadsheet sorter, sort tables, data organization, productivity tool, sorting tool, data management, sort by column"
+tags: ["data-sorting", "table-sorter", "productivity-tool", "web-app", "bootstrap"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-4">Multi-Column Sorter</h1><div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto text-center">
+      <p class="lead fw-bold mb-3">Why does organizing data always feel like solving a puzzle? Whether it's sorting sales figures, ranking survey results, or prioritizing tasks, things can get messy fast. Enter the Multi-Column Sorter—your new best friend for effortlessly arranging data. Just add your columns, pick your sorting preferences, and watch the magic happen. No more endless scrolling or manual reordering. It’s like having a personal assistant for your spreadsheets, but without the coffee breaks. Say goodbye to chaos and hello to clarity!</p>
+    </div>
+  </div>
+</div>
+      <div class="mb-3">
+        <button id="add-column" class="btn btn-primary me-2">Add Column</button>
+        <button id="remove-column" class="btn btn-secondary">Remove Column</button>
+      </div>
+      <div class="table-responsive">
+        <table id="input-table" class="table table-bordered table-striped table-dark">
+          <thead>
+            <tr id="table-headers"></tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-3">
+        <button id="sort-btn" class="btn btn-success me-md-2">Sort</button>
+        <button id="reset-btn" class="btn btn-danger">Reset</button>
+      </div>
+      <div id="output-section" class="mt-4 d-none">
+        <h2 class="text-center mb-3">Sorted Data</h2>
+        <div class="table-responsive">
+          <table id="output-table" class="table table-bordered table-striped table-dark">
+            <thead>
+              <tr id="output-headers"></tr>
+            </thead>
+            <tbody id="output-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h2 class="text-center mb-4">How It Works</h2>
+      <p class="text-muted">The Multi-Column Sorter works by letting you choose how to sort your data. Here’s the simple formula:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Add your columns and fill them with data.</li>
+        <li class="list-group-item">Select whether you want each column sorted in ascending (A-Z) or descending (Z-A) order.</li>
+        <li class="list-group-item">Click "Sort," and the tool rearranges your data based on your preferences.</li>
+      </ol>
+      <p class="mt-3">Want to see it in action? Check out this example:</p>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Alice</td>
+            <td>30</td>
+            <td>85</td>
+          </tr>
+          <tr>
+            <td>Bob</td>
+            <td>25</td>
+            <td>90</td>
+          </tr>
+          <tr>
+            <td>Charlie</td>
+            <td>35</td>
+            <td>80</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="mt-3">Sort by "Score" in descending order, and voilà—Bob moves to the top!</p>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h2 class="text-center mb-4">10 Common Use Cases</h2>
+      <ul class="list-group">
+        <li class="list-group-item">Sorting sales data by region and revenue.</li>
+        <li class="list-group-item">Ranking survey responses by satisfaction levels.</li>
+        <li class="list-group-item">Organizing inventory lists by quantity and price.</li>
+        <li class="list-group-item">Prioritizing tasks by due date and importance.</li>
+        <li class="list-group-item">Arranging student grades by subject and score.</li>
+        <li class="list-group-item">Ordering customer feedback by rating and date.</li>
+        <li class="list-group-item">Sorting project timelines by start and end dates.</li>
+        <li class="list-group-item">Ranking job applicants by experience and skills.</li>
+        <li class="list-group-item">Organizing event schedules by time and location.</li>
+        <li class="list-group-item">Sorting expense reports by category and amount.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mainDiv = document.getElementById('main-div');
+    const inputTable = document.getElementById('input-table');
+    const tableHeaders = document.getElementById('table-headers');
+    const tableBody = document.getElementById('table-body');
+    const outputSection = document.getElementById('output-section');
+    const outputTable = document.getElementById('output-table');
+    const outputHeaders = document.getElementById('output-headers');
+    const outputBody = document.getElementById('output-body');
+    const addColumnBtn = document.getElementById('add-column');
+    const removeColumnBtn = document.getElementById('remove-column');
+    const sortBtn = document.getElementById('sort-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    let columnCount = 2;
+    let initialData = [];
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start') || '';
+
+    const createHeader = (index) => {
+      const th = document.createElement('th');
+      th.scope = 'col';
+      th.innerHTML = `
+        <select class="form-select form-select-sm">
+          <option value="none">None</option>
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      `;
+      return th;
+    };
+
+    const createCell = (value = '') => {
+      const td = document.createElement('td');
+      td.contentEditable = true;
+      td.textContent = value;
+      return td;
+    };
+
+    const addColumn = () => {
+      columnCount++;
+      tableHeaders.appendChild(createHeader(columnCount - 1));
+      Array.from(tableBody.rows).forEach(row => row.appendChild(createCell()));
+    };
+
+    const removeColumn = () => {
+      if (columnCount > 1) {
+        columnCount--;
+        tableHeaders.removeChild(tableHeaders.lastElementChild);
+        Array.from(tableBody.rows).forEach(row => row.removeChild(row.lastElementChild));
+      }
+    };
+
+    const resetTable = () => {
+      tableHeaders.innerHTML = '';
+      tableBody.innerHTML = '';
+      outputSection.classList.add('d-none');
+      columnCount = 2;
+      initialData.forEach((row, rowIndex) => {
+        const tr = document.createElement('tr');
+        row.forEach((cell, colIndex) => {
+          if (rowIndex === 0) tableHeaders.appendChild(createHeader(colIndex));
+          tr.appendChild(createCell(cell));
+        });
+        tableBody.appendChild(tr);
+      });
+    };
+
+    const sortData = () => {
+      const headers = Array.from(tableHeaders.querySelectorAll('select'));
+      const sortCriteria = headers.map(select => select.value);
+      if (sortCriteria.every(criteria => criteria === 'none')) {
+        alert('Please select at least one column to sort.');
+        return;
+      }
+
+      const rows = Array.from(tableBody.rows);
+      const data = rows.map(row => Array.from(row.cells).map(cell => cell.textContent.trim()));
+
+      data.sort((a, b) => {
+        for (let i = 0; i < sortCriteria.length; i++) {
+          if (sortCriteria[i] === 'none') continue;
+          if (a[i] < b[i]) return sortCriteria[i] === 'asc' ? -1 : 1;
+          if (a[i] > b[i]) return sortCriteria[i] === 'asc' ? 1 : -1;
+        }
+        return 0;
+      });
+
+      outputHeaders.innerHTML = tableHeaders.innerHTML;
+      outputBody.innerHTML = '';
+      data.forEach(row => {
+        const tr = document.createElement('tr');
+        row.forEach(cell => tr.appendChild(createCell(cell)));
+        outputBody.appendChild(tr);
+      });
+
+      outputSection.classList.remove('d-none');
+    };
+
+    addColumnBtn.addEventListener('click', addColumn);
+    removeColumnBtn.addEventListener('click', removeColumn);
+    sortBtn.addEventListener('click', sortData);
+    resetBtn.addEventListener('click', resetTable);
+
+    // Initialize table with 2 columns and 3 rows
+    for (let i = 0; i < 3; i++) {
+      const tr = document.createElement('tr');
+      for (let j = 0; j < columnCount; j++) {
+        if (i === 0) tableHeaders.appendChild(createHeader(j));
+        tr.appendChild(createCell(j === 0 && i === 0 ? startValue : ''));
+      }
+      tableBody.appendChild(tr);
+    }
+
+    // Save initial data for reset
+    initialData = Array.from(tableBody.rows).map(row => Array.from(row.cells).map(cell => cell.textContent.trim()));
+  });
+</script>

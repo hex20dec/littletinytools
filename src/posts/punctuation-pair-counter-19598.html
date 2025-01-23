@@ -1,0 +1,212 @@
+---
+title: Punctuation Pair Counter - Balance Your Text with Ease
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-12-30 18:40:33
+metaDescription: "Count and match punctuation pairs instantly with the Punctuation Pair Counter. Perfect for debugging, proofreading, and formatting text."
+metaKeywords: "punctuation counter, count parentheses, bracket pair checker, curly braces counter, angle brackets, punctuation tool, text formatting, debug punctuation, JSON validation, LaTeX proofreading"
+tags: punctuation, text-tool, writing, editing, proofreading
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Punctuation Pair Counter</h1><div class="container bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <strong>Text riddled with mismatched punctuation? Let’s fix that.</strong> Whether you're writing code, drafting an essay, or crafting the perfect email, missing or extra parentheses, brackets, or braces can turn your text into a mess. The Punctuation Pair Counter is here to save the day—instantly counting and matching your punctuation pairs so you can focus on what really matters: your message. No more squinting at nested structures or guessing if you’ve closed all your brackets. Just paste your text, hit the button, and let the magic happen. Life’s too short for mismatched punctuation!
+  </div>
+</div>
+  <p class="text-center mb-4">Enter your text below to count matching pairs of punctuation marks: <code>()</code>, <code>[]</code>, <code>{}</code>, <code><></code>.</p>
+  
+  <textarea id="text-input" class="form-control bg-dark text-white mb-3" placeholder="Paste or type your text here..." rows="10"></textarea>
+  
+  <button id="count-button" class="btn btn-primary w-100 mb-3">Count Pairs</button>
+  
+  <div id="results-section" class="mt-3">
+    <table id="results-table" class="table table-bordered text-white d-none">
+      <thead>
+        <tr>
+          <th>Punctuation</th>
+          <th>Pairs</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Parentheses ()</td>
+          <td id="parentheses-count">0</td>
+        </tr>
+        <tr>
+          <td>Square Brackets []</td>
+          <td id="brackets-count">0</td>
+        </tr>
+        <tr>
+          <td>Curly Braces {}</td>
+          <td id="braces-count">0</td>
+        </tr>
+        <tr>
+          <td>Angle Brackets <></td>
+          <td id="angle-count">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <p id="no-pairs-message" class="text-center d-none">No matching pairs found.</p>
+    <div id="warning-message" class="alert alert-warning mt-3 d-none">Warning: Unmatched punctuation detected. Please check your text.</div>
+  </div>
+  
+  <button id="reset-button" class="btn btn-secondary btn-sm mt-3">Reset</button>
+</div>
+
+<div class="container bg-dark text-white p-4">
+  <div class="mb-4">
+    <strong>How it works:</strong> The tool scans your text for four types of punctuation pairs: parentheses <code>()</code>, square brackets <code>[]</code>, curly braces <code>{}</code>, and angle brackets <code><></code>. It counts how many complete pairs of each type are present and flags any unmatched or mismatched symbols. Think of it as a grammar cop for your punctuation, ensuring everything is in its right place.
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bordered text-white">
+      <thead>
+        <tr>
+          <th>Punctuation Type</th>
+          <th>Example Text</th>
+          <th>Pairs Counted</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Parentheses ()</td>
+          <td>(This is a test)</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>Square Brackets []</td>
+          <td>[Another example]</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>Curly Braces {}</td>
+          <td>{Yet another test}</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>Angle Brackets <></td>
+          <td><One more example></td>
+          <td>1</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container bg-dark text-white p-4">
+  <div class="mb-4">
+    <strong>Top 10 Use Cases for the Punctuation Pair Counter:</strong>
+    <ol>
+      <li>Debugging code snippets with nested structures.</li>
+      <li>Proofreading essays or reports for correct punctuation usage.</li>
+      <li>Ensuring proper formatting in JSON or XML files.</li>
+      <li>Checking LaTeX documents for matching brackets and braces.</li>
+      <li>Validating HTML or XML tags in web development projects.</li>
+      <li>Reviewing mathematical equations for balanced parentheses.</li>
+      <li>Editing technical documentation with nested explanations.</li>
+      <li>Preparing presentations with correctly formatted citations.</li>
+      <li>Writing scripts or dialogues with nested quotations.</li>
+      <li>Creating markdown files with proper syntax highlighting.</li>
+    </ol>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const countButton = document.getElementById('count-button');
+    const resultsTable = document.getElementById('results-table');
+    const noPairsMessage = document.getElementById('no-pairs-message');
+    const warningMessage = document.getElementById('warning-message');
+    const resetButton = document.getElementById('reset-button');
+    const pairsCount = {
+      parentheses: document.getElementById('parentheses-count'),
+      brackets: document.getElementById('brackets-count'),
+      braces: document.getElementById('braces-count'),
+      angle: document.getElementById('angle-count')
+    };
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    const countPairs = (text) => {
+      const pairs = {
+        parentheses: 0,
+        brackets: 0,
+        braces: 0,
+        angle: 0
+      };
+      const stack = [];
+      let hasUnmatched = false;
+
+      for (const char of text) {
+        switch (char) {
+          case '(':
+            stack.push(')');
+            break;
+          case '[':
+            stack.push(']');
+            break;
+          case '{':
+            stack.push('}');
+            break;
+          case '<':
+            stack.push('>');
+            break;
+          case ')':
+          case ']':
+          case '}':
+          case '>':
+            if (stack.pop() !== char) {
+              hasUnmatched = true;
+            } else {
+              if (char === ')') pairs.parentheses++;
+              if (char === ']') pairs.brackets++;
+              if (char === '}') pairs.braces++;
+              if (char === '>') pairs.angle++;
+            }
+            break;
+        }
+      }
+
+      if (stack.length > 0) hasUnmatched = true;
+
+      return { pairs, hasUnmatched };
+    };
+
+    const updateResults = ({ pairs, hasUnmatched }) => {
+      pairsCount.parentheses.textContent = pairs.parentheses;
+      pairsCount.brackets.textContent = pairs.brackets;
+      pairsCount.braces.textContent = pairs.braces;
+      pairsCount.angle.textContent = pairs.angle;
+
+      const totalPairs = Object.values(pairs).reduce((sum, count) => sum + count, 0);
+      if (totalPairs > 0) {
+        resultsTable.classList.remove('d-none');
+        noPairsMessage.classList.add('d-none');
+      } else {
+        resultsTable.classList.add('d-none');
+        noPairsMessage.classList.remove('d-none');
+      }
+
+      if (hasUnmatched) {
+        warningMessage.classList.remove('d-none');
+      } else {
+        warningMessage.classList.add('d-none');
+      }
+    };
+
+    countButton.addEventListener('click', () => {
+      const text = textInput.value;
+      const result = countPairs(text);
+      updateResults(result);
+    });
+
+    resetButton.addEventListener('click', () => {
+      textInput.value = '';
+      resultsTable.classList.add('d-none');
+      noPairsMessage.classList.add('d-none');
+      warningMessage.classList.add('d-none');
+      Object.values(pairsCount).forEach(el => el.textContent = '0');
+    });
+  });
+</script>

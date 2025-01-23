@@ -1,0 +1,163 @@
+---
+title: "CSV to SQL DELETE Statements - Generate SQL Queries Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-01-29 18:35:43
+metaDescription: "Generate SQL DELETE statements from CSV files instantly. Perfect for database cleanup, GDPR compliance, and more."
+metaKeywords: "CSV to SQL, SQL DELETE generator, database cleanup, GDPR compliance, bulk SQL delete, CSV converter, SQL tools, database management, automate SQL, delete statements"
+tags: ["CSV", "SQL", "DELETE", "Database", "Tool"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="text-center mb-4">CSV to SQL DELETE Statements</h1><div class="container bg-dark text-white p-4">
+  <p class="lead text-center mb-4">Ever felt the dread of manually creating SQL DELETE statements from a CSV file? You're not alone. Whether you're cleaning up a database or removing outdated records, this tool is your new best friend. Simply upload your CSV, select the column(s) you want to target, and voilà—SQL DELETE statements are ready in seconds. No more copy-pasting or typing out repetitive code. It’s like having a database assistant who never takes a coffee break. Say goodbye to tedious tasks and hello to efficiency!</p>
+</div>
+  <p class="text-center mb-4">Upload a CSV file to generate SQL DELETE statements instantly.</p>
+
+  <div class="mb-4">
+    <label for="csvFile" class="form-label">Upload CSV File</label>
+    <input type="file" class="form-control bg-dark text-white" id="csvFile" accept=".csv">
+    <button class="btn btn-primary mt-2" id="uploadButton">Upload</button>
+    <div class="alert alert-danger mt-2" id="errorMessage" style="display: none;"></div>
+  </div>
+
+  <div class="mb-4" id="columnSelection" style="display: none;">
+    <label for="columnDropdown" class="form-label">Select Column for DELETE Condition</label>
+    <select class="form-select bg-dark text-white" id="columnDropdown"></select>
+    <div class="form-check mt-2">
+      <input class="form-check-input" type="checkbox" id="includeAllColumns">
+      <label class="form-check-label" for="includeAllColumns">Include all columns in DELETE condition</label>
+    </div>
+  </div>
+
+  <div class="mb-4" id="outputSection" style="display: none;">
+    <label for="sqlOutput" class="form-label">Generated SQL DELETE Statements</label>
+    <textarea class="form-control bg-dark text-white" id="sqlOutput" rows="10" readonly></textarea>
+    <button class="btn btn-primary mt-2" id="copyButton">Copy to Clipboard</button>
+    <div class="alert alert-success mt-2" id="copyMessage" style="display: none;">Copied to clipboard!</div>
+  </div>
+</div>
+
+<div class="container bg-dark text-white p-4">
+  <h2 class="mb-4">How It Works</h2>
+  <p class="mb-4">The tool works in three simple steps:</p>
+  <ol class="mb-4">
+    <li><strong>Upload Your CSV:</strong> Choose a CSV file containing the data you want to delete from your database.</li>
+    <li><strong>Select the Column:</strong> Pick the column that will serve as the condition for your DELETE statement. You can also choose to include all columns for a more specific query.</li>
+    <li><strong>Generate SQL:</strong> The tool automatically creates SQL DELETE statements based on your selections, ready to copy and use.</li>
+  </ol>
+  <p class="mb-4">For example, if your CSV has a column named "ID" with values 1, 2, and 3, the tool generates:</p>
+  <pre class="bg-light text-dark p-3 rounded mb-4">
+DELETE FROM your_table WHERE ID = '1';
+DELETE FROM your_table WHERE ID = '2';
+DELETE FROM your_table WHERE ID = '3';
+  </pre>
+  <p class="mb-4">It’s that easy—no coding skills required!</p>
+</div><div class="container bg-dark text-white p-4">
+  <h2 class="mb-4">Common Use Cases</h2>
+  <ul class="list-group mb-4">
+    <li class="list-group-item bg-dark text-white">Cleaning up outdated records in a database.</li>
+    <li class="list-group-item bg-dark text-white">Removing duplicate entries from a table.</li>
+    <li class="list-group-item bg-dark text-white">Deleting specific rows based on user input or external data.</li>
+    <li class="list-group-item bg-dark text-white">Streamlining database maintenance tasks.</li>
+    <li class="list-group-item bg-dark text-white">Preparing for database migrations or updates.</li>
+    <li class="list-group-item bg-dark text-white">Removing test data after development or QA cycles.</li>
+    <li class="list-group-item bg-dark text-white">Automating bulk deletions for large datasets.</li>
+    <li class="list-group-item bg-dark text-white">Ensuring GDPR compliance by deleting user data upon request.</li>
+    <li class="list-group-item bg-dark text-white">Simplifying data cleanup for analytics or reporting.</li>
+    <li class="list-group-item bg-dark text-white">Saving time on repetitive database management tasks.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const csvFileInput = document.getElementById('csvFile');
+    const uploadButton = document.getElementById('uploadButton');
+    const columnSelection = document.getElementById('columnSelection');
+    const columnDropdown = document.getElementById('columnDropdown');
+    const includeAllColumns = document.getElementById('includeAllColumns');
+    const outputSection = document.getElementById('outputSection');
+    const sqlOutput = document.getElementById('sqlOutput');
+    const copyButton = document.getElementById('copyButton');
+    const copyMessage = document.getElementById('copyMessage');
+    const errorMessage = document.getElementById('errorMessage');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      csvFileInput.value = startValue;
+    }
+
+    uploadButton.addEventListener('click', () => {
+      const file = csvFileInput.files[0];
+      if (!file) {
+        showError('Please upload a valid CSV file.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target.result;
+        const rows = text.split('\n');
+        const headers = rows[0].split(',');
+
+        if (!headers || headers.length === 0) {
+          showError('Invalid CSV format.');
+          return;
+        }
+
+        columnDropdown.innerHTML = headers.map(header => `<option value="${header.trim()}">${header.trim()}</option>`).join('');
+        columnSelection.style.display = 'block';
+        outputSection.style.display = 'block';
+
+        generateSQL(rows, headers);
+      };
+      reader.readAsText(file);
+    });
+
+    columnDropdown.addEventListener('change', () => generateSQL());
+    includeAllColumns.addEventListener('change', () => generateSQL());
+
+    copyButton.addEventListener('click', () => {
+      sqlOutput.select();
+      document.execCommand('copy');
+      copyMessage.style.display = 'block';
+      setTimeout(() => copyMessage.style.display = 'none', 2000);
+    });
+
+    function generateSQL(rows, headers) {
+      if (!rows || !headers) {
+        const file = csvFileInput.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const text = e.target.result;
+          rows = text.split('\n');
+          headers = rows[0].split(',');
+          generateSQL(rows, headers);
+        };
+        reader.readAsText(file);
+        return;
+      }
+
+      const selectedColumn = columnDropdown.value;
+      const includeAll = includeAllColumns.checked;
+
+      const sqlStatements = rows.slice(1).map(row => {
+        const values = row.split(',');
+        if (includeAll) {
+          const conditions = headers.map((header, index) => `${header.trim()} = '${values[index].trim()}'`).join(' AND ');
+          return `DELETE FROM your_table WHERE ${conditions};`;
+        } else {
+          return `DELETE FROM your_table WHERE ${selectedColumn} = '${values[headers.indexOf(selectedColumn)].trim()}';`;
+        }
+      }).join('\n');
+
+      sqlOutput.value = sqlStatements;
+    }
+
+    function showError(message) {
+      errorMessage.textContent = message;
+      errorMessage.style.display = 'block';
+      setTimeout(() => errorMessage.style.display = 'none', 3000);
+    }
+  });
+</script>

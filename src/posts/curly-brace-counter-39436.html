@@ -1,0 +1,154 @@
+---
+title: "Curly Brace Counter - Quickly Check Balanced Braces in Your Code"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-11-20 15:01:55
+metaDescription: "Count and balance curly braces in your text or code instantly with the Curly Brace Counter. Perfect for debugging JSON, JavaScript, CSS, and more!"
+metaKeywords: "curly brace counter, count curly braces, balance braces, JSON validator, code debugging tool, JavaScript braces, CSS syntax checker, programming tool"
+tags: ["code", "developer-tools", "syntax-checker", "web-app", "javascript"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-4">Curly Brace Counter</h1><div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="lead text-center mb-4">
+        Why do curly braces always seem to have a mind of their own? Whether you're coding, writing JSON, or just trying to keep things organized, mismatched `{` and `}` can turn a simple task into a debugging nightmare. Enter the **Curly Brace Counter**—a simple, no-fuss tool that counts your opening and closing curly braces and tells you if they’re balanced. No more squinting at lines of code or second-guessing yourself. Just paste your text, hit the button, and let the tool do the heavy lifting. Because life’s too short for unbalanced braces!
+      </p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Count the number of `{` and `}` in your text or code and check if they are balanced.</p>
+      <textarea id="input-text" class="form-control bg-dark text-white mb-3 w-100 h-200px" placeholder="Paste or type your text/code here..." aria-label="Input text or code"></textarea>
+      <button id="count-button" class="btn btn-primary w-100 mb-3">Count Braces</button>
+      <div id="results" class="alert mt-3 d-none" role="alert">
+        <p>Opening Braces `{`: <span id="opening-count">0</span></p>
+        <p>Closing Braces `}`: <span id="closing-count">0</span></p>
+        <p id="balance-message"></p>
+      </div>
+      <button id="reset-button" class="btn btn-secondary w-100 mt-3">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h3 class="mb-4">How It Works</h3>
+      <p class="mb-4">
+        The Curly Brace Counter works by scanning your text or code for every `{` (opening brace) and `}` (closing brace). It then compares the total number of each to determine if they’re balanced. Here’s the simple formula it follows:
+      </p>
+      <p class="alert alert-light mb-4">
+        <strong>Total Opening Braces `{`</strong> = Number of times `{` appears<br>
+        <strong>Total Closing Braces `}`</strong> = Number of times `}` appears<br>
+        <strong>Balance Check</strong> = Are the totals equal? If yes, braces are balanced. If not, they’re not.
+      </p>
+      <h4 class="mt-5 mb-4">Examples of Brace Counts</h4>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Text/Code</th>
+            <th>Opening Braces `{`</th>
+            <th>Closing Braces `}`</th>
+            <th>Balanced?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>`{ }`</td>
+            <td>1</td>
+            <td>1</td>
+            <td>✅ Yes</td>
+          </tr>
+          <tr>
+            <td>`{ { } }`</td>
+            <td>2</td>
+            <td>2</td>
+            <td>✅ Yes</td>
+          </tr>
+          <tr>
+            <td>`{ { }`</td>
+            <td>2</td>
+            <td>1</td>
+            <td>❌ No</td>
+          </tr>
+          <tr>
+            <td>`{ } }`</td>
+            <td>1</td>
+            <td>2</td>
+            <td>❌ No</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h3 class="mb-4">10 Common Use Cases for the Curly Brace Counter</h3>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Debugging JSON files to ensure all braces are properly paired.</li>
+        <li class="list-group-item">Checking JavaScript or Python code for balanced braces in functions or loops.</li>
+        <li class="list-group-item">Validating CSS syntax, especially in nested rules.</li>
+        <li class="list-group-item">Writing templates in languages like Handlebars or Mustache.</li>
+        <li class="list-group-item">Ensuring proper structure in configuration files (e.g., YAML, TOML).</li>
+        <li class="list-group-item">Preventing errors in API responses that use curly braces.</li>
+        <li class="list-group-item">Teaching programming students how to count and balance braces.</li>
+        <li class="list-group-item">Writing LaTeX documents with nested commands.</li>
+        <li class="list-group-item">Checking for missing or extra braces in SQL queries.</li>
+        <li class="list-group-item">Organizing complex data structures in code.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const countButton = document.getElementById('count-button');
+    const resultsDiv = document.getElementById('results');
+    const openingCount = document.getElementById('opening-count');
+    const closingCount = document.getElementById('closing-count');
+    const balanceMessage = document.getElementById('balance-message');
+    const resetButton = document.getElementById('reset-button');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    countButton.addEventListener('click', () => {
+      const text = inputText.value;
+      const openingBraces = (text.match(/{/g) || []).length;
+      const closingBraces = (text.match(/}/g) || []).length;
+
+      openingCount.textContent = openingBraces;
+      closingCount.textContent = closingBraces;
+
+      if (openingBraces === 0 && closingBraces === 0) {
+        balanceMessage.textContent = 'No braces found.';
+        resultsDiv.classList.remove('alert-success', 'alert-danger');
+        resultsDiv.classList.add('alert-warning');
+      } else if (openingBraces === closingBraces) {
+        balanceMessage.textContent = 'Braces are balanced!';
+        resultsDiv.classList.remove('alert-warning', 'alert-danger');
+        resultsDiv.classList.add('alert-success');
+      } else {
+        balanceMessage.textContent = 'Braces are not balanced!';
+        resultsDiv.classList.remove('alert-warning', 'alert-success');
+        resultsDiv.classList.add('alert-danger');
+      }
+
+      resultsDiv.classList.remove('d-none');
+    });
+
+    resetButton.addEventListener('click', () => {
+      inputText.value = '';
+      resultsDiv.classList.add('d-none');
+      openingCount.textContent = '0';
+      closingCount.textContent = '0';
+      balanceMessage.textContent = '';
+    });
+  });
+</script>

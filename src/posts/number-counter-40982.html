@@ -1,0 +1,173 @@
+---
+title: "Simple Number Counter - Track Counts Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-11-14 22:32:55
+metaDescription: "A simple and intuitive Number Counter tool for counting up, down, or resetting with custom step values. Perfect for tracking, tallying, and more."
+metaKeywords: "number counter, counting tool, step counter, tally counter, count up, count down, simple counter, online counter, digital counter, counting app"
+tags: ["counter", "number", "tracking", "tool", "utility"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <h1 class="h3">Number Counter</h1><div class="container bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <strong class="h3">Number Counter</strong>
+    <p class="text-muted">Counting made effortless – because who has time for complicated math?</p>
+  </header>
+
+  <main class="text-center">
+    <div class="display-4 mb-4" id="count-display">0</div>
+
+    <div class="d-flex justify-content-center gap-2 mb-3">
+      <button id="decrement-btn" class="btn btn-primary">-</button>
+      <button id="increment-btn" class="btn btn-primary">+</button>
+    </div>
+
+    <div class="mb-3">
+      <button id="reset-btn" class="btn btn-secondary">Reset</button>
+    </div>
+
+    <div class="mb-3">
+      <label for="step-input" class="form-label">Step</label>
+      <input type="number" id="step-input" class="form-control text-center" value="1" min="1" aria-label="Step value">
+    </div>
+  </main>
+
+  <footer class="text-center mt-4">
+    <p class="text-muted">Made with simplicity in mind.</p>
+  </footer>
+</div>
+    <p class="text-muted">A simple tool to count up or down by a specified value.</p>
+  </header>
+
+  <main class="text-center">
+    <div class="display-4 mb-4" id="count-display">0</div>
+
+    <div class="d-flex justify-content-center gap-2 mb-3">
+      <button id="decrement-btn" class="btn btn-primary">-</button>
+      <button id="increment-btn" class="btn btn-primary">+</button>
+    </div>
+
+    <div class="mb-3">
+      <button id="reset-btn" class="btn btn-secondary">Reset</button>
+    </div>
+
+    <div class="mb-3">
+      <label for="step-input" class="form-label">Step</label>
+      <input type="number" id="step-input" class="form-control text-center" value="1" min="1" aria-label="Step value">
+    </div>
+  </main>
+
+  <footer class="text-center mt-4">
+    <p class="text-muted">Made with simplicity in mind.</p>
+  </footer>
+</div>
+
+<div class="container mt-5">
+  <h2 class="h4 mb-3">How It Works</h2>
+  <p>
+    The Number Counter tool is as straightforward as it gets. You start with a base number (default is 0), and you can either increase or decrease it by a specific step value. Think of it like a digital abacus for the modern age. Here's the formula in plain English:
+  </p>
+  <p class="bg-light p-3 rounded">
+    <strong>New Count = Current Count ± Step Value</strong>
+  </p>
+  <p>
+    For example, if your step value is 5 and you click the "plus" button, the count jumps by 5. Click the "minus" button, and it drops by 5. Reset brings it back to zero. Simple, right?
+  </p>
+
+  <h2 class="h4 mt-4 mb-3">Example Counts</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Step Value</th>
+        <th>+ Button Clicks</th>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>5</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>3</td>
+        <td>6</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>4</td>
+        <td>20</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>2</td>
+        <td>20</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-5">
+  <h2 class="h4 mb-3">10 Practical Uses for the Number Counter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">1. Keeping track of daily water intake (e.g., 8 glasses a day).</li>
+    <li class="list-group-item">2. Counting reps during a workout session.</li>
+    <li class="list-group-item">3. Monitoring the number of steps taken in a day.</li>
+    <li class="list-group-item">4. Tracking how many books you've read this year.</li>
+    <li class="list-group-item">5. Counting down the days until a big event.</li>
+    <li class="list-group-item">6. Tallying points in a board game or competition.</li>
+    <li class="list-group-item">7. Keeping score during sports practice.</li>
+    <li class="list-group-item">8. Monitoring the number of tasks completed at work.</li>
+    <li class="list-group-item">9. Counting down to a deadline or project milestone.</li>
+    <li class="list-group-item">10. Teaching kids basic math concepts in a fun way.</li>
+  </ul>
+</div><script>
+  (function () {
+    const countDisplay = document.getElementById('count-display');
+    const incrementBtn = document.getElementById('increment-btn');
+    const decrementBtn = document.getElementById('decrement-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const stepInput = document.getElementById('step-input');
+
+    let count = 0;
+    let step = 1;
+
+    // Initialize step from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue) && startValue > 0) {
+      stepInput.value = startValue;
+      step = parseInt(startValue, 10);
+    }
+
+    const updateCountDisplay = () => {
+      countDisplay.textContent = count;
+    };
+
+    const validateStep = (value) => {
+      return !isNaN(value) && value > 0 ? parseInt(value, 10) : 1;
+    };
+
+    stepInput.addEventListener('input', () => {
+      step = validateStep(stepInput.value);
+      stepInput.value = step;
+    });
+
+    incrementBtn.addEventListener('click', () => {
+      count += step;
+      updateCountDisplay();
+    });
+
+    decrementBtn.addEventListener('click', () => {
+      count -= step;
+      updateCountDisplay();
+    });
+
+    resetBtn.addEventListener('click', () => {
+      count = 0;
+      updateCountDisplay();
+    });
+
+    updateCountDisplay();
+  })();
+</script>

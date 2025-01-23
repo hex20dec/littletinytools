@@ -1,0 +1,147 @@
+---
+title: "Typographic Ligature Counter - Count Ligatures in Your Text"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-10-28 23:27:04
+metaDescription: "Count typographic ligatures like fi, fl, ffi, and ffl instantly with this easy-to-use tool. Perfect for designers, editors, and typography lovers!"
+metaKeywords: "typographic ligature counter, count ligatures, fi fl ffi ffl, typography tool, design tool, text analysis, font ligatures, typography checker, ligature finder, typography helper"
+tags: ["typography", "ligature", "design", "text analysis", "web tool"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  textarea {
+    min-height: 200px;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Typographic Ligature Counter</h1><div class="container text-center mt-5 mb-5">
+  <p class="fs-3 fw-bold mb-3">Ever Wondered How Many Hidden Ligatures Are in Your Text?</p>
+  <p class="lead">
+    Typographic ligatures—those sneaky little combinations like "fi" and "fl"—can make your text look polished, but counting them manually? That’s a headache waiting to happen. Whether you're a designer, editor, or just someone who loves typography, this tool is here to save the day! Simply paste your text, hit the button, and voilà—instant ligature count. No more squinting at your screen or losing count halfway through. It’s like having a typography assistant in your pocket, ready to make your life easier and your text more beautiful.
+  </p>
+</div>
+    <p class="lead">Enter your text below to count the number of typographic ligatures.</p>
+  </header>
+
+  <div class="mb-3">
+    <textarea id="input-text" class="form-control" placeholder="Paste or type your text here..." aria-label="Input text"></textarea>
+  </div>
+
+  <button id="count-button" class="btn btn-primary w-100 mb-3">Count Ligatures</button>
+
+  <div id="result" class="alert alert-success" role="alert" style="display: none;">
+    Ligature Count: <span id="ligature-count">0</span>
+  </div>
+
+  <footer class="text-center mt-4">
+    <p class="text-muted">This tool counts common typographic ligatures (e.g., fi, fl, ffi, ffl).</p>
+  </footer>
+</div>
+
+<div class="container mb-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p class="fs-5 mb-4">
+        The Typographic Ligature Counter works by scanning your text for common ligature pairs like "fi," "fl," "ffi," and "ffl." It uses a simple formula:
+      </p>
+      <p class="bg-light p-3 rounded">
+        <strong>Ligature Count = Number of "fi" + Number of "fl" + Number of "ffi" + Number of "ffl"</strong>
+      </p>
+      <p class="mt-3">
+        Here’s a quick example of how it works:
+      </p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Text</th>
+            <th>Ligature Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>"final finish"</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>"fluffy flowers"</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>"affiliate office"</td>
+            <td>2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mb-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p class="fs-5 mb-3">Here are 10 common ways people use the Typographic Ligature Counter:</p>
+      <ul class="list-group">
+        <li class="list-group-item">Designers checking ligature usage in typography projects.</li>
+        <li class="list-group-item">Editors ensuring consistency in typographic styles.</li>
+        <li class="list-group-item">Students analyzing text for typography assignments.</li>
+        <li class="list-group-item">Writers verifying ligature counts in manuscripts.</li>
+        <li class="list-group-item">Web developers optimizing typography for readability.</li>
+        <li class="list-group-item">Printers ensuring ligature accuracy in printed materials.</li>
+        <li class="list-group-item">Font creators testing ligature usage in custom fonts.</li>
+        <li class="list-group-item">Typography enthusiasts exploring ligature patterns.</li>
+        <li class="list-group-item">Brand managers maintaining typographic consistency in branding.</li>
+        <li class="list-group-item">Anyone curious about the hidden beauty of typography!</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const inputText = document.getElementById('input-text');
+    const countButton = document.getElementById('count-button');
+    const resultDiv = document.getElementById('result');
+    const ligatureCountSpan = document.getElementById('ligature-count');
+
+    // Preload text from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    countButton.addEventListener('click', function () {
+      const text = inputText.value.trim();
+      if (!text) {
+        resultDiv.style.display = 'block';
+        ligatureCountSpan.textContent = '0';
+        resultDiv.className = 'alert alert-warning';
+        resultDiv.textContent = 'Please enter some text.';
+        return;
+      }
+
+      const ligatures = ['fi', 'fl', 'ffi', 'ffl'];
+      let count = 0;
+      ligatures.forEach(ligature => {
+        const regex = new RegExp(ligature, 'gi');
+        const matches = text.match(regex);
+        if (matches) {
+          count += matches.length;
+        }
+      });
+
+      if (count === 0) {
+        resultDiv.style.display = 'block';
+        ligatureCountSpan.textContent = '0';
+        resultDiv.className = 'alert alert-warning';
+        resultDiv.textContent = 'No ligatures found.';
+      } else {
+        resultDiv.style.display = 'block';
+        ligatureCountSpan.textContent = count;
+        resultDiv.className = 'alert alert-success';
+        resultDiv.textContent = `Ligature Count: ${count}`;
+      }
+    });
+  });
+</script>

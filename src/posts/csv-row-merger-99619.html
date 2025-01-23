@@ -1,0 +1,278 @@
+---
+title: "CSV Row Merger - Merge CSV Files Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-10-31 20:50:00
+metaDescription: "Easily merge rows from two CSV files with the CSV Row Merger. Match data by a common column and download the combined file in seconds."
+metaKeywords: "csv merger, merge csv files, combine csv rows, csv data integration, csv matching tool"
+tags: ["CSV", "Data Merger", "Data Tools", "CSV Tools", "Data Analysis"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="display-4 text-center">CSV Row Merger</h1><div class="container-fluid bg-dark text-white p-4">
+  <strong class="display-4 text-center">CSV Row Merger</strong>
+  <p class="lead text-center">Merge rows from two CSV files based on a common column</p>
+  <p class="text-center">Ever find yourself drowning in spreadsheets, trying to match data from two different files? The CSV Row Merger is here to save your sanity! This simple, intuitive tool lets you combine rows from two CSV files by matching a common column. Whether you're merging customer lists, inventory data, or survey results, this tool makes it a breeze. No more manual copying, no more headaches—just upload, match, and merge. Ready to make your data life easier? Let’s dive in!</p>
+</div>
+  <p class="lead text-center">Merge rows from two CSV files based on a common column</p>
+
+  <div class="mb-3">
+    <label for="file1" class="form-label">Upload First CSV File</label>
+    <input type="file" class="form-control" id="file1" accept=".csv">
+  </div>
+
+  <div class="mb-3">
+    <label for="file2" class="form-label">Upload Second CSV File</label>
+    <input type="file" class="form-control" id="file2" accept=".csv">
+  </div>
+
+  <div class="mb-3">
+    <label for="keyColumn1" class="form-label">Select Key Column from First File</label>
+    <select class="form-select" id="keyColumn1" disabled>
+      <option value="">Select a column</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="keyColumn2" class="form-label">Select Key Column from Second File</label>
+    <select class="form-select" id="keyColumn2" disabled>
+      <option value="">Select a column</option>
+    </select>
+  </div>
+
+  <div class="d-grid gap-2 col-6 mx-auto mb-3">
+    <button id="mergeBtn" class="btn btn-primary" disabled>Merge CSV Files</button>
+  </div>
+
+  <div class="d-grid gap-2 col-6 mx-auto mb-3">
+    <button id="downloadBtn" class="btn btn-success" disabled>Download Merged CSV</button>
+  </div>
+
+  <div class="d-grid gap-2 col-6 mx-auto mb-3">
+    <button id="resetBtn" class="btn btn-secondary">Reset</button>
+  </div>
+
+  <div id="errorMessage" class="alert alert-danger d-none"></div>
+
+  <div id="loadingSpinner" class="d-flex justify-content-center d-none">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <h2 class="text-center">How It Works</h2>
+  <p class="text-center">The CSV Row Merger works by taking two CSV files and combining their rows based on a shared column. Here’s a simple breakdown:</p>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Upload your first CSV file and select the key column to match.</li>
+    <li class="list-group-item">Upload your second CSV file and select its matching key column.</li>
+    <li class="list-group-item">Click "Merge CSV Files" to combine the rows.</li>
+    <li class="list-group-item">Download the merged file with all the matched data in one place.</li>
+  </ol>
+  <h3 class="text-center mt-4">Example Table</h3>
+  <p class="text-center">Here’s a quick example of how rows are matched and merged:</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>File 1 - Name</th>
+        <th>File 1 - Email</th>
+        <th>File 2 - Name</th>
+        <th>File 2 - Phone</th>
+        <th>Merged Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>John Doe</td>
+        <td>john@example.com</td>
+        <td>John Doe</td>
+        <td>123-456-7890</td>
+        <td>John Doe, john@example.com, 123-456-7890</td>
+      </tr>
+      <tr>
+        <td>Jane Smith</td>
+        <td>jane@example.com</td>
+        <td>Jane Smith</td>
+        <td>987-654-3210</td>
+        <td>Jane Smith, jane@example.com, 987-654-3210</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container-fluid bg-white p-4">
+  <h2 class="text-center">Top 10 Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Merging customer data from different sources.</li>
+    <li class="list-group-item">Combining sales and inventory reports.</li>
+    <li class="list-group-item">Matching survey responses with participant details.</li>
+    <li class="list-group-item">Integrating employee records from HR and payroll systems.</li>
+    <li class="list-group-item">Combining product catalogs from multiple vendors.</li>
+    <li class="list-group-item">Merging email lists for marketing campaigns.</li>
+    <li class="list-group-item">Combining financial data from different departments.</li>
+    <li class="list-group-item">Matching student records with attendance data.</li>
+    <li class="list-group-item">Integrating shipping and order data for e-commerce.</li>
+    <li class="list-group-item">Combining research data from multiple studies.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const file1Input = document.getElementById('file1');
+    const file2Input = document.getElementById('file2');
+    const keyColumn1Select = document.getElementById('keyColumn1');
+    const keyColumn2Select = document.getElementById('keyColumn2');
+    const mergeBtn = document.getElementById('mergeBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const errorMessage = document.getElementById('errorMessage');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+
+    let file1Data = null;
+    let file2Data = null;
+    let mergedData = null;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      file1Input.value = startValue;
+    }
+
+    const readCSV = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const text = e.target.result;
+          const rows = text.split('\n').map(row => row.split(','));
+          const headers = rows[0];
+          const data = rows.slice(1).map(row => {
+            return headers.reduce((obj, header, index) => {
+              obj[header] = row[index];
+              return obj;
+            }, {});
+          });
+          resolve({ headers, data });
+        };
+        reader.onerror = () => reject(new Error('Error reading file'));
+        reader.readAsText(file);
+      });
+    };
+
+    const populateDropdown = (select, headers) => {
+      select.innerHTML = headers.map(header => `<option value="${header}">${header}</option>`).join('');
+      select.disabled = false;
+    };
+
+    const validateInputs = () => {
+      if (!file1Data || !file2Data || !keyColumn1Select.value || !keyColumn2Select.value) {
+        errorMessage.textContent = 'Please upload both files and select key columns.';
+        errorMessage.classList.remove('d-none');
+        return false;
+      }
+      errorMessage.classList.add('d-none');
+      return true;
+    };
+
+    const mergeCSV = () => {
+      const key1 = keyColumn1Select.value;
+      const key2 = keyColumn2Select.value;
+
+      const merged = file1Data.data.map(row1 => {
+        const matchingRow = file2Data.data.find(row2 => row1[key1] === row2[key2]);
+        return { ...row1, ...matchingRow };
+      });
+
+      return merged;
+    };
+
+    const downloadCSV = (data, headers) => {
+      const csvContent = [
+        headers.join(','),
+        ...data.map(row => headers.map(header => row[header]).join(','))
+      ].join('\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'merged.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+
+    file1Input.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      try {
+        loadingSpinner.classList.remove('d-none');
+        file1Data = await readCSV(file);
+        populateDropdown(keyColumn1Select, file1Data.headers);
+        loadingSpinner.classList.add('d-none');
+      } catch (error) {
+        errorMessage.textContent = 'Error reading the first file.';
+        errorMessage.classList.remove('d-none');
+        loadingSpinner.classList.add('d-none');
+      }
+    });
+
+    file2Input.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      try {
+        loadingSpinner.classList.remove('d-none');
+        file2Data = await readCSV(file);
+        populateDropdown(keyColumn2Select, file2Data.headers);
+        loadingSpinner.classList.add('d-none');
+      } catch (error) {
+        errorMessage.textContent = 'Error reading the second file.';
+        errorMessage.classList.remove('d-none');
+        loadingSpinner.classList.add('d-none');
+      }
+    });
+
+    mergeBtn.addEventListener('click', () => {
+      if (!validateInputs()) return;
+
+      try {
+        loadingSpinner.classList.remove('d-none');
+        mergedData = mergeCSV();
+        downloadBtn.disabled = false;
+        loadingSpinner.classList.add('d-none');
+      } catch (error) {
+        errorMessage.textContent = 'Error merging files.';
+        errorMessage.classList.remove('d-none');
+        loadingSpinner.classList.add('d-none');
+      }
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      const headers = [...new Set([...file1Data.headers, ...file2Data.headers])];
+      downloadCSV(mergedData, headers);
+    });
+
+    resetBtn.addEventListener('click', () => {
+      file1Input.value = '';
+      file2Input.value = '';
+      keyColumn1Select.innerHTML = '<option value="">Select a column</option>';
+      keyColumn2Select.innerHTML = '<option value="">Select a column</option>';
+      keyColumn1Select.disabled = true;
+      keyColumn2Select.disabled = true;
+      mergeBtn.disabled = true;
+      downloadBtn.disabled = true;
+      errorMessage.classList.add('d-none');
+      file1Data = null;
+      file2Data = null;
+      mergedData = null;
+    });
+
+    file1Input.addEventListener('change', () => {
+      if (file1Input.files.length > 0 && file2Input.files.length > 0) {
+        mergeBtn.disabled = false;
+      }
+    });
+
+    file2Input.addEventListener('change', () => {
+      if (file1Input.files.length > 0 && file2Input.files.length > 0) {
+        mergeBtn.disabled = false;
+      }
+    });
+  });
+</script>

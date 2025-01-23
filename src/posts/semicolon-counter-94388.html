@@ -1,0 +1,125 @@
+---
+title: "Semicolon Counter: Count Semicolons in Your Text Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-12-08 02:24:56
+metaDescription: "Count semicolons in your text instantly with the Semicolon Counter. Perfect for writers, coders, and punctuation enthusiasts. Simple, fast, and free!"
+metaKeywords: "semicolon counter, count semicolons, punctuation checker, text analysis, semicolon tool, writing tool, coding tool, punctuation counter, free semicolon counter, semicolon usage"
+tags: ["semicolon counter", "text analysis", "writing tool", "developer tool", "text utility"]
+---
+
+<div id="main-div" class="container mt-5">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Semicolon Counter</h1><div class="container mt-5">
+  <header class="text-center mb-4">
+    <strong class="display-4">Semicolon Counter</strong>
+    <p class="lead text-muted">Ever feel like your text is littered with semicolons, but you’re not sure just how many? Whether you’re a writer, coder, or just someone who loves punctuation, the Semicolon Counter is here to save the day. Simply paste or type your text, and it’ll instantly tell you how many semicolons are hiding in your words. Perfect for polishing essays, debugging code, or satisfying your curiosity about punctuation habits. Let’s make counting semicolons as easy as pie!</p>
+  </header>
+</div>
+    <p class="lead text-muted">Enter your text below to count the number of semicolons (<code>;</code>).</p>
+  </header>
+
+  <div class="mb-3">
+    <textarea id="input-text" class="form-control mb-3" placeholder="Paste or type your text here..." rows="6"></textarea>
+    <button id="count-btn" class="btn btn-primary w-100 mb-3">Count Semicolons</button>
+    <div id="result" class="alert alert-info" role="alert">Semicolon count will appear here.</div>
+  </div>
+
+  <footer class="text-center mt-5">
+    <p class="text-muted">Made with ❤️ by Semicolon Counter.</p>
+  </footer>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h3 class="mb-4">How It Works</h3>
+      <p class="text-muted">The Semicolon Counter works by scanning your text for the semicolon character (<code>;</code>). It counts every instance of this punctuation mark and displays the total number in real-time. No complicated steps—just paste your text, click the button, and voilà! You’ll know exactly how many semicolons are in your content.</p>
+      
+      <h4 class="mt-4 mb-3">Example Counts</h4>
+      <p class="text-muted">Here’s a quick look at how semicolon counts can vary depending on your text:</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Text Example</th>
+            <th>Semicolon Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>I love coding; it's my passion.</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>Here’s a list: apples; bananas; oranges.</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>No semicolons here, just plain text.</td>
+            <td>0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h3 class="mb-4">10 Common Use Cases for the Semicolon Counter</h3>
+      <ul class="list-group">
+        <li class="list-group-item">1. Writers editing essays or articles to ensure proper punctuation usage.</li>
+        <li class="list-group-item">2. Programmers debugging code to check for misplaced semicolons.</li>
+        <li class="list-group-item">3. Students analyzing texts for stylistic patterns in punctuation.</li>
+        <li class="list-group-item">4. Bloggers optimizing readability by balancing semicolon usage.</li>
+        <li class="list-group-item">5. Editors reviewing manuscripts for consistency in punctuation.</li>
+        <li class="list-group-item">6. Language learners practicing proper punctuation in sentences.</li>
+        <li class="list-group-item">7. Content creators ensuring clarity and flow in their writing.</li>
+        <li class="list-group-item">8. Researchers analyzing text data for semicolon frequency.</li>
+        <li class="list-group-item">9. Teachers grading assignments for correct punctuation use.</li>
+        <li class="list-group-item">10. Anyone curious about their semicolon habits in writing!</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const inputText = document.getElementById("input-text");
+    const countBtn = document.getElementById("count-btn");
+    const resultDiv = document.getElementById("result");
+
+    // Preload text from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get("start");
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    countBtn.addEventListener("click", () => {
+      const text = inputText.value.trim();
+
+      if (!text) {
+        resultDiv.textContent = "Please enter some text to count semicolons.";
+        resultDiv.classList.remove("alert-info");
+        resultDiv.classList.add("alert-warning");
+        return;
+      }
+
+      const semicolonCount = (text.match(/;/g) || []).length;
+      resultDiv.textContent = `Number of semicolons: ${semicolonCount}`;
+      resultDiv.classList.remove("alert-warning");
+      resultDiv.classList.add("alert-info");
+    });
+
+    // Handle large input
+    inputText.addEventListener("input", () => {
+      if (inputText.value.length > 10000) {
+        inputText.value = inputText.value.slice(0, 10000);
+        resultDiv.textContent = "Input limited to 10,000 characters for performance.";
+        resultDiv.classList.remove("alert-info");
+        resultDiv.classList.add("alert-warning");
+      } else {
+        resultDiv.textContent = "Semicolon count will appear here.";
+        resultDiv.classList.remove("alert-warning");
+        resultDiv.classList.add("alert-info");
+      }
+    });
+  });
+</script>

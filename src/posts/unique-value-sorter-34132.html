@@ -1,0 +1,140 @@
+---
+title: "Unique Value Sorter - Clean & Sort Your Lists Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-05-13 23:45:38
+metaDescription: "Easily sort and remove duplicates from any list with the Unique Value Sorter. Perfect for organizing data, cleaning lists, and more!"
+metaKeywords: "unique value sorter, deduplicate list, sort list, organize data, remove duplicates, clean data, list organizer, data sorting tool, deduplication tool, online list sorter"
+tags: ["list sorter", "duplicate remover", "data organizer", "web tool", "productivity"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="text-center">
+    <h1 class="display-4 text-white">Unique Value Sorter</h1><div class="container mt-5">
+  <div class="text-center">
+    <p class="display-4 text-white"><strong>Unique Value Sorter</strong></p>
+    <p class="lead text-white">Why does organizing data always feel like untangling a ball of yarn? Whether you're dealing with a messy list of numbers, names, or anything in between, the Unique Value Sorter is here to save the day. Simply paste your jumbled values, and let this tool effortlessly remove duplicates and sort them into a clean, organized list. Perfect for students, professionals, or anyone who loves a bit of order in their lives. Say goodbye to chaos and hello to simplicity!</p>
+  </div>
+</div>
+    <p class="lead text-white">Enter your list of values below to remove duplicates and sort them.</p>
+  </div>
+
+  <div class="mt-4">
+    <textarea id="input-values" class="form-control bg-dark text-white mb-3" rows="6" placeholder="Enter your values here, separated by commas, spaces, or new lines."></textarea>
+    <button id="sort-button" class="btn btn-primary w-100">Sort and Deduplicate</button>
+  </div>
+
+  <div class="mt-4">
+    <textarea id="output-values" class="form-control bg-dark text-white mb-3" rows="6" readonly></textarea>
+    <button id="copy-button" class="btn btn-secondary w-100">Copy to Clipboard</button>
+  </div>
+
+  <footer class="text-center text-muted mt-5">
+    <p>This tool processes your data locally in your browser. No data is stored or sent to external servers.</p>
+  </footer>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p><strong>How It Works:</strong></p>
+      <p>The Unique Value Sorter follows a simple three-step process:</p>
+      <ol>
+        <li><strong>Input:</strong> Paste your list of values (numbers, words, or a mix) into the text box. Separate them with commas, spaces, or new lines.</li>
+        <li><strong>Process:</strong> The tool splits your input into individual items, removes any duplicates, and sorts them. Numbers are sorted numerically, while text is sorted alphabetically.</li>
+        <li><strong>Output:</strong> Your clean, deduplicated, and sorted list appears in the output box, ready to copy and use.</li>
+      </ol>
+
+      <p><strong>Examples of Output:</strong></p>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>apple, banana, apple, orange</td>
+            <td>apple<br>banana<br>orange</td>
+          </tr>
+          <tr>
+            <td>5, 3, 9, 5, 2</td>
+            <td>2<br>3<br>5<br>9</td>
+          </tr>
+          <tr>
+            <td>cat, dog, bird, cat</td>
+            <td>bird<br>cat<br>dog</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p><strong>Top 10 Use Cases for the Unique Value Sorter:</strong></p>
+      <ul>
+        <li><strong>Organizing Contact Lists:</strong> Remove duplicate email addresses or phone numbers from your contacts.</li>
+        <li><strong>Cleaning Survey Data:</strong> Deduplicate responses to ensure accurate analysis.</li>
+        <li><strong>Preparing Inventory Lists:</strong> Sort and deduplicate product SKUs or item names.</li>
+        <li><strong>Managing Event Attendees:</strong> Ensure no duplicate names in your guest list.</li>
+        <li><strong>Sorting Expenses:</strong> Organize and deduplicate financial records for easier tracking.</li>
+        <li><strong>Preparing School Assignments:</strong> Clean up lists of references, citations, or data points.</li>
+        <li><strong>Programming Tasks:</strong> Deduplicate arrays or lists of variables for coding projects.</li>
+        <li><strong>Social Media Management:</strong> Sort and deduplicate hashtags or follower lists.</li>
+        <li><strong>Personal Organization:</strong> Clean up shopping lists, to-do lists, or any personal data.</li>
+        <li><strong>Data Migration:</strong> Ensure no duplicate entries when transferring data between systems.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputTextarea = document.getElementById('input-values');
+    const outputTextarea = document.getElementById('output-values');
+    const sortButton = document.getElementById('sort-button');
+    const copyButton = document.getElementById('copy-button');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputTextarea.value = startValue;
+    }
+
+    // Sort and deduplicate function
+    const processValues = () => {
+      const input = inputTextarea.value.trim();
+      if (!input) {
+        outputTextarea.value = 'Please enter some values to sort and deduplicate.';
+        return;
+      }
+
+      try {
+        const values = input.split(/[\s,]+/).filter(val => val.trim() !== '');
+        const uniqueValues = [...new Set(values)];
+        const sortedValues = uniqueValues.sort((a, b) => {
+          if (!isNaN(a) && !isNaN(b)) return a - b;
+          return a.toString().localeCompare(b.toString());
+        });
+
+        outputTextarea.value = sortedValues.join('\n');
+      } catch (error) {
+        outputTextarea.value = 'Invalid input. Please check your values and try again.';
+      }
+    };
+
+    // Copy to clipboard function
+    const copyToClipboard = () => {
+      outputTextarea.select();
+      document.execCommand('copy');
+      copyButton.textContent = 'Copied!';
+      setTimeout(() => {
+        copyButton.textContent = 'Copy to Clipboard';
+      }, 2000);
+    };
+
+    // Event listeners
+    sortButton.addEventListener('click', processValues);
+    copyButton.addEventListener('click', copyToClipboard);
+  });
+</script>

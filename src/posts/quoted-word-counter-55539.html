@@ -1,0 +1,121 @@
+---
+title: "Quoted Word Counter - Count Words in Quotes Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-06-27 06:30:15
+metaDescription: "Count words inside quotes effortlessly with our Quoted Word Counter. Highlighted quotes and instant results make it a must-have tool for writers, students, and professionals."
+metaKeywords: "quoted word counter, word count tool, count words in quotes, text analyzer, quote analyzer, word counter, text tool, quote word count"
+tags: ["word counter", "text analysis", "writing tools", "quotes", "productivity"]
+---
+
+<style>
+  #main-div .highlight {
+    background-color: #ffc107;
+    padding: 2px 4px;
+    border-radius: 4px;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container text-center mt-3">
+    <h1>Quoted Word Counter</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+      <p class="fs-4">Ever found yourself staring at a block of text, wondering how many words are hidden inside those pesky quotation marks? Maybe you're proofreading an essay, analyzing a script, or just trying to figure out how much of a quote you can legally use. Whatever the case, counting quoted words manually is a headache we’ve all faced. Enter the <strong>Quoted Word Counter</strong>—a simple, no-nonsense tool that does the heavy lifting for you. Just paste your text, click a button, and voila! It highlights the quotes and tells you exactly how many words are inside them. No more squinting at your screen or counting on your fingers. It’s like having a tiny editor in your pocket, ready to make your life a little easier. Give it a try—you’ll wonder how you ever lived without it!</p>
+    </div>
+  </div>
+</div>
+    <p class="lead">Count the number of words within quoted text. Highlighted quotes for easy reference.</p>
+  </div>
+
+  <div class="container mt-3">
+    <textarea id="input-text" class="form-control" rows="6" placeholder="Paste or type your text here..." aria-label="Input text"></textarea>
+    <button id="count-btn" class="btn btn-primary mt-3">Count Words</button>
+  </div>
+
+  <div class="container mt-3">
+    <p>Total Quoted Words: <span id="total-words">0</span></p>
+    <div id="highlighted-text" class="p-3 bg-light border rounded" aria-live="polite"></div>
+    <button id="reset-btn" class="btn btn-secondary mt-3">Reset</button>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <h2 class="mb-4">How Does the Quoted Word Counter Work?</h2>
+      <p class="lead">It’s simpler than you think! Here’s the magic formula:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">The tool scans your text for anything wrapped in double quotes (<code>"like this"</code>).</li>
+        <li class="list-group-item">It isolates each quoted section and counts the words inside, ignoring spaces and punctuation.</li>
+        <li class="list-group-item">Finally, it highlights the quotes for easy reference and gives you the total word count.</li>
+      </ol>
+      <p class="mt-4">For example, if you paste: <code>"Hello world" is a common phrase.</code>, the tool will highlight <code>"Hello world"</code> and tell you it contains <strong>2 words</strong>.</p>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <h2 class="mb-4">10 Common Use Cases for the Quoted Word Counter</h2>
+      <ul class="list-group">
+        <li class="list-group-item">🎓 Students analyzing quotes in essays or research papers.</li>
+        <li class="list-group-item">📝 Writers checking word counts in dialogue for scripts or novels.</li>
+        <li class="list-group-item">📊 Marketers analyzing customer testimonials or survey responses.</li>
+        <li class="list-group-item">👩‍💻 Programmers debugging quoted strings in code snippets.</li>
+        <li class="list-group-item">📰 Journalists verifying word counts in interview quotes.</li>
+        <li class="list-group-item">📚 Editors ensuring quoted text adheres to publishing guidelines.</li>
+        <li class="list-group-item">📑 Legal professionals reviewing quoted sections in contracts or documents.</li>
+        <li class="list-group-item">🎤 Speechwriters fine-tuning quoted references in speeches.</li>
+        <li class="list-group-item">📖 Bloggers measuring quoted content in articles.</li>
+        <li class="list-group-item">🧠 Anyone who just wants to save time and avoid manual counting!</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const countBtn = document.getElementById('count-btn');
+    const totalWords = document.getElementById('total-words');
+    const highlightedText = document.getElementById('highlighted-text');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    const countQuotedWords = (text) => {
+      const quotedSections = text.match(/"[^"]*"/g) || [];
+      let total = 0;
+      let highlighted = text;
+
+      quotedSections.forEach((quote) => {
+        const words = quote.split(/\s+/).filter(word => word.length > 0).length;
+        total += words;
+        highlighted = highlighted.replace(quote, `<span class="highlight">${quote}</span>`);
+      });
+
+      return { total, highlighted };
+    };
+
+    countBtn.addEventListener('click', () => {
+      const text = inputText.value.trim();
+      if (!text) {
+        highlightedText.innerHTML = '<p class="text-danger">Please enter some text to analyze.</p>';
+        totalWords.textContent = '0';
+        return;
+      }
+
+      const { total, highlighted } = countQuotedWords(text);
+      totalWords.textContent = total;
+      highlightedText.innerHTML = highlighted || '<p>No quoted text found.</p>';
+    });
+
+    resetBtn.addEventListener('click', () => {
+      inputText.value = '';
+      totalWords.textContent = '0';
+      highlightedText.innerHTML = '';
+    });
+  });
+</script>

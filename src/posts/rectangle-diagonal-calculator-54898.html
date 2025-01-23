@@ -1,0 +1,129 @@
+---
+title: "Quick Rectangle Diagonal Calculator - Fast & Accurate Results"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-04-08 16:05:16
+metaDescription: "Calculate the diagonal of any rectangle instantly with our easy-to-use tool. Perfect for design, construction, and everyday math needs."
+metaKeywords: "rectangle diagonal calculator, diagonal length, geometry tool, pythagorean theorem, design tool, construction calculator, math calculator, width and height calculator, rectangle measurements, DIY tool"
+tags: ["geometry", "math", "calculator", "rectangle", "diagonal"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+      <h1 class="mb-3">Rectangle Diagonal Calculator</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="display-6 mb-4">Need to find the diagonal of a rectangle but don’t want to dust off your old geometry textbook? We’ve got you covered!</p>
+      <p class="lead">Whether you're rearranging furniture, designing a logo, or just curious about the math behind rectangles, our <strong>Rectangle Diagonal Calculator</strong> makes it a breeze. Simply plug in the width and height, and voilà—your diagonal length is ready in seconds. No complex formulas, no headaches. Just quick, accurate results that save you time and effort. Because who doesn’t love a little math magic?</p>
+    </div>
+  </div>
+</div>
+      <p class="mb-4">Enter the width and height of the rectangle to calculate its diagonal.</p>
+      <form id="diagonal-form" class="mb-3">
+        <div class="mb-3">
+          <label for="width" class="form-label">Width (units)</label>
+          <input type="number" class="form-control" id="width" placeholder="Enter width" required min="0" step="any">
+          <div class="invalid-feedback">Please enter a valid positive number.</div>
+        </div>
+        <div class="mb-3">
+          <label for="height" class="form-label">Height (units)</label>
+          <input type="number" class="form-control" id="height" placeholder="Enter height" required min="0" step="any">
+          <div class="invalid-feedback">Please enter a valid positive number.</div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 mb-3">Calculate Diagonal</button>
+        <button type="button" id="reset-btn" class="btn btn-secondary w-100 mb-3">Reset</button>
+      </form>
+      <div id="result" class="mt-3">
+        <p class="fw-bold">Diagonal Length: <span id="diagonal-value">-</span> units</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p class="h4 mb-4">How It Works</p>
+      <p>The tool uses the Pythagorean theorem—a classic geometry formula—to calculate the diagonal of a rectangle. Here’s the simple breakdown:</p>
+      <p class="text-center fw-bold">Diagonal = √(Width² + Height²)</p>
+      <p>So, if your rectangle has a width of 3 units and a height of 4 units, the diagonal would be √(3² + 4²) = √(9 + 16) = √25 = 5 units. Easy, right?</p>
+      
+      <p class="h4 mt-5 mb-4">Example Calculations</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Width (units)</th>
+            <th>Height (units)</th>
+            <th>Diagonal (units)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>1</td><td>1.41</td></tr>
+          <tr><td>2</td><td>3</td><td>3.61</td></tr>
+          <tr><td>4</td><td>5</td><td>6.40</td></tr>
+          <tr><td>6</td><td>8</td><td>10.00</td></tr>
+          <tr><td>10</td><td>10</td><td>14.14</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p class="h4 mb-4">10 Common Use Cases for the Rectangle Diagonal Calculator</p>
+      <ol>
+        <li><strong>Interior Design:</strong> Measure diagonals to ensure furniture fits perfectly in tight spaces.</li>
+        <li><strong>Graphic Design:</strong> Calculate diagonal lengths for precise logo or banner dimensions.</li>
+        <li><strong>Construction:</strong> Determine the diagonal of building materials for accurate cuts.</li>
+        <li><strong>Art Projects:</strong> Plan canvas sizes or frame placements with exact measurements.</li>
+        <li><strong>Gardening:</strong> Measure garden beds or plot diagonals for layout planning.</li>
+        <li><strong>DIY Projects:</strong> Build shelves, tables, or other rectangular structures with confidence.</li>
+        <li><strong>Education:</strong> Teach students geometry concepts with practical examples.</li>
+        <li><strong>Photography:</strong> Calculate the diagonal of photo frames or prints for framing.</li>
+        <li><strong>Event Planning:</strong> Arrange tables, stages, or booths with precise measurements.</li>
+        <li><strong>Sports:</strong> Measure court or field diagonals for setup and marking.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('diagonal-form');
+    const widthInput = document.getElementById('width');
+    const heightInput = document.getElementById('height');
+    const diagonalValue = document.getElementById('diagonal-value');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload width from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue) && startValue >= 0) {
+      widthInput.value = startValue;
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const width = parseFloat(widthInput.value);
+      const height = parseFloat(heightInput.value);
+
+      if (isNaN(width) || isNaN(height) || width < 0 || height < 0) {
+        widthInput.classList.add('is-invalid');
+        heightInput.classList.add('is-invalid');
+        diagonalValue.textContent = '-';
+        return;
+      }
+
+      widthInput.classList.remove('is-invalid');
+      heightInput.classList.remove('is-invalid');
+
+      const diagonal = Math.sqrt(width * width + height * height);
+      diagonalValue.textContent = diagonal.toFixed(2);
+    });
+
+    resetBtn.addEventListener('click', () => {
+      form.reset();
+      widthInput.classList.remove('is-invalid');
+      heightInput.classList.remove('is-invalid');
+      diagonalValue.textContent = '-';
+    });
+  });
+</script>

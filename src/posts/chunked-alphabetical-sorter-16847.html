@@ -1,0 +1,146 @@
+---
+title: "Chunked Alphabetical Sorter - Organize Lists Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-11-13 05:01:14
+metaDescription: "Organize your lists effortlessly with the Chunked Alphabetical Sorter. Sort and group items for groceries, events, projects, and more!"
+metaKeywords: "list organizer, alphabetical sorter, chunked list tool, task management, grocery list organizer, event planning tool, project management, study materials, inventory management, travel packing"
+tags: ["alphabetical-sorter", "list-organizer", "chunk-sorter", "data-tools", "productivity"]
+---
+
+<div id="main-div" class="container p-3 bg-dark text-white">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="mb-3">Chunked Alphabetical Sorter</h1><div class="container p-3 bg-dark text-white">
+  <div class="row">
+    <div class="col-12 text-center">
+      <strong class="d-block mb-3" style="font-size: 2rem; font-weight: bold;">Chunked Alphabetical Sorter</strong>
+      <p class="lead">Struggling to organize your to-do list, shopping items, or event tasks? The Chunked Alphabetical Sorter is here to save the day! Simply enter your list, specify how many items you want in each group, and watch as it sorts and chunks everything into neat, manageable sections. Whether you're planning a party, organizing a project, or just trying to make sense of a chaotic list, this tool makes it effortless. Say goodbye to messy lists and hello to organized bliss—it’s like magic, but better because it’s real!</p>
+    </div>
+  </div>
+</div>
+      <p class="lead">Enter your list of items, specify the chunk size, and get a sorted, chunked output.</p>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-12">
+      <label for="item-list" class="form-label">Enter your items (one per line):</label>
+      <textarea id="item-list" class="form-control bg-dark text-white" rows="5" placeholder="Apple\nBanana\nCherry\nDate\nFig\nGrape"></textarea>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-12">
+      <label for="chunk-size" class="form-label">Chunk size (number of items per group):</label>
+      <input type="number" id="chunk-size" class="form-control bg-dark text-white" min="1" value="2">
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-12 d-flex justify-content-center">
+      <button id="sort-button" class="btn btn-primary me-2">Sort and Chunk</button>
+      <button id="reset-button" class="btn btn-secondary">Reset</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mb-3">Sorted and Chunked Results:</h2>
+      <div id="output" class="bg-secondary p-3 rounded"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container p-3 bg-light">
+  <div class="row">
+    <div class="col-12">
+      <strong class="d-block mb-3" style="font-size: 1.5rem;">How It Works</strong>
+      <p>The Chunked Alphabetical Sorter uses a simple formula to organize your list:</p>
+      <ol>
+        <li><strong>Input your items:</strong> Enter your list, with each item on a new line (e.g., Apple, Banana, Cherry).</li>
+        <li><strong>Specify the chunk size:</strong> Choose how many items you want in each group (e.g., 2 items per chunk).</li>
+        <li><strong>Sort and chunk:</strong> The tool alphabetically sorts your list and divides it into the specified groups.</li>
+      </ol>
+      <p>Here’s a quick example of how it works:</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Original List</th>
+            <th>Chunk Size</th>
+            <th>Sorted and Chunked Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Apple<br>Banana<br>Cherry<br>Date</td>
+            <td>2</td>
+            <td>Chunk 1: Apple, Banana<br>Chunk 2: Cherry, Date</td>
+          </tr>
+          <tr>
+            <td>Grape<br>Fig<br>Elderberry<br>Dragonfruit</td>
+            <td>3</td>
+            <td>Chunk 1: Dragonfruit, Elderberry, Fig<br>Chunk 2: Grape</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container p-3 bg-dark text-white">
+  <div class="row">
+    <div class="col-12">
+      <strong class="d-block mb-3" style="font-size: 1.5rem;">10 Common Use Cases</strong>
+      <ul>
+        <li><strong>Grocery shopping:</strong> Organize your list by aisle or category.</li>
+        <li><strong>Event planning:</strong> Sort tasks like catering, decorations, and guest lists into manageable chunks.</li>
+        <li><strong>Project management:</strong> Break down tasks into smaller, actionable groups.</li>
+        <li><strong>Study materials:</strong> Group topics or flashcards for easier revision.</li>
+        <li><strong>Inventory management:</strong> Sort products into categories for better tracking.</li>
+        <li><strong>Party prep:</strong> Organize food, drinks, and activities into separate lists.</li>
+        <li><strong>Travel packing:</strong> Group items by type (clothes, toiletries, gadgets).</li>
+        <li><strong>Work tasks:</strong> Break down daily or weekly to-dos into smaller chunks.</li>
+        <li><strong>Recipe ingredients:</strong> Sort ingredients by meal or course.</li>
+        <li><strong>Team assignments:</strong> Divide tasks among team members evenly.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const itemList = document.getElementById('item-list');
+    const chunkSizeInput = document.getElementById('chunk-size');
+    const sortButton = document.getElementById('sort-button');
+    const resetButton = document.getElementById('reset-button');
+    const output = document.getElementById('output');
+
+    // Preload textarea with query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      itemList.value = startValue;
+    }
+
+    const sortAndChunk = () => {
+      const items = itemList.value.split('\n').map(item => item.trim()).filter(item => item.length > 0);
+      const chunkSize = parseInt(chunkSizeInput.value, 10);
+
+      if (items.length === 0 || isNaN(chunkSize) || chunkSize <= 0) {
+        alert('Please enter valid items and a chunk size greater than 0.');
+        return;
+      }
+
+      items.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+
+      let outputHTML = '';
+      for (let i = 0; i < items.length; i += chunkSize) {
+        const chunk = items.slice(i, i + chunkSize);
+        outputHTML += `<div class="mb-3 p-2 border border-white rounded"><strong>Chunk ${(i / chunkSize) + 1}:</strong><ul class="mb-0">${chunk.map(item => `<li>${item}</li>`).join('')}</ul></div>`;
+      }
+
+      output.innerHTML = outputHTML;
+    };
+
+    const reset = () => {
+      itemList.value = '';
+      chunkSizeInput.value = 2;
+      output.innerHTML = '';
+    };
+
+    sortButton.addEventListener('click', sortAndChunk);
+    resetButton.addEventListener('click', reset);
+  });
+</script>

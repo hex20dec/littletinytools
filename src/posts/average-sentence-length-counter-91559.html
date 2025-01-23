@@ -1,0 +1,162 @@
+---
+title: "Average Sentence Length Counter - Analyze Your Text's Readability"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-04-21 15:58:20
+metaDescription: "Calculate the average sentence length of your text instantly. Perfect for writers, students, and professionals. Easy, fast, and free!"
+metaKeywords: "average sentence length, sentence counter, word counter, writing tool, readability tool, text analysis, writing improvement, sentence length calculator, word count tool, writing tips"
+tags: ["writing", "readability", "text analysis", "writing tools", "sentence length"]
+---
+
+<div id="main-div" class="container mt-5">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Average Sentence Length Counter</h1><div class="container mt-5">
+  <div class="text-center mb-4">
+    <strong class="display-5">Why does writing feel like a marathon when your sentences run too long?</strong>
+    <p class="lead mt-3">Whether you're crafting an essay, polishing a blog post, or just curious about your writing style, the <strong>Average Sentence Length Counter</strong> is here to help. This tool breaks down your text, showing you how many sentences and words you've written, and calculates the average sentence length in seconds. No more guessing if your sentences are too wordy or too short—just paste your text, hit calculate, and get instant insights. Perfect for writers, students, and anyone who wants to make their writing clearer and more engaging. Let’s make writing a little less daunting and a lot more fun!</p>
+  </div>
+</div>
+    <p class="lead">Paste or type your text to calculate the average sentence length.</p>
+  </header>
+
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control bg-dark text-white" placeholder="Enter your text here..." rows="6"></textarea>
+  </div>
+
+  <div class="mb-3">
+    <button id="calculate-btn" class="btn btn-primary me-2">Calculate</button>
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+
+  <div id="results-card" class="card bg-dark text-white mt-3 d-none">
+    <div class="card-body">
+      <div class="row text-center">
+        <div class="col">
+          <p class="mb-0">Total Sentences: <span id="total-sentences">0</span></p>
+        </div>
+        <div class="col">
+          <p class="mb-0">Total Words: <span id="total-words">0</span></p>
+        </div>
+        <div class="col">
+          <p class="mb-0">Average Sentence Length: <span id="avg-length">0.00</span> words</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center mt-4">
+    <p class="text-muted">This tool counts sentences based on periods, exclamation marks, and question marks. Words are counted based on spaces.</p>
+  </footer>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p class="text-muted">Here’s how it works: The tool splits your text into sentences using periods, exclamation marks, and question marks. Then, it counts the total number of words by splitting the text at every space. Finally, it calculates the average sentence length by dividing the total words by the total sentences. It’s like having a personal writing coach who gives you quick, actionable feedback!</p>
+      <table class="table table-bordered mt-4">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Total Sentences</th>
+            <th scope="col">Total Words</th>
+            <th scope="col">Average Sentence Length</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>5</td>
+            <td>100</td>
+            <td>20.00 words</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>250</td>
+            <td>25.00 words</td>
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>300</td>
+            <td>20.00 words</td>
+          </tr>
+          <tr>
+            <td>20</td>
+            <td>400</td>
+            <td>20.00 words</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <strong class="fs-5">Top 10 Use Cases for the Average Sentence Length Counter:</strong>
+      <ul class="list-group mt-3">
+        <li class="list-group-item">1. Improving readability in essays and academic papers.</li>
+        <li class="list-group-item">2. Polishing blog posts for better engagement.</li>
+        <li class="list-group-item">3. Editing novels or short stories to ensure balanced sentence flow.</li>
+        <li class="list-group-item">4. Crafting concise and impactful business emails.</li>
+        <li class="list-group-item">5. Analyzing speech scripts for public speaking events.</li>
+        <li class="list-group-item">6. Helping students understand their writing style.</li>
+        <li class="list-group-item">7. Optimizing website content for SEO and user experience.</li>
+        <li class="list-group-item">8. Writing clear and effective social media captions.</li>
+        <li class="list-group-item">9. Reviewing legal or technical documents for clarity.</li>
+        <li class="list-group-item">10. Personal writing practice to enhance sentence structure.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const calculateBtn = document.getElementById('calculate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultsCard = document.getElementById('results-card');
+    const totalSentences = document.getElementById('total-sentences');
+    const totalWords = document.getElementById('total-words');
+    const avgLength = document.getElementById('avg-length');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    const calculateStats = () => {
+      const text = textInput.value.trim();
+      if (!text) {
+        resultsCard.classList.add('d-none');
+        alert('Please enter some text to calculate.');
+        return;
+      }
+
+      const sentences = text.split(/[.!?]/).filter(s => s.trim() !== '');
+      const words = text.split(/\s+/).filter(w => w.trim() !== '');
+
+      if (sentences.length === 0) {
+        resultsCard.classList.add('d-none');
+        alert('No sentences found.');
+        return;
+      }
+
+      if (words.length === 0) {
+        resultsCard.classList.add('d-none');
+        alert('No words found.');
+        return;
+      }
+
+      const avg = (words.length / sentences.length).toFixed(2);
+
+      totalSentences.textContent = sentences.length;
+      totalWords.textContent = words.length;
+      avgLength.textContent = avg;
+      resultsCard.classList.remove('d-none');
+    };
+
+    const resetApp = () => {
+      textInput.value = '';
+      resultsCard.classList.add('d-none');
+    };
+
+    calculateBtn.addEventListener('click', calculateStats);
+    resetBtn.addEventListener('click', resetApp);
+  });
+</script>

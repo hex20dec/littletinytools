@@ -1,0 +1,155 @@
+---
+title: "Calculate Average Sentence Length - Improve Your Writing"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-06-06 04:54:43
+metaDescription: "Calculate average sentence length instantly! Perfect for writers, students, and professionals. Improve readability with this easy-to-use tool."
+metaKeywords: "average sentence length, sentence length counter, writing tool, readability checker, text analyzer, word counter, sentence counter, writing helper, text analysis, improve writing"
+tags: ["writing", "readability", "text analysis", "content creation", "writing tools"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  #result-card {
+    display: none;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container text-center mt-5">
+    <h1>Average Sentence Length Counter</h1><div class="container text-center mt-5">
+  <p class="lead fs-3 fw-bold">Ever Wondered How Long Your Sentences Really Are?</p>
+  <p class="fs-5">We've all been there—staring at a paragraph, wondering if it's too wordy or too short. Maybe you're writing an essay, crafting an email, or just curious about your writing style. But counting sentences and words manually? That's a headache! Enter the <strong>Average Sentence Length Counter</strong>, your new best friend for understanding your writing. Just paste your text, click a button, and voilà—you'll know exactly how long your sentences are on average. No math, no stress. Whether you're a student, a writer, or just someone who loves clarity, this tool makes it fun and easy to analyze your writing. Say goodbye to guesswork and hello to smarter writing!</p>
+</div>
+    <p class="lead">Enter your text below to calculate the average sentence length.</p>
+  </div>
+
+  <div class="container mt-4">
+    <textarea id="text-input" class="form-control" rows="6" placeholder="Paste or type your text here..." aria-label="Text input for sentence length calculation"></textarea>
+    <button id="calculate-btn" class="btn btn-primary mt-3 float-end">Calculate</button>
+  </div>
+
+  <div class="container mt-4">
+    <div id="result-card" class="card p-3">
+      <p>Sentences: <span id="sentence-count">0</span></p>
+      <p>Words: <span id="word-count">0</span></p>
+      <p>Average Sentence Length: <span id="average-length">0.00</span></p>
+    </div>
+    <button id="reset-btn" class="btn btn-secondary mt-3">Reset</button>
+  </div>
+
+  <div class="container text-center mt-5">
+    <p class="text-muted">This tool counts sentences based on periods, exclamation marks, and question marks.</p>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <p class="fs-5">Here's how the magic happens:</p>
+  <p>The tool works by breaking your text into sentences using periods, exclamation marks, and question marks as guides. It then counts the total number of sentences and words. Finally, it divides the total words by the number of sentences to give you the average sentence length. Think of it like slicing a pizza—each sentence is a slice, and the words are the toppings. The tool simply tells you how "loaded" each slice is!</p>
+  <div class="table-responsive mt-4">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Sentences</th>
+          <th>Words</th>
+          <th>Average Sentence Length</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>5</td>
+          <td>100</td>
+          <td>20.00</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>150</td>
+          <td>15.00</td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td>300</td>
+          <td>20.00</td>
+        </tr>
+        <tr>
+          <td>20</td>
+          <td>400</td>
+          <td>20.00</td>
+        </tr>
+        <tr>
+          <td>25</td>
+          <td>500</td>
+          <td>20.00</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container mt-4">
+  <p class="fs-5">Here are 10 ways people use the Average Sentence Length Counter:</p>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Students analyzing essays for readability.</li>
+    <li class="list-group-item">Writers improving their sentence structure.</li>
+    <li class="list-group-item">Bloggers optimizing content for engagement.</li>
+    <li class="list-group-item">Teachers grading student assignments.</li>
+    <li class="list-group-item">Email marketers crafting concise messages.</li>
+    <li class="list-group-item">Authors editing novels or short stories.</li>
+    <li class="list-group-item">Job seekers polishing resumes and cover letters.</li>
+    <li class="list-group-item">Researchers analyzing text data.</li>
+    <li class="list-group-item">Content creators tailoring SEO-friendly articles.</li>
+    <li class="list-group-item">Anyone curious about their writing style!</li>
+  </ol>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const calculateBtn = document.getElementById('calculate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultCard = document.getElementById('result-card');
+    const sentenceCount = document.getElementById('sentence-count');
+    const wordCount = document.getElementById('word-count');
+    const averageLength = document.getElementById('average-length');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    const calculateAverage = () => {
+      const text = textInput.value.trim();
+      if (!text) {
+        resultCard.style.display = 'none';
+        alert('Please enter some text to calculate.');
+        return;
+      }
+
+      const sentences = text.split(/[.!?]/).filter(s => s.trim() !== '').length;
+      const words = text.split(/\s+/).filter(w => w.trim() !== '').length;
+      const average = (words / sentences).toFixed(2);
+
+      sentenceCount.textContent = sentences;
+      wordCount.textContent = words;
+      averageLength.textContent = average;
+      resultCard.style.display = 'block';
+    };
+
+    const resetApp = () => {
+      textInput.value = '';
+      resultCard.style.display = 'none';
+      sentenceCount.textContent = 0;
+      wordCount.textContent = 0;
+      averageLength.textContent = '0.00';
+    };
+
+    calculateBtn.addEventListener('click', calculateAverage);
+    resetBtn.addEventListener('click', resetApp);
+
+    textInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && e.ctrlKey) {
+        calculateAverage();
+      }
+    });
+  });
+</script>

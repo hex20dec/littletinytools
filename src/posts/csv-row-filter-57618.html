@@ -1,0 +1,228 @@
+---
+title: "CSV Row Filter - Filter and Download CSV Files Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-08-03 01:33:18
+metaDescription: "Filter CSV rows instantly with this easy-to-use tool. Upload, select, and download filtered results in seconds. Perfect for data analysis and organization."
+metaKeywords: "csv filter, csv row filter, filter csv data, csv tool, csv organizer, data filter tool, csv spreadsheet tool"
+tags: ["CSV", "Data Filtering", "Web Tool", "Data Analysis", "Browser-Based"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="text-center mb-4">CSV Row Filter</h1><div class="container-fluid bg-dark text-white p-4">
+  <p class="lead text-center mb-4">Got a massive CSV file and need to find specific rows fast? The CSV Row Filter is here to save your day. Whether you're cleaning up data, analyzing trends, or just trying to avoid drowning in spreadsheets, this tool makes filtering rows as easy as uploading, selecting, and clicking. No more scrolling endlessly or writing complex formulas—just upload your CSV, pick a column, enter your search term, and voilà! The rows you need are right in front of you. Perfect for students, analysts, or anyone who values their time. Let’s turn your data chaos into clarity!</p>
+</div>
+  <p class="text-center mb-4">Upload a CSV file, filter rows based on column values, and download the filtered results.</p>
+
+  <div class="mb-4">
+    <label for="csvFileInput" class="form-label">Upload CSV File</label>
+    <input type="file" class="form-control bg-dark text-white" id="csvFileInput" accept=".csv">
+    <div id="fileError" class="alert alert-danger mt-2 d-none" role="alert">Please upload a valid CSV file.</div>
+  </div>
+
+  <div class="mb-4">
+    <label for="columnSelect" class="form-label">Select Column</label>
+    <select class="form-select bg-dark text-white" id="columnSelect" disabled>
+      <option value="">Select a column</option>
+    </select>
+  </div>
+
+  <div class="mb-4">
+    <label for="filterValue" class="form-label">Filter Value</label>
+    <input type="text" class="form-control bg-dark text-white" id="filterValue" placeholder="Enter filter value">
+  </div>
+
+  <button id="applyFilterBtn" class="btn btn-primary btn-lg w-100 mb-4" disabled>Apply Filter</button>
+
+  <div id="loadingSpinner" class="d-flex justify-content-center mb-4 d-none">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div id="filteredResults" class="table-responsive mb-4 d-none">
+    <table class="table table-striped table-dark">
+      <thead id="resultsHeader"></thead>
+      <tbody id="resultsBody"></tbody>
+    </table>
+  </div>
+
+  <button id="downloadBtn" class="btn btn-success btn-lg w-100 mb-4 d-none">Download Filtered CSV</button>
+
+  <div id="noResultsMessage" class="alert alert-warning mt-2 d-none" role="alert">No matching rows found.</div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="mb-3">How It Works</h2>
+      <p>The CSV Row Filter works in three simple steps:</p>
+      <ol>
+        <li><strong>Upload Your CSV:</strong> Choose your CSV file from your device. The tool reads the file and extracts its headers and rows.</li>
+        <li><strong>Select a Column:</strong> Pick the column you want to filter. This could be anything from "Product Name" to "Email Address."</li>
+        <li><strong>Enter Your Filter Value:</strong> Type in the keyword or phrase you’re looking for. The tool scans the selected column and shows only the rows that match your criteria.</li>
+      </ol>
+      <p>It’s like having a search bar for your spreadsheet—quick, intuitive, and no technical know-how required.</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="mb-3">Example Use Cases</h2>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Column Name</th>
+              <th>Filter Value</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Email</td>
+              <td>@gmail.com</td>
+              <td>All rows with Gmail addresses</td>
+            </tr>
+            <tr>
+              <td>Status</td>
+              <td>Active</td>
+              <td>All rows with "Active" status</td>
+            </tr>
+            <tr>
+              <td>Product</td>
+              <td>Laptop</td>
+              <td>All rows containing "Laptop"</td>
+            </tr>
+            <tr>
+              <td>Date</td>
+              <td>2023</td>
+              <td>All rows with dates in 2023</td>
+            </tr>
+            <tr>
+              <td>Price</td>
+              <td>100</td>
+              <td>All rows with a price of 100</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <h2 class="mb-4">10 Common Use Cases for the CSV Row Filter</h2>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item bg-dark text-white">1. Filtering customer emails by domain (e.g., @gmail.com).</li>
+    <li class="list-group-item bg-dark text-white">2. Extracting rows with specific statuses like "Active" or "Pending."</li>
+    <li class="list-group-item bg-dark text-white">3. Finding all orders above or below a certain price.</li>
+    <li class="list-group-item bg-dark text-white">4. Isolating data for a specific time period (e.g., 2023).</li>
+    <li class="list-group-item bg-dark text-white">5. Searching for products by name or category.</li>
+    <li class="list-group-item bg-dark text-white">6. Filtering out duplicate entries based on a unique identifier.</li>
+    <li class="list-group-item bg-dark text-white">7. Analyzing survey responses by keyword (e.g., "satisfied").</li>
+    <li class="list-group-item bg-dark text-white">8. Finding all rows with missing or incomplete data.</li>
+    <li class="list-group-item bg-dark text-white">9. Extracting rows for a specific location or region.</li>
+    <li class="list-group-item bg-dark text-white">10. Filtering inventory data for low-stock items.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const csvFileInput = document.getElementById('csvFileInput');
+    const columnSelect = document.getElementById('columnSelect');
+    const filterValue = document.getElementById('filterValue');
+    const applyFilterBtn = document.getElementById('applyFilterBtn');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const filteredResults = document.getElementById('filteredResults');
+    const resultsHeader = document.getElementById('resultsHeader');
+    const resultsBody = document.getElementById('resultsBody');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const fileError = document.getElementById('fileError');
+    const noResultsMessage = document.getElementById('noResultsMessage');
+
+    let csvData = [];
+    let headers = [];
+
+    csvFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file && file.type === 'text/csv') {
+        fileError.classList.add('d-none');
+        loadingSpinner.classList.remove('d-none');
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const text = event.target.result;
+          const rows = text.split('\n').map(row => row.split(','));
+          headers = rows[0];
+          csvData = rows.slice(1);
+          populateColumnSelect(headers);
+          loadingSpinner.classList.add('d-none');
+          applyFilterBtn.disabled = false;
+        };
+        reader.readAsText(file);
+      } else {
+        fileError.classList.remove('d-none');
+        csvData = [];
+        headers = [];
+        columnSelect.innerHTML = '<option value="">Select a column</option>';
+        columnSelect.disabled = true;
+        applyFilterBtn.disabled = true;
+        filteredResults.classList.add('d-none');
+        downloadBtn.classList.add('d-none');
+        noResultsMessage.classList.add('d-none');
+      }
+    });
+
+    applyFilterBtn.addEventListener('click', () => {
+      const selectedColumn = columnSelect.value;
+      const filterText = filterValue.value.trim().toLowerCase();
+      if (!selectedColumn || !filterText) return;
+
+      loadingSpinner.classList.remove('d-none');
+      setTimeout(() => {
+        const filteredRows = csvData.filter(row => {
+          const index = headers.indexOf(selectedColumn);
+          return row[index] && row[index].toLowerCase().includes(filterText);
+        });
+
+        if (filteredRows.length > 0) {
+          displayFilteredResults(headers, filteredRows);
+          downloadBtn.classList.remove('d-none');
+          noResultsMessage.classList.add('d-none');
+        } else {
+          filteredResults.classList.add('d-none');
+          downloadBtn.classList.add('d-none');
+          noResultsMessage.classList.remove('d-none');
+        }
+        loadingSpinner.classList.add('d-none');
+      }, 500);
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      const selectedColumn = columnSelect.value;
+      const filterText = filterValue.value.trim().toLowerCase();
+      const filteredRows = csvData.filter(row => {
+        const index = headers.indexOf(selectedColumn);
+        return row[index] && row[index].toLowerCase().includes(filterText);
+      });
+
+      const csvContent = [headers, ...filteredRows].map(row => row.join(',')).join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'filtered_results.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    function populateColumnSelect(headers) {
+      columnSelect.innerHTML = headers.map(header => `<option value="${header}">${header}</option>`).join('');
+      columnSelect.disabled = false;
+    }
+
+    function displayFilteredResults(headers, rows) {
+      resultsHeader.innerHTML = `<tr>${headers.map(header => `<th>${header}</th>`).join('')}</tr>`;
+      resultsBody.innerHTML = rows.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('');
+      filteredResults.classList.remove('d-none');
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      filterValue.value = startValue;
+    }
+  });
+</script>

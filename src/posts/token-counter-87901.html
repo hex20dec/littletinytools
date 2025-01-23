@@ -1,0 +1,153 @@
+---
+title: "Token Counter - Count Words, Characters, and Custom Tokens Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-09-24 21:35:03
+metaDescription: "Count words, characters, or custom tokens instantly with this easy-to-use Token Counter. Perfect for writers, students, and professionals!"
+metaKeywords: "word counter, character counter, custom token counter, text analysis, word count tool, character count tool, token counting, writing tool, SEO analysis, text editing"
+tags: ["token counter", "word count", "character count", "text analysis", "web tool"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Token Counter</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <strong class="display-4">Token Counter</strong>
+    <p class="lead">Counting words, characters, or even custom tokens shouldn’t feel like solving a math problem. Whether you’re editing an essay, drafting a tweet, or analyzing data, this tool is your go-to for quick, accurate counts. Just paste your text, select what you need—words, characters, or custom tokens—and voilà! No more guessing or manual counting. It’s like having a tiny assistant who’s always ready to help, minus the coffee breaks.</p>
+  </div>
+</div>
+    <p class="lead">Count words, characters, or custom tokens in your text.</p>
+  </header>
+
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control bg-dark text-white" rows="10" placeholder="Paste or type your text here..."></textarea>
+  </div>
+
+  <div class="row g-3 mb-3">
+    <div class="col-md-6">
+      <select id="token-type" class="form-select bg-dark text-white">
+        <option value="words">Words</option>
+        <option value="characters">Characters</option>
+        <option value="custom">Custom Tokens</option>
+      </select>
+    </div>
+    <div class="col-md-6" id="custom-token-container" style="display: none;">
+      <input type="text" id="custom-token" class="form-control bg-dark text-white" placeholder="Enter your custom token...">
+    </div>
+  </div>
+
+  <div class="alert alert-info mb-3">
+    <h4 class="alert-heading" id="result">Total Words: 0</h4>
+  </div>
+
+  <button id="reset-btn" class="btn btn-secondary w-100 mb-3">Reset</button>
+
+  <footer class="text-center mt-4">
+    <p class="text-muted">Select the token type, paste your text, and see the count instantly!</p>
+  </footer>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="mb-3">How It Works</h2>
+      <p>This tool uses a simple formula to count what matters to you. If you select <strong>words</strong>, it splits your text into individual words by spaces and counts them. For <strong>characters</strong>, it counts every single letter, space, and punctuation mark. And for <strong>custom tokens</strong>, it looks for the specific string you enter (like a word or symbol) and counts how many times it appears in your text. It’s that straightforward—no rocket science required!</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="mb-3">Example Counts</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Text</th>
+            <th scope="col">Words</th>
+            <th scope="col">Characters</th>
+            <th scope="col">Custom Token (e.g., "the")</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>"Hello world"</td>
+            <td>2</td>
+            <td>11</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>"The quick brown fox"</td>
+            <td>4</td>
+            <td>19</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>"Lorem ipsum dolor sit amet"</td>
+            <td>5</td>
+            <td>26</td>
+            <td>0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <h2 class="mb-4">10 Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item bg-dark text-white">1. Editing essays or articles to meet word count requirements.</li>
+    <li class="list-group-item bg-dark text-white">2. Drafting social media posts to fit character limits (e.g., Twitter).</li>
+    <li class="list-group-item bg-dark text-white">3. Analyzing data to count specific keywords or phrases.</li>
+    <li class="list-group-item bg-dark text-white">4. Writing code snippets and counting variables or symbols.</li>
+    <li class="list-group-item bg-dark text-white">5. Preparing presentations with slide notes under a certain length.</li>
+    <li class="list-group-item bg-dark text-white">6. Creating product descriptions for e-commerce platforms.</li>
+    <li class="list-group-item bg-dark text-white">7. Writing emails and ensuring they’re concise and professional.</li>
+    <li class="list-group-item bg-dark text-white">8. Translating text and verifying word-for-word accuracy.</li>
+    <li class="list-group-item bg-dark text-white">9. Conducting SEO analysis by counting keyword density.</li>
+    <li class="list-group-item bg-dark text-white">10. Teaching or learning languages by breaking down text into tokens.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const tokenType = document.getElementById('token-type');
+    const customTokenContainer = document.getElementById('custom-token-container');
+    const customTokenInput = document.getElementById('custom-token');
+    const result = document.getElementById('result');
+    const resetBtn = document.getElementById('reset-btn');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+      updateCount();
+    }
+
+    textInput.addEventListener('input', updateCount);
+    tokenType.addEventListener('change', () => {
+      customTokenContainer.style.display = tokenType.value === 'custom' ? 'block' : 'none';
+      updateCount();
+    });
+    customTokenInput.addEventListener('input', updateCount);
+    resetBtn.addEventListener('click', () => {
+      textInput.value = '';
+      customTokenInput.value = '';
+      updateCount();
+    });
+
+    function updateCount() {
+      const text = textInput.value.trim();
+      const type = tokenType.value;
+      let count = 0;
+
+      if (type === 'words') {
+        count = text.split(/\s+/).filter(word => word.length > 0).length;
+        result.textContent = `Total Words: ${count}`;
+      } else if (type === 'characters') {
+        count = text.length;
+        result.textContent = `Total Characters: ${count}`;
+      } else if (type === 'custom') {
+        const customToken = customTokenInput.value.trim();
+        if (customToken) {
+          count = text.split(customToken).length - 1;
+          result.textContent = `Total '${customToken}' Tokens: ${count}`;
+        } else {
+          result.textContent = 'Please enter a custom token.';
+        }
+      }
+    }
+  });
+</script>

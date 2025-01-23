@@ -1,0 +1,177 @@
+---
+title: "Cycle Time Calculator - Calculate Total Time for Your Tasks"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-01-26 02:54:24
+metaDescription: "Easily calculate total cycle time for any process with the Cycle Time Calculator. Perfect for project management, manufacturing, and daily tasks."
+metaKeywords: "cycle time calculator, time management tool, workflow calculator, project time tracker, step time adder, time optimization, productivity tool, task time calculator, workflow efficiency, cycle time tracker"
+tags: ["time management", "productivity", "cycle time", "task planning", "efficiency"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <h1 class="display-4">Cycle Time Calculator</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-12 text-center">
+      <p class="lead fs-4">Why does managing workflows always feel like juggling too many balls at once? Whether you're planning a project, tracking manufacturing steps, or organizing your daily tasks, keeping track of time for each step can be overwhelming. That's where the <strong>Cycle Time Calculator</strong> comes in! This tool is your personal time wizard, helping you add up individual step times effortlessly. From brewing your morning coffee to launching a rocket, this calculator ensures you never lose track of time again. It's simple, intuitive, and designed to make your life smoother—one minute at a time.</p>
+    </div>
+  </div>
+</div>
+    <p class="lead">Calculate the total time for your cycle by adding individual step times.</p>
+  </div>
+
+  <div class="mb-4">
+    <form id="step-form" class="row g-3">
+      <div class="col-md-5">
+        <label for="step-name" class="form-label">Step Name</label>
+        <input type="text" class="form-control bg-dark text-white" id="step-name" placeholder="Enter step name" required>
+      </div>
+      <div class="col-md-5">
+        <label for="step-time" class="form-label">Time Taken (minutes)</label>
+        <input type="number" class="form-control bg-dark text-white" id="step-time" placeholder="Enter time in minutes" min="0" required>
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary w-100">+ Add Step</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="steps-list" class="mb-4"></div>
+
+  <div class="card bg-secondary text-white mb-4">
+    <div class="card-body text-center">
+      <h2 class="card-title">Total Cycle Time</h2>
+      <p id="total-time" class="display-6">0 minutes</p>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <button id="reset-btn" class="btn btn-danger">Reset</button>
+  </div>
+
+  <footer class="text-center mt-4">
+    <p class="text-muted">Made with simplicity in mind.</p>
+  </footer>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="fs-3 mb-4">How It Works</h2>
+      <p class="mb-4">The Cycle Time Calculator works by summing up the time taken for each step in a process. Here's the simple formula it follows:</p>
+      <p class="bg-light p-3 rounded"><strong>Total Cycle Time = Step 1 Time + Step 2 Time + Step 3 Time + ... + Step N Time</strong></p>
+      <p class="mt-3">Each step's time is added to a running total, giving you the overall cycle time. You can add, edit, or delete steps as needed, and the total updates instantly. It's like having a digital stopwatch for every part of your process.</p>
+      
+      <h3 class="fs-4 mt-5 mb-4">Example Table</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Step Name</th>
+            <th>Time (Minutes)</th>
+            <th>Total Time (Minutes)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Plan Project</td><td>30</td><td>30</td></tr>
+          <tr><td>Design Prototype</td><td>60</td><td>90</td></tr>
+          <tr><td>Test Prototype</td><td>45</td><td>135</td></tr>
+          <tr><td>Finalize Product</td><td>90</td><td>225</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="fs-3 mb-4">10 Common Use Cases</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1. Project management: Track time for each project phase.</li>
+        <li class="list-group-item">2. Manufacturing: Calculate total production cycle time.</li>
+        <li class="list-group-item">3. Cooking: Time each step of a recipe for perfect results.</li>
+        <li class="list-group-item">4. Fitness: Monitor workout intervals and rest periods.</li>
+        <li class="list-group-item">5. Event planning: Allocate time for setup, activities, and cleanup.</li>
+        <li class="list-group-item">6. Software development: Measure time for coding, testing, and debugging.</li>
+        <li class="list-group-item">7. Daily routines: Organize morning or evening schedules.</li>
+        <li class="list-group-item">8. Customer service: Track response and resolution times.</li>
+        <li class="list-group-item">9. Travel planning: Time each leg of a trip for seamless itineraries.</li>
+        <li class="list-group-item">10. School assignments: Break down tasks and allocate time efficiently.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const stepForm = document.getElementById('step-form');
+    const stepsList = document.getElementById('steps-list');
+    const totalTimeDisplay = document.getElementById('total-time');
+    const resetBtn = document.getElementById('reset-btn');
+    let totalTime = 0;
+
+    // Preload first input field with query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startTime = urlParams.get('start');
+    if (startTime && !isNaN(startTime) && startTime >= 0) {
+      document.getElementById('step-time').value = startTime;
+    }
+
+    const updateTotalTime = () => {
+      totalTime = Array.from(stepsList.children).reduce((sum, step) => {
+        const time = parseFloat(step.querySelector('.step-time').textContent);
+        return sum + (isNaN(time) ? 0 : time);
+      }, 0);
+      totalTimeDisplay.textContent = `${totalTime} minutes`;
+    };
+
+    const addStep = (name, time) => {
+      const stepDiv = document.createElement('div');
+      stepDiv.className = 'row mb-2 align-items-center';
+      stepDiv.innerHTML = `
+        <div class="col-md-5">
+          <input type="text" class="form-control bg-dark text-white step-name" value="${name}" readonly>
+        </div>
+        <div class="col-md-5">
+          <input type="number" class="form-control bg-dark text-white step-time" value="${time}" readonly>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-warning me-2 edit-btn">Edit</button>
+          <button class="btn btn-danger delete-btn">Delete</button>
+        </div>
+      `;
+      stepsList.appendChild(stepDiv);
+
+      stepDiv.querySelector('.delete-btn').addEventListener('click', () => {
+        stepsList.removeChild(stepDiv);
+        updateTotalTime();
+      });
+
+      stepDiv.querySelector('.edit-btn').addEventListener('click', () => {
+        const nameInput = stepDiv.querySelector('.step-name');
+        const timeInput = stepDiv.querySelector('.step-time');
+        nameInput.readOnly = !nameInput.readOnly;
+        timeInput.readOnly = !timeInput.readOnly;
+        if (nameInput.readOnly) {
+          updateTotalTime();
+        }
+      });
+
+      updateTotalTime();
+    };
+
+    stepForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const stepName = document.getElementById('step-name').value.trim();
+      const stepTime = document.getElementById('step-time').value.trim();
+
+      if (!stepName || !stepTime || isNaN(stepTime) || stepTime < 0) {
+        alert('Please enter valid step name and time (non-negative number).');
+        return;
+      }
+
+      addStep(stepName, stepTime);
+      stepForm.reset();
+    });
+
+    resetBtn.addEventListener('click', () => {
+      stepsList.innerHTML = '';
+      totalTimeDisplay.textContent = '0 minutes';
+    });
+  });
+</script>

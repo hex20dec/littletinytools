@@ -1,0 +1,127 @@
+---
+title: "Unit Cost Calculator - Calculate Price Per Unit Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-05-08 11:31:22
+metaDescription: "Easily calculate cost per unit with the Unit Cost Calculator. Perfect for budgeting, shopping, and inventory management. Try it now!"
+metaKeywords: "unit cost calculator, cost per unit, bulk pricing, budget tool, inventory management, shopping calculator, price comparison, wholesale pricing, cost analysis, financial tool"
+tags: ["unit cost calculator", "price per unit", "budgeting tool", "financial planning", "shopping tool"]
+---
+
+<div id="main-div" class="container text-center bg-dark text-white p-4 rounded">
+  <h1 class="mb-3">Unit Cost Calculator</h1><div class="container text-center p-4">
+  <p class="lead">Why does figuring out the cost per unit always feel like solving a math problem you weren’t prepared for? Whether you're budgeting for groceries, comparing bulk deals, or managing inventory, the Unit Cost Calculator is here to make your life simpler. Just plug in the total cost and quantity, and voilà—it instantly calculates the cost per unit. No more mental math or second-guessing. It’s like having a personal accountant in your pocket, minus the fancy suit. Save time, avoid headaches, and make smarter decisions with this easy-to-use tool. Let’s make numbers your new best friend!</p>
+</div>
+  <p class="mb-4">Enter the total cost and quantity to calculate the cost per unit.</p>
+
+  <div class="row justify-content-center mb-3">
+    <div class="col-md-6">
+      <label for="totalCost" class="form-label">Total Cost</label>
+      <input type="number" class="form-control" id="totalCost" placeholder="Enter the total cost (e.g., 50.00)" step="0.01" aria-label="Total Cost">
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-3">
+    <div class="col-md-6">
+      <label for="quantity" class="form-label">Quantity</label>
+      <input type="number" class="form-control" id="quantity" placeholder="Enter the quantity (e.g., 10)" step="0.01" aria-label="Quantity">
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-3">
+    <div class="col-md-6">
+      <button id="calculateBtn" class="btn btn-primary w-100 mb-2">Calculate</button>
+      <button id="resetBtn" class="btn btn-secondary w-100">Reset</button>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-3">
+    <div class="col-md-6">
+      <label for="costPerUnit" class="form-label">Cost Per Unit</label>
+      <input type="text" class="form-control" id="costPerUnit" readonly aria-label="Cost Per Unit">
+    </div>
+  </div>
+
+  <div id="errorMessage" class="alert alert-danger d-none" role="alert"></div>
+</div>
+
+<div class="container p-4">
+  <h2 class="mb-3">How It Works</h2>
+  <p class="mb-4">The Unit Cost Calculator uses a straightforward formula to determine the cost per unit. Simply divide the total cost by the quantity of items. For example, if you spend $50 on 10 items, the cost per unit is $5. The tool ensures accuracy by handling decimal values and validating your inputs to prevent errors.</p>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Total Cost ($)</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Cost Per Unit ($)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>10.00</td><td>2</td><td>5.00</td></tr>
+        <tr><td>25.00</td><td>5</td><td>5.00</td></tr>
+        <tr><td>100.00</td><td>20</td><td>5.00</td></tr>
+        <tr><td>50.00</td><td>10</td><td>5.00</td></tr>
+        <tr><td>75.00</td><td>15</td><td>5.00</td></tr>
+        <tr><td>30.00</td><td>6</td><td>5.00</td></tr>
+        <tr><td>60.00</td><td>12</td><td>5.00</td></tr>
+        <tr><td>80.00</td><td>16</td><td>5.00</td></tr>
+        <tr><td>90.00</td><td>18</td><td>5.00</td></tr>
+        <tr><td>120.00</td><td>24</td><td>5.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container p-4">
+  <h2 class="mb-3">10 Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Calculating the cost per item for bulk grocery shopping.</li>
+    <li class="list-group-item">Determining the price per unit for wholesale inventory.</li>
+    <li class="list-group-item">Comparing prices of similar products in different quantities.</li>
+    <li class="list-group-item">Budgeting for event supplies like decorations or party favors.</li>
+    <li class="list-group-item">Evaluating the cost-effectiveness of subscription services.</li>
+    <li class="list-group-item">Assessing the price per unit for office supplies.</li>
+    <li class="list-group-item">Calculating the cost per meal for meal prep planning.</li>
+    <li class="list-group-item">Determining the price per unit for DIY project materials.</li>
+    <li class="list-group-item">Comparing bulk deals at warehouse stores.</li>
+    <li class="list-group-item">Analyzing the cost per unit for manufacturing or production.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const totalCostInput = document.getElementById('totalCost');
+    const quantityInput = document.getElementById('quantity');
+    const costPerUnitInput = document.getElementById('costPerUnit');
+    const calculateBtn = document.getElementById('calculateBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const errorMessage = document.getElementById('errorMessage');
+
+    // Preload total cost from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue)) {
+      totalCostInput.value = parseFloat(startValue).toFixed(2);
+    }
+
+    calculateBtn.addEventListener('click', function () {
+      errorMessage.classList.add('d-none');
+      const totalCost = parseFloat(totalCostInput.value);
+      const quantity = parseFloat(quantityInput.value);
+
+      if (isNaN(totalCost) || isNaN(quantity) || totalCost < 0 || quantity <= 0) {
+        errorMessage.textContent = quantity === 0 ? 'Quantity cannot be zero.' : 'Please enter valid numbers.';
+        errorMessage.classList.remove('d-none');
+        costPerUnitInput.value = '';
+        return;
+      }
+
+      const costPerUnit = (totalCost / quantity).toFixed(2);
+      costPerUnitInput.value = isFinite(costPerUnit) ? costPerUnit : 'Invalid';
+    });
+
+    resetBtn.addEventListener('click', function () {
+      totalCostInput.value = '';
+      quantityInput.value = '';
+      costPerUnitInput.value = '';
+      errorMessage.classList.add('d-none');
+    });
+  });
+</script>

@@ -1,0 +1,168 @@
+---
+title: "Weekday Difference Calculator - Calculate Working Days Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-08-23 12:26:44
+metaDescription: "Calculate weekdays between two dates instantly with our Weekday Difference Calculator. Perfect for planning, deadlines, and vacations!"
+metaKeywords: "weekday calculator, count weekdays, workday calculator, date calculator, weekdays between dates, weekday counter, project planning, vacation days, deadline tracker, weekday tool"
+tags: ["weekday calculator", "working days", "date difference", "productivity tool", "time management"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Weekday Difference Calculator</h1><div class="container text-center py-5">
+  <p class="fs-4">Ever tried to plan a project, count vacation days, or figure out how many workdays are left before a deadline, only to get stuck counting weekdays manually? It’s like trying to solve a math problem with a toddler tugging at your sleeve—frustrating and time-consuming! That’s where the Weekday Difference Calculator comes in. This nifty tool takes two dates, waves its magic wand, and instantly tells you how many weekdays (Monday to Friday) are between them. Whether you’re planning a trip, tracking workdays, or just curious, this tool makes it as easy as pie. No more finger-counting or calendar-flipping—just simplicity and accuracy in a click. Life’s too short to waste on tedious calculations, so let’s make it easier, one weekday at a time!</p>
+</div>
+    <p class="lead">Calculate the number of weekdays between two dates.</p>
+  </header>
+
+  <div class="mb-3">
+    <label for="start-date" class="form-label">Start Date</label>
+    <input type="date" id="start-date" class="form-control" aria-label="Start Date">
+  </div>
+
+  <div class="mb-3">
+    <label for="end-date" class="form-label">End Date</label>
+    <input type="date" id="end-date" class="form-control" aria-label="End Date">
+  </div>
+
+  <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-3">
+    <button id="calculate-btn" class="btn btn-primary me-md-2">Calculate</button>
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+
+  <div id="result" class="text-center mt-3 fw-bold"></div>
+  <div id="error-message" class="error-message text-center"></div>
+</div>
+
+<div class="container mt-4">
+  <h2 class="fs-3 mb-3">How It Works</h2>
+  <p class="mb-4">The Weekday Difference Calculator uses a straightforward approach to count weekdays between two dates. Here’s the formula in plain English:</p>
+  <ol class="list-group list-group-numbered mb-4">
+    <li class="list-group-item">Start with the first date and check if it’s a weekday (Monday to Friday).</li>
+    <li class="list-group-item">Move forward one day at a time, skipping weekends (Saturday and Sunday).</li>
+    <li class="list-group-item">Keep counting until you reach the end date.</li>
+  </ol>
+  <p class="mb-4">It’s like walking through a calendar, but the tool does all the heavy lifting for you!</p>
+
+  <h2 class="fs-3 mb-3">Examples</h2>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Start Date</th>
+          <th scope="col">End Date</th>
+          <th scope="col">Weekdays</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2023-10-01</td>
+          <td>2023-10-07</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>2023-10-15</td>
+          <td>2023-10-22</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>2023-11-01</td>
+          <td>2023-11-30</td>
+          <td>22</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container mt-4">
+  <h2 class="fs-3 mb-3">10 Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Planning work schedules or deadlines.</li>
+    <li class="list-group-item">Calculating paid time off (PTO) or vacation days.</li>
+    <li class="list-group-item">Tracking project timelines and milestones.</li>
+    <li class="list-group-item">Estimating delivery times for weekdays-only services.</li>
+    <li class="list-group-item">Counting school days for academic planning.</li>
+    <li class="list-group-item">Determining billing cycles for businesses.</li>
+    <li class="list-group-item">Planning events or meetings that exclude weekends.</li>
+    <li class="list-group-item">Calculating interest or fees for weekdays-only transactions.</li>
+    <li class="list-group-item">Tracking fitness or habit-building streaks on weekdays.</li>
+    <li class="list-group-item">Counting weekdays for legal or contractual purposes.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const startDateInput = document.getElementById('start-date');
+    const endDateInput = document.getElementById('end-date');
+    const calculateBtn = document.getElementById('calculate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultDiv = document.getElementById('result');
+    const errorMessageDiv = document.getElementById('error-message');
+
+    // Preload start date from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startDateParam = urlParams.get('start');
+    if (startDateParam) {
+      startDateInput.value = startDateParam;
+    }
+
+    const calculateWeekdays = (startDate, endDate) => {
+      let count = 0;
+      const currentDate = new Date(startDate);
+      while (currentDate <= endDate) {
+        const dayOfWeek = currentDate.getDay();
+        if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+          count++;
+        }
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+      return count;
+    };
+
+    const validateInputs = () => {
+      const startDate = new Date(startDateInput.value);
+      const endDate = new Date(endDateInput.value);
+
+      if (!startDateInput.value || !endDateInput.value) {
+        errorMessageDiv.textContent = 'Please select both dates.';
+        resultDiv.textContent = '';
+        return false;
+      }
+
+      if (endDate < startDate) {
+        errorMessageDiv.textContent = 'End date must be after the start date.';
+        resultDiv.textContent = '';
+        return false;
+      }
+
+      errorMessageDiv.textContent = '';
+      return true;
+    };
+
+    calculateBtn.addEventListener('click', () => {
+      if (!validateInputs()) return;
+
+      const startDate = new Date(startDateInput.value);
+      const endDate = new Date(endDateInput.value);
+      const weekdays = calculateWeekdays(startDate, endDate);
+
+      resultDiv.textContent = `Number of weekdays: ${weekdays}`;
+    });
+
+    resetBtn.addEventListener('click', () => {
+      startDateInput.value = '';
+      endDateInput.value = '';
+      resultDiv.textContent = '';
+      errorMessageDiv.textContent = '';
+    });
+  });
+</script>

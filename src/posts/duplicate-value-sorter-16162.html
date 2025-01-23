@@ -1,0 +1,138 @@
+---
+title: "Duplicate Value Sorter - Clean & Organize Your Lists Effortlessly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-10-24 10:24:47
+metaDescription: "Quickly sort and find duplicates in any list with the Duplicate Value Sorter. Perfect for organizing data, cleaning spreadsheets, and more."
+metaKeywords: "duplicate sorter, find duplicates, remove duplicates, organize data, data cleanup, unique values, duplicate values, list sorting, spreadsheet cleanup, data analysis"
+tags: ["duplicate finder", "list organizer", "data cleaner", "productivity tool", "web utility"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-4">Duplicate Value Sorter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center fs-3 fw-bold mb-4">Tired of sifting through endless lists to find duplicates? Let’s fix that.</p>
+      <p class="text-center lead mb-4">Whether you’re cleaning up a messy spreadsheet, organizing your grocery list, or just trying to find repeating patterns in your data, the Duplicate Value Sorter is here to save the day. Simply paste your list, hit the button, and watch as it magically separates unique values from duplicates. No more manual scanning or endless Ctrl+F searches—just quick, accurate results. It’s like having a personal assistant for your data cleanup needs!</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Enter your list of values below to identify and sort duplicates.</p>
+      <div class="mb-3">
+        <textarea id="input-values" class="form-control bg-dark text-white" rows="5" placeholder="Enter values separated by commas, spaces, or new lines."></textarea>
+      </div>
+      <div class="d-grid gap-2 mb-4">
+        <button id="sort-button" class="btn btn-primary">Sort and Find Duplicates</button>
+        <button id="reset-button" class="btn btn-secondary">Reset</button>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <h3 class="text-center">Unique Values</h3>
+          <div id="unique-values" class="bg-dark text-white p-3 overflow-auto" style="height: 200px;"></div>
+        </div>
+        <div class="col-md-6">
+          <h3 class="text-center">Duplicate Values</h3>
+          <div id="duplicate-values" class="bg-dark text-white p-3 overflow-auto" style="height: 200px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center fs-5 fw-bold mb-3">How It Works</p>
+      <p class="text-center mb-4">The tool works by taking your input—whether it’s a list of numbers, words, or phrases—and splitting it into individual items. It then counts how many times each item appears. Items that appear only once are categorized as <strong>unique</strong>, while items that appear more than once are labeled as <strong>duplicates</strong>. The result? A neatly sorted list that makes your life easier.</p>
+      
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Input List</th>
+              <th scope="col">Unique Values</th>
+              <th scope="col">Duplicate Values</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>apple, banana, apple, orange</td>
+              <td>banana, orange</td>
+              <td>apple</td>
+            </tr>
+            <tr>
+              <td>1, 2, 3, 2, 4, 5, 3</td>
+              <td>1, 4, 5</td>
+              <td>2, 3</td>
+            </tr>
+            <tr>
+              <td>cat, dog, cat, bird, fish</td>
+              <td>dog, bird, fish</td>
+              <td>cat</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center fs-5 fw-bold mb-3">10 Common Use Cases for the Duplicate Value Sorter</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Cleaning up duplicate entries in spreadsheets.</li>
+        <li class="list-group-item">Organizing grocery or shopping lists.</li>
+        <li class="list-group-item">Identifying repeating patterns in survey responses.</li>
+        <li class="list-group-item">Removing duplicate email addresses from a mailing list.</li>
+        <li class="list-group-item">Sorting and filtering product SKUs in inventory management.</li>
+        <li class="list-group-item">Finding duplicate transactions in financial records.</li>
+        <li class="list-group-item">Simplifying data analysis by isolating unique values.</li>
+        <li class="list-group-item">Streamlining event attendee lists.</li>
+        <li class="list-group-item">Detecting duplicate keywords in SEO analysis.</li>
+        <li class="list-group-item">Preparing datasets for machine learning models by removing redundancy.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const inputValues = document.getElementById('input-values');
+    const uniqueValuesDiv = document.getElementById('unique-values');
+    const duplicateValuesDiv = document.getElementById('duplicate-values');
+    const sortButton = document.getElementById('sort-button');
+    const resetButton = document.getElementById('reset-button');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputValues.value = startValue;
+    }
+
+    sortButton.addEventListener('click', function () {
+      const input = inputValues.value.trim();
+      if (!input) {
+        alert('Please enter some values to sort.');
+        return;
+      }
+
+      const values = input.split(/[\s,]+/).filter(Boolean);
+      const valueCounts = {};
+      values.forEach(value => {
+        valueCounts[value] = (valueCounts[value] || 0) + 1;
+      });
+
+      const uniqueValues = Object.keys(valueCounts).filter(value => valueCounts[value] === 1).sort();
+      const duplicateValues = Object.keys(valueCounts).filter(value => valueCounts[value] > 1).sort();
+
+      uniqueValuesDiv.innerHTML = uniqueValues.map(value => `<div>${value}</div>`).join('');
+      duplicateValuesDiv.innerHTML = duplicateValues.map(value => `<div>${value}</div>`).join('');
+    });
+
+    resetButton.addEventListener('click', function () {
+      inputValues.value = '';
+      uniqueValuesDiv.innerHTML = '';
+      duplicateValuesDiv.innerHTML = '';
+    });
+  });
+</script>

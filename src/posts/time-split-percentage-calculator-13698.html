@@ -1,0 +1,175 @@
+---
+title: Time Split Percentage Calculator - Divide Your Time Effortlessly
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-03-14 01:40:52
+metaDescription: "Easily divide your time with the Time Split Percentage Calculator. Perfect for planning projects, workouts, or daily schedules. Try it now!"
+metaKeywords: "time split calculator, time management tool, percentage time allocation, time division tool, time planning, project scheduling, study time planner, workout time split, task time allocation, daily schedule planner"
+tags: time management, productivity, schedule planner, time calculator, percentage split
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <h1 class="text-center mb-4">Time Split Percentage Calculator</h1><div class="container bg-light p-4 rounded">
+  <p class="lead text-center">Ever feel overwhelmed trying to divide your time across multiple tasks? The <strong>Time Split Percentage Calculator</strong> is here to rescue you from the chaos! Whether you're planning a project, scheduling your day, or organizing study sessions, this tool effortlessly breaks down your total time into perfectly proportioned segments. Just input your total time and the percentages for each segment, and voilà—your time is divided like a pro. Say goodbye to guesswork and hello to clarity. Time management has never been this simple or fun!</p>
+</div>
+  <p class="text-center mb-4">Enter the total time and percentages to calculate the time for each segment.</p>
+
+  <div class="mb-3">
+    <label for="total-time" class="form-label">Total Time (in minutes)</label>
+    <input type="number" id="total-time" class="form-control bg-dark text-white" placeholder="Enter total time" min="1" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Enter percentages for each segment (must add up to 100%)</label>
+    <div id="percentage-inputs">
+      <div class="input-group mb-2">
+        <input type="number" class="form-control bg-dark text-white percentage-input" placeholder="Percentage" min="0" max="100" required>
+        <button class="btn btn-outline-danger" onclick="removePercentageField(this)">-</button>
+      </div>
+    </div>
+    <button class="btn btn-outline-success w-100 mb-3" onclick="addPercentageField()">+ Add Segment</button>
+  </div>
+
+  <button class="btn btn-primary w-100 mb-3" onclick="calculate()">Calculate</button>
+  <button class="btn btn-outline-secondary w-100 mb-3" onclick="reset()">Reset</button>
+
+  <div id="results" class="mt-4">
+    <h2 class="text-center mb-3">Time Allocation</h2>
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr>
+          <th>Segment</th>
+          <th>Percentage</th>
+          <th>Time (minutes)</th>
+        </tr>
+      </thead>
+      <tbody id="results-body"></tbody>
+    </table>
+  </div>
+
+  <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
+</div>
+
+<div class="container bg-light p-4 rounded mt-4">
+  <h2 class="text-center mb-4">How It Works</h2>
+  <p class="text-center">The <strong>Time Split Percentage Calculator</strong> uses a straightforward formula to allocate time based on your input:</p>
+  <p class="text-center"><strong>Segment Time = (Segment Percentage ÷ 100) × Total Time</strong></p>
+  <p class="text-center">For example, if your total time is 120 minutes and you allocate 30% to a segment, the tool calculates <strong>30 ÷ 100 × 120 = 36 minutes</strong> for that segment. Easy, right?</p>
+
+  <h3 class="text-center mt-4">Example Time Allocations</h3>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Total Time (Minutes)</th>
+          <th>Percentage (%)</th>
+          <th>Time Allocated (Minutes)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>60</td><td>25</td><td>15.00</td></tr>
+        <tr><td>60</td><td>50</td><td>30.00</td></tr>
+        <tr><td>60</td><td>25</td><td>15.00</td></tr>
+        <tr><td>120</td><td>10</td><td>12.00</td></tr>
+        <tr><td>120</td><td>40</td><td>48.00</td></tr>
+        <tr><td>120</td><td>50</td><td>60.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container bg-light p-4 rounded mt-4">
+  <h2 class="text-center mb-4">Top 10 Use Cases</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Planning a workout routine with time allocated for warm-up, exercise, and cool-down.</li>
+    <li class="list-group-item">Dividing study time for multiple subjects or topics.</li>
+    <li class="list-group-item">Splitting meeting time for different agenda items.</li>
+    <li class="list-group-item">Allocating time for tasks in a project management schedule.</li>
+    <li class="list-group-item">Breaking down a cooking recipe into prep, cooking, and plating time.</li>
+    <li class="list-group-item">Planning a road trip with time for driving, breaks, and sightseeing.</li>
+    <li class="list-group-item">Scheduling time for hobbies like reading, gaming, or crafting.</li>
+    <li class="list-group-item">Organizing a presentation by dividing time for introduction, main content, and Q&A.</li>
+    <li class="list-group-item">Balancing time for work, family, and personal activities in a daily routine.</li>
+    <li class="list-group-item">Dividing time for different phases of a creative project, like brainstorming, execution, and review.</li>
+  </ol>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      document.getElementById('total-time').value = startValue;
+    }
+  });
+
+  function addPercentageField() {
+    const container = document.getElementById('percentage-inputs');
+    const inputGroup = document.createElement('div');
+    inputGroup.className = 'input-group mb-2';
+    inputGroup.innerHTML = `
+      <input type="number" class="form-control bg-dark text-white percentage-input" placeholder="Percentage" min="0" max="100" required>
+      <button class="btn btn-outline-danger" onclick="removePercentageField(this)">-</button>
+    `;
+    container.appendChild(inputGroup);
+  }
+
+  function removePercentageField(button) {
+    const container = document.getElementById('percentage-inputs');
+    if (container.children.length > 1) {
+      button.parentElement.remove();
+    }
+  }
+
+  function calculate() {
+    const totalTime = parseFloat(document.getElementById('total-time').value);
+    const percentageInputs = document.querySelectorAll('.percentage-input');
+    let totalPercentage = 0;
+    const percentages = [];
+
+    percentageInputs.forEach(input => {
+      const value = parseFloat(input.value);
+      if (!isNaN(value)) {
+        totalPercentage += value;
+        percentages.push(value);
+      }
+    });
+
+    const errorMessage = document.getElementById('error-message');
+    if (isNaN(totalTime) || totalTime <= 0) {
+      errorMessage.textContent = 'Please enter a valid total time.';
+      errorMessage.classList.remove('d-none');
+      return;
+    }
+
+    if (totalPercentage !== 100) {
+      errorMessage.textContent = 'Percentages must add up to 100%.';
+      errorMessage.classList.remove('d-none');
+      return;
+    }
+
+    errorMessage.classList.add('d-none');
+
+    const resultsBody = document.getElementById('results-body');
+    resultsBody.innerHTML = '';
+
+    percentages.forEach((percentage, index) => {
+      const segmentTime = (percentage / 100) * totalTime;
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>Segment ${index + 1}</td>
+        <td>${percentage}%</td>
+        <td>${segmentTime.toFixed(2)}</td>
+      `;
+      resultsBody.appendChild(row);
+    });
+  }
+
+  function reset() {
+    document.getElementById('total-time').value = '';
+    const container = document.getElementById('percentage-inputs');
+    container.innerHTML = `
+      <div class="input-group mb-2">
+        <input type="number" class="form-control bg-dark text-white percentage-input" placeholder="Percentage" min="0" max="100" required>
+        <button class="btn btn-outline-danger" onclick="removePercentageField(this)">-</button>
+      </div>
+    `;
+    document.getElementById('results-body').innerHTML = '';
+    document.getElementById('error-message').classList.add('d-none');
+  }
+</script>

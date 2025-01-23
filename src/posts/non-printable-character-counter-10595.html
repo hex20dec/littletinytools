@@ -1,0 +1,123 @@
+---
+title: "Count Hidden Characters in Text - Free Non-Printable Character Counter"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-09-28 07:04:01
+metaDescription: "Count non-printable characters in your text with this easy-to-use tool. Perfect for debugging, data cleaning, and more. Try it now!"
+metaKeywords: "non-printable character counter, hidden character tool, text debugging, data cleaning, formatting tool, invisible characters, ASCII control characters, text analysis, web development tool, character encoding"
+tags: ["text analysis", "character counter", "developer tools", "text formatting", "unicode"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Non-Printable Character Counter</h1><div class="container bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <p class="lead">Ever pasted text into a document only to have it act strangely? Maybe extra spaces, invisible characters, or formatting issues? That’s often the work of sneaky non-printable characters hiding in your text. With the Non-Printable Character Counter, you can quickly uncover these invisible troublemakers. Simply paste your text, click a button, and voilà—you’ll know exactly how many non-printable characters are lurking in your content. Whether you’re debugging code, cleaning up data, or just curious, this tool makes it easy to see what’s really going on behind the scenes. Say goodbye to mysterious formatting woes and hello to cleaner, more reliable text!</p>
+  </header>
+</div>
+    <p class="lead">Paste or type your text below to count non-printable characters.</p>
+  </header>
+
+  <div class="mb-3">
+    <textarea id="input-text" class="form-control bg-dark text-white mb-3" rows="10" placeholder="Enter or paste your text here..."></textarea>
+    <div class="d-grid gap-2 d-md-block">
+      <button id="count-btn" class="btn btn-primary me-md-2">Count Characters</button>
+      <button id="clear-btn" class="btn btn-secondary">Clear</button>
+    </div>
+  </div>
+
+  <div id="results-section" class="mt-4 d-none">
+    <h2 class="h4">Results</h2>
+    <p id="count-result" class="mb-2">Non-printable characters found: <span id="count-value" class="fw-bold">0</span></p>
+    <ul id="char-list" class="list-group bg-dark"></ul>
+  </div>
+
+  <footer class="text-center text-muted mt-4">
+    <p>This tool only processes text locally in your browser. No data is sent or stored.</p>
+  </footer>
+</div>
+
+<div class="container bg-dark text-white p-4">
+  <div class="mb-3">
+    <p>How does it work? The Non-Printable Character Counter scans your text for characters that aren’t visible to the naked eye. These include things like tabs, line breaks, and other control characters that don’t show up on the screen but can still affect how your text behaves. The tool checks each character in your text and counts how many fall into this “invisible” category. It’s like having a magnifying glass for your text—revealing the hidden details you didn’t even know were there.</p>
+    <p>Here’s a quick breakdown of what counts as a non-printable character:</p>
+    <ul class="list-group bg-dark">
+      <li class="list-group-item bg-dark text-white border-secondary">Tabs (\\t)</li>
+      <li class="list-group-item bg-dark text-white border-secondary">Line Feeds (\\n)</li>
+      <li class="list-group-item bg-dark text-white border-secondary">Carriage Returns (\\r)</li>
+      <li class="list-group-item bg-dark text-white border-secondary">Other control characters (e.g., ASCII codes below 32 or 127)</li>
+    </ul>
+  </div>
+</div><div class="container bg-dark text-white p-4">
+  <div class="mb-3">
+    <p class="h5">10 Common Use Cases for the Non-Printable Character Counter:</p>
+    <ol>
+      <li><strong>Debugging Code:</strong> Identify hidden characters causing errors or unexpected behavior in your code.</li>
+      <li><strong>Data Cleaning:</strong> Remove unwanted control characters from datasets before analysis.</li>
+      <li><strong>Text Formatting:</strong> Ensure consistent spacing and line breaks in documents.</li>
+      <li><strong>Web Development:</strong> Check for invisible characters in HTML or JavaScript strings.</li>
+      <li><strong>File Processing:</strong> Detect non-printable characters in CSV or text files before importing.</li>
+      <li><strong>Email Troubleshooting:</strong> Find hidden characters that might break email formatting.</li>
+      <li><strong>Programming:</strong> Validate user input for unwanted control characters.</li>
+      <li><strong>Document Preparation:</strong> Clean up text before printing or publishing.</li>
+      <li><strong>Encoding Issues:</strong> Spot characters that might cause encoding errors.</li>
+      <li><strong>General Curiosity:</strong> Learn what’s really in your text—because sometimes, you just want to know!</li>
+    </ol>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const countBtn = document.getElementById('count-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const resultsSection = document.getElementById('results-section');
+    const countValue = document.getElementById('count-value');
+    const charList = document.getElementById('char-list');
+
+    // Preload text from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    // Function to count non-printable characters
+    const countNonPrintableChars = (text) => {
+      const nonPrintableChars = [];
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const charCode = char.charCodeAt(0);
+        if ((charCode < 32 && charCode !== 9 && charCode !== 10 && charCode !== 13) || charCode === 127) {
+          nonPrintableChars.push({ char, charCode });
+        }
+      }
+      return nonPrintableChars;
+    };
+
+    // Function to display results
+    const displayResults = (chars) => {
+      countValue.textContent = chars.length;
+      charList.innerHTML = chars.map(char => `
+        <li class="list-group-item bg-dark text-white border-secondary">
+          ${char.char === '\t' ? 'Tab' : char.char === '\n' ? 'Line Feed' : char.char === '\r' ? 'Carriage Return' : 'Unknown'} (\\u${char.charCode.toString(16).padStart(4, '0')})
+        </li>
+      `).join('');
+      resultsSection.classList.remove('d-none');
+    };
+
+    // Event listener for Count button
+    countBtn.addEventListener('click', () => {
+      const text = inputText.value;
+      if (!text.trim()) {
+        alert('Please enter some text to analyze.');
+        return;
+      }
+      const nonPrintableChars = countNonPrintableChars(text);
+      displayResults(nonPrintableChars);
+    });
+
+    // Event listener for Clear button
+    clearBtn.addEventListener('click', () => {
+      inputText.value = '';
+      resultsSection.classList.add('d-none');
+    });
+  });
+</script>

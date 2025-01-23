@@ -1,0 +1,162 @@
+---
+title: "Repeated Line Counter - Quickly Find Duplicate Lines in Text"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-09-03 22:28:37
+metaDescription: "Count repeated lines in your text instantly with the Repeated Line Counter. Perfect for editing, data cleaning, and more. Try it now!"
+metaKeywords: "repeated line counter, count duplicate lines, text analysis tool, document editing, log analysis, data cleaning, writing tools, SEO content, study tools, creative writing"
+tags: ["text analysis", "duplicate finder", "line counter", "text tool", "productivity"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  textarea {
+    min-height: 200px;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container text-center">
+    <h1 class="my-4">Repeated Line Counter</h1><div class="container text-center py-5">
+  <p class="fs-4">Ever found yourself staring at a wall of text, wondering how many times you’ve repeated the same line? Maybe you’re editing a document, analyzing logs, or just trying to clean up a messy list. Counting repeated lines manually? That’s like trying to count grains of sand on a beach—tedious and time-consuming! Enter the <strong>Repeated Line Counter</strong>, your new best friend for text analysis. Simply paste or type your text, click a button, and voilà—it instantly shows you which lines are repeated and how many times. No more squinting at screens or second-guessing yourself. Whether you’re a writer, coder, or just someone who loves organized lists, this tool is here to save your sanity and make your life a little easier. Say hello to efficiency and goodbye to repetition!</p>
+</div>
+    <p class="lead mb-4">Paste or type your text below to count repeated lines.</p>
+    <textarea id="input-text" class="form-control mb-3" placeholder="Paste or type your text here..."></textarea>
+    <button id="submit-btn" class="btn btn-primary mb-4">Count Repeated Lines</button>
+    <div id="results" class="table-responsive mb-4">
+      <table id="results-table" class="table table-striped d-none">
+        <thead>
+          <tr>
+            <th scope="col">Line</th>
+            <th scope="col">Count</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p id="no-results" class="text-muted d-none">No repeated lines found.</p>
+      <p id="single-line" class="text-muted d-none">Only one line of text entered. No repeated lines to count.</p>
+      <p id="empty-input" class="text-muted d-none">Please enter some text to count repeated lines.</p>
+    </div>
+    <button id="clear-btn" class="btn btn-secondary mb-4">Clear</button>
+  </div>
+</div>
+
+<div class="container py-4">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h2 class="fs-3 mb-3">How Does It Work?</h2>
+      <p class="lead">The magic behind the Repeated Line Counter is simple yet powerful. Here’s the breakdown:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item"><strong>Input Your Text:</strong> Paste or type your text into the box. This could be anything—a poem, a list, or even a chunk of code.</li>
+        <li class="list-group-item"><strong>Analyze:</strong> The tool scans each line, keeping track of how many times it appears.</li>
+        <li class="list-group-item"><strong>Results:</strong> It neatly organizes the repeated lines and their counts into a table. If no repeats are found, it lets you know that too!</li>
+      </ol>
+      <p class="mt-3">No formulas, no complicated steps—just straightforward text analysis at your fingertips.</p>
+      
+      <h2 class="fs-3 mt-5 mb-3">Example Results</h2>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Line</th>
+              <th scope="col">Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Hello World</td><td>3</td></tr>
+            <tr><td>Goodbye World</td><td>2</td></tr>
+            <tr><td>Repeat Me</td><td>4</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container py-4">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h2 class="fs-3 mb-3">10 Common Use Cases for the Repeated Line Counter</h2>
+      <ul class="list-group">
+        <li class="list-group-item"><strong>Editing Documents:</strong> Quickly identify repeated sentences or phrases in essays, reports, or articles.</li>
+        <li class="list-group-item"><strong>Analyzing Logs:</strong> Find duplicate entries in server logs or error reports.</li>
+        <li class="list-group-item"><strong>Cleaning Data:</strong> Remove duplicate lines from datasets or spreadsheets.</li>
+        <li class="list-group-item"><strong>Writing Code:</strong> Spot redundant lines in scripts or configuration files.</li>
+        <li class="list-group-item"><strong>Creating Lists:</strong> Ensure no duplicates in to-do lists, inventories, or shopping lists.</li>
+        <li class="list-group-item"><strong>Studying:</strong> Analyze repeated lines in notes or study materials for better retention.</li>
+        <li class="list-group-item"><strong>Social Media:</strong> Check for repeated captions or hashtags in bulk posts.</li>
+        <li class="list-group-item"><strong>Email Drafts:</strong> Avoid sending duplicate lines in professional or personal emails.</li>
+        <li class="list-group-item"><strong>Creative Writing:</strong> Identify overused phrases in poems, stories, or scripts.</li>
+        <li class="list-group-item"><strong>SEO Content:</strong> Ensure no repeated keywords or phrases in meta descriptions or blog posts.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const submitBtn = document.getElementById('submit-btn');
+    const resultsTable = document.getElementById('results-table');
+    const resultsBody = resultsTable.querySelector('tbody');
+    const noResults = document.getElementById('no-results');
+    const singleLine = document.getElementById('single-line');
+    const emptyInput = document.getElementById('empty-input');
+    const clearBtn = document.getElementById('clear-btn');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    submitBtn.addEventListener('click', () => {
+      const text = inputText.value.trim();
+      if (!text) {
+        showMessage(emptyInput);
+        return;
+      }
+
+      const lines = text.split('\n').filter(line => line.trim() !== '');
+      if (lines.length === 1) {
+        showMessage(singleLine);
+        return;
+      }
+
+      const lineCounts = {};
+      lines.forEach(line => {
+        lineCounts[line] = (lineCounts[line] || 0) + 1;
+      });
+
+      const repeatedLines = Object.entries(lineCounts).filter(([_, count]) => count > 1);
+      if (repeatedLines.length === 0) {
+        showMessage(noResults);
+        return;
+      }
+
+      resultsBody.innerHTML = repeatedLines
+        .map(([line, count]) => `<tr><td>${line}</td><td>${count}</td></tr>`)
+        .join('');
+      resultsTable.classList.remove('d-none');
+      hideMessages();
+    });
+
+    clearBtn.addEventListener('click', () => {
+      inputText.value = '';
+      resultsBody.innerHTML = '';
+      resultsTable.classList.add('d-none');
+      hideMessages();
+    });
+
+    function showMessage(element) {
+      hideMessages();
+      element.classList.remove('d-none');
+      resultsTable.classList.add('d-none');
+    }
+
+    function hideMessages() {
+      noResults.classList.add('d-none');
+      singleLine.classList.add('d-none');
+      emptyInput.classList.add('d-none');
+    }
+  });
+</script>

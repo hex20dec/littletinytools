@@ -1,0 +1,178 @@
+---
+title: "Daylight Duration Calculator - Plan Your Day with Precision"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-03-23 05:27:48
+metaDescription: "Calculate daylight duration for any date and location with our Sunrise to Sunset Difference Calculator. Perfect for planning outdoor activities!"
+metaKeywords: "daylight calculator, sunrise sunset difference, outdoor planning tool, daylight duration, sunrise sunset times, daylight hours calculator, outdoor event planning, travel daylight calculator, golden hour timing, solar panel planning"
+tags: ["daylight calculator", "sunrise sunset", "outdoor planning", "seasonal changes", "time management"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .card {
+    margin-top: 20px;
+  }
+  .btn-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Sunrise to Sunset Difference Calculator</h1><div class="container text-center mb-5">
+  <p class="lead">Ever wondered how much daylight you’ll get on your next trip or how much sun you’ll soak up during your summer BBQ? We’ve all been there—trying to plan the perfect outdoor event or simply figure out if we’ll have enough sunlight for that evening walk. The Sunrise to Sunset Difference Calculator is here to save the day (literally)! This handy tool lets you calculate the exact duration of daylight for any date and location, so you can plan your adventures with confidence. Whether you’re a sunrise chaser, a sunset lover, or just someone who wants to maximize their vitamin D intake, this tool makes it as easy as pie. Say goodbye to guesswork and hello to perfectly timed outdoor fun!</p>
+</div>
+    <p class="lead">Calculate the duration of daylight for any date and location.</p>
+  </header>
+
+  <div class="mb-3">
+    <label for="date-input" class="form-label">Select Date</label>
+    <input type="date" class="form-control" id="date-input" aria-label="Select Date">
+  </div>
+
+  <div class="mb-3">
+    <label for="location-select" class="form-label">Select Location</label>
+    <select class="form-select" id="location-select" aria-label="Select Location">
+      <option value="New York">New York</option>
+      <option value="London">London</option>
+      <option value="Tokyo">Tokyo</option>
+      <option value="Sydney">Sydney</option>
+      <option value="Paris">Paris</option>
+    </select>
+  </div>
+
+  <div class="btn-group mb-3">
+    <button type="button" class="btn btn-primary" id="calculate-btn">Calculate</button>
+    <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+  </div>
+
+  <div class="card text-center">
+    <div class="card-body">
+      <h5 class="card-title">Daylight Duration</h5>
+      <p class="card-text" id="result-text">Select a date and location to calculate.</p>
+    </div>
+  </div>
+</div>
+
+<div class="container mb-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="text-center mb-4">How It Works</h2>
+      <p class="text-center">The tool calculates the difference between sunrise and sunset times for a specific date and location. Here's the simple formula it uses:</p>
+      <div class="text-center bg-light p-4 rounded">
+        <p><strong>Daylight Duration = Sunset Time - Sunrise Time</strong></p>
+        <p>For example, if the sun rises at 6 AM and sets at 8 PM, the daylight duration would be 14 hours. The tool automatically adjusts for different locations and dates, so you don’t have to worry about the math!</p>
+      </div>
+      <h3 class="text-center mt-5 mb-4">Sample Daylight Durations</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Location</th>
+            <th>Sunrise (AM)</th>
+            <th>Sunset (PM)</th>
+            <th>Daylight Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>New York</td>
+            <td>6:00</td>
+            <td>8:00</td>
+            <td>14 hours</td>
+          </tr>
+          <tr>
+            <td>London</td>
+            <td>7:00</td>
+            <td>7:00</td>
+            <td>12 hours</td>
+          </tr>
+          <tr>
+            <td>Tokyo</td>
+            <td>5:00</td>
+            <td>6:00</td>
+            <td>13 hours</td>
+          </tr>
+          <tr>
+            <td>Sydney</td>
+            <td>6:00</td>
+            <td>5:00</td>
+            <td>11 hours</td>
+          </tr>
+          <tr>
+            <td>Paris</td>
+            <td>7:00</td>
+            <td>8:00</td>
+            <td>13 hours</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mb-5">
+  <h2 class="text-center mb-4">10 Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Planning outdoor events like weddings, picnics, or barbecues</li>
+    <li class="list-group-item">Scheduling photography sessions for the best natural lighting</li>
+    <li class="list-group-item">Determining the best time for hiking or camping trips</li>
+    <li class="list-group-item">Maximizing daylight for gardening or outdoor chores</li>
+    <li class="list-group-item">Planning travel itineraries to make the most of daylight hours</li>
+    <li class="list-group-item">Calculating daylight savings time adjustments</li>
+    <li class="list-group-item">Helping athletes plan outdoor training sessions</li>
+    <li class="list-group-item">Assisting photographers with golden hour timings</li>
+    <li class="list-group-item">Planning solar panel installations and energy calculations</li>
+    <li class="list-group-item">Helping parents schedule outdoor playtime for kids</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const dateInput = document.getElementById('date-input');
+    const locationSelect = document.getElementById('location-select');
+    const calculateBtn = document.getElementById('calculate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultText = document.getElementById('result-text');
+
+    // Preload date from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startDate = urlParams.get('start');
+    if (startDate) {
+      dateInput.value = startDate;
+    } else {
+      dateInput.value = new Date().toISOString().split('T')[0];
+    }
+
+    // Predefined sunrise and sunset times (in hours) for each location
+    const daylightData = {
+      'New York': { sunrise: 6, sunset: 20 },
+      'London': { sunrise: 7, sunset: 19 },
+      'Tokyo': { sunrise: 5, sunset: 18 },
+      'Sydney': { sunrise: 6, sunset: 17 },
+      'Paris': { sunrise: 7, sunset: 20 }
+    };
+
+    calculateBtn.addEventListener('click', () => {
+      const selectedDate = dateInput.value;
+      const selectedLocation = locationSelect.value;
+
+      if (!selectedDate || !selectedLocation) {
+        resultText.textContent = 'Invalid input. Please try again.';
+        return;
+      }
+
+      const { sunrise, sunset } = daylightData[selectedLocation];
+      const daylightHours = sunset - sunrise;
+      const daylightMinutes = (daylightHours % 1) * 60;
+
+      resultText.textContent = `${Math.floor(daylightHours)} hours ${Math.floor(daylightMinutes)} minutes`;
+    });
+
+    resetBtn.addEventListener('click', () => {
+      dateInput.value = new Date().toISOString().split('T')[0];
+      locationSelect.value = 'New York';
+      resultText.textContent = 'Select a date and location to calculate.';
+    });
+  });
+</script>

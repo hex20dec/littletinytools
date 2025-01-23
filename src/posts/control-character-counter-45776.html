@@ -1,0 +1,131 @@
+---
+title: "Control Character Counter - Count Non-Printable Characters Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-07-05 23:36:36
+metaDescription: "Count control characters like tabs, newlines, and more with this easy-to-use tool. Perfect for debugging, formatting, and text analysis."
+metaKeywords: "control character counter, count tabs, count newlines, text formatting tool, debug text, text analysis, invisible characters, text cleaner, character counter"
+tags: ["text analysis", "developer tools", "control characters", "text processing", "web utilities"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white vh-100 d-flex flex-column justify-content-center align-items-center p-3">
+  <div class="text-center mb-4">
+    <h1 class="display-4">Control Character Counter</h1><div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2 text-center">
+      <p class="fs-4">Ever spent hours debugging code or formatting text, only to realize the issue was a sneaky tab or invisible newline? These control characters—tabs, newlines, and others—can be the silent troublemakers in your text. The Control Character Counter is here to save the day! Simply paste your text, and it instantly counts those elusive control characters. Whether you're a developer, writer, or just someone who loves clean text, this tool makes it effortless to spot and fix hidden formatting gremlins. Say goodbye to guesswork and hello to precision!</p>
+    </div>
+  </div>
+</div>
+    <p class="lead">Enter your text below to count control characters like tabs, newlines, and more.</p>
+  </div>
+  <div class="w-100 mb-3" style="max-width: 800px;">
+    <textarea id="input-text" class="form-control bg-dark text-white mb-3" rows="10" placeholder="Paste or type your text here..." aria-label="Input text"></textarea>
+    <button id="count-btn" class="btn btn-primary w-100 mb-3">Count Control Characters</button>
+  </div>
+  <div class="w-100 text-center" style="max-width: 800px;">
+    <label for="output-count" class="form-label">Control Character Count:</label>
+    <input id="output-count" class="form-control bg-dark text-white text-center mb-3" type="text" readonly aria-label="Control character count">
+    <button id="reset-btn" class="btn btn-secondary w-100">Reset</button>
+  </div>
+  <footer class="mt-4 text-center">
+    <small>This tool counts non-printable control characters such as tabs (\t), newlines (\n), carriage returns (\r), etc.</small>
+  </footer>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p class="fs-5">The Control Character Counter works by scanning your text for non-printable characters, such as tabs (<code>\t</code>), newlines (<code>\n</code>), carriage returns (<code>\r</code>), and others. These characters are invisible to the naked eye but can cause formatting issues in code, documents, or plain text. The tool counts them for you, so you can quickly identify and address any problems.</p>
+      <div class="table-responsive mt-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Text Example</th>
+              <th scope="col">Control Characters Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>"Hello\nWorld"</td>
+              <td>1 (newline)</td>
+            </tr>
+            <tr>
+              <td>"Tab\tSpace"</td>
+              <td>1 (tab)</td>
+            </tr>
+            <tr>
+              <td>"Line1\r\nLine2"</td>
+              <td>2 (carriage return + newline)</td>
+            </tr>
+            <tr>
+              <td>"No controls here!"</td>
+              <td>0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="fs-3 mb-4">Top 10 Use Cases for the Control Character Counter</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Debugging code with unexpected formatting issues.</li>
+        <li class="list-group-item">Cleaning up text files for consistent formatting.</li>
+        <li class="list-group-item">Preparing CSV or JSON data for processing.</li>
+        <li class="list-group-item">Ensuring proper line breaks in email templates.</li>
+        <li class="list-group-item">Validating user input in forms or text fields.</li>
+        <li class="list-group-item">Fixing issues in copy-pasted text from PDFs or websites.</li>
+        <li class="list-group-item">Analyzing log files for hidden control characters.</li>
+        <li class="list-group-item">Preparing text for machine learning datasets.</li>
+        <li class="list-group-item">Ensuring compatibility across different operating systems (e.g., Windows vs. Unix line endings).</li>
+        <li class="list-group-item">Simplifying text analysis for researchers and writers.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const countBtn = document.getElementById('count-btn');
+    const outputCount = document.getElementById('output-count');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    // Count control characters
+    countBtn.addEventListener('click', () => {
+      const text = inputText.value;
+      if (!text.trim()) {
+        outputCount.value = '0';
+        return;
+      }
+
+      const controlChars = text.split('').filter(char => {
+        const code = char.charCodeAt(0);
+        return (code >= 0 && code <= 31) || code === 127;
+      }).length;
+
+      outputCount.value = controlChars;
+    });
+
+    // Reset functionality
+    resetBtn.addEventListener('click', () => {
+      inputText.value = '';
+      outputCount.value = '';
+    });
+
+    // Handle large input
+    inputText.addEventListener('input', () => {
+      if (inputText.value.length > 100000) {
+        alert('Input is too large. Please reduce the text size.');
+        inputText.value = inputText.value.slice(0, 100000);
+      }
+    });
+  });
+</script>

@@ -1,0 +1,120 @@
+---
+title: "Consonant Counter: Count Consonants in Your Text Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-10-15 22:51:18
+metaDescription: "Quickly count consonants in any text with our free Consonant Counter tool. Perfect for writers, students, and language enthusiasts!"
+metaKeywords: "consonant counter, count consonants, consonant tool, text analysis, writing tool, linguistics, consonant checker"
+tags: ["consonant counter", "text analysis", "language tool", "grammar helper", "online utility"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  textarea {
+    min-height: 150px;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container text-center">
+    <h1 class="mt-5 mb-4">Consonant Counter</h1><div class="container text-center mt-5 mb-5">
+  <p class="lead fs-3 mb-4">Ever found yourself staring at a block of text, wondering just how many consonants are hiding in there? Maybe you're a writer trying to balance your prose, a student tackling a linguistics assignment, or just someone who loves counting random things (no judgment here!). Whatever the reason, counting consonants manually can feel like trying to count grains of sand on a beach—tedious and time-consuming. That's where our <strong>Consonant Counter</strong> comes in! This handy little tool does all the heavy lifting for you, quickly and effortlessly tallying up those consonants so you can focus on the fun stuff. Whether you're polishing your writing or just satisfying a curious itch, this tool is your new best friend. Say goodbye to the hassle and hello to simplicity!</p>
+</div>
+    <p class="lead mb-4">Enter your text below to count the number of consonants.</p>
+    <textarea id="input-text" class="form-control mb-3" placeholder="Type or paste your text here..."></textarea>
+    <button id="count-button" class="btn btn-primary mb-3">Count Consonants</button>
+    <div id="result" class="mt-3 mb-3 fw-bold"></div>
+    <button id="reset-button" class="btn btn-secondary">Reset</button>
+  </div>
+</div>
+
+<div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="fs-4 mb-4">How It Works</h2>
+      <p class="mb-4">The Consonant Counter works by scanning your text and identifying all the letters that are <em>not</em> vowels (a, e, i, o, u). It ignores spaces, numbers, punctuation, and special characters, so you get an accurate count of only the consonants. Think of it as a virtual assistant that picks out all the "B"s, "C"s, "D"s, and so on, while skipping the "A"s and "E"s. It's like having a proofreader who's obsessed with consonants!</p>
+      <h3 class="fs-5 mb-3">Example Counts</h3>
+      <p class="mb-4">Here are some examples of consonant counts for common words and phrases:</p>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Text</th>
+            <th>Consonant Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Hello</td><td>3</td></tr>
+          <tr><td>World</td><td>4</td></tr>
+          <tr><td>Quick Brown Fox</td><td>10</td></tr>
+          <tr><td>Linguistics</td><td>7</td></tr>
+          <tr><td>Consonant Counter</td><td>11</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="fs-4 mb-4">Top 10 Use Cases for the Consonant Counter</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Improving writing by balancing consonant-to-vowel ratios.</li>
+        <li class="list-group-item">Helping students with phonetics and linguistics assignments.</li>
+        <li class="list-group-item">Creating tongue twisters or poetic patterns.</li>
+        <li class="list-group-item">Analyzing text for language learning purposes.</li>
+        <li class="list-group-item">Counting consonants for fun word games or puzzles.</li>
+        <li class="list-group-item">Editing and proofreading to ensure clarity in writing.</li>
+        <li class="list-group-item">Studying the structure of different languages.</li>
+        <li class="list-group-item">Generating data for linguistic research projects.</li>
+        <li class="list-group-item">Preparing speeches or presentations with balanced pronunciation.</li>
+        <li class="list-group-item">Satisfying random curiosities about text composition.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const inputText = document.getElementById('input-text');
+    const countButton = document.getElementById('count-button');
+    const resultDiv = document.getElementById('result');
+    const resetButton = document.getElementById('reset-button');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    // Function to count consonants
+    function countConsonants(text) {
+      const consonants = text.replace(/[^bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ]/g, '').length;
+      return consonants;
+    }
+
+    // Handle count button click
+    countButton.addEventListener('click', function () {
+      const text = inputText.value.trim();
+      if (text === '') {
+        resultDiv.textContent = 'Please enter some text to count consonants.';
+        return;
+      }
+      const consonantCount = countConsonants(text);
+      resultDiv.textContent = `Number of consonants: ${consonantCount}`;
+    });
+
+    // Handle reset button click
+    resetButton.addEventListener('click', function () {
+      inputText.value = '';
+      resultDiv.textContent = '';
+    });
+
+    // Handle Enter key in textarea
+    inputText.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        countButton.click();
+      }
+    });
+  });
+</script>

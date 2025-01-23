@@ -1,0 +1,170 @@
+---
+title: "Quick Temperature Comparison Tool - Compare & Remember Fahrenheit Values"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-05-09 11:11:30
+metaDescription: "Easily compare two Fahrenheit temperatures and track your last five comparisons with this simple, user-friendly tool. Perfect for weather enthusiasts and everyday use!"
+metaKeywords: "temperature comparison, Fahrenheit tool, weather comparison, temperature tracker, Fahrenheit comparison tool, temperature memory tool"
+tags: ["temperature", "comparison", "Fahrenheit", "memory tool", "web app"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Temperature Comparison Memory Tool (Fahrenheit)</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <p class="lead">Struggling to keep track of temperature comparisons? Whether you're debating whether it's sweater weather or shorts season, this Temperature Comparison Memory Tool is here to save the day. Simply plug in two Fahrenheit temperatures, and it’ll tell you which one is higher, lower, or if they’re equal—no mental math required. The best part? It remembers your last five comparisons, so you can revisit your decisions without breaking a sweat. Perfect for weather enthusiasts, travelers, or anyone who just wants to settle a "how cold is it really?" debate. Say goodbye to temperature guesswork and hello to easy, accurate comparisons!</p>
+  </div>
+</div>
+  <p class="text-center mb-4">Enter two temperatures in Fahrenheit to compare them. The last 5 comparisons will be stored below.</p>
+
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-3">
+      <input type="number" id="temp1" class="form-control bg-dark text-white mb-3" placeholder="Temperature 1" aria-label="Temperature 1">
+    </div>
+    <div class="col-md-3">
+      <input type="number" id="temp2" class="form-control bg-dark text-white mb-3" placeholder="Temperature 2" aria-label="Temperature 2">
+    </div>
+  </div>
+
+  <div class="text-center mb-4">
+    <button id="compare-btn" class="btn btn-primary me-2" disabled>Compare</button>
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+
+  <div id="result" class="alert alert-info text-center mb-4" role="alert" aria-live="polite"></div>
+
+  <h2 class="text-center mb-3">Last 5 Comparisons</h2>
+  <ul id="memory-list" class="list-group mb-4"></ul>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h3 class="text-center mb-4">How It Works</h3>
+      <p class="text-center mb-4">The tool compares two Fahrenheit temperatures you input and instantly tells you which one is higher, lower, or if they’re equal. It stores the last five comparisons for quick reference, so you can easily track trends or revisit past inputs. Here’s a quick breakdown:</p>
+      <ul class="list-group mb-4">
+        <li class="list-group-item">1. Enter two temperatures in Fahrenheit.</li>
+        <li class="list-group-item">2. Click "Compare" to see the result.</li>
+        <li class="list-group-item">3. The tool displays the comparison and stores it in a list below.</li>
+        <li class="list-group-item">4. Use the "Reset" button to clear all inputs and comparisons.</li>
+      </ul>
+      
+      <h4 class="text-center mb-4">Example Comparisons</h4>
+      <table class="table table-bordered text-center">
+        <thead>
+          <tr>
+            <th>Temperature 1 (°F)</th>
+            <th>Temperature 2 (°F)</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>32</td>
+            <td>68</td>
+            <td>32°F is lower than 68°F</td>
+          </tr>
+          <tr>
+            <td>75</td>
+            <td>75</td>
+            <td>75°F is equal to 75°F</td>
+          </tr>
+          <tr>
+            <td>90</td>
+            <td>85</td>
+            <td>90°F is higher than 85°F</td>
+          </tr>
+          <!-- Add more rows as needed -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h3 class="text-center mb-4">10 Common Use Cases</h3>
+      <ul class="list-group mb-4">
+        <li class="list-group-item bg-dark text-white">1. Comparing daily high and low temperatures for trip planning.</li>
+        <li class="list-group-item bg-dark text-white">2. Settling debates about whether it’s warmer or colder than yesterday.</li>
+        <li class="list-group-item bg-dark text-white">3. Tracking temperature trends over a week.</li>
+        <li class="list-group-item bg-dark text-white">4. Deciding if it’s warm enough to go outside without a jacket.</li>
+        <li class="list-group-item bg-dark text-white">5. Comparing temperatures in different cities for travel decisions.</li>
+        <li class="list-group-item bg-dark text-white">6. Testing your thermostat settings for accuracy.</li>
+        <li class="list-group-item bg-dark text-white">7. Helping kids understand temperature differences in science projects.</li>
+        <li class="list-group-item bg-dark text-white">8. Comparing oven or freezer temperatures for cooking or storage.</li>
+        <li class="list-group-item bg-dark text-white">9. Checking if your car’s AC or heater is set to the right temperature.</li>
+        <li class="list-group-item bg-dark text-white">10. Simply satisfying your curiosity about temperature comparisons!</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const temp1Input = document.getElementById('temp1');
+    const temp2Input = document.getElementById('temp2');
+    const compareBtn = document.getElementById('compare-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultDiv = document.getElementById('result');
+    const memoryList = document.getElementById('memory-list');
+    let comparisons = [];
+
+    // Preload first input field from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startTemp = urlParams.get('start');
+    if (startTemp && !isNaN(startTemp)) {
+      temp1Input.value = startTemp;
+    }
+
+    // Enable/disable compare button based on input
+    const validateInputs = () => {
+      compareBtn.disabled = !temp1Input.value || !temp2Input.value;
+    };
+
+    temp1Input.addEventListener('input', validateInputs);
+    temp2Input.addEventListener('input', validateInputs);
+
+    // Compare temperatures
+    compareBtn.addEventListener('click', () => {
+      const temp1 = parseFloat(temp1Input.value);
+      const temp2 = parseFloat(temp2Input.value);
+
+      if (isNaN(temp1) || isNaN(temp2)) {
+        resultDiv.textContent = 'Please enter valid numbers for both temperatures.';
+        return;
+      }
+
+      let resultText;
+      if (temp1 > temp2) {
+        resultText = `${temp1}°F is higher than ${temp2}°F`;
+      } else if (temp1 < temp2) {
+        resultText = `${temp1}°F is lower than ${temp2}°F`;
+      } else {
+        resultText = `${temp1}°F is equal to ${temp2}°F`;
+      }
+
+      resultDiv.textContent = resultText;
+
+      // Add to memory
+      comparisons.unshift({ temp1, temp2, result: resultText });
+      if (comparisons.length > 5) {
+        comparisons.pop();
+      }
+
+      updateMemoryList();
+    });
+
+    // Reset everything
+    resetBtn.addEventListener('click', () => {
+      temp1Input.value = '';
+      temp2Input.value = '';
+      resultDiv.textContent = '';
+      comparisons = [];
+      updateMemoryList();
+      compareBtn.disabled = true;
+    });
+
+    // Update memory list
+    const updateMemoryList = () => {
+      memoryList.innerHTML = comparisons
+        .map(comp => `<li class="list-group-item bg-dark text-white">${comp.result}</li>`)
+        .join('');
+    };
+  });
+</script>

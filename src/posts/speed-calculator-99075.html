@@ -1,0 +1,131 @@
+---
+title: "Speed Calculator - Quick & Accurate Speed Calculations"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-08-11 01:19:13
+metaDescription: "Calculate speed instantly with our easy-to-use Speed Calculator. Input distance and time to get results in meters per second. Perfect for athletes, students, and more!"
+metaKeywords: "speed calculator, calculate speed, distance and time, meters per second, speed formula, running speed, physics calculator, speed tool, speed measurement, online speed calculator"
+tags: ["speed calculator", "physics tool", "math tool", "distance time calculator", "speed formula"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <h1 class="text-center mb-3">Speed Calculator</h1><div class="container mb-5">
+  <div class="row">
+    <div class="col">
+      <p class="lead">Why does calculating speed always feel like a math exam you didn’t study for? Whether you’re a student, athlete, or just someone trying to figure out how fast you ran to catch the bus, this Speed Calculator is here to save the day. Simply plug in the distance you traveled and the time it took, and voilà—your speed is calculated in meters per second. No complicated formulas, no headaches. It’s like having a math tutor in your pocket, minus the awkward small talk. Let’s make speed calculations as easy as a Sunday morning jog!</p>
+    </div>
+  </div>
+</div>
+  <p class="text-center mb-4">Calculate speed using distance and time.</p>
+
+  <div class="row justify-content-center mb-3">
+    <div class="col-md-6">
+      <label for="distance" class="form-label">Distance (in meters)</label>
+      <input type="number" class="form-control bg-dark text-white" id="distance" placeholder="Enter distance in meters" aria-label="Distance">
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-6">
+      <label for="time" class="form-label">Time (in seconds)</label>
+      <input type="number" class="form-control bg-dark text-white" id="time" placeholder="Enter time in seconds" aria-label="Time">
+    </div>
+  </div>
+
+  <div class="text-center mb-4">
+    <button id="calculate-btn" class="btn btn-primary btn-lg">Calculate Speed</button>
+  </div>
+
+  <div class="row justify-content-center mb-3">
+    <div class="col-md-6">
+      <label for="result" class="form-label">Speed (in meters/second)</label>
+      <div id="result" class="form-control bg-dark text-white text-center fw-bold" aria-live="polite">-</div>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+</div>
+
+<div class="container mb-5">
+  <div class="row">
+    <div class="col">
+      <h2 class="mb-4">How It Works</h2>
+      <p>Speed is calculated using a simple formula: <strong>Speed = Distance ÷ Time</strong>. In other words, how fast you’re going depends on how far you’ve traveled and how long it took you to get there. For example, if you ran 100 meters in 10 seconds, your speed would be 10 meters per second. The tool does all the heavy lifting for you, so you don’t have to stress over the math.</p>
+      <h3 class="mt-4 mb-3">Quick Examples</h3>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Distance (meters)</th>
+            <th>Time (seconds)</th>
+            <th>Speed (m/s)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>50</td><td>10</td><td>5.00</td></tr>
+          <tr><td>100</td><td>5</td><td>20.00</td></tr>
+          <tr><td>200</td><td>20</td><td>10.00</td></tr>
+          <tr><td>500</td><td>25</td><td>20.00</td></tr>
+          <tr><td>1000</td><td>50</td><td>20.00</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mb-5">
+  <div class="row">
+    <div class="col">
+      <h2 class="mb-4">10 Common Use Cases</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Calculating running speed for athletes during training.</li>
+        <li class="list-group-item">Determining the speed of a car during a road trip.</li>
+        <li class="list-group-item">Measuring the speed of a bicycle ride.</li>
+        <li class="list-group-item">Calculating the speed of a falling object in physics experiments.</li>
+        <li class="list-group-item">Estimating the speed of a drone during flight.</li>
+        <li class="list-group-item">Determining the speed of a boat in water.</li>
+        <li class="list-group-item">Calculating the speed of a train on a track.</li>
+        <li class="list-group-item">Measuring walking speed for fitness tracking.</li>
+        <li class="list-group-item">Estimating the speed of a rolling ball in science projects.</li>
+        <li class="list-group-item">Calculating the speed of a marathon runner during a race.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const distanceInput = document.getElementById('distance');
+    const timeInput = document.getElementById('time');
+    const calculateBtn = document.getElementById('calculate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultDiv = document.getElementById('result');
+
+    // Preload distance from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue)) {
+      distanceInput.value = startValue;
+    }
+
+    calculateBtn.addEventListener('click', function () {
+      const distance = parseFloat(distanceInput.value);
+      const time = parseFloat(timeInput.value);
+
+      if (isNaN(distance) || isNaN(time)) {
+        resultDiv.textContent = 'Please enter valid numbers.';
+        return;
+      }
+
+      if (time === 0) {
+        resultDiv.textContent = 'Time cannot be zero.';
+        return;
+      }
+
+      const speed = (distance / time).toFixed(2);
+      resultDiv.textContent = `${speed} m/s`;
+    });
+
+    resetBtn.addEventListener('click', function () {
+      distanceInput.value = '';
+      timeInput.value = '';
+      resultDiv.textContent = '-';
+    });
+  });
+</script>

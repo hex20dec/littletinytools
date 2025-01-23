@@ -1,0 +1,141 @@
+---
+title: "Unicode Sorter: Sort Unicode Characters by Code Points"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-03-01 22:13:07
+metaDescription: "Sort Unicode characters effortlessly with Unicode Sorter. Organize text by code points instantly—perfect for developers, linguists, and text enthusiasts."
+metaKeywords: "unicode sorter, sort unicode, unicode characters, unicode code points, text organizer, unicode tool, sort text, unicode sorter tool, unicode sorting, text sorting tool"
+tags: ["unicode", "sorting", "web-tool", "developer-tools", "multilingual"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center text-white mb-3">Unicode Sorter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="lead text-white">Ever found yourself staring at a jumble of Unicode characters, wondering how to make sense of them? Unicode Sorter is here to save the day! This simple yet powerful tool organizes Unicode characters or strings based on their code points, turning chaos into order with just a click. Whether you're a developer, linguist, or just someone who loves playing with text, Unicode Sorter makes sorting characters as easy as pie. No more manual sorting or head-scratching—just paste, sort, and enjoy the clarity. Let’s make your text life simpler and more fun!</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center text-white-50 mb-4">Enter Unicode characters or strings below to sort them by their Unicode code points.</p>
+
+      <div class="mb-3">
+        <textarea id="input-text" class="form-control bg-dark text-white" rows="6" placeholder="Paste or type Unicode characters/strings here..."></textarea>
+      </div>
+
+      <div class="d-grid mb-4">
+        <button id="sort-btn" class="btn btn-primary">Sort</button>
+      </div>
+
+      <div class="mb-3">
+        <label for="output-text" class="form-label text-white">Sorted Output</label>
+        <textarea id="output-text" class="form-control bg-dark text-white" rows="6" readonly></textarea>
+      </div>
+
+      <div class="d-grid mb-4">
+        <button id="copy-btn" class="btn btn-secondary">Copy to Clipboard</button>
+      </div>
+
+      <p class="text-center text-white-50">This tool sorts Unicode characters based on their code points. No external APIs or data are used.</p>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-white mb-3">How It Works</h2>
+      <p class="text-white-50">Unicode Sorter works by analyzing each character’s Unicode code point, a unique number assigned to every character in the Unicode standard. When you input your text, the tool breaks it down into individual characters, compares their code points, and rearranges them in ascending order. Think of it like organizing a stack of books by their publication year—except here, it’s characters sorted by their unique identifiers.</p>
+      
+      <h3 class="text-white mt-4 mb-3">Example Table</h3>
+      <table class="table table-dark">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Sorted Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>c, a, b</td>
+            <td>a, b, c</td>
+          </tr>
+          <tr>
+            <td>🍎, 🍌, 🍇</td>
+            <td>🍇, 🍌, 🍎</td>
+          </tr>
+          <tr>
+            <td>Z, A, M</td>
+            <td>A, M, Z</td>
+          </tr>
+          <tr>
+            <td>3, 1, 2</td>
+            <td>1, 2, 3</td>
+          </tr>
+          <tr>
+            <td>😊, 🎉, 😎</td>
+            <td>😎, 😊, 🎉</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-white mb-3">10 Common Use Cases</h2>
+      <ul class="list-group">
+        <li class="list-group-item bg-dark text-white">Sorting a list of emojis for a fun project.</li>
+        <li class="list-group-item bg-dark text-white">Organizing multilingual text for analysis.</li>
+        <li class="list-group-item bg-dark text-white">Preparing Unicode characters for coding exercises.</li>
+        <li class="list-group-item bg-dark text-white">Cleaning up mixed-up text data.</li>
+        <li class="list-group-item bg-dark text-white">Creating visually appealing sorted text for presentations.</li>
+        <li class="list-group-item bg-dark text-white">Comparing Unicode characters for educational purposes.</li>
+        <li class="list-group-item bg-dark text-white">Simplifying the process of debugging text-based scripts.</li>
+        <li class="list-group-item bg-dark text-white">Sorting symbols for design and typography projects.</li>
+        <li class="list-group-item bg-dark text-white">Organizing special characters for password generation.</li>
+        <li class="list-group-item bg-dark text-white">Exploring the Unicode standard in a structured way.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const outputText = document.getElementById('output-text');
+    const sortBtn = document.getElementById('sort-btn');
+    const copyBtn = document.getElementById('copy-btn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputText.value = startValue;
+    }
+
+    // Sort functionality
+    sortBtn.addEventListener('click', () => {
+      const input = inputText.value.trim();
+      if (!input) {
+        outputText.value = 'No input provided. Please enter Unicode characters or strings.';
+        return;
+      }
+
+      const characters = Array.from(input);
+      const sortedCharacters = characters.sort((a, b) => a.codePointAt(0) - b.codePointAt(0));
+      outputText.value = sortedCharacters.join('');
+    });
+
+    // Copy to clipboard functionality
+    copyBtn.addEventListener('click', () => {
+      if (outputText.value) {
+        navigator.clipboard.writeText(outputText.value).then(() => {
+          const originalText = copyBtn.textContent;
+          copyBtn.textContent = 'Copied!';
+          setTimeout(() => {
+            copyBtn.textContent = originalText;
+          }, 2000);
+        });
+      }
+    });
+  });
+</script>

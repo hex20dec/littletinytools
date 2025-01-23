@@ -1,0 +1,143 @@
+---
+title: "Alliteration Counter: Analyze Text for Repeated Sounds"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-12-23 13:09:17
+metaDescription: "Count and highlight alliterative phrases in your text instantly with the Alliteration Counter. Perfect for writers, poets, and anyone who loves wordplay!"
+metaKeywords: "alliteration counter, count alliteration, alliteration tool, writing tool, poetic phrases, wordplay, creative writing, alliteration examples"
+tags: ["alliteration", "text analysis", "writing tools", "literary devices", "poetry"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .highlight {
+    background-color: #ffc107;
+    padding: 2px 4px;
+    border-radius: 4px;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-5">
+    <h1 class="display-4">Alliteration Counter</h1><div class="container my-5">
+  <div class="row">
+    <div class="col-12 text-center">
+      <p class="fs-4 fw-bold">Ever struggled to make your writing more catchy or poetic? You know, when you want to impress with clever wordplay but end up staring at a blank page, wondering if your alliteration game is strong enough? Enter the <strong>Alliteration Counter</strong> – your new best friend for crafting snappy, memorable phrases. Whether you're penning a poem, writing a speech, or just trying to sound cool in a text message, this tool instantly highlights and counts alliterative phrases in your text. It's like having a poetic coach in your pocket, minus the beret and pretentiousness. Say goodbye to guesswork and hello to perfectly polished prose!</p>
+    </div>
+  </div>
+</div>
+    <p class="text-muted">Enter your text below to count alliterative phrases.</p>
+  </header>
+
+  <div class="mb-4">
+    <textarea id="input-text" class="form-control" rows="5" placeholder="Paste or type your text here..." aria-label="Input text for alliteration analysis"></textarea>
+  </div>
+
+  <div class="d-flex justify-content-between mb-4">
+    <button id="count-btn" class="btn btn-primary">Count Alliteration</button>
+    <button id="clear-btn" class="btn btn-secondary">Clear</button>
+  </div>
+
+  <div id="results-section" class="mt-4">
+    <h4 class="mb-3">Results</h4>
+    <p id="result-count" class="lead"></p>
+    <div id="highlighted-text" class="bg-light p-3 rounded"></div>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <p class="fs-5">The Alliteration Counter works by analyzing your text and identifying words that share the same starting sound. Here's how it breaks down:</p>
+      <ol class="fs-5">
+        <li>It splits your text into individual words.</li>
+        <li>It checks each word pair to see if they start with the same letter or sound.</li>
+        <li>When it finds a matching pair or sequence, it highlights them and adds to the total count.</li>
+      </ol>
+      <p class="fs-5">For example, in the phrase "Peter Piper picked a peck of pickled peppers," the tool will highlight "Peter Piper picked" and "peck of pickled peppers" as alliterative phrases.</p>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <p class="fs-4 fw-bold">10 Common Use Cases for the Alliteration Counter:</p>
+      <ul class="fs-5">
+        <li>Writing poems or song lyrics with rhythmic appeal.</li>
+        <li>Crafting memorable headlines for articles or blog posts.</li>
+        <li>Creating catchy slogans for marketing campaigns.</li>
+        <li>Adding flair to speeches or presentations.</li>
+        <li>Making social media posts more engaging.</li>
+        <li>Improving creative writing assignments for students.</li>
+        <li>Enhancing storytelling for authors or content creators.</li>
+        <li>Designing fun and educational activities for kids.</li>
+        <li>Practicing public speaking with attention-grabbing phrases.</li>
+        <li>Analyzing literary works for stylistic techniques.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const countBtn = document.getElementById('count-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const resultCount = document.getElementById('result-count');
+    const highlightedText = document.getElementById('highlighted-text');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    const countAlliteration = (text) => {
+      const words = text.split(/\s+/).filter(word => word.length > 0);
+      let alliterationCount = 0;
+      let highlightedHTML = '';
+      let currentAlliteration = [];
+
+      for (let i = 0; i < words.length; i++) {
+        const currentWord = words[i].replace(/[^a-zA-Z]/g, '').toLowerCase();
+        const nextWord = words[i + 1]?.replace(/[^a-zA-Z]/g, '').toLowerCase();
+
+        if (nextWord && currentWord[0] === nextWord[0]) {
+          if (currentAlliteration.length === 0) {
+            currentAlliteration.push(words[i]);
+          }
+          currentAlliteration.push(words[i + 1]);
+        } else {
+          if (currentAlliteration.length > 1) {
+            alliterationCount++;
+            highlightedHTML += `<span class="highlight">${currentAlliteration.join(' ')}</span> `;
+          } else if (currentAlliteration.length === 0) {
+            highlightedHTML += `${words[i]} `;
+          }
+          currentAlliteration = [];
+        }
+      }
+
+      return { count: alliterationCount, highlighted: highlightedHTML.trim() };
+    };
+
+    countBtn.addEventListener('click', () => {
+      const text = inputText.value.trim();
+      if (!text) {
+        resultCount.textContent = 'Please enter some text to analyze.';
+        highlightedText.innerHTML = '';
+        return;
+      }
+
+      const { count, highlighted } = countAlliteration(text);
+      resultCount.textContent = count === 0 ? 'No alliteration found in the text.' : `Total alliterations found: ${count}`;
+      highlightedText.innerHTML = highlighted || text;
+    });
+
+    clearBtn.addEventListener('click', () => {
+      inputText.value = '';
+      resultCount.textContent = '';
+      highlightedText.innerHTML = '';
+    });
+  });
+</script>

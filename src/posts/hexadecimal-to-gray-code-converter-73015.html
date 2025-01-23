@@ -1,0 +1,161 @@
+---
+title: "Hexadecimal to Gray Code Converter - Fast & Accurate Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-06-27 02:54:02
+metaDescription: "Convert hexadecimal to Gray code instantly with our easy-to-use tool. Perfect for students, engineers, and tech enthusiasts!"
+metaKeywords: "hexadecimal to gray code, gray code converter, hex to gray code, digital logic tool, error detection, binary conversion, engineering tools, gray code calculator, hex converter, coding tools"
+tags: ["hexadecimal", "gray code", "binary converter", "digital electronics", "coding tool"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .form-control:read-only {
+    background-color: #2d3338;
+    color: #f8f9fa;
+  }
+</style>
+
+<div id="main-div">
+  <div class="text-center mb-4">
+    <h1 class="mb-3">Hexadecimal to Gray Code Converter</h1><div class="container my-5">
+  <div class="text-center">
+    <p class="fs-4 fw-bold">Ever felt stuck trying to decode hexadecimal values into Gray code? You're not alone! Whether you're a student tackling digital logic or a professional working with error-correcting codes, converting hex to Gray code can feel like solving a puzzle blindfolded. But don’t worry—our <strong>Hexadecimal to Gray Code Converter</strong> is here to save the day! Just pop in your hex value, hit convert, and voilà—you’ll get the Gray code in a flash. No more head-scratching or late-night Google searches. It’s fast, easy, and dare we say, a little fun. Say goodbye to confusion and hello to seamless conversions!</p>
+  </div>
+</div>
+    <p class="lead">Enter a hexadecimal value to convert it to Gray code.</p>
+  </div>
+  <div class="mb-3">
+    <div class="input-group">
+      <input type="text" id="hex-input" class="form-control" placeholder="Enter hexadecimal value (e.g., 1A, FF)" aria-label="Hexadecimal Input">
+      <button id="convert-btn" class="btn btn-primary" type="button">Convert</button>
+    </div>
+    <div id="error-msg" class="text-danger mt-2" aria-live="polite"></div>
+  </div>
+  <div class="mb-3">
+    <label for="gray-output" class="form-label">Gray Code:</label>
+    <input type="text" id="gray-output" class="form-control" readonly aria-label="Gray Code Output">
+  </div>
+  <button id="reset-btn" class="btn btn-secondary">Reset</button>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="fs-3 fw-bold mb-4">How It Works</h2>
+      <p class="mb-4">The tool works like a digital magician! Here’s the secret formula (don’t worry, no math degree required):</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">First, the tool takes your hexadecimal input (like <code>1A</code> or <code>FF</code>) and converts it into binary. Think of this as translating a word into another language.</li>
+        <li class="list-group-item">Next, it transforms the binary code into Gray code using a clever trick: each Gray code bit depends on the current and previous binary bits. It’s like a game of follow-the-leader!</li>
+        <li class="list-group-item">Finally, you get your Gray code output, ready to use in your projects or studies. Easy as pie!</li>
+      </ol>
+      <h2 class="fs-3 fw-bold mt-5 mb-4">Example Conversions</h2>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Hexadecimal</th>
+              <th>Gray Code</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>1</td></tr>
+            <tr><td>2</td><td>3</td></tr>
+            <tr><td>3</td><td>2</td></tr>
+            <tr><td>4</td><td>6</td></tr>
+            <tr><td>5</td><td>7</td></tr>
+            <tr><td>6</td><td>5</td></tr>
+            <tr><td>7</td><td>4</td></tr>
+            <tr><td>8</td><td>C</td></tr>
+            <tr><td>9</td><td>D</td></tr>
+            <tr><td>A</td><td>F</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="fs-3 fw-bold mb-4">10 Common Use Cases for the Hexadecimal to Gray Code Converter</h2>
+      <ul class="list-group">
+        <li class="list-group-item">Simplifying digital logic design for engineering students.</li>
+        <li class="list-group-item">Converting sensor data in embedded systems.</li>
+        <li class="list-group-item">Error detection and correction in communication systems.</li>
+        <li class="list-group-item">Preparing input data for Karnaugh map simplification.</li>
+        <li class="list-group-item">Encoding rotary encoder outputs for robotics projects.</li>
+        <li class="list-group-item">Debugging and testing hardware circuits.</li>
+        <li class="list-group-item">Teaching binary-to-Gray code conversion in computer science courses.</li>
+        <li class="list-group-item">Optimizing data transmission in networking protocols.</li>
+        <li class="list-group-item">Generating test cases for software development.</li>
+        <li class="list-group-item">Solving puzzles or challenges in coding competitions.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const hexInput = document.getElementById('hex-input');
+    const convertBtn = document.getElementById('convert-btn');
+    const grayOutput = document.getElementById('gray-output');
+    const errorMsg = document.getElementById('error-msg');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      hexInput.value = startValue.toUpperCase();
+    }
+
+    const isValidHex = (value) => /^[0-9A-Fa-f]+$/.test(value);
+
+    const hexToBinary = (hex) => {
+      return parseInt(hex, 16).toString(2);
+    };
+
+    const binaryToGray = (binary) => {
+      let gray = binary[0];
+      for (let i = 1; i < binary.length; i++) {
+        gray += (binary[i - 1] !== binary[i]) ? '1' : '0';
+      }
+      return gray;
+    };
+
+    const convertHexToGray = () => {
+      const hexValue = hexInput.value.trim().toUpperCase();
+      if (!hexValue) {
+        errorMsg.textContent = 'Please enter a hexadecimal value.';
+        grayOutput.value = '';
+        return;
+      }
+      if (!isValidHex(hexValue)) {
+        errorMsg.textContent = 'Invalid input. Please enter a valid hexadecimal value.';
+        grayOutput.value = '';
+        return;
+      }
+      errorMsg.textContent = '';
+      const binaryValue = hexToBinary(hexValue);
+      const grayValue = binaryToGray(binaryValue);
+      grayOutput.value = grayValue;
+    };
+
+    const resetFields = () => {
+      hexInput.value = '';
+      grayOutput.value = '';
+      errorMsg.textContent = '';
+    };
+
+    convertBtn.addEventListener('click', convertHexToGray);
+    resetBtn.addEventListener('click', resetFields);
+    hexInput.addEventListener('input', () => {
+      errorMsg.textContent = '';
+    });
+    hexInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        convertHexToGray();
+      }
+    });
+  });
+</script>

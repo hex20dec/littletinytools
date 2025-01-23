@@ -1,0 +1,163 @@
+---
+title: "Emoji Counter: Analyze Your Emoji Usage Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-02-10 03:03:25
+metaDescription: "Count emojis in your text instantly with the Emoji Counter! Perfect for social media, chat logs, and more. Quick, accurate, and fun to use."
+metaKeywords: "emoji counter, count emojis, emoji analysis, emoji tracker, social media emojis, chat emoji counter, emoji usage, emoji tool, free emoji counter, emoji insights"
+tags: ["emoji", "text analysis", "social media", "content creation", "tools"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .emoji-table {
+    margin-top: 20px;
+  }
+  .emoji-table th, .emoji-table td {
+    text-align: center;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-5">
+    <h1 class="display-4">Emoji Counter</h1><div class="container mt-5">
+  <div class="text-center mb-5">
+    <p class="lead fs-3">Ever found yourself scrolling through a sea of emojis in a text, wondering just how many 😂 or ❤️ you’ve used? Whether you’re crafting the perfect Instagram caption, analyzing a chat log, or just curious about your emoji habits, keeping track of all those tiny icons can be a real headache. That’s where the <strong>Emoji Counter</strong> comes in! This nifty tool does the heavy lifting for you, instantly counting every emoji in your text and breaking it down so you can see exactly how many 🎉, 💡, or 🚀 you’ve used. It’s quick, easy, and downright fun—like having a personal emoji accountant at your fingertips. Say goodbye to manual counting and hello to effortless emoji insights!</p>
+  </div>
+</div>
+    <p class="lead">Paste your text below to count the emojis in it.</p>
+  </header>
+
+  <div class="mb-4">
+    <textarea id="text-input" class="form-control" rows="6" placeholder="Paste or type your text here..."></textarea>
+  </div>
+
+  <div class="d-grid gap-2 d-md-block mb-4">
+    <button id="count-button" class="btn btn-primary me-md-2">Count Emojis</button>
+    <button id="reset-button" class="btn btn-secondary">Reset</button>
+  </div>
+
+  <div id="output-section" class="d-none">
+    <div class="alert alert-success" role="alert">
+      <h4 class="alert-heading">Total Emojis: <span id="total-count">0</span></h4>
+    </div>
+
+    <table class="table table-bordered emoji-table">
+      <thead>
+        <tr>
+          <th scope="col">Emoji</th>
+          <th scope="col">Count</th>
+        </tr>
+      </thead>
+      <tbody id="emoji-list">
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="container mb-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="fs-4 mb-4">How It Works</h2>
+      <p class="mb-4">The <strong>Emoji Counter</strong> works by scanning your text for all those colorful little symbols we love to sprinkle into our messages. Here’s the magic behind it:</p>
+      <ul class="list-group mb-4">
+        <li class="list-group-item">1. Paste or type your text into the box above.</li>
+        <li class="list-group-item">2. Click the <strong>Count Emojis</strong> button.</li>
+        <li class="list-group-item">3. Watch as the tool instantly calculates the total number of emojis and shows a breakdown of how many times each one appears.</li>
+      </ul>
+      <p class="mb-4">No complicated math, no guesswork—just a simple, accurate count of your emoji usage. It’s like having a magnifying glass for your text, but way cooler.</p>
+
+      <h2 class="fs-4 mb-4">Sample Emoji Counts</h2>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Emoji</th>
+            <th scope="col">Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>😂</td><td>5</td></tr>
+          <tr><td>❤️</td><td>3</td></tr>
+          <tr><td>🚀</td><td>2</td></tr>
+          <tr><td>🎉</td><td>4</td></tr>
+          <tr><td>💡</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mb-5">
+  <h2 class="fs-4 mb-4">10 Common Use Cases for the Emoji Counter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">1. Analyzing emoji usage in social media posts to optimize engagement.</li>
+    <li class="list-group-item">2. Counting emojis in chat logs for fun or research purposes.</li>
+    <li class="list-group-item">3. Checking the frequency of specific emojis in your messages.</li>
+    <li class="list-group-item">4. Creating emoji-rich content for blogs or marketing campaigns.</li>
+    <li class="list-group-item">5. Tracking your favorite emojis over time.</li>
+    <li class="list-group-item">6. Ensuring balanced emoji usage in professional communications.</li>
+    <li class="list-group-item">7. Teaching kids or students about emoji diversity and usage.</li>
+    <li class="list-group-item">8. Preparing for presentations or reports that include emoji data.</li>
+    <li class="list-group-item">9. Comparing emoji trends in different types of text (e.g., work vs. personal).</li>
+    <li class="list-group-item">10. Simply satisfying your curiosity about how many 😂 you’ve used this week!</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const countButton = document.getElementById('count-button');
+    const resetButton = document.getElementById('reset-button');
+    const outputSection = document.getElementById('output-section');
+    const totalCount = document.getElementById('total-count');
+    const emojiList = document.getElementById('emoji-list');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    const countEmojis = (text) => {
+      const emojiRegex = /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F700}-\u{1F77F}]|[\u{1F780}-\u{1F7FF}]|[\u{1F800}-\u{1F8FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1FA00}-\u{1FA6F}]|[\u{1FA70}-\u{1FAFF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu;
+      const emojis = text.match(emojiRegex) || [];
+      const emojiCounts = {};
+
+      emojis.forEach(emoji => {
+        emojiCounts[emoji] = (emojiCounts[emoji] || 0) + 1;
+      });
+
+      return { total: emojis.length, counts: emojiCounts };
+    };
+
+    const updateOutput = (total, counts) => {
+      totalCount.textContent = total;
+      emojiList.innerHTML = '';
+
+      if (total > 0) {
+        Object.entries(counts).forEach(([emoji, count]) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `<td>${emoji}</td><td>${count}</td>`;
+          emojiList.appendChild(row);
+        });
+        outputSection.classList.remove('d-none');
+      } else {
+        outputSection.classList.add('d-none');
+      }
+    };
+
+    countButton.addEventListener('click', () => {
+      const text = textInput.value.trim();
+      if (text) {
+        const { total, counts } = countEmojis(text);
+        updateOutput(total, counts);
+      } else {
+        alert('Please enter some text to analyze.');
+      }
+    });
+
+    resetButton.addEventListener('click', () => {
+      textInput.value = '';
+      outputSection.classList.add('d-none');
+    });
+  });
+</script>

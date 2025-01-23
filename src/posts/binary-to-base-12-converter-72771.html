@@ -1,0 +1,162 @@
+---
+title: "Binary to Base-12 Converter: Fast & Accurate Conversion Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-07 19:18:15
+metaDescription: "Convert binary numbers to base-12 instantly with our easy-to-use tool. Perfect for students, programmers, and math enthusiasts!"
+metaKeywords: "binary to base-12, binary converter, base-12 calculator, binary translator, number system converter"
+tags: ["binary converter", "base-12 calculator", "number system tool", "binary to base-12", "math utility"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .error-message {
+    color: #dc3545;
+    font-size: 0.875em;
+    margin-top: 0.25rem;
+  }
+</style>
+
+<div id="main-div">
+  <div class="text-center mb-4">
+    <h1 class="display-5">Binary to Base-12 Converter</h1><div class="container my-5">
+  <div class="text-center mb-4">
+    <p class="lead">Ever stared at a string of 0s and 1s and thought, "What on earth does this mean?" Binary numbers can feel like a secret code only computers understand. But what if you could crack that code and translate it into something more human-friendly, like base-12? That's where our <strong>Binary to Base-12 Converter</strong> comes in! Whether you're a math enthusiast, a student, or just someone curious about number systems, this tool transforms those confusing binary digits into base-12 with just a click. No math degree required—just type, convert, and voilà! Say goodbye to binary headaches and hello to a world where numbers make sense.</p>
+  </div>
+</div>
+    <p class="lead">Enter a binary number to convert it to base-12.</p>
+  </div>
+  <div class="mb-3">
+    <label for="binaryInput" class="form-label">Enter Binary Number</label>
+    <input type="text" class="form-control" id="binaryInput" placeholder="e.g., 101010" aria-describedby="binaryHelp">
+    <div id="binaryHelp" class="form-text">Only 0 and 1 are allowed.</div>
+    <div id="inputError" class="error-message"></div>
+  </div>
+  <div class="mb-3">
+    <label for="base12Output" class="form-label">Base-12 Result</label>
+    <input type="text" class="form-control" id="base12Output" readonly>
+  </div>
+  <div class="d-grid gap-2 d-md-block text-center">
+    <button class="btn btn-primary me-md-2" id="convertBtn">Convert</button>
+    <button class="btn btn-secondary" id="resetBtn">Reset</button>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="text-center mb-4">How It Works</h2>
+      <p class="text-center">Our tool takes a binary number (a sequence of 0s and 1s) and converts it into base-12 in two simple steps:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item"><strong>Binary to Decimal:</strong> The binary number is converted to its decimal equivalent by adding up the values of each digit, where each 1 represents a power of 2.</li>
+        <li class="list-group-item"><strong>Decimal to Base-12:</strong> The decimal number is then converted to base-12 by repeatedly dividing it by 12 and using the remainders to form the base-12 result.</li>
+      </ol>
+      <div class="mt-4">
+        <h3 class="text-center mb-3">Example Conversions</h3>
+        <table class="table table-bordered text-center">
+          <thead>
+            <tr>
+              <th>Binary</th>
+              <th>Base-12</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0</td><td>0</td></tr>
+            <tr><td>1</td><td>1</td></tr>
+            <tr><td>10</td><td>2</td></tr>
+            <tr><td>11</td><td>3</td></tr>
+            <tr><td>100</td><td>4</td></tr>
+            <tr><td>101</td><td>5</td></tr>
+            <tr><td>110</td><td>6</td></tr>
+            <tr><td>111</td><td>7</td></tr>
+            <tr><td>1000</td><td>8</td></tr>
+            <tr><td>1001</td><td>9</td></tr>
+            <tr><td>1010</td><td>A</td></tr>
+            <tr><td>1011</td><td>B</td></tr>
+            <tr><td>1100</td><td>10</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="text-center mb-4">10 Common Use Cases</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1. Simplifying binary numbers for educational purposes.</li>
+        <li class="list-group-item">2. Converting binary data into base-12 for specialized calculations.</li>
+        <li class="list-group-item">3. Solving math problems involving different number systems.</li>
+        <li class="list-group-item">4. Exploring base-12 for creative numbering systems.</li>
+        <li class="list-group-item">5. Translating binary-encoded messages into readable formats.</li>
+        <li class="list-group-item">6. Assisting in computer science or programming coursework.</li>
+        <li class="list-group-item">7. Converting binary timestamps or IDs into base-12.</li>
+        <li class="list-group-item">8. Experimenting with alternative numbering systems for fun.</li>
+        <li class="list-group-item">9. Preparing data for systems that use base-12 encoding.</li>
+        <li class="list-group-item">10. Helping students or hobbyists understand binary and base-12 relationships.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const binaryInput = document.getElementById('binaryInput');
+    const base12Output = document.getElementById('base12Output');
+    const inputError = document.getElementById('inputError');
+    const convertBtn = document.getElementById('convertBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      binaryInput.value = startValue;
+    }
+
+    // Validate binary input
+    binaryInput.addEventListener('input', () => {
+      const value = binaryInput.value;
+      if (!/^[01]*$/.test(value)) {
+        inputError.textContent = 'Only 0 and 1 are allowed.';
+        binaryInput.classList.add('is-invalid');
+      } else {
+        inputError.textContent = '';
+        binaryInput.classList.remove('is-invalid');
+      }
+    });
+
+    // Convert binary to base-12
+    convertBtn.addEventListener('click', () => {
+      const binaryValue = binaryInput.value;
+      if (!binaryValue || !/^[01]+$/.test(binaryValue)) {
+        base12Output.value = 'Invalid binary input.';
+        return;
+      }
+
+      // Convert binary to decimal
+      let decimalValue = 0;
+      for (let i = 0; i < binaryValue.length; i++) {
+        decimalValue += parseInt(binaryValue[i]) * Math.pow(2, binaryValue.length - 1 - i);
+      }
+
+      // Convert decimal to base-12
+      let base12Result = '';
+      while (decimalValue > 0) {
+        const remainder = decimalValue % 12;
+        base12Result = (remainder < 10 ? remainder : String.fromCharCode(65 + remainder - 10)) + base12Result;
+        decimalValue = Math.floor(decimalValue / 12);
+      }
+
+      base12Output.value = base12Result || '0';
+    });
+
+    // Reset fields
+    resetBtn.addEventListener('click', () => {
+      binaryInput.value = '';
+      base12Output.value = '';
+      inputError.textContent = '';
+      binaryInput.classList.remove('is-invalid');
+    });
+  });
+</script>

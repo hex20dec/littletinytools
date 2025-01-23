@@ -1,0 +1,122 @@
+---
+title: "Flight Cost Per Mile Calculator - Save on Air Travel"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-10-11 09:29:16
+metaDescription: "Calculate flight cost per mile instantly with this easy-to-use tool. Perfect for travel budgeting and comparing flight deals. Try it now!"
+metaKeywords: "flight cost calculator, cost per mile, travel budgeting, flight deals, flight expenses, travel planning, flight comparison, frequent flyer, travel cost, flight distance"
+tags: ["flight cost", "travel budget", "cost per mile", "flight calculator", "travel savings"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+      <h1 class="mb-3">Flight Cost Per Mile Calculator</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="display-6">Why does your flight budget always feel like a mystery? Let’s break it down—literally.</p>
+      <p class="lead">Planning a trip can feel like solving a puzzle, especially when you’re trying to figure out how much you’re spending per mile. Enter the <strong>Flight Cost Per Mile Calculator</strong>, your new best friend for travel budgeting. Whether you’re booking a quick weekend getaway or a cross-country adventure, this tool helps you see exactly how much each mile of your journey costs. Just plug in your total flight cost and distance, and voilà—you’ll know if that deal is a steal or a splurge. No more guesswork, no more surprises. Just smarter travel decisions, one mile at a time.</p>
+    </div>
+  </div>
+</div>
+      <p class="mb-4">Enter the total cost of your flight and the total distance to calculate the cost per mile.</p>
+      <div class="mb-3">
+        <label for="flightCost" class="form-label">Total Flight Cost ($)</label>
+        <input type="number" class="form-control" id="flightCost" placeholder="e.g., 250" min="0" step="0.01" required>
+      </div>
+      <div class="mb-3">
+        <label for="flightDistance" class="form-label">Total Distance (miles)</label>
+        <input type="number" class="form-control" id="flightDistance" placeholder="e.g., 500" min="0" step="0.01" required>
+      </div>
+      <button id="calculateBtn" class="btn btn-primary mb-3">Calculate</button>
+      <button id="resetBtn" class="btn btn-secondary mb-3">Reset</button>
+      <div id="result" class="mt-3">
+        <h3>Cost Per Mile</h3>
+        <p id="costPerMile" class="fs-4">$0.00 per mile</p>
+      </div>
+      <div id="errorMessage" class="text-danger mt-3"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="h4 mb-4">How It Works</p>
+      <p>The Flight Cost Per Mile Calculator uses a simple formula to give you clarity on your travel expenses:</p>
+      <p class="text-center"><strong>Cost Per Mile = Total Flight Cost ÷ Total Distance (in miles)</strong></p>
+      <p>For example, if your flight costs $300 and covers 600 miles, the cost per mile is $0.50. Easy, right? Below is a table showing how costs break down for different flight scenarios:</p>
+      <table class="table table-bordered table-striped mt-4">
+        <thead>
+          <tr>
+            <th>Total Flight Cost ($)</th>
+            <th>Total Distance (miles)</th>
+            <th>Cost Per Mile ($)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>100</td><td>200</td><td>0.50</td></tr>
+          <tr><td>250</td><td>500</td><td>0.50</td></tr>
+          <tr><td>400</td><td>800</td><td>0.50</td></tr>
+          <tr><td>150</td><td>300</td><td>0.50</td></tr>
+          <tr><td>500</td><td>1000</td><td>0.50</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="h4 mb-4">10 Common Use Cases for the Flight Cost Per Mile Calculator</p>
+      <ul class="list-group">
+        <li class="list-group-item">1. Comparing flight deals to find the most cost-effective option.</li>
+        <li class="list-group-item">2. Budgeting for frequent flyers who want to track their travel expenses.</li>
+        <li class="list-group-item">3. Evaluating whether a layover is worth the savings.</li>
+        <li class="list-group-item">4. Calculating the true cost of business vs. economy class.</li>
+        <li class="list-group-item">5. Estimating the cost of a road trip vs. flying.</li>
+        <li class="list-group-item">6. Planning group trips to split costs fairly.</li>
+        <li class="list-group-item">7. Deciding whether to upgrade to a longer non-stop flight.</li>
+        <li class="list-group-item">8. Analyzing the cost efficiency of loyalty program flights.</li>
+        <li class="list-group-item">9. Teaching students or colleagues about travel budgeting.</li>
+        <li class="list-group-item">10. Satisfying your curiosity about how much your last trip really cost per mile.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const flightCostInput = document.getElementById('flightCost');
+    const flightDistanceInput = document.getElementById('flightDistance');
+    const calculateBtn = document.getElementById('calculateBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const costPerMileOutput = document.getElementById('costPerMile');
+    const errorMessage = document.getElementById('errorMessage');
+
+    // Preload flight cost from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue)) {
+      flightCostInput.value = parseFloat(startValue).toFixed(2);
+    }
+
+    calculateBtn.addEventListener('click', function () {
+      const flightCost = parseFloat(flightCostInput.value);
+      const flightDistance = parseFloat(flightDistanceInput.value);
+
+      if (isNaN(flightCost) || isNaN(flightDistance) || flightCost < 0 || flightDistance <= 0) {
+        errorMessage.textContent = 'Please enter valid numbers for both fields. Distance must be greater than 0.';
+        costPerMileOutput.textContent = '$0.00 per mile';
+        return;
+      }
+
+      const costPerMile = (flightCost / flightDistance).toFixed(2);
+      costPerMileOutput.textContent = `$${costPerMile} per mile`;
+      errorMessage.textContent = '';
+    });
+
+    resetBtn.addEventListener('click', function () {
+      flightCostInput.value = '';
+      flightDistanceInput.value = '';
+      costPerMileOutput.textContent = '$0.00 per mile';
+      errorMessage.textContent = '';
+    });
+  });
+</script>

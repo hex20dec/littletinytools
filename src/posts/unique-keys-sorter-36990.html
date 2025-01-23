@@ -1,0 +1,127 @@
+---
+title: "Unique Keys Sorter - Clean & Sort Your Lists Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-03-21 05:42:43
+metaDescription: "Remove duplicates and sort your list of keys instantly with the Unique Keys Sorter. Perfect for emails, SKUs, IDs, and more!"
+metaKeywords: "unique keys sorter, sort and remove duplicates, clean up lists, organize data, SEO tool, inventory management, email list cleaner, data sorting tool"
+tags: ["data cleaning", "list sorting", "duplicate remover", "productivity tool", "web app"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-4">Unique Keys Sorter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4">Unique Keys Sorter</h2>
+      <p class="text-center mb-4">Why does organizing a list of keys always feel like untangling a ball of yarn? Whether it's product codes, email addresses, or even your favorite playlist, managing duplicates and keeping things sorted can be a headache. Enter the Unique Keys Sorter—your new best friend for tidying up messy lists in seconds. Just paste your keys, hit the button, and voilà! Duplicates vanish, and your list is neatly sorted. It's like a magic wand for your data, making life simpler and a whole lot less chaotic.</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Enter your list of keys below. Duplicates will be removed, and the remaining keys will be sorted.</p>
+      <div class="mb-3">
+        <textarea id="input-text" class="form-control bg-dark text-white" rows="6" placeholder="Enter your keys here, one per line or separated by commas."></textarea>
+        <small id="error-message" class="text-danger d-none">Please enter some keys to sort.</small>
+      </div>
+      <button id="sort-button" class="btn btn-primary w-100 mb-3">Sort and Remove Duplicates</button>
+      <div class="mb-3">
+        <textarea id="output-text" class="form-control bg-dark text-white" rows="6" placeholder="Your sorted and unique keys will appear here." readonly></textarea>
+      </div>
+      <button id="copy-button" class="btn btn-secondary w-100">Copy to Clipboard</button>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h3 class="text-center mb-4">How It Works</h3>
+      <p class="text-center mb-4">The Unique Keys Sorter works like a well-oiled machine. You provide a list of keys (one per line or separated by commas), and the tool does the heavy lifting. First, it removes any duplicate keys to ensure everything is unique. Then, it sorts the remaining keys alphabetically or numerically, depending on your input. The result is a clean, organized list ready for whatever you need.</p>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Input Keys</th>
+              <th scope="col">Output Keys (Sorted & Unique)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>apple, banana, apple, cherry</td>
+              <td>apple, banana, cherry</td>
+            </tr>
+            <tr>
+              <td>100, 50, 75, 50, 25</td>
+              <td>25, 50, 75, 100</td>
+            </tr>
+            <tr>
+              <td>zebra, apple, apple, banana</td>
+              <td>apple, banana, zebra</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h3 class="text-center mb-4">10 Common Use Cases</h3>
+      <ul class="list-group">
+        <li class="list-group-item">1. Cleaning up email lists for marketing campaigns.</li>
+        <li class="list-group-item">2. Organizing product SKUs for inventory management.</li>
+        <li class="list-group-item">3. Sorting customer IDs for database maintenance.</li>
+        <li class="list-group-item">4. Removing duplicates from a list of usernames.</li>
+        <li class="list-group-item">5. Alphabetizing keywords for SEO optimization.</li>
+        <li class="list-group-item">6. Sorting playlist song titles for music lovers.</li>
+        <li class="list-group-item">7. Organizing event attendee lists for better tracking.</li>
+        <li class="list-group-item">8. Cleaning up CSV data for data analysis.</li>
+        <li class="list-group-item">9. Sorting employee IDs for HR records.</li>
+        <li class="list-group-item">10. Managing unique URLs for web scraping tasks.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const outputText = document.getElementById('output-text');
+    const sortButton = document.getElementById('sort-button');
+    const copyButton = document.getElementById('copy-button');
+    const errorMessage = document.getElementById('error-message');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputText.value = startValue;
+    }
+
+    sortButton.addEventListener('click', () => {
+      const input = inputText.value.trim();
+      if (!input) {
+        errorMessage.classList.remove('d-none');
+        outputText.value = '';
+        return;
+      }
+
+      errorMessage.classList.add('d-none');
+
+      const keys = input.split(/[\n,]/).map(key => key.trim()).filter(key => key);
+      const uniqueKeys = [...new Set(keys)];
+      const sortedKeys = uniqueKeys.sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+
+      outputText.value = sortedKeys.join('\n');
+    });
+
+    copyButton.addEventListener('click', () => {
+      if (outputText.value) {
+        navigator.clipboard.writeText(outputText.value).then(() => {
+          copyButton.textContent = 'Copied!';
+          setTimeout(() => {
+            copyButton.textContent = 'Copy to Clipboard';
+          }, 2000);
+        });
+      }
+    });
+  });
+</script>

@@ -1,0 +1,160 @@
+---
+title: "Find the Longest Sentence in Your Text | Sentence Counter Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-01-18 22:04:17
+metaDescription: "Find the longest sentence in your text instantly with this easy-to-use tool. Perfect for writers, students, and editors!"
+metaKeywords: "longest sentence counter, text analysis tool, word count tool, writing tools, sentence length checker"
+tags: ["writing tools", "text analysis", "sentence counter", "readability", "editing tools"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .form-control {
+    min-height: 200px;
+  }
+  .alert {
+    margin-top: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container">
+    <h1 class="text-center mb-4">Longest Sentence Counter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="text-center mb-4">
+        <p class="lead"><strong>Ever struggled to find the longest sentence in a sea of text?</strong> Whether you're editing an essay, analyzing a document, or just curious about your writing style, pinpointing that one marathon sentence can feel like searching for a needle in a haystack. Enter the <strong>Longest Sentence Counter</strong>—a simple, no-fuss tool that does the heavy lifting for you. Just paste your text, hit the button, and voilà! You'll instantly know which sentence holds the record for wordiness. It’s like having a personal editor in your pocket, minus the red pen. Say goodbye to endless scrolling and hello to clarity!</p>
+      </div>
+    </div>
+  </div>
+</div>
+    <p class="text-center mb-4">Paste your text below to find the longest sentence and its word count.</p>
+    <textarea id="text-input" class="form-control mb-3" placeholder="Paste or type your text here..."></textarea>
+    <button id="analyze-btn" class="btn btn-primary w-100 mb-3">Find Longest Sentence</button>
+    <div id="output-section" class="alert alert-info d-none">
+      <p><strong>Longest Sentence:</strong> <span id="longest-sentence"></span></p>
+      <p><strong>Word Count:</strong> <span id="word-count"></span></p>
+    </div>
+    <button id="reset-btn" class="btn btn-secondary w-100">Reset</button>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="bg-light p-4 rounded">
+        <h2 class="mb-3">How It Works</h2>
+        <p>The <strong>Longest Sentence Counter</strong> works by breaking down your text into individual sentences using punctuation marks like periods, exclamation points, and question marks. It then counts the number of words in each sentence and identifies the one with the highest word count. Here's the breakdown:</p>
+        <ol class="list-group list-group-numbered">
+          <li class="list-group-item">Paste your text into the input box.</li>
+          <li class="list-group-item">Click "Find Longest Sentence."</li>
+          <li class="list-group-item">The tool scans your text, splits it into sentences, and calculates the word count for each.</li>
+          <li class="list-group-item">It highlights the longest sentence and displays its word count.</li>
+        </ol>
+        <p class="mt-3">It’s that simple! No complicated settings, no jargon—just quick, accurate results.</p>
+      </div>
+      <div class="mt-4">
+        <h3>Example Output</h3>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Sentence</th>
+              <th>Word Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>This is a short sentence.</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>Here’s a slightly longer one with a bit more detail.</td>
+              <td>10</td>
+            </tr>
+            <tr>
+              <td>And this is the longest sentence in the entire text, packed with words and ideas!</td>
+              <td>15</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="bg-light p-4 rounded">
+        <h2 class="mb-3">Top 10 Use Cases for the Longest Sentence Counter</h2>
+        <ul class="list-group">
+          <li class="list-group-item">Editing essays or academic papers to improve readability.</li>
+          <li class="list-group-item">Analyzing blog posts for sentence length consistency.</li>
+          <li class="list-group-item">Simplifying complex legal or technical documents.</li>
+          <li class="list-group-item">Preparing speeches or presentations for better flow.</li>
+          <li class="list-group-item">Helping students practice concise writing.</li>
+          <li class="list-group-item">Reviewing novels or creative writing for pacing.</li>
+          <li class="list-group-item">Optimizing website content for SEO and user engagement.</li>
+          <li class="list-group-item">Assisting non-native speakers in improving sentence structure.</li>
+          <li class="list-group-item">Breaking down lengthy emails for better clarity.</li>
+          <li class="list-group-item">Having fun challenging friends to write the longest sentence!</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const analyzeBtn = document.getElementById('analyze-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const outputSection = document.getElementById('output-section');
+    const longestSentenceEl = document.getElementById('longest-sentence');
+    const wordCountEl = document.getElementById('word-count');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    analyzeBtn.addEventListener('click', () => {
+      const text = textInput.value.trim();
+      if (!text) {
+        outputSection.classList.remove('d-none');
+        longestSentenceEl.textContent = 'No text entered. Please paste or type some text.';
+        wordCountEl.textContent = '0';
+        return;
+      }
+
+      const sentences = text.split(/[.!?]/).filter(s => s.trim() !== '');
+      if (sentences.length === 0) {
+        outputSection.classList.remove('d-none');
+        longestSentenceEl.textContent = 'No valid sentences found.';
+        wordCountEl.textContent = '0';
+        return;
+      }
+
+      let longestSentence = '';
+      let maxWordCount = 0;
+
+      sentences.forEach(sentence => {
+        const words = sentence.trim().split(/\s+/);
+        if (words.length > maxWordCount) {
+          longestSentence = sentence.trim();
+          maxWordCount = words.length;
+        }
+      });
+
+      outputSection.classList.remove('d-none');
+      longestSentenceEl.textContent = longestSentence;
+      wordCountEl.textContent = maxWordCount.toString();
+    });
+
+    resetBtn.addEventListener('click', () => {
+      textInput.value = '';
+      outputSection.classList.add('d-none');
+    });
+  });
+</script>

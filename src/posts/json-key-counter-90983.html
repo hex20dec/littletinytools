@@ -1,0 +1,98 @@
+---
+title: "JSON Key Counter - Quickly Count Keys in Your JSON Object"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-07-26 16:56:45
+metaDescription: "Quickly count keys in any JSON object with the JSON Key Counter. Simple, fast, and free—no coding required!"
+metaKeywords: "json key counter, count json keys, json tool, json key validator, json debugger, json key analyzer, json key checker, json key counter tool, json key counter online, json key counter free"
+tags: ["JSON", "Developer Tools", "Web Utilities", "Data Analysis", "JavaScript"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  textarea {
+    min-height: 200px;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-5">
+    <h1 class="display-4">JSON Key Counter</h1><div class="text-center mb-5">
+  <p class="lead">Ever found yourself staring at a massive JSON object, wondering just how many keys are hiding in there? Maybe you’re debugging, analyzing data, or just curious, but manually counting keys feels like trying to count stars in the sky—tedious and error-prone. Enter the <strong>JSON Key Counter</strong>, your new best friend for quick and easy key counting! Simply paste your JSON object, hit the button, and voilà—you’ll know exactly how many keys you’re dealing with. Whether you’re a developer, data analyst, or JSON enthusiast, this tool is here to save you time and sanity. Let’s make JSON key counting as fun as scrolling through memes!</p>
+</div>
+    <p class="lead">Paste your JSON object below to count the number of keys.</p>
+  </header>
+
+  <div class="mb-3">
+    <textarea id="json-input" class="form-control mb-3 resize-vertical" placeholder="Paste your JSON object here..."></textarea>
+    <button id="count-button" class="btn btn-primary d-block mx-auto mb-3">Count Keys</button>
+  </div>
+
+  <div id="output" class="mt-3"></div>
+
+  <footer class="text-center mt-5">
+    <p class="text-muted">This tool does not store or process your data externally.</p>
+  </footer>
+</div>
+
+<div class="mb-5">
+  <h2 class="text-center mb-4">How It Works</h2>
+  <p class="text-muted">The JSON Key Counter works like a digital detective, scanning your JSON object to uncover every key hiding within. Here’s the breakdown:</p>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">You paste your JSON object into the input box (no fancy formatting needed—just raw JSON).</li>
+    <li class="list-group-item">The tool reads your JSON and identifies all the top-level keys (the ones at the outermost level).</li>
+    <li class="list-group-item">It then counts these keys and displays the total number in a clear and friendly message.</li>
+  </ol>
+  <p class="mt-3">For example, if your JSON looks like this:</p>
+  <pre class="bg-light p-3 rounded">{
+  "name": "John",
+  "age": 30,
+  "city": "New York"
+}</pre>
+  <p class="mt-3">The tool will tell you there are <strong>3 keys</strong>: <code>name</code>, <code>age</code>, and <code>city</code>. Simple, right?</p>
+</div><div class="mb-5">
+  <h2 class="text-center mb-4">Top 10 Use Cases for JSON Key Counter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Quickly validate the structure of a JSON object.</li>
+    <li class="list-group-item">Debug APIs by ensuring the correct number of keys are returned.</li>
+    <li class="list-group-item">Analyze data sets to compare key counts across multiple JSON objects.</li>
+    <li class="list-group-item">Simplify JSON documentation by verifying key counts.</li>
+    <li class="list-group-item">Prepare JSON objects for database imports by ensuring consistency.</li>
+    <li class="list-group-item">Onboard new developers by helping them understand JSON schemas.</li>
+    <li class="list-group-item">Check for missing or extra keys in configuration files.</li>
+    <li class="list-group-item">Automate JSON validation workflows without writing custom scripts.</li>
+    <li class="list-group-item">Teach JSON concepts in classrooms or workshops with real-time feedback.</li>
+    <li class="list-group-item">Satisfy your curiosity—because sometimes you just need to know how many keys are in that JSON!</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const jsonInput = document.getElementById('json-input');
+    const countButton = document.getElementById('count-button');
+    const output = document.getElementById('output');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      jsonInput.value = startValue;
+    }
+
+    countButton.addEventListener('click', () => {
+      const input = jsonInput.value.trim();
+      if (!input) {
+        output.innerHTML = `<div class="alert alert-danger mt-3">Please enter a JSON object.</div>`;
+        return;
+      }
+
+      try {
+        const parsedJson = JSON.parse(input);
+        const keyCount = Object.keys(parsedJson).length;
+        output.innerHTML = `<div class="alert alert-success mt-3">Number of keys: ${keyCount}</div>`;
+      } catch (error) {
+        output.innerHTML = `<div class="alert alert-danger mt-3">Invalid JSON. Please check your input.</div>`;
+      }
+    });
+  });
+</script>

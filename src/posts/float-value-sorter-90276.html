@@ -1,0 +1,140 @@
+---
+title: "Float Value Sorter - Quickly Sort Decimal Numbers Online"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-08-04 07:01:33
+metaDescription: "Easily sort floating-point numbers in ascending or descending order with the Float Value Sorter. Perfect for organizing data, finances, and more!"
+metaKeywords: "float value sorter, sort decimal numbers, number sorting tool, floating-point sorter, organize data, ascending descending sorter, decimal sorter, number organizer"
+tags: ["float sorter", "decimal sorter", "number sorting tool", "online calculator", "math tools"]
+---
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center mb-4">Float Value Sorter</h1><div class="container mt-5 text-center">
+  <p class="lead">Got a jumbled list of decimal numbers that need organizing? Whether it's for work, school, or just personal projects, sorting floating-point numbers can feel like untangling headphones—tedious and frustrating. That’s where the Float Value Sorter steps in! Simply paste your numbers, pick an order (ascending or descending), and let the tool do the heavy lifting. No more manual sorting or second-guessing. It’s quick, easy, and perfect for anyone dealing with data, finances, or even everyday math tasks. Say goodbye to chaos and hello to order—your numbers will thank you!</p>
+</div>
+  <p class="text-center mb-4">Enter a list of floating-point numbers (decimals) separated by commas or spaces. Choose to sort them in ascending or descending order.</p>
+
+  <div class="mb-3">
+    <textarea id="inputNumbers" class="form-control bg-dark text-white" rows="4" placeholder="Example: 3.14, 2.71, 1.618, 0.5"></textarea>
+    <div id="errorMessage" class="text-danger mt-2"></div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <select id="sortOrder" class="form-select bg-dark text-white">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <button id="sortButton" class="btn btn-primary w-100">Sort</button>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <textarea id="outputNumbers" class="form-control bg-dark text-white" rows="4" readonly></textarea>
+  </div>
+
+  <button id="resetButton" class="btn btn-secondary w-100">Reset</button>
+</div>
+
+<div class="container mt-4">
+  <h3 class="mb-3">How It Works</h3>
+  <p>Here’s the magic behind the Float Value Sorter: it takes your list of numbers, checks for valid inputs (like decimals and commas), and then arranges them in the order you choose. If you pick "ascending," it starts with the smallest number and works its way up. Choose "descending," and it does the opposite—starting with the largest number and moving down. It’s like having a personal assistant for number organization!</p>
+
+  <h4 class="mt-4">Example Table</h4>
+  <p>Here’s a quick look at how the tool sorts numbers:</p>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Input Numbers</th>
+        <th>Sorted (Ascending)</th>
+        <th>Sorted (Descending)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>3.14, 2.71, 1.618</td>
+        <td>1.618, 2.71, 3.14</td>
+        <td>3.14, 2.71, 1.618</td>
+      </tr>
+      <tr>
+        <td>0.5, -1.2, 4.3</td>
+        <td>-1.2, 0.5, 4.3</td>
+        <td>4.3, 0.5, -1.2</td>
+      </tr>
+      <tr>
+        <td>10.1, 5.5, 7.7</td>
+        <td>5.5, 7.7, 10.1</td>
+        <td>10.1, 7.7, 5.5</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-4">
+  <h3 class="mb-3">10 Common Use Cases for the Float Value Sorter</h3>
+  <ul class="list-group">
+    <li class="list-group-item">Sorting financial data like expenses or profits.</li>
+    <li class="list-group-item">Organizing scientific measurements for experiments.</li>
+    <li class="list-group-item">Preparing datasets for statistical analysis.</li>
+    <li class="list-group-item">Ordering grades or scores for academic purposes.</li>
+    <li class="list-group-item">Arranging pricing lists for e-commerce products.</li>
+    <li class="list-group-item">Sorting temperature or weather data.</li>
+    <li class="list-group-item">Organizing recipe measurements for cooking or baking.</li>
+    <li class="list-group-item">Preparing data for presentations or reports.</li>
+    <li class="list-group-item">Simplifying inventory or stock management.</li>
+    <li class="list-group-item">Sorting decimal-based game scores or rankings.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputNumbers = document.getElementById('inputNumbers');
+    const outputNumbers = document.getElementById('outputNumbers');
+    const sortOrder = document.getElementById('sortOrder');
+    const sortButton = document.getElementById('sortButton');
+    const resetButton = document.getElementById('resetButton');
+    const errorMessage = document.getElementById('errorMessage');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputNumbers.value = startValue;
+    }
+
+    const validateInput = (input) => {
+      const regex = /^[\d\s.,-]+$/;
+      return regex.test(input);
+    };
+
+    const sortNumbers = () => {
+      errorMessage.textContent = '';
+      const input = inputNumbers.value.trim();
+      if (!input) {
+        errorMessage.textContent = 'Please enter some numbers.';
+        return;
+      }
+
+      if (!validateInput(input)) {
+        errorMessage.textContent = 'Invalid input. Please enter only numbers separated by commas or spaces.';
+        return;
+      }
+
+      const numbersArray = input.split(/[\s,]+/).map(Number).filter(n => !isNaN(n));
+      if (numbersArray.length === 0) {
+        errorMessage.textContent = 'No valid numbers found. Please check your input.';
+        return;
+      }
+
+      const sortedArray = numbersArray.sort((a, b) => sortOrder.value === 'asc' ? a - b : b - a);
+      outputNumbers.value = sortedArray.join(', ');
+    };
+
+    const resetApp = () => {
+      inputNumbers.value = '';
+      outputNumbers.value = '';
+      sortOrder.value = 'asc';
+      errorMessage.textContent = '';
+    };
+
+    sortButton.addEventListener('click', sortNumbers);
+    resetButton.addEventListener('click', resetApp);
+  });
+</script>

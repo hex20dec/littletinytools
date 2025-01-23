@@ -1,0 +1,142 @@
+---
+title: "Sentence Counter - Quickly Count Sentences in Your Text"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-04-29 17:34:26
+metaDescription: "Count sentences quickly and accurately with our free Sentence Counter tool. Perfect for writers, students, and professionals. No more manual counting!"
+metaKeywords: "sentence counter, count sentences, sentence counting tool, free sentence counter, online sentence counter, text analysis tool"
+tags: ["sentence counter", "text analysis", "writing tool", "editing tool", "online utility"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <h1 class="display-4">Sentence Counter</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <strong class="display-4">Sentence Counter</strong>
+    <p class="lead">Writing a report, crafting an email, or polishing an essay? Ever lost track of how many sentences you’ve written? Our Sentence Counter tool is here to save the day—no more guessing or manual counting. Simply paste your text, and let the tool do the heavy lifting. Whether you're a student, writer, or professional, this tool is your quick and reliable companion for accurate sentence counting. Say goodbye to tedious counting and hello to more time for creativity!</p>
+  </div>
+</div>
+    <p class="lead">Paste or type your text below to count the number of sentences.</p>
+  </div>
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control bg-dark text-white" rows="10" placeholder="Enter your text here..."></textarea>
+  </div>
+  <div class="d-flex justify-content-center gap-3 mb-4">
+    <button id="count-btn" class="btn btn-primary">Count Sentences</button>
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+  <div id="result" class="text-center">
+    <h3 class="mt-4">Number of Sentences: <span id="sentence-count" class="fw-bold">0</span></h3>
+    <p id="error-message" class="text-danger"></p>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="mb-4">
+    <h2 class="text-dark">How It Works</h2>
+    <p class="text-dark">The Sentence Counter tool uses a simple but smart formula to count sentences. It scans your text for punctuation marks like periods (.), exclamation marks (!), and question marks (?). To avoid confusion, it also ignores abbreviations (e.g., U.S.A.) and ellipses (…). The formula looks like this:</p>
+    <p class="text-dark"><em>Total Sentences = (Total Punctuation Marks) - (Abbreviations + Ellipses)</em></p>
+    <p class="text-dark">Here’s a quick example table to show how it works:</p>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Text</th>
+          <th>Sentences Counted</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Hello! How are you?</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>This is a test. It works great.</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>U.S.A. is a country. So is Canada.</td>
+          <td>2 (abbreviation ignored)</td>
+        </tr>
+        <tr>
+          <td>Wait... is this working?</td>
+          <td>1 (ellipsis ignored)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <div class="mb-4">
+    <h2 class="text-white">Common Use Cases</h2>
+    <ul>
+      <li>Students counting sentences in essays or assignments.</li>
+      <li>Writers ensuring their paragraphs are balanced.</li>
+      <li>Professionals crafting concise emails or reports.</li>
+      <li>Bloggers tracking sentence length for readability.</li>
+      <li>Teachers grading student submissions.</li>
+      <li>Editors checking sentence structure in manuscripts.</li>
+      <li>Social media managers optimizing post length.</li>
+      <li>Language learners practicing sentence formation.</li>
+      <li>Researchers analyzing text data.</li>
+      <li>Anyone who wants to avoid manual counting!</li>
+    </ul>
+  </div>
+</div><script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const textInput = document.getElementById("text-input");
+    const countBtn = document.getElementById("count-btn");
+    const resetBtn = document.getElementById("reset-btn");
+    const sentenceCount = document.getElementById("sentence-count");
+    const errorMessage = document.getElementById("error-message");
+
+    // Preload text from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get("start");
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    const countSentences = (text) => {
+      if (!text.trim()) {
+        errorMessage.textContent = "Please enter some text to count sentences.";
+        sentenceCount.textContent = "0";
+        return;
+      }
+
+      // Handle abbreviations and ellipses
+      const abbreviations = text.match(/\b(?:[A-Za-z]\.){2,}/g) || [];
+      const ellipses = text.match(/\.{3}/g) || [];
+      const abbreviationCount = abbreviations.length;
+      const ellipsisCount = ellipses.length;
+
+      // Count sentences based on punctuation
+      const sentences = text.split(/[.!?]/g).filter(Boolean).length;
+      const totalSentences = sentences - abbreviationCount - ellipsisCount;
+
+      if (totalSentences <= 0) {
+        errorMessage.textContent = "No sentences found.";
+        sentenceCount.textContent = "0";
+      } else {
+        errorMessage.textContent = "";
+        sentenceCount.textContent = totalSentences;
+      }
+    };
+
+    countBtn.addEventListener("click", () => {
+      countSentences(textInput.value);
+    });
+
+    resetBtn.addEventListener("click", () => {
+      textInput.value = "";
+      sentenceCount.textContent = "0";
+      errorMessage.textContent = "";
+    });
+
+    // Handle large input
+    textInput.addEventListener("input", () => {
+      if (textInput.value.length > 10000) {
+        errorMessage.textContent = "Text is too long. Please reduce the length.";
+      } else {
+        errorMessage.textContent = "";
+      }
+    });
+  });
+</script>

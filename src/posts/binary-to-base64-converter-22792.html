@@ -1,0 +1,152 @@
+---
+title: "Binary to Base64 Converter - Quick & Easy Encoding Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-02-16 17:46:58
+metaDescription: "Convert binary data to Base64 instantly with this easy-to-use tool. Perfect for developers, students, and anyone working with encoded data."
+metaKeywords: "binary to base64, base64 converter, binary converter, data encoding tool, binary encoding, base64 encoding, binary to text, online converter, web tools, binary data"
+tags: ["binary", "base64", "encoding", "developer tools", "web utilities"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="mb-3">Binary to Base64 Converter</h1><div class="container bg-dark text-white p-4">
+  <div class="row">
+    <div class="col-12 text-center">
+      <strong class="display-4 mb-3">Binary to Base64 Converter</strong>
+      <p class="lead">Working with binary data can feel like decoding an alien language—especially when you need to convert it into something more usable, like Base64. Whether you're a developer troubleshooting an API, a student learning data encoding, or just someone curious about how computers "talk," this tool is here to simplify your life. Paste your binary code (those 0s and 1s), click convert, and voilà—your Base64 result is ready! No PhD in computer science required. Just straightforward, quick, and hassle-free conversions that make you wonder why you ever stressed about it in the first place.</p>
+    </div>
+  </div>
+</div>
+      <p class="lead">Enter binary data (0s and 1s) and convert it to Base64.</p>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12">
+      <textarea id="binary-input" class="form-control bg-dark text-white mb-3" placeholder="Enter binary data here (e.g., 01010101)" rows="4"></textarea>
+      <p id="error-message" class="text-danger d-none">Invalid binary input. Please enter only 0s and 1s.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 d-flex justify-content-center gap-3">
+      <button id="convert-btn" class="btn btn-primary" disabled>Convert</button>
+      <button id="reset-btn" class="btn btn-secondary">Reset</button>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12">
+      <textarea id="base64-output" class="form-control bg-dark text-white" placeholder="Base64 result will appear here." rows="4" readonly></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="container bg-light p-4 mt-4">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mb-3">How It Works</h2>
+      <p>This tool takes binary data (a series of 0s and 1s) and converts it into Base64, a format commonly used for encoding data in web applications. Here's the magic in simple terms:</p>
+      <ul>
+        <li>The binary input is split into chunks of 8 bits (1 byte).</li>
+        <li>Each byte is converted into its corresponding ASCII character.</li>
+        <li>These characters are then encoded into Base64, which uses a set of 64 characters (A-Z, a-z, 0-9, '+', '/') to represent the data.</li>
+      </ul>
+      <p>For example, the binary input <code>01001000 01100101 01101100 01101100 01101111</code> translates to "Hello" in ASCII, and then to <code>SGVsbG8=</code> in Base64.</p>
+
+      <h3 class="mt-4">Example Conversions</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Binary Input</th>
+            <th>Base64 Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>01000001</td>
+            <td>QQ==</td>
+          </tr>
+          <tr>
+            <td>01000010</td>
+            <td>Qg==</td>
+          </tr>
+          <tr>
+            <td>01000011</td>
+            <td>Qw==</td>
+          </tr>
+          <tr>
+            <td>01000100</td>
+            <td>RA==</td>
+          </tr>
+          <tr>
+            <td>01000101</td>
+            <td>RQ==</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container bg-dark text-white p-4 mt-4">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mb-3">10 Common Use Cases</h2>
+      <ol>
+        <li>Encoding binary data for API requests or responses.</li>
+        <li>Converting binary files (like images or documents) into Base64 for web embedding.</li>
+        <li>Debugging data transmission issues in web applications.</li>
+        <li>Learning how binary-to-text encoding works in computer science courses.</li>
+        <li>Preparing data for storage in databases that require Base64 encoding.</li>
+        <li>Encoding sensitive data (like passwords) for secure transmission.</li>
+        <li>Simplifying binary data sharing in forums or documentation.</li>
+        <li>Testing web applications that handle Base64-encoded data.</li>
+        <li>Converting binary-encoded messages into readable formats.</li>
+        <li>Encoding binary data for use in URL parameters.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const binaryInput = document.getElementById('binary-input');
+    const base64Output = document.getElementById('base64-output');
+    const convertBtn = document.getElementById('convert-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const errorMessage = document.getElementById('error-message');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      binaryInput.value = startValue;
+      validateInput();
+    }
+
+    // Validate input in real-time
+    binaryInput.addEventListener('input', validateInput);
+
+    // Convert binary to Base64
+    convertBtn.addEventListener('click', () => {
+      const binaryString = binaryInput.value.trim();
+      try {
+        const base64String = btoa(String.fromCharCode(...binaryString.match(/.{1,8}/g).map(byte => parseInt(byte, 2))));
+        base64Output.value = base64String;
+      } catch (error) {
+        base64Output.value = 'Error: Invalid binary input.';
+      }
+    });
+
+    // Reset fields
+    resetBtn.addEventListener('click', () => {
+      binaryInput.value = '';
+      base64Output.value = '';
+      convertBtn.disabled = true;
+      errorMessage.classList.add('d-none');
+    });
+
+    // Input validation function
+    function validateInput() {
+      const input = binaryInput.value.trim();
+      const isValid = /^[01]+$/.test(input);
+      convertBtn.disabled = !isValid || input === '';
+      errorMessage.classList.toggle('d-none', isValid);
+    }
+  });
+</script>

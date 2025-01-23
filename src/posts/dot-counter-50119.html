@@ -1,0 +1,168 @@
+---
+title: "Dot Counter - Quickly Count Dots in Images or Drawings"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-11-23 00:10:17
+metaDescription: "Easily count dots in images or sketches with the Dot Counter tool. Fast, accurate, and browser-based. Perfect for research, art, and more!"
+metaKeywords: "dot counter, count dots, image dot counter, dot counting tool, online dot counter, data analysis tool, image analysis, point counting"
+tags: ["dot counter", "image tool", "counting tool", "data visualization", "productivity"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Dot Counter</h1><div class="container-fluid bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <strong class="display-4">Dot Counter</strong>
+    <p class="lead">Struggling to keep track of all those tiny dots in your images or sketches? Whether you're working on a creative project, analyzing data, or just curious, counting dots manually can be a tedious task. That's where the Dot Counter comes in! This nifty tool lets you upload an image or draw dots directly on a canvas, and it instantly counts them for you. No more squinting at your screen or losing count halfway through. It’s simple, fast, and works entirely in your browser—so your data stays private. Say goodbye to dot-counting headaches and hello to a smoother workflow!</p>
+  </header>
+</div>
+    <p class="lead">Upload an image or draw dots to count them.</p>
+  </header>
+
+  <main class="row justify-content-center">
+    <div class="col-md-6 mb-4">
+      <div class="mb-3">
+        <label for="imageUpload" class="form-label">Upload Image</label>
+        <input type="file" class="form-control" id="imageUpload" accept=".jpg,.jpeg,.png,.gif">
+        <div class="form-text">Supported formats: JPG, PNG, GIF.</div>
+      </div>
+      <button id="uploadButton" class="btn btn-primary w-100 mb-3">Upload</button>
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <canvas id="dotCanvas" class="border rounded bg-white" width="500" height="300"></canvas>
+      <button id="clearCanvas" class="btn btn-secondary w-100 mt-3">Clear Canvas</button>
+    </div>
+
+    <div class="col-12 text-center mb-4">
+      <h2 class="display-4">Dots Counted: <span id="dotCount">0</span></h2>
+      <button id="countDots" class="btn btn-success btn-lg">Count Dots</button>
+    </div>
+  </main>
+
+  <footer class="text-center text-muted mt-4">
+    <p>This tool works entirely in your browser. No data is uploaded or stored.</p>
+  </footer>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mb-4">How It Works</h2>
+      <p>The Dot Counter uses a straightforward approach to count dots. Here’s how it works:</p>
+      <ol>
+        <li><strong>Upload or Draw:</strong> You can either upload an image containing dots or draw them directly on the canvas.</li>
+        <li><strong>Detect Dots:</strong> The tool identifies each dot based on its position and size.</li>
+        <li><strong>Count Automatically:</strong> Once you click "Count Dots," it calculates the total number of dots in seconds.</li>
+      </ol>
+      <p>It’s like having a digital assistant that does all the counting for you—no math skills required!</p>
+
+      <h3 class="mt-5 mb-4">Example Counts</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Number of Dots</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>10</td><td>10 dots counted</td></tr>
+          <tr><td>25</td><td>25 dots counted</td></tr>
+          <tr><td>50</td><td>50 dots counted</td></tr>
+          <tr><td>100</td><td>100 dots counted</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mb-4">10 Common Use Cases for the Dot Counter</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1. Counting stars in astronomy images for research or educational purposes.</li>
+        <li class="list-group-item">2. Analyzing data points in scatter plots for scientific studies.</li>
+        <li class="list-group-item">3. Counting cells in microscopic images for biology or medical research.</li>
+        <li class="list-group-item">4. Tracking inventory items in warehouse or retail settings.</li>
+        <li class="list-group-item">5. Counting beads or small objects in crafting projects.</li>
+        <li class="list-group-item">6. Verifying the number of items in quality control processes.</li>
+        <li class="list-group-item">7. Counting buttons or embellishments in fashion design.</li>
+        <li class="list-group-item">8. Estimating crowd sizes in event photography.</li>
+        <li class="list-group-item">9. Counting seeds or grains in agricultural research.</li>
+        <li class="list-group-item">10. Simplifying art projects by keeping track of dots in pointillism.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('dotCanvas');
+    const ctx = canvas.getContext('2d');
+    const imageUpload = document.getElementById('imageUpload');
+    const uploadButton = document.getElementById('uploadButton');
+    const clearCanvasButton = document.getElementById('clearCanvas');
+    const countDotsButton = document.getElementById('countDots');
+    const dotCountDisplay = document.getElementById('dotCount');
+    let dots = [];
+
+    // Load image from query parameter if available
+    const urlParams = new URLSearchParams(window.location.search);
+    const startImage = urlParams.get('start');
+    if (startImage) {
+      loadImage(startImage);
+    }
+
+    // Handle image upload
+    uploadButton.addEventListener('click', () => {
+      const file = imageUpload.files[0];
+      if (file && /\.(jpe?g|png|gif)$/i.test(file.name)) {
+        const reader = new FileReader();
+        reader.onload = (e) => loadImage(e.target.result);
+        reader.readAsDataURL(file);
+      } else {
+        alert('Unsupported file format. Please upload a JPG, PNG, or GIF.');
+      }
+    });
+
+    // Draw dots on canvas
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      dots.push({ x, y });
+      drawDot(x, y);
+    });
+
+    // Clear canvas
+    clearCanvasButton.addEventListener('click', () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      dots = [];
+      dotCountDisplay.textContent = '0';
+    });
+
+    // Count dots
+    countDotsButton.addEventListener('click', () => {
+      if (dots.length === 0) {
+        alert('Please upload an image or draw dots to count.');
+      } else {
+        dotCountDisplay.textContent = dots.length;
+      }
+    });
+
+    // Helper functions
+    function loadImage(src) {
+      const img = new Image();
+      img.onload = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        dots = []; // Reset dots array
+      };
+      img.src = src;
+    }
+
+    function drawDot(x, y) {
+      ctx.beginPath();
+      ctx.arc(x, y, 5, 0, Math.PI * 2);
+      ctx.fillStyle = 'black';
+      ctx.fill();
+      ctx.closePath();
+    }
+  });
+</script>

@@ -1,0 +1,132 @@
+---
+title: "Unique Line Counter - Count Distinct Lines in Your Text Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-07-28 14:28:13
+metaDescription: "Count unique lines in your text instantly with the Unique Line Counter. Perfect for writers, students, and data enthusiasts. Simple, fast, and free!"
+metaKeywords: "unique line counter, text analysis, count unique lines, data cleaning, duplicate remover, text tool, unique line tool, line counter, text checker, online text tool"
+tags: ["text analysis", "unique lines", "content editing", "data cleaning", "web tools"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  textarea {
+    min-height: 200px;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container mt-5">
+    <h1 class="text-center display-4">Unique Line Counter</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-12 text-center">
+      <p class="display-6">Ever spent hours sifting through a massive block of text, trying to figure out how many unique lines are actually there? Maybe you're cleaning up a messy list, analyzing data, or just trying to make sense of someone's endless notes. It’s frustrating, right? Enter the <strong>Unique Line Counter</strong>—your new best friend for tackling repetitive text chaos. Simply paste in your text, click a button, and voilà! It instantly tells you how many unique lines you’re dealing with. No more manual counting, no more headaches. Whether you're a writer, student, or data enthusiast, this tool makes life a little easier—and a lot more fun. Say goodbye to tedium and hello to simplicity!</p>
+    </div>
+  </div>
+</div>
+    <p class="text-center lead">Count the number of unique lines in your text</p>
+    <div class="mb-3">
+      <textarea id="input-text" class="form-control" placeholder="Paste or type your text here..."></textarea>
+    </div>
+    <div class="d-grid gap-2">
+      <button id="count-button" class="btn btn-primary btn-lg">Count Unique Lines</button>
+      <button id="clear-button" class="btn btn-secondary">Clear</button>
+    </div>
+    <div id="result" class="alert alert-info mt-3" role="alert" style="display: none;">
+      Unique Lines Count: <span id="unique-count">0</span>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="h4">How It Works</h2>
+      <p>The Unique Line Counter works by breaking down your text into individual lines, trimming any extra spaces, and then filtering out duplicates. Here’s the magic formula:</p>
+      <ol>
+        <li><strong>Input Your Text:</strong> Paste or type your text into the box.</li>
+        <li><strong>Split into Lines:</strong> The tool splits your text into separate lines based on where you hit "Enter."</li>
+        <li><strong>Trim and Clean:</strong> It removes any extra spaces or blank lines that don’t count.</li>
+        <li><strong>Filter Uniqueness:</strong> The tool then identifies and counts only the unique lines.</li>
+        <li><strong>Display the Count:</strong> Finally, it shows you the total number of unique lines in your text.</li>
+      </ol>
+      <p>It’s like having a personal assistant who sorts through your text and gives you the clean, unique version—fast and hassle-free!</p>
+      <h2 class="h4">Examples of Unique Line Counts</h2>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Total Lines</th>
+            <th>Unique Lines</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>1</td></tr>
+          <tr><td>5</td><td>3</td></tr>
+          <tr><td>10</td><td>7</td></tr>
+          <tr><td>20</td><td>15</td></tr>
+          <tr><td>50</td><td>30</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="h4">Top 10 Use Cases for the Unique Line Counter</h2>
+      <ul>
+        <li><strong>Data Cleaning:</strong> Quickly identify and remove duplicate entries in datasets.</li>
+        <li><strong>Writing and Editing:</strong> Count unique sentences or paragraphs in drafts to avoid repetition.</li>
+        <li><strong>Code Review:</strong> Analyze logs or code outputs to find unique errors or messages.</li>
+        <li><strong>Survey Analysis:</strong> Tally unique responses from open-ended survey questions.</li>
+        <li><strong>Inventory Management:</strong> Count unique product names or SKUs in a list.</li>
+        <li><strong>Social Media Monitoring:</strong> Track unique hashtags or mentions in large datasets.</li>
+        <li><strong>Academic Research:</strong> Identify unique citations or references in a bibliography.</li>
+        <li><strong>Customer Support:</strong> Analyze unique customer queries or complaints from logs.</li>
+        <li><strong>Event Planning:</strong> Count unique RSVP responses or dietary preferences.</li>
+        <li><strong>Personal Organization:</strong> Clean up and organize to-do lists or notes for better clarity.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const inputText = document.getElementById('input-text');
+    const countButton = document.getElementById('count-button');
+    const clearButton = document.getElementById('clear-button');
+    const resultDiv = document.getElementById('result');
+    const uniqueCountSpan = document.getElementById('unique-count');
+
+    // Preload text from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    countButton.addEventListener('click', function () {
+      const text = inputText.value.trim();
+      if (!text) {
+        resultDiv.style.display = 'block';
+        uniqueCountSpan.textContent = '0';
+        resultDiv.textContent = 'Please enter some text to count unique lines.';
+        resultDiv.className = 'alert alert-warning mt-3';
+        return;
+      }
+
+      const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+      const uniqueLines = [...new Set(lines)];
+      const uniqueCount = uniqueLines.length;
+
+      resultDiv.style.display = 'block';
+      uniqueCountSpan.textContent = uniqueCount;
+      resultDiv.textContent = `Unique Lines Count: ${uniqueCount}`;
+      resultDiv.className = 'alert alert-info mt-3';
+    });
+
+    clearButton.addEventListener('click', function () {
+      inputText.value = '';
+      resultDiv.style.display = 'none';
+    });
+  });
+</script>

@@ -1,0 +1,162 @@
+---
+title: "Base-62 to Decimal Converter - Quick & Easy Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-12-04 16:56:22
+metaDescription: "Quickly convert Base-62 values to decimal with this easy-to-use tool. Perfect for decoding URLs, unique IDs, and more!"
+metaKeywords: "base-62 converter, base-62 to decimal, decode base-62, base-62 tool, base-62 conversion"
+tags: ["base-62", "decimal", "converter", "developer-tools", "numeral-systems"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .error-message {
+    display: none;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-5">
+    <h1 class="display-4">Base-62 to Decimal Converter</h1><div class="container text-center py-5">
+  <p class="fs-3 fw-bold">Ever stumbled upon a strange code like "1aB2" and wondered what it actually means? You're not alone! Base-62 values can look like a jumble of numbers and letters, making them feel like a secret language only computers understand. But don’t worry—our Base-62 to Decimal Converter is here to crack the code for you! Whether you're decoding a URL, working with unique IDs, or just satisfying your curiosity, this tool makes the conversion process as easy as pie. No math degree required—just type in your Base-62 value, hit "Convert," and watch the magic happen. Say goodbye to confusion and hello to clarity with this simple, fun, and super handy tool!</p>
+</div>
+    <p class="lead">Enter a base-62 value to convert it to its decimal equivalent.</p>
+  </header>
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <input
+          type="text"
+          id="base62-input"
+          class="form-control w-100 text-center"
+          placeholder="Enter base-62 value (e.g., 1aB2)"
+          aria-label="Base-62 Input"
+        />
+        <div id="error-message" class="text-danger mt-3 text-center error-message" role="alert">
+          Invalid base-62 input. Please use only 0-9, A-Z, a-z.
+        </div>
+        <button
+          id="convert-btn"
+          class="btn btn-primary mt-3 w-100"
+          aria-label="Convert to Decimal"
+        >
+          Convert
+        </button>
+        <div id="result" class="mt-3 text-center fs-5" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="fs-4 fw-bold mb-4">How It Works</h2>
+      <p class="mb-4">The Base-62 to Decimal Converter works by translating each character in your Base-62 input into its corresponding numeric value. Here's the breakdown:</p>
+      <ul class="list-unstyled">
+        <li class="mb-2">1. Each character (0-9, A-Z, a-z) represents a specific value in the Base-62 system.</li>
+        <li class="mb-2">2. The tool calculates the decimal equivalent by multiplying each character's value by 62 raised to the power of its position.</li>
+        <li class="mb-2">3. Finally, it adds up all these values to give you the final decimal number.</li>
+      </ul>
+      <p>For example, the Base-62 value "1aB2" is converted to its decimal equivalent by breaking it down into its individual characters and applying the formula.</p>
+      
+      <h2 class="fs-4 fw-bold mt-5 mb-4">Quick Conversion Examples</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Base-62 Value</th>
+            <th>Decimal Equivalent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>0</td></tr>
+          <tr><td>1</td><td>1</td></tr>
+          <tr><td>A</td><td>10</td></tr>
+          <tr><td>Z</td><td>35</td></tr>
+          <tr><td>a</td><td>36</td></tr>
+          <tr><td>z</td><td>61</td></tr>
+          <tr><td>10</td><td>62</td></tr>
+          <tr><td>1A</td><td>72</td></tr>
+          <tr><td>1a</td><td>98</td></tr>
+          <tr><td>1z</td><td>123</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="fs-4 fw-bold mb-4">Top 10 Use Cases for the Base-62 to Decimal Converter</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Decoding shortened URLs for analytics or debugging.</li>
+        <li class="list-group-item">Converting unique IDs in databases for easier human readability.</li>
+        <li class="list-group-item">Working with API responses that use Base-62 encoded data.</li>
+        <li class="list-group-item">Simplifying Base-62 encoded tokens in authentication systems.</li>
+        <li class="list-group-item">Decoding Base-62 values in file naming conventions.</li>
+        <li class="list-group-item">Understanding Base-62 encoded timestamps.</li>
+        <li class="list-group-item">Converting Base-62 values in gaming or app development.</li>
+        <li class="list-group-item">Decoding Base-62 hashes in cryptography tasks.</li>
+        <li class="list-group-item">Simplifying Base-62 encoded data in data science projects.</li>
+        <li class="list-group-item">Satisfying your curiosity about how Base-62 encoding works!</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const base62Input = document.getElementById("base62-input");
+    const convertBtn = document.getElementById("convert-btn");
+    const resultDiv = document.getElementById("result");
+    const errorMessage = document.getElementById("error-message");
+
+    // Preload input from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get("start");
+    if (startValue) {
+      base62Input.value = startValue;
+    }
+
+    const isValidBase62 = (input) => /^[0-9A-Za-z]+$/.test(input);
+
+    const base62ToDecimal = (input) => {
+      const base62Chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+      let decimal = 0;
+      for (let i = 0; i < input.length; i++) {
+        const char = input[i];
+        const charValue = base62Chars.indexOf(char);
+        decimal = decimal * 62 + charValue;
+      }
+      return decimal;
+    };
+
+    convertBtn.addEventListener("click", () => {
+      const input = base62Input.value.trim();
+      if (!input) {
+        resultDiv.textContent = "";
+        errorMessage.style.display = "none";
+        return;
+      }
+
+      if (!isValidBase62(input)) {
+        errorMessage.style.display = "block";
+        resultDiv.textContent = "";
+        return;
+      }
+
+      errorMessage.style.display = "none";
+      try {
+        const decimalValue = base62ToDecimal(input);
+        resultDiv.textContent = `Decimal: ${decimalValue.toLocaleString()}`;
+      } catch (error) {
+        resultDiv.textContent = "Conversion failed. Input is too large.";
+      }
+    });
+
+    base62Input.addEventListener("input", () => {
+      resultDiv.textContent = "";
+      errorMessage.style.display = "none";
+    });
+  });
+</script>

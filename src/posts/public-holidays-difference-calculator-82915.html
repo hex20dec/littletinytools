@@ -1,0 +1,171 @@
+---
+title: "Compare Public Holidays Between Countries | Quick & Easy Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-08-27 22:08:31
+metaDescription: "Compare public holidays between two countries instantly with our Public Holidays Difference Calculator. Plan trips, moves, or settle friendly debates!"
+metaKeywords: "public holidays, holiday calculator, compare holidays, vacation planning, global holidays, time off calculator, holiday difference, travel planning, country comparison, public holidays tool"
+tags: ["public holidays", "country comparison", "travel planning", "remote work", "holiday calculator"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .result-box {
+    margin-top: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Public Holidays Difference Calculator</h1><div class="container text-center my-5">
+  <p class="lead fw-bold">Ever wondered how your vacation plans stack up against other countries? Planning a move or a long trip and curious about how many days off you’ll get? We’ve all been there—scrolling through endless lists of public holidays, trying to figure out if you’re getting the short end of the stick or the golden ticket to more free days. That’s where the <strong>Public Holidays Difference Calculator</strong> comes in! This handy tool lets you compare the number of public holidays between two countries in just a few clicks. Whether you’re daydreaming about more time off in Germany or wondering if Japan’s public holidays will spoil you rotten, this tool has got your back. Say goodbye to confusion and hello to clarity—because who doesn’t love a good holiday count?</p>
+</div>
+    <p class="lead">Compare the number of public holidays between two countries.</p>
+  </header>
+
+  <div class="mb-3">
+    <label for="country1" class="form-label">Select Country 1</label>
+    <select id="country1" class="form-select" aria-label="Select Country 1">
+      <option value="" disabled selected>Select a country...</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="country2" class="form-label">Select Country 2</label>
+    <select id="country2" class="form-select" aria-label="Select Country 2">
+      <option value="" disabled selected>Select a country...</option>
+    </select>
+  </div>
+
+  <button id="calculate-btn" class="btn btn-primary w-100 mb-3">Calculate</button>
+
+  <div id="result-box" class="alert alert-info result-box d-none" role="alert">
+    <p id="result-country1"></p>
+    <p id="result-country2"></p>
+    <p id="result-difference"></p>
+  </div>
+
+  <footer class="text-center mt-4">
+    <p class="text-muted">Data is based on predefined public holiday counts for each country.</p>
+  </footer>
+</div>
+
+<div class="container my-5">
+  <h2 class="mb-4">How It Works</h2>
+  <p class="mb-4">The Public Holidays Difference Calculator is as simple as it gets. Here’s the magic formula behind it:</p>
+  <ul class="list-group mb-4">
+    <li class="list-group-item">1. Select your first country from the dropdown menu.</li>
+    <li class="list-group-item">2. Choose the second country you want to compare it with.</li>
+    <li class="list-group-item">3. Hit the <strong>Calculate</strong> button.</li>
+  </ul>
+  <p class="mb-4">The tool instantly shows you the number of public holidays in each country and calculates the difference. No math, no stress—just pure holiday bliss!</p>
+
+  <h3 class="mb-4">Example Comparison</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Country</th>
+        <th scope="col">Public Holidays</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>United States</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>Germany</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>Japan</td>
+        <td>16</td>
+      </tr>
+      <tr>
+        <td>India</td>
+        <td>21</td>
+      </tr>
+      <tr>
+        <td>Brazil</td>
+        <td>12</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container my-5">
+  <h2 class="mb-4">Top 10 Use Cases</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Planning a move to a new country and want to know how many public holidays you’ll enjoy.</li>
+    <li class="list-group-item">Comparing vacation plans between two potential travel destinations.</li>
+    <li class="list-group-item">Settling a friendly debate about which country has more public holidays.</li>
+    <li class="list-group-item">Helping remote workers decide where to base themselves for maximum time off.</li>
+    <li class="list-group-item">Understanding cultural differences in holiday celebrations around the world.</li>
+    <li class="list-group-item">Preparing for a business trip and curious about local holidays.</li>
+    <li class="list-group-item">Deciding on a study-abroad destination with the most holidays.</li>
+    <li class="list-group-item">Checking if your home country offers more holidays than your current location.</li>
+    <li class="list-group-item">Planning a long-term travel itinerary around public holidays.</li>
+    <li class="list-group-item">Satisfying your curiosity about global holiday traditions.</li>
+  </ol>
+</div><script>
+  const publicHolidays = {
+    "United States": 10,
+    "Canada": 9,
+    "Germany": 13,
+    "Japan": 16,
+    "Australia": 11,
+    "United Kingdom": 8,
+    "France": 12,
+    "India": 21,
+    "China": 7,
+    "Brazil": 12
+  };
+
+  const country1Select = document.getElementById('country1');
+  const country2Select = document.getElementById('country2');
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resultBox = document.getElementById('result-box');
+  const resultCountry1 = document.getElementById('result-country1');
+  const resultCountry2 = document.getElementById('result-country2');
+  const resultDifference = document.getElementById('result-difference');
+
+  // Populate dropdowns with countries
+  Object.keys(publicHolidays).forEach(country => {
+    const option1 = document.createElement('option');
+    option1.value = country;
+    option1.textContent = country;
+    country1Select.appendChild(option1);
+
+    const option2 = document.createElement('option');
+    option2.value = country;
+    option2.textContent = country;
+    country2Select.appendChild(option2);
+  });
+
+  // Preload first dropdown with query parameter "start"
+  const urlParams = new URLSearchParams(window.location.search);
+  const startCountry = urlParams.get('start');
+  if (startCountry && publicHolidays[startCountry]) {
+    country1Select.value = startCountry;
+  }
+
+  calculateBtn.addEventListener('click', () => {
+    const country1 = country1Select.value;
+    const country2 = country2Select.value;
+
+    if (!country1 || !country2) {
+      alert('Please select both countries to compare.');
+      return;
+    }
+
+    const holidays1 = publicHolidays[country1];
+    const holidays2 = publicHolidays[country2];
+    const difference = Math.abs(holidays1 - holidays2);
+
+    resultCountry1.textContent = `${country1}: ${holidays1} public holidays`;
+    resultCountry2.textContent = `${country2}: ${holidays2} public holidays`;
+    resultDifference.textContent = `Difference: ${difference} ${difference === 1 ? 'public holiday' : 'public holidays'} ${holidays1 > holidays2 ? 'more in ' + country1 : 'more in ' + country2}.`;
+
+    resultBox.classList.remove('d-none');
+  });
+</script>

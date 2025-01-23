@@ -1,0 +1,174 @@
+---
+title: "Logical Operator Counter - Analyze Logical Expressions Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-03-07 02:36:55
+metaDescription: "Easily count AND, OR, and NOT operators in logical expressions. Perfect for debugging, studying, or simplifying logic problems."
+metaKeywords: "logical operator counter, AND OR NOT counter, logic tool, Boolean algebra, logical expression analyzer"
+tags: ["logical operators", "boolean algebra", "developer tools", "logic analyzer", "expression counter"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Logical Operator Counter</h1><div class="container bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <strong class="fs-2">Logical Operator Counter</strong>
+  </div>
+  <p class="text-center mb-4">Struggling to keep track of how many ANDs, ORs, and NOTs are in your logical expressions? Whether you're debugging code, studying for a logic exam, or just trying to make sense of a complex statement, this tool is here to save the day. Simply paste your expression, hit the button, and let the Logical Operator Counter do the heavy lifting. No more manual counting or second-guessing—just quick, accurate results every time. Perfect for students, developers, and anyone who loves a little logic in their life!</p>
+</div>
+  <p class="text-center mb-4">Enter a logical expression to count the occurrences of AND, OR, and NOT operators.</p>
+  
+  <div class="mb-3">
+    <textarea id="expression-input" class="form-control bg-dark text-white" rows="4" placeholder="e.g., (A AND B) OR (NOT C)"></textarea>
+  </div>
+  
+  <div class="d-flex justify-content-center gap-2 mb-4">
+    <button id="count-button" class="btn btn-primary">Count Operators</button>
+    <button id="clear-button" class="btn btn-secondary">Clear</button>
+  </div>
+  
+  <div id="results-section" class="d-none">
+    <table class="table table-striped table-dark">
+      <thead>
+        <tr>
+          <th>Operator</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AND</td>
+          <td id="and-count">0</td>
+        </tr>
+        <tr>
+          <td>OR</td>
+          <td id="or-count">0</td>
+        </tr>
+        <tr>
+          <td>NOT</td>
+          <td id="not-count">0</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
+</div>
+
+<div class="container bg-light p-4">
+  <h3 class="mb-4">How It Works</h3>
+  <p>The Logical Operator Counter works by scanning your input for the three main logical operators: AND, OR, and NOT. It counts how many times each operator appears in the expression, ensuring accuracy even with complex statements. Here's a breakdown of the process:</p>
+  <ol>
+    <li><strong>Input Your Expression:</strong> Paste or type your logical expression into the text box.</li>
+    <li><strong>Click "Count Operators":</strong> The tool scans the text for AND, OR, and NOT.</li>
+    <li><strong>Get Instant Results:</strong> A table shows the number of times each operator appears.</li>
+  </ol>
+  <p>It’s that simple! No programming knowledge required—just straightforward logic.</p>
+
+  <h4 class="mt-4">Example Counts</h4>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Expression</th>
+        <th>AND Count</th>
+        <th>OR Count</th>
+        <th>NOT Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>(A AND B) OR (NOT C)</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>A AND (B OR C) AND NOT D</td>
+        <td>2</td>
+        <td>1</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>(A OR B) AND (C OR D) AND NOT E</td>
+        <td>2</td>
+        <td>2</td>
+        <td>1</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container bg-light p-4">
+  <h3 class="mb-4">10 Common Use Cases</h3>
+  <ul class="list-group">
+    <li class="list-group-item">1. Debugging complex logical expressions in programming.</li>
+    <li class="list-group-item">2. Analyzing logical statements in academic assignments.</li>
+    <li class="list-group-item">3. Simplifying Boolean algebra problems.</li>
+    <li class="list-group-item">4. Verifying the correctness of logical circuits.</li>
+    <li class="list-group-item">5. Preparing for logic-based exams or certifications.</li>
+    <li class="list-group-item">6. Counting operators in SQL queries for optimization.</li>
+    <li class="list-group-item">7. Breaking down decision-making rules in AI algorithms.</li>
+    <li class="list-group-item">8. Teaching logic concepts in classrooms or workshops.</li>
+    <li class="list-group-item">9. Writing and editing technical documentation.</li>
+    <li class="list-group-item">10. Solving logic puzzles or riddles for fun.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const expressionInput = document.getElementById('expression-input');
+    const countButton = document.getElementById('count-button');
+    const clearButton = document.getElementById('clear-button');
+    const resultsSection = document.getElementById('results-section');
+    const errorMessage = document.getElementById('error-message');
+    const andCount = document.getElementById('and-count');
+    const orCount = document.getElementById('or-count');
+    const notCount = document.getElementById('not-count');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      expressionInput.value = startValue;
+    }
+
+    const countOperators = () => {
+      const expression = expressionInput.value.trim().toUpperCase();
+      if (!expression) {
+        errorMessage.textContent = 'Please enter a logical expression.';
+        errorMessage.classList.remove('d-none');
+        resultsSection.classList.add('d-none');
+        return;
+      }
+
+      const validOperators = ['AND', 'OR', 'NOT'];
+      const invalidCharacters = /[^A-Z\s()]/g;
+      if (invalidCharacters.test(expression)) {
+        errorMessage.textContent = 'Invalid input. Only AND, OR, and NOT operators are supported.';
+        errorMessage.classList.remove('d-none');
+        resultsSection.classList.add('d-none');
+        return;
+      }
+
+      const andMatches = (expression.match(/\bAND\b/g) || []).length;
+      const orMatches = (expression.match(/\bOR\b/g) || []).length;
+      const notMatches = (expression.match(/\bNOT\b/g) || []).length;
+
+      if (andMatches + orMatches + notMatches === 0) {
+        errorMessage.textContent = 'No logical operators found.';
+        errorMessage.classList.remove('d-none');
+        resultsSection.classList.add('d-none');
+        return;
+      }
+
+      andCount.textContent = andMatches;
+      orCount.textContent = orMatches;
+      notCount.textContent = notMatches;
+      resultsSection.classList.remove('d-none');
+      errorMessage.classList.add('d-none');
+    };
+
+    const clearInput = () => {
+      expressionInput.value = '';
+      resultsSection.classList.add('d-none');
+      errorMessage.classList.add('d-none');
+    };
+
+    countButton.addEventListener('click', countOperators);
+    clearButton.addEventListener('click', clearInput);
+  });
+</script>

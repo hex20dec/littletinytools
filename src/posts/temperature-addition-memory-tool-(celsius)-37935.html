@@ -1,0 +1,118 @@
+---
+title: "Temperature Addition Tool - Add Celsius Values Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-11-11 15:54:17
+metaDescription: "Easily add up temperatures in Celsius with this simple tool. Perfect for weather tracking, experiments, and more!"
+metaKeywords: "temperature calculator, Celsius tool, temperature tracker, weather analysis, science experiments, temperature addition, Celsius addition tool, temperature trends, heat exposure, cumulative temperature"
+tags: ["temperature calculator", "Celsius addition", "math tool", "temperature sum", "web app"]
+---
+
+<div id="main-div" class="container text-center bg-dark text-white p-4 rounded">
+  <h2 class="mb-4">Temperature Addition Memory Tool (Celsius)</h2><div class="container text-center p-4">
+  <strong class="display-6">Why does adding up temperatures feel like solving a math puzzle?</strong>
+  <p class="lead mt-3">Whether you're tracking daily weather changes, managing a science experiment, or just curious about cumulative temperature readings, this tool is your go-to solution. Simply input temperatures in Celsius, and watch as the tool adds them up effortlessly. No more mental math or scribbling numbers on paper—just quick, accurate results. Perfect for students, professionals, or anyone who loves staying organized. Let’s make temperature tracking as smooth as a summer breeze!</p>
+</div>
+  <div class="mb-3">
+    <label for="temperatureInput" class="form-label">Enter Temperature (°C)</label>
+    <input type="number" class="form-control bg-dark text-white" id="temperatureInput" placeholder="e.g., 25" aria-label="Enter temperature in Celsius">
+    <div id="errorMessage" class="alert alert-warning mt-2 d-none" role="alert">Please enter a valid temperature value.</div>
+  </div>
+  <button id="addButton" class="btn btn-primary mb-3">Add Temperature</button>
+  <div class="list-group mb-3">
+    <div id="temperatureList" class="text-start"></div>
+  </div>
+  <div id="totalTemperature" class="alert alert-success mb-3">Total Temperature: 0°C</div>
+  <button id="resetButton" class="btn btn-danger">Reset</button>
+</div>
+
+<div class="container bg-light p-4 rounded mt-4">
+  <h3 class="text-center mb-4">How It Works</h3>
+  <p>The tool works by taking your input temperature values in Celsius and adding them together. It’s like stacking building blocks—each temperature you add contributes to the total. Here’s a simple breakdown:</p>
+  <ol>
+    <li>Enter a temperature value in Celsius (e.g., 25°C).</li>
+    <li>Click "Add Temperature" to include it in your list.</li>
+    <li>The tool calculates the running total automatically.</li>
+    <li>Reset anytime to start fresh.</li>
+  </ol>
+  <p class="mt-3">Here’s a quick example:</p>
+  <table class="table table-bordered text-center">
+    <thead>
+      <tr>
+        <th>Input (°C)</th>
+        <th>Total (°C)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>10</td><td>10</td></tr>
+      <tr><td>15</td><td>25</td></tr>
+      <tr><td>5</td><td>30</td></tr>
+      <tr><td>20</td><td>50</td></tr>
+    </tbody>
+  </table>
+</div><div class="container p-4 mt-4">
+  <h3 class="text-center mb-4">10 Common Use Cases</h3>
+  <ul class="list-group">
+    <li class="list-group-item">Tracking daily temperature changes for weather analysis.</li>
+    <li class="list-group-item">Summing up experimental temperature readings in science labs.</li>
+    <li class="list-group-item">Calculating cumulative heat exposure in industrial settings.</li>
+    <li class="list-group-item">Monitoring temperature trends in agricultural environments.</li>
+    <li class="list-group-item">Adding up temperature data for school projects or homework.</li>
+    <li class="list-group-item">Keeping track of temperature variations in HVAC systems.</li>
+    <li class="list-group-item">Calculating total heat input for cooking or baking processes.</li>
+    <li class="list-group-item">Summing up temperature readings for climate studies.</li>
+    <li class="list-group-item">Tracking temperature changes in aquariums or terrariums.</li>
+    <li class="list-group-item">Managing temperature data for fitness or health monitoring.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const temperatureInput = document.getElementById('temperatureInput');
+    const addButton = document.getElementById('addButton');
+    const temperatureList = document.getElementById('temperatureList');
+    const totalTemperature = document.getElementById('totalTemperature');
+    const resetButton = document.getElementById('resetButton');
+    const errorMessage = document.getElementById('errorMessage');
+    let temperatures = [];
+    let total = 0;
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue)) {
+      temperatureInput.value = startValue;
+    }
+
+    const updateTotal = () => {
+      total = temperatures.reduce((acc, curr) => acc + curr, 0);
+      totalTemperature.textContent = `Total Temperature: ${total}°C`;
+    };
+
+    const addTemperature = () => {
+      const value = parseFloat(temperatureInput.value);
+      if (isNaN(value)) {
+        errorMessage.classList.remove('d-none');
+        return;
+      }
+      errorMessage.classList.add('d-none');
+      temperatures.push(value);
+      temperatureList.innerHTML += `<div class="list-group-item bg-dark text-white">Temperature ${temperatures.length}: ${value}°C</div>`;
+      updateTotal();
+      temperatureInput.value = '';
+      temperatureInput.focus();
+    };
+
+    const resetApp = () => {
+      temperatures = [];
+      total = 0;
+      temperatureList.innerHTML = '';
+      totalTemperature.textContent = 'Total Temperature: 0°C';
+      temperatureInput.value = '';
+      errorMessage.classList.add('d-none');
+    };
+
+    addButton.addEventListener('click', addTemperature);
+    resetButton.addEventListener('click', resetApp);
+    temperatureInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') addTemperature();
+    });
+  });
+</script>

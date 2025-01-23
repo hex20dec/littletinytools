@@ -1,0 +1,156 @@
+---
+title: "Duplicate Word Counter - Analyze & Count Repeated Words"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-01-12 18:03:57
+metaDescription: "Count duplicate words in your text instantly with our free Duplicate Word Counter. Perfect for writers, students, and professionals!"
+metaKeywords: "duplicate word counter, word count tool, writing tool, text analyzer, word repetition checker, writing helper, word frequency tool, text editing, writing improvement, word checker"
+tags: ["word counter", "duplicate finder", "text analysis", "writing tool", "SEO tool"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .highlight {
+    font-weight: bold;
+    color: #ff6b6b;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-5">
+    <h1 class="display-4">Duplicate Word Counter</h1><div class="container text-center py-5">
+  <p class="fs-4 fw-bold">Ever felt like your writing has too many repeated words, but you’re not sure where to start fixing it? Maybe you’ve spent hours staring at your essay, blog post, or report, trying to spot those sneaky duplicates that make your writing feel repetitive. It’s frustrating, right? Well, say hello to the <span class="text-primary">Duplicate Word Counter</span> – your new best friend for cleaner, more polished writing! This super simple tool scans your text, finds those pesky repeated words, and shows you exactly where they are. No more guesswork, no more headaches. Just paste your text, click a button, and voilà – you’re one step closer to writing perfection. Whether you’re a student, a professional, or just someone who loves words, this tool is here to make your life a little easier (and your writing a lot better). Let’s get those duplicates sorted – you’ve got this!</p>
+</div>
+    <p class="lead">Paste your text below to count duplicate words.</p>
+  </header>
+
+  <div class="mb-4">
+    <textarea id="text-input" class="form-control mb-3" rows="10" placeholder="Enter or paste your text here..."></textarea>
+    <button id="count-btn" class="btn btn-primary w-100 mb-3">Count Duplicates</button>
+  </div>
+
+  <div id="results-section" class="d-none">
+    <h2 class="h4 mb-3">Duplicate Words</h2>
+    <table id="results-table" class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Word</th>
+          <th scope="col">Count</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button id="clear-btn" class="btn btn-secondary w-100">Clear</button>
+  </div>
+</div>
+
+<div class="container mb-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h2 class="h3 mb-4">How It Works</h2>
+      <p class="mb-4">The <span class="text-primary">Duplicate Word Counter</span> works like a super-smart word detective. Here’s the simple process it follows:</p>
+      <ol class="list-unstyled">
+        <li class="mb-3"><span class="fw-bold">Step 1:</span> You paste your text into the box (yes, it’s that easy).</li>
+        <li class="mb-3"><span class="fw-bold">Step 2:</span> The tool scans your text, breaking it down into individual words.</li>
+        <li class="mb-3"><span class="fw-bold">Step 3:</span> It counts how many times each word appears and identifies the ones that show up more than once.</li>
+        <li class="mb-3"><span class="fw-bold">Step 4:</span> Finally, it displays the results in a neat table, showing you the duplicate words and how often they appear.</li>
+      </ol>
+      <p class="mt-4">Think of it as a magnifying glass for your writing – it helps you spot what you might have missed!</p>
+
+      <h3 class="h4 mt-5 mb-3">Examples of Duplicate Word Counts</h3>
+      <p>Here’s a quick example of how the tool might analyze a piece of text:</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Word</th>
+            <th scope="col">Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>the</td><td>5</td></tr>
+          <tr><td>and</td><td>3</td></tr>
+          <tr><td>writing</td><td>2</td></tr>
+          <tr><td>your</td><td>4</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mb-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h2 class="h3 mb-4">10 Common Use Cases for the Duplicate Word Counter</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1. Editing essays or academic papers to avoid repetitive language.</li>
+        <li class="list-group-item">2. Polishing blog posts for a more professional tone.</li>
+        <li class="list-group-item">3. Cleaning up business reports or presentations.</li>
+        <li class="list-group-item">4. Improving creative writing by spotting overused words.</li>
+        <li class="list-group-item">5. Enhancing resumes and cover letters for clarity.</li>
+        <li class="list-group-item">6. Checking social media captions for variety and impact.</li>
+        <li class="list-group-item">7. Analyzing email drafts for better communication.</li>
+        <li class="list-group-item">8. Preparing speeches or scripts for smooth delivery.</li>
+        <li class="list-group-item">9. Reviewing product descriptions for e-commerce.</li>
+        <li class="list-group-item">10. Helping non-native English speakers refine their writing.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const countBtn = document.getElementById('count-btn');
+    const resultsSection = document.getElementById('results-section');
+    const resultsTableBody = document.querySelector('#results-table tbody');
+    const clearBtn = document.getElementById('clear-btn');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    const processText = () => {
+      const text = textInput.value.trim();
+      if (!text) {
+        alert('Please enter some text to analyze.');
+        return;
+      }
+
+      const words = text.toLowerCase().match(/\b\w+\b/g) || [];
+      const wordCounts = {};
+
+      words.forEach(word => {
+        wordCounts[word] = (wordCounts[word] || 0) + 1;
+      });
+
+      const duplicateWords = Object.entries(wordCounts).filter(([_, count]) => count > 1);
+
+      if (duplicateWords.length === 0) {
+        alert('No duplicate words found!');
+        return;
+      }
+
+      resultsTableBody.innerHTML = '';
+      duplicateWords.forEach(([word, count]) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><span class="highlight">${word}</span></td>
+          <td>${count}</td>
+        `;
+        resultsTableBody.appendChild(row);
+      });
+
+      resultsSection.classList.remove('d-none');
+    };
+
+    const clearResults = () => {
+      textInput.value = '';
+      resultsTableBody.innerHTML = '';
+      resultsSection.classList.add('d-none');
+    };
+
+    countBtn.addEventListener('click', processText);
+    clearBtn.addEventListener('click', clearResults);
+  });
+</script>

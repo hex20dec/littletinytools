@@ -1,0 +1,180 @@
+---
+title: "Binary to Celestial Object Converter: Explore the Universe in Binary!"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-10-02 17:02:06
+metaDescription: "Turn binary strings into celestial objects with our fun and easy-to-use Binary to Celestial Object Catalog Converter. Perfect for coding, stargazing, and more!"
+metaKeywords: "binary converter, celestial objects, binary to space, binary tool, space catalog, binary decoder, astronomy tool, coding tool, binary translator, fun coding tools"
+tags: ["binary", "celestial objects", "astronomy", "education", "web tool"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .output-card {
+    background-color: #2d3338;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  .alert {
+    margin-top: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mt-4">
+    <h1 class="display-4">Binary to Celestial Object Catalog Converter</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col text-center">
+      <p class="fs-3 fw-bold mb-3">Ever felt like decoding binary is as confusing as trying to name every star in the sky? 🌌</p>
+      <p class="lead">You’re not alone! Whether you’re a coding newbie or just someone who loves space, translating binary strings into something meaningful can feel like rocket science. But here’s the good news: our <strong>Binary to Celestial Object Catalog Converter</strong> is here to make it as easy as spotting the Big Dipper on a clear night. Just type in a binary string, and voilà—you’ll get a list of celestial objects like the Sun, Moon, or even a Black Hole! It’s like having your own personal star map, but way cooler. So, why not give it a try? Who knows, you might just discover your new favorite galaxy! 🚀✨</p>
+    </div>
+  </div>
+</div>
+    <p class="lead">Enter a binary string to see its corresponding celestial object(s).</p>
+  </header>
+
+  <section class="mt-4">
+    <div class="input-group mb-3">
+      <input type="text" id="binary-input" class="form-control" placeholder="Enter binary string (e.g., 1010)" aria-label="Binary Input" aria-describedby="convert-button">
+      <button class="btn btn-primary" type="button" id="convert-button">Convert</button>
+      <button class="btn btn-secondary" type="button" id="reset-button">Reset</button>
+    </div>
+    <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
+  </section>
+
+  <section class="mt-4">
+    <h2 class="h4">Celestial Object Catalog</h2>
+    <div id="output-container" class="output-card">
+      <p id="output-text" class="mb-0">Enter a binary string to see the results.</p>
+    </div>
+  </section>
+
+  <footer class="mt-4 text-center">
+    <p class="text-muted">This tool uses a predefined list of celestial objects. Binary strings are mapped to objects based on their position in the catalog.</p>
+  </footer>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col">
+      <p class="fw-bold fs-5 mb-3">How It Works:</p>
+      <p>Here’s the magic behind the tool—no rocket science required! The converter breaks your binary string into pairs of digits (like "10" or "01"). Each pair is then matched to a celestial object from a predefined catalog. Think of it like this:</p>
+      <ul class="list-unstyled">
+        <li>👉 Binary Pair "00" → Sun</li>
+        <li>👉 Binary Pair "01" → Moon</li>
+        <li>👉 Binary Pair "10" → Mars</li>
+        <li>👉 And so on...</li>
+      </ul>
+      <p>The tool cycles through the catalog, so longer binary strings will map to multiple celestial objects. It’s like creating a mini solar system with just 0s and 1s!</p>
+      <p class="fw-bold fs-5 mt-4">Quick Examples:</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Binary Input</th>
+            <th>Celestial Objects</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1010</td><td>Mars, Moon</td></tr>
+          <tr><td>1100</td><td>Jupiter, Sun</td></tr>
+          <tr><td>0101</td><td>Moon, Mars</td></tr>
+          <tr><td>1111</td><td>Jupiter, Jupiter</td></tr>
+          <tr><td>0011</td><td>Sun, Moon</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row">
+    <div class="col">
+      <p class="fw-bold fs-5 mb-3">10 Fun Ways to Use This Tool:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Turn binary code into a personalized star map for stargazing.</li>
+        <li class="list-group-item">Use it as a fun icebreaker in coding or astronomy classes.</li>
+        <li class="list-group-item">Create unique celestial-themed passwords or codes.</li>
+        <li class="list-group-item">Design a space-themed scavenger hunt using binary clues.</li>
+        <li class="list-group-item">Generate random space facts for trivia night.</li>
+        <li class="list-group-item">Teach kids about binary numbers and space in one go.</li>
+        <li class="list-group-item">Add a cosmic twist to your programming projects.</li>
+        <li class="list-group-item">Create binary-inspired art or poetry with celestial themes.</li>
+        <li class="list-group-item">Use it to name constellations in your backyard telescope adventures.</li>
+        <li class="list-group-item">Impress your friends by decoding binary into space objects!</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  const celestialObjects = [
+    "Sun", "Moon", "Mars", "Jupiter", "Saturn", "Andromeda Galaxy", "Orion Nebula", "Black Hole", "Neptune", "Venus", "Mercury", "Uranus", "Pluto", "Milky Way", "Alpha Centauri"
+  ];
+
+  const binaryInput = document.getElementById('binary-input');
+  const convertButton = document.getElementById('convert-button');
+  const resetButton = document.getElementById('reset-button');
+  const outputText = document.getElementById('output-text');
+  const errorMessage = document.getElementById('error-message');
+  const outputContainer = document.getElementById('output-container');
+
+  // Preload input from query parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+
+  const validateBinaryInput = (input) => {
+    return /^[01]+$/.test(input);
+  };
+
+  const mapBinaryToCelestialObjects = (binaryString) => {
+    const chunkSize = 2;
+    const chunks = [];
+    for (let i = 0; i < binaryString.length; i += chunkSize) {
+      chunks.push(binaryString.slice(i, i + chunkSize));
+    }
+    return chunks.map(chunk => {
+      const index = parseInt(chunk, 2) % celestialObjects.length;
+      return celestialObjects[index];
+    });
+  };
+
+  const displayOutput = (objects) => {
+    if (objects.length === 0) {
+      outputText.textContent = "No valid celestial objects found.";
+    } else {
+      outputText.textContent = `Celestial Objects: ${objects.join(', ')}`;
+    }
+    outputContainer.classList.remove('d-none');
+  };
+
+  const handleConvert = () => {
+    const input = binaryInput.value.trim();
+    if (!validateBinaryInput(input)) {
+      errorMessage.textContent = "Invalid input. Please enter a binary string (0s and 1s).";
+      errorMessage.classList.remove('d-none');
+      outputContainer.classList.add('d-none');
+      return;
+    }
+    errorMessage.classList.add('d-none');
+    const celestialObjectsList = mapBinaryToCelestialObjects(input);
+    displayOutput(celestialObjectsList);
+  };
+
+  const handleReset = () => {
+    binaryInput.value = '';
+    outputText.textContent = 'Enter a binary string to see the results.';
+    errorMessage.classList.add('d-none');
+    outputContainer.classList.remove('d-none');
+  };
+
+  convertButton.addEventListener('click', handleConvert);
+  resetButton.addEventListener('click', handleReset);
+  binaryInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      handleConvert();
+    }
+  });
+</script>

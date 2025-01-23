@@ -1,0 +1,123 @@
+---
+title: "Internet Speed to Cost Calculator - Find Your Plan's Value"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-02-20 15:18:12
+metaDescription: "Calculate your internet cost per Mbps with this easy-to-use tool. Compare plans, save money, and make smarter decisions about your internet service."
+metaKeywords: "internet cost calculator, Mbps cost calculator, internet speed calculator, compare internet plans, internet cost per Mbps"
+tags: ["internet", "calculator", "cost", "speed", "isp"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+      <h1 class="mb-3">Internet Speed to Cost Calculator</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="lead">Feeling like your internet bill is a mystery? You’re not alone. Between confusing plans and hidden fees, it’s hard to know if you’re really getting your money’s worth. That’s where the Internet Speed to Cost Calculator comes in. This nifty tool helps you break down exactly how much you’re paying for every Mbps of speed. Whether you’re a casual browser or a hardcore streamer, this calculator gives you the clarity you deserve. Say goodbye to overpaying and hello to smarter internet decisions—because your wallet deserves a break!</p>
+    </div>
+  </div>
+</div>
+      <p class="mb-4">Calculate how much you're paying per Mbps for your internet plan.</p>
+      <div class="mb-3">
+        <label for="speed" class="form-label">Internet Speed (Mbps)</label>
+        <input type="number" class="form-control bg-dark text-white" id="speed" placeholder="Enter your internet speed in Mbps" min="1" required>
+      </div>
+      <div class="mb-3">
+        <label for="cost" class="form-label">Monthly Cost ($)</label>
+        <input type="number" class="form-control bg-dark text-white" id="cost" placeholder="Enter your monthly cost in dollars" min="0.01" step="0.01" required>
+      </div>
+      <button id="calculate-btn" class="btn btn-primary mb-3">Calculate</button>
+      <div id="result" class="mt-3" style="display: none;">
+        <h3>Cost per Mbps: <span id="cost-per-mbps"></span></h3>
+        <p class="text-muted">This is how much you're paying per Mbps.</p>
+        <button id="reset-btn" class="btn btn-secondary">Reset</button>
+      </div>
+      <div id="error" class="text-danger mt-3" style="display: none;">Please enter valid numbers in both fields.</div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4">How It Works</h2>
+      <p class="text-center">The Internet Speed to Cost Calculator uses a simple formula to determine the cost per Mbps of your internet plan. Here's how it breaks down:</p>
+      <p class="text-center"><strong>Cost per Mbps = Monthly Cost ÷ Internet Speed (Mbps)</strong></p>
+      <p class="text-center">For example, if you pay $50 for a 100 Mbps plan, your cost per Mbps is $0.50. Below is a table showing how this formula applies to different scenarios:</p>
+      
+      <table class="table table-striped mt-4">
+        <thead>
+          <tr>
+            <th>Internet Speed (Mbps)</th>
+            <th>Monthly Cost ($)</th>
+            <th>Cost per Mbps ($)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>50</td><td>30</td><td>0.60</td></tr>
+          <tr><td>100</td><td>50</td><td>0.50</td></tr>
+          <tr><td>200</td><td>70</td><td>0.35</td></tr>
+          <tr><td>300</td><td>90</td><td>0.30</td></tr>
+          <tr><td>500</td><td>120</td><td>0.24</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4">10 Common Use Cases</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Comparing different internet plans to find the best value.</li>
+        <li class="list-group-item">Evaluating whether upgrading your speed is worth the extra cost.</li>
+        <li class="list-group-item">Checking if your current plan is overpriced compared to competitors.</li>
+        <li class="list-group-item">Budgeting for internet expenses based on speed needs.</li>
+        <li class="list-group-item">Understanding how much you pay for each Mbps during peak usage.</li>
+        <li class="list-group-item">Negotiating with your ISP for a better deal using data-driven insights.</li>
+        <li class="list-group-item">Assessing the cost-effectiveness of bundled services (e.g., TV + internet).</li>
+        <li class="list-group-item">Determining if switching to a new provider will save you money.</li>
+        <li class="list-group-item">Calculating the cost per Mbps for business internet plans.</li>
+        <li class="list-group-item">Educating friends or family about how to evaluate internet plans.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const speedInput = document.getElementById('speed');
+    const costInput = document.getElementById('cost');
+    const calculateBtn = document.getElementById('calculate-btn');
+    const resultDiv = document.getElementById('result');
+    const costPerMbpsSpan = document.getElementById('cost-per-mbps');
+    const errorDiv = document.getElementById('error');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload speed input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue) && startValue > 0) {
+      speedInput.value = startValue;
+    }
+
+    calculateBtn.addEventListener('click', function () {
+      const speed = parseFloat(speedInput.value);
+      const cost = parseFloat(costInput.value);
+
+      if (isNaN(speed) || isNaN(cost) || speed <= 0 || cost <= 0) {
+        errorDiv.style.display = 'block';
+        resultDiv.style.display = 'none';
+      } else {
+        const costPerMbps = (cost / speed).toFixed(2);
+        costPerMbpsSpan.textContent = `$${costPerMbps}`;
+        resultDiv.style.display = 'block';
+        errorDiv.style.display = 'none';
+      }
+    });
+
+    resetBtn.addEventListener('click', function () {
+      speedInput.value = '';
+      costInput.value = '';
+      resultDiv.style.display = 'none';
+      errorDiv.style.display = 'none';
+    });
+  });
+</script>

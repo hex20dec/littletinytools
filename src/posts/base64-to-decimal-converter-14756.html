@@ -1,0 +1,126 @@
+---
+title: "Base64 to Decimal Converter - Quick & Easy Online Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-09-17 13:25:20
+metaDescription: "Easily convert Base64 strings to decimal with this intuitive online tool. Perfect for debugging, decoding, and simplifying your tech tasks."
+metaKeywords: "base64 to decimal, base64 converter, decimal converter, base64 decode, decimal decode, encoding tools, decoding tools, base64 to ascii, base64 tool, online converter"
+tags: ["Base64", "Decimal", "Converter", "Encoding", "Developer Tools"]
+---
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center mb-4">Base64 to Decimal Converter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="lead text-center mb-4">Why does decoding Base64 strings feel like solving a puzzle? If you've ever stared at a Base64 string and wondered what it translates to in plain decimal, this tool is your decoder ring. Simply paste your Base64 string, hit convert, and watch as it transforms into a clear, readable decimal output. Whether you're debugging, decoding, or just curious, this tool makes the process as easy as flipping a switch. No more head-scratching—just quick, accurate results that save you time and frustration. Let’s make your tech life a little simpler, one conversion at a time.</p>
+    </div>
+  </div>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="base64Input" class="form-label">Enter Base64 String</label>
+        <input type="text" class="form-control bg-dark text-white" id="base64Input" placeholder="e.g., SGVsbG8=" aria-describedby="base64Help">
+        <div id="base64Help" class="form-text text-muted">Paste or type your Base64 encoded string here.</div>
+      </div>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-3">
+        <button type="button" class="btn btn-primary me-md-2" id="convertBtn">Convert</button>
+        <button type="button" class="btn btn-secondary" id="resetBtn">Reset</button>
+      </div>
+      <div class="mb-3">
+        <label for="decimalOutput" class="form-label">Decimal Output</label>
+        <textarea class="form-control bg-dark text-white" id="decimalOutput" rows="3" readonly></textarea>
+      </div>
+      <div id="errorMessage" class="text-danger mb-3" role="alert" aria-live="assertive"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4">How It Works</h2>
+      <p class="text-muted">The Base64 to Decimal Converter works by breaking down your Base64 string into its binary components, then converting each binary value into its corresponding decimal number. Think of it as translating a secret code into something you can actually use. For example, the Base64 string "SGVsbG8=" translates to the decimal sequence <code>72 101 108 108 111</code>, which corresponds to the word "Hello" in ASCII.</p>
+      
+      <div class="table-responsive mt-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Base64 Input</th>
+              <th scope="col">Decimal Output</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>YQ==</td><td>97</td></tr>
+            <tr><td>Yg==</td><td>98</td></tr>
+            <tr><td>Yw==</td><td>99</td></tr>
+            <tr><td>ZA==</td><td>100</td></tr>
+            <tr><td>ZQ==</td><td>101</td></tr>
+            <tr><td>Zg==</td><td>102</td></tr>
+            <tr><td>Zw==</td><td>103</td></tr>
+            <tr><td>aA==</td><td>104</td></tr>
+            <tr><td>aQ==</td><td>105</td></tr>
+            <tr><td>ag==</td><td>106</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4">10 Common Use Cases</h2>
+      <ul class="list-group">
+        <li class="list-group-item">Decoding Base64-encoded data for debugging.</li>
+        <li class="list-group-item">Converting encoded strings to decimal for API integrations.</li>
+        <li class="list-group-item">Analyzing encoded payloads in network traffic.</li>
+        <li class="list-group-item">Translating encoded configuration files.</li>
+        <li class="list-group-item">Decoding embedded data in URLs.</li>
+        <li class="list-group-item">Understanding encoded tokens in authentication systems.</li>
+        <li class="list-group-item">Converting encoded data for database storage.</li>
+        <li class="list-group-item">Decoding encrypted messages for security analysis.</li>
+        <li class="list-group-item">Translating encoded strings for legacy systems.</li>
+        <li class="list-group-item">Learning and experimenting with encoding/decoding processes.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const base64Input = document.getElementById('base64Input');
+    const decimalOutput = document.getElementById('decimalOutput');
+    const convertBtn = document.getElementById('convertBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const errorMessage = document.getElementById('errorMessage');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      base64Input.value = startValue;
+    }
+
+    convertBtn.addEventListener('click', function() {
+      errorMessage.textContent = '';
+      decimalOutput.value = '';
+
+      const base64String = base64Input.value.trim();
+      if (!base64String) {
+        errorMessage.textContent = 'Please enter a Base64 string.';
+        return;
+      }
+
+      try {
+        const binaryString = atob(base64String);
+        const decimalValues = Array.from(binaryString).map(char => char.charCodeAt(0)).join(' ');
+        decimalOutput.value = decimalValues;
+      } catch (e) {
+        errorMessage.textContent = 'Invalid Base64 input. Please try again.';
+      }
+    });
+
+    resetBtn.addEventListener('click', function() {
+      base64Input.value = '';
+      decimalOutput.value = '';
+      errorMessage.textContent = '';
+    });
+  });
+</script>

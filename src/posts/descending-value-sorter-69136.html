@@ -1,0 +1,141 @@
+---
+title: "Descending Value Sorter - Sort Numbers Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-05-05 19:16:00
+metaDescription: "Sort numbers in descending order effortlessly with the Descending Value Sorter. Perfect for exams, sales, rankings, and more!"
+metaKeywords: "descending value sorter, sort numbers, descending order, number sorter, ranking tool, number organizer, sorting tool"
+tags: ["number sorter", "descending order", "math tool", "data sorting", "web utility"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h1 class="text-center mb-4">Descending Value Sorter</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="lead">Why does sorting numbers always feel like solving a puzzle? Whether it's organizing exam scores, ranking sales figures, or just figuring out who owes what on a group bill, sorting numbers in descending order can be a headache. Enter the <strong>Descending Value Sorter</strong>—your new best friend for turning chaos into order. Simply type in your numbers, hit sort, and watch as they magically arrange themselves from highest to lowest. No more manual rearranging or second-guessing. It’s quick, simple, and designed to make your life just a little easier. Ready to say goodbye to number-related stress? Let’s sort it out!</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Enter your numbers below, separated by commas, and they will be sorted in descending order.</p>
+      <div class="mb-3">
+        <input type="text" id="numberInput" class="form-control bg-dark text-white" placeholder="e.g., 5, 3, 9, 1, 7" aria-label="Enter numbers">
+        <div id="errorMessage" class="alert alert-danger mt-2 d-none" role="alert"></div>
+      </div>
+      <div class="d-grid gap-2 mb-3">
+        <button id="sortButton" class="btn btn-primary">Sort</button>
+        <button id="resetButton" class="btn btn-secondary">Reset</button>
+      </div>
+      <div class="mt-4">
+        <h2 class="text-center mb-3">Sorted Numbers</h2>
+        <div id="output" class="text-center p-3 bg-secondary rounded"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="mb-4">
+        <h2 class="text-center mb-3">How It Works</h2>
+        <p class="text-center">The Descending Value Sorter takes your list of numbers, separates them by commas, and rearranges them from the highest to the lowest value. Think of it like lining up your favorite snacks from the tastiest to the least tasty—except with numbers! Here’s a quick example:</p>
+        <ul class="list-unstyled text-center">
+          <li><strong>Input:</strong> 5, 3, 9, 1, 7</li>
+          <li><strong>Output:</strong> 9, 7, 5, 3, 1</li>
+        </ul>
+        <p class="text-center">It’s that simple! No math degree required.</p>
+      </div>
+      <div class="mb-4">
+        <h2 class="text-center mb-3">Example Table</h2>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">Input</th>
+                <th scope="col">Sorted Output (Descending)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1, 2, 3, 4, 5</td><td>5, 4, 3, 2, 1</td></tr>
+              <tr><td>10, 20, 30, 40, 50</td><td>50, 40, 30, 20, 10</td></tr>
+              <tr><td>7, 14, 21, 28, 35</td><td>35, 28, 21, 14, 7</td></tr>
+              <tr><td>100, 200, 300, 400, 500</td><td>500, 400, 300, 200, 100</td></tr>
+              <tr><td>9, 8, 7, 6, 5</td><td>9, 8, 7, 6, 5</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4">10 Common Use Cases for the Descending Value Sorter</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item bg-dark text-white">Sorting exam scores to rank students from highest to lowest.</li>
+        <li class="list-group-item bg-dark text-white">Organizing sales figures to identify top-performing products.</li>
+        <li class="list-group-item bg-dark text-white">Ranking monthly expenses to prioritize budgeting.</li>
+        <li class="list-group-item bg-dark text-white">Arranging sports scores to determine league standings.</li>
+        <li class="list-group-item bg-dark text-white">Sorting customer ratings to highlight the best-reviewed items.</li>
+        <li class="list-group-item bg-dark text-white">Organizing project deadlines to focus on the most urgent tasks.</li>
+        <li class="list-group-item bg-dark text-white">Ranking investment returns to identify the most profitable options.</li>
+        <li class="list-group-item bg-dark text-white">Sorting age groups for event planning or demographic analysis.</li>
+        <li class="list-group-item bg-dark text-white">Arranging temperatures to identify the hottest or coldest days.</li>
+        <li class="list-group-item bg-dark text-white">Simplifying group bill splits by ranking individual contributions.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const numberInput = document.getElementById('numberInput');
+    const sortButton = document.getElementById('sortButton');
+    const resetButton = document.getElementById('resetButton');
+    const output = document.getElementById('output');
+    const errorMessage = document.getElementById('errorMessage');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      numberInput.value = startValue;
+    }
+
+    const sortNumbers = () => {
+      const input = numberInput.value.trim();
+      if (!input) {
+        errorMessage.textContent = 'Please enter valid numbers separated by commas.';
+        errorMessage.classList.remove('d-none');
+        output.textContent = '';
+        return;
+      }
+
+      const numbers = input.split(',').map(num => num.trim()).filter(num => num !== '');
+      if (numbers.some(num => isNaN(num))) {
+        errorMessage.textContent = 'Please enter valid numbers only.';
+        errorMessage.classList.remove('d-none');
+        output.textContent = '';
+        return;
+      }
+
+      const sortedNumbers = numbers.map(Number).sort((a, b) => b - a);
+      output.textContent = sortedNumbers.join(', ');
+      errorMessage.classList.add('d-none');
+    };
+
+    const resetApp = () => {
+      numberInput.value = '';
+      output.textContent = '';
+      errorMessage.classList.add('d-none');
+    };
+
+    sortButton.addEventListener('click', sortNumbers);
+    resetButton.addEventListener('click', resetApp);
+
+    numberInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sortNumbers();
+      }
+    });
+  });
+</script>

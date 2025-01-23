@@ -1,0 +1,164 @@
+---
+title: Unicode-Aware Numeric Sorter - Sort Numbers in Any Language!
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-10-25 00:06:51
+metaDescription: "Sort numeric strings in any script with ease using the Unicode-Aware Numeric Sorter. Perfect for multilingual data, financial reports, and more!"
+metaKeywords: "unicode numeric sorter, multilingual number sorting, numeric string organizer, Arabic number sorter, Chinese number sorter, global data sorting, multilingual data tool, numeric string converter, international number sorting, multilingual inventory sorting"
+tags: [unicode, numeric-sorter, multilingual, tools, web-app]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Unicode-Aware Numeric Sorter</h1><div class="container-fluid bg-dark text-white p-4">
+  <strong class="d-block text-center fs-3 mb-4">Unicode-Aware Numeric Sorter</strong>
+  <p class="lead text-center">Sorting numbers should be simple, but what happens when your numbers are in Arabic, Chinese, or other non-Latin scripts? Suddenly, it’s not so straightforward. Enter the Unicode-Aware Numeric Sorter—a tool that effortlessly sorts numeric strings, no matter what script they’re written in. Whether you’re dealing with “١٢٣” (Arabic), “一二三” (Chinese), or “789” (regular digits), this tool has your back. It’s like having a universal translator for numbers, making your life easier, one sorted list at a time. Say goodbye to manual conversions and hello to seamless sorting!</p>
+</div>
+  <div class="mb-3">
+    <label for="input-area" class="form-label">Enter numbers or numeric strings (one per line):</label>
+    <textarea id="input-area" class="form-control bg-dark text-white" rows="6" placeholder="Example: ١٢٣\n456\n一二三\n789"></textarea>
+    <div id="error-message" class="text-danger mt-2 d-none">Invalid input: Only numeric values are allowed.</div>
+  </div>
+  <div class="mb-3">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="sort-order" id="ascending" value="ascending" checked>
+      <label class="form-check-label" for="ascending">Ascending</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="sort-order" id="descending" value="descending">
+      <label class="form-check-label" for="descending">Descending</label>
+    </div>
+  </div>
+  <button id="sort-button" class="btn btn-primary w-100 mb-3">Sort</button>
+  <div class="mb-3">
+    <label for="output-area" class="form-label">Sorted Output:</label>
+    <textarea id="output-area" class="form-control bg-dark text-white" rows="6" readonly></textarea>
+  </div>
+  <button id="reset-button" class="btn btn-secondary w-100">Reset</button>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="fs-4 mb-3">How It Works</h2>
+      <p>The Unicode-Aware Numeric Sorter works by converting any numeric string—whether it’s in Arabic, Chinese, or another script—into a universal format that can be compared and sorted. Here’s the magic formula:</p>
+      <ol>
+        <li>Input your numbers or numeric strings, one per line.</li>
+        <li>The tool maps each character to its corresponding numeric value (e.g., “١” becomes 1, “二” becomes 2).</li>
+        <li>It then sorts the numbers in either ascending or descending order, based on your preference.</li>
+        <li>The result is displayed as a neatly sorted list, ready for use.</li>
+      </ol>
+      <p>For example, if you input “١٢٣”, “456”, and “一二三”, the tool will sort them as “123”, “456”, and “123” (after conversion). It’s that simple!</p>
+      <h3 class="fs-5 mt-4">Example Outputs</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Sorted (Ascending)</th>
+            <th scope="col">Sorted (Descending)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>١٢٣<br>456<br>一二三</td>
+            <td>١٢٣<br>一二三<br>456</td>
+            <td>456<br>一二三<br>١٢٣</td>
+          </tr>
+          <tr>
+            <td>٤٥٦<br>789<br>三四五</td>
+            <td>٤٥٦<br>三四五<br>789</td>
+            <td>789<br>三四五<br>٤٥٦</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-white p-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="fs-4 mb-3">Top 10 Use Cases</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Sorting multilingual financial data for global reports.</li>
+        <li class="list-group-item">Organizing inventory lists with product codes in different scripts.</li>
+        <li class="list-group-item">Preparing multilingual educational materials with numerical exercises.</li>
+        <li class="list-group-item">Handling customer IDs or account numbers in non-Latin scripts.</li>
+        <li class="list-group-item">Cleaning and organizing multilingual datasets for research.</li>
+        <li class="list-group-item">Sorting addresses or postal codes in international formats.</li>
+        <li class="list-group-item">Preparing multilingual presentations with numerical data.</li>
+        <li class="list-group-item">Simplifying cross-border e-commerce product sorting.</li>
+        <li class="list-group-item">Sorting multilingual event schedules or timetables.</li>
+        <li class="list-group-item">Streamlining multilingual project management tasks.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputArea = document.getElementById('input-area');
+    const outputArea = document.getElementById('output-area');
+    const sortButton = document.getElementById('sort-button');
+    const resetButton = document.getElementById('reset-button');
+    const errorMessage = document.getElementById('error-message');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputArea.value = startValue;
+    }
+
+    const unicodeToNumber = (str) => {
+      const unicodeDigits = {
+        '٠': 0, '۰': 0, '०': 0, '০': 0, '੦': 0, '૦': 0, '୦': 0, '௦': 0, '౦': 0, '೦': 0, '൦': 0, '๐': 0, '໐': 0, '༠': 0, '၀': 0, '០': 0, '᠐': 0, '᥆': 0, '᧐': 0, '０': 0,
+        '١': 1, '۱': 1, '१': 1, '১': 1, '੧': 1, '૧': 1, '୧': 1, '௧': 1, '౧': 1, '೧': 1, '൧': 1, '๑': 1, '໑': 1, '༡': 1, '၁': 1, '១': 1, '᠑': 1, '᥇': 1, '᧑': 1, '１': 1,
+        '٢': 2, '۲': 2, '२': 2, '২': 2, '੨': 2, '૨': 2, '୨': 2, '௨': 2, '౨': 2, '೨': 2, '൨': 2, '๒': 2, '໒': 2, '༢': 2, '၂': 2, '២': 2, '᠒': 2, '᥈': 2, '᧒': 2, '２': 2,
+        '٣': 3, '۳': 3, '३': 3, '৩': 3, '੩': 3, '૩': 3, '୩': 3, '௩': 3, '౩': 3, '೩': 3, '൩': 3, '๓': 3, '໓': 3, '༣': 3, '၃': 3, '៣': 3, '᠓': 3, '᥉': 3, '᧓': 3, '３': 3,
+        '٤': 4, '۴': 4, '४': 4, '৪': 4, '੪': 4, '૪': 4, '୪': 4, '௪': 4, '౪': 4, '೪': 4, '൪': 4, '๔': 4, '໔': 4, '༤': 4, '၄': 4, '៤': 4, '᠔': 4, '᥊': 4, '᧔': 4, '４': 4,
+        '٥': 5, '۵': 5, '५': 5, '৫': 5, '੫': 5, '૫': 5, '୫': 5, '௫': 5, '౫': 5, '೫': 5, '൫': 5, '๕': 5, '໕': 5, '༥': 5, '၅': 5, '៥': 5, '᠕': 5, '᥋': 5, '᧕': 5, '５': 5,
+        '٦': 6, '۶': 6, '६': 6, '৬': 6, '੬': 6, '૬': 6, '୬': 6, '௬': 6, '౬': 6, '೬': 6, '൬': 6, '๖': 6, '໖': 6, '༦': 6, '၆': 6, '៦': 6, '᠖': 6, '᥌': 6, '᧖': 6, '６': 6,
+        '٧': 7, '۷': 7, '७': 7, '৭': 7, '੭': 7, '૭': 7, '୭': 7, '௭': 7, '౭': 7, '೭': 7, '൭': 7, '๗': 7, '໗': 7, '༧': 7, '၇': 7, '៧': 7, '᠗': 7, '᥍': 7, '᧗': 7, '７': 7,
+        '٨': 8, '۸': 8, '८': 8, '৮': 8, '੮': 8, '૮': 8, '୮': 8, '௮': 8, '౮': 8, '೮': 8, '൮': 8, '๘': 8, '໘': 8, '༨': 8, '၈': 8, '៨': 8, '᠘': 8, '᥎': 8, '᧘': 8, '８': 8,
+        '٩': 9, '۹': 9, '९': 9, '৯': 9, '੯': 9, '૯': 9, '୯': 9, '௯': 9, '౯': 9, '೯': 9, '൯': 9, '๙': 9, '໙': 9, '༩': 9, '၉': 9, '៩': 9, '᠙': 9, '᥏': 9, '᧙': 9, '９': 9
+      };
+      return str.split('').map(char => unicodeDigits[char] !== undefined ? unicodeDigits[char] : char).join('');
+    };
+
+    const validateInput = (input) => {
+      const lines = input.split('\n');
+      return lines.every(line => /^[\d\u0660-\u0669\u06F0-\u06F9\u0966-\u096F\u09E6-\u09EF\u0A66-\u0A6F\u0AE6-\u0AEF\u0B66-\u0B6F\u0BE6-\u0BEF\u0C66-\u0C6F\u0CE6-\u0CEF\u0D66-\u0D6F\u0E50-\u0E59\u0ED0-\u0ED9\u0F20-\u0F29\u1040-\u1049\u17E0-\u17E9\u1810-\u1819\u1946-\u194F\u19D0-\u19D9\u1A80-\u1A89\u1A90-\u1A99\u1B50-\u1B59\u1BB0-\u1BB9\u1C40-\u1C49\u1C50-\u1C59\uA620-\uA629\uA8D0-\uA8D9\uA900-\uA909\uA9D0-\uA9D9\uAA50-\uAA59\uABF0-\uABF9\uFF10-\uFF19]+$/.test(line.trim()));
+    };
+
+    const sortNumbers = () => {
+      const input = inputArea.value.trim();
+      if (!input) {
+        outputArea.value = '';
+        errorMessage.classList.add('d-none');
+        return;
+      }
+
+      if (!validateInput(input)) {
+        errorMessage.classList.remove('d-none');
+        outputArea.value = '';
+        return;
+      }
+
+      errorMessage.classList.add('d-none');
+      const lines = input.split('\n').map(line => line.trim());
+      const sortOrder = document.querySelector('input[name="sort-order"]:checked').value;
+
+      const sortedLines = lines.sort((a, b) => {
+        const numA = parseFloat(unicodeToNumber(a));
+        const numB = parseFloat(unicodeToNumber(b));
+        return sortOrder === 'ascending' ? numA - numB : numB - numA;
+      });
+
+      outputArea.value = sortedLines.join('\n');
+    };
+
+    const resetApp = () => {
+      inputArea.value = '';
+      outputArea.value = '';
+      errorMessage.classList.add('d-none');
+    };
+
+    sortButton.addEventListener('click', sortNumbers);
+    resetButton.addEventListener('click', resetApp);
+  });
+</script>

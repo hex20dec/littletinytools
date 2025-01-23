@@ -1,0 +1,153 @@
+---
+title: "Punctuation Mark Counter - Analyze Your Text Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-08-08 06:09:39
+metaDescription: "Count punctuation marks in your text instantly with the Punctuation Mark Counter. Perfect for writers, students, and professionals!"
+metaKeywords: "punctuation counter, count punctuation, grammar tool, writing assistant, punctuation checker, text analyzer, punctuation marks, writing tool, proofreading tool, punctuation helper"
+tags: ["punctuation", "text analysis", "writing tool", "editor", "grammar"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Punctuation Mark Counter</h1><div class="container my-5">
+  <p class="lead">Why do punctuation marks always seem to disappear when you need them the most? Whether you're editing an essay, drafting a report, or just double-checking your text, keeping track of commas, periods, and exclamation marks can feel like a tedious chore. Enter the <strong>Punctuation Mark Counter</strong>—a simple, no-fuss tool that instantly counts every punctuation mark in your text. Just paste your content, hit the button, and voilà! You’ll see a breakdown of every mark, from dots to dashes. No more guessing, no more headaches. This tool is here to make your writing life smoother, one punctuation mark at a time.</p>
+</div>
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control bg-dark text-white mb-3" rows="10" placeholder="Paste or type your text here..."></textarea>
+    <button id="count-btn" class="btn btn-primary w-100 mb-3">Count Punctuation</button>
+  </div>
+  <div id="results-section" class="mb-3">
+    <table id="results-table" class="table table-bordered text-white d-none">
+      <thead>
+        <tr>
+          <th>Punctuation Mark</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <div id="no-results" class="alert alert-warning d-none">No punctuation marks found in the text.</div>
+    <div id="empty-input" class="alert alert-info d-none">Please enter some text to count punctuation marks.</div>
+  </div>
+  <button id="reset-btn" class="btn btn-secondary w-100">Reset</button>
+</div>
+
+<div class="container my-5">
+  <h2 class="mb-4">How It Works</h2>
+  <p>The Punctuation Mark Counter works by scanning your text for specific symbols like periods, commas, question marks, and more. It then tallies up each mark and presents the results in a clear, easy-to-read table. Think of it as a grammar assistant that saves you time and effort. Here's a quick breakdown of how it calculates:</p>
+  <ul>
+    <li><strong>Step 1:</strong> Input your text into the box.</li>
+    <li><strong>Step 2:</strong> Click "Count Punctuation."</li>
+    <li><strong>Step 3:</strong> The tool scans the text for 14 common punctuation marks.</li>
+    <li><strong>Step 4:</strong> It counts each mark and displays the results in a table.</li>
+  </ul>
+  <p>It's like having a personal editor who never misses a single comma!</p>
+
+  <h3 class="mt-4">Example Counts</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Punctuation Mark</th>
+        <th>Example Sentence</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>.</td>
+        <td>This is a sentence.</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>,</td>
+        <td>Apples, bananas, and oranges.</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>!</td>
+        <td>Wow! That's amazing!</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>?</td>
+        <td>How are you?</td>
+        <td>1</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container my-5">
+  <h2 class="mb-4">10 Common Use Cases</h2>
+  <ol>
+    <li><strong>Proofreading Essays:</strong> Ensure your academic writing has the right punctuation balance.</li>
+    <li><strong>Editing Blog Posts:</strong> Keep your content polished and professional.</li>
+    <li><strong>Writing Emails:</strong> Avoid overusing exclamation marks or commas.</li>
+    <li><strong>Social Media Captions:</strong> Make sure your posts are grammatically sound.</li>
+    <li><strong>Creative Writing:</strong> Track how often you use certain marks for stylistic purposes.</li>
+    <li><strong>Resume Writing:</strong> Double-check for consistency in punctuation.</li>
+    <li><strong>Translating Texts:</strong> Verify punctuation accuracy in translated documents.</li>
+    <li><strong>Teaching Grammar:</strong> Use it as a tool for students to practice punctuation.</li>
+    <li><strong>Content Marketing:</strong> Ensure your ads and campaigns are error-free.</li>
+    <li><strong>Personal Projects:</strong> Count punctuation in poetry, scripts, or journals.</li>
+  </ol>
+</div><script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const textInput = document.getElementById("text-input");
+    const countBtn = document.getElementById("count-btn");
+    const resultsTable = document.getElementById("results-table");
+    const resultsBody = resultsTable.querySelector("tbody");
+    const noResults = document.getElementById("no-results");
+    const emptyInput = document.getElementById("empty-input");
+    const resetBtn = document.getElementById("reset-btn");
+
+    // Preload text from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get("start");
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    const punctuationMarks = [".", ",", "?", "!", ";", ":", '"', "'", "-", "(", ")", "[", "]", "{", "}"];
+
+    countBtn.addEventListener("click", () => {
+      const text = textInput.value.trim();
+      if (!text) {
+        resultsTable.classList.add("d-none");
+        noResults.classList.add("d-none");
+        emptyInput.classList.remove("d-none");
+        return;
+      }
+
+      const counts = {};
+      punctuationMarks.forEach(mark => {
+        counts[mark] = (text.match(new RegExp("\\" + mark, "g")) || []).length;
+      });
+
+      resultsBody.innerHTML = "";
+      let totalCount = 0;
+      punctuationMarks.forEach(mark => {
+        if (counts[mark] > 0) {
+          resultsBody.innerHTML += `<tr><td>${mark}</td><td>${counts[mark]}</td></tr>`;
+          totalCount += counts[mark];
+        }
+      });
+
+      if (totalCount > 0) {
+        resultsTable.classList.remove("d-none");
+        noResults.classList.add("d-none");
+        emptyInput.classList.add("d-none");
+      } else {
+        resultsTable.classList.add("d-none");
+        noResults.classList.remove("d-none");
+        emptyInput.classList.add("d-none");
+      }
+    });
+
+    resetBtn.addEventListener("click", () => {
+      textInput.value = "";
+      resultsBody.innerHTML = "";
+      resultsTable.classList.add("d-none");
+      noResults.classList.add("d-none");
+      emptyInput.classList.add("d-none");
+    });
+  });
+</script>

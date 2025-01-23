@@ -1,0 +1,178 @@
+---
+title: "Last Letter Counter - Analyze Word Endings in Your Text"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-04-06 23:40:48
+metaDescription: "Count how often letters appear as the last letter of words in your text with the Last Letter Counter. Simple, fast, and perfect for writers, students, and more!"
+metaKeywords: "last letter counter, word analysis tool, text analysis, count last letters, writing tool, language tool, word endings, text patterns, writers tool, word counter"
+tags: ["text analysis", "writing tools", "linguistics", "word patterns", "Bootstrap 5"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .custom-placeholder::placeholder {
+    color: #6c757d;
+    opacity: 1;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Last Letter Counter</h1><div class="container mt-5">
+  <div class="text-center mb-4">
+    <p class="lead">Ever wondered how often certain letters appear at the end of words in your text? Maybe you're a writer trying to avoid repetitive endings, or perhaps you're just curious about patterns in language. Either way, manually counting these letters can be a tedious task. Enter the Last Letter Counter—a simple, fun, and incredibly useful tool that does all the heavy lifting for you. Just paste your text, hit the button, and voilà! You’ll get a breakdown of how many times each letter appears as the last letter of a word. It’s like having a personal assistant for your text analysis needs. Say goodbye to manual counting and hello to more time for the things you love!</p>
+  </div>
+</div>
+    <p class="text-muted">Enter your text below to count how many times the last letter of each word appears.</p>
+  </header>
+
+  <section class="mb-4">
+    <textarea id="input-text" class="form-control custom-placeholder" rows="5" placeholder="Paste or type your text here..."></textarea>
+  </section>
+
+  <section class="mb-4">
+    <button id="count-button" class="btn btn-primary me-2">Count Last Letters</button>
+    <button id="reset-button" class="btn btn-secondary">Reset</button>
+  </section>
+
+  <section id="results-section" class="card d-none">
+    <div class="card-header">Results</div>
+    <div class="card-body">
+      <table id="results-table" class="table table-striped">
+        <thead>
+          <tr>
+            <th>Last Letter</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="warning-section" class="alert alert-warning d-none" role="alert">
+    Please enter some text to analyze.
+  </section>
+
+  <section id="error-section" class="alert alert-danger d-none" role="alert">
+    No valid words found.
+  </section>
+
+  <footer class="text-center mt-4">
+    <p class="text-muted">Made with ❤️ by Your Website Name</p>
+  </footer>
+</div>
+
+<div class="container mt-5">
+  <div class="mb-4">
+    <h2 class="h4">How It Works</h2>
+    <p>The Last Letter Counter works by analyzing your text and identifying the last letter of each word. It then counts how many times each letter appears in this position. Here’s a simple breakdown:</p>
+    <ol>
+      <li><strong>Input Your Text:</strong> Paste or type your text into the provided box.</li>
+      <li><strong>Count Letters:</strong> Click the "Count Last Letters" button to process your text.</li>
+      <li><strong>View Results:</strong> The tool will display a table showing each letter and how many times it appears as the last letter of a word.</li>
+    </ol>
+    <p>It’s that easy! No complex formulas or coding knowledge required—just straightforward, user-friendly text analysis.</p>
+  </div>
+
+  <div class="mb-4">
+    <h3 class="h5">Example Table</h3>
+    <p>Here’s a sample of what the results might look like for a short text:</p>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Last Letter</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>a</td><td>3</td></tr>
+        <tr><td>b</td><td>1</td></tr>
+        <tr><td>c</td><td>2</td></tr>
+        <tr><td>d</td><td>4</td></tr>
+        <tr><td>e</td><td>5</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container mt-5">
+  <div class="mb-4">
+    <h2 class="h4">Top 10 Use Cases for the Last Letter Counter</h2>
+    <ul>
+      <li><strong>Writers and Authors:</strong> Avoid repetitive word endings in your manuscripts.</li>
+      <li><strong>Students:</strong> Analyze text for language or literature assignments.</li>
+      <li><strong>Editors:</strong> Check for overused letters in client submissions.</li>
+      <li><strong>Poets:</strong> Ensure variety in the endings of your poetic lines.</li>
+      <li><strong>Language Learners:</strong> Understand patterns in word endings in a new language.</li>
+      <li><strong>Content Creators:</strong> Improve the flow and readability of your blog posts or articles.</li>
+      <li><strong>Game Designers:</strong> Create word-based puzzles or games with specific letter patterns.</li>
+      <li><strong>Researchers:</strong> Study linguistic patterns in large text datasets.</li>
+      <li><strong>Speechwriters:</strong> Craft speeches with varied and impactful word endings.</li>
+      <li><strong>Curious Minds:</strong> Explore the quirks and patterns of the written word for fun!</li>
+    </ul>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const countButton = document.getElementById('count-button');
+    const resetButton = document.getElementById('reset-button');
+    const resultsSection = document.getElementById('results-section');
+    const resultsTableBody = document.querySelector('#results-table tbody');
+    const warningSection = document.getElementById('warning-section');
+    const errorSection = document.getElementById('error-section');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    const countLastLetters = () => {
+      const text = inputText.value.trim();
+      if (!text) {
+        resultsSection.classList.add('d-none');
+        errorSection.classList.add('d-none');
+        warningSection.classList.remove('d-none');
+        return;
+      }
+
+      const words = text.match(/\b\w+\b/g);
+      if (!words || words.length === 0) {
+        resultsSection.classList.add('d-none');
+        warningSection.classList.add('d-none');
+        errorSection.classList.remove('d-none');
+        return;
+      }
+
+      const lastLetterCounts = {};
+      words.forEach(word => {
+        const lastLetter = word[word.length - 1].toLowerCase();
+        lastLetterCounts[lastLetter] = (lastLetterCounts[lastLetter] || 0) + 1;
+      });
+
+      const sortedLetters = Object.keys(lastLetterCounts).sort();
+      resultsTableBody.innerHTML = sortedLetters.map(letter => `
+        <tr>
+          <td>${letter}</td>
+          <td>${lastLetterCounts[letter]}</td>
+        </tr>
+      `).join('');
+
+      resultsSection.classList.remove('d-none');
+      warningSection.classList.add('d-none');
+      errorSection.classList.add('d-none');
+    };
+
+    const resetApp = () => {
+      inputText.value = '';
+      resultsSection.classList.add('d-none');
+      warningSection.classList.add('d-none');
+      errorSection.classList.add('d-none');
+    };
+
+    countButton.addEventListener('click', countLastLetters);
+    resetButton.addEventListener('click', resetApp);
+  });
+</script>

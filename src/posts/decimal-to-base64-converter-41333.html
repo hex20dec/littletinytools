@@ -1,0 +1,136 @@
+---
+title: "Decimal to Base64 Converter - Quick & Easy Encoding Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-02-08 01:47:28
+metaDescription: "Convert decimal numbers to Base64 instantly with this easy-to-use tool. Perfect for encoding, debugging, and data storage. Try it now!"
+metaKeywords: "decimal to base64 converter, base64 encoding tool, decimal encoding, base64 conversion, data encoding tool, decimal to base64 online, base64 encoder, decimal converter, encode decimal to base64, base64 tool"
+tags: ["decimal to base64", "base64 converter", "number encoding", "web tools", "developer utilities"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h1 class="text-center text-white mb-4">Decimal to Base64 Converter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="lead text-center text-white">
+        Struggling to convert decimal numbers into Base64 for encoding or data storage? You're not alone. Whether you're a developer testing APIs, a student working on a project, or just someone curious about data encoding, this Decimal to Base64 Converter is here to make your life simpler. No complicated steps—just enter your decimal number, hit convert, and watch the magic happen. It’s like turning a plain number into a secret code in seconds! Perfect for debugging, data compression, or even impressing your tech-savvy friends. Let’s make encoding fun and effortless!
+      </p>
+    </div>
+  </div>
+</div>
+      <div class="mb-3">
+        <label for="decimalInput" class="form-label text-white">Enter a decimal number</label>
+        <input type="text" class="form-control bg-dark text-white" id="decimalInput" placeholder="e.g., 123.456">
+        <div id="errorMessage" class="text-danger mt-2"></div>
+      </div>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-3">
+        <button id="convertBtn" class="btn btn-primary me-md-2">Convert</button>
+        <button id="resetBtn" class="btn btn-secondary">Reset</button>
+      </div>
+      <div class="mb-3">
+        <label for="base64Output" class="form-label text-white">Base64 Result</label>
+        <input type="text" class="form-control bg-dark text-white" id="base64Output" readonly>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-white mb-3">How It Works</h2>
+      <p class="text-white">
+        The Decimal to Base64 Converter works by taking your decimal number (like 123.456) and encoding it into a Base64 string. Base64 is a way to represent binary data in ASCII format, making it easier to store or transmit. Here’s a simple breakdown:
+      </p>
+      <ul class="text-white">
+        <li>1. You enter a decimal number (e.g., 123.456).</li>
+        <li>2. The tool converts the number into a Base64 string using a built-in encoding process.</li>
+        <li>3. The result is displayed as a Base64-encoded string, ready for use.</li>
+      </ul>
+      <p class="text-white mt-3">
+        Below is a quick reference table showing how some decimal numbers convert to Base64:
+      </p>
+      <table class="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th>Decimal Number</th>
+            <th>Base64 Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>MQ==</td></tr>
+          <tr><td>2</td><td>Mg==</td></tr>
+          <tr><td>3</td><td>Mw==</td></tr>
+          <tr><td>10</td><td>MTA=</td></tr>
+          <tr><td>50</td><td>NTA=</td></tr>
+          <tr><td>100</td><td>MTAw</td></tr>
+          <tr><td>123.456</td><td>MTIzLjQ1Ng==</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-white mb-3">10 Common Use Cases</h2>
+      <ol class="text-white">
+        <li><strong>Debugging APIs:</strong> Convert decimal values to Base64 for testing API endpoints.</li>
+        <li><strong>Data Encoding:</strong> Encode sensitive data like IDs or tokens for secure transmission.</li>
+        <li><strong>File Storage:</strong> Store decimal values in databases as Base64 strings to save space.</li>
+        <li><strong>URL Parameters:</strong> Use Base64-encoded decimals in URLs for cleaner, shorter links.</li>
+        <li><strong>Data Compression:</strong> Encode large decimal datasets into compact Base64 strings.</li>
+        <li><strong>Web Development:</strong> Use Base64-encoded decimals for dynamic content generation.</li>
+        <li><strong>Education:</strong> Teach students about encoding and decoding techniques.</li>
+        <li><strong>IoT Applications:</strong> Transmit decimal sensor data as Base64 for efficiency.</li>
+        <li><strong>Game Development:</strong> Encode game scores or stats into Base64 for storage.</li>
+        <li><strong>Data Security:</strong> Obfuscate decimal values in logs or files for added privacy.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const decimalInput = document.getElementById('decimalInput');
+    const base64Output = document.getElementById('base64Output');
+    const errorMessage = document.getElementById('errorMessage');
+    const convertBtn = document.getElementById('convertBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      decimalInput.value = startValue;
+    }
+
+    convertBtn.addEventListener('click', function () {
+      const inputValue = decimalInput.value.trim();
+      if (!inputValue) {
+        errorMessage.textContent = 'Please enter a decimal number.';
+        base64Output.value = '';
+        return;
+      }
+
+      if (!/^-?\d*\.?\d+$/.test(inputValue)) {
+        errorMessage.textContent = 'Please enter a valid decimal number.';
+        base64Output.value = '';
+        return;
+      }
+
+      errorMessage.textContent = '';
+      try {
+        const base64Value = btoa(inputValue);
+        base64Output.value = base64Value;
+      } catch (e) {
+        errorMessage.textContent = 'An error occurred during conversion. Please try again.';
+        base64Output.value = '';
+      }
+    });
+
+    resetBtn.addEventListener('click', function () {
+      decimalInput.value = '';
+      base64Output.value = '';
+      errorMessage.textContent = '';
+    });
+  });
+</script>

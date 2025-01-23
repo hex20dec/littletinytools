@@ -1,0 +1,169 @@
+---
+title: "Decimal to IEEE 754 Converter - Easily Convert Floating-Point Numbers"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-12-01 12:04:15
+metaDescription: "Convert decimal numbers to IEEE 754 binary format effortlessly. Perfect for students, programmers, and curious minds! Try it now."
+metaKeywords: "decimal to IEEE 754, binary converter, floating-point converter, IEEE 754 tool, decimal to binary, binary representation, computer science tool, programming tool, binary conversion, floating-point arithmetic"
+tags: ["IEEE 754", "binary converter", "floating-point", "decimal to binary", "computer science"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .output-card {
+    background-color: #2d3338;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 20px;
+  }
+  .monospace {
+    font-family: monospace;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container text-center">
+    <h1 class="mt-4 mb-3">Decimal to IEEE 754 Converter</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2 text-center">
+      <p class="fs-4">Ever tried to explain a decimal number to a computer and felt like you were speaking a different language? You're not alone! Computers think in binary, and converting a decimal number to its IEEE 754 binary representation can feel like solving a Rubik's Cube blindfolded. But worry not! Our <strong>Decimal to IEEE 754 Converter</strong> is here to save the day. Simply type in your decimal number, hit convert, and voilà! You'll get the binary representation broken down into sign, exponent, and mantissa. Whether you're a student, a programmer, or just a curious mind, this tool makes the complex simple and the tedious fun. Say goodbye to conversion headaches and hello to smooth sailing!</p>
+    </div>
+  </div>
+</div>
+    <p class="lead mb-4">Convert a decimal number to its IEEE 754 binary representation.</p>
+
+    <div class="row justify-content-center mb-3">
+      <div class="col-md-8">
+        <div class="input-group">
+          <input type="text" id="decimalInput" class="form-control" placeholder="e.g., 12.375" aria-label="Enter Decimal Number">
+          <button id="convertBtn" class="btn btn-primary" type="button">Convert</button>
+        </div>
+        <div id="errorMessage" class="text-danger mt-2" style="display: none;">Please enter a valid decimal number.</div>
+      </div>
+    </div>
+
+    <div id="outputSection" class="output-card" style="display: none;">
+      <h4 class="mb-3">IEEE 754 Representation</h4>
+      <div class="monospace mb-3" id="binaryOutput"></div>
+      <div class="text-start">
+        <p><strong>Sign:</strong> <span id="signOutput"></span></p>
+        <p><strong>Exponent:</strong> <span id="exponentOutput"></span></p>
+        <p><strong>Mantissa:</strong> <span id="mantissaOutput"></span></p>
+      </div>
+      <button id="resetBtn" class="btn btn-secondary mt-3">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="fs-3 mb-4">How Does It Work?</h2>
+      <p>The tool works by taking your decimal number and converting it into a 32-bit binary format called IEEE 754. Here's how it breaks down:</p>
+      <ol>
+        <li><strong>Sign Bit:</strong> Determines if the number is positive or negative.</li>
+        <li><strong>Exponent:</strong> Adjusts the number to fit within a specific range, using a bias of 127.</li>
+        <li><strong>Mantissa:</strong> Represents the precision of the number, excluding the leading 1.</li>
+      </ol>
+      <p>For example, if you input <code>12.375</code>, the tool converts it to binary, separates the sign, exponent, and mantissa, and displays them in an easy-to-understand format. It’s like having a personal translator for numbers!</p>
+      <h3 class="fs-4 mt-4">Sample Conversions</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Decimal</th>
+            <th>Binary (IEEE 754)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1.0</td><td>00111111100000000000000000000000</td></tr>
+          <tr><td>2.5</td><td>01000000001000000000000000000000</td></tr>
+          <tr><td>5.75</td><td>01000000101110000000000000000000</td></tr>
+          <tr><td>10.125</td><td>01000001001000100000000000000000</td></tr>
+          <tr><td>15.0</td><td>01000001011100000000000000000000</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="fs-3 mb-4">10 Common Use Cases</h2>
+      <ol>
+        <li>Simplifying computer science homework involving binary conversions.</li>
+        <li>Debugging floating-point arithmetic in programming projects.</li>
+        <li>Understanding how computers store decimal numbers in memory.</li>
+        <li>Preparing for technical interviews that involve binary representations.</li>
+        <li>Learning about the IEEE 754 standard in detail.</li>
+        <li>Teaching students about binary and floating-point numbers.</li>
+        <li>Converting decimal numbers for embedded systems programming.</li>
+        <li>Verifying manual calculations of IEEE 754 conversions.</li>
+        <li>Exploring the precision limits of floating-point numbers.</li>
+        <li>Satisfying curiosity about how computers handle decimal numbers.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      document.getElementById('decimalInput').value = startValue;
+    }
+  });
+
+  function decimalToIEEE754(decimal) {
+    const floatArray = new Float32Array(1);
+    floatArray[0] = decimal;
+    const intView = new Uint32Array(floatArray.buffer);
+    const binary = intView[0].toString(2).padStart(32, '0');
+    return binary;
+  }
+
+  function parseIEEE754(binary) {
+    const signBit = binary[0];
+    const exponentBits = binary.slice(1, 9);
+    const mantissaBits = binary.slice(9);
+
+    const sign = signBit === '0' ? 'Positive' : 'Negative';
+    const exponent = parseInt(exponentBits, 2) - 127;
+    const mantissa = parseFloat(`0.${parseInt(mantissaBits, 2)}`);
+
+    return { sign, exponent, mantissa };
+  }
+
+  function validateInput(input) {
+    return !isNaN(parseFloat(input)) && isFinite(input);
+  }
+
+  document.getElementById('convertBtn').addEventListener('click', () => {
+    const input = document.getElementById('decimalInput').value.trim();
+    const errorMessage = document.getElementById('errorMessage');
+    const outputSection = document.getElementById('outputSection');
+
+    if (!validateInput(input)) {
+      errorMessage.style.display = 'block';
+      outputSection.style.display = 'none';
+      return;
+    }
+
+    errorMessage.style.display = 'none';
+    const decimal = parseFloat(input);
+    const binary = decimalToIEEE754(decimal);
+    const { sign, exponent, mantissa } = parseIEEE754(binary);
+
+    document.getElementById('binaryOutput').textContent = binary;
+    document.getElementById('signOutput').textContent = sign;
+    document.getElementById('exponentOutput').textContent = `${exponent} (${exponent + 127} with bias)`;
+    document.getElementById('mantissaOutput').textContent = mantissa;
+    outputSection.style.display = 'block';
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    document.getElementById('decimalInput').value = '';
+    document.getElementById('outputSection').style.display = 'none';
+    document.getElementById('errorMessage').style.display = 'none';
+  });
+</script>

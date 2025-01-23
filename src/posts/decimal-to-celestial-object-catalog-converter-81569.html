@@ -1,0 +1,123 @@
+---
+title: "Convert Decimal to Celestial Object Identifier | Astronomy Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-07-01 10:37:24
+metaDescription: "Convert decimal numbers to celestial object catalog names like Messier or NGC. Perfect for stargazers, students, and astronomy enthusiasts!"
+metaKeywords: "celestial object converter, Messier catalog, NGC catalog, astronomy tool, star identifier, decimal to celestial, stargazing tool, astronomy education, space catalog converter, celestial object names"
+tags: ["astronomy", "celestial objects", "decimal converter", "NGC catalog", "Messier catalog"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .output-field {
+    font-weight: bold;
+    color: #0d6efd;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Decimal to Celestial Object Catalog Converter</h1><div class="container text-center my-5">
+  <p class="fs-3 fw-bold">Ever tried to decode those mysterious numbers astronomers use to name stars, galaxies, or nebulae? You’re not alone! Whether you’re a space enthusiast or just curious about the cosmos, translating decimal numbers into celestial catalog identifiers can feel like trying to read an alien language. But don’t worry—this tool is here to make it as easy as spotting the Big Dipper on a clear night. Just type in a number, and voilà! You’ll get its corresponding Messier or NGC catalog name. Perfect for stargazers, students, or anyone who wants to feel a little closer to the stars. Let’s make the universe a little less mysterious and a lot more fun!</p>
+</div>
+    <p class="lead">Enter a decimal number to convert it into a celestial object catalog identifier.</p>
+  </header>
+
+  <div class="mb-3">
+    <label for="decimalInput" class="form-label">Enter Decimal Number</label>
+    <input type="number" class="form-control" id="decimalInput" placeholder="e.g., 42" min="0" step="1" required>
+    <div class="invalid-feedback">Please enter a valid positive integer.</div>
+  </div>
+
+  <div class="d-grid gap-2 d-md-block mb-3">
+    <button class="btn btn-primary" id="convertBtn">Convert</button>
+    <button class="btn btn-secondary" id="resetBtn">Reset</button>
+  </div>
+
+  <div class="mb-3">
+    <label for="outputField" class="form-label">Celestial Object Identifier</label>
+    <div id="outputField" class="output-field form-control-plaintext"></div>
+  </div>
+
+  <footer class="text-center mt-4">
+    <p class="text-muted">This tool uses standard celestial catalog formats (e.g., NGC, Messier).</p>
+  </footer>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p class="fs-5">Here’s how it works: The tool takes a positive decimal number you input and checks if it falls within the range of the Messier catalog (which includes 110 objects). If it does, it assigns the number to the Messier catalog format (e.g., Messier 42). If the number is greater than 110, it assigns it to the New General Catalog (NGC) format (e.g., NGC 1234). It’s like giving every star, galaxy, or nebula its own cosmic ID card!</p>
+      <table class="table table-striped mt-4">
+        <thead>
+          <tr>
+            <th scope="col">Decimal Number</th>
+            <th scope="col">Celestial Object Identifier</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Messier 1</td></tr>
+          <tr><td>42</td><td>Messier 42</td></tr>
+          <tr><td>110</td><td>Messier 110</td></tr>
+          <tr><td>111</td><td>NGC 111</td></tr>
+          <tr><td>500</td><td>NGC 500</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p class="fs-4 fw-bold">10 Common Use Cases for This Tool</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Identifying Messier objects during stargazing sessions.</li>
+        <li class="list-group-item">Teaching astronomy students about celestial catalogs.</li>
+        <li class="list-group-item">Creating custom star maps or astronomy projects.</li>
+        <li class="list-group-item">Preparing for astronomy club presentations.</li>
+        <li class="list-group-item">Writing research papers or articles about celestial objects.</li>
+        <li class="list-group-item">Planning astrophotography sessions with specific targets.</li>
+        <li class="list-group-item">Decoding celestial object names in scientific literature.</li>
+        <li class="list-group-item">Adding celestial object IDs to personal observation logs.</li>
+        <li class="list-group-item">Enhancing science fair projects with accurate catalog references.</li>
+        <li class="list-group-item">Settling debates about the correct names of celestial objects.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const decimalInput = document.getElementById('decimalInput');
+    const convertBtn = document.getElementById('convertBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const outputField = document.getElementById('outputField');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue) && startValue >= 0) {
+      decimalInput.value = startValue;
+    }
+
+    convertBtn.addEventListener('click', function () {
+      const inputValue = decimalInput.value.trim();
+      if (!inputValue || isNaN(inputValue) || inputValue < 0) {
+        decimalInput.classList.add('is-invalid');
+        outputField.textContent = '';
+        return;
+      }
+
+      decimalInput.classList.remove('is-invalid');
+      const number = parseInt(inputValue, 10);
+      const catalog = number <= 110 ? `Messier ${number}` : `NGC ${number}`;
+      outputField.textContent = catalog;
+    });
+
+    resetBtn.addEventListener('click', function () {
+      decimalInput.value = '';
+      decimalInput.classList.remove('is-invalid');
+      outputField.textContent = '';
+    });
+  });
+</script>

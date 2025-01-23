@@ -1,0 +1,145 @@
+---
+title: "EST to KST Converter - Simple Time Zone Conversion Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-01-10 19:23:04
+metaDescription: "Convert EST to KST instantly with our easy-to-use tool. Perfect for business, travel, or staying connected with Korea!"
+metaKeywords: "EST to KST, time zone converter, EST KST conversion, Korea time, Eastern Standard Time, Korean Standard Time, time zone tool, international time converter"
+tags: ["time zone converter", "EST to KST", "time conversion", "scheduling tool", "productivity"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .error-message {
+    color: #dc3545;
+    font-size: 0.875em;
+    margin-top: 0.25rem;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container">
+    <h1 class="text-center mb-4">EST to KST Converter</h1><div class="container text-center py-5">
+  <p class="lead">Ever tried scheduling a call with someone in Korea, only to realize you have no clue what time it is there? Let’s face it—time zones can be a headache, especially when you’re juggling EST (Eastern Standard Time) and KST (Korean Standard Time). But don’t worry, we’ve got your back! Our EST to KST Converter is here to save the day. Whether you’re planning a business meeting, catching up with friends, or just curious, this tool makes time zone conversions as easy as pie. Just type in your time, hit convert, and voilà—no more math, no more confusion. Say goodbye to time zone stress and hello to smooth scheduling!</p>
+</div>
+    <p class="text-center mb-4">Convert Eastern Standard Time (EST) to Korean Standard Time (KST).</p>
+
+    <div class="mb-3">
+      <label for="est-time" class="form-label">Enter Time in EST (HH:MM AM/PM)</label>
+      <input type="text" id="est-time" class="form-control" placeholder="e.g., 08:00 AM" aria-label="EST Time">
+      <select id="ampm" class="form-select mt-2">
+        <option value="AM">AM</option>
+        <option value="PM">PM</option>
+      </select>
+      <div id="error-message" class="error-message"></div>
+    </div>
+
+    <button id="convert-btn" class="btn btn-primary w-100 mb-4">Convert</button>
+
+    <div class="mb-3">
+      <label for="kst-time" class="form-label">Converted Time in KST</label>
+      <input type="text" id="kst-time" class="form-control" readonly aria-label="KST Time">
+    </div>
+
+    <p class="text-center text-muted mt-4">Note: This tool assumes no daylight saving adjustments.</p>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="text-center mb-4">How It Works</h2>
+      <p class="text-muted">The EST to KST Converter works by adding 13 hours to the Eastern Standard Time (EST) you provide. Since Korea Standard Time (KST) is 13 hours ahead of EST, the tool adjusts the hours accordingly. For example, if it’s 8:00 AM in New York, it’s 9:00 PM the same day in Seoul. The tool also handles AM/PM conversions automatically, so you don’t have to worry about figuring out whether it’s morning or evening in Korea.</p>
+      
+      <h3 class="text-center mt-5 mb-4">Sample Conversions</h3>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>EST Time</th>
+            <th>KST Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>12:00 AM</td><td>1:00 PM</td></tr>
+          <tr><td>1:00 AM</td><td>2:00 PM</td></tr>
+          <tr><td>2:00 AM</td><td>3:00 PM</td></tr>
+          <tr><td>3:00 AM</td><td>4:00 PM</td></tr>
+          <tr><td>4:00 AM</td><td>5:00 PM</td></tr>
+          <tr><td>5:00 AM</td><td>6:00 PM</td></tr>
+          <tr><td>6:00 AM</td><td>7:00 PM</td></tr>
+          <tr><td>7:00 AM</td><td>8:00 PM</td></tr>
+          <tr><td>8:00 AM</td><td>9:00 PM</td></tr>
+          <tr><td>9:00 AM</td><td>10:00 PM</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <h2 class="text-center mb-4">10 Common Use Cases for the EST to KST Converter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Scheduling international business meetings with Korean partners.</li>
+    <li class="list-group-item">Planning video calls with friends or family in South Korea.</li>
+    <li class="list-group-item">Coordinating travel plans to or from Korea.</li>
+    <li class="list-group-item">Watching live Korean TV shows or events without missing a beat.</li>
+    <li class="list-group-item">Setting deadlines for global projects involving teams in Korea.</li>
+    <li class="list-group-item">Booking flights or accommodations in different time zones.</li>
+    <li class="list-group-item">Following K-pop concerts or fan events in real-time.</li>
+    <li class="list-group-item">Participating in online courses or webinars hosted in Korea.</li>
+    <li class="list-group-item">Tracking stock market hours for the Korean Exchange.</li>
+    <li class="list-group-item">Staying on top of Korean news or live broadcasts.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const estTimeInput = document.getElementById('est-time');
+    const ampmSelect = document.getElementById('ampm');
+    const convertBtn = document.getElementById('convert-btn');
+    const kstTimeOutput = document.getElementById('kst-time');
+    const errorMessage = document.getElementById('error-message');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startTime = urlParams.get('start');
+    if (startTime) {
+      const [time, ampm] = startTime.split(' ');
+      estTimeInput.value = time;
+      ampmSelect.value = ampm || 'AM';
+    }
+
+    convertBtn.addEventListener('click', function () {
+      const estTime = estTimeInput.value.trim();
+      const ampm = ampmSelect.value;
+
+      if (!validateTime(estTime)) {
+        errorMessage.textContent = 'Please enter a valid time in HH:MM AM/PM format.';
+        kstTimeOutput.value = '';
+        return;
+      }
+
+      errorMessage.textContent = '';
+      const convertedTime = convertESTtoKST(estTime, ampm);
+      kstTimeOutput.value = convertedTime;
+    });
+
+    function validateTime(time) {
+      const timeRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9]$/;
+      return timeRegex.test(time);
+    }
+
+    function convertESTtoKST(time, ampm) {
+      let [hours, minutes] = time.split(':').map(Number);
+      if (ampm === 'PM' && hours !== 12) hours += 12;
+      if (ampm === 'AM' && hours === 12) hours = 0;
+
+      hours += 13;
+      if (hours >= 24) hours -= 24;
+
+      const newAmpm = hours >= 12 ? 'PM' : 'AM';
+      if (hours > 12) hours -= 12;
+      if (hours === 0) hours = 12;
+
+      return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')} ${newAmpm}`;
+    }
+  });
+</script>

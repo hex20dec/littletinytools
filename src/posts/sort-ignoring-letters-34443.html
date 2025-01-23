@@ -1,0 +1,121 @@
+---
+title: "Sort Alphanumeric Strings Easily - Ignore Letters for Quick Sorting"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-01-15 10:06:40
+metaDescription: "Sort alphanumeric strings numerically while ignoring letters. Perfect for product codes, serial numbers, and version tags. Fast, simple, and free!"
+metaKeywords: "sort alphanumeric strings, sort ignoring letters, alphanumeric sorter, sort product codes, sort version numbers, serial number sorter, free sorting tool"
+tags: ["sorting", "alphanumeric", "tool", "productivity", "web-app"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="text-center mb-3">Sort Ignoring Letters</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <strong class="display-6">Sort Alphanumeric Strings Like a Pro</strong>
+  </div>
+  <p class="lead text-center">Have you ever been stuck trying to sort a list like A1, B2, C10, only to realize Excel or your brain just can’t handle it? It’s frustrating when tools prioritize letters over numbers, leaving you with a jumbled mess. Enter the <strong>Sort Ignoring Letters</strong> tool—your new best friend for organizing alphanumeric data effortlessly. Whether it’s product codes, serial numbers, or version tags, this tool sorts them numerically while ignoring the letters, giving you clean, logical results in seconds. Say goodbye to manual sorting and hello to simplicity. Let’s make your life a little less chaotic, one sorted list at a time!</p>
+</div>
+  <p class="text-center mb-4">Enter a list of alphanumeric strings (e.g., A1, B2, C10) and sort them numerically while ignoring the letters.</p>
+
+  <div class="mb-3">
+    <textarea id="input-area" class="form-control bg-dark text-white" rows="8" placeholder="Enter your list here, one item per line (e.g., A1, B2, C10)."></textarea>
+  </div>
+
+  <div class="d-flex justify-content-center gap-2 mb-3">
+    <button id="sort-btn" class="btn btn-primary">Sort</button>
+    <button id="clear-btn" class="btn btn-secondary">Clear</button>
+  </div>
+
+  <div class="mb-3">
+    <textarea id="output-area" class="form-control bg-dark text-white" rows="8" placeholder="Sorted list will appear here." readonly></textarea>
+  </div>
+
+  <div id="error-message" class="text-danger text-center mb-3" style="display: none;">Please enter a valid list of alphanumeric strings.</div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="mb-4">
+    <strong class="h3">How It Works</strong>
+  </div>
+  <p class="mb-4">Here’s the magic behind the tool: it extracts the numbers from each alphanumeric string, sorts them numerically, and then puts the original strings back in the correct order. No coding, no formulas—just paste your list, click "Sort," and watch the chaos turn into order. For example, if you input <code>A1, B2, C10</code>, the tool recognizes the numbers <code>1, 2, 10</code> and sorts them accordingly, returning <code>A1, B2, C10</code> instead of the incorrect <code>A1, C10, B2</code>.</p>
+  
+  <div class="mb-4">
+    <strong class="h4">Examples of Sorted Lists</strong>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Input</th>
+          <th>Sorted Output</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>A1, B2, C10</td><td>A1, B2, C10</td></tr>
+        <tr><td>X5, Y3, Z12</td><td>Y3, X5, Z12</td></tr>
+        <tr><td>Item10, Item2, Item1</td><td>Item1, Item2, Item10</td></tr>
+        <tr><td>Version2.1, Version1.9, Version10.0</td><td>Version1.9, Version2.1, Version10.0</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container-fluid bg-white p-4">
+  <div class="mb-4">
+    <strong class="h3">Top 10 Use Cases for the Sort Ignoring Letters Tool</strong>
+  </div>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Sorting product codes like <code>A123, B45, C678</code> for inventory management.</li>
+    <li class="list-group-item">Organizing version numbers such as <code>v1.0, v2.1, v10.0</code> for software releases.</li>
+    <li class="list-group-item">Arranging serial numbers like <code>SN001, SN002, SN010</code> for asset tracking.</li>
+    <li class="list-group-item">Sorting alphanumeric IDs for employees, customers, or members.</li>
+    <li class="list-group-item">Ordering part numbers like <code>P100, P200, P1000</code> in manufacturing.</li>
+    <li class="list-group-item">Managing ticket or reference numbers like <code>T123, T45, T678</code>.</li>
+    <li class="list-group-item">Organizing school or course codes like <code>MATH101, MATH201, MATH1001</code>.</li>
+    <li class="list-group-item">Sorting alphanumeric file names like <code>File1, File2, File10</code>.</li>
+    <li class="list-group-item">Arranging license plate numbers for databases.</li>
+    <li class="list-group-item">Sorting model numbers for electronics or appliances.</li>
+  </ol>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputArea = document.getElementById('input-area');
+    const outputArea = document.getElementById('output-area');
+    const sortBtn = document.getElementById('sort-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const errorMessage = document.getElementById('error-message');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputArea.value = startValue;
+    }
+
+    const sortAlphanumeric = (input) => {
+      const lines = input.split('\n').filter(line => line.trim() !== '');
+      if (lines.length === 0) {
+        errorMessage.style.display = 'block';
+        return '';
+      }
+
+      const isValid = lines.every(line => /\d/.test(line));
+      if (!isValid) {
+        errorMessage.style.display = 'block';
+        return '';
+      }
+
+      errorMessage.style.display = 'none';
+      return lines
+        .map(line => ({ original: line, number: parseInt(line.replace(/\D/g, ''), 10) }))
+        .sort((a, b) => a.number - b.number)
+        .map(item => item.original)
+        .join('\n');
+    };
+
+    sortBtn.addEventListener('click', () => {
+      const sortedList = sortAlphanumeric(inputArea.value);
+      outputArea.value = sortedList;
+    });
+
+    clearBtn.addEventListener('click', () => {
+      inputArea.value = '';
+      outputArea.value = '';
+      errorMessage.style.display = 'none';
+    });
+  });
+</script>

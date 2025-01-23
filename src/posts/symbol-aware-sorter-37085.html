@@ -1,0 +1,166 @@
+---
+title: "Symbol-Aware Sorter: Organize Symbols, Numbers, and Text Effortlessly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-05-28 22:01:29
+metaDescription: "Sort symbols, numbers, and text effortlessly with the Symbol-Aware Sorter. Perfect for organizing passwords, product codes, and more!"
+metaKeywords: "symbol sorter, number sorter, text sorter, organize list, password organizer, product code sorter, hashtag sorter, file name organizer, programming snippet sorter, data sorting tool"
+tags: ["sorting-tool", "symbol-sorter", "text-organizer", "number-sorter", "web-app"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Symbol-Aware Sorter</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <strong class="display-4">Symbol-Aware Sorter</strong>
+    <p class="lead mt-3">Tired of staring at a jumbled mess of symbols, numbers, and text? Whether it's a chaotic list of passwords, product codes, or random notes, the Symbol-Aware Sorter is here to rescue you. This tool effortlessly organizes your items into a clean, logical order—symbols first, numbers next, and text last. It’s like having a personal organizer for your digital clutter. No more headaches, no more confusion. Just paste, click, and let the magic happen!</p>
+  </div>
+</div>
+  <p class="text-center mb-4">Sort your list of symbols, numbers, and text with ease.</p>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <textarea id="input-list" class="form-control bg-dark text-white mb-3" rows="10" placeholder="Enter your list here, one item per line."></textarea>
+      <button id="sort-btn" class="btn btn-primary w-100 mb-3">Sort</button>
+    </div>
+  </div>
+
+  <div id="output-section" class="row justify-content-center d-none">
+    <div class="col-md-8">
+      <div id="sorted-list" class="list-group mb-3"></div>
+      <button id="clear-btn" class="btn btn-secondary w-100">Clear</button>
+    </div>
+  </div>
+
+  <div id="error-message" class="alert alert-danger d-none mt-3" role="alert"></div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mb-4">How It Works</h2>
+      <p>The Symbol-Aware Sorter uses a simple yet powerful formula to organize your list:</p>
+      <ol>
+        <li><strong>Step 1:</strong> It identifies each item’s type—symbols, numbers, or text.</li>
+        <li><strong>Step 2:</strong> It sorts symbols first (like @, #, $), followed by numbers (1, 2, 3), and then text (A, B, C).</li>
+        <li><strong>Step 3:</strong> Within each category, items are arranged in alphabetical or numerical order.</li>
+      </ol>
+      <p>For example, if you input:</p>
+      <pre class="bg-dark text-white p-3 rounded">apple
+123
+@symbol
+banana
+456
+#hashtag</pre>
+      <p>The tool will sort it as:</p>
+      <pre class="bg-dark text-white p-3 rounded">@symbol
+#hashtag
+123
+456
+apple
+banana</pre>
+
+      <h3 class="mt-5 mb-4">Example Table</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Sorted Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>apple</td><td>#hashtag</td></tr>
+          <tr><td>123</td><td>@symbol</td></tr>
+          <tr><td>@symbol</td><td>123</td></tr>
+          <tr><td>banana</td><td>456</td></tr>
+          <tr><td>456</td><td>apple</td></tr>
+          <tr><td>#hashtag</td><td>banana</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mb-4">10 Common Use Cases</h2>
+      <ul class="list-group">
+        <li class="list-group-item bg-dark text-white">1. Sorting passwords or security keys with symbols and numbers.</li>
+        <li class="list-group-item bg-dark text-white">2. Organizing product codes or SKUs for inventory management.</li>
+        <li class="list-group-item bg-dark text-white">3. Cleaning up a messy list of email addresses or usernames.</li>
+        <li class="list-group-item bg-dark text-white">4. Arranging hashtags or keywords for social media posts.</li>
+        <li class="list-group-item bg-dark text-white">5. Sorting file names with mixed symbols, numbers, and text.</li>
+        <li class="list-group-item bg-dark text-white">6. Organizing programming snippets or code comments.</li>
+        <li class="list-group-item bg-dark text-white">7. Structuring a list of mathematical expressions or equations.</li>
+        <li class="list-group-item bg-dark text-white">8. Sorting CSV or spreadsheet data for better readability.</li>
+        <li class="list-group-item bg-dark text-white">9. Cleaning up a list of notes or reminders.</li>
+        <li class="list-group-item bg-dark text-white">10. Preparing data for presentations or reports.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const inputList = document.getElementById("input-list");
+    const sortBtn = document.getElementById("sort-btn");
+    const outputSection = document.getElementById("output-section");
+    const sortedList = document.getElementById("sorted-list");
+    const clearBtn = document.getElementById("clear-btn");
+    const errorMessage = document.getElementById("error-message");
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get("start");
+    if (startValue) {
+      inputList.value = startValue;
+    }
+
+    const sortItems = (items) => {
+      return items.sort((a, b) => {
+        const aType = getItemType(a);
+        const bType = getItemType(b);
+        if (aType !== bType) {
+          return aType - bType;
+        }
+        return a.localeCompare(b);
+      });
+    };
+
+    const getItemType = (item) => {
+      if (/^[^a-zA-Z0-9]+$/.test(item)) return 1; // Symbols
+      if (/^\d+$/.test(item)) return 2; // Numbers
+      return 3; // Text
+    };
+
+    const validateInput = (input) => {
+      if (!input.trim()) {
+        errorMessage.textContent = "Please enter a list to sort.";
+        errorMessage.classList.remove("d-none");
+        return false;
+      }
+      if (/[\x00-\x1F\x7F]/.test(input)) {
+        errorMessage.textContent = "Invalid characters detected. Please check your input.";
+        errorMessage.classList.remove("d-none");
+        return false;
+      }
+      errorMessage.classList.add("d-none");
+      return true;
+    };
+
+    sortBtn.addEventListener("click", () => {
+      const input = inputList.value.trim();
+      if (!validateInput(input)) return;
+
+      const items = input.split("\n").filter((item) => item.trim());
+      const sortedItems = sortItems(items);
+
+      sortedList.innerHTML = sortedItems
+        .map((item) => `<div class="list-group-item bg-dark text-white">${item}</div>`)
+        .join("");
+      outputSection.classList.remove("d-none");
+    });
+
+    clearBtn.addEventListener("click", () => {
+      inputList.value = "";
+      sortedList.innerHTML = "";
+      outputSection.classList.add("d-none");
+      errorMessage.classList.add("d-none");
+    });
+  });
+</script>

@@ -1,0 +1,135 @@
+---
+title: "Angle Bracket Counter - Count & Balance < > Brackets Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-08-25 19:42:14
+metaDescription: "Count and balance `<` and `>` brackets in your text with this simple, user-friendly tool—perfect for coders, writers, and anyone who loves order!"
+metaKeywords: "angle bracket counter, bracket checker, html validator, xml validator, balanced brackets, code debugging, syntax checker, bracket counter tool, text analysis, coding tools"
+tags: ["angle-bracket-counter", "text-analysis", "developer-tools", "syntax-checker", "web-app"]
+---
+
+<div id="main-div" class="container p-3 bg-dark text-white">
+  <h1 class="text-center mb-4">Angle Bracket Counter</h1><div class="container p-3 bg-dark text-white">
+  <div class="text-center mb-4">
+    <strong class="display-4">Angle Bracket Counter</strong>
+  </div>
+  <p class="lead">Ever spent hours debugging code only to realize the issue was a missing angle bracket? Or maybe you’re working on a document and need to ensure all your tags are balanced? The Angle Bracket Counter is here to save the day! This simple yet powerful tool counts the number of `<` and `>` brackets in your text and checks if they’re balanced. Whether you're a coder, a writer, or just someone who loves order, this tool makes it easy to spot mismatches and keep things tidy. No more squinting at lines of code or text—just paste, click, and let the tool do the heavy lifting. Say goodbye to bracket chaos and hello to peace of mind!</p>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <textarea id="input-text" class="form-control bg-dark text-white mb-3" placeholder="Paste or type your text here..." rows="10"></textarea>
+      <div class="d-grid gap-2">
+        <button id="count-btn" class="btn btn-primary">Count Brackets</button>
+        <button id="reset-btn" class="btn btn-secondary">Reset</button>
+      </div>
+      <div id="result-display" class="alert alert-info mt-3 d-none">
+        <p>Number of `<` brackets: <span id="lt-count">0</span></p>
+        <p>Number of `>` brackets: <span id="gt-count">0</span></p>
+        <p id="balance-status" class="mb-0"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container p-3 bg-light">
+  <h2 class="text-center mb-4">How It Works</h2>
+  <p>The Angle Bracket Counter works by scanning your text and counting every occurrence of `<` and `>`. Here’s the simple formula:</p>
+  <p><strong>Step 1:</strong> Count all `<` symbols in your text.</p>
+  <p><strong>Step 2:</strong> Count all `>` symbols in your text.</p>
+  <p><strong>Step 3:</strong> Compare the two counts. If they’re equal, your brackets are balanced. If not, you’ve got some fixing to do!</p>
+  <p>It’s like having a personal bracket detective that ensures everything lines up perfectly.</p>
+  <div class="table-responsive mt-4">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Text Example</th>
+          <th>`<` Count</th>
+          <th>`>` Count</th>
+          <th>Balance Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>&lt;div&gt;&lt;/div&gt;</code></td>
+          <td>2</td>
+          <td>2</td>
+          <td>Balanced</td>
+        </tr>
+        <tr>
+          <td><code>&lt;p&gt;Hello World</code></td>
+          <td>1</td>
+          <td>0</td>
+          <td>Unbalanced</td>
+        </tr>
+        <tr>
+          <td><code>&lt;a href="#"&gt;Link&lt;/a&gt;</code></td>
+          <td>2</td>
+          <td>2</td>
+          <td>Balanced</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container p-3 bg-dark text-white">
+  <h2 class="text-center mb-4">Top 10 Use Cases for the Angle Bracket Counter</h2>
+  <ul class="list-group">
+    <li class="list-group-item bg-dark text-white">1. Debugging HTML or XML code for missing or extra brackets.</li>
+    <li class="list-group-item bg-dark text-white">2. Ensuring proper tag closure in programming languages like JavaScript or Python.</li>
+    <li class="list-group-item bg-dark text-white">3. Validating the structure of Markdown files.</li>
+    <li class="list-group-item bg-dark text-white">4. Checking for balanced brackets in mathematical expressions.</li>
+    <li class="list-group-item bg-dark text-white">5. Proofreading technical documentation for syntax errors.</li>
+    <li class="list-group-item bg-dark text-white">6. Verifying the integrity of JSON or YAML files.</li>
+    <li class="list-group-item bg-dark text-white">7. Teaching coding students the importance of balanced syntax.</li>
+    <li class="list-group-item bg-dark text-white">8. Writing clean and error-free templates for web development.</li>
+    <li class="list-group-item bg-dark text-white">9. Spotting issues in config files for servers or applications.</li>
+    <li class="list-group-item bg-dark text-white">10. Keeping your text-based projects organized and professional.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultDisplay = document.getElementById('result-display');
+    const ltCount = document.getElementById('lt-count');
+    const gtCount = document.getElementById('gt-count');
+    const balanceStatus = document.getElementById('balance-status');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    countBtn.addEventListener('click', () => {
+      const text = inputText.value;
+      if (!text.trim()) {
+        alert('Please enter some text to count brackets.');
+        return;
+      }
+
+      const ltMatches = text.match(/</g) || [];
+      const gtMatches = text.match(/>/g) || [];
+      const ltCountValue = ltMatches.length;
+      const gtCountValue = gtMatches.length;
+
+      ltCount.textContent = ltCountValue;
+      gtCount.textContent = gtCountValue;
+
+      if (ltCountValue === gtCountValue) {
+        balanceStatus.textContent = 'Brackets are balanced.';
+      } else {
+        balanceStatus.textContent = 'Brackets are unbalanced.';
+      }
+
+      resultDisplay.classList.remove('d-none');
+    });
+
+    resetBtn.addEventListener('click', () => {
+      inputText.value = '';
+      resultDisplay.classList.add('d-none');
+      ltCount.textContent = 0;
+      gtCount.textContent = 0;
+      balanceStatus.textContent = '';
+    });
+  });
+</script>

@@ -1,0 +1,150 @@
+---
+title: "Split Bill Calculator - Easily Divide Expenses Among Friends"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-02-25 09:05:36
+metaDescription: "Split bills fairly with friends or roommates using our easy Split Bill Calculator. Calculate tips and divide expenses instantly!"
+metaKeywords: "split bill calculator, divide bill, bill splitting, shared expenses, tip calculator, fair bill division"
+tags: ["split-bill", "calculator", "expenses", "friends", "roommates"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <h1 class="text-center mb-4">Split Bill Calculator</h1><div class="container bg-dark text-white p-4 rounded">
+  <h2 class="text-center mb-4">Split Bill Calculator</h2>
+  <p class="text-center mb-4">Splitting bills with friends or roommates can feel like solving a math problem you never signed up for. Why does it always turn into a mini-drama? Enter the Split Bill Calculator, your no-fuss, no-math-required solution to dividing expenses fairly. Whether it's a dinner bill, a shared vacation, or monthly utilities, this tool instantly calculates how much each person owes—tips included! No more awkward "Hey, you owe me $12.47" moments. Just input the total bill, the number of people, and the tip percentage, and voilà! Everyone walks away happy, and you save your brainpower for more important things, like deciding what to watch on Netflix tonight.</p>
+</div>
+  <p class="text-center mb-4">Easily divide your bill among friends or roommates.</p>
+
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form id="bill-form" class="mb-4">
+        <div class="mb-3">
+          <label for="total-bill" class="form-label">Total Bill Amount ($)</label>
+          <input type="number" class="form-control" id="total-bill" placeholder="Enter total bill amount" min="0" step="0.01" required>
+        </div>
+        <div class="mb-3">
+          <label for="num-people" class="form-label">Number of People</label>
+          <input type="number" class="form-control" id="num-people" placeholder="Enter number of people" min="1" required>
+        </div>
+        <div class="mb-3">
+          <label for="tip-percentage" class="form-label">Tip Percentage (%)</label>
+          <input type="number" class="form-control" id="tip-percentage" placeholder="Enter tip percentage" min="0" step="0.01">
+        </div>
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+        </div>
+      </form>
+
+      <div id="result-section" class="text-center" style="display: none;">
+        <h3 class="fw-bold">Each Person Pays: <span id="amount-per-person" class="fs-4"></span></h3>
+        <p>Total Bill with Tip: <span id="total-with-tip"></span></p>
+      </div>
+
+      <div id="error-message" class="text-danger text-center mt-3" style="display: none;">
+        Please enter valid numbers.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container bg-light p-4 rounded mt-4">
+  <h3 class="mb-4">How It Works</h3>
+  <p>The Split Bill Calculator uses a simple formula to ensure fairness:</p>
+  <p><strong>Step 1:</strong> Add the total bill amount and the optional tip percentage. <br>
+  <strong>Step 2:</strong> Divide the total (bill + tip) by the number of people. <br>
+  <strong>Step 3:</strong> The result is what each person pays. Easy, right?</p>
+  
+  <h4 class="mt-4">Example Calculations</h4>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Total Bill ($)</th>
+        <th>Number of People</th>
+        <th>Tip (%)</th>
+        <th>Each Person Pays ($)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>100</td>
+        <td>4</td>
+        <td>15</td>
+        <td>28.75</td>
+      </tr>
+      <tr>
+        <td>75</td>
+        <td>3</td>
+        <td>20</td>
+        <td>30.00</td>
+      </tr>
+      <tr>
+        <td>50</td>
+        <td>2</td>
+        <td>10</td>
+        <td>27.50</td>
+      </tr>
+      <tr>
+        <td>200</td>
+        <td>5</td>
+        <td>18</td>
+        <td>47.20</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container bg-dark text-white p-4 rounded mt-4">
+  <h3 class="mb-4">10 Common Use Cases for the Split Bill Calculator</h3>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item bg-dark text-white">Dividing a restaurant bill among friends.</li>
+    <li class="list-group-item bg-dark text-white">Splitting vacation expenses with travel buddies.</li>
+    <li class="list-group-item bg-dark text-white">Calculating shared utility bills with roommates.</li>
+    <li class="list-group-item bg-dark text-white">Dividing the cost of group gifts or events.</li>
+    <li class="list-group-item bg-dark text-white">Sharing the cost of a ride-sharing trip.</li>
+    <li class="list-group-item bg-dark text-white">Calculating contributions for a group fundraiser.</li>
+    <li class="list-group-item bg-dark text-white">Splitting the cost of groceries for a shared household.</li>
+    <li class="list-group-item bg-dark text-white">Dividing expenses for a group project or event.</li>
+    <li class="list-group-item bg-dark text-white">Calculating shared subscription costs (e.g., Netflix, Spotify).</li>
+    <li class="list-group-item bg-dark text-white">Splitting the bill for a group delivery order.</li>
+  </ol>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      document.getElementById('total-bill').value = startValue;
+    }
+
+    const form = document.getElementById('bill-form');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultSection = document.getElementById('result-section');
+    const errorMessage = document.getElementById('error-message');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const totalBill = parseFloat(document.getElementById('total-bill').value);
+      const numPeople = parseInt(document.getElementById('num-people').value);
+      const tipPercentage = parseFloat(document.getElementById('tip-percentage').value) || 0;
+
+      if (isNaN(totalBill) || isNaN(numPeople) || totalBill < 0 || numPeople < 1 || tipPercentage < 0) {
+        errorMessage.style.display = 'block';
+        resultSection.style.display = 'none';
+        return;
+      }
+
+      errorMessage.style.display = 'none';
+
+      const totalWithTip = totalBill * (1 + tipPercentage / 100);
+      const amountPerPerson = totalWithTip / numPeople;
+
+      document.getElementById('amount-per-person').textContent = `$${amountPerPerson.toFixed(2)}`;
+      document.getElementById('total-with-tip').textContent = `$${totalWithTip.toFixed(2)}`;
+      resultSection.style.display = 'block';
+    });
+
+    resetBtn.addEventListener('click', function () {
+      form.reset();
+      resultSection.style.display = 'none';
+      errorMessage.style.display = 'none';
+    });
+  });
+</script>

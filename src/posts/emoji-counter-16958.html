@@ -1,0 +1,143 @@
+---
+title: "Emoji Counter: Count Emojis in Your Text Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-04-26 18:05:24
+metaDescription: "Count emojis in your text instantly with the Emoji Counter. Perfect for social media, marketing, or just fun. Try it now!"
+metaKeywords: "emoji counter, count emojis, emoji tracker, emoji usage, social media tools, emoji analyzer"
+tags: ["emoji", "text analysis", "social media", "content creation", "unicode"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-4">Emoji Counter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="lead mb-4">Why does counting emojis feel like solving a puzzle? Whether you're drafting a fun social media post, analyzing engagement, or just curious about how many 😂 or ❤️ you’ve used, the Emoji Counter is here to make your life simpler. Paste your text, hit the button, and voilà—you’ll know exactly how many emojis are hiding in your words. No more guessing, no more scrolling back and forth. This tool is your emoji detective, ready to give you the numbers in seconds. Say goodbye to emoji chaos and hello to clarity!</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Paste your text below to count the emojis in it.</p>
+      <form id="emoji-form" class="mb-4">
+        <div class="mb-3">
+          <textarea id="text-input" class="form-control bg-dark text-white" rows="6" placeholder="Paste your text here..." aria-label="Text input for emoji counting"></textarea>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+          <button type="submit" class="btn btn-primary me-md-2">Count Emojis</button>
+          <button type="button" id="reset-btn" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+      <div id="results" class="alert alert-info" role="alert" style="display: none;">
+        <p id="total-emojis" class="mb-1">Total Emojis: <span id="total-count">0</span></p>
+        <p id="unique-emojis" class="mb-0">Unique Emojis: <span id="unique-list"></span></p>
+      </div>
+      <div id="error-message" class="alert alert-danger" role="alert" style="display: none;">
+        Please enter some text to count emojis.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-3">How It Works</h2>
+      <p class="text-center">The Emoji Counter works by scanning your text for any characters that fall into the <strong>emoji range</strong>. It identifies all emojis present, counts the total number of occurrences, and even lists out the unique ones for you. Think of it as a magnifying glass for your text, zooming in on every 😊, 🚀, or 🎉 in your content.</p>
+      <p class="text-center">Here’s a quick breakdown:</p>
+      <ul class="list-unstyled">
+        <li class="mb-2"><strong>Step 1:</strong> Paste your text into the input box.</li>
+        <li class="mb-2"><strong>Step 2:</strong> Click "Count Emojis."</li>
+        <li class="mb-2"><strong>Step 3:</strong> See the total number of emojis and a list of unique ones.</li>
+      </ul>
+      <h3 class="text-center mt-4 mb-3">Example Output</h3>
+      <table class="table table-bordered text-center">
+        <thead>
+          <tr>
+            <th>Text Input</th>
+            <th>Total Emojis</th>
+            <th>Unique Emojis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hello! 😊 How are you? ❤️</td>
+            <td>2</td>
+            <td>😊, ❤️</td>
+          </tr>
+          <tr>
+            <td>Let’s go! 🚀🎉🚀</td>
+            <td>3</td>
+            <td>🚀, 🎉</td>
+          </tr>
+          <tr>
+            <td>Good morning! ☀️ Have a great day! 🌈</td>
+            <td>2</td>
+            <td>☀️, 🌈</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-3">10 Common Use Cases for the Emoji Counter</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Analyzing emoji usage in social media posts for better engagement.</li>
+        <li class="list-group-item">Counting emojis in text messages to ensure clarity or fun.</li>
+        <li class="list-group-item">Tracking emoji frequency in customer feedback or reviews.</li>
+        <li class="list-group-item">Creating emoji-heavy content for blogs or newsletters.</li>
+        <li class="list-group-item">Checking the balance of emojis in marketing campaigns.</li>
+        <li class="list-group-item">Identifying overused emojis in your writing style.</li>
+        <li class="list-group-item">Counting emojis in captions for Instagram or TikTok.</li>
+        <li class="list-group-item">Using emoji counts in academic or linguistic research.</li>
+        <li class="list-group-item">Ensuring emoji consistency in brand messaging.</li>
+        <li class="list-group-item">Simply satisfying your curiosity about emoji usage!</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const textInput = document.getElementById('text-input');
+    const emojiForm = document.getElementById('emoji-form');
+    const resultsDiv = document.getElementById('results');
+    const totalCountSpan = document.getElementById('total-count');
+    const uniqueListSpan = document.getElementById('unique-list');
+    const errorMessageDiv = document.getElementById('error-message');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    emojiForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const text = textInput.value.trim();
+
+      if (!text) {
+        errorMessageDiv.style.display = 'block';
+        resultsDiv.style.display = 'none';
+        return;
+      }
+
+      errorMessageDiv.style.display = 'none';
+
+      const emojiRegex = /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F700}-\u{1F77F}]|[\u{1F780}-\u{1F7FF}]|[\u{1F800}-\u{1F8FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1FA00}-\u{1FA6F}]|[\u{1FA70}-\u{1FAFF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu;
+      const emojis = text.match(emojiRegex) || [];
+      const uniqueEmojis = [...new Set(emojis)];
+
+      totalCountSpan.textContent = emojis.length;
+      uniqueListSpan.textContent = uniqueEmojis.join(' ');
+      resultsDiv.style.display = 'block';
+    });
+
+    resetBtn.addEventListener('click', function () {
+      textInput.value = '';
+      resultsDiv.style.display = 'none';
+      errorMessageDiv.style.display = 'none';
+    });
+  });
+</script>

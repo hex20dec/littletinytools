@@ -1,0 +1,145 @@
+---
+title: Zero-to-Front Sorter - Move Zeros to the Front of Your List
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-09-09 02:30:17
+metaDescription: "Easily move zeros to the front of your number list with the Zero-to-Front Sorter. Perfect for data organization, coding, and more!"
+metaKeywords: "zero sorter, number organizer, data sorting tool, zero to front, number list tool, data management, programming tool, array sorting, zero placement, list organizer"
+tags: [numbers, sorting, zero-sorter, array-manipulation, web-tool]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-4">Zero-to-Front Sorter</h1><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="lead text-center">
+        Struggling to organize a list of numbers with zeros scattered everywhere? It’s like trying to herd cats—frustrating and time-consuming. Enter the <strong>Zero-to-Front Sorter</strong>, your go-to tool for effortlessly moving all zeros to the front while keeping the rest of your numbers in perfect order. Whether you’re a data enthusiast, a programmer, or just someone who loves a tidy list, this tool is here to save the day. No more manual sorting or headaches—just quick, clean, and efficient results. Let’s make your lists as organized as your favorite playlist!
+      </p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Enter a list of numbers separated by commas, and we'll move all zeros to the front while keeping the order of other numbers intact.</p>
+      <div class="mb-3">
+        <input type="text" id="numberInput" class="form-control bg-dark text-white" placeholder="Enter numbers separated by commas (e.g., 1, 0, 2, 0, 3)" aria-label="Number Input">
+      </div>
+      <div class="d-grid gap-2 mb-3">
+        <button id="sortButton" class="btn btn-primary">Sort Zeros to Front</button>
+      </div>
+      <div id="outputSection" class="alert alert-success d-none" role="alert">
+        <strong>Sorted List:</strong> <span id="sortedList"></span>
+      </div>
+      <div id="errorSection" class="alert alert-danger d-none" role="alert">
+        Please enter valid numbers separated by commas.
+      </div>
+      <div class="d-grid gap-2">
+        <button id="resetButton" class="btn btn-secondary">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4">How It Works</h2>
+      <p class="text-center">
+        The Zero-to-Front Sorter works like a digital organizer for your numbers. Here’s the simple formula it follows:
+      </p>
+      <ul class="list-unstyled text-center">
+        <li><strong>Step 1:</strong> Separate all the zeros from the rest of the numbers.</li>
+        <li><strong>Step 2:</strong> Group the non-zero numbers together, keeping their original order.</li>
+        <li><strong>Step 3:</strong> Place all the zeros at the front, followed by the non-zero numbers.</li>
+      </ul>
+      <p class="text-center mt-3">
+        For example, if you input <code>1, 0, 2, 0, 3</code>, the tool will rearrange it into <code>0, 0, 1, 2, 3</code>. Easy, right?
+      </p>
+      <div class="table-responsive">
+        <table class="table table-bordered mt-4">
+          <thead>
+            <tr>
+              <th>Original List</th>
+              <th>Sorted List</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1, 0, 2, 0, 3</td><td>0, 0, 1, 2, 3</td></tr>
+            <tr><td>5, 0, 7, 0, 9</td><td>0, 0, 5, 7, 9</td></tr>
+            <tr><td>0, 10, 0, 20, 30</td><td>0, 0, 10, 20, 30</td></tr>
+            <tr><td>12, 0, 15, 0, 18</td><td>0, 0, 12, 15, 18</td></tr>
+            <tr><td>0, 0, 0, 1, 2</td><td>0, 0, 0, 1, 2</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4">10 Common Use Cases</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Organizing datasets for data analysis.</li>
+        <li class="list-group-item">Preparing input data for programming challenges.</li>
+        <li class="list-group-item">Sorting inventory lists with zero stock items.</li>
+        <li class="list-group-item">Streamlining financial records with zero balances.</li>
+        <li class="list-group-item">Cleaning up survey responses with missing values.</li>
+        <li class="list-group-item">Rearranging scores or grades for better visualization.</li>
+        <li class="list-group-item">Simplifying array manipulation in coding projects.</li>
+        <li class="list-group-item">Preparing data for machine learning preprocessing.</li>
+        <li class="list-group-item">Sorting timestamps with zero values.</li>
+        <li class="list-group-item">Managing event attendance lists with absentees marked as zeros.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    const numberInput = document.getElementById('numberInput');
+    const sortButton = document.getElementById('sortButton');
+    const outputSection = document.getElementById('outputSection');
+    const sortedList = document.getElementById('sortedList');
+    const errorSection = document.getElementById('errorSection');
+    const resetButton = document.getElementById('resetButton');
+
+    if (startValue) {
+      numberInput.value = startValue;
+    }
+
+    sortButton.addEventListener('click', function () {
+      const input = numberInput.value.trim();
+      if (!input) {
+        errorSection.classList.remove('d-none');
+        outputSection.classList.add('d-none');
+        return;
+      }
+
+      const numbers = input.split(',').map(num => num.trim());
+      const isValid = numbers.every(num => !isNaN(num) && num !== '');
+
+      if (!isValid) {
+        errorSection.classList.remove('d-none');
+        outputSection.classList.add('d-none');
+        return;
+      }
+
+      const nonZeroNumbers = numbers.filter(num => num !== '0');
+      const zeroNumbers = numbers.filter(num => num === '0');
+      const sortedNumbers = zeroNumbers.concat(nonZeroNumbers);
+
+      sortedList.textContent = sortedNumbers.join(', ');
+      outputSection.classList.remove('d-none');
+      errorSection.classList.add('d-none');
+    });
+
+    resetButton.addEventListener('click', function () {
+      numberInput.value = '';
+      outputSection.classList.add('d-none');
+      errorSection.classList.add('d-none');
+    });
+
+    numberInput.addEventListener('focus', function () {
+      errorSection.classList.add('d-none');
+    });
+  });
+</script>

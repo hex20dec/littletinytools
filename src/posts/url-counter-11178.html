@@ -1,0 +1,154 @@
+---
+title: "URL Counter - Quickly Count URLs in Your Text"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-05-12 00:09:36
+metaDescription: "Easily count URLs in any text with the URL Counter tool. Perfect for writers, researchers, and SEO professionals. Fast, accurate, and free!"
+metaKeywords: "URL counter, count URLs, URL tool, text analysis, link counter, web tools, free tools, SEO tools, URL scanner, online URL counter"
+tags: ["URL Counter", "Web Tool", "Text Analysis", "Link Counter", "Free Tool"]
+---
+
+<style>
+  #main-div {
+    background-color: #212529;
+    color: #f8f9fa;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .form-control {
+    background-color: #343a40;
+    color: #f8f9fa;
+    border: 1px solid #495057;
+  }
+  .form-control:focus {
+    background-color: #343a40;
+    color: #f8f9fa;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  .alert {
+    margin-top: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <h1 class="text-center mb-4">URL Counter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center mb-4 fs-4 fw-bold">Ever found yourself staring at a wall of text, wondering how many URLs are buried in there? Maybe you're compiling a report, cleaning up a document, or just curious. Manually counting URLs is like trying to find a needle in a haystack—tedious and time-consuming. Enter the <strong>URL Counter</strong>, your new best friend for effortlessly tallying up those pesky links. Paste your text, click a button, and voilà! It’s like magic, but without the wand. Whether you're a writer, researcher, or just someone who loves efficiency, this tool will make your life a little easier—and maybe even put a smile on your face. Go ahead, give it a try. You’ve got nothing to lose but a few seconds of your time!</p>
+    </div>
+  </div>
+</div>
+        <p class="text-center mb-4">Paste your text below to count the number of URLs.</p>
+        <textarea id="input-text" class="form-control mb-3" rows="10" placeholder="Paste your text here..."></textarea>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+          <button id="count-btn" class="btn btn-primary me-md-2">Count URLs</button>
+          <button id="reset-btn" class="btn btn-secondary">Reset</button>
+        </div>
+        <div id="result" class="alert alert-success mt-4 text-center" role="alert" style="display: none;">
+          <strong>Total URLs Found: <span id="url-count">0</span></strong>
+        </div>
+        <div id="error" class="alert alert-warning mt-4 text-center" role="alert" style="display: none;">
+          <strong>No URLs found in the text.</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center mb-4 fs-5">The <strong>URL Counter</strong> works by scanning your text for patterns that look like URLs. It uses a simple formula: it searches for text that starts with "http://" or "https://" and follows the standard URL format. Once it finds a match, it counts it as a valid URL. No fancy algorithms, no complicated steps—just a quick scan and count. Below is a table showing examples of how the tool identifies URLs in different scenarios:</p>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Input Text</th>
+              <th scope="col">URLs Detected</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Visit https://example.com for more info.</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>Check out http://example.org and https://example.net.</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>No URLs here, just plain text.</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>https://example.com/page1 and http://example.com/page2 are great resources.</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>Visit our site at https://example.com or email us at info@example.com.</td>
+              <td>1</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center mb-4 fs-5">Here are 10 common ways to use the <strong>URL Counter</strong>:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Count URLs in blog posts to ensure proper linking.</li>
+        <li class="list-group-item">Analyze social media posts for embedded links.</li>
+        <li class="list-group-item">Check academic papers for cited resources.</li>
+        <li class="list-group-item">Verify the number of links in email campaigns.</li>
+        <li class="list-group-item">Audit website content for broken or excessive links.</li>
+        <li class="list-group-item">Monitor forum posts for spammy URLs.</li>
+        <li class="list-group-item">Track links in collaborative documents like Google Docs.</li>
+        <li class="list-group-item">Export link counts for SEO reporting.</li>
+        <li class="list-group-item">Ensure proper attribution in creative writing projects.</li>
+        <li class="list-group-item">Quickly scan research articles for reference links.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const inputText = document.getElementById('input-text');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultDiv = document.getElementById('result');
+    const errorDiv = document.getElementById('error');
+    const urlCountSpan = document.getElementById('url-count');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    countBtn.addEventListener('click', function () {
+      const text = inputText.value;
+      const urlRegex = /https?:\/\/[^\s]+/g;
+      const urls = text.match(urlRegex);
+
+      if (urls && urls.length > 0) {
+        urlCountSpan.textContent = urls.length;
+        resultDiv.style.display = 'block';
+        errorDiv.style.display = 'none';
+      } else {
+        resultDiv.style.display = 'none';
+        errorDiv.style.display = 'block';
+      }
+    });
+
+    resetBtn.addEventListener('click', function () {
+      inputText.value = '';
+      resultDiv.style.display = 'none';
+      errorDiv.style.display = 'none';
+    });
+  });
+</script>

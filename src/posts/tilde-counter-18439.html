@@ -1,0 +1,95 @@
+---
+title: "Tilde Counter - Quickly Count Tildes in Your Text"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-06-20 11:55:02
+metaDescription: "Count tildes (~) in any text instantly with this simple and free online tool. Perfect for coding, data analysis, and more!"
+metaKeywords: "tilde counter, count tildes, tilde character counter, online tilde counter, text analysis tool, count special characters, tilde frequency"
+tags: ["text tools", "tilde counter", "web app", "productivity", "developer tools"]
+---
+
+<div id="main-div" class="container mt-5 text-center">
+  <h1 class="mb-4">Tilde Counter</h1><div class="container mt-5 text-center">
+  <strong class="display-5 mb-4">Tilde Counter</strong>
+  <p class="lead mb-4">Why does counting tildes (~) feel like searching for a needle in a haystack? Whether you're cleaning up messy code, analyzing text data, or just curious about how many tildes are in your document, this tool is your go-to solution. Simply paste or type your text, click the button, and voilà—instant tilde count! No more squinting at your screen or manually tallying. With its clean, intuitive design, the Tilde Counter makes life a little easier, one tilde at a time. Say goodbye to frustration and hello to simplicity!</p>
+</div>
+  <p class="lead mb-4">Enter your text below to count the number of tildes (<code>~</code>).</p>
+  
+  <textarea id="text-input" class="form-control mb-3 bg-dark text-white" placeholder="Paste or type your text here..." rows="8"></textarea>
+  
+  <button id="count-button" class="btn btn-primary w-100 mb-3">Count Tildes</button>
+  
+  <div id="result-display" class="alert alert-info text-center">Number of tildes: 0</div>
+  
+  <footer class="mt-5 text-muted">Made with simplicity in mind.</footer>
+</div>
+
+<div class="container mt-5">
+  <h2 class="mb-4">How It Works</h2>
+  <p class="mb-4">The Tilde Counter works by scanning your input text and identifying every instance of the tilde character (<code>~</code>). It follows a straightforward formula:</p>
+  <p class="mb-4"><em>Total Tildes = Number of times (~) appears in the text</em></p>
+  <p class="mb-4">Here’s a quick example to show how it calculates:</p>
+  
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Input Text</th>
+        <th>Number of Tildes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Hello~</td><td>1</td></tr>
+      <tr><td>~~Tilde~~</td><td>4</td></tr>
+      <tr><td>No tildes here!</td><td>0</td></tr>
+      <tr><td>~~~~~</td><td>5</td></tr>
+      <tr><td>~Tilde~Tilde~</td><td>3</td></tr>
+    </tbody>
+  </table>
+  <p class="mt-4">Whether your text has one tilde or a hundred, the tool handles it effortlessly.</p>
+</div><div class="container mt-5">
+  <h2 class="mb-4">Top 10 Use Cases for the Tilde Counter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">1. Cleaning up code files with stray tildes.</li>
+    <li class="list-group-item">2. Analyzing text data for tilde frequency in linguistics research.</li>
+    <li class="list-group-item">3. Ensuring proper formatting in Markdown or LaTeX documents.</li>
+    <li class="list-group-item">4. Counting tildes in mathematical expressions or equations.</li>
+    <li class="list-group-item">5. Verifying tilde usage in programming languages like Python or JavaScript.</li>
+    <li class="list-group-item">6. Identifying tildes in CSV or spreadsheet data.</li>
+    <li class="list-group-item">7. Checking for tildes in URLs or file paths.</li>
+    <li class="list-group-item">8. Counting tildes in creative writing or poetry for stylistic purposes.</li>
+    <li class="list-group-item">9. Debugging text files with unexpected tilde characters.</li>
+    <li class="list-group-item">10. Teaching students about special characters in text analysis.</li>
+  </ul>
+</div><script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const textInput = document.getElementById("text-input");
+    const countButton = document.getElementById("count-button");
+    const resultDisplay = document.getElementById("result-display");
+
+    // Preload text from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get("start");
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    // Count tildes function
+    function countTildes(text) {
+      return (text.match(/~/g) || []).length;
+    }
+
+    // Handle button click
+    countButton.addEventListener("click", function () {
+      const text = textInput.value;
+      const tildeCount = countTildes(text);
+      resultDisplay.textContent = `Number of tildes: ${tildeCount}`;
+    });
+
+    // Handle Enter key in textarea
+    textInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        countButton.click();
+      }
+    });
+  });
+</script>

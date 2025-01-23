@@ -1,0 +1,177 @@
+---
+title: Simple Project Budget Calculator - Manage Your Project Finances Easily
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-03-19 09:42:24
+metaDescription: "Simplify your budgeting with the Simple Project Budget Calculator. Track expenses, calculate totals, and stay on top of your finances effortlessly."
+metaKeywords: "budget calculator, project budget, expense tracker, budget planning, financial tool, expense calculator, budget management, budget tool, project management, personal finance"
+tags: budget, calculator, project, finance, expense
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Simple Project Budget Calculator</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <strong class="display-5">Simple Project Budget Calculator</strong>
+  </div>
+  <p class="lead text-center">Why does budgeting for projects always feel like solving a puzzle with missing pieces? Whether you're planning a small DIY project or managing a team at work, keeping track of expenses can be overwhelming. Enter the Simple Project Budget Calculator—a tool that takes the guesswork out of budgeting. Just list your expenses, add their costs, and let the calculator do the math for you. No spreadsheets, no headaches. It’s like having a personal finance assistant that’s always ready to help. Say goodbye to budgeting stress and hello to clarity and control!</p>
+</div>
+  <div class="mb-3">
+    <div id="expense-rows" class="mb-3">
+      <div class="row mb-2">
+        <div class="col-md-6">
+          <input type="text" class="form-control expense-name" placeholder="Expense Name" aria-label="Expense Name">
+        </div>
+        <div class="col-md-4">
+          <input type="number" class="form-control expense-cost" placeholder="Cost" aria-label="Cost" min="0">
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary w-100 add-expense">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between mb-3">
+      <button id="calculate-total" class="btn btn-success">Calculate Total</button>
+      <button id="reset" class="btn btn-danger">Reset</button>
+    </div>
+    <div id="expense-list" class="mb-3">
+      <h3>Expenses:</h3>
+      <ul id="expenses" class="list-unstyled"></ul>
+    </div>
+    <h3 id="total-budget" class="text-center">Total Budget: $0</h3>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="mb-4">
+    <h3 class="text-center">How It Works</h3>
+    <p class="text-center">The Simple Project Budget Calculator uses a straightforward formula: <strong>Total Budget = Sum of All Expenses</strong>. Here's how it breaks down:</p>
+    <ol class="list-group list-group-numbered">
+      <li class="list-group-item">Enter the name of each expense (e.g., "Materials," "Labor").</li>
+      <li class="list-group-item">Add the corresponding cost for each expense.</li>
+      <li class="list-group-item">Click "Calculate Total" to see the sum of all your expenses.</li>
+    </ol>
+  </div>
+
+  <div class="table-responsive mb-4">
+    <h3 class="text-center">Sample Expense Breakdown</h3>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Expense Name</th>
+          <th>Cost ($)</th>
+          <th>Total Budget ($)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Materials</td>
+          <td>200</td>
+          <td>200</td>
+        </tr>
+        <tr>
+          <td>Labor</td>
+          <td>500</td>
+          <td>700</td>
+        </tr>
+        <tr>
+          <td>Marketing</td>
+          <td>300</td>
+          <td>1000</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <h3 class="text-center">10 Common Use Cases</h3>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item bg-dark text-white">1. <strong>Home Renovation Projects</strong> - Track costs for materials, labor, and permits.</li>
+    <li class="list-group-item bg-dark text-white">2. <strong>Event Planning</strong> - Budget for venue, catering, and decorations.</li>
+    <li class="list-group-item bg-dark text-white">3. <strong>Freelance Work</strong> - Estimate project costs for clients.</li>
+    <li class="list-group-item bg-dark text-white">4. <strong>Small Business Operations</strong> - Manage overhead and operational expenses.</li>
+    <li class="list-group-item bg-dark text-white">5. <strong>Travel Planning</strong> - Calculate costs for flights, hotels, and activities.</li>
+    <li class="list-group-item bg-dark text-white">6. <strong>Wedding Planning</strong> - Keep track of all wedding-related expenses.</li>
+    <li class="list-group-item bg-dark text-white">7. <strong>DIY Projects</strong> - Budget for tools, materials, and supplies.</li>
+    <li class="list-group-item bg-dark text-white">8. <strong>School Projects</strong> - Estimate costs for group assignments or presentations.</li>
+    <li class="list-group-item bg-dark text-white">9. <strong>Non-Profit Fundraising</strong> - Plan and track fundraising event costs.</li>
+    <li class="list-group-item bg-dark text-white">10. <strong>Personal Finance</strong> - Organize monthly expenses and savings goals.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mainDiv = document.getElementById('main-div');
+    const expenseRows = document.getElementById('expense-rows');
+    const addExpenseButtons = document.querySelectorAll('.add-expense');
+    const calculateTotalButton = document.getElementById('calculate-total');
+    const resetButton = document.getElementById('reset');
+    const expensesList = document.getElementById('expenses');
+    const totalBudgetDisplay = document.getElementById('total-budget');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      const firstExpenseName = document.querySelector('.expense-name');
+      firstExpenseName.value = startValue;
+    }
+
+    const addExpenseRow = () => {
+      const newRow = document.createElement('div');
+      newRow.classList.add('row', 'mb-2');
+      newRow.innerHTML = `
+        <div class="col-md-6">
+          <input type="text" class="form-control expense-name" placeholder="Expense Name" aria-label="Expense Name">
+        </div>
+        <div class="col-md-4">
+          <input type="number" class="form-control expense-cost" placeholder="Cost" aria-label="Cost" min="0">
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary w-100 add-expense">+</button>
+        </div>
+      `;
+      expenseRows.appendChild(newRow);
+      newRow.querySelector('.add-expense').addEventListener('click', addExpenseRow);
+    };
+
+    addExpenseButtons.forEach(button => button.addEventListener('click', addExpenseRow));
+
+    const calculateTotal = () => {
+      const expenseCosts = document.querySelectorAll('.expense-cost');
+      const expenseNames = document.querySelectorAll('.expense-name');
+      let total = 0;
+      expensesList.innerHTML = '';
+
+      expenseCosts.forEach((costInput, index) => {
+        const cost = parseFloat(costInput.value);
+        const name = expenseNames[index].value.trim();
+        if (!isNaN(cost) && cost >= 0 && name) {
+          total += cost;
+          const listItem = document.createElement('li');
+          listItem.textContent = `${name}: $${cost.toFixed(2)}`;
+          expensesList.appendChild(listItem);
+        }
+      });
+
+      totalBudgetDisplay.textContent = `Total Budget: $${total.toFixed(2)}`;
+    };
+
+    calculateTotalButton.addEventListener('click', calculateTotal);
+
+    const resetCalculator = () => {
+      expenseRows.innerHTML = `
+        <div class="row mb-2">
+          <div class="col-md-6">
+            <input type="text" class="form-control expense-name" placeholder="Expense Name" aria-label="Expense Name">
+          </div>
+          <div class="col-md-4">
+            <input type="number" class="form-control expense-cost" placeholder="Cost" aria-label="Cost" min="0">
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary w-100 add-expense">+</button>
+          </div>
+        </div>
+      `;
+      expensesList.innerHTML = '';
+      totalBudgetDisplay.textContent = 'Total Budget: $0';
+      document.querySelector('.add-expense').addEventListener('click', addExpenseRow);
+    };
+
+    resetButton.addEventListener('click', resetCalculator);
+  });
+</script>

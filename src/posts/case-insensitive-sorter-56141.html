@@ -1,0 +1,147 @@
+---
+title: "Case-Insensitive Sorter: Sort Text Easily & Quickly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-04-07 17:50:55
+metaDescription: "Sort text alphabetically with ease using the Case-Insensitive Sorter. Perfect for organizing lists, names, and data. Try it now!"
+metaKeywords: "sort text, alphabetical sorter, case-insensitive sorter, list organizer, text sorter, online sorter, organize data, sort names, clean up lists, SEO tool"
+tags: ["text-sorter", "case-insensitive", "sorting-tool", "productivity", "web-app"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="text-center mb-4">Case-Insensitive Sorter</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <p class="text-center fs-3 fw-bold mb-4">Tired of manually sorting lists and dealing with messy uppercase and lowercase letters? Let’s fix that.</p>
+      <p class="text-center mb-4">The <strong>Case-Insensitive Sorter</strong> is here to save the day! Whether you're organizing a grocery list, sorting names for a project, or cleaning up data, this tool sorts your text alphabetically without a care for uppercase or lowercase letters. Just paste your items, hit "Sort," and watch the magic happen. It’s quick, simple, and perfect for anyone who loves order without the headache. Say goodbye to tedious manual sorting—this tool makes life just a little bit easier.</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Enter your text items below, and they will be sorted alphabetically, ignoring uppercase and lowercase letters.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <textarea id="input-text" class="form-control mb-3" rows="10" placeholder="Enter one item per line (e.g., Apple, banana, Cherry)."></textarea>
+      <div class="text-end">
+        <button id="sort-btn" class="btn btn-primary mt-3">Sort</button>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12">
+      <textarea id="output-text" class="form-control mb-3" rows="10" disabled></textarea>
+      <div class="text-end">
+        <button id="copy-btn" class="btn btn-primary">Copy to Clipboard</button>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12 text-center">
+      <button id="reset-btn" class="btn btn-secondary">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast align-items-center text-white bg-success border-0 position-fixed bottom-0 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
+  <div class="d-flex">
+    <div class="toast-body">
+      Copied to clipboard!
+    </div>
+    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <p class="text-center fs-4 fw-bold mb-4">How It Works</p>
+      <p class="text-center mb-4">The tool works by taking your list of items, splitting them into individual lines, and then sorting them alphabetically. The magic happens because it ignores whether letters are uppercase or lowercase, ensuring a clean and consistent order. Think of it like organizing a bookshelf where the size of the book titles doesn’t matter—only the order of the words.</p>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Before Sorting</th>
+            <th scope="col">After Sorting</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Apple<br>banana<br>Cherry</td>
+            <td>Apple<br>banana<br>Cherry</td>
+          </tr>
+          <tr>
+            <td>Zebra<br>apple<br>Banana</td>
+            <td>apple<br>Banana<br>Zebra</td>
+          </tr>
+          <tr>
+            <td>grape<br>Kiwi<br>lemon</td>
+            <td>grape<br>Kiwi<br>lemon</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <p class="text-center fs-4 fw-bold mb-4">10 Common Use Cases</p>
+      <ul class="list-group">
+        <li class="list-group-item">1. Organizing grocery lists alphabetically.</li>
+        <li class="list-group-item">2. Sorting names for event invitations or seating charts.</li>
+        <li class="list-group-item">3. Cleaning up and organizing data in spreadsheets.</li>
+        <li class="list-group-item">4. Preparing alphabetical lists for directories or catalogs.</li>
+        <li class="list-group-item">5. Sorting keywords for SEO or content planning.</li>
+        <li class="list-group-item">6. Alphabetizing book or movie titles for personal collections.</li>
+        <li class="list-group-item">7. Organizing email or contact lists.</li>
+        <li class="list-group-item">8. Sorting ingredients for recipes or meal planning.</li>
+        <li class="list-group-item">9. Preparing lists for classroom activities or assignments.</li>
+        <li class="list-group-item">10. Simplifying data entry tasks by ensuring consistent formatting.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const inputText = document.getElementById('input-text');
+    const outputText = document.getElementById('output-text');
+    const sortBtn = document.getElementById('sort-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const toastEl = document.getElementById('toast');
+    const toast = new bootstrap.Toast(toastEl);
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    sortBtn.addEventListener('click', function () {
+      const items = inputText.value.split('\n').filter(item => item.trim() !== '');
+      if (items.length === 0) {
+        outputText.value = '';
+        return;
+      }
+      const sortedItems = items.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+      outputText.value = sortedItems.join('\n');
+    });
+
+    copyBtn.addEventListener('click', function () {
+      if (outputText.value.trim() !== '') {
+        navigator.clipboard.writeText(outputText.value).then(() => {
+          toast.show();
+        });
+      }
+    });
+
+    resetBtn.addEventListener('click', function () {
+      inputText.value = '';
+      outputText.value = '';
+    });
+  });
+</script>

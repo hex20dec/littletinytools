@@ -1,0 +1,137 @@
+---
+title: "Word Repetition Counter - Analyze Your Text Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-03-04 20:26:31
+metaDescription: "Count word repetitions instantly with the Word Repetition Counter. Perfect for writers, editors, and students. Simple, fast, and free!"
+metaKeywords: "word repetition counter, word frequency tool, count repeated words, writing tool, word analysis, text analyzer, word counter, SEO word checker, essay editing, word frequency analyzer"
+tags: ["word counter", "text analysis", "writing tool", "word frequency", "text editor"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Word Repetition Counter</h1><div class="container-fluid bg-dark text-white p-4">
+  <p class="text-center mb-4 fs-3 fw-bold">Why Does Everyone Keep Repeating Themselves?</p>
+  <p class="text-center mb-4">Ever felt like you’re saying the same thing over and over, but you’re not sure how many times? Whether you’re editing an essay, analyzing a speech, or just curious about your word habits, the <strong>Word Repetition Counter</strong> is here to save the day. Simply paste your text, hit "Count Words," and watch as it magically reveals how often each word pops up. No more guessing games—just clarity, simplicity, and a little bit of fun. Say goodbye to word-count stress and hello to smarter writing!</p>
+</div>
+  <p class="text-center mb-4">Enter your text below to count how many times each word appears.</p>
+  
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control bg-dark text-white" rows="10" placeholder="Paste or type your text here..."></textarea>
+  </div>
+  
+  <div class="text-center mb-4">
+    <button id="count-btn" class="btn btn-primary me-2">Count Words</button>
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+  
+  <div id="results-container" class="d-none">
+    <table class="table table-striped table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Word</th>
+          <th scope="col">Count</th>
+        </tr>
+      </thead>
+      <tbody id="results-body"></tbody>
+    </table>
+  </div>
+  
+  <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <p class="text-center mb-4 fs-4 fw-bold">How It Works</p>
+  <p class="text-center mb-4">The Word Repetition Counter works by breaking down your text into individual words, grouping them together, and tallying up how many times each one appears. Think of it like sorting a deck of cards—each word is counted, sorted, and displayed in an easy-to-read table. Here's a quick example of how it could look:</p>
+  
+  <table class="table table-striped mb-4">
+    <thead>
+      <tr>
+        <th scope="col">Word</th>
+        <th scope="col">Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>the</td><td>12</td></tr>
+      <tr><td>and</td><td>8</td></tr>
+      <tr><td>you</td><td>6</td></tr>
+      <tr><td>are</td><td>5</td></tr>
+      <tr><td>to</td><td>4</td></tr>
+    </tbody>
+  </table>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <p class="text-center mb-4 fs-4 fw-bold">Top 10 Uses for the Word Repetition Counter</p>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item bg-dark text-white">Editing essays to avoid repetitive language.</li>
+    <li class="list-group-item bg-dark text-white">Analyzing speeches for word frequency.</li>
+    <li class="list-group-item bg-dark text-white">Improving SEO by identifying overused keywords.</li>
+    <li class="list-group-item bg-dark text-white">Checking for plagiarism by comparing word patterns.</li>
+    <li class="list-group-item bg-dark text-white">Studying poetry for stylistic word choices.</li>
+    <li class="list-group-item bg-dark text-white">Writing cleaner code comments and documentation.</li>
+    <li class="list-group-item bg-dark text-white">Analyzing song lyrics for thematic repetition.</li>
+    <li class="list-group-item bg-dark text-white">Preparing presentations to ensure clarity.</li>
+    <li class="list-group-item bg-dark text-white">Teaching students about word variety in writing.</li>
+    <li class="list-group-item bg-dark text-white">Curiosity—just for fun! See what words you overuse in everyday writing.</li>
+  </ol>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultsContainer = document.getElementById('results-container');
+    const resultsBody = document.getElementById('results-body');
+    const errorMessage = document.getElementById('error-message');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    countBtn.addEventListener('click', () => {
+      const text = textInput.value.trim();
+      if (!text) {
+        errorMessage.textContent = 'Please enter some text to analyze.';
+        errorMessage.classList.remove('d-none');
+        resultsContainer.classList.add('d-none');
+        return;
+      }
+
+      errorMessage.classList.add('d-none');
+      const wordCounts = countWords(text);
+      displayResults(wordCounts);
+    });
+
+    resetBtn.addEventListener('click', () => {
+      textInput.value = '';
+      resultsContainer.classList.add('d-none');
+      errorMessage.classList.add('d-none');
+    });
+
+    function countWords(text) {
+      const words = text.toLowerCase().match(/\b\w+\b/g) || [];
+      const wordCounts = {};
+
+      words.forEach(word => {
+        wordCounts[word] = (wordCounts[word] || 0) + 1;
+      });
+
+      return wordCounts;
+    }
+
+    function displayResults(wordCounts) {
+      resultsBody.innerHTML = '';
+      const sortedWords = Object.keys(wordCounts).sort((a, b) => wordCounts[b] - wordCounts[a]);
+
+      sortedWords.forEach(word => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${word}</td>
+          <td>${wordCounts[word]}</td>
+        `;
+        resultsBody.appendChild(row);
+      });
+
+      resultsContainer.classList.remove('d-none');
+    }
+  });
+</script>

@@ -1,0 +1,158 @@
+---
+title: "BMI Calculator - Check Your Body Mass Index Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-11-02 08:52:56
+metaDescription: "Calculate your BMI quickly and easily with our free BMI Calculator. Perfect for tracking health, fitness goals, and weight management. Try it now!"
+metaKeywords: "BMI Calculator, Body Mass Index, BMI tool, health tracker, weight management, fitness calculator, BMI categories, BMI formula, BMI chart, healthy weight"
+tags: ["health", "fitness", "BMI", "calculator", "wellness"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <h1 class="text-center mb-3">BMI Calculator</h1><div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2 text-center">
+      <p class="fs-4">Why does figuring out your health status feel like solving a complex math problem? With our <strong>BMI Calculator</strong>, it doesn’t have to be! This simple, intuitive tool takes your height and weight, crunches the numbers, and gives you a clear picture of where you stand health-wise. Whether you're aiming to shed a few pounds, bulk up, or just maintain your current weight, this calculator is your go-to buddy. No more guessing games—just enter your details, hit calculate, and voilà! You’ll know instantly if you’re underweight, normal, overweight, or obese. Let’s make health tracking as easy as pie (but maybe skip the pie for now).</p>
+    </div>
+  </div>
+</div>
+  <p class="text-center mb-4">Enter your height and weight to calculate your Body Mass Index.</p>
+
+  <div class="mb-3">
+    <label for="height" class="form-label">Height (cm)</label>
+    <input type="number" class="form-control bg-dark text-white" id="height" placeholder="Enter height in centimeters" min="1" max="300" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="weight" class="form-label">Weight (kg)</label>
+    <input type="number" class="form-control bg-dark text-white" id="weight" placeholder="Enter weight in kilograms" min="1" max="500" required>
+  </div>
+
+  <button id="calculate-btn" class="btn btn-primary w-100 mb-3">Calculate BMI</button>
+
+  <div id="result-section" class="text-center mt-4" style="display: none;">
+    <h2>Your BMI is: <span id="bmi-value" class="fw-bold"></span></h2>
+    <p id="bmi-interpretation" class="lead"></p>
+  </div>
+
+  <button id="reset-btn" class="btn btn-secondary w-100 mt-3" style="display: none;">Reset</button>
+
+  <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+      <h2 class="mb-4">How Does the BMI Calculator Work?</h2>
+      <p class="lead">The BMI Calculator uses a straightforward formula to determine your Body Mass Index (BMI). Here’s how it works:</p>
+      <p><strong>BMI = Weight (kg) / (Height (m) × Height (m))</strong></p>
+      <p>Simply put, your weight in kilograms is divided by the square of your height in meters. The result is your BMI, which falls into one of four categories:</p>
+      <ul class="list-group mb-4">
+        <li class="list-group-item">Underweight: BMI < 18.5</li>
+        <li class="list-group-item">Normal weight: BMI 18.5–24.9</li>
+        <li class="list-group-item">Overweight: BMI 25–29.9</li>
+        <li class="list-group-item">Obese: BMI ≥ 30</li>
+      </ul>
+      <p>To make it even easier, here’s a quick reference table showing BMI values for different heights and weights:</p>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Height (cm)</th>
+            <th scope="col">Weight (kg)</th>
+            <th scope="col">BMI</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>150</td><td>45</td><td>20.0</td></tr>
+          <tr><td>160</td><td>55</td><td>21.5</td></tr>
+          <tr><td>170</td><td>65</td><td>22.5</td></tr>
+          <tr><td>180</td><td>75</td><td>23.1</td></tr>
+          <tr><td>190</td><td>85</td><td>23.5</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+      <h2 class="mb-4">10 Common Use Cases for the BMI Calculator</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Tracking your weight loss progress over time.</li>
+        <li class="list-group-item">Assessing if you’re at a healthy weight for your height.</li>
+        <li class="list-group-item">Planning a fitness or diet regimen based on your BMI category.</li>
+        <li class="list-group-item">Understanding if you need to gain or lose weight for health reasons.</li>
+        <li class="list-group-item">Monitoring your child’s growth and development.</li>
+        <li class="list-group-item">Preparing for a medical check-up or consultation.</li>
+        <li class="list-group-item">Setting realistic fitness goals for gym or sports activities.</li>
+        <li class="list-group-item">Evaluating the effectiveness of a new diet or exercise routine.</li>
+        <li class="list-group-item">Educating yourself or others about healthy weight ranges.</li>
+        <li class="list-group-item">Comparing your BMI with global or regional health standards.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const heightInput = document.getElementById('height');
+    const weightInput = document.getElementById('weight');
+    const calculateBtn = document.getElementById('calculate-btn');
+    const resultSection = document.getElementById('result-section');
+    const bmiValue = document.getElementById('bmi-value');
+    const bmiInterpretation = document.getElementById('bmi-interpretation');
+    const resetBtn = document.getElementById('reset-btn');
+    const errorMessage = document.getElementById('error-message');
+
+    // Preload height from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startHeight = urlParams.get('start');
+    if (startHeight && !isNaN(startHeight) && startHeight > 0 && startHeight <= 300) {
+      heightInput.value = startHeight;
+    }
+
+    calculateBtn.addEventListener('click', () => {
+      const height = parseFloat(heightInput.value);
+      const weight = parseFloat(weightInput.value);
+
+      if (isNaN(height) || isNaN(weight) || height <= 0 || weight <= 0) {
+        errorMessage.textContent = 'Please enter valid numbers for height and weight.';
+        errorMessage.style.display = 'block';
+        resultSection.style.display = 'none';
+        resetBtn.style.display = 'none';
+        return;
+      }
+
+      if (height > 300 || weight > 500) {
+        errorMessage.textContent = 'Height must be ≤ 300 cm and weight ≤ 500 kg.';
+        errorMessage.style.display = 'block';
+        resultSection.style.display = 'none';
+        resetBtn.style.display = 'none';
+        return;
+      }
+
+      const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
+      bmiValue.textContent = bmi;
+
+      let interpretation = '';
+      if (bmi < 18.5) {
+        interpretation = 'Underweight';
+      } else if (bmi >= 18.5 && bmi < 24.9) {
+        interpretation = 'Normal weight';
+      } else if (bmi >= 25 && bmi < 29.9) {
+        interpretation = 'Overweight';
+      } else {
+        interpretation = 'Obese';
+      }
+
+      bmiInterpretation.textContent = interpretation;
+      resultSection.style.display = 'block';
+      resetBtn.style.display = 'block';
+      errorMessage.style.display = 'none';
+    });
+
+    resetBtn.addEventListener('click', () => {
+      heightInput.value = '';
+      weightInput.value = '';
+      resultSection.style.display = 'none';
+      resetBtn.style.display = 'none';
+      errorMessage.style.display = 'none';
+    });
+  });
+</script>

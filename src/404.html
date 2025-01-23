@@ -1,9 +1,11 @@
 ---
-title: Oops! No tool found (404)
+title: 404 - With our Ghost Hunter game, enjoy!
+metaDescription: "404 page with a fun Ghost Hunter game"
 permalink: 404.html
+layoutType: 404
 ---
 
-{% extends "./_layouts/404layout.html" %} {% block content %}
+{% extends "./_layouts/layout.html" %} {% block content %}
 
 <style>
   *{
@@ -274,8 +276,9 @@ permalink: 404.html
     }
   });
 
-  function togglePause() {
+  function togglePause(forcePause = false) {
     isPaused = !isPaused;
+    if(forcePause) isPaused = true;
     pauseMessage.style.display = isPaused ? "block" : "none";
   }
 
@@ -570,6 +573,13 @@ permalink: 404.html
   document.addEventListener("keydown", (e) => {
     if (e.code === "Space") {
       shoot();
+    }
+  });
+
+  // let's add an event listener for when a user switches tabs, pause the game
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      togglePause(true);
     }
   });
 

@@ -1,0 +1,122 @@
+---
+title: "Uppercase Letter Counter - Count Uppercase Letters Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-11-02 02:20:37
+metaDescription: "Instantly count uppercase letters in any text with our Uppercase Letter Counter. Perfect for writers, developers, and editors. Fast, accurate, and easy to use!"
+metaKeywords: "uppercase letter counter, count uppercase letters, text analysis tool, uppercase checker, writing tool, developer tool, uppercase counter"
+tags: ["uppercase counter", "text analyzer", "writing tool", "text formatting", "uppercase checker"]
+---
+
+<div id="main-div" class="container mt-5">
+  <h1 class="h1 text-center text-white">Uppercase Letter Counter</h1><div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <p class="fs-4 fw-bold text-center">Why does counting uppercase letters feel like solving a mystery? Whether you're editing a document, analyzing data, or just curious, the Uppercase Letter Counter is here to make your life simpler. This handy tool instantly tallies up all the uppercase letters in your text—no guesswork, no stress. Just paste your content, click a button, and boom! You’ve got your answer. Perfect for writers, developers, or anyone who hates manual counting. Let’s turn that uppercase chaos into clarity, one letter at a time!</p>
+    </div>
+  </div>
+</div>
+  <p class="lead text-center text-white">Enter your text below to count the number of uppercase letters.</p>
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control bg-dark text-white" placeholder="Paste or type your text here..." rows="6"></textarea>
+  </div>
+  <div class="d-grid gap-2 d-md-block">
+    <button id="count-button" class="btn btn-primary me-md-2">Count Uppercase Letters</button>
+    <button id="reset-button" class="btn btn-secondary">Reset</button>
+  </div>
+  <div id="result-area" class="alert alert-info mt-3" role="alert">
+    Total Uppercase Letters: <span id="result-count">0</span>
+  </div>
+  <div id="error-message" class="alert alert-warning mt-3 d-none" role="alert">
+    Please enter some text to count uppercase letters.
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="fw-bold mb-4">How It Works</h2>
+      <p class="mb-4">The Uppercase Letter Counter works by scanning your text and identifying every uppercase letter from A to Z. Here's the simple formula behind it:</p>
+      <p class="bg-light p-3 rounded"><strong>Total Uppercase Letters = Number of A-Z letters in your text</strong></p>
+      <p class="mb-4">For example, if you input "Hello WORLD!", the tool will count "H," "W," "O," "R," "L," and "D," giving you a total of 6 uppercase letters.</p>
+      
+      <h2 class="fw-bold mb-4">Example Counts</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Text</th>
+            <th>Uppercase Letters Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Hello</td><td>1</td></tr>
+          <tr><td>HELLO</td><td>5</td></tr>
+          <tr><td>123ABC</td><td>3</td></tr>
+          <tr><td>No Uppercase Here</td><td>2</td></tr>
+          <tr><td>MixEd CaSe</td><td>3</td></tr>
+          <tr><td>Special!Chars@UPPER</td><td>6</td></tr>
+          <tr><td>ALL CAPS</td><td>8</td></tr>
+          <tr><td>lowercase only</td><td>0</td></tr>
+          <tr><td>UPPERCASE ONLY</td><td>13</td></tr>
+          <tr><td>Numbers123AndLetters</td><td>2</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="fw-bold mb-4">10 Common Use Cases for the Uppercase Letter Counter</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1. Editing and proofreading documents to ensure proper capitalization.</li>
+        <li class="list-group-item">2. Analyzing text for programming or coding purposes.</li>
+        <li class="list-group-item">3. Checking the consistency of uppercase usage in brand names or slogans.</li>
+        <li class="list-group-item">4. Enhancing readability by identifying excessive uppercase letters.</li>
+        <li class="list-group-item">5. Verifying compliance with style guides (e.g., APA, MLA).</li>
+        <li class="list-group-item">6. Counting uppercase letters in passwords for security checks.</li>
+        <li class="list-group-item">7. Processing data in spreadsheets or databases.</li>
+        <li class="list-group-item">8. Teaching or learning about uppercase and lowercase distinctions.</li>
+        <li class="list-group-item">9. Analyzing social media posts for uppercase emphasis.</li>
+        <li class="list-group-item">10. Simplifying tasks for writers, editors, and developers.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const textInput = document.getElementById("text-input");
+    const countButton = document.getElementById("count-button");
+    const resetButton = document.getElementById("reset-button");
+    const resultCount = document.getElementById("result-count");
+    const errorMessage = document.getElementById("error-message");
+
+    // Preload text from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get("start");
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    countButton.addEventListener("click", function () {
+      const text = textInput.value;
+      if (!text.trim()) {
+        errorMessage.classList.remove("d-none");
+        return;
+      }
+      errorMessage.classList.add("d-none");
+
+      const uppercaseCount = (text.match(/[A-Z]/g) || []).length;
+      resultCount.textContent = uppercaseCount;
+    });
+
+    resetButton.addEventListener("click", function () {
+      textInput.value = "";
+      resultCount.textContent = "0";
+      errorMessage.classList.add("d-none");
+    });
+
+    textInput.addEventListener("input", function () {
+      if (textInput.value.trim()) {
+        errorMessage.classList.add("d-none");
+      }
+    });
+  });
+</script>

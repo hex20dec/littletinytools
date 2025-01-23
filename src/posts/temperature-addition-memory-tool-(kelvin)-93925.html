@@ -1,0 +1,130 @@
+---
+title: "Kelvin Temperature Addition Tool - Quick & Accurate Calculations"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-11-05 01:44:11
+metaDescription: "Easily add and track temperatures in Kelvin with the Temperature Addition Memory Tool. Perfect for science, labs, and thermal calculations."
+metaKeywords: "temperature addition tool, Kelvin calculator, thermal energy tracker, temperature log, science tool, Kelvin addition, heat calculation, lab tool, temperature tracker, thermal input calculator"
+tags: ["temperature", "kelvin", "calculator", "science", "engineering"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Temperature Addition Memory Tool (Kelvin)</h1><div class="container-fluid bg-dark text-white p-4">
+  <strong class="text-center mb-4 display-6">Temperature Addition Memory Tool (Kelvin)</strong>
+  <p class="lead text-center mb-4">Why do temperatures always seem to add up when you least expect it? Whether you're working on a science project, managing lab data, or just curious about thermal calculations, keeping track of cumulative temperatures can be a headache. Enter the Temperature Addition Memory Tool – your new favorite way to add and track temperatures in Kelvin effortlessly. Simply input a temperature, hit "Add," and watch the running total update in real-time. Need to clear the slate? One click and you're back to zero. This tool is designed to make your life simpler, one Kelvin at a time. No more mental math, no more scribbled notes – just smooth, accurate calculations.</p>
+</div>
+  <div class="input-group mb-3">
+    <input type="number" id="temperature-input" class="form-control" placeholder="Enter Temperature in Kelvin" aria-label="Enter Temperature in Kelvin" min="0" step="0.01">
+    <button id="add-button" class="btn btn-primary" type="button">Add</button>
+  </div>
+  <div id="error-message" class="text-danger small mb-3" style="display: none;">Please enter a valid temperature in Kelvin.</div>
+  <h2 class="display-4 text-center mb-4">Running Total (Kelvin): <span id="running-total">0</span></h2>
+  <ul id="history-list" class="list-group mb-3"></ul>
+  <button id="clear-button" class="btn btn-danger d-block mx-auto">Clear</button>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <h2 class="text-center mb-4">How It Works</h2>
+  <p class="text-center mb-4">The Temperature Addition Memory Tool is as straightforward as it gets. Here's the formula behind the magic:</p>
+  <p class="text-center mb-4"><strong>Running Total = Previous Total + New Temperature (in Kelvin)</strong></p>
+  <p class="text-center mb-4">Every time you add a temperature, the tool updates the running total and keeps a history of all the values you've entered. You can even remove individual entries if you make a mistake. Below is a quick example of how the running total changes with each addition:</p>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>New Temperature (K)</th>
+        <th>Running Total (K)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>10</td><td>10</td></tr>
+      <tr><td>15</td><td>25</td></tr>
+      <tr><td>20</td><td>45</td></tr>
+      <tr><td>5</td><td>50</td></tr>
+    </tbody>
+  </table>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <h2 class="text-center mb-4">10 Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item bg-dark text-white">1. Tracking cumulative thermal energy in scientific experiments.</li>
+    <li class="list-group-item bg-dark text-white">2. Calculating total heat input in engineering projects.</li>
+    <li class="list-group-item bg-dark text-white">3. Managing temperature logs for lab reports.</li>
+    <li class="list-group-item bg-dark text-white">4. Summing up temperature changes in climate studies.</li>
+    <li class="list-group-item bg-dark text-white">5. Monitoring thermal adjustments in food processing.</li>
+    <li class="list-group-item bg-dark text-white">6. Teaching students about temperature addition in physics classes.</li>
+    <li class="list-group-item bg-dark text-white">7. Calculating total heat loss or gain in HVAC systems.</li>
+    <li class="list-group-item bg-dark text-white">8. Recording temperature data for astronomical observations.</li>
+    <li class="list-group-item bg-dark text-white">9. Summing up temperature readings for industrial processes.</li>
+    <li class="list-group-item bg-dark text-white">10. Simplifying temperature calculations for DIY science projects.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputField = document.getElementById('temperature-input');
+    const addButton = document.getElementById('add-button');
+    const runningTotalDisplay = document.getElementById('running-total');
+    const historyList = document.getElementById('history-list');
+    const clearButton = document.getElementById('clear-button');
+    const errorMessage = document.getElementById('error-message');
+
+    let runningTotal = 0;
+    const history = [];
+
+    // Preload input field with query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue) && startValue >= 0) {
+      inputField.value = startValue;
+    }
+
+    const updateRunningTotal = () => {
+      runningTotalDisplay.textContent = runningTotal.toFixed(2);
+    };
+
+    const addTemperature = () => {
+      const value = parseFloat(inputField.value);
+      if (isNaN(value) || value < 0) {
+        errorMessage.style.display = 'block';
+        return;
+      }
+      errorMessage.style.display = 'none';
+      runningTotal += value;
+      history.push(value);
+      updateRunningTotal();
+      addHistoryItem(value);
+      inputField.value = '';
+      inputField.focus();
+    };
+
+    const addHistoryItem = (value) => {
+      const listItem = document.createElement('li');
+      listItem.className = 'list-group-item d-flex justify-content-between align-items-center bg-dark text-white';
+      listItem.innerHTML = `
+        ${value.toFixed(2)} K
+        <button class="btn btn-sm btn-outline-danger" onclick="removeHistoryItem(${history.length - 1})">X</button>
+      `;
+      historyList.appendChild(listItem);
+    };
+
+    window.removeHistoryItem = (index) => {
+      const removedValue = history.splice(index, 1)[0];
+      runningTotal -= removedValue;
+      updateRunningTotal();
+      historyList.innerHTML = '';
+      history.forEach((value, i) => addHistoryItem(value));
+    };
+
+    const clearAll = () => {
+      runningTotal = 0;
+      history.length = 0;
+      updateRunningTotal();
+      historyList.innerHTML = '';
+      inputField.value = '';
+      inputField.focus();
+    };
+
+    addButton.addEventListener('click', addTemperature);
+    inputField.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') addTemperature();
+    });
+    clearButton.addEventListener('click', clearAll);
+  });
+</script>

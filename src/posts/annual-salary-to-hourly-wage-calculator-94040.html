@@ -1,0 +1,120 @@
+---
+title: "Convert Annual Salary to Hourly Wage - Quick & Easy Calculator"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-03-17 13:45:59
+metaDescription: "Calculate your hourly wage instantly with this easy-to-use tool. Perfect for job offers, side hustles, and financial planning."
+metaKeywords: "hourly wage calculator, salary to hourly rate, wage tool, job offer calculator, freelance income tool, budget planning, financial calculator"
+tags: ["salary calculator", "hourly wage", "income converter", "budgeting tool", "freelance calculator"]
+---
+
+<div id="main-div" class="container p-3">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="annualSalary" class="form-label">Enter your annual salary</label>
+        <input type="number" class="form-control bg-dark text-white" id="annualSalary" placeholder="e.g., 50000" aria-describedby="salaryHelp">
+        <div id="salaryHelp" class="form-text">Enter your total annual income.</div>
+      </div>
+      <div class="mb-3">
+        <label for="hoursPerWeek" class="form-label">Enter hours worked per week</label>
+        <input type="number" class="form-control bg-dark text-white" id="hoursPerWeek" placeholder="e.g., 40" aria-describedby="hoursHelp">
+        <div id="hoursHelp" class="form-text">Enter the number of hours you work each week.</div>
+      </div>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-3">
+        <button type="button" class="btn btn-primary" id="calculateBtn">Calculate Hourly Wage</button>
+        <button type="button" class="btn btn-secondary" id="resetBtn">Reset</button>
+      </div>
+      <div id="result" class="alert alert-success text-center" role="alert">
+        Enter your salary and hours to calculate.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <p class="fw-bold">Here’s how it works:</p>
+      <p>
+        The formula behind this tool is straightforward: your annual salary is divided by the total number of hours you work in a year. To calculate the total hours, we multiply your weekly hours by 52 (the number of weeks in a year). The result? Your hourly wage, neatly displayed for you. No math degree required—just enter your numbers, and the tool does the rest.
+      </p>
+      <table class="table table-striped mt-4">
+        <thead>
+          <tr>
+            <th scope="col">Annual Salary</th>
+            <th scope="col">Hours per Week</th>
+            <th scope="col">Hourly Wage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>$30,000</td><td>40</td><td>$14.42</td></tr>
+          <tr><td>$40,000</td><td>40</td><td>$19.23</td></tr>
+          <tr><td>$50,000</td><td>40</td><td>$24.04</td></tr>
+          <tr><td>$60,000</td><td>40</td><td>$28.85</td></tr>
+          <tr><td>$70,000</td><td>40</td><td>$33.65</td></tr>
+          <tr><td>$80,000</td><td>40</td><td>$38.46</td></tr>
+          <tr><td>$90,000</td><td>40</td><td>$43.27</td></tr>
+          <tr><td>$100,000</td><td>40</td><td>$48.08</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <p class="fw-bold">10 Common Use Cases for This Tool:</p>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">1. Evaluating job offers to compare hourly rates.</li>
+        <li class="list-group-item">2. Calculating your worth for freelance or contract work.</li>
+        <li class="list-group-item">3. Budgeting your income for hourly-based side gigs.</li>
+        <li class="list-group-item">4. Determining overtime pay eligibility.</li>
+        <li class="list-group-item">5. Negotiating raises with your employer.</li>
+        <li class="list-group-item">6. Planning part-time work schedules.</li>
+        <li class="list-group-item">7. Understanding your pay structure for financial planning.</li>
+        <li class="list-group-item">8. Comparing salaries across different industries.</li>
+        <li class="list-group-item">9. Figuring out the value of unpaid overtime.</li>
+        <li class="list-group-item">10. Satisfying curiosity about your hourly earnings.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const annualSalaryInput = document.getElementById('annualSalary');
+    const hoursPerWeekInput = document.getElementById('hoursPerWeek');
+    const calculateBtn = document.getElementById('calculateBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const resultDiv = document.getElementById('result');
+
+    // Preload annual salary from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startSalary = urlParams.get('start');
+    if (startSalary && !isNaN(startSalary) && startSalary > 0) {
+      annualSalaryInput.value = startSalary;
+    }
+
+    calculateBtn.addEventListener('click', function () {
+      const annualSalary = parseFloat(annualSalaryInput.value);
+      const hoursPerWeek = parseFloat(hoursPerWeekInput.value);
+
+      if (isNaN(annualSalary) || isNaN(hoursPerWeek) || annualSalary <= 0 || hoursPerWeek <= 0) {
+        resultDiv.textContent = 'Please enter valid numbers for both fields.';
+        resultDiv.classList.remove('alert-success');
+        resultDiv.classList.add('alert-danger');
+        return;
+      }
+
+      const hourlyWage = (annualSalary / (hoursPerWeek * 52)).toFixed(2);
+      resultDiv.textContent = `Your hourly wage is: $${hourlyWage}/hour`;
+      resultDiv.classList.remove('alert-danger');
+      resultDiv.classList.add('alert-success');
+    });
+
+    resetBtn.addEventListener('click', function () {
+      annualSalaryInput.value = '';
+      hoursPerWeekInput.value = '';
+      resultDiv.textContent = 'Enter your salary and hours to calculate.';
+      resultDiv.classList.remove('alert-danger');
+      resultDiv.classList.add('alert-success');
+    });
+  });
+</script>

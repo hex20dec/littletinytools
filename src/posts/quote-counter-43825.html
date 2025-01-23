@@ -1,0 +1,122 @@
+---
+title: "Quickly Count Quotes in Your Text - Free Online Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-07-01 11:22:36
+metaDescription: "Effortlessly count single and double quotes in any text with the Quote Counter. Perfect for writers, developers, and editors. Fast, accurate, and free!"
+metaKeywords: "quote counter, count quotes, single quotes, double quotes, text analysis, punctuation tool, writing tool, developer tool, free online tool"
+tags: ["quote counter", "text analysis", "writing tools", "editing tools", "online utilities"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Quote Counter</h1><div class="container-fluid bg-dark text-white p-4">
+  <p class="lead text-center mb-4">Ever found yourself squinting at a wall of text, trying to count every single quote mark? Whether you're editing a manuscript, analyzing code, or just curious, manually tallying quotes can feel like a tedious game of "Where's Waldo." Enter the <strong>Quote Counter</strong>—a simple, no-fuss tool that does the heavy lifting for you. Paste your text, click a button, and voilà! You'll instantly know how many single and double quotes are hiding in your content. Perfect for writers, developers, and anyone who loves a good shortcut. Say goodbye to counting headaches and hello to effortless accuracy!</p>
+</div>
+  <p class="text-center mb-4">Paste your text below to count the number of quotes.</p>
+  
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control bg-dark text-white" rows="10" placeholder="Paste or type your text here..."></textarea>
+  </div>
+  
+  <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4">
+    <button id="count-btn" class="btn btn-primary me-md-2">Count Quotes</button>
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+  
+  <div id="results" class="text-center">
+    <p id="double-quotes" class="mb-1">Double Quotes: 0</p>
+    <p id="single-quotes">Single Quotes: 0</p>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <h2 class="mb-4">How It Works</h2>
+  <p class="mb-4">The Quote Counter works like a digital detective, scanning your text for single (') and double (") quote marks. Here's the simple breakdown:</p>
+  <ol class="list-group list-group-numbered mb-4">
+    <li class="list-group-item">Paste or type your text into the box.</li>
+    <li class="list-group-item">Click "Count Quotes" to let the tool do its magic.</li>
+    <li class="list-group-item">Instantly see the number of single and double quotes in your text.</li>
+  </ol>
+
+  <h3 class="mb-4">Examples</h3>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Text</th>
+          <th>Double Quotes</th>
+          <th>Single Quotes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>"Hello, world!"</td>
+          <td>2</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>It's a 'beautiful' day.</td>
+          <td>0</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>She said, "It's time to go!"</td>
+          <td>2</td>
+          <td>2</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container-fluid bg-white p-4">
+  <h2 class="mb-4">Top 10 Use Cases for the Quote Counter</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Editing essays or articles to ensure proper quote usage.</li>
+    <li class="list-group-item">Analyzing code snippets for quote consistency.</li>
+    <li class="list-group-item">Preparing manuscripts for publishers or editors.</li>
+    <li class="list-group-item">Checking dialogue in creative writing projects.</li>
+    <li class="list-group-item">Verifying quote counts in legal or technical documents.</li>
+    <li class="list-group-item">Teaching students about punctuation in writing.</li>
+    <li class="list-group-item">Reviewing social media posts for quote-heavy content.</li>
+    <li class="list-group-item">Ensuring consistency in translated texts.</li>
+    <li class="list-group-item">Debugging JSON or CSV files for quote errors.</li>
+    <li class="list-group-item">Settling debates about how many quotes are in a famous speech or text.</li>
+  </ol>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const textInput = document.getElementById('text-input');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const doubleQuotes = document.getElementById('double-quotes');
+    const singleQuotes = document.getElementById('single-quotes');
+    const results = document.getElementById('results');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    countBtn.addEventListener('click', function() {
+      const text = textInput.value.trim();
+      if (!text) {
+        results.innerHTML = '<p class="text-warning">Please enter some text to count quotes.</p>';
+        return;
+      }
+
+      const doubleCount = (text.match(/"/g) || []).length;
+      const singleCount = (text.match(/'/g) || []).length;
+
+      if (doubleCount === 0 && singleCount === 0) {
+        results.innerHTML = '<p class="text-warning">No quotes found.</p>';
+      } else {
+        doubleQuotes.textContent = `Double Quotes: ${doubleCount}`;
+        singleQuotes.textContent = `Single Quotes: ${singleCount}`;
+      }
+    });
+
+    resetBtn.addEventListener('click', function() {
+      textInput.value = '';
+      results.innerHTML = '<p id="double-quotes" class="mb-1">Double Quotes: 0</p><p id="single-quotes">Single Quotes: 0</p>';
+    });
+  });
+</script>

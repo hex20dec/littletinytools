@@ -1,0 +1,172 @@
+---
+title: "Binary to Semaphore Converter - Visualize Binary as Semaphore Flags"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-07-11 19:26:25
+metaDescription: "Convert binary to semaphore flag positions instantly! Perfect for learning, teaching, or just having fun with visual binary decoding."
+metaKeywords: "binary to semaphore, semaphore flag converter, binary decoder, semaphore communication, binary visualization, semaphore flag positions, binary to visual, semaphore learning tool, binary converter, maritime communication"
+tags: ["binary", "semaphore", "education", "cryptography", "visualization"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .semaphore-figure {
+    width: 100px;
+    height: 100px;
+    position: relative;
+  }
+  .semaphore-flag {
+    width: 10px;
+    height: 50px;
+    background-color: #fff;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform-origin: bottom center;
+    transition: transform 0.3s ease;
+  }
+  .semaphore-flag.left {
+    transform: rotate(45deg);
+  }
+  .semaphore-flag.right {
+    transform: rotate(135deg);
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mt-4">
+    <h1>Binary to Semaphore Converter</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-12 text-center">
+      <p class="lead">Ever tried to decode binary and felt like you were stuck in a maze of 0s and 1s? Or maybe you've wondered how sailors communicated using semaphore flags? Well, you're not alone! Our <strong>Binary to Semaphore Converter</strong> is here to rescue you from the confusion. Simply type in your binary code (yes, just 0s and 1s), and watch as it magically transforms into semaphore flag positions. Whether you're a coding newbie or a curious history buff, this tool makes learning and visualizing semaphore signals as easy as pie. Say goodbye to head-scratching and hello to seamless conversions!</p>
+    </div>
+  </div>
+</div>
+    <p class="lead">Enter binary input (0s and 1s) to see the corresponding semaphore flag positions.</p>
+  </header>
+
+  <section class="mt-4">
+    <div class="input-group mb-3">
+      <input type="text" id="binary-input" class="form-control" placeholder="Enter binary (e.g., 0101)" aria-label="Binary Input" aria-describedby="convert-button">
+      <button class="btn btn-primary" type="button" id="convert-button">Convert</button>
+    </div>
+    <div id="error-message" class="text-danger mt-2" aria-live="polite"></div>
+  </section>
+
+  <section class="mt-4">
+    <div class="d-flex justify-content-center">
+      <div class="semaphore-figure">
+        <div class="semaphore-flag left" id="left-flag"></div>
+        <div class="semaphore-flag right" id="right-flag"></div>
+      </div>
+    </div>
+    <p class="text-center mt-2">Semaphore Flag Positions</p>
+  </section>
+
+  <footer class="text-muted text-center mt-4">
+    <p>Semaphore flags represent binary digits: 0 and 1.</p>
+  </footer>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="h3">How It Works</h2>
+      <p class="mt-3">The tool works by taking the last digit of your binary input and mapping it to a semaphore flag position. Here's the simple breakdown:</p>
+      <ul class="list-group">
+        <li class="list-group-item">If the last digit is <strong>0</strong>, the left flag moves to the left position, and the right flag moves to the right position.</li>
+        <li class="list-group-item">If the last digit is <strong>1</strong>, the left flag moves to the right position, and the right flag moves to the left position.</li>
+      </ul>
+      <p class="mt-3">It’s like a dance of flags, where each binary digit directs the movement of the semaphore flags. Simple, right?</p>
+      <h3 class="h4 mt-4">Examples</h3>
+      <table class="table table-bordered mt-3">
+        <thead>
+          <tr>
+            <th scope="col">Binary Input</th>
+            <th scope="col">Semaphore Flag Positions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0</td>
+            <td>Left flag: Left, Right flag: Right</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Left flag: Right, Right flag: Left</td>
+          </tr>
+          <tr>
+            <td>010</td>
+            <td>Left flag: Left, Right flag: Right</td>
+          </tr>
+          <tr>
+            <td>1011</td>
+            <td>Left flag: Right, Right flag: Left</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="h3">10 Common Use Cases</h2>
+      <ol class="list-group list-group-numbered mt-3">
+        <li class="list-group-item">Learning semaphore communication for historical or educational purposes.</li>
+        <li class="list-group-item">Visualizing binary data in a unique and engaging way.</li>
+        <li class="list-group-item">Teaching kids about binary systems and semaphore flags.</li>
+        <li class="list-group-item">Creating fun and interactive coding projects.</li>
+        <li class="list-group-item">Decoding binary messages in puzzles or escape rooms.</li>
+        <li class="list-group-item">Understanding the basics of maritime communication.</li>
+        <li class="list-group-item">Experimenting with binary-to-visual representations.</li>
+        <li class="list-group-item">Adding visual flair to presentations on coding or history.</li>
+        <li class="list-group-item">Exploring the intersection of technology and traditional communication methods.</li>
+        <li class="list-group-item">Having fun with binary and semaphore flags as a hobbyist or enthusiast.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const binaryInput = document.getElementById('binary-input');
+    const convertButton = document.getElementById('convert-button');
+    const errorMessage = document.getElementById('error-message');
+    const leftFlag = document.getElementById('left-flag');
+    const rightFlag = document.getElementById('right-flag');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      binaryInput.value = startValue;
+      convertBinary();
+    }
+
+    convertButton.addEventListener('click', convertBinary);
+    binaryInput.addEventListener('input', () => {
+      errorMessage.textContent = '';
+    });
+
+    function convertBinary() {
+      const binary = binaryInput.value.trim();
+      if (!/^[01]+$/.test(binary)) {
+        errorMessage.textContent = 'Invalid input. Please enter only 0s and 1s.';
+        return;
+      }
+
+      const lastDigit = binary[binary.length - 1];
+      if (lastDigit === '0') {
+        leftFlag.classList.remove('right');
+        leftFlag.classList.add('left');
+        rightFlag.classList.remove('left');
+        rightFlag.classList.add('right');
+      } else if (lastDigit === '1') {
+        leftFlag.classList.remove('left');
+        leftFlag.classList.add('right');
+        rightFlag.classList.remove('right');
+        rightFlag.classList.add('left');
+      }
+    }
+  });
+</script>

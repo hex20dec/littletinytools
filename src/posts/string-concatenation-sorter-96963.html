@@ -1,0 +1,159 @@
+---
+title: "String Concatenation Sorter - Combine & Sort Text Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-06-20 07:53:18
+metaDescription: "Combine and sort strings effortlessly with the String Concatenation Sorter. Perfect for organizing data, coding, and more!"
+metaKeywords: "string concatenation, text sorting, string sorter, alphabetical sorting, text organizer, string tool, data organization, coding helper, text manipulation, SEO tool"
+tags: ["string manipulation", "text tools", "sorting", "concatenation", "web app"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-4">String Concatenation Sorter</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <strong class="text-center mb-4 display-4">String Concatenation Sorter</strong>
+      <p class="text-center mb-4 fs-5">Ever found yourself staring at a jumble of words, wondering how to combine and organize them in a way that makes sense? Whether you're organizing data, preparing a presentation, or just having fun with words, the String Concatenation Sorter is here to save the day. Simply add your strings, hit the button, and watch as your text is seamlessly combined and sorted alphabetically. No more headaches, no more confusion—just clean, sorted results in seconds. Say goodbye to chaos and hello to order with this simple yet powerful tool!</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Enter multiple strings, concatenate them, and sort the result alphabetically.</p>
+
+      <div class="input-group mb-3">
+        <input type="text" id="input-string" class="form-control bg-secondary text-white" placeholder="Type your text here..." aria-label="Enter a string">
+        <button id="add-string" class="btn btn-primary" type="button">Add String</button>
+      </div>
+
+      <div id="string-list" class="mb-3"></div>
+
+      <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4">
+        <button id="concatenate-sort" class="btn btn-success me-md-2" type="button">Concatenate and Sort</button>
+        <button id="reset" class="btn btn-danger" type="button">Reset</button>
+      </div>
+
+      <div class="card bg-secondary text-white">
+        <div class="card-body">
+          <h5 class="card-title">Result</h5>
+          <textarea id="result" class="form-control bg-dark text-white" rows="4" readonly></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mb-4">How It Works</h2>
+      <p class="mb-4">The String Concatenation Sorter follows a straightforward process to turn your input into a neatly organized result. Here's the formula it uses:</p>
+      <p class="mb-4"><strong>Step 1:</strong> Add your strings one by one using the "Add String" button. Each string is stored in a list.</p>
+      <p class="mb-4"><strong>Step 2:</strong> Once all your strings are added, click "Concatenate and Sort." The tool combines all the strings into one.</p>
+      <p class="mb-4"><strong>Step 3:</strong> The combined string is then sorted alphabetically, character by character, giving you a clean, organized result.</p>
+      <p class="mb-4">For example, if you add the strings "apple," "banana," and "cherry," the tool will combine them into "applebananacherry" and then sort them into "aaabceehlnnpprry."</p>
+
+      <h3 class="mb-4">Examples</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Input Strings</th>
+            <th>Concatenated and Sorted Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>cat, dog, bird</td>
+            <td>abcddgiort</td>
+          </tr>
+          <tr>
+            <td>hello, world</td>
+            <td>dehllloorw</td>
+          </tr>
+          <tr>
+            <td>123, abc, 456</td>
+            <td>123456abc</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mb-4">Top 10 Use Cases for the String Concatenation Sorter</h2>
+      <ul class="list-group">
+        <li class="list-group-item bg-secondary text-white">Organizing data for reports or presentations.</li>
+        <li class="list-group-item bg-secondary text-white">Preparing text for coding or programming tasks.</li>
+        <li class="list-group-item bg-secondary text-white">Sorting and combining lists of names or keywords.</li>
+        <li class="list-group-item bg-secondary text-white">Creating unique identifiers by merging strings.</li>
+        <li class="list-group-item bg-secondary text-white">Simplifying complex text data for analysis.</li>
+        <li class="list-group-item bg-secondary text-white">Generating alphabetically sorted passwords or codes.</li>
+        <li class="list-group-item bg-secondary text-white">Combining and sorting product names or inventory lists.</li>
+        <li class="list-group-item bg-secondary text-white">Preparing content for SEO or meta tags.</li>
+        <li class="list-group-item bg-secondary text-white">Sorting and merging text for creative writing or poetry.</li>
+        <li class="list-group-item bg-secondary text-white">Teaching or learning about string manipulation in a fun way.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputString = document.getElementById('input-string');
+    const addStringBtn = document.getElementById('add-string');
+    const stringList = document.getElementById('string-list');
+    const concatenateSortBtn = document.getElementById('concatenate-sort');
+    const resetBtn = document.getElementById('reset');
+    const resultTextarea = document.getElementById('result');
+    let strings = [];
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputString.value = startValue;
+    }
+
+    addStringBtn.addEventListener('click', () => {
+      const value = inputString.value.trim();
+      if (value) {
+        strings.push(value);
+        renderStringList();
+        inputString.value = '';
+        inputString.focus();
+      } else {
+        alert('Please enter a valid string.');
+      }
+    });
+
+    concatenateSortBtn.addEventListener('click', () => {
+      if (strings.length === 0) {
+        alert('Please add at least one string.');
+        return;
+      }
+      const concatenated = strings.join('');
+      const sorted = concatenated.split('').sort().join('');
+      resultTextarea.value = sorted;
+    });
+
+    resetBtn.addEventListener('click', () => {
+      strings = [];
+      renderStringList();
+      resultTextarea.value = '';
+      inputString.value = '';
+      inputString.focus();
+    });
+
+    function renderStringList() {
+      stringList.innerHTML = strings.map((str, index) => `
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span>${str}</span>
+          <button class="btn btn-sm btn-outline-danger" onclick="removeString(${index})">Remove</button>
+        </div>
+      `).join('');
+    }
+
+    window.removeString = (index) => {
+      strings.splice(index, 1);
+      renderStringList();
+    };
+  });
+</script>

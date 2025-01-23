@@ -1,0 +1,163 @@
+---
+title: "Decimal to Base-24 Converter | Quick & Easy Number Conversion"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-09-16 00:13:19
+metaDescription: "Convert decimal numbers to base-24 effortlessly with our Decimal to Base-24 Converter. Simple, fast, and perfect for coding, math, or fun!"
+metaKeywords: "decimal to base-24, base-24 converter, decimal converter, number system converter, base-24 calculator"
+tags: ["decimal converter", "base-24", "number conversion", "math tools", "web app"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .error-message {
+    display: none;
+    color: #dc3545;
+    font-size: 0.875em;
+    margin-top: 0.25rem;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container">
+    <h1 class="text-center mb-4">Decimal to Base-24 Converter</h1><div class="container my-5">
+  <div class="text-center">
+    <p class="lead">Ever found yourself staring at a long decimal number and wishing it could be simpler to work with? Maybe you’re working on a project, coding, or just curious about how numbers can be represented differently. Enter the Decimal to Base-24 Converter! This nifty tool takes those pesky decimal numbers and transforms them into base-24, a compact and efficient way to represent values. Whether you're a programmer, a math enthusiast, or just someone who loves playing with numbers, this tool makes the conversion process as easy as pie. Say goodbye to confusion and hello to simplicity—let’s make numbers fun again!</p>
+  </div>
+</div>
+    <p class="text-center mb-4">Enter a decimal number to convert it to base-24.</p>
+    <div class="mb-3">
+      <label for="decimalInput" class="form-label">Enter Decimal Number</label>
+      <input type="text" class="form-control" id="decimalInput" placeholder="e.g., 1234" aria-label="Decimal Input">
+      <div id="errorMessage" class="error-message">Please enter a valid decimal number.</div>
+    </div>
+    <button id="convertBtn" class="btn btn-primary mb-3">Convert</button>
+    <div class="mb-3">
+      <label for="base24Output" class="form-label">Base-24 Result</label>
+      <input type="text" class="form-control" id="base24Output" readonly aria-label="Base-24 Output">
+    </div>
+    <button id="resetBtn" class="btn btn-secondary">Reset</button>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="text-center mb-4">How It Works</h2>
+      <p class="text-center">The Decimal to Base-24 Converter uses a straightforward process to transform your decimal number into its base-24 equivalent. Here’s the magic behind it:</p>
+      <p><strong>Step 1:</strong> The tool takes your decimal number and divides it by 24 repeatedly.</p>
+      <p><strong>Step 2:</strong> Each time, it records the remainder (which ranges from 0 to 23).</p>
+      <p><strong>Step 3:</strong> These remainders are mapped to digits in base-24, where 0-9 represent themselves, and 10-23 are represented by letters (A-N).</p>
+      <p><strong>Step 4:</strong> The remainders are read in reverse order to give you the final base-24 number.</p>
+      <p class="text-center mt-4">For example, the decimal number <strong>1234</strong> converts to <strong>2CE</strong> in base-24. Simple, right?</p>
+      
+      <h3 class="text-center mt-5 mb-3">Examples of Decimal to Base-24 Conversions</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Decimal</th>
+              <th>Base-24</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>10</td><td>A</td></tr>
+            <tr><td>24</td><td>10</td></tr>
+            <tr><td>50</td><td>22</td></tr>
+            <tr><td>100</td><td>44</td></tr>
+            <tr><td>500</td><td>KG</td></tr>
+            <tr><td>1000</td><td>1IG</td></tr>
+            <tr><td>2000</td><td>3DG</td></tr>
+            <tr><td>3000</td><td>5AE</td></tr>
+            <tr><td>4000</td><td>7A8</td></tr>
+            <tr><td>5000</td><td>8NG</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="text-center mb-4">10 Common Use Cases for the Decimal to Base-24 Converter</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Simplifying large decimal numbers for easier readability and storage.</li>
+        <li class="list-group-item">Encoding numbers in compact formats for software development.</li>
+        <li class="list-group-item">Creating unique identifiers or codes for databases.</li>
+        <li class="list-group-item">Converting timestamps or dates into shorter representations.</li>
+        <li class="list-group-item">Encrypting numerical data for secure communication.</li>
+        <li class="list-group-item">Generating license keys or serial numbers.</li>
+        <li class="list-group-item">Teaching or learning about different numeral systems.</li>
+        <li class="list-group-item">Representing colors in web design or graphics programming.</li>
+        <li class="list-group-item">Optimizing memory usage in embedded systems.</li>
+        <li class="list-group-item">Exploring mathematical curiosities and number theory.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const decimalInput = document.getElementById('decimalInput');
+    const base24Output = document.getElementById('base24Output');
+    const errorMessage = document.getElementById('errorMessage');
+    const convertBtn = document.getElementById('convertBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      decimalInput.value = startValue;
+    }
+
+    // Focus input on load
+    decimalInput.focus();
+
+    // Conversion logic
+    const decimalToBase24 = (decimal) => {
+      if (decimal === 0) return '0';
+      let result = '';
+      const base24Digits = '0123456789ABCDEFGHIJKLMN';
+      while (decimal > 0) {
+        const remainder = decimal % 24;
+        result = base24Digits[remainder] + result;
+        decimal = Math.floor(decimal / 24);
+      }
+      return result;
+    };
+
+    // Validate input
+    const validateInput = (input) => {
+      return /^\d+$/.test(input) && input.length <= 15; // Limit to 15 digits
+    };
+
+    // Convert button click
+    convertBtn.addEventListener('click', () => {
+      const inputValue = decimalInput.value.trim();
+      if (!validateInput(inputValue)) {
+        errorMessage.style.display = 'block';
+        base24Output.value = '';
+        return;
+      }
+      errorMessage.style.display = 'none';
+      const decimalNumber = BigInt(inputValue);
+      base24Output.value = decimalToBase24(decimalNumber);
+    });
+
+    // Reset button click
+    resetBtn.addEventListener('click', () => {
+      decimalInput.value = '';
+      base24Output.value = '';
+      errorMessage.style.display = 'none';
+      decimalInput.focus();
+    });
+
+    // Handle Enter key
+    decimalInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        convertBtn.click();
+      }
+    });
+  });
+</script>

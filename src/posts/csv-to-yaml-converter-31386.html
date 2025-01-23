@@ -1,0 +1,175 @@
+---
+title: "CSV to YAML Converter - Fast & Easy Conversion Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-01-29 15:04:10
+metaDescription: "Convert CSV to YAML instantly! Simplify data formatting for DevOps, Kubernetes, and more with this easy-to-use tool."
+metaKeywords: "CSV to YAML, YAML converter, CSV converter, data formatting, DevOps tools, Kubernetes config, YAML generator"
+tags: ["CSV", "YAML", "Data Conversion", "Developer Tools", "Web App"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <h1 class="display-4">CSV to YAML Converter</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <strong class="display-4">CSV to YAML Converter</strong>
+    <p class="lead">Ever felt like you're stuck in a data translation maze? Whether you're a developer, data analyst, or just someone juggling configuration files, converting CSV to YAML can feel like trying to read a map upside down. This tool is here to save your sanity! With just a few clicks, it transforms your CSV data into clean, readable YAML format. Perfect for those who want to streamline their workflows without the headache. Say goodbye to manual conversions and hello to simplicity!</p>
+  </div>
+</div>
+    <p class="lead">Convert your CSV data into YAML format quickly and easily.</p>
+  </header>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="mb-3">
+        <label for="csv-file" class="form-label">Upload CSV File</label>
+        <input type="file" class="form-control bg-dark text-white" id="csv-file" accept=".csv">
+      </div>
+      <div class="mb-3">
+        <label for="csv-text" class="form-label">Or paste your CSV data here</label>
+        <textarea class="form-control bg-dark text-white" id="csv-text" rows="5" placeholder="Paste CSV data here..."></textarea>
+      </div>
+      <div class="d-grid mb-3">
+        <button class="btn btn-primary" id="convert-btn">Convert</button>
+      </div>
+      <div class="alert alert-danger d-none" id="error-message" role="alert"></div>
+      <div class="mb-3">
+        <label for="yaml-output" class="form-label">YAML Output</label>
+        <textarea class="form-control bg-dark text-white" id="yaml-output" rows="10" readonly></textarea>
+      </div>
+      <div class="d-grid">
+        <button class="btn btn-secondary" id="copy-btn">Copy to Clipboard</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center mt-4">
+    <p>&copy; 2023 Your Website. All rights reserved.</p>
+  </footer>
+</div>
+
+<div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4">How It Works</h2>
+      <p>This tool follows a straightforward process to convert your CSV data into YAML format. Here's the magic formula:</p>
+      <ol>
+        <li>The tool reads your CSV file or pasted data.</li>
+        <li>It identifies the headers (the first row) as keys for the YAML structure.</li>
+        <li>Each subsequent row is converted into a YAML object, where the headers map to their corresponding values.</li>
+        <li>The result is neatly formatted YAML output, ready for use in your projects.</li>
+      </ol>
+      <p>For example, if your CSV looks like this:</p>
+      <pre>
+name,age,city
+John,25,New York
+Jane,30,Los Angeles
+      </pre>
+      <p>The tool will convert it into:</p>
+      <pre>
+- name: John
+  age: 25
+  city: New York
+- name: Jane
+  age: 30
+  city: Los Angeles
+      </pre>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4">10 Common Use Cases</h2>
+      <ul>
+        <li>Converting configuration data from CSV to YAML for DevOps pipelines.</li>
+        <li>Preparing data for Kubernetes configurations.</li>
+        <li>Streamlining data migration between systems that use different formats.</li>
+        <li>Creating YAML files for CI/CD tools like Ansible or Jenkins.</li>
+        <li>Generating structured data for API testing.</li>
+        <li>Preparing datasets for machine learning models in YAML format.</li>
+        <li>Simplifying data sharing between teams that use different tools.</li>
+        <li>Converting spreadsheets into YAML for static site generators.</li>
+        <li>Preparing data for cloud infrastructure as code (IaC) tools like Terraform.</li>
+        <li>Creating YAML files for database seed data.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const csvFileInput = document.getElementById('csv-file');
+    const csvTextInput = document.getElementById('csv-text');
+    const convertBtn = document.getElementById('convert-btn');
+    const yamlOutput = document.getElementById('yaml-output');
+    const copyBtn = document.getElementById('copy-btn');
+    const errorMessage = document.getElementById('error-message');
+
+    // Preload CSV text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      csvTextInput.value = startValue;
+    }
+
+    const convertCSVtoYAML = (csv) => {
+      try {
+        const lines = csv.split('\n');
+        const headers = lines[0].split(',').map(header => header.trim());
+        const data = lines.slice(1).map(line => line.split(',').map(cell => cell.trim()));
+        const yaml = data.map(row => {
+          const obj = {};
+          headers.forEach((header, index) => {
+            obj[header] = row[index];
+          });
+          return obj;
+        });
+        return yaml.map(obj => JSON.stringify(obj, null, 2)).join('\n');
+      } catch (e) {
+        throw new Error('Invalid CSV format');
+      }
+    };
+
+    const handleConversion = () => {
+      errorMessage.classList.add('d-none');
+      let csvData = csvTextInput.value.trim();
+
+      if (csvFileInput.files.length > 0) {
+        const file = csvFileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          csvData = e.target.result;
+          try {
+            yamlOutput.value = convertCSVtoYAML(csvData);
+          } catch (e) {
+            errorMessage.textContent = e.message;
+            errorMessage.classList.remove('d-none');
+          }
+        };
+        reader.readAsText(file);
+      } else if (csvData) {
+        try {
+          yamlOutput.value = convertCSVtoYAML(csvData);
+        } catch (e) {
+          errorMessage.textContent = e.message;
+          errorMessage.classList.remove('d-none');
+        }
+      } else {
+        errorMessage.textContent = 'Please upload a CSV file or paste CSV data.';
+        errorMessage.classList.remove('d-none');
+      }
+    };
+
+    const copyToClipboard = () => {
+      if (yamlOutput.value) {
+        navigator.clipboard.writeText(yamlOutput.value).then(() => {
+          const originalText = copyBtn.textContent;
+          copyBtn.textContent = 'Copied!';
+          setTimeout(() => {
+            copyBtn.textContent = originalText;
+          }, 2000);
+        });
+      }
+    };
+
+    convertBtn.addEventListener('click', handleConversion);
+    copyBtn.addEventListener('click', copyToClipboard);
+  });
+</script>

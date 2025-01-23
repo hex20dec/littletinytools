@@ -1,0 +1,122 @@
+---
+title: "Wastage Percentage Calculator - Track and Reduce Waste Effortlessly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-08-29 15:00:00
+metaDescription: "Calculate wastage percentages effortlessly with our Wastage Percentage Calculator. Perfect for businesses, households, and more!"
+metaKeywords: "wastage calculator, waste percentage tool, resource optimization, food waste tracker, material waste calculator, budget waste tracker, energy waste tool, water waste calculator, inventory waste analysis, construction waste tool"
+tags: ["wastage calculator", "resource management", "efficiency tool", "percentage calculator", "sustainability"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h1 class="text-center mb-4 text-white">Wastage Percentage Calculator</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="lead fs-4">Feeling frustrated when your resources don’t stretch as far as they should? Whether it’s food, materials, or even time, waste happens—but knowing exactly how much is being wasted can be a game-changer. That’s where the Wastage Percentage Calculator comes in. This nifty tool takes the guesswork out of tracking waste by instantly calculating the percentage of what’s been lost compared to what you started with. Perfect for businesses, households, or anyone looking to optimize their resources, it’s simple, quick, and downright practical. Say goodbye to vague estimates and hello to smarter, waste-free decisions!</p>
+    </div>
+  </div>
+</div>
+      <form id="wastage-form" class="bg-dark p-4 rounded">
+        <div class="mb-3">
+          <label for="total-amount" class="form-label text-white">Total Amount</label>
+          <input type="number" class="form-control" id="total-amount" placeholder="Enter the total amount (e.g., 100)" required>
+        </div>
+        <div class="mb-3">
+          <label for="wasted-amount" class="form-label text-white">Wasted Amount</label>
+          <input type="number" class="form-control" id="wasted-amount" placeholder="Enter the wasted amount (e.g., 20)" required>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+          <button type="submit" class="btn btn-primary me-md-2">Calculate Wastage Percentage</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+        </div>
+      </form>
+      <div id="result" class="mt-4 text-center"></div>
+      <div id="error" class="mt-4 text-center"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="fs-5">Here’s how it works: the tool uses a straightforward formula to determine the percentage of waste. Simply divide the wasted amount by the total amount, then multiply by 100 to get the percentage. For example, if you started with 100 units and wasted 20, the calculation would be: (20 ÷ 100) × 100 = 20%. That’s it—no complicated math required!</p>
+      <p class="fs-5">Below is a quick reference table to show how the tool calculates wastage percentages for different values:</p>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Total Amount</th>
+            <th scope="col">Wasted Amount</th>
+            <th scope="col">Wastage Percentage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>100</td><td>10</td><td>10%</td></tr>
+          <tr><td>100</td><td>20</td><td>20%</td></tr>
+          <tr><td>100</td><td>30</td><td>30%</td></tr>
+          <tr><td>100</td><td>40</td><td>40%</td></tr>
+          <tr><td>100</td><td>50</td><td>50%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mb-4">Top 10 Use Cases for the Wastage Percentage Calculator</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1. Tracking food waste in restaurants or households.</li>
+        <li class="list-group-item">2. Measuring material waste in manufacturing processes.</li>
+        <li class="list-group-item">3. Calculating time wasted on unproductive tasks at work.</li>
+        <li class="list-group-item">4. Monitoring budget overspending in personal or business finances.</li>
+        <li class="list-group-item">5. Estimating fuel waste in transportation or logistics.</li>
+        <li class="list-group-item">6. Evaluating energy waste in industrial or residential settings.</li>
+        <li class="list-group-item">7. Assessing paper or office supply waste in corporate environments.</li>
+        <li class="list-group-item">8. Determining water waste in agricultural or urban systems.</li>
+        <li class="list-group-item">9. Analyzing inventory waste in retail or e-commerce businesses.</li>
+        <li class="list-group-item">10. Measuring resource waste in construction projects.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      document.getElementById('total-amount').value = startValue;
+    }
+
+    const form = document.getElementById('wastage-form');
+    const resultDiv = document.getElementById('result');
+    const errorDiv = document.getElementById('error');
+    const resetBtn = document.getElementById('reset-btn');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      errorDiv.innerHTML = '';
+      resultDiv.innerHTML = '';
+
+      const totalAmount = parseFloat(document.getElementById('total-amount').value);
+      const wastedAmount = parseFloat(document.getElementById('wasted-amount').value);
+
+      if (isNaN(totalAmount) || isNaN(wastedAmount) || totalAmount <= 0 || wastedAmount < 0) {
+        errorDiv.innerHTML = '<div class="alert alert-danger">Please enter valid numbers in both fields.</div>';
+        return;
+      }
+
+      if (wastedAmount > totalAmount) {
+        errorDiv.innerHTML = '<div class="alert alert-danger">Wasted amount cannot be greater than total amount.</div>';
+        return;
+      }
+
+      const wastagePercentage = ((wastedAmount / totalAmount) * 100).toFixed(2);
+      resultDiv.innerHTML = `<div class="alert alert-success">Wastage Percentage: ${wastagePercentage}%</div>`;
+    });
+
+    resetBtn.addEventListener('click', function () {
+      form.reset();
+      resultDiv.innerHTML = '';
+      errorDiv.innerHTML = '';
+    });
+  });
+</script>

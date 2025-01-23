@@ -1,0 +1,143 @@
+---
+title: "Celsius Converter: Quick & Easy Temperature Conversion Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-08-17 18:01:51
+metaDescription: "Easily convert Celsius to Fahrenheit or Kelvin and track your temperature conversions with this simple, user-friendly tool. Perfect for weather, cooking, and science!"
+metaKeywords: "celsius converter, celsius to fahrenheit, celsius to kelvin, temperature conversion, weather tool, cooking temperature, science tool, temperature tracker"
+tags: ["temperature converter", "Celsius to Fahrenheit", "Celsius to Kelvin", "unit conversion", "web tool"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <h1 class="text-center mb-4">Celsius Unit Conversion History Tracker</h1><div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="text-center">
+        <strong class="fs-2">Why does temperature conversion always feel like rocket science?</strong>
+      </div>
+      <p class="lead mt-3">
+        Whether you're a weather enthusiast, a science student, or just someone trying to figure out if it’s sweater weather or shorts season, converting Celsius to Fahrenheit or Kelvin can be a headache. That’s where the <strong>Celsius Unit Conversion History Tracker</strong> comes in. This nifty tool not only converts temperatures in a snap but also keeps a record of your conversions, so you never lose track. Imagine baking a cake and instantly knowing the oven’s Fahrenheit setting without scrambling for a calculator—sounds like a win, right? With this tool, life just got a little cooler (or hotter, depending on your conversion!).
+      </p>
+    </div>
+  </div>
+</div>
+  <div class="row mb-4">
+    <div class="col-md-8 offset-md-2">
+      <label for="celsiusInput" class="form-label">Enter Temperature in Celsius (°C)</label>
+      <input type="number" id="celsiusInput" class="form-control bg-dark text-white" placeholder="e.g., 25" aria-label="Celsius Input">
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-md-8 offset-md-2 d-flex justify-content-center gap-2">
+      <button id="convertToFahrenheit" class="btn btn-primary">Convert to Fahrenheit (°F)</button>
+      <button id="convertToKelvin" class="btn btn-primary">Convert to Kelvin (K)</button>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-md-8 offset-md-2">
+      <h3 class="text-center" id="resultDisplay"></h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="text-center mb-3">Conversion History</h2>
+      <ul id="historyList" class="list-group bg-dark"></ul>
+      <button id="clearHistory" class="btn btn-danger mt-3 w-100">Clear History</button>
+    </div>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="bg-light p-4 rounded">
+        <strong class="fs-4">How It Works</strong>
+        <p class="mt-3">
+          The tool uses straightforward formulas to convert Celsius to Fahrenheit and Kelvin:
+        </p>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Fahrenheit (°F):</strong> Multiply the Celsius value by 9/5, then add 32.</li>
+          <li class="list-group-item"><strong>Kelvin (K):</strong> Add 273.15 to the Celsius value.</li>
+        </ul>
+        <p class="mt-3">
+          For example, if you input 25°C, the tool calculates:
+        </p>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">25°C → Fahrenheit: (25 × 9/5) + 32 = 77°F</li>
+          <li class="list-group-item">25°C → Kelvin: 25 + 273.15 = 298.15 K</li>
+        </ul>
+        <p class="mt-3">
+          The tool also keeps a handy history of your conversions, so you can revisit them anytime.
+        </p>
+      </div>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="bg-light p-4 rounded">
+        <strong class="fs-4">10 Common Use Cases for This Tool</strong>
+        <ul class="list-group list-group-flush mt-3">
+          <li class="list-group-item">1. Checking the weather forecast in different temperature scales.</li>
+          <li class="list-group-item">2. Setting the oven temperature for baking or cooking.</li>
+          <li class="list-group-item">3. Converting temperatures for science experiments or school projects.</li>
+          <li class="list-group-item">4. Traveling to countries that use Fahrenheit or Kelvin.</li>
+          <li class="list-group-item">5. Comparing temperatures in different units for research or analysis.</li>
+          <li class="list-group-item">6. Understanding temperature settings on appliances or devices.</li>
+          <li class="list-group-item">7. Preparing for outdoor activities like hiking or camping.</li>
+          <li class="list-group-item">8. Converting temperatures for HVAC (heating, ventilation, and air conditioning) systems.</li>
+          <li class="list-group-item">9. Learning or teaching temperature conversion concepts.</li>
+          <li class="list-group-item">10. Tracking historical conversions for reference or documentation.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const celsiusInput = document.getElementById('celsiusInput');
+    const convertToFahrenheit = document.getElementById('convertToFahrenheit');
+    const convertToKelvin = document.getElementById('convertToKelvin');
+    const resultDisplay = document.getElementById('resultDisplay');
+    const historyList = document.getElementById('historyList');
+    const clearHistory = document.getElementById('clearHistory');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue)) {
+      celsiusInput.value = startValue;
+    }
+
+    const addToHistory = (celsius, convertedValue, unit) => {
+      const timestamp = new Date().toLocaleTimeString();
+      const historyItem = document.createElement('li');
+      historyItem.className = 'list-group-item bg-dark text-white border-secondary';
+      historyItem.textContent = `${celsius}°C = ${convertedValue}${unit} - ${timestamp}`;
+      historyList.appendChild(historyItem);
+    };
+
+    const convertTemperature = (unit) => {
+      const celsius = parseFloat(celsiusInput.value);
+      if (isNaN(celsius)) {
+        resultDisplay.textContent = 'Please enter a valid number!';
+        return;
+      }
+
+      let convertedValue;
+      if (unit === 'F') {
+        convertedValue = (celsius * 9 / 5 + 32).toFixed(2);
+        resultDisplay.textContent = `${celsius}°C = ${convertedValue}°F`;
+      } else if (unit === 'K') {
+        convertedValue = (celsius + 273.15).toFixed(2);
+        resultDisplay.textContent = `${celsius}°C = ${convertedValue} K`;
+      }
+
+      addToHistory(celsius, convertedValue, unit === 'F' ? '°F' : ' K');
+    };
+
+    convertToFahrenheit.addEventListener('click', () => convertTemperature('F'));
+    convertToKelvin.addEventListener('click', () => convertTemperature('K'));
+
+    clearHistory.addEventListener('click', () => {
+      historyList.innerHTML = '';
+    });
+  });
+</script>

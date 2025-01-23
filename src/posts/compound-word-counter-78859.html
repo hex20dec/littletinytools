@@ -1,0 +1,141 @@
+---
+title: "Compound Word Counter - Analyze Your Text Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-10-12 11:01:06
+metaDescription: "Quickly count and identify compound words in any text with this easy-to-use Compound Word Counter. Perfect for writers, editors, and language learners!"
+metaKeywords: "compound word counter, count compound words, compound word tool, text analysis tool, word counter, writing tools, language tools"
+tags: ["text analysis", "compound words", "writing tools", "language learning", "word counter"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-4">Compound Word Counter</h1><div class="container-fluid p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="lead text-center mb-4 fs-3 fw-bold">Tired of manually counting compound words in your text? Let’s face it—combing through paragraphs for words like "notebook" or "sunflower" can feel like finding a needle in a haystack. That’s where the <strong>Compound Word Counter</strong> comes in! This nifty tool instantly scans your text, highlights compound words, and gives you a precise count—no stress, no fuss. Whether you’re editing an essay, writing a novel, or just curious, this tool makes it as easy as pie. Say goodbye to tedious counting and hello to clarity!</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Enter your text below to count the number of compound words.</p>
+      <textarea id="text-input" class="form-control bg-dark text-white mb-3" rows="10" placeholder="Paste or type your text here..."></textarea>
+      <div class="d-grid gap-2 mb-4">
+        <button id="count-button" class="btn btn-primary">Count Compound Words</button>
+      </div>
+      <div id="results-section" class="d-none">
+        <h2 class="text-center mb-3">Results</h2>
+        <p class="text-center">Number of compound words found: <span id="word-count" class="fw-bold">0</span></p>
+        <ul id="word-list" class="list-group mb-4"></ul>
+        <div class="d-grid gap-2">
+          <button id="reset-button" class="btn btn-secondary">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4 fs-4 fw-bold">How It Works</h2>
+      <p class="text-center mb-4">The Compound Word Counter uses a simple yet clever formula to identify compound words in your text. Here’s how it works:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">It splits your text into individual words, ignoring spaces and punctuation.</li>
+        <li class="list-group-item">It checks each word to see if it contains multiple smaller words or is split by hyphens or underscores (e.g., "mother-in-law" or "ice_cream").</li>
+        <li class="list-group-item">If a word meets the criteria, it’s flagged as a compound word and added to the results.</li>
+      </ol>
+      <p class="text-center mt-4">Here’s a quick example of how it processes text:</p>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Input Text</th>
+              <th scope="col">Compound Words Found</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>"The sunflower is a beautiful plant."</td>
+              <td>sunflower</td>
+            </tr>
+            <tr>
+              <td>"She lives in a white-washed house."</td>
+              <td>white-washed</td>
+            </tr>
+            <tr>
+              <td>"The notebook is on the table."</td>
+              <td>notebook</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container-fluid p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4 fs-4 fw-bold">10 Common Use Cases for the Compound Word Counter</h2>
+      <ul class="list-group">
+        <li class="list-group-item"><strong>Academic Writing:</strong> Ensure your essays and research papers are free of errors by identifying compound words.</li>
+        <li class="list-group-item"><strong>Creative Writing:</strong> Enhance your storytelling by spotting and using compound words effectively.</li>
+        <li class="list-group-item"><strong>Editing and Proofreading:</strong> Save time by quickly locating compound words in long documents.</li>
+        <li class="list-group-item"><strong>Language Learning:</strong> Help students or yourself understand how compound words are formed in English.</li>
+        <li class="list-group-item"><strong>SEO Optimization:</strong> Analyze content for keyword-rich compound phrases to improve search rankings.</li>
+        <li class="list-group-item"><strong>Social Media Posts:</strong> Make your captions and posts more engaging by using impactful compound words.</li>
+        <li class="list-group-item"><strong>Technical Writing:</strong> Ensure clarity and precision in manuals, guides, and reports.</li>
+        <li class="list-group-item"><strong>Blogging:</strong> Improve readability and flow by identifying compound words in your articles.</li>
+        <li class="list-group-item"><strong>Marketing Copy:</strong> Craft compelling ads and slogans with well-placed compound words.</li>
+        <li class="list-group-item"><strong>Personal Projects:</strong> Use it for fun or to satisfy your curiosity about compound words in any text.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  (function() {
+    const mainDiv = document.getElementById('main-div');
+    const textInput = document.getElementById('text-input');
+    const countButton = document.getElementById('count-button');
+    const resultsSection = document.getElementById('results-section');
+    const wordCount = document.getElementById('word-count');
+    const wordList = document.getElementById('word-list');
+    const resetButton = document.getElementById('reset-button');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    // Function to detect compound words
+    function detectCompoundWords(text) {
+      const words = text.split(/\s+/).filter(word => word.length > 0);
+      const compoundWords = words.filter(word => {
+        const subWords = word.split(/(?=[A-Z])|[-_]/).filter(sub => sub.length > 1);
+        return subWords.length >= 2;
+      });
+      return compoundWords;
+    }
+
+    // Count button click handler
+    countButton.addEventListener('click', () => {
+      const text = textInput.value.trim();
+      if (!text) {
+        alert('Please enter some text to analyze.');
+        return;
+      }
+
+      const compoundWords = detectCompoundWords(text);
+      wordCount.textContent = compoundWords.length;
+      wordList.innerHTML = compoundWords.map(word => `<li class="list-group-item bg-dark text-white">${word}</li>`).join('');
+      resultsSection.classList.remove('d-none');
+    });
+
+    // Reset button click handler
+    resetButton.addEventListener('click', () => {
+      textInput.value = '';
+      resultsSection.classList.add('d-none');
+      wordCount.textContent = '0';
+      wordList.innerHTML = '';
+    });
+  })();
+</script>

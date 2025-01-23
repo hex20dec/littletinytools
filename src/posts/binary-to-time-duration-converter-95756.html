@@ -1,0 +1,155 @@
+---
+title: "Binary to Time Duration Converter - Convert Binary to Hours, Minutes, Seconds"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-03-24 01:41:00
+metaDescription: "Convert binary numbers to time duration easily! Get hours, minutes, and seconds instantly with our Binary to Time Duration Converter."
+metaKeywords: "binary to time converter, binary to seconds, binary to minutes, binary to hours, binary time tool, binary to decimal time, time duration calculator, binary conversion tool, binary to readable time, binary time decoder"
+tags: ["binary converter", "time calculator", "binary to time", "developer tools", "educational tools"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .result-display {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 text-center">
+        <h1 class="mb-3">Binary to Time Duration Converter</h1><div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 text-center">
+      <p class="lead fs-4">Ever stared at a bunch of 1s and 0s, wondering how much time they represent? Whether you're a coder, a student, or just someone who loves numbers, converting binary to time can feel like solving a riddle. But don’t worry—our <strong>Binary to Time Duration Converter</strong> is here to save the day! Simply type in your binary number, and voilà—it magically transforms into hours, minutes, and seconds. No math headaches, no confusion, just quick and easy results. Perfect for debugging, learning, or impressing your friends at your next trivia night. Let’s turn those 1s and 0s into something you can actually use!</p>
+    </div>
+  </div>
+</div>
+        <p class="lead">Enter a binary number to convert it into hours, minutes, and seconds.</p>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8">
+        <div class="input-group mb-3">
+          <input type="text" id="binaryInput" class="form-control" placeholder="e.g., 101101" aria-label="Enter Binary Number">
+          <button id="convertBtn" class="btn btn-primary" type="button">Convert</button>
+        </div>
+        <div id="errorMessage" class="alert alert-danger d-none" role="alert"></div>
+        <div id="resultDisplay" class="result-display text-center"></div>
+        <div class="text-center mt-3">
+          <button id="resetBtn" class="btn btn-secondary">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8">
+      <p class="fs-5">Here’s how it works: The tool takes your binary input (a sequence of 1s and 0s) and converts it into a decimal number. This decimal number represents the total number of seconds. From there, it calculates the equivalent time in hours, minutes, and seconds. For example, the binary number <code>1100100</code> equals 100 in decimal, which translates to <strong>0 hours, 1 minute, and 40 seconds</strong>. It’s like turning a secret code into something you can actually plan your day around!</p>
+      
+      <div class="table-responsive mt-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Binary Input</th>
+              <th scope="col">Time Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>101</td><td>0 hours, 0 minutes, 5 seconds</td></tr>
+            <tr><td>110010</td><td>0 hours, 1 minute, 42 seconds</td></tr>
+            <tr><td>1111000</td><td>0 hours, 2 minutes, 24 seconds</td></tr>
+            <tr><td>1011010</td><td>0 hours, 2 minutes, 42 seconds</td></tr>
+            <tr><td>1001001</td><td>0 hours, 2 minutes, 17 seconds</td></tr>
+            <tr><td>1111101</td><td>0 hours, 3 minutes, 17 seconds</td></tr>
+            <tr><td>10101010</td><td>0 hours, 4 minutes, 10 seconds</td></tr>
+            <tr><td>11001100</td><td>0 hours, 5 minutes, 12 seconds</td></tr>
+            <tr><td>11111111</td><td>0 hours, 6 minutes, 3 seconds</td></tr>
+            <tr><td>100000000</td><td>0 hours, 8 minutes, 0 seconds</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8">
+      <p class="fs-4">10 Common Use Cases for the Binary to Time Duration Converter</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Debugging binary timestamps in programming projects.</li>
+        <li class="list-group-item">Converting binary logs into readable time formats for analysis.</li>
+        <li class="list-group-item">Teaching binary-to-decimal conversion concepts in classrooms.</li>
+        <li class="list-group-item">Calculating time intervals in embedded systems programming.</li>
+        <li class="list-group-item">Simplifying binary-based timekeeping in IoT devices.</li>
+        <li class="list-group-item">Decoding binary data in networking protocols.</li>
+        <li class="list-group-item">Understanding binary-coded time in digital electronics.</li>
+        <li class="list-group-item">Converting binary time formats in retro computing projects.</li>
+        <li class="list-group-item">Creating binary-based countdown timers for games or apps.</li>
+        <li class="list-group-item">Impressing your friends with quick binary-to-time conversions!</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const binaryInput = document.getElementById('binaryInput');
+    const convertBtn = document.getElementById('convertBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const resultDisplay = document.getElementById('resultDisplay');
+    const errorMessage = document.getElementById('errorMessage');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      binaryInput.value = startValue;
+    }
+
+    const convertBinaryToTime = () => {
+      const binaryString = binaryInput.value.trim();
+      if (!binaryString) {
+        errorMessage.textContent = 'Please enter a binary number.';
+        errorMessage.classList.remove('d-none');
+        resultDisplay.textContent = '';
+        return;
+      }
+
+      if (!/^[01]+$/.test(binaryString)) {
+        errorMessage.textContent = 'Invalid binary number. Please enter only 0s and 1s.';
+        errorMessage.classList.remove('d-none');
+        resultDisplay.textContent = '';
+        return;
+      }
+
+      errorMessage.classList.add('d-none');
+      const decimalValue = parseInt(binaryString, 2);
+      const hours = Math.floor(decimalValue / 3600);
+      const remainingSeconds = decimalValue % 3600;
+      const minutes = Math.floor(remainingSeconds / 60);
+      const seconds = remainingSeconds % 60;
+
+      resultDisplay.textContent = `${hours} hour${hours !== 1 ? 's' : ''}, ${minutes} minute${minutes !== 1 ? 's' : ''}, ${seconds} second${seconds !== 1 ? 's' : ''}`;
+    };
+
+    const resetApp = () => {
+      binaryInput.value = '';
+      resultDisplay.textContent = '';
+      errorMessage.classList.add('d-none');
+    };
+
+    convertBtn.addEventListener('click', convertBinaryToTime);
+    resetBtn.addEventListener('click', resetApp);
+
+    binaryInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        convertBinaryToTime();
+      }
+    });
+  });
+</script>

@@ -1,0 +1,146 @@
+---
+title: "Square Bracket Counter - Count & Validate Brackets Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-11-11 19:39:06
+metaDescription: "Count and validate square brackets instantly with the Square Bracket Counter. Perfect for coding, JSON, markdown, and more!"
+metaKeywords: "square bracket counter, count brackets, bracket validator, JSON bracket checker, markdown bracket tool, coding bracket tool, online bracket counter, bracket balance tool, text bracket checker, free bracket counter"
+tags: ["text tool", "bracket counter", "syntax validator", "writing assistant", "developer tool"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="text-center mb-3">Square Bracket Counter</h1><div class="container bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <strong class="display-6">Square Bracket Counter: Your Go-To Tool for Bracket Balancing</strong>
+  </div>
+  <p class="lead">Why do square brackets always seem to misbehave when you're editing code, writing JSON, or crafting markdown? One missing "[" or "]" can throw everything off, and hunting for the culprit feels like searching for a needle in a haystack. That’s where the <strong>Square Bracket Counter</strong> comes in—your new best friend for instantly counting and validating square brackets. Whether you're a coder, a writer, or just someone who loves clean formatting, this tool ensures your brackets are perfectly balanced. No more stress, no more errors—just smooth, bracket-free bliss. Give it a try and see how it simplifies your workflow!</p>
+</div>
+  <p class="text-center mb-4">Count and validate square brackets in your text.</p>
+
+  <div class="mb-3">
+    <textarea id="input-text" class="form-control bg-dark text-white" placeholder="Paste or type your text here..." rows="8"></textarea>
+  </div>
+
+  <div class="d-flex justify-content-center gap-2 mb-4">
+    <button id="count-btn" class="btn btn-primary">Count Brackets</button>
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+
+  <div id="output-area" class="alert d-none">
+    <p class="mb-1">Total Opening Brackets: <span id="open-count">0</span></p>
+    <p class="mb-1">Total Closing Brackets: <span id="close-count">0</span></p>
+    <p class="mb-0">Brackets are <span id="balance-status">balanced</span>.</p>
+  </div>
+</div>
+
+<div class="container bg-light p-4 mt-4">
+  <div class="mb-4">
+    <strong class="fs-5">How It Works:</strong>
+    <p>The Square Bracket Counter works like a diligent editor, scanning your text for every "[" and "]". It counts the number of opening and closing brackets and checks if they’re balanced. Here’s the simple formula it follows:</p>
+    <ul>
+      <li><strong>Step 1:</strong> Count all "[" (opening brackets).</li>
+      <li><strong>Step 2:</strong> Count all "]" (closing brackets).</li>
+      <li><strong>Step 3:</strong> Compare the two counts—if they match, your brackets are balanced; if not, you’ve got some fixing to do!</li>
+    </ul>
+  </div>
+  <div>
+    <strong class="fs-5">Example Outputs:</strong>
+    <table class="table table-bordered mt-3">
+      <thead>
+        <tr>
+          <th>Input Text</th>
+          <th>Opening Brackets</th>
+          <th>Closing Brackets</th>
+          <th>Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Hello [World]</td>
+          <td>1</td>
+          <td>1</td>
+          <td>Balanced</td>
+        </tr>
+        <tr>
+          <td>[This [is [a test]]</td>
+          <td>3</td>
+          <td>2</td>
+          <td>Not Balanced</td>
+        </tr>
+        <tr>
+          <td>No brackets here</td>
+          <td>0</td>
+          <td>0</td>
+          <td>Balanced</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container bg-dark text-white p-4 mt-4">
+  <strong class="fs-5">Top 10 Use Cases for the Square Bracket Counter:</strong>
+  <ol class="mt-3">
+    <li><strong>Code Debugging:</strong> Quickly check for mismatched brackets in your code snippets.</li>
+    <li><strong>JSON Validation:</strong> Ensure your JSON data is properly formatted.</li>
+    <li><strong>Markdown Editing:</strong> Balance brackets in markdown links and references.</li>
+    <li><strong>Academic Writing:</strong> Verify citations and references in academic papers.</li>
+    <li><strong>Data Processing:</strong> Clean up datasets with inconsistent bracket usage.</li>
+    <li><strong>Programming Tutorials:</strong> Teach students how to balance brackets in coding exercises.</li>
+    <li><strong>Web Development:</strong> Validate HTML or JavaScript code for bracket errors.</li>
+    <li><strong>API Documentation:</strong> Ensure API endpoint examples are correctly formatted.</li>
+    <li><strong>Content Creation:</strong> Check for balanced brackets in blog posts or articles.</li>
+    <li><strong>Script Writing:</strong> Validate scripts or dialogue formatting in screenplays.</li>
+  </ol>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const outputArea = document.getElementById('output-area');
+    const openCount = document.getElementById('open-count');
+    const closeCount = document.getElementById('close-count');
+    const balanceStatus = document.getElementById('balance-status');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    const countBrackets = () => {
+      const text = inputText.value;
+      const openBrackets = (text.match(/\[/g) || []).length;
+      const closeBrackets = (text.match(/\]/g) || []).length;
+
+      openCount.textContent = openBrackets;
+      closeCount.textContent = closeBrackets;
+
+      if (openBrackets === closeBrackets) {
+        outputArea.classList.remove('alert-danger');
+        outputArea.classList.add('alert-success');
+        balanceStatus.textContent = 'balanced';
+      } else {
+        outputArea.classList.remove('alert-success');
+        outputArea.classList.add('alert-danger');
+        balanceStatus.textContent = 'not balanced';
+      }
+
+      outputArea.classList.remove('d-none');
+    };
+
+    const resetApp = () => {
+      inputText.value = '';
+      outputArea.classList.add('d-none');
+    };
+
+    countBtn.addEventListener('click', countBrackets);
+    resetBtn.addEventListener('click', resetApp);
+
+    // Handle large input
+    inputText.addEventListener('input', () => {
+      if (inputText.value.length > 10000) {
+        inputText.value = inputText.value.slice(0, 10000);
+        alert('Input is limited to 10,000 characters for optimal performance.');
+      }
+    });
+  });
+</script>

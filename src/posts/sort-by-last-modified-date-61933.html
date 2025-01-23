@@ -1,0 +1,198 @@
+---
+title: "Organize Your Files by Last Modified Date - Quick & Easy!"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-04-13 09:58:12
+metaDescription: "Sort files by last modified date effortlessly. Upload, organize, and download files by newest or oldest. Perfect for managing projects, photos, and more!"
+metaKeywords: "sort files by date, last modified date, file organizer, file management, sort files online, file sorter, file modification date, organize files, file sorting tool, file organizer tool"
+tags: ["file organizer", "last modified date", "file sorter", "productivity tool", "file management"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Sort by Last Modified Date</h1><div class="container bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <strong class="display-4">Sort by Last Modified Date</strong>
+    <p class="lead">Ever found yourself drowning in a sea of files, unsure which one was updated last? Whether it's a last-minute project submission or organizing your photo library, knowing the last modified date can save the day. This tool is your digital lifesaver—upload or drag-and-drop files, and it will sort them by their last modified date, newest or oldest first. No more guessing, no more chaos. Just a simple, stress-free way to keep your files in order. Let’s make file management feel like a breeze!</p>
+  </header>
+</div>
+    <p class="lead">Upload or drag-and-drop files to sort them by their last modified date.</p>
+  </header>
+
+  <div class="mb-4">
+    <div class="border border-dashed p-3 text-center">
+      <input type="file" id="file-input" class="form-control d-none" multiple>
+      <label for="file-input" class="btn btn-primary mb-2">Choose Files</label>
+      <p class="mb-0">or drag and drop files here</p>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <div class="d-flex justify-content-center gap-2">
+      <button id="sort-button" class="btn btn-success">Sort by Last Modified Date</button>
+      <select id="sort-order" class="form-select w-auto">
+        <option value="desc">Newest First</option>
+        <option value="asc">Oldest First</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="output-section" class="mb-4">
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr>
+          <th>File Name</th>
+          <th>File Type</th>
+          <th>Last Modified Date</th>
+        </tr>
+      </thead>
+      <tbody id="file-list"></tbody>
+    </table>
+  </div>
+
+  <footer class="d-flex justify-content-center gap-2">
+    <button id="reset-button" class="btn btn-danger">Reset</button>
+    <button id="download-button" class="btn btn-secondary">Download All</button>
+  </footer>
+</div>
+
+<div class="container bg-dark text-white p-4">
+  <h2 class="h4">How It Works</h2>
+  <p class="mb-4">The tool works by analyzing the <strong>last modified date</strong> of each file you upload. Here’s the simple formula:</p>
+  <div class="alert alert-secondary">
+    <strong>Step 1:</strong> Upload or drag-and-drop your files.<br>
+    <strong>Step 2:</strong> Click "Sort by Last Modified Date" to organize them.<br>
+    <strong>Step 3:</strong> Choose to sort files from newest to oldest or vice versa.<br>
+    <strong>Step 4:</strong> View the sorted list or download all files in a ZIP archive.<br>
+  </div>
+
+  <h2 class="h4 mt-4">Sample Output</h2>
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th>File Name</th>
+        <th>File Type</th>
+        <th>Last Modified Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>project_report.pdf</td>
+        <td>PDF</td>
+        <td>2023-10-15 14:30:00</td>
+      </tr>
+      <tr>
+        <td>vacation_photo.jpg</td>
+        <td>JPEG</td>
+        <td>2023-09-20 10:45:00</td>
+      </tr>
+      <tr>
+        <td>budget.xlsx</td>
+        <td>Excel</td>
+        <td>2023-08-05 09:15:00</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container bg-dark text-white p-4">
+  <h2 class="h4">10 Common Use Cases</h2>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item bg-dark text-white">Organizing project files by latest updates.</li>
+    <li class="list-group-item bg-dark text-white">Sorting photos by the date they were last edited.</li>
+    <li class="list-group-item bg-dark text-white">Managing invoices or receipts chronologically.</li>
+    <li class="list-group-item bg-dark text-white">Tracking changes in shared documents.</li>
+    <li class="list-group-item bg-dark text-white">Preparing files for audits or reviews.</li>
+    <li class="list-group-item bg-dark text-white">Sorting downloaded files for easier access.</li>
+    <li class="list-group-item bg-dark text-white">Organizing music or video files by modification date.</li>
+    <li class="list-group-item bg-dark text-white">Cleaning up old files by identifying unused ones.</li>
+    <li class="list-group-item bg-dark text-white">Sorting backups to find the most recent version.</li>
+    <li class="list-group-item bg-dark text-white">Preparing presentations with the latest content.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('file-input');
+    const sortButton = document.getElementById('sort-button');
+    const sortOrder = document.getElementById('sort-order');
+    const fileList = document.getElementById('file-list');
+    const resetButton = document.getElementById('reset-button');
+    const downloadButton = document.getElementById('download-button');
+    const dragDropZone = document.querySelector('.border-dashed');
+    let files = [];
+
+    // Handle file input change
+    fileInput.addEventListener('change', (e) => {
+      files = Array.from(e.target.files);
+      displayFiles(files);
+    });
+
+    // Handle drag and drop
+    dragDropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dragDropZone.classList.add('border-primary');
+    });
+
+    dragDropZone.addEventListener('dragleave', () => {
+      dragDropZone.classList.remove('border-primary');
+    });
+
+    dragDropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dragDropZone.classList.remove('border-primary');
+      files = Array.from(e.dataTransfer.files);
+      displayFiles(files);
+    });
+
+    // Sort files by last modified date
+    sortButton.addEventListener('click', () => {
+      if (files.length === 0) {
+        alert('Please upload files first.');
+        return;
+      }
+
+      const order = sortOrder.value;
+      files.sort((a, b) => {
+        return order === 'desc' ? b.lastModified - a.lastModified : a.lastModified - b.lastModified;
+      });
+      displayFiles(files);
+    });
+
+    // Reset the app
+    resetButton.addEventListener('click', () => {
+      files = [];
+      fileInput.value = '';
+      fileList.innerHTML = '';
+    });
+
+    // Download all files as a ZIP (optional)
+    downloadButton.addEventListener('click', async () => {
+      if (files.length === 0) {
+        alert('No files to download.');
+        return;
+      }
+
+      const zip = new JSZip();
+      files.forEach((file) => {
+        zip.file(file.name, file);
+      });
+
+      const content = await zip.generateAsync({ type: 'blob' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(content);
+      link.download = 'sorted_files.zip';
+      link.click();
+    });
+
+    // Display files in the table
+    function displayFiles(files) {
+      fileList.innerHTML = files
+        .map(
+          (file) => `
+            <tr>
+              <td>${file.name}</td>
+              <td>${file.type || 'Unknown'}</td>
+              <td>${new Date(file.lastModified).toLocaleString()}</td>
+            </tr>
+          `
+        )
+        .join('');
+    }
+  });
+</script>

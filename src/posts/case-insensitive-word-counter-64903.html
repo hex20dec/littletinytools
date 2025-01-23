@@ -1,0 +1,143 @@
+---
+title: "Case-Insensitive Word Counter - Count Words Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-09-30 19:30:19
+metaDescription: "Count word occurrences effortlessly with our Case-Insensitive Word Counter. Perfect for writers, students, and editors!"
+metaKeywords: "word counter, case-insensitive word counter, count words, text analysis, word frequency tool"
+tags: ["word counter", "text analysis", "writing tool", "case-insensitive", "word frequency"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .textarea-custom {
+    min-height: 200px;
+  }
+  .result-display {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <div class="text-center mb-4">
+    <h1 class="display-4">Case-Insensitive Word Counter</h1><div class="text-center mb-4">
+  <p class="lead">Ever found yourself squinting at a long block of text, trying to count how many times a specific word appears? Maybe you’re editing an essay, analyzing a document, or just curious. But let’s face it—counting words manually is tedious, and who has time for that? Enter the <strong>Case-Insensitive Word Counter</strong>, your new best friend for effortless word tracking! This nifty tool does all the heavy lifting for you, scanning your text and tallying up word occurrences—no matter if they’re in uppercase, lowercase, or a mix of both. Whether you’re a writer, student, or just someone who loves efficiency, this tool is here to save the day. Say goodbye to frustration and hello to quick, accurate results!</p>
+</div>
+    <p class="lead">Enter your text and the word you want to count. The tool will count all occurrences, ignoring case.</p>
+  </div>
+
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control textarea-custom" placeholder="Paste or type your text here..." aria-label="Text input"></textarea>
+  </div>
+
+  <div class="mb-3">
+    <input type="text" id="word-input" class="form-control" placeholder="Enter the word to count..." aria-label="Word input">
+  </div>
+
+  <div class="d-grid gap-2 mb-3">
+    <button id="count-btn" class="btn btn-primary btn-lg">Count</button>
+  </div>
+
+  <div id="result" class="result-display text-center" aria-live="polite"></div>
+
+  <div class="d-grid gap-2">
+    <button id="reset-btn" class="btn btn-secondary btn-lg">Reset</button>
+  </div>
+</div>
+
+<div class="mb-4">
+  <h2 class="h4">How It Works</h2>
+  <p>This tool is as simple as it gets. Here’s the magic formula:</p>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Paste or type your text into the text box.</li>
+    <li class="list-group-item">Enter the word you want to count in the second box.</li>
+    <li class="list-group-item">Click "Count" and let the tool do its thing!</li>
+  </ol>
+  <p>The tool scans your entire text, ignoring uppercase or lowercase differences, and counts how many times your chosen word appears. It’s like having a personal word detective at your fingertips!</p>
+  <h3 class="h5">Example Counts</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Text Snippet</th>
+        <th>Word to Count</th>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>"The cat in the hat"</td>
+        <td>the</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>"She sells seashells by the seashore"</td>
+        <td>seashells</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>"Rain, rain, go away"</td>
+        <td>rain</td>
+        <td>2</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="mb-4">
+  <h2 class="h4">Top 10 Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Editing essays or articles for word repetition.</li>
+    <li class="list-group-item">Analyzing keyword density in SEO content.</li>
+    <li class="list-group-item">Checking frequency of specific terms in legal documents.</li>
+    <li class="list-group-item">Counting occurrences of names in a story or script.</li>
+    <li class="list-group-item">Tracking repeated phrases in academic writing.</li>
+    <li class="list-group-item">Verifying consistency in brand messaging.</li>
+    <li class="list-group-item">Assessing word usage in creative writing projects.</li>
+    <li class="list-group-item">Teaching students about word frequency in texts.</li>
+    <li class="list-group-item">Analyzing social media posts for trends.</li>
+    <li class="list-group-item">Solving word puzzles or trivia questions.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const textInput = document.getElementById('text-input');
+    const wordInput = document.getElementById('word-input');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultDisplay = document.getElementById('result');
+
+    // Preload text from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    countBtn.addEventListener('click', function () {
+      const text = textInput.value.trim();
+      const word = wordInput.value.trim();
+
+      if (!text || !word) {
+        resultDisplay.textContent = "Please enter both text and a word to count.";
+        return;
+      }
+
+      const lowerText = text.toLowerCase();
+      const lowerWord = word.toLowerCase();
+      const wordCount = (lowerText.match(new RegExp(`\\b${lowerWord}\\b`, 'g')) || []).length;
+
+      if (wordCount === 0) {
+        resultDisplay.textContent = `The word '${word}' does not appear in the text.`;
+      } else {
+        resultDisplay.textContent = `The word '${word}' appears ${wordCount} times.`;
+      }
+    });
+
+    resetBtn.addEventListener('click', function () {
+      textInput.value = '';
+      wordInput.value = '';
+      resultDisplay.textContent = '';
+    });
+  });
+</script>

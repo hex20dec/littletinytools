@@ -1,0 +1,137 @@
+---
+title: "Decimal to BCD Converter - Quick & Easy Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-02-28 17:40:36
+metaDescription: "Convert decimal numbers to Binary-Coded Decimal (BCD) instantly with this easy-to-use tool. Perfect for students, engineers, and tech enthusiasts!"
+metaKeywords: "decimal to bcd, bcd converter, binary-coded decimal, decimal conversion, bcd tool, digital electronics, binary conversion, bcd calculator"
+tags: ["decimal to bcd", "number converter", "binary-coded decimal", "educational tool", "web app"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .alert {
+    word-wrap: break-word;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center">Decimal to BCD Converter</h1><div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <p class="lead">Ever found yourself staring at a decimal number, wondering how to convert it into Binary-Coded Decimal (BCD) without breaking a sweat? Maybe you're working on a project, studying for an exam, or just curious about how computers handle numbers. We get it—decimal to BCD conversion can feel like decoding a secret language. But what if we told you there’s a tool that makes this process as easy as typing in a number and clicking a button? Say hello to our <strong>Decimal to BCD Converter</strong>! It’s simple, fast, and designed to save you time (and maybe a few brain cells). Think of it as your digital cheat sheet for all things BCD. Ready to make life a little easier? Let’s dive in!</p>
+    </div>
+  </div>
+</div>
+  <p class="text-muted text-center">Enter a decimal number to convert it to Binary-Coded Decimal (BCD).</p>
+
+  <div class="input-group mb-3">
+    <input type="text" id="decimalInput" class="form-control text-center" placeholder="e.g., 123" aria-label="Enter Decimal Number">
+    <button id="convertBtn" class="btn btn-primary" type="button">Convert</button>
+  </div>
+
+  <div id="outputField" class="alert alert-success text-center" role="alert" style="display: none;"></div>
+  <div id="errorField" class="alert alert-danger text-center" role="alert" style="display: none;"></div>
+
+  <button id="resetBtn" class="btn btn-secondary w-100 mt-3">Reset</button>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mb-4">How It Works</h2>
+      <p>Converting a decimal number to Binary-Coded Decimal (BCD) is all about breaking it down step by step. Here’s the magic formula behind the tool:</p>
+      <ol>
+        <li><strong>Step 1:</strong> Take each digit of the decimal number individually.</li>
+        <li><strong>Step 2:</strong> Convert each digit into its 4-bit binary equivalent.</li>
+        <li><strong>Step 3:</strong> Combine these binary digits, separating them with spaces for clarity.</li>
+      </ol>
+      <p>For example, the decimal number <code>123</code> becomes <code>0001 0010 0011</code> in BCD. Simple, right? Below is a handy table showing conversions for numbers 1 through 10 to give you a clearer picture.</p>
+      <table class="table table-bordered table-striped mt-4">
+        <thead>
+          <tr>
+            <th>Decimal</th>
+            <th>BCD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>0001</td></tr>
+          <tr><td>2</td><td>0010</td></tr>
+          <tr><td>3</td><td>0011</td></tr>
+          <tr><td>4</td><td>0100</td></tr>
+          <tr><td>5</td><td>0101</td></tr>
+          <tr><td>6</td><td>0110</td></tr>
+          <tr><td>7</td><td>0111</td></tr>
+          <tr><td>8</td><td>1000</td></tr>
+          <tr><td>9</td><td>1001</td></tr>
+          <tr><td>10</td><td>0001 0000</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mb-4">10 Common Use Cases for the Decimal to BCD Converter</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1. Simplifying digital electronics homework and projects.</li>
+        <li class="list-group-item">2. Converting numbers for microcontroller programming.</li>
+        <li class="list-group-item">3. Learning and teaching binary number systems in classrooms.</li>
+        <li class="list-group-item">4. Debugging and testing BCD-based systems.</li>
+        <li class="list-group-item">5. Preparing data for LED or LCD displays that use BCD.</li>
+        <li class="list-group-item">6. Working with legacy systems that rely on BCD encoding.</li>
+        <li class="list-group-item">7. Verifying calculations in embedded systems.</li>
+        <li class="list-group-item">8. Encoding numbers for communication protocols.</li>
+        <li class="list-group-item">9. Assisting in the design of logic circuits.</li>
+        <li class="list-group-item">10. Satisfying curiosity about how computers process decimal numbers!</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const decimalInput = document.getElementById('decimalInput');
+    const convertBtn = document.getElementById('convertBtn');
+    const outputField = document.getElementById('outputField');
+    const errorField = document.getElementById('errorField');
+    const resetBtn = document.getElementById('resetBtn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      decimalInput.value = startValue;
+    }
+
+    convertBtn.addEventListener('click', function () {
+      const decimalValue = decimalInput.value.trim();
+      if (!decimalValue || !/^\d+$/.test(decimalValue)) {
+        errorField.textContent = 'Please enter a valid decimal number.';
+        errorField.style.display = 'block';
+        outputField.style.display = 'none';
+        return;
+      }
+
+      const bcdResult = decimalToBCD(decimalValue);
+      outputField.textContent = bcdResult;
+      outputField.style.display = 'block';
+      errorField.style.display = 'none';
+    });
+
+    resetBtn.addEventListener('click', function () {
+      decimalInput.value = '';
+      outputField.textContent = '';
+      outputField.style.display = 'none';
+      errorField.textContent = '';
+      errorField.style.display = 'none';
+    });
+
+    function decimalToBCD(decimal) {
+      return decimal.split('').map(digit => {
+        const binary = parseInt(digit, 10).toString(2);
+        return binary.padStart(4, '0');
+      }).join(' ');
+    }
+  });
+</script>

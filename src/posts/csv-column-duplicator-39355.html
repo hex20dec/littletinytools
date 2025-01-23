@@ -1,0 +1,190 @@
+---
+title: "CSV Column Duplicator - Easily Duplicate Columns in CSV Files"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-15 16:57:52
+metaDescription: "Easily duplicate columns in your CSV files with the CSV Column Duplicator. Save time and avoid errors with this simple, user-friendly tool."
+metaKeywords: "CSV column duplicator, duplicate CSV columns, CSV tool, CSV editor, data duplication, CSV file editor, spreadsheet tool, CSV utility, data management, CSV column copy"
+tags: ["CSV", "Data Manipulation", "Web Tool", "Productivity", "Data Analysis"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="text-center mb-4">CSV Column Duplicator</h1><div class="container bg-dark text-white p-4">
+  <p class="lead text-center mb-4">Why does duplicating a column in a CSV file feel like solving a Rubik’s Cube blindfolded? If you’ve ever spent hours manually copying and pasting data, only to mess up the formatting, this tool is your new best friend. The CSV Column Duplicator lets you upload a file, pick a column, and duplicate it with just a few clicks. Whether you’re preparing a report, analyzing data, or just trying to save time, this tool is here to make your life simpler. No more headaches, no more endless spreadsheets—just quick, clean, and accurate results. Ready to work smarter, not harder?</p>
+</div>
+  <p class="text-center mb-4">Upload a CSV file, select a column, and duplicate it with ease.</p>
+
+  <div class="mb-3">
+    <label for="csvFileInput" class="form-label">Upload CSV File</label>
+    <input type="file" class="form-control" id="csvFileInput" accept=".csv">
+    <div id="fileError" class="invalid-feedback">Please upload a valid CSV file.</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="columnSelect" class="form-label">Select Column to Duplicate</label>
+    <select class="form-select" id="columnSelect" disabled>
+      <option value="">-- Select a column --</option>
+    </select>
+    <div id="columnError" class="invalid-feedback">Please select a column to duplicate.</div>
+  </div>
+
+  <button id="duplicateButton" class="btn btn-success mb-3" disabled>Duplicate Column</button>
+
+  <div id="downloadSection" class="mb-3" style="display: none;">
+    <button id="downloadButton" class="btn btn-secondary">Download Modified CSV</button>
+  </div>
+
+  <div id="previewSection" class="mb-3">
+    <h3>Preview</h3>
+    <table class="table table-dark table-striped">
+      <thead id="previewHeader"></thead>
+      <tbody id="previewBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="container bg-light p-4">
+  <h2 class="mb-4">How It Works</h2>
+  <p>The CSV Column Duplicator follows a simple, three-step process:</p>
+  <ol class="list-group mb-4">
+    <li class="list-group-item"><strong>Upload Your CSV File:</strong> Start by uploading your CSV file. The tool reads the file and identifies all the columns.</li>
+    <li class="list-group-item"><strong>Select the Column to Duplicate:</strong> Choose the column you want to duplicate from the dropdown menu.</li>
+    <li class="list-group-item"><strong>Duplicate and Download:</strong> Click the "Duplicate Column" button, and the tool adds a copy of the selected column to your file. You can then download the modified CSV with just one click.</li>
+  </ol>
+
+  <h3 class="mb-4">Example Preview</h3>
+  <p>Here’s how the tool might transform your data:</p>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Original Column</th>
+          <th>Duplicated Column</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Data 1</td><td>Data 1</td></tr>
+        <tr><td>Data 2</td><td>Data 2</td></tr>
+        <tr><td>Data 3</td><td>Data 3</td></tr>
+        <tr><td>Data 4</td><td>Data 4</td></tr>
+        <tr><td>Data 5</td><td>Data 5</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container bg-dark text-white p-4">
+  <h2 class="mb-4">Top 10 Use Cases for the CSV Column Duplicator</h2>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item bg-dark text-white">Creating backup columns for critical data before making edits.</li>
+    <li class="list-group-item bg-dark text-white">Duplicating headers for multi-sheet Excel workbooks.</li>
+    <li class="list-group-item bg-dark text-white">Preparing data for pivot tables by duplicating key columns.</li>
+    <li class="list-group-item bg-dark text-white">Generating test data for software development.</li>
+    <li class="list-group-item bg-dark text-white">Duplicating timestamps for time-series analysis.</li>
+    <li class="list-group-item bg-dark text-white">Splitting data into separate columns for further processing.</li>
+    <li class="list-group-item bg-dark text-white">Creating mirrored columns for comparison or validation.</li>
+    <li class="list-group-item bg-dark text-white">Preparing data for machine learning models by duplicating features.</li>
+    <li class="list-group-item bg-dark text-white">Duplicating IDs for cross-referencing in large datasets.</li>
+    <li class="list-group-item bg-dark text-white">Simplifying data migration by duplicating key fields.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const csvFileInput = document.getElementById('csvFileInput');
+    const columnSelect = document.getElementById('columnSelect');
+    const duplicateButton = document.getElementById('duplicateButton');
+    const downloadSection = document.getElementById('downloadSection');
+    const downloadButton = document.getElementById('downloadButton');
+    const previewHeader = document.getElementById('previewHeader');
+    const previewBody = document.getElementById('previewBody');
+    const fileError = document.getElementById('fileError');
+    const columnError = document.getElementById('columnError');
+
+    let csvData = [];
+    let modifiedData = [];
+
+    csvFileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file && file.type === 'text/csv') {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const text = e.target.result;
+          csvData = parseCSV(text);
+          if (csvData.length > 0) {
+            populateColumnSelect(csvData[0]);
+            columnSelect.disabled = false;
+            duplicateButton.disabled = false;
+            fileError.style.display = 'none';
+            csvFileInput.classList.remove('is-invalid');
+          } else {
+            showError(fileError, 'The uploaded CSV file is empty.');
+          }
+        };
+        reader.readAsText(file);
+      } else {
+        showError(fileError, 'Please upload a valid CSV file.');
+      }
+    });
+
+    columnSelect.addEventListener('change', () => {
+      if (columnSelect.value) {
+        columnError.style.display = 'none';
+        columnSelect.classList.remove('is-invalid');
+      }
+    });
+
+    duplicateButton.addEventListener('click', () => {
+      if (!columnSelect.value) {
+        showError(columnError, 'Please select a column to duplicate.');
+        return;
+      }
+
+      const columnIndex = csvData[0].indexOf(columnSelect.value);
+      if (columnIndex === -1) return;
+
+      modifiedData = csvData.map(row => [...row, row[columnIndex]]);
+      modifiedData[0][modifiedData[0].length - 1] = `${modifiedData[0][columnIndex]}_copy`;
+
+      updatePreview(modifiedData);
+      downloadSection.style.display = 'block';
+    });
+
+    downloadButton.addEventListener('click', () => {
+      const csvContent = modifiedData.map(row => row.join(',')).join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'modified_file.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    function parseCSV(text) {
+      return text.split('\n').map(row => row.split(','));
+    }
+
+    function populateColumnSelect(headers) {
+      columnSelect.innerHTML = '<option value="">-- Select a column --</option>';
+      headers.forEach(header => {
+        const option = document.createElement('option');
+        option.value = header;
+        option.textContent = header;
+        columnSelect.appendChild(option);
+      });
+    }
+
+    function updatePreview(data) {
+      previewHeader.innerHTML = `<tr>${data[0].map(header => `<th>${header}</th>`).join('')}</tr>`;
+      previewBody.innerHTML = data.slice(1, 6).map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('');
+    }
+
+    function showError(element, message) {
+      element.textContent = message;
+      element.style.display = 'block';
+      element.previousElementSibling.classList.add('is-invalid');
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      csvFileInput.value = startValue;
+    }
+  });
+</script>

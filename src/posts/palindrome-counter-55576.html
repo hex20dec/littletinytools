@@ -1,0 +1,149 @@
+---
+title: "Palindrome Counter - Count Palindromic Substrings in Text"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-05-03 16:38:45
+metaDescription: "Count palindromic substrings in any text with ease. Perfect for word enthusiasts, teachers, and puzzle solvers. Try it now!"
+metaKeywords: "palindrome counter, count palindromes, palindrome checker, word tools, palindrome examples, text analysis, palindrome finder, palindrome generator, language tools, word puzzles"
+tags: ["palindrome", "text analysis", "string manipulation", "web tool", "educational"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .results-area {
+    background-color: #2d3338;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 text-center">
+        <h1 class="mb-3">Palindrome Counter</h1><div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 text-center">
+      <p class="display-6 mb-3">Ever wondered how many hidden palindromes are lurking in your text?</p>
+      <p class="lead">You know, those sneaky little words or phrases that read the same backward as forward? Maybe you’ve tried counting them manually, only to get lost in a maze of letters and give up. Enter the <strong>Palindrome Counter</strong>—your new best friend for uncovering these hidden gems! Whether you’re a word nerd, a puzzle enthusiast, or just someone who loves a good "racecar," this tool makes finding palindromes as easy as typing a sentence. No more squinting at your screen or second-guessing yourself. Just type, click, and voilà—your palindrome count is revealed. It’s like having a word detective in your pocket!</p>
+    </div>
+  </div>
+</div>
+        <p class="lead">Enter a string of text to count how many palindromic substrings it contains.</p>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="mb-3">
+          <input type="text" id="input-text" class="form-control" placeholder="Enter your text here..." aria-label="Input text">
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+          <button id="count-btn" class="btn btn-primary me-md-2">Count Palindromes</button>
+          <button id="reset-btn" class="btn btn-secondary">Reset</button>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center mt-4">
+      <div class="col-md-8">
+        <div id="results" class="results-area" aria-live="polite">
+          <p class="mb-0">Results will appear here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="h4 mb-3">How Does It Work?</h2>
+      <p>Here’s the magic behind the scenes: The Palindrome Counter scans your text for all possible substrings (that’s just a fancy way of saying "pieces of text") and checks if they’re palindromes. It does this by comparing each substring to its reverse version. If they match, bingo! It’s a palindrome. The tool then tallies up all these matches and shows you the total count, along with a list of the palindromes it found (up to 50, because who wants to scroll through hundreds of results?).</p>
+      <p>Here’s a quick example: If you type in "noon," the tool will find substrings like "n," "o," "no," "oo," and "noon." Each one is a palindrome, and the counter adds them all up for you. Easy, right?</p>
+      <p>Try it out with the tool above and see for yourself!</p>
+    </div>
+  </div>
+</div><div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="h4 mb-3">10 Common Use Cases for the Palindrome Counter</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Analyzing creative writing for palindromic patterns.</li>
+        <li class="list-group-item">Preparing for trivia nights or word-based competitions.</li>
+        <li class="list-group-item">Teaching students about palindromes in language classes.</li>
+        <li class="list-group-item">Creating fun social media posts with palindrome counts.</li>
+        <li class="list-group-item">Testing coding skills by verifying palindrome algorithms.</li>
+        <li class="list-group-item">Brainstorming unique names or phrases for brands or projects.</li>
+        <li class="list-group-item">Solving crossword or word puzzles more efficiently.</li>
+        <li class="list-group-item">Exploring the beauty of symmetry in language.</li>
+        <li class="list-group-item">Adding a fun twist to poetry or songwriting.</li>
+        <li class="list-group-item">Simply satisfying your curiosity about palindromes in everyday text!</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultsDiv = document.getElementById('results');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    // Function to check if a string is a palindrome
+    const isPalindrome = (str) => {
+      const cleanedStr = str.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+      return cleanedStr === cleanedStr.split('').reverse().join('');
+    };
+
+    // Function to count palindromic substrings
+    const countPalindromes = (text) => {
+      const cleanedText = text.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+      let count = 0;
+      const palindromes = [];
+
+      for (let i = 0; i < cleanedText.length; i++) {
+        for (let j = i + 1; j <= cleanedText.length; j++) {
+          const substring = cleanedText.slice(i, j);
+          if (isPalindrome(substring)) {
+            count++;
+            palindromes.push(substring);
+          }
+        }
+      }
+
+      return { count, palindromes };
+    };
+
+    // Handle count button click
+    countBtn.addEventListener('click', () => {
+      const text = inputText.value.trim();
+      if (!text) {
+        resultsDiv.innerHTML = '<p class="text-danger">Please enter some text to analyze.</p>';
+        return;
+      }
+
+      const { count, palindromes } = countPalindromes(text);
+      let resultHTML = `<p class="mb-2"><strong>Total Palindromic Substrings:</strong> ${count}</p>`;
+      if (palindromes.length <= 50) {
+        resultHTML += `<p class="mb-0"><strong>Palindromes Found:</strong> ${palindromes.join(', ')}</p>`;
+      } else {
+        resultHTML += `<p class="mb-0"><strong>Note:</strong> Too many palindromes to display. Only the count is shown.</p>`;
+      }
+      resultsDiv.innerHTML = resultHTML;
+    });
+
+    // Handle reset button click
+    resetBtn.addEventListener('click', () => {
+      inputText.value = '';
+      resultsDiv.innerHTML = '<p class="mb-0">Results will appear here.</p>';
+    });
+  });
+</script>

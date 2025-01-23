@@ -1,0 +1,137 @@
+---
+title: "Digit Sum Calculator - Quick & Easy Tool for Summing Digits"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-04-24 09:41:14
+metaDescription: "Instantly calculate the sum of digits in any number with the Digit Sum Calculator. Fast, accurate, and perfect for students, teachers, and math enthusiasts!"
+metaKeywords: "digit sum calculator, sum of digits, digit addition tool, math calculator, number sum tool, online digit sum, digit sum checker, math helper, digit sum examples, number tools"
+tags: ["math", "calculator", "education", "tools", "digit-sum"]
+---
+
+<div id="main-div">
+  <div class="container text-center mt-5">
+    <h1 class="text-white">Digit Sum Calculator</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 text-center">
+      <p class="lead fs-4">
+        Numbers can be tricky, especially when you need to break them down into their individual digits and find their sum. Whether you're solving a math problem, checking your work, or just curious, manually adding digits can be time-consuming and prone to errors. That's where the <strong>Digit Sum Calculator</strong> comes in! This simple yet powerful tool takes any number you provide and instantly calculates the sum of its digits. No more pen-and-paper struggles or second-guessing—just quick, accurate results at your fingertips. Perfect for students, teachers, or anyone who loves numbers, this tool makes math a little less scary and a lot more fun!
+      </p>
+    </div>
+  </div>
+</div>
+    <p class="text-white-50">Enter a number to calculate the sum of its digits.</p>
+  </div>
+  <div class="container mt-3">
+    <input type="text" class="form-control bg-dark text-white" id="numberInput" placeholder="Enter a number" aria-label="Enter a number">
+    <button class="btn btn-primary mt-3 w-100" id="calculateBtn">Calculate</button>
+  </div>
+  <div class="container mt-3">
+    <div class="alert alert-success" id="resultDisplay" style="display: none;" role="alert">
+      Sum of Digits: <span id="result"></span>
+    </div>
+    <div class="alert alert-danger" id="errorDisplay" style="display: none;" role="alert">
+      Please enter a valid number.
+    </div>
+    <button class="btn btn-secondary mt-3 w-100" id="resetBtn">Reset</button>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <h2 class="fs-3 mb-4">How It Works</h2>
+      <p class="mb-4">
+        The Digit Sum Calculator works by breaking down the number you enter into its individual digits and then adding them together. For example, if you enter the number <strong>123</strong>, the tool separates it into <strong>1</strong>, <strong>2</strong>, and <strong>3</strong>, then calculates the sum as <strong>1 + 2 + 3 = 6</strong>. It’s that simple! The tool ensures accuracy and speed, so you don’t have to worry about making mistakes.
+      </p>
+      <h3 class="fs-4 mb-4">Quick Examples</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Number</th>
+              <th scope="col">Sum of Digits</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>1</td></tr>
+            <tr><td>12</td><td>3</td></tr>
+            <tr><td>123</td><td>6</td></tr>
+            <tr><td>456</td><td>15</td></tr>
+            <tr><td>789</td><td>24</td></tr>
+            <tr><td>1000</td><td>1</td></tr>
+            <tr><td>2023</td><td>7</td></tr>
+            <tr><td>5555</td><td>20</td></tr>
+            <tr><td>98765</td><td>35</td></tr>
+            <tr><td>123456</td><td>21</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <h2 class="fs-3 mb-4">10 Common Use Cases for the Digit Sum Calculator</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Quickly verifying the sum of digits in large numbers.</li>
+        <li class="list-group-item">Solving math problems that involve digit sums.</li>
+        <li class="list-group-item">Checking homework or assignments for accuracy.</li>
+        <li class="list-group-item">Preparing for math competitions or quizzes.</li>
+        <li class="list-group-item">Calculating checksums for data validation.</li>
+        <li class="list-group-item">Simplifying number-related puzzles or games.</li>
+        <li class="list-group-item">Teaching students about place value and number properties.</li>
+        <li class="list-group-item">Analyzing patterns in numbers for fun or research.</li>
+        <li class="list-group-item">Validating the results of manual calculations.</li>
+        <li class="list-group-item">Saving time when working with repetitive calculations.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputField = document.getElementById('numberInput');
+    const calculateBtn = document.getElementById('calculateBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const resultDisplay = document.getElementById('resultDisplay');
+    const errorDisplay = document.getElementById('errorDisplay');
+    const resultSpan = document.getElementById('result');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputField.value = startValue;
+    }
+
+    // Focus input field on page load
+    inputField.focus();
+
+    // Calculate digit sum
+    calculateBtn.addEventListener('click', () => {
+      const inputValue = inputField.value.trim();
+      if (!inputValue || !/^\d+$/.test(inputValue)) {
+        errorDisplay.style.display = 'block';
+        resultDisplay.style.display = 'none';
+        return;
+      }
+
+      const sum = inputValue.split('').reduce((acc, digit) => acc + Number(digit), 0);
+      resultSpan.textContent = sum;
+      resultDisplay.style.display = 'block';
+      errorDisplay.style.display = 'none';
+    });
+
+    // Reset fields
+    resetBtn.addEventListener('click', () => {
+      inputField.value = '';
+      resultDisplay.style.display = 'none';
+      errorDisplay.style.display = 'none';
+      inputField.focus();
+    });
+
+    // Clear error on input
+    inputField.addEventListener('input', () => {
+      if (errorDisplay.style.display === 'block') {
+        errorDisplay.style.display = 'none';
+      }
+    });
+  });
+</script>

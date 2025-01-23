@@ -1,0 +1,150 @@
+---
+title: "String Prefix Sorter - Organize Your Text Data Effortlessly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-07-28 16:20:57
+metaDescription: "Easily filter and sort strings by prefix with the String Prefix Sorter. Perfect for organizing data, cleaning lists, and saving time. Try it now!"
+metaKeywords: "string prefix sorter, filter strings, sort strings, string organizer, data sorting tool, prefix filter, string management, text organizer, string list tool, string sorting"
+tags: ["string-sorter", "text-tool", "productivity", "web-app", "bootstrap"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-4">String Prefix Sorter</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto text-center">
+      <p class="lead">Why does sorting through a pile of strings with a specific prefix feel like searching for a needle in a haystack? Whether you're organizing data, cleaning up lists, or just trying to make sense of a chaotic mess, the <strong>String Prefix Sorter</strong> is here to save the day. This handy tool lets you quickly filter and sort strings based on a chosen prefix, in either ascending or descending order. No more manual scrolling or endless copy-pasting—just paste your strings, specify the prefix, and let the tool do the heavy lifting. Perfect for coders, data analysts, or anyone who loves a tidy list. Say goodbye to clutter and hello to efficiency!</p>
+    </div>
+  </div>
+</div>
+      <div class="mb-3">
+        <label for="strings-input" class="form-label">Enter your strings here, one per line:</label>
+        <textarea id="strings-input" class="form-control bg-dark text-white" rows="6" placeholder="Enter your strings here, one per line."></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="prefix-input" class="form-label">Enter prefix to sort by:</label>
+        <input type="text" id="prefix-input" class="form-control bg-dark text-white" placeholder="Enter prefix to sort by.">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Sort order:</label>
+        <select id="sort-order" class="form-select bg-dark text-white">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
+      <button id="sort-button" class="btn btn-primary w-100 mb-3">Sort</button>
+      <div class="mb-3">
+        <label for="output-area" class="form-label">Sorted strings:</label>
+        <textarea id="output-area" class="form-control bg-dark text-white" rows="6" placeholder="Sorted strings will appear here." readonly></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h2 class="mb-4">How It Works</h2>
+      <p class="mb-4">The String Prefix Sorter follows a simple three-step process:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item"><strong>Input Your Strings:</strong> Paste or type your list of strings, with each string on a new line.</li>
+        <li class="list-group-item"><strong>Set the Prefix:</strong> Specify the prefix you want to filter and sort by. Only strings starting with this prefix will be included.</li>
+        <li class="list-group-item"><strong>Choose the Order:</strong> Decide if you want the results in ascending (A-Z) or descending (Z-A) order.</li>
+      </ol>
+      <p class="mt-4">The tool then filters out all strings that don't match the prefix, sorts the remaining ones, and displays them neatly for you. It's like having a personal assistant for your string-related tasks!</p>
+
+      <h3 class="mt-5 mb-4">Example Output</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Input Strings</th>
+            <th scope="col">Prefix</th>
+            <th scope="col">Sorted Output (Ascending)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>apple, apricot, banana, berry, avocado</td>
+            <td>a</td>
+            <td>apple, apricot, avocado</td>
+          </tr>
+          <tr>
+            <td>cat, car, cow, dog, duck</td>
+            <td>c</td>
+            <td>car, cat, cow</td>
+          </tr>
+          <tr>
+            <td>sun, star, moon, sky, sea</td>
+            <td>s</td>
+            <td>sea, sky, star, sun</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h2 class="mb-4">10 Common Use Cases for the String Prefix Sorter</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1. Organizing file names by a specific prefix.</li>
+        <li class="list-group-item">2. Filtering and sorting product codes in an inventory list.</li>
+        <li class="list-group-item">3. Cleaning up email addresses based on domain prefixes.</li>
+        <li class="list-group-item">4. Sorting usernames or IDs in a database.</li>
+        <li class="list-group-item">5. Preparing data for reports by grouping similar entries.</li>
+        <li class="list-group-item">6. Identifying and categorizing keywords in a text analysis.</li>
+        <li class="list-group-item">7. Managing book or movie titles in a personal library.</li>
+        <li class="list-group-item">8. Extracting and sorting hashtags from social media posts.</li>
+        <li class="list-group-item">9. Sorting URLs by specific subdomains or paths.</li>
+        <li class="list-group-item">10. Simplifying coding tasks by filtering relevant variables or functions.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const stringsInput = document.getElementById('strings-input');
+    const prefixInput = document.getElementById('prefix-input');
+    const sortOrder = document.getElementById('sort-order');
+    const sortButton = document.getElementById('sort-button');
+    const outputArea = document.getElementById('output-area');
+
+    // Preload the strings input with the value from the query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      stringsInput.value = startValue;
+    }
+
+    sortButton.addEventListener('click', () => {
+      const strings = stringsInput.value.split('\n').filter(s => s.trim() !== '');
+      const prefix = prefixInput.value.trim();
+      const order = sortOrder.value;
+
+      if (!prefix) {
+        outputArea.value = 'Please enter a prefix to sort by.';
+        return;
+      }
+
+      if (strings.length === 0) {
+        outputArea.value = 'Please enter some strings to sort.';
+        return;
+      }
+
+      const filteredStrings = strings.filter(s => s.startsWith(prefix));
+      if (filteredStrings.length === 0) {
+        outputArea.value = 'No strings match the specified prefix.';
+        return;
+      }
+
+      const sortedStrings = filteredStrings.sort((a, b) => {
+        if (order === 'asc') {
+          return a.localeCompare(b);
+        } else {
+          return b.localeCompare(a);
+        }
+      });
+
+      outputArea.value = sortedStrings.join('\n');
+    });
+  });
+</script>

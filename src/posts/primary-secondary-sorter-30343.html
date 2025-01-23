@@ -1,0 +1,163 @@
+---
+title: "Primary-Secondary Sorter: Organize Your Items Effortlessly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-05-10 09:31:34
+metaDescription: "Organize tasks and ideas effortlessly with the Primary-Secondary Sorter. Prioritize, sort, and manage your to-dos in seconds!"
+metaKeywords: "task organizer, priority sorter, productivity tool, to-do list, task management, primary secondary sorter, decision-making tool, task prioritization, time management, simple organizer"
+tags: ["productivity", "task-management", "organization", "sorting-tool", "web-app"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="text-center mb-4">
+    <h1 class="display-4">Primary-Secondary Sorter</h1><div class="container mt-5">
+  <div class="text-center mb-4">
+    <strong class="display-4">Primary-Secondary Sorter</strong>
+    <p class="lead">Juggling too many tasks or ideas? The Primary-Secondary Sorter is here to help you organize your thoughts, tasks, or items into clear, actionable categories. Whether you're planning your day, managing a project, or just trying to declutter your mind, this tool makes it easy to prioritize what matters most. Simply add your items, assign them as Primary (urgent/important) or Secondary (less urgent), and watch your list come to life. With just a few clicks, you’ll feel more in control and ready to tackle your day. Let’s get sorting—it’s time to make life a little simpler!</p>
+  </div>
+</div>
+    <p class="lead">Easily sort your items into Primary and Secondary categories.</p>
+  </div>
+
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-8">
+      <div class="input-group">
+        <input type="text" id="item-input" class="form-control bg-dark text-white" placeholder="Enter an item..." aria-label="Enter an item">
+        <select id="category-select" class="form-select bg-dark text-white">
+          <option value="primary">Primary</option>
+          <option value="secondary">Secondary</option>
+        </select>
+        <button id="add-item-btn" class="btn btn-primary">Add Item</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="text-center mb-3">Primary</h2>
+      <ul id="primary-list" class="list-group"></ul>
+    </div>
+    <div class="col-md-6">
+      <h2 class="text-center mb-3">Secondary</h2>
+      <ul id="secondary-list" class="list-group"></ul>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <button id="reset-all-btn" class="btn btn-danger">Reset All</button>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p><strong>How It Works:</strong> The Primary-Secondary Sorter uses a straightforward approach to help you organize. You input an item, choose whether it’s <em>Primary</em> (high priority) or <em>Secondary</em> (lower priority), and the tool sorts it into the appropriate list. You can even move items between categories or delete them entirely. It’s like having a digital assistant for decision-making!</p>
+      <p>Here’s a quick example of how items might look when sorted:</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Category</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Finish project report</td>
+            <td>Primary</td>
+          </tr>
+          <tr>
+            <td>Buy groceries</td>
+            <td>Primary</td>
+          </tr>
+          <tr>
+            <td>Read new book</td>
+            <td>Secondary</td>
+          </tr>
+          <tr>
+            <td>Organize desk</td>
+            <td>Secondary</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p><strong>10 Common Use Cases for the Primary-Secondary Sorter:</strong></p>
+      <ul class="list-group">
+        <li class="list-group-item">1. Prioritizing daily tasks for work or school.</li>
+        <li class="list-group-item">2. Organizing errands into urgent and non-urgent categories.</li>
+        <li class="list-group-item">3. Sorting project tasks by importance and deadlines.</li>
+        <li class="list-group-item">4. Managing personal goals into short-term and long-term actions.</li>
+        <li class="list-group-item">5. Planning a vacation by separating must-do activities from optional ones.</li>
+        <li class="list-group-item">6. Decluttering your to-do list by focusing on what truly matters.</li>
+        <li class="list-group-item">7. Sorting household chores into high-priority and low-priority tasks.</li>
+        <li class="list-group-item">8. Organizing study materials for exams or certifications.</li>
+        <li class="list-group-item">9. Prioritizing client requests or customer support tickets.</li>
+        <li class="list-group-item">10. Simplifying decision-making for personal or professional projects.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const itemInput = document.getElementById('item-input');
+    const categorySelect = document.getElementById('category-select');
+    const addItemBtn = document.getElementById('add-item-btn');
+    const primaryList = document.getElementById('primary-list');
+    const secondaryList = document.getElementById('secondary-list');
+    const resetAllBtn = document.getElementById('reset-all-btn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      itemInput.value = startValue;
+    }
+
+    const addItem = () => {
+      const itemText = itemInput.value.trim();
+      if (!itemText) {
+        alert('Please enter a valid item.');
+        return;
+      }
+
+      const category = categorySelect.value;
+      const list = category === 'primary' ? primaryList : secondaryList;
+
+      const listItem = document.createElement('li');
+      listItem.className = 'list-group-item d-flex justify-content-between align-items-center bg-dark text-white';
+      listItem.textContent = itemText;
+
+      const moveButton = document.createElement('button');
+      moveButton.className = 'btn btn-sm btn-secondary';
+      moveButton.textContent = category === 'primary' ? 'Move to Secondary' : 'Move to Primary';
+      moveButton.onclick = () => {
+        const targetList = category === 'primary' ? secondaryList : primaryList;
+        list.removeChild(listItem);
+        moveButton.textContent = category === 'primary' ? 'Move to Primary' : 'Move to Secondary';
+        targetList.appendChild(listItem);
+      };
+
+      const deleteButton = document.createElement('button');
+      deleteButton.className = 'btn btn-sm btn-danger ms-2';
+      deleteButton.textContent = 'Delete';
+      deleteButton.onclick = () => list.removeChild(listItem);
+
+      listItem.appendChild(moveButton);
+      listItem.appendChild(deleteButton);
+      list.appendChild(listItem);
+
+      itemInput.value = '';
+    };
+
+    addItemBtn.addEventListener('click', addItem);
+    itemInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') addItem();
+    });
+
+    resetAllBtn.addEventListener('click', () => {
+      primaryList.innerHTML = '';
+      secondaryList.innerHTML = '';
+    });
+  });
+</script>

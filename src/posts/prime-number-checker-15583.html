@@ -1,0 +1,163 @@
+---
+title: "Prime Number Checker - Quickly Check if a Number is Prime"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-08-07 22:30:59
+metaDescription: "Instantly check if a number is prime with this easy-to-use Prime Number Checker. Perfect for students, teachers, and math enthusiasts!"
+metaKeywords: "prime number checker, prime number tool, check prime number, math tool, number theory, prime number examples, prime number uses, prime number calculator, prime number test, prime number finder"
+tags: ["prime numbers", "math tools", "educational", "number checker", "web app"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Prime Number Checker</h1><!-- Header Section -->
+<div class="container bg-dark text-white p-4 rounded">
+  <header class="text-center mb-4">
+    <p class="display-4">Prime Number Checker</p>
+    <p class="lead">Why do prime numbers feel like a math riddle you can't solve? Whether you're a student tackling homework, a teacher preparing lessons, or just a curious mind, this tool is here to make your life simpler. Enter any number, and instantly find out if it's prime. No complex math, no headaches—just quick, accurate results. It's like having a math wizard in your pocket, ready to help whenever you need it. Say goodbye to guesswork and hello to effortless number-checking!</p>
+  </header>
+</div>
+    <p class="lead">Enter a number to check if it is a prime number.</p>
+  </header>
+
+  <section class="mb-4">
+    <div class="input-group">
+      <input type="number" id="numberInput" class="form-control bg-dark text-white" placeholder="Enter a number" min="2" aria-label="Enter a number">
+      <button id="checkButton" class="btn btn-primary">Check</button>
+    </div>
+  </section>
+
+  <section id="resultSection" class="mb-4">
+    <div id="resultMessage" class="alert" role="alert" aria-live="polite"></div>
+  </section>
+
+  <footer class="text-center">
+    <p class="text-muted">A prime number is a natural number greater than 1 with no positive divisors other than 1 and itself.</p>
+  </footer>
+</div>
+
+<!-- Explanation Section -->
+<div class="container bg-light p-4 rounded mt-4">
+  <h2 class="mb-4">How It Works</h2>
+  <p>Prime numbers are natural numbers greater than 1 that have no divisors other than 1 and themselves. This tool uses a straightforward method to check if a number is prime:</p>
+  <ol>
+    <li>It first ensures the number is greater than 1.</li>
+    <li>It checks divisibility by all numbers from 2 up to the square root of the number.</li>
+    <li>If no divisors are found, the number is prime—otherwise, it's not.</li>
+  </ol>
+  
+  <h3 class="mt-4">Examples</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Number</th>
+        <th>Is Prime?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>2</td><td>Yes</td></tr>
+      <tr><td>3</td><td>Yes</td></tr>
+      <tr><td>4</td><td>No</td></tr>
+      <tr><td>5</td><td>Yes</td></tr>
+      <tr><td>6</td><td>No</td></tr>
+      <tr><td>7</td><td>Yes</td></tr>
+      <tr><td>8</td><td>No</td></tr>
+      <tr><td>9</td><td>No</td></tr>
+      <tr><td>10</td><td>No</td></tr>
+      <tr><td>11</td><td>Yes</td></tr>
+      <tr><td>12</td><td>No</td></tr>
+      <tr><td>13</td><td>Yes</td></tr>
+      <tr><td>14</td><td>No</td></tr>
+      <tr><td>15</td><td>No</td></tr>
+      <tr><td>16</td><td>No</td></tr>
+      <tr><td>17</td><td>Yes</td></tr>
+      <tr><td>18</td><td>No</td></tr>
+      <tr><td>19</td><td>Yes</td></tr>
+      <tr><td>20</td><td>No</td></tr>
+    </tbody>
+  </table>
+</div><!-- Use Cases Section -->
+<div class="container bg-light p-4 rounded mt-4">
+  <h2 class="mb-4">Top 10 Use Cases for the Prime Number Checker</h2>
+  <ul class="list-group">
+    <li class="list-group-item">1. Homework help for students learning about prime numbers.</li>
+    <li class="list-group-item">2. Teachers preparing lesson plans or quizzes on number theory.</li>
+    <li class="list-group-item">3. Math enthusiasts exploring patterns in prime numbers.</li>
+    <li class="list-group-item">4. Programmers testing algorithms related to prime numbers.</li>
+    <li class="list-group-item">5. Cryptography researchers needing prime numbers for encryption.</li>
+    <li class="list-group-item">6. Gamers solving puzzles or challenges involving prime numbers.</li>
+    <li class="list-group-item">7. Parents helping their kids with math assignments.</li>
+    <li class="list-group-item">8. Competitive exam aspirants practicing number theory questions.</li>
+    <li class="list-group-item">9. Scientists analyzing data sets involving prime numbers.</li>
+    <li class="list-group-item">10. Curious minds testing random numbers for fun!</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const numberInput = document.getElementById('numberInput');
+    const checkButton = document.getElementById('checkButton');
+    const resultMessage = document.getElementById('resultMessage');
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+
+    if (startValue && !isNaN(startValue) && parseInt(startValue) >= 2) {
+      numberInput.value = startValue;
+    }
+
+    const isPrime = (num) => {
+      if (num < 2) return false;
+      for (let i = 2, sqrt = Math.sqrt(num); i <= sqrt; i++) {
+        if (num % i === 0) return false;
+      }
+      return true;
+    };
+
+    const validateInput = (input) => {
+      const num = parseInt(input);
+      return !isNaN(num) && num >= 2;
+    };
+
+    const displayResult = (num, isPrimeResult) => {
+      if (isPrimeResult) {
+        resultMessage.textContent = `${num} is a prime number.`;
+        resultMessage.classList.remove('alert-danger', 'alert-warning');
+        resultMessage.classList.add('alert-success');
+      } else {
+        resultMessage.textContent = `${num} is not a prime number.`;
+        resultMessage.classList.remove('alert-success', 'alert-warning');
+        resultMessage.classList.add('alert-danger');
+      }
+    };
+
+    const displayError = (message) => {
+      resultMessage.textContent = message;
+      resultMessage.classList.remove('alert-success', 'alert-danger');
+      resultMessage.classList.add('alert-warning');
+    };
+
+    checkButton.addEventListener('click', () => {
+      const inputValue = numberInput.value.trim();
+      if (!inputValue) {
+        displayError('Please enter a number.');
+        return;
+      }
+
+      if (!validateInput(inputValue)) {
+        displayError('Please enter a valid number greater than 1.');
+        return;
+      }
+
+      const num = parseInt(inputValue);
+      if (num > 1e12) {
+        displayError('The number is too large to process.');
+        return;
+      }
+
+      const isPrimeResult = isPrime(num);
+      displayResult(num, isPrimeResult);
+    });
+
+    numberInput.addEventListener('input', () => {
+      resultMessage.textContent = '';
+      resultMessage.classList.remove('alert-success', 'alert-danger', 'alert-warning');
+    });
+  });
+</script>

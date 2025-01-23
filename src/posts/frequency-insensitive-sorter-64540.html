@@ -1,0 +1,139 @@
+---
+title: "Frequency-Insensitive Sorter: Sort Your List Without Frequency Bias"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-06-05 05:10:36
+metaDescription: "Organize your lists effortlessly with the Frequency-Insensitive Sorter. Sort alphabetically, count duplicates, and declutter your life in seconds!"
+metaKeywords: "list sorter, frequency counter, alphabetize list, organize lists, duplicate remover, task organizer, inventory management, keyword counter, survey analysis, playlist organizer"
+tags: ["list-sorter", "frequency-insensitive", "data-organization", "browser-tool", "productivity"]
+---
+
+<div id="main-div" class="container mt-4">
+  <h1 class="text-center mb-4">Frequency-Insensitive Sorter</h1><div class="container mt-4">
+  <div class="text-center mb-4">
+    <strong class="display-5">Tired of messy lists that just won’t behave?</strong>
+  </div>
+  <p class="lead">
+    We’ve all been there—juggling a list of items that seem to have a mind of their own. Whether it’s product names, tasks, or random notes, keeping track of duplicates and sorting them can feel like herding cats. Enter the <strong>Frequency-Insensitive Sorter</strong>, your new best friend for organizing chaos. This tool takes your jumbled list, sorts it alphabetically, and even counts how often each item appears—no stress, no fuss. Perfect for students, professionals, or anyone who loves a clean, organized list. Let’s turn that clutter into clarity, one item at a time!
+  </p>
+</div>
+  <div class="mb-3">
+    <textarea id="input-area" class="form-control bg-dark text-white" rows="10" placeholder="Enter your items here, one per line."></textarea>
+  </div>
+  <div class="d-flex gap-2 mb-4">
+    <button id="sort-btn" class="btn btn-primary flex-grow-1">Sort</button>
+    <button id="clear-btn" class="btn btn-secondary flex-grow-1">Clear</button>
+  </div>
+  <div id="output-section" class="table-responsive">
+    <table class="table table-striped table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Item</th>
+          <th scope="col">Frequency</th>
+        </tr>
+      </thead>
+      <tbody id="output-table">
+        <!-- Rows will be dynamically inserted here -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8">
+      <h3 class="mb-3">How It Works</h3>
+      <p>
+        The <strong>Frequency-Insensitive Sorter</strong> is like a personal assistant for your lists. Here’s the magic behind it:
+      </p>
+      <ol>
+        <li><strong>Input Your List:</strong> Paste or type your items into the text box, one per line. It could be anything—tasks, names, or even your grocery list.</li>
+        <li><strong>Sort & Count:</strong> Click the "Sort" button, and the tool will alphabetically organize your items while counting how many times each one appears.</li>
+        <li><strong>Clear & Start Over:</strong> If you need a fresh start, the "Clear" button wipes the slate clean.</li>
+      </ol>
+      <p>
+        For example, if you input "apple, banana, apple, orange," the tool will sort them as "apple (2), banana (1), orange (1)." Simple, right?
+      </p>
+    </div>
+    <div class="col-md-4">
+      <h3 class="mb-3">Example Output</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Frequency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>apple</td><td>2</td></tr>
+          <tr><td>banana</td><td>1</td></tr>
+          <tr><td>orange</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <h3 class="mb-3">10 Common Use Cases</h3>
+  <ul class="list-group">
+    <li class="list-group-item">1. Organizing grocery lists and tracking item quantities.</li>
+    <li class="list-group-item">2. Sorting student names alphabetically for class rosters.</li>
+    <li class="list-group-item">3. Cleaning up duplicate entries in a list of email addresses.</li>
+    <li class="list-group-item">4. Counting the frequency of keywords in a document.</li>
+    <li class="list-group-item">5. Managing inventory by listing and counting product names.</li>
+    <li class="list-group-item">6. Preparing meeting agendas with sorted and prioritized topics.</li>
+    <li class="list-group-item">7. Creating a playlist by sorting song titles and identifying duplicates.</li>
+    <li class="list-group-item">8. Analyzing survey responses by categorizing and counting answers.</li>
+    <li class="list-group-item">9. Organizing book titles in a personal library.</li>
+    <li class="list-group-item">10. Streamlining to-do lists by removing duplicates and sorting tasks.</li>
+  </ul>
+</div><script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const inputArea = document.getElementById("input-area");
+    const sortBtn = document.getElementById("sort-btn");
+    const clearBtn = document.getElementById("clear-btn");
+    const outputTable = document.getElementById("output-table");
+
+    // Preload input from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get("start");
+    if (startValue) {
+      inputArea.value = startValue;
+    }
+
+    const sortItems = () => {
+      const input = inputArea.value.trim();
+      if (!input) {
+        alert("Please enter some items to sort.");
+        return;
+      }
+
+      const items = input.split("\n").filter(item => item.trim() !== "");
+      if (items.length === 0) {
+        alert("No valid items found. Please enter at least one item.");
+        return;
+      }
+
+      const frequencyMap = new Map();
+      items.forEach(item => {
+        const normalizedItem = item.trim();
+        frequencyMap.set(normalizedItem, (frequencyMap.get(normalizedItem) || 0) + 1);
+      });
+
+      const sortedItems = Array.from(frequencyMap.keys()).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+
+      outputTable.innerHTML = sortedItems.map(item => `
+        <tr>
+          <td>${item}</td>
+          <td>${frequencyMap.get(item)}</td>
+        </tr>
+      `).join("");
+    };
+
+    const clearInput = () => {
+      inputArea.value = "";
+      outputTable.innerHTML = "";
+    };
+
+    sortBtn.addEventListener("click", sortItems);
+    clearBtn.addEventListener("click", clearInput);
+  });
+</script>

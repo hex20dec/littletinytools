@@ -1,0 +1,137 @@
+---
+title: "Reverse Alphabetical Sorter - Sort Words & Phrases Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-10-17 07:35:52
+metaDescription: "Sort your words or phrases in reverse alphabetical order instantly with this easy-to-use tool. Perfect for organizing lists, studying, or creative projects!"
+metaKeywords: "reverse alphabetical sorter, sort words backwards, reverse order sorter, word organizer, Z to A sorter, list sorting tool, reverse alphabetical order, word sorting tool, reverse list organizer, alphabetical sorter tool"
+tags: ["sorting tool", "alphabetical sorter", "word organizer", "text utility", "browser tool"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <h1 class="mb-3">Reverse Alphabetical Sorter</h1><div class="container bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="display-6 mb-3">Sort Your Words Backwards with Ease</p>
+      <p class="mb-4">Juggling a list of words or phrases and need them sorted in reverse alphabetical order? It’s one of those tasks that seems simple but can quickly turn into a headache. Enter the Reverse Alphabetical Sorter—your go-to tool for flipping your lists upside down in seconds. Whether you're organizing a to-do list, prepping for a presentation, or just having fun with words, this tool is here to save the day. No more manual sorting or second-guessing spellings. Just paste, click, and voilà—your list is sorted in reverse! It’s like magic, but without the wand.</p>
+    </div>
+  </div>
+</div>
+      <p class="mb-4">Enter your list of words or phrases below, and they will be sorted in reverse alphabetical order.</p>
+      
+      <div class="mb-3">
+        <textarea id="input-text" class="form-control bg-dark text-white" rows="8" placeholder="Enter one word or phrase per line."></textarea>
+      </div>
+      
+      <button id="sort-btn" class="btn btn-primary mb-3">Sort</button>
+      
+      <div class="mb-3">
+        <textarea id="output-text" class="form-control bg-dark text-white" rows="8" readonly></textarea>
+      </div>
+      
+      <button id="copy-btn" class="btn btn-primary mb-3">Copy to Clipboard</button>
+      <button id="reset-btn" class="btn btn-secondary mb-3">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="container bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="h5 mb-3">How It Works:</p>
+      <p class="mb-4">The Reverse Alphabetical Sorter takes your list of words or phrases, splits them into individual lines, and sorts them in reverse order (from Z to A). It’s like flipping a dictionary upside down! The tool ignores letter case, so "apple" and "Apple" are treated the same. Here’s a quick breakdown:</p>
+      <ul class="list-group mb-4">
+        <li class="list-group-item">1. Enter your words or phrases—one per line.</li>
+        <li class="list-group-item">2. Click "Sort" to reverse the order alphabetically.</li>
+        <li class="list-group-item">3. Copy the sorted list or reset to start fresh.</li>
+      </ul>
+      <p class="h5 mb-3">Example:</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Sorted Output (Reverse Alphabetical)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Apple</td>
+            <td>Zebra</td>
+          </tr>
+          <tr>
+            <td>Banana</td>
+            <td>Apple</td>
+          </tr>
+          <tr>
+            <td>Zebra</td>
+            <td>Banana</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="h5 mb-3">10 Common Use Cases for the Reverse Alphabetical Sorter:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item bg-dark text-white">Organizing a list of names for an event in reverse order.</li>
+        <li class="list-group-item bg-dark text-white">Sorting vocabulary words for language learning from Z to A.</li>
+        <li class="list-group-item bg-dark text-white">Preparing a reverse-alphabetical index for a document or book.</li>
+        <li class="list-group-item bg-dark text-white">Ranking items or tasks in reverse priority.</li>
+        <li class="list-group-item bg-dark text-white">Creating unique word art or poetry formats.</li>
+        <li class="list-group-item bg-dark text-white">Sorting product names or categories for inventory management.</li>
+        <li class="list-group-item bg-dark text-white">Generating a reverse-alphabetical playlist for fun or novelty.</li>
+        <li class="list-group-item bg-dark text-white">Preparing reverse-sorted flashcards for study sessions.</li>
+        <li class="list-group-item bg-dark text-white">Organizing song titles or movie names for creative projects.</li>
+        <li class="list-group-item bg-dark text-white">Sorting keywords or tags for SEO or content organization.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const outputText = document.getElementById('output-text');
+    const sortBtn = document.getElementById('sort-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    // Sort functionality
+    sortBtn.addEventListener('click', () => {
+      const inputLines = inputText.value.split('\n').map(line => line.trim()).filter(line => line);
+      if (inputLines.length === 0) {
+        outputText.value = 'Please enter at least one word or phrase.';
+        return;
+      }
+      const sortedLines = inputLines.sort((a, b) => b.localeCompare(a, undefined, { sensitivity: 'base' }));
+      outputText.value = sortedLines.join('\n');
+      outputText.focus();
+    });
+
+    // Copy to clipboard
+    copyBtn.addEventListener('click', () => {
+      outputText.select();
+      document.execCommand('copy');
+      const originalText = copyBtn.textContent;
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => {
+        copyBtn.textContent = originalText;
+      }, 2000);
+    });
+
+    // Reset functionality
+    resetBtn.addEventListener('click', () => {
+      inputText.value = '';
+      outputText.value = '';
+      inputText.focus();
+    });
+  });
+</script>

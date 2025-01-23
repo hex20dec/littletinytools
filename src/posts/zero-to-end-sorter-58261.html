@@ -1,0 +1,138 @@
+---
+title: "Zero-to-End Sorter: Sort Your Lists Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-11-22 12:47:24
+metaDescription: "Effortlessly sort lists in ascending or descending order with the Zero-to-End Sorter. Perfect for organizing tasks, names, and more in seconds."
+metaKeywords: "list sorter, sort alphabetically, organize lists, sort ascending, sort descending, task organizer, priority sorter, list management, easy sorting tool"
+tags: ["list sorter", "productivity tool", "sorting app", "task organizer", "data management"]
+---
+
+<div id="main-div" class="container mt-5">
+  <header class="text-center mb-4">
+    <h1 class="display-4 text-white">Zero-to-End Sorter</h1><div class="container mt-5">
+  <div class="text-center mb-4">
+    <p class="display-5 text-white">Zero-to-End Sorter</p>
+    <p class="lead text-white-50">Sort your list in ascending or descending order</p>
+  </div>
+  <p class="text-white">Sorting lists can feel like herding cats—why does it always take longer than it should? Whether you're organizing tasks, prioritizing ideas, or just trying to make sense of a jumbled list, the Zero-to-End Sorter is here to save the day. This tool effortlessly arranges your items in ascending or descending order with just a click, turning chaos into clarity. Imagine you’re prepping for a meeting and need to prioritize action items—this tool gets it done in seconds. No more wasting time manually rearranging; the Zero-to-End Sorter is your new best friend for staying organized and stress-free.</p>
+</div>
+    <p class="lead text-white-50">Sort your list in ascending or descending order</p>
+  </header>
+
+  <div class="mb-3">
+    <label for="input-area" class="form-label text-white">Enter your list items here, one per line:</label>
+    <textarea id="input-area" class="form-control bg-dark text-white" rows="5" placeholder="Enter your list items here, one per line."></textarea>
+    <div id="error-message" class="text-danger mt-2 d-none">Please enter at least one item to sort.</div>
+  </div>
+
+  <div class="d-grid gap-2 d-md-block mb-3">
+    <button id="sort-asc" class="btn btn-primary me-md-2">Sort Ascending</button>
+    <button id="sort-desc" class="btn btn-primary me-md-2">Sort Descending</button>
+    <button id="reset" class="btn btn-secondary me-md-2">Reset</button>
+    <button id="clear" class="btn btn-danger">Clear</button>
+  </div>
+
+  <div class="mb-3">
+    <label for="output-area" class="form-label text-white">Sorted List:</label>
+    <textarea id="output-area" class="form-control bg-dark text-white" rows="5" readonly></textarea>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      <p class="text-white">The Zero-to-End Sorter works by taking your input—a list of items separated by line breaks—and applying a simple sorting algorithm. Here's how it works:</p>
+      <ul class="text-white">
+        <li><strong>Input:</strong> Enter your items, one per line, in the text box.</li>
+        <li><strong>Sort:</strong> Click "Sort Ascending" to arrange items from A-Z or "Sort Descending" for Z-A.</li>
+        <li><strong>Output:</strong> Your neatly sorted list appears instantly in the output box.</li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <table class="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th>Original List</th>
+            <th>Ascending Order</th>
+            <th>Descending Order</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Banana<br>Apple<br>Cherry</td>
+            <td>Apple<br>Banana<br>Cherry</td>
+            <td>Cherry<br>Banana<br>Apple</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <p class="text-white">Here are 10 common ways you can use the Zero-to-End Sorter:</p>
+  <ol class="text-white">
+    <li>Sorting to-do lists by priority.</li>
+    <li>Organizing grocery lists alphabetically.</li>
+    <li>Arranging names for event invitations.</li>
+    <li>Prioritizing project tasks by deadline.</li>
+    <li>Sorting book or movie titles for personal collections.</li>
+    <li>Organizing brainstorming ideas into a logical sequence.</li>
+    <li>Arranging contact lists for easier reference.</li>
+    <li>Sorting product inventories by name or category.</li>
+    <li>Ordering study materials for efficient learning.</li>
+    <li>Organizing travel itineraries chronologically.</li>
+  </ol>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputArea = document.getElementById('input-area');
+    const outputArea = document.getElementById('output-area');
+    const errorMessage = document.getElementById('error-message');
+    const sortAscButton = document.getElementById('sort-asc');
+    const sortDescButton = document.getElementById('sort-desc');
+    const resetButton = document.getElementById('reset');
+    const clearButton = document.getElementById('clear');
+
+    let originalList = [];
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputArea.value = startValue;
+      originalList = startValue.split('\n').filter(item => item.trim() !== '');
+    }
+
+    const validateInput = () => {
+      const items = inputArea.value.split('\n').filter(item => item.trim() !== '');
+      if (items.length === 0) {
+        errorMessage.classList.remove('d-none');
+        return false;
+      }
+      errorMessage.classList.add('d-none');
+      return true;
+    };
+
+    const sortList = (order) => {
+      if (!validateInput()) return;
+      const items = inputArea.value.split('\n').filter(item => item.trim() !== '');
+      if (order === 'asc') {
+        items.sort((a, b) => a.localeCompare(b));
+      } else {
+        items.sort((a, b) => b.localeCompare(a));
+      }
+      outputArea.value = items.join('\n');
+    };
+
+    sortAscButton.addEventListener('click', () => sortList('asc'));
+    sortDescButton.addEventListener('click', () => sortList('desc'));
+
+    resetButton.addEventListener('click', () => {
+      inputArea.value = originalList.join('\n');
+      outputArea.value = '';
+    });
+
+    clearButton.addEventListener('click', () => {
+      inputArea.value = '';
+      outputArea.value = '';
+      originalList = [];
+    });
+  });
+</script>

@@ -1,0 +1,179 @@
+---
+title: "Multi-Element List Sorter - Organize Your Lists Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-01-07 07:19:53
+metaDescription: "Easily add, sort, and manage lists with the Multi-Element List Sorter. Perfect for to-do lists, brainstorming, and more. Try it now!"
+metaKeywords: "list sorter, organize tasks, to-do list tool, sort items, task management, brainstorming tool, list organizer, productivity tool, alphabetical sorter, priority list"
+tags: ["list-sorter", "productivity", "task-management", "organization", "tools"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <h1 class="text-center mb-4">Multi-Element List Sorter</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <strong class="d-block text-center fs-2 mb-3">Multi-Element List Sorter</strong>
+      <p class="text-center mb-4">
+        Does your to-do list look like a chaotic jumble? Or maybe you’re trying to organize ideas, tasks, or priorities, but everything just feels… out of order? The Multi-Element List Sorter is here to clean up the mess! Simply add items, sort them alphabetically (ascending or descending), and even clear the list with a single click. Whether you’re planning your week, brainstorming ideas, or just need a quick way to organize, this tool is your new best friend. No more frantic scribbles or confusing spreadsheets—just a simple, stress-free way to keep things tidy.
+      </p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Easily add, remove, and sort your list items in ascending or descending order.</p>
+      
+      <div class="d-flex justify-content-center mb-3">
+        <input type="text" id="item-input" class="form-control me-2" placeholder="Enter an item..." aria-label="Enter an item">
+        <button id="add-btn" class="btn btn-primary" disabled>+ Add</button>
+      </div>
+
+      <div id="list-container" class="list-group mb-3"></div>
+
+      <div class="d-flex justify-content-center mb-3">
+        <button id="sort-asc" class="btn btn-primary me-2">Sort Ascending</button>
+        <button id="sort-desc" class="btn btn-primary me-2">Sort Descending</button>
+        <button id="clear-list" class="btn btn-danger">Clear List</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <strong class="d-block fs-4 mb-3">How It Works</strong>
+      <p class="mb-4">
+        The Multi-Element List Sorter works in three easy steps:
+      </p>
+      <ol class="mb-4">
+        <li><strong>Add Items:</strong> Type your item into the input box and click "Add" or press Enter. Your item instantly appears in the list.</li>
+        <li><strong>Sort:</strong> Click "Sort Ascending" to arrange items from A-Z or "Sort Descending" for Z-A. It’s like magic, but without the wand.</li>
+        <li><strong>Clear:</strong> Need a fresh start? Hit "Clear List" and watch your list vanish—ready for a new round of organizing.</li>
+      </ol>
+      <p class="mb-4">
+        Here’s a quick example of how sorting works:
+      </p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Original List</th>
+            <th>Sorted Ascending (A-Z)</th>
+            <th>Sorted Descending (Z-A)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Banana, Apple, Cherry</td>
+            <td>Apple, Banana, Cherry</td>
+            <td>Cherry, Banana, Apple</td>
+          </tr>
+          <tr>
+            <td>Task 3, Task 1, Task 2</td>
+            <td>Task 1, Task 2, Task 3</td>
+            <td>Task 3, Task 2, Task 1</td>
+          </tr>
+          <tr>
+            <td>Zebra, Lion, Elephant</td>
+            <td>Elephant, Lion, Zebra</td>
+            <td>Zebra, Lion, Elephant</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <strong class="d-block fs-4 mb-3">10 Common Use Cases</strong>
+      <ol class="mb-4">
+        <li><strong>To-Do Lists:</strong> Organize your daily tasks by priority or category.</li>
+        <li><strong>Grocery Shopping:</strong> Sort your shopping list by aisle or item type.</li>
+        <li><strong>Event Planning:</strong> Keep track of tasks like booking venues, sending invites, and ordering supplies.</li>
+        <li><strong>Brainstorming:</strong> Jot down ideas and sort them into actionable steps.</li>
+        <li><strong>Project Management:</strong> Break down projects into smaller tasks and arrange them logically.</li>
+        <li><strong>Bucket Lists:</strong> Organize your dreams and goals in a clear, easy-to-follow order.</li>
+        <li><strong>Recipe Ingredients:</strong> List ingredients alphabetically to make shopping easier.</li>
+        <li><strong>Study Plans:</strong> Sort topics or subjects to create a structured study schedule.</li>
+        <li><strong>Travel Packing:</strong> Organize items by category (clothes, toiletries, gadgets) for efficient packing.</li>
+        <li><strong>Inventory Tracking:</strong> Keep track of household or business inventory in a sorted, easy-to-read format.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const itemInput = document.getElementById('item-input');
+    const addBtn = document.getElementById('add-btn');
+    const listContainer = document.getElementById('list-container');
+    const sortAscBtn = document.getElementById('sort-asc');
+    const sortDescBtn = document.getElementById('sort-desc');
+    const clearListBtn = document.getElementById('clear-list');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startItem = urlParams.get('start');
+    if (startItem) {
+      itemInput.value = startItem;
+      addBtn.disabled = false;
+    }
+
+    itemInput.addEventListener('input', () => {
+      addBtn.disabled = itemInput.value.trim() === '';
+    });
+
+    addBtn.addEventListener('click', () => {
+      const itemText = itemInput.value.trim();
+      if (itemText) {
+        addItemToList(itemText);
+        itemInput.value = '';
+        addBtn.disabled = true;
+      }
+    });
+
+    itemInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && itemInput.value.trim()) {
+        addItemToList(itemInput.value.trim());
+        itemInput.value = '';
+        addBtn.disabled = true;
+      }
+    });
+
+    sortAscBtn.addEventListener('click', () => {
+      sortList('asc');
+    });
+
+    sortDescBtn.addEventListener('click', () => {
+      sortList('desc');
+    });
+
+    clearListBtn.addEventListener('click', () => {
+      listContainer.innerHTML = '';
+    });
+
+    function addItemToList(itemText) {
+      const listItem = document.createElement('div');
+      listItem.className = 'list-group-item d-flex justify-content-between align-items-center bg-secondary text-white mb-2';
+      listItem.innerHTML = `
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="check-${itemText}">
+          <label class="form-check-label" for="check-${itemText}">${itemText}</label>
+        </div>
+        <button class="btn btn-sm btn-outline-danger" onclick="removeItem(this)">Remove</button>
+      `;
+      listContainer.appendChild(listItem);
+    }
+
+    function removeItem(button) {
+      button.parentElement.remove();
+    }
+
+    function sortList(order) {
+      const items = Array.from(listContainer.children);
+      items.sort((a, b) => {
+        const textA = a.querySelector('.form-check-label').textContent.toLowerCase();
+        const textB = b.querySelector('.form-check-label').textContent.toLowerCase();
+        return order === 'asc' ? textA.localeCompare(textB) : textB.localeCompare(textA);
+      });
+      listContainer.innerHTML = '';
+      items.forEach(item => listContainer.appendChild(item));
+    }
+  });
+</script>

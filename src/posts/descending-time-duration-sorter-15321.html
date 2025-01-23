@@ -1,0 +1,171 @@
+---
+title: "Sort Time Durations Easily | Descending Time Sorter"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-06-21 10:03:57
+metaDescription: "Easily sort time durations from longest to shortest with the Descending Time Duration Sorter. Perfect for planning, workouts, and more!"
+metaKeywords: "time sorter, duration organizer, time management tool, sort time intervals, time calculator, descending time sorter"
+tags: ["time sorter", "time management", "productivity tool", "time calculator", "schedule organizer"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Descending Time Duration Sorter</h1><div class="container bg-dark text-white p-4">
+  <p class="lead text-center mb-4"><strong>Time management got you in knots?</strong> Whether you're juggling project deadlines, workout intervals, or cooking timers, keeping track of multiple time durations can feel like herding cats. Enter the <strong>Descending Time Duration Sorter</strong>—a simple, no-fuss tool that takes your messy time inputs and organizes them neatly from longest to shortest. No math, no stress. Just add your hours, minutes, and seconds, hit sort, and watch the magic happen. Perfect for planners, multitaskers, and anyone who loves a little order in their chaos!</p>
+</div>
+  <p class="text-center mb-4">Enter time durations in hours, minutes, and seconds, and sort them in descending order.</p>
+
+  <div id="input-section" class="mb-4">
+    <div class="row g-3 mb-3">
+      <div class="col">
+        <input type="number" class="form-control" placeholder="HH" aria-label="Hours" min="0">
+      </div>
+      <div class="col">
+        <input type="number" class="form-control" placeholder="MM" aria-label="Minutes" min="0" max="59">
+      </div>
+      <div class="col">
+        <input type="number" class="form-control" placeholder="SS" aria-label="Seconds" min="0" max="59">
+      </div>
+    </div>
+  </div>
+
+  <div class="d-grid gap-2 d-md-block mb-4">
+    <button id="add-input" class="btn btn-primary me-md-2" type="button">+ Add More</button>
+    <button id="sort-btn" class="btn btn-success me-md-2" type="button">Sort</button>
+    <button id="reset-btn" class="btn btn-secondary" type="button">Reset</button>
+  </div>
+
+  <div id="output-section" class="mt-4">
+    <h2 class="text-center mb-3">Sorted Time Durations (Descending Order)</h2>
+    <ul id="sorted-list" class="list-group"></ul>
+  </div>
+</div>
+
+<div class="container bg-light p-4">
+  <h2 class="text-center mb-4">How It Works</h2>
+  <p class="text-center mb-4">The tool works by converting all your time durations into seconds, sorting them in descending order, and then converting them back to hours, minutes, and seconds. Here's a simple breakdown:</p>
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-6">
+      <ul class="list-group">
+        <li class="list-group-item"><strong>Step 1:</strong> Add your time durations in hours (HH), minutes (MM), and seconds (SS).</li>
+        <li class="list-group-item"><strong>Step 2:</strong> Click "Sort" to organize them from longest to shortest.</li>
+        <li class="list-group-item"><strong>Step 3:</strong> Reset and start fresh anytime!</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="text-center mb-4">Example Table</h3>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Input (HH:MM:SS)</th>
+          <th>Sorted Output (Descending)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1:30:00, 0:45:00, 2:15:00</td><td>2:15:00, 1:30:00, 0:45:00</td></tr>
+        <tr><td>0:10:30, 0:05:15, 0:20:45</td><td>0:20:45, 0:10:30, 0:05:15</td></tr>
+        <tr><td>3:00:00, 1:00:00, 0:30:00</td><td>3:00:00, 1:00:00, 0:30:00</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container bg-dark text-white p-4">
+  <h2 class="text-center mb-4">10 Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item bg-dark text-white">1. Sorting workout intervals for fitness routines.</li>
+    <li class="list-group-item bg-dark text-white">2. Organizing project deadlines by duration.</li>
+    <li class="list-group-item bg-dark text-white">3. Planning cooking or baking timers.</li>
+    <li class="list-group-item bg-dark text-white">4. Scheduling study or work sessions.</li>
+    <li class="list-group-item bg-dark text-white">5. Managing travel itineraries with multiple stops.</li>
+    <li class="list-group-item bg-dark text-white">6. Comparing video or audio clip lengths.</li>
+    <li class="list-group-item bg-dark text-white">7. Organizing event schedules by activity duration.</li>
+    <li class="list-group-item bg-dark text-white">8. Timing and sorting game or race results.</li>
+    <li class="list-group-item bg-dark text-white">9. Planning lesson durations for teachers.</li>
+    <li class="list-group-item bg-dark text-white">10. Simplifying time tracking for freelancers.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mainDiv = document.getElementById('main-div');
+    const inputSection = document.getElementById('input-section');
+    const addInputBtn = document.getElementById('add-input');
+    const sortBtn = document.getElementById('sort-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const sortedList = document.getElementById('sorted-list');
+
+    // Preload first input field from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      const [hh, mm, ss] = startValue.split(':').map(Number);
+      const firstInputRow = inputSection.querySelector('.row');
+      firstInputRow.querySelector('input[placeholder="HH"]').value = hh || 0;
+      firstInputRow.querySelector('input[placeholder="MM"]').value = mm || 0;
+      firstInputRow.querySelector('input[placeholder="SS"]').value = ss || 0;
+    }
+
+    // Add new input fields
+    addInputBtn.addEventListener('click', () => {
+      const newRow = document.createElement('div');
+      newRow.className = 'row g-3 mb-3';
+      newRow.innerHTML = `
+        <div class="col">
+          <input type="number" class="form-control" placeholder="HH" aria-label="Hours" min="0">
+        </div>
+        <div class="col">
+          <input type="number" class="form-control" placeholder="MM" aria-label="Minutes" min="0" max="59">
+        </div>
+        <div class="col">
+          <input type="number" class="form-control" placeholder="SS" aria-label="Seconds" min="0" max="59">
+        </div>
+      `;
+      inputSection.appendChild(newRow);
+    });
+
+    // Sort functionality
+    sortBtn.addEventListener('click', () => {
+      const inputRows = inputSection.querySelectorAll('.row');
+      const durations = [];
+
+      inputRows.forEach(row => {
+        const hh = parseInt(row.querySelector('input[placeholder="HH"]').value) || 0;
+        const mm = parseInt(row.querySelector('input[placeholder="MM"]').value) || 0;
+        const ss = parseInt(row.querySelector('input[placeholder="SS"]').value) || 0;
+
+        if (mm > 59 || ss > 59) {
+          alert('Minutes and seconds must be between 0 and 59.');
+          return;
+        }
+
+        const totalSeconds = hh * 3600 + mm * 60 + ss;
+        durations.push({ hh, mm, ss, totalSeconds });
+      });
+
+      durations.sort((a, b) => b.totalSeconds - a.totalSeconds);
+
+      sortedList.innerHTML = '';
+      durations.forEach(duration => {
+        const li = document.createElement('li');
+        li.className = 'list-group-item bg-dark text-white';
+        li.textContent = `${duration.hh}h ${duration.mm}m ${duration.ss}s`;
+        sortedList.appendChild(li);
+      });
+    });
+
+    // Reset functionality
+    resetBtn.addEventListener('click', () => {
+      inputSection.innerHTML = `
+        <div class="row g-3 mb-3">
+          <div class="col">
+            <input type="number" class="form-control" placeholder="HH" aria-label="Hours" min="0">
+          </div>
+          <div class="col">
+            <input type="number" class="form-control" placeholder="MM" aria-label="Minutes" min="0" max="59">
+          </div>
+          <div class="col">
+            <input type="number" class="form-control" placeholder="SS" aria-label="Seconds" min="0" max="59">
+          </div>
+        </div>
+      `;
+      sortedList.innerHTML = '';
+    });
+  });
+</script>

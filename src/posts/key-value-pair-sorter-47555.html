@@ -1,0 +1,178 @@
+---
+title: "Key-Value Pair Sorter - Organize Your Data Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-01-31 22:02:41
+metaDescription: "Sort key-value pairs effortlessly! Organize data by key or value instantly with this simple, free tool. Perfect for developers, analysts, and data lovers."
+metaKeywords: "key-value sorter, sort key-value pairs, organize data, data sorting tool, free sorting tool, key-value pair organizer, data management tool, sort by key, sort by value, developer tools"
+tags: ["data-sorting", "key-value-pairs", "data-organization", "web-tool", "productivity"]
+---
+
+<div id="main-div" class="container mt-5">
+  <h1 class="h2 text-center mb-4">Key-Value Pair Sorter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="text-center mb-4">
+        <p class="lead fs-3 fw-bold">Why does organizing key-value pairs feel like untangling a ball of yarn? 🧶</p>
+        <p class="fs-5">
+          Whether you're managing data for a project, cleaning up a list, or just trying to make sense of a jumbled mess, sorting key-value pairs can be a headache. That's where this nifty tool comes in. Simply paste your key-value pairs, choose to sort by key or value, and voilà—everything's neatly organized in seconds. No more squinting at spreadsheets or manually rearranging lines. It's like having a personal assistant for your data, minus the coffee breaks.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="mb-3">
+        <label for="input-pairs" class="form-label">Enter key-value pairs (one per line, format: key:value)</label>
+        <textarea id="input-pairs" class="form-control bg-dark text-white" rows="5" placeholder="name:John&#10;age:25&#10;city:New York"></textarea>
+      </div>
+      <div class="mb-3">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="sort-option" id="sort-by-key" value="key" checked>
+          <label class="form-check-label" for="sort-by-key">Sort by Key</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="sort-option" id="sort-by-value" value="value">
+          <label class="form-check-label" for="sort-by-value">Sort by Value</label>
+        </div>
+      </div>
+      <button id="sort-button" class="btn btn-primary w-100 mb-3">Sort</button>
+      <div class="mb-3">
+        <label for="output-pairs" class="form-label">Sorted Results</label>
+        <textarea id="output-pairs" class="form-control bg-dark text-white" rows="5" readonly></textarea>
+      </div>
+      <button id="copy-button" class="btn btn-secondary w-100">Copy to Clipboard</button>
+      <div id="error-message" class="alert alert-danger mt-3 d-none"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="mb-4">
+        <p class="fs-4 fw-bold">How It Works</p>
+        <p class="fs-5">
+          The tool takes your input (a list of key-value pairs, each on a new line) and sorts them based on your choice—either by the <strong>key</strong> or the <strong>value</strong>. Here's the magic formula:
+        </p>
+        <p class="fs-5 fst-italic">
+          Input → Split into pairs → Sort by chosen field → Output neatly organized pairs.
+        </p>
+        <p class="fs-5">
+          It’s that simple! The tool ensures your data is clean, consistent, and ready to use.
+        </p>
+      </div>
+      <div class="mb-5">
+        <p class="fs-4 fw-bold">Example Table</p>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Original Key-Value Pairs</th>
+              <th>Sorted by Key</th>
+              <th>Sorted by Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>name:John<br>age:25<br>city:New York</td>
+              <td>age:25<br>city:New York<br>name:John</td>
+              <td>age:25<br>city:New York<br>name:John</td>
+            </tr>
+            <tr>
+              <td>fruit:apple<br>color:red<br>size:medium</td>
+              <td>color:red<br>fruit:apple<br>size:medium</td>
+              <td>fruit:apple<br>size:medium<br>color:red</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="mb-4">
+        <p class="fs-4 fw-bold">Top 10 Use Cases</p>
+        <ul class="fs-5">
+          <li>Sorting configuration files for software development.</li>
+          <li>Organizing metadata for digital assets like photos or videos.</li>
+          <li>Cleaning up API response data for easier analysis.</li>
+          <li>Managing contact information (e.g., name:email pairs).</li>
+          <li>Preparing data for database imports or exports.</li>
+          <li>Sorting product attributes for e-commerce listings.</li>
+          <li>Organizing survey responses for better readability.</li>
+          <li>Preparing structured data for machine learning models.</li>
+          <li>Simplifying JSON or YAML file editing.</li>
+          <li>Sorting key-value pairs for documentation or reports.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputPairs = document.getElementById('input-pairs');
+    const outputPairs = document.getElementById('output-pairs');
+    const sortButton = document.getElementById('sort-button');
+    const copyButton = document.getElementById('copy-button');
+    const errorMessage = document.getElementById('error-message');
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+
+    if (startValue) {
+      inputPairs.value = startValue;
+    }
+
+    const validateInput = (input) => {
+      const lines = input.split('\n').filter(line => line.trim() !== '');
+      return lines.every(line => line.includes(':') && line.split(':').length === 2);
+    };
+
+    const sortPairs = (input, sortBy) => {
+      const lines = input.split('\n').filter(line => line.trim() !== '');
+      const pairs = lines.map(line => {
+        const [key, value] = line.split(':');
+        return { key: key.trim(), value: value.trim() };
+      });
+
+      if (sortBy === 'key') {
+        pairs.sort((a, b) => a.key.localeCompare(b.key));
+      } else {
+        pairs.sort((a, b) => a.value.localeCompare(b.value));
+      }
+
+      return pairs.map(pair => `${pair.key}:${pair.value}`).join('\n');
+    };
+
+    sortButton.addEventListener('click', () => {
+      const input = inputPairs.value.trim();
+      const sortBy = document.querySelector('input[name="sort-option"]:checked').value;
+
+      if (!input) {
+        errorMessage.textContent = 'Please enter key-value pairs to sort.';
+        errorMessage.classList.remove('d-none');
+        return;
+      }
+
+      if (!validateInput(input)) {
+        errorMessage.textContent = 'Invalid input format. Please use key:value format.';
+        errorMessage.classList.remove('d-none');
+        return;
+      }
+
+      errorMessage.classList.add('d-none');
+      const sortedPairs = sortPairs(input, sortBy);
+      outputPairs.value = sortedPairs;
+    });
+
+    copyButton.addEventListener('click', () => {
+      if (outputPairs.value) {
+        navigator.clipboard.writeText(outputPairs.value).then(() => {
+          copyButton.textContent = 'Copied!';
+          setTimeout(() => {
+            copyButton.textContent = 'Copy to Clipboard';
+          }, 2000);
+        });
+      }
+    });
+  });
+</script>

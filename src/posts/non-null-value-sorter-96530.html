@@ -1,0 +1,151 @@
+---
+title: "Non-Null Value Sorter: Clean Your Lists Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-12-07 13:21:51
+metaDescription: "Clean up messy lists with the Non-Null Value Sorter. Remove nulls, empty spaces, and undefined values in seconds. Simplify your data today!"
+metaKeywords: "non-null value sorter, filter null values, clean data tool, remove undefined values, organize lists, data cleaning tool, spreadsheet cleaner, filter empty entries, null remover, list organizer"
+tags: ["data cleaning", "null values", "list filtering", "developer tools", "data analysis"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="text-center mb-4">
+    <h1 class="display-4">Non-Null Value Sorter</h1><div class="container mt-5">
+  <div class="text-center mb-4">
+    <strong class="display-4">Non-Null Value Sorter</strong>
+    <p class="lead">Ever had a messy list of values cluttered with nulls, empty spaces, or undefined entries? It’s like trying to find a needle in a haystack, but the haystack is just… hay. The Non-Null Value Sorter is here to save your sanity! Simply paste your list, hit the button, and watch as the tool magically filters out all the useless bits, leaving you with a clean, usable list. Whether you’re organizing data, cleaning up spreadsheets, or just tired of staring at "null," this tool makes life simpler—one non-null value at a time.</p>
+  </div>
+</div>
+    <p class="lead">Input a list of values (separated by commas, spaces, or new lines) and get a cleaned-up list of non-null values.</p>
+  </div>
+
+  <div class="mb-3">
+    <textarea id="input-values" class="form-control bg-dark text-white mb-3" rows="5" placeholder="Enter values here (e.g., 1, 2, null, apple, , undefined)"></textarea>
+    <button id="sort-filter-btn" class="btn btn-primary w-100 mb-3">Sort and Filter</button>
+  </div>
+
+  <div id="output-section" class="card bg-dark text-white p-3 mb-3" style="display: none;">
+    <h5 class="card-title">Filtered Non-Null Values</h5>
+    <p id="output-values" class="card-text"></p>
+    <button id="copy-btn" class="btn btn-success w-100">Copy to Clipboard</button>
+  </div>
+
+  <div id="error-message" class="alert alert-danger mb-3" style="display: none;"></div>
+
+  <button id="reset-btn" class="btn btn-secondary w-100">Reset</button>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h3 class="mb-3">How It Works</h3>
+      <p class="mb-4">The Non-Null Value Sorter follows a simple, human-friendly process:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">You input a list of values (separated by commas, spaces, or new lines).</li>
+        <li class="list-group-item">The tool scans the list and removes any empty entries, "null," or "undefined" values.</li>
+        <li class="list-group-item">It then returns a clean, organized list of only the valid values.</li>
+      </ol>
+      <p class="mt-4">Here’s an example of how it transforms your input:</p>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1, null, apple, undefined, , 2</td>
+            <td>1, apple, 2</td>
+          </tr>
+          <tr>
+            <td>dog, cat, null, , undefined, fish</td>
+            <td>dog, cat, fish</td>
+          </tr>
+          <tr>
+            <td>null, undefined, , , , 10</td>
+            <td>10</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h3 class="mb-3">10 Common Use Cases</h3>
+      <ul class="list-group">
+        <li class="list-group-item">Cleaning up data exports from databases.</li>
+        <li class="list-group-item">Organizing messy CSV files for analysis.</li>
+        <li class="list-group-item">Removing placeholder values from spreadsheets.</li>
+        <li class="list-group-item">Preparing lists for programming or scripting.</li>
+        <li class="list-group-item">Filtering out unwanted entries from user inputs.</li>
+        <li class="list-group-item">Simplifying data for presentations or reports.</li>
+        <li class="list-group-item">Removing nulls from JSON or API responses.</li>
+        <li class="list-group-item">Cleaning up logs or debugging outputs.</li>
+        <li class="list-group-item">Preparing lists for email campaigns or mailing lists.</li>
+        <li class="list-group-item">Streamlining inventory or product lists.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputField = document.getElementById('input-values');
+    const outputSection = document.getElementById('output-section');
+    const outputValues = document.getElementById('output-values');
+    const errorMessage = document.getElementById('error-message');
+    const sortFilterBtn = document.getElementById('sort-filter-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputField.value = startValue;
+    }
+
+    const filterNonNullValues = (input) => {
+      const values = input.split(/[\s,]+/).filter(value => {
+        return value !== '' && value !== 'null' && value !== 'undefined';
+      });
+      return values;
+    };
+
+    const displayOutput = (values) => {
+      if (values.length > 0) {
+        outputValues.textContent = values.join(', ');
+        outputSection.style.display = 'block';
+        errorMessage.style.display = 'none';
+      } else {
+        errorMessage.textContent = 'No non-null values found.';
+        errorMessage.style.display = 'block';
+        outputSection.style.display = 'none';
+      }
+    };
+
+    sortFilterBtn.addEventListener('click', () => {
+      const input = inputField.value.trim();
+      if (!input) {
+        errorMessage.textContent = 'Please enter some values to filter.';
+        errorMessage.style.display = 'block';
+        outputSection.style.display = 'none';
+        return;
+      }
+
+      const nonNullValues = filterNonNullValues(input);
+      displayOutput(nonNullValues);
+    });
+
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(outputValues.textContent)
+        .then(() => alert('Copied to clipboard!'))
+        .catch(() => alert('Failed to copy.'));
+    });
+
+    resetBtn.addEventListener('click', () => {
+      inputField.value = '';
+      outputSection.style.display = 'none';
+      errorMessage.style.display = 'none';
+    });
+  });
+</script>

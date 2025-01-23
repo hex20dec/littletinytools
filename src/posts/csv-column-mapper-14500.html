@@ -1,0 +1,181 @@
+---
+title: "CSV Column Mapper - Rename CSV Columns Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-07-08 13:43:34
+metaDescription: "Easily rename and organize CSV columns with the CSV Column Mapper. Simplify data cleaning, reporting, and analysis in seconds."
+metaKeywords: "csv column mapper, rename csv columns, csv file editor, data cleaning tool, csv column organizer, csv rename tool, csv file organizer, data preparation tool, csv column editor, csv data cleaning"
+tags: ["CSV", "Data Tools", "Column Mapper", "File Processing", "Web App"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <h1 class="display-4">CSV Column Mapper</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <strong class="display-4">CSV Column Mapper</strong>
+    <p class="lead">Working with CSV files can feel like trying to organize a messy closet—columns with cryptic names, inconsistent formatting, and no clear structure. But what if you could rename and reorganize those columns in seconds? The CSV Column Mapper is your digital decluttering assistant, designed to make your data clean, clear, and ready for action. Whether you're analyzing sales data, managing inventory, or prepping reports, this tool simplifies the process with a few clicks. Say goodbye to spreadsheet headaches and hello to a smoother workflow!</p>
+  </div>
+</div>
+    <p class="lead">Upload a CSV file, rename columns, and download the updated file.</p>
+  </header>
+
+  <section class="mb-4">
+    <div class="mb-3">
+      <label for="csvFileInput" class="form-label">Upload CSV File</label>
+      <input type="file" class="form-control" id="csvFileInput" accept=".csv" aria-describedby="fileHelp">
+      <div id="fileHelp" class="form-text text-white-50">Supported file types: .csv</div>
+    </div>
+    <div id="errorMessage" class="alert alert-danger d-none" role="alert"></div>
+  </section>
+
+  <section id="columnMappingSection" class="d-none">
+    <div class="table-responsive">
+      <table class="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Original Column Name</th>
+            <th scope="col">New Column Name</th>
+          </tr>
+        </thead>
+        <tbody id="columnTableBody"></tbody>
+      </table>
+    </div>
+    <div class="d-flex gap-2 mt-3">
+      <button id="resetButton" class="btn btn-secondary">Reset</button>
+      <button id="downloadButton" class="btn btn-success">Download Updated CSV</button>
+    </div>
+  </section>
+
+  <footer class="text-center mt-4">
+    <p class="text-white-50">© 2023 CSV Column Mapper</p>
+  </footer>
+</div>
+
+<div class="container-fluid bg-dark text-white p-4">
+  <div class="mb-4">
+    <h2 class="h3">How It Works</h2>
+    <p>The CSV Column Mapper follows a straightforward process to help you rename and organize your CSV columns:</p>
+    <ol>
+      <li><strong>Upload Your CSV:</strong> Drag and drop or select your CSV file. The tool reads the file and extracts the column headers.</li>
+      <li><strong>Rename Columns:</strong> A table appears with the original column names. Simply type in the new names you'd like to use.</li>
+      <li><strong>Download Your File:</strong> Once you're happy with the new column names, click "Download Updated CSV" to save your file with the changes.</li>
+    </ol>
+    <p>It’s like giving your data a fresh start without the hassle of manual editing!</p>
+  </div>
+
+  <div class="mb-4">
+    <h2 class="h3">Example Use Cases</h2>
+    <div class="table-responsive">
+      <table class="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Original Column Name</th>
+            <th scope="col">New Column Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>order_id</td>
+            <td>Order Number</td>
+          </tr>
+          <tr>
+            <td>cust_name</td>
+            <td>Customer Name</td>
+          </tr>
+          <tr>
+            <td>prod_qty</td>
+            <td>Product Quantity</td>
+          </tr>
+          <tr>
+            <td>trans_date</td>
+            <td>Transaction Date</td>
+          </tr>
+          <tr>
+            <td>total_amt</td>
+            <td>Total Amount</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <div class="mb-4">
+    <h2 class="h3">10 Common Use Cases for the CSV Column Mapper</h2>
+    <ol>
+      <li><strong>Data Analysis:</strong> Rename columns to make them more intuitive for analysis in tools like Excel or Python.</li>
+      <li><strong>Reporting:</strong> Standardize column names for consistent reporting across teams.</li>
+      <li><strong>Database Import:</strong> Prepare CSV files for database uploads by renaming columns to match table fields.</li>
+      <li><strong>Inventory Management:</strong> Update column names to reflect product details, quantities, or locations.</li>
+      <li><strong>Customer Data:</strong> Simplify CRM imports by renaming columns to match software requirements.</li>
+      <li><strong>Financial Records:</strong> Organize transaction data with clear, descriptive column names.</li>
+      <li><strong>Survey Data:</strong> Rename survey response columns for easier interpretation and analysis.</li>
+      <li><strong>E-commerce:</strong> Clean up order and product data for better tracking and insights.</li>
+      <li><strong>Marketing Campaigns:</strong> Standardize campaign performance data for better reporting.</li>
+      <li><strong>Academic Research:</strong> Rename variables in datasets to align with research objectives.</li>
+    </ol>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const csvFileInput = document.getElementById('csvFileInput');
+    const columnMappingSection = document.getElementById('columnMappingSection');
+    const columnTableBody = document.getElementById('columnTableBody');
+    const errorMessage = document.getElementById('errorMessage');
+    const resetButton = document.getElementById('resetButton');
+    const downloadButton = document.getElementById('downloadButton');
+
+    let csvData = [];
+    let headers = [];
+
+    csvFileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (!file || file.type !== 'text/csv') {
+        errorMessage.textContent = 'Invalid file type. Please upload a .csv file.';
+        errorMessage.classList.remove('d-none');
+        columnMappingSection.classList.add('d-none');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target.result;
+        const rows = text.split('\n').map(row => row.split(','));
+        headers = rows[0];
+        csvData = rows.slice(1);
+
+        renderColumnTable();
+        columnMappingSection.classList.remove('d-none');
+        errorMessage.classList.add('d-none');
+
+        const startValue = new URLSearchParams(window.location.search).get('start');
+        if (startValue && columnTableBody.firstElementChild) {
+          columnTableBody.firstElementChild.querySelector('input').value = startValue;
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    resetButton.addEventListener('click', () => {
+      renderColumnTable();
+    });
+
+    downloadButton.addEventListener('click', () => {
+      const newHeaders = Array.from(columnTableBody.querySelectorAll('input')).map(input => input.value || input.placeholder);
+      const csvContent = [newHeaders, ...csvData].map(row => row.join(',')).join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'updated_csv.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    function renderColumnTable() {
+      columnTableBody.innerHTML = headers.map((header, index) => `
+        <tr>
+          <td>${header}</td>
+          <td><input type="text" class="form-control" placeholder="Enter new column name" value="${header}" aria-label="New column name for ${header}"></td>
+        </tr>
+      `).join('');
+    }
+  });
+</script>

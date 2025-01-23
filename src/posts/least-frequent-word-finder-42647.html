@@ -1,0 +1,168 @@
+---
+title: "Find the Least Frequent Word in Your Text - Quick & Easy Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-03-26 22:14:34
+metaDescription: "Find the least frequent words in any text instantly with our easy-to-use tool. Perfect for writers, students, and SEO enthusiasts!"
+metaKeywords: "least frequent word finder, word frequency tool, text analysis, word counter, writing tool, vocabulary helper, SEO word analyzer"
+tags: ["text analysis", "word frequency", "writing tools", "text editor", "word finder"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .accordion-button:not(.collapsed) {
+    background-color: #212529;
+    color: #fff;
+  }
+  .accordion-button:focus {
+    box-shadow: none;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="display-4 text-center mb-4">Least Frequent Word Finder</h1><div class="container">
+  <div class="text-center mb-5">
+    <p class="lead fs-4">Ever found yourself staring at a wall of text, wondering which words barely made an appearance? Whether you're a writer, student, or just someone who loves diving into the details, identifying the least frequent words in your text can be oddly satisfying—and surprisingly useful! With our <strong>Least Frequent Word Finder</strong>, you can now skip the manual counting and let the tool do the heavy lifting. Simply paste your text, hit the button, and voilà—your least used words are revealed! It's like having a word detective at your fingertips. Say goodbye to tedious searches and hello to effortless insights. Let's make your text analysis a little more fun and a lot less stressful!</p>
+  </div>
+</div>
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control" rows="6" placeholder="Paste or type your text here..."></textarea>
+  </div>
+  <div class="d-grid gap-2 mb-3">
+    <button id="submit-btn" class="btn btn-primary">Find Least Frequent Word</button>
+    <button id="clear-btn" class="btn btn-secondary">Clear</button>
+  </div>
+  <div id="result-section" class="alert alert-success d-none"></div>
+  <div id="error-section" class="alert alert-danger d-none"></div>
+  <div class="accordion mb-3">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#word-frequency-list" aria-expanded="false" aria-controls="word-frequency-list">
+          Show Word Frequency List
+        </button>
+      </h2>
+      <div id="word-frequency-list" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <ul id="frequency-list" class="list-group"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mb-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h2 class="fs-3 mb-4">How It Works</h2>
+      <p class="mb-4">The tool works by analyzing your text in a few simple steps:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">It scans your text and identifies every unique word.</li>
+        <li class="list-group-item">It counts how many times each word appears.</li>
+        <li class="list-group-item">It sorts these words by their frequency, from least to most common.</li>
+        <li class="list-group-item">Finally, it highlights the word (or words) that appear the least.</li>
+      </ol>
+      <p class="mt-4">For example, if you paste a paragraph about cats and dogs, the tool might tell you that "whiskers" is the least frequent word. It's like giving your text a quick health check!</p>
+
+      <h3 class="fs-4 mt-5 mb-3">Word Frequency Table</h3>
+      <p class="mb-4">Here's an example of how word frequency might look for a short text:</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Word</th>
+            <th>Frequency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>apple</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>banana</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>orange</td>
+            <td>2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mb-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h2 class="fs-3 mb-4">10 Common Use Cases</h2>
+      <ul class="list-group">
+        <li class="list-group-item">Analyzing essays or research papers to avoid overused words.</li>
+        <li class="list-group-item">Improving vocabulary by identifying underused words in your writing.</li>
+        <li class="list-group-item">Checking marketing copy for word variety and engagement.</li>
+        <li class="list-group-item">Editing novels or short stories to ensure balanced word usage.</li>
+        <li class="list-group-item">Helping students understand word frequency in literature.</li>
+        <li class="list-group-item">Optimizing SEO content by spotting rare keywords.</li>
+        <li class="list-group-item">Creating word games or puzzles with unique word challenges.</li>
+        <li class="list-group-item">Assisting language learners in identifying less common vocabulary.</li>
+        <li class="list-group-item">Analyzing speeches or transcripts for rhetorical patterns.</li>
+        <li class="list-group-item">Simplifying technical documents by identifying jargon-heavy sections.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const submitBtn = document.getElementById('submit-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const resultSection = document.getElementById('result-section');
+    const errorSection = document.getElementById('error-section');
+    const frequencyList = document.getElementById('frequency-list');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    const analyzeText = () => {
+      const text = textInput.value.trim();
+      if (!text) {
+        errorSection.textContent = 'Please enter some text to analyze.';
+        errorSection.classList.remove('d-none');
+        resultSection.classList.add('d-none');
+        frequencyList.innerHTML = '';
+        return;
+      }
+
+      const words = text.toLowerCase().match(/\b\w+\b/g) || [];
+      const wordFrequency = words.reduce((acc, word) => {
+        acc[word] = (acc[word] || 0) + 1;
+        return acc;
+      }, {});
+
+      const minFrequency = Math.min(...Object.values(wordFrequency));
+      const leastFrequentWords = Object.keys(wordFrequency).filter(word => wordFrequency[word] === minFrequency);
+
+      if (leastFrequentWords.length === 1) {
+        resultSection.innerHTML = `The least frequent word is: <strong>${leastFrequentWords[0]}</strong>`;
+      } else {
+        resultSection.innerHTML = `The least frequent words are: <strong>${leastFrequentWords.join(', ')}</strong>`;
+      }
+      resultSection.classList.remove('d-none');
+      errorSection.classList.add('d-none');
+
+      frequencyList.innerHTML = Object.entries(wordFrequency)
+        .sort((a, b) => a[1] - b[1])
+        .map(([word, freq]) => `<li class="list-group-item d-flex justify-content-between align-items-center">${word}<span class="badge bg-primary rounded-pill">${freq}</span></li>`)
+        .join('');
+    };
+
+    submitBtn.addEventListener('click', analyzeText);
+    clearBtn.addEventListener('click', () => {
+      textInput.value = '';
+      resultSection.classList.add('d-none');
+      errorSection.classList.add('d-none');
+      frequencyList.innerHTML = '';
+    });
+  });
+</script>

@@ -1,0 +1,183 @@
+---
+title: "Sublist-Aware Sorter: Organize Nested Lists Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-05-08 00:35:40
+metaDescription: "Sort lists while keeping sublists intact with the Sublist-Aware Sorter. Perfect for tasks, outlines, and more!"
+metaKeywords: "sublist sorter, sort nested lists, list organizer, hierarchical sorter, task organizer, sublist-aware tool, sort with sublists, list sorting tool, nested list organizer, sort tasks with subtasks"
+tags: ["list-sorter", "productivity", "task-management", "hierarchical-lists", "web-tool"]
+---
+
+<div id="main-div" class="container mt-3">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Sublist-Aware Sorter</h1><div class="container mt-5">
+  <div class="text-center mb-4">
+    <strong class="display-5">Sublist-Aware Sorter</strong>
+    <p class="lead mt-3">Ever tried sorting a list, only to find your carefully nested sublists completely scrambled? Frustrating, isn’t it? The Sublist-Aware Sorter is here to rescue your sanity. Whether you’re organizing tasks, categorizing ideas, or structuring content, this tool sorts your main items while keeping sublists perfectly intact. No more manual rearranging—just paste your list, choose your order, and let the magic happen. It’s like having a personal organizer who respects your hierarchy. Say goodbye to chaos and hello to perfectly sorted lists!</p>
+  </div>
+</div>
+    <p class="lead">Sort your lists while keeping sublists intact.</p>
+  </header>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="mb-3">
+        <label for="input-list" class="form-label">Enter your list here. Use indentation for sublists.</label>
+        <textarea id="input-list" class="form-control bg-dark text-white mb-3" rows="10" placeholder="Example:
+- Task 1
+  - Subtask 1.1
+  - Subtask 1.2
+- Task 2
+  - Subtask 2.1"></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="sort-order" class="form-label">Sort Order</label>
+        <select id="sort-order" class="form-select bg-dark text-white mb-3">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
+
+      <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" id="ignore-case" checked>
+        <label class="form-check-label" for="ignore-case">Ignore case when sorting</label>
+      </div>
+
+      <button id="sort-btn" class="btn btn-primary w-100 mb-3">Sort List</button>
+
+      <div class="mb-3">
+        <label for="output-list" class="form-label">Sorted List</label>
+        <textarea id="output-list" class="form-control bg-dark text-white mb-3" rows="10" readonly></textarea>
+      </div>
+
+      <button id="copy-btn" class="btn btn-success w-100 mb-3">Copy to Clipboard</button>
+    </div>
+  </div>
+
+  <footer class="text-center mt-4">
+    <p class="text-muted">Your data is processed locally and never leaves your browser.</p>
+  </footer>
+</div>
+
+<div class="container mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h3 class="mb-4">How It Works</h3>
+      <p>The Sublist-Aware Sorter works by grouping your main list items and their sublists together before sorting. Here’s the breakdown:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">The tool reads your list line by line, identifying indentation levels to determine main items and sublists.</li>
+        <li class="list-group-item">It groups each main item with its corresponding sublists, ensuring they stay together during sorting.</li>
+        <li class="list-group-item">The main items are sorted in ascending or descending order, while their sublists remain aligned and intact.</li>
+        <li class="list-group-item">Finally, the sorted list is displayed, ready for you to copy and use wherever you need it.</li>
+      </ol>
+      <p class="mt-4">For example, if you input:</p>
+      <pre class="bg-light p-3 rounded">
+- Task B
+  - Subtask B.1
+- Task A
+  - Subtask A.1</pre>
+      <p>The tool will sort it to:</p>
+      <pre class="bg-light p-3 rounded">
+- Task A
+  - Subtask A.1
+- Task B
+  - Subtask B.1</pre>
+    </div>
+  </div>
+</div><div class="container mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h3 class="mb-4">10 Common Use Cases for the Sublist-Aware Sorter</h3>
+      <ul class="list-group">
+        <li class="list-group-item">Organizing project tasks with subtasks in a to-do list.</li>
+        <li class="list-group-item">Sorting nested categories in a content outline.</li>
+        <li class="list-group-item">Structuring meeting agendas with subpoints.</li>
+        <li class="list-group-item">Arranging hierarchical data for reports or presentations.</li>
+        <li class="list-group-item">Sorting grocery lists with subcategories like fruits, vegetables, etc.</li>
+        <li class="list-group-item">Organizing study notes with main topics and subtopics.</li>
+        <li class="list-group-item">Planning events with main activities and sub-activities.</li>
+        <li class="list-group-item">Sorting book or movie lists with sub-genres.</li>
+        <li class="list-group-item">Managing nested checklists for workflows or processes.</li>
+        <li class="list-group-item">Preparing hierarchical data for coding or database structures.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputList = document.getElementById('input-list');
+    const outputList = document.getElementById('output-list');
+    const sortBtn = document.getElementById('sort-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const sortOrder = document.getElementById('sort-order');
+    const ignoreCase = document.getElementById('ignore-case');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputList.value = startValue;
+    }
+
+    const sortList = (list, order, caseSensitive) => {
+      const lines = list.split('\n');
+      const grouped = [];
+      let currentGroup = [];
+
+      lines.forEach((line, index) => {
+        if (line.trim() === '') return;
+        const indent = line.match(/^\s*/)[0].length;
+        if (indent === 0) {
+          if (currentGroup.length > 0) {
+            grouped.push(currentGroup);
+            currentGroup = [];
+          }
+          currentGroup.push({ line, indent });
+        } else {
+          currentGroup.push({ line, indent });
+        }
+      });
+
+      if (currentGroup.length > 0) {
+        grouped.push(currentGroup);
+      }
+
+      grouped.forEach(group => {
+        group.sort((a, b) => {
+          const aText = a.line.trim().toLowerCase();
+          const bText = b.line.trim().toLowerCase();
+          if (caseSensitive) {
+            return order === 'asc' ? aText.localeCompare(bText) : bText.localeCompare(aText);
+          } else {
+            return order === 'asc' ? aText.localeCompare(bText) : bText.localeCompare(aText);
+          }
+        });
+      });
+
+      return grouped.flat().map(item => item.line).join('\n');
+    };
+
+    sortBtn.addEventListener('click', () => {
+      if (!inputList.value.trim()) {
+        alert('Please enter a list to sort.');
+        return;
+      }
+
+      const sorted = sortList(inputList.value, sortOrder.value, !ignoreCase.checked);
+      outputList.value = sorted;
+    });
+
+    copyBtn.addEventListener('click', () => {
+      if (!outputList.value.trim()) {
+        alert('No sorted list to copy.');
+        return;
+      }
+
+      navigator.clipboard.writeText(outputList.value).then(() => {
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => {
+          copyBtn.textContent = 'Copy to Clipboard';
+        }, 2000);
+      });
+    });
+  });
+</script>

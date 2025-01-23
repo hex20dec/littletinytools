@@ -1,0 +1,151 @@
+---
+title: "Word Frequency Counter - Analyze Text Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-10-28 00:01:29
+metaDescription: "Instantly analyze word frequency in your text with this easy-to-use Word Frequency Counter. Perfect for writers, editors, and SEO optimization."
+metaKeywords: "word frequency counter, text analysis tool, word counter, writing tool, SEO word frequency, text editor, word frequency analyzer"
+tags: ["word counter", "text analysis", "writing tool", "language tool", "word frequency"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Word Frequency Counter</h1><div class="container bg-dark text-white p-4">
+  <p class="lead text-center mb-4">Why does analyzing text feel like solving a mystery? Whether you're editing an essay, drafting a blog, or just curious about your word choices, the <strong>Word Frequency Counter</strong> is here to crack the code. This simple yet powerful tool instantly shows you how often each word appears in your text, helping you spot overused words, maintain consistency, or even uncover hidden patterns. It’s like having a writing coach in your pocket—minus the awkward feedback. Paste your text, click a button, and voilà! Your word frequencies are ready to explore. Say goodbye to guesswork and hello to smarter writing.</p>
+</div>
+  <p class="text-center mb-4">Paste your text below to see how often each word appears.</p>
+  
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control bg-dark text-white" rows="10" placeholder="Paste or type your text here..."></textarea>
+  </div>
+  
+  <div class="d-flex justify-content-center gap-2 mb-4">
+    <button id="count-btn" class="btn btn-primary">Count Words</button>
+    <button id="clear-btn" class="btn btn-secondary">Clear</button>
+  </div>
+  
+  <div id="results" class="table-responsive">
+    <table id="results-table" class="table table-striped table-dark d-none">
+      <thead>
+        <tr>
+          <th scope="col">Word</th>
+          <th scope="col">Frequency</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <p id="no-words-message" class="text-center d-none">No words found. Please enter some text.</p>
+  </div>
+  
+  <p class="text-center mt-4 small text-muted">Note: Words are case-insensitive and punctuation is ignored.</p>
+</div>
+
+<div class="container bg-light p-4">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <p class="mb-4"><strong>How It Works:</strong> The Word Frequency Counter processes your text in three simple steps. First, it removes punctuation and converts everything to lowercase to ensure accuracy. Next, it splits the text into individual words and counts how often each one appears. Finally, it organizes the results in a clear table, showing the most frequent words at the top. It’s like magic—but with a little bit of math behind the scenes.</p>
+      
+      <p class="mb-4"><strong>Example:</strong> Let’s say you paste the sentence, "The quick brown fox jumps over the lazy dog." The tool will break it down like this:</p>
+      
+      <table class="table table-striped mb-4">
+        <thead>
+          <tr>
+            <th>Word</th>
+            <th>Frequency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>the</td><td>2</td></tr>
+          <tr><td>quick</td><td>1</td></tr>
+          <tr><td>brown</td><td>1</td></tr>
+          <tr><td>fox</td><td>1</td></tr>
+          <tr><td>jumps</td><td>1</td></tr>
+          <tr><td>over</td><td>1</td></tr>
+          <tr><td>lazy</td><td>1</td></tr>
+          <tr><td>dog</td><td>1</td></tr>
+        </tbody>
+      </table>
+      
+      <p>This breakdown helps you see patterns and make informed decisions about your writing. Whether you’re aiming for variety or consistency, the tool has your back.</p>
+    </div>
+  </div>
+</div><div class="container bg-dark text-white p-4">
+  <p class="h4 text-center mb-4">10 Common Use Cases for the Word Frequency Counter</p>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item bg-dark text-white">1. Identify overused words in your essays or articles.</li>
+    <li class="list-group-item bg-dark text-white">2. Analyze keyword density for SEO optimization.</li>
+    <li class="list-group-item bg-dark text-white">3. Check consistency in technical or legal documents.</li>
+    <li class="list-group-item bg-dark text-white">4. Improve creative writing by spotting repetitive phrases.</li>
+    <li class="list-group-item bg-dark text-white">5. Study language patterns in speeches or transcripts.</li>
+    <li class="list-group-item bg-dark text-white">6. Verify word frequency in academic research papers.</li>
+    <li class="list-group-item bg-dark text-white">7. Optimize social media posts for engagement.</li>
+    <li class="list-group-item bg-dark text-white">8. Analyze song lyrics for thematic consistency.</li>
+    <li class="list-group-item bg-dark text-white">9. Edit marketing copy for clarity and impact.</li>
+    <li class="list-group-item bg-dark text-white">10. Explore word usage in historical texts or literature.</li>
+  </ul>
+</div><script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const textInput = document.getElementById("text-input");
+    const countBtn = document.getElementById("count-btn");
+    const clearBtn = document.getElementById("clear-btn");
+    const resultsTable = document.getElementById("results-table");
+    const tableBody = resultsTable.querySelector("tbody");
+    const noWordsMessage = document.getElementById("no-words-message");
+
+    // Preload text from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get("start");
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    const countWords = () => {
+      const text = textInput.value.trim();
+      if (!text) {
+        resultsTable.classList.add("d-none");
+        noWordsMessage.classList.remove("d-none");
+        return;
+      }
+
+      // Normalize text: lowercase, remove punctuation, split into words
+      const words = text
+        .toLowerCase()
+        .replace(/[^\w\s]/g, "")
+        .split(/\s+/)
+        .filter((word) => word);
+
+      if (words.length === 0) {
+        resultsTable.classList.add("d-none");
+        noWordsMessage.classList.remove("d-none");
+        return;
+      }
+
+      // Count word frequencies
+      const wordCounts = words.reduce((acc, word) => {
+        acc[word] = (acc[word] || 0) + 1;
+        return acc;
+      }, {});
+
+      // Sort by frequency (descending)
+      const sortedWords = Object.entries(wordCounts).sort((a, b) => b[1] - a[1]);
+
+      // Clear table and populate with results
+      tableBody.innerHTML = "";
+      sortedWords.forEach(([word, count]) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${word}</td><td>${count}</td>`;
+        tableBody.appendChild(row);
+      });
+
+      resultsTable.classList.remove("d-none");
+      noWordsMessage.classList.add("d-none");
+    };
+
+    const clearInput = () => {
+      textInput.value = "";
+      resultsTable.classList.add("d-none");
+      noWordsMessage.classList.remove("d-none");
+    };
+
+    countBtn.addEventListener("click", countWords);
+    clearBtn.addEventListener("click", clearInput);
+  });
+</script>

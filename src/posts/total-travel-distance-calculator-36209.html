@@ -1,0 +1,162 @@
+---
+title: "Total Travel Distance Calculator - Plan Your Journey Effortlessly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-01-02 09:39:25
+metaDescription: "Calculate total travel distance effortlessly with this tool. Perfect for road trips, commutes, and more. Simple, accurate, and free!"
+metaKeywords: "travel distance calculator, road trip planner, distance tracker, total distance tool, commute calculator, distance adder"
+tags: ["travel", "distance calculator", "road trip", "logistics", "fitness tracking"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <h1 class="text-center mb-4">Total Travel Distance Calculator</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <strong class="text-center display-6 mb-4">Total Travel Distance Calculator</strong>
+      <p class="text-center mb-4">Planning a road trip or tracking your daily commutes? Adding up distances manually can feel like solving a math problem you didn’t sign up for. With the Total Travel Distance Calculator, you can effortlessly add multiple distances or locations and get the total in seconds. Whether you're figuring out how far your weekend getaway is or tallying up your daily running routes, this tool does the heavy lifting for you. No spreadsheets, no headaches—just simple, accurate results. Let’s make travel planning a breeze!</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Enter distances or locations to calculate the total travel distance.</p>
+
+      <div class="input-group mb-3">
+        <input type="text" id="distance-input" class="form-control" placeholder="Enter distance (e.g., 10 km) or location" aria-label="Distance or location">
+        <button id="add-button" class="btn btn-primary" type="button">+</button>
+      </div>
+
+      <div id="distance-list" class="list-group mb-3"></div>
+
+      <button id="calculate-button" class="btn btn-success w-100 mb-3">Calculate Total Distance</button>
+
+      <div id="result" class="text-center fs-3 fw-bold mb-3"></div>
+
+      <button id="reset-button" class="btn btn-danger w-100">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <h3 class="text-center mb-4">How It Works</h3>
+      <p class="text-center mb-4">The Total Travel Distance Calculator is as simple as 1-2-3. First, enter a distance (like "10 km") or a location (like "New York to Boston"). Click the <strong>+</strong> button to add it to your list. Repeat this for all the distances or locations you want to include. Once your list is complete, hit <strong>Calculate Total Distance</strong>, and voilà—your total distance appears instantly. Need to start over? Just click <strong>Reset</strong> and begin again. It’s like having a personal travel assistant in your pocket!</p>
+      <table class="table table-bordered text-center">
+        <thead>
+          <tr>
+            <th scope="col">Input (Distance or Location)</th>
+            <th scope="col">Total Distance (km)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>10 km</td>
+            <td>10</td>
+          </tr>
+          <tr>
+            <td>5 km</td>
+            <td>15</td>
+          </tr>
+          <tr>
+            <td>20 km</td>
+            <td>35</td>
+          </tr>
+          <tr>
+            <td>Los Angeles to San Francisco</td>
+            <td>615</td>
+          </tr>
+          <tr>
+            <td>3 km</td>
+            <td>618</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-secondary text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <h3 class="text-center mb-4">Top 10 Use Cases for the Total Travel Distance Calculator</h3>
+      <ul class="list-group">
+        <li class="list-group-item bg-secondary text-white">1. Calculating total distance for road trips.</li>
+        <li class="list-group-item bg-secondary text-white">2. Tracking daily running or cycling routes.</li>
+        <li class="list-group-item bg-secondary text-white">3. Planning multi-stop delivery routes.</li>
+        <li class="list-group-item bg-secondary text-white">4. Estimating travel distances for hiking trails.</li>
+        <li class="list-group-item bg-secondary text-white">5. Adding up commutes for work or school.</li>
+        <li class="list-group-item bg-secondary text-white">6. Calculating total mileage for expense reports.</li>
+        <li class="list-group-item bg-secondary text-white">7. Planning travel itineraries for vacations.</li>
+        <li class="list-group-item bg-secondary text-white">8. Measuring distances between multiple cities.</li>
+        <li class="list-group-item bg-secondary text-white">9. Estimating fuel costs based on total distance.</li>
+        <li class="list-group-item bg-secondary text-white">10. Organizing charity walks or marathons.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const distanceInput = document.getElementById('distance-input');
+    const addButton = document.getElementById('add-button');
+    const distanceList = document.getElementById('distance-list');
+    const calculateButton = document.getElementById('calculate-button');
+    const result = document.getElementById('result');
+    const resetButton = document.getElementById('reset-button');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      distanceInput.value = startValue;
+    }
+
+    const addDistance = () => {
+      const inputValue = distanceInput.value.trim();
+      if (!inputValue) {
+        alert('Please enter a valid distance or location.');
+        return;
+      }
+
+      const listItem = document.createElement('div');
+      listItem.className = 'list-group-item d-flex justify-content-between align-items-center bg-secondary text-white';
+      listItem.innerHTML = `
+        <span>${inputValue}</span>
+        <button class="btn btn-sm btn-danger remove-button">Remove</button>
+      `;
+      distanceList.appendChild(listItem);
+
+      distanceInput.value = '';
+      distanceInput.focus();
+    };
+
+    const removeDistance = (event) => {
+      if (event.target.classList.contains('remove-button')) {
+        event.target.parentElement.remove();
+      }
+    };
+
+    const calculateTotalDistance = () => {
+      const distances = Array.from(distanceList.children).map(item => {
+        const text = item.querySelector('span').textContent;
+        const distance = parseFloat(text);
+        return isNaN(distance) ? 0 : distance;
+      });
+
+      const totalDistance = distances.reduce((sum, distance) => sum + distance, 0);
+      result.textContent = `Total Distance: ${totalDistance} km`;
+    };
+
+    const resetApp = () => {
+      distanceList.innerHTML = '';
+      result.textContent = '';
+      distanceInput.value = '';
+      distanceInput.focus();
+    };
+
+    addButton.addEventListener('click', addDistance);
+    distanceList.addEventListener('click', removeDistance);
+    calculateButton.addEventListener('click', calculateTotalDistance);
+    resetButton.addEventListener('click', resetApp);
+    distanceInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        addDistance();
+      }
+    });
+  });
+</script>

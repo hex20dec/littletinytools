@@ -1,0 +1,144 @@
+---
+title: "Profit and Loss Calculator - Quick & Easy Financial Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-05-18 11:22:21
+metaDescription: "Calculate profit or loss instantly with this easy-to-use Profit and Loss Calculator. Perfect for small businesses, resellers, and freelancers."
+metaKeywords: "profit calculator, loss calculator, profit and loss tool, small business finance, reselling profit tool, financial calculator, break-even calculator, online profit tool, loss calculation tool, profit margin calculator"
+tags: ["profit calculator", "loss calculator", "financial tool", "business tool", "online calculator"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+      <h1 class="mb-3">Profit and Loss Calculator</h1><div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="display-6 fw-bold mb-3">Profits and losses don’t have to be a mystery anymore.</p>
+      <p class="lead">Whether you’re selling handmade crafts, flipping gadgets, or running a small business, knowing your profit or loss is crucial. But let’s be honest—doing the math manually can feel like a chore. That’s where this <strong>Profit and Loss Calculator</strong> comes in. Just plug in your cost price and selling price, and voilà! It tells you exactly how much you’ve gained or lost—no headaches, no spreadsheets, just quick results. Perfect for anyone who wants to stay on top of their finances without breaking a sweat.</p>
+    </div>
+  </div>
+</div>
+      <p class="lead mb-4">Enter the cost price and selling price to calculate your profit or loss.</p>
+      <form id="calculator-form" class="mb-3">
+        <div class="mb-3">
+          <label for="cost-price" class="form-label">Cost Price (₹)</label>
+          <input type="number" class="form-control" id="cost-price" placeholder="Enter cost price" required>
+        </div>
+        <div class="mb-3">
+          <label for="selling-price" class="form-label">Selling Price (₹)</label>
+          <input type="number" class="form-control" id="selling-price" placeholder="Enter selling price" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Calculate</button>
+      </form>
+      <div id="result" class="alert d-none" role="alert"></div>
+      <button id="reset-btn" class="btn btn-secondary w-100 d-none">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="h4 fw-bold mb-3">How It Works</p>
+      <p>This tool calculates your profit or loss with a simple formula:</p>
+      <p class="text-center fw-bold">Profit or Loss = Selling Price - Cost Price</p>
+      <p>If the result is positive, you’ve made a profit. If it’s negative, you’ve incurred a loss. And if it’s zero? Well, you’ve broken even. It’s that straightforward!</p>
+      <p class="h4 fw-bold mb-3">Example Calculations</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Cost Price (₹)</th>
+            <th scope="col">Selling Price (₹)</th>
+            <th scope="col">Profit/Loss (₹)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>100</td>
+            <td>150</td>
+            <td class="text-success">+50 (Profit)</td>
+          </tr>
+          <tr>
+            <td>200</td>
+            <td>180</td>
+            <td class="text-danger">-20 (Loss)</td>
+          </tr>
+          <tr>
+            <td>500</td>
+            <td>500</td>
+            <td class="text-secondary">0 (Break Even)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="h4 fw-bold mb-3">10 Common Use Cases for the Profit and Loss Calculator</p>
+      <ul class="list-group">
+        <li class="list-group-item">1. Calculating profit from selling handmade products.</li>
+        <li class="list-group-item">2. Determining loss on discounted items in a retail store.</li>
+        <li class="list-group-item">3. Assessing profit margins for online resellers.</li>
+        <li class="list-group-item">4. Evaluating financial outcomes of a garage sale.</li>
+        <li class="list-group-item">5. Tracking profit or loss for small business transactions.</li>
+        <li class="list-group-item">6. Analyzing stock market trades for beginners.</li>
+        <li class="list-group-item">7. Calculating gains from flipping second-hand items.</li>
+        <li class="list-group-item">8. Managing finances for freelance projects.</li>
+        <li class="list-group-item">9. Determining break-even points for new product launches.</li>
+        <li class="list-group-item">10. Teaching kids basic financial literacy through practical examples.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('calculator-form');
+    const costPriceInput = document.getElementById('cost-price');
+    const sellingPriceInput = document.getElementById('selling-price');
+    const resultDiv = document.getElementById('result');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload cost price from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue)) {
+      costPriceInput.value = startValue;
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const costPrice = parseFloat(costPriceInput.value);
+      const sellingPrice = parseFloat(sellingPriceInput.value);
+
+      if (isNaN(costPrice) || isNaN(sellingPrice)) {
+        resultDiv.textContent = 'Please enter valid numbers.';
+        resultDiv.classList.remove('d-none', 'alert-success', 'alert-danger', 'alert-secondary');
+        resultDiv.classList.add('alert-warning');
+        resetBtn.classList.remove('d-none');
+        return;
+      }
+
+      const difference = sellingPrice - costPrice;
+      if (difference > 0) {
+        resultDiv.textContent = `Profit: ₹${difference.toLocaleString()}`;
+        resultDiv.classList.remove('d-none', 'alert-warning', 'alert-danger', 'alert-secondary');
+        resultDiv.classList.add('alert-success');
+      } else if (difference < 0) {
+        resultDiv.textContent = `Loss: ₹${Math.abs(difference).toLocaleString()}`;
+        resultDiv.classList.remove('d-none', 'alert-warning', 'alert-success', 'alert-secondary');
+        resultDiv.classList.add('alert-danger');
+      } else {
+        resultDiv.textContent = 'No Profit, No Loss';
+        resultDiv.classList.remove('d-none', 'alert-warning', 'alert-success', 'alert-danger');
+        resultDiv.classList.add('alert-secondary');
+      }
+      resetBtn.classList.remove('d-none');
+    });
+
+    resetBtn.addEventListener('click', function () {
+      form.reset();
+      resultDiv.classList.add('d-none');
+      resetBtn.classList.add('d-none');
+    });
+  });
+</script>

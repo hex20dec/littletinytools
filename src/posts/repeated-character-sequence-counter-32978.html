@@ -1,0 +1,160 @@
+---
+title: "Repeated Character Sequence Counter - Analyze Text Patterns Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-12-26 00:58:07
+metaDescription: "Discover repeated character sequences in any text with this easy-to-use tool. Perfect for writers, coders, and pattern enthusiasts!"
+metaKeywords: "repeated character counter, sequence finder, text analysis tool, pattern recognition, repeated phrases, sequence counter, text patterns, character sequence tool, repetition finder, sequence analyzer"
+tags: ["text analysis", "sequence counter", "text patterns", "repetition finder", "string analysis"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  #output-section {
+    margin-top: 20px;
+  }
+  .list-group-item {
+    background-color: #212529;
+    color: #fff;
+    border: 1px solid #444;
+  }
+  .list-group-item strong {
+    color: #0d6efd;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Repeated Character Sequence Counter</h1><div class="header-section text-center mb-5 p-4 bg-light rounded">
+  <p class="lead">Ever found yourself staring at a wall of text, wondering if there’s a hidden pattern or repetition you’re missing? Maybe you’re editing a document, analyzing code, or just curious about the quirks in your writing. It’s frustrating, right? Enter the <strong>Repeated Character Sequence Counter</strong>—your new best friend for uncovering those sneaky repeated sequences in any text. Whether you’re a writer, coder, or just someone who loves digging into the details, this tool makes it ridiculously easy to spot patterns. Paste your text, hit the button, and boom! It’s like having a detective for your words. No more squinting at screens or guessing games—just clear, quick results. Life’s too short to manually count sequences. Let this tool do the heavy lifting while you enjoy the “aha!” moments.</p>
+</div>
+    <p class="lead">Enter text to find and count repeated character sequences.</p>
+  </header>
+
+  <div class="mb-3">
+    <textarea id="input-text" class="form-control" rows="10" placeholder="Paste or type your text here..." aria-label="Input text"></textarea>
+  </div>
+
+  <div class="d-grid gap-2 d-md-block mb-3">
+    <button id="count-btn" class="btn btn-primary me-md-2" aria-label="Count sequences">Count Sequences</button>
+    <button id="reset-btn" class="btn btn-secondary" aria-label="Reset input and output">Reset</button>
+  </div>
+
+  <div id="output-section" class="list-group" aria-live="polite">
+    <!-- Results will be dynamically inserted here -->
+  </div>
+</div>
+
+<div class="explanation-section mb-5 p-4 bg-light rounded">
+  <h2 class="h3 mb-3">How It Works</h2>
+  <p class="mb-4">The tool works by scanning your input text for repeated sequences of characters. Here’s the magic formula in plain English:</p>
+  <ol class="mb-4">
+    <li class="mb-2">It cleans up your text by removing spaces and special characters (because who needs those when counting sequences?).</li>
+    <li class="mb-2">It looks for sequences of 2 or more characters that repeat at least twice in the text.</li>
+    <li class="mb-2">It counts how many times each sequence appears and displays the results in an easy-to-read list.</li>
+  </ol>
+  <p>Think of it like a treasure hunt for patterns. The longer the text, the more exciting the discoveries!</p>
+
+  <h3 class="h4 mt-4 mb-3">Example Output</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Sequence</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>ab</td><td>3</td></tr>
+      <tr><td>xyz</td><td>2</td></tr>
+      <tr><td>123</td><td>4</td></tr>
+      <tr><td>hello</td><td>2</td></tr>
+      <tr><td>test</td><td>3</td></tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section mb-5 p-4 bg-light rounded">
+  <h2 class="h3 mb-4">Top 10 Use Cases for the Repeated Character Sequence Counter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">1. Spotting repetitive phrases in essays or articles.</li>
+    <li class="list-group-item">2. Identifying patterns in DNA sequences or scientific data.</li>
+    <li class="list-group-item">3. Analyzing code for repeated strings or blocks.</li>
+    <li class="list-group-item">4. Checking for plagiarism by comparing repeated sequences.</li>
+    <li class="list-group-item">5. Finding common motifs in poetry or song lyrics.</li>
+    <li class="list-group-item">6. Detecting repeated keywords in SEO content.</li>
+    <li class="list-group-item">7. Breaking down ciphertext in cryptography puzzles.</li>
+    <li class="list-group-item">8. Analyzing chat logs for recurring phrases.</li>
+    <li class="list-group-item">9. Identifying repeated sequences in financial data.</li>
+    <li class="list-group-item">10. Just having fun with wordplay and pattern recognition!</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const outputSection = document.getElementById('output-section');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    countBtn.addEventListener('click', () => {
+      const text = inputText.value.trim();
+      if (!text) {
+        outputSection.innerHTML = '<div class="list-group-item">Please enter some text to analyze.</div>';
+        return;
+      }
+
+      const sequences = findRepeatedSequences(text);
+      if (sequences.length === 0) {
+        outputSection.innerHTML = '<div class="list-group-item">No repeated sequences found.</div>';
+        return;
+      }
+
+      const results = sequences.map(seq => `
+        <div class="list-group-item">
+          Sequence: <strong>${seq.sequence}</strong>, Count: <strong>${seq.count}</strong>
+        </div>
+      `).join('');
+
+      outputSection.innerHTML = results;
+    });
+
+    resetBtn.addEventListener('click', () => {
+      inputText.value = '';
+      outputSection.innerHTML = '';
+    });
+
+    function findRepeatedSequences(text) {
+      const normalizedText = text.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const sequenceMap = new Map();
+      const minLength = 2;
+      const maxLength = Math.floor(normalizedText.length / 2);
+
+      for (let len = minLength; len <= maxLength; len++) {
+        for (let i = 0; i <= normalizedText.length - len; i++) {
+          const sequence = normalizedText.substring(i, i + len);
+          if (sequenceMap.has(sequence)) continue;
+
+          let count = 1;
+          for (let j = i + len; j <= normalizedText.length - len; j += len) {
+            if (normalizedText.substring(j, j + len) === sequence) {
+              count++;
+            } else {
+              break;
+            }
+          }
+
+          if (count > 1) {
+            sequenceMap.set(sequence, count);
+          }
+        }
+      }
+
+      return Array.from(sequenceMap.entries()).map(([sequence, count]) => ({ sequence, count }));
+    }
+  });
+</script>

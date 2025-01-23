@@ -1,0 +1,216 @@
+---
+title: "Custom Criteria Sorter - Prioritize Your Tasks with Ease"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-07-23 18:47:16
+metaDescription: "Sort and prioritize items effortlessly with the Custom Criteria Sorter. Add items, define criteria, assign weights, and get clear results instantly."
+metaKeywords: "custom criteria sorter, prioritize items, decision-making tool, task prioritization, weight-based sorting, productivity tool, project management, ranking tool"
+tags: ["productivity", "decision-making", "task-management", "prioritization", "custom-sorting"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="display-4">Custom Criteria Sorter</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="row">
+    <div class="col-12 text-center">
+      <p class="display-4">Custom Criteria Sorter</p>
+      <p class="lead">Struggling to decide what to tackle first? Whether it’s ranking tasks, prioritizing options, or organizing ideas, this Custom Criteria Sorter is your go-to tool. Simply add your items, define your criteria (like cost, time, or importance), assign weights, and let the tool do the heavy lifting. No more overthinking—just clear, actionable results. Perfect for project managers, students, or anyone who wants to make decisions with confidence. Life’s complicated enough; let’s simplify it one sort at a time!</p>
+    </div>
+  </div>
+</div>
+      <p class="lead">Easily sort or prioritize items based on your own criteria.</p>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="itemInput" class="form-label">Add Items</label>
+        <input type="text" class="form-control" id="itemInput" placeholder="Enter an item (e.g., Task 1, Option A)">
+        <button class="btn btn-primary mt-2" id="addItemBtn">Add Item</button>
+      </div>
+      <ul class="list-group" id="itemList"></ul>
+    </div>
+
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="criterionInput" class="form-label">Add Criteria</label>
+        <input type="text" class="form-control" id="criterionInput" placeholder="Enter a criterion (e.g., Cost, Time, Importance)">
+        <button class="btn btn-primary mt-2" id="addCriterionBtn">Add Criterion</button>
+      </div>
+      <ul class="list-group" id="criterionList"></ul>
+    </div>
+  </div>
+
+  <div class="row mt-4" id="weightSection"></div>
+
+  <div class="row mt-4">
+    <div class="col-12 text-center">
+      <button class="btn btn-success btn-lg" id="sortBtn">Sort Items</button>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-12">
+      <h2 class="text-center">Sorted Results</h2>
+      <ul class="list-group" id="resultsList"></ul>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row">
+    <div class="col-12">
+      <p class="h3">How It Works</p>
+      <p>Here’s the magic behind the tool: you add items (like tasks or options) and criteria (like cost, time, or importance). Then, you assign weights to each criterion on a scale of 1 to 10. The tool calculates a score for each item based on the weights and sorts them from highest to lowest. It’s like having a personal assistant who knows exactly what matters most to you!</p>
+      <p class="h4">Example Table</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Criterion 1 (Weight: 5)</th>
+            <th>Criterion 2 (Weight: 3)</th>
+            <th>Total Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Task A</td>
+            <td>5</td>
+            <td>3</td>
+            <td>8</td>
+          </tr>
+          <tr>
+            <td>Task B</td>
+            <td>3</td>
+            <td>2</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>Task C</td>
+            <td>4</td>
+            <td>4</td>
+            <td>8</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-white p-4">
+  <div class="row">
+    <div class="col-12">
+      <p class="h3">10 Common Use Cases</p>
+      <ol>
+        <li>Prioritizing daily tasks for better productivity.</li>
+        <li>Ranking project options based on cost, time, and impact.</li>
+        <li>Deciding which book to read next based on genre and reviews.</li>
+        <li>Choosing the best vacation destination based on budget and activities.</li>
+        <li>Sorting job offers by salary, location, and growth potential.</li>
+        <li>Organizing study topics by difficulty and importance for exams.</li>
+        <li>Evaluating investment opportunities using risk and return criteria.</li>
+        <li>Ranking recipes by prep time, cost, and dietary preferences.</li>
+        <li>Deciding which workout routine to follow based on time and intensity.</li>
+        <li>Sorting product features for development based on user demand and feasibility.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const itemInput = document.getElementById('itemInput');
+    const addItemBtn = document.getElementById('addItemBtn');
+    const itemList = document.getElementById('itemList');
+    const criterionInput = document.getElementById('criterionInput');
+    const addCriterionBtn = document.getElementById('addCriterionBtn');
+    const criterionList = document.getElementById('criterionList');
+    const weightSection = document.getElementById('weightSection');
+    const sortBtn = document.getElementById('sortBtn');
+    const resultsList = document.getElementById('resultsList');
+
+    let items = [];
+    let criteria = [];
+    let weights = {};
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      itemInput.value = startValue;
+    }
+
+    addItemBtn.addEventListener('click', () => {
+      const item = itemInput.value.trim();
+      if (item && !items.includes(item)) {
+        items.push(item);
+        renderItemList();
+        itemInput.value = '';
+      }
+    });
+
+    addCriterionBtn.addEventListener('click', () => {
+      const criterion = criterionInput.value.trim();
+      if (criterion && !criteria.includes(criterion)) {
+        criteria.push(criterion);
+        renderCriterionList();
+        renderWeightSection();
+        criterionInput.value = '';
+      }
+    });
+
+    const renderItemList = () => {
+      itemList.innerHTML = items.map(item => `
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          ${item}
+          <button class="btn btn-danger btn-sm" onclick="removeItem('${item}')">❌</button>
+        </li>
+      `).join('');
+    };
+
+    const renderCriterionList = () => {
+      criterionList.innerHTML = criteria.map(criterion => `
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          ${criterion}
+          <button class="btn btn-danger btn-sm" onclick="removeCriterion('${criterion}')">❌</button>
+        </li>
+      `).join('');
+    };
+
+    const renderWeightSection = () => {
+      weightSection.innerHTML = criteria.map(criterion => `
+        <div class="col-md-4 mb-3">
+          <label for="${criterion}Weight" class="form-label">${criterion} Weight (1-10)</label>
+          <input type="number" class="form-control" id="${criterion}Weight" min="1" max="10" value="1">
+        </div>
+      `).join('');
+    };
+
+    const removeItem = (item) => {
+      items = items.filter(i => i !== item);
+      renderItemList();
+    };
+
+    const removeCriterion = (criterion) => {
+      criteria = criteria.filter(c => c !== criterion);
+      renderCriterionList();
+      renderWeightSection();
+    };
+
+    sortBtn.addEventListener('click', () => {
+      weights = {};
+      criteria.forEach(criterion => {
+        const weightInput = document.getElementById(`${criterion}Weight`);
+        weights[criterion] = parseInt(weightInput.value, 10);
+      });
+
+      const sortedItems = items.map(item => {
+        const score = criteria.reduce((acc, criterion) => acc + weights[criterion], 0);
+        return { item, score };
+      }).sort((a, b) => b.score - a.score);
+
+      resultsList.innerHTML = sortedItems.map(({ item, score }) => `
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          ${item}
+          <span class="badge bg-primary rounded-pill">Score: ${score}</span>
+        </li>
+      `).join('');
+    });
+  });
+</script>

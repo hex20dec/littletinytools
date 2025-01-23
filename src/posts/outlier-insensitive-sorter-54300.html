@@ -1,0 +1,148 @@
+---
+title: "Outlier-Insensitive Sorter: Sort Numbers Without Extreme Values"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-10-01 18:01:24
+metaDescription: "Sort numbers cleanly with the Outlier-Insensitive Sorter. Identify and handle outliers while organizing your data effortlessly."
+metaKeywords: "outlier sorter, data sorting tool, outlier detection, number sorter, data analysis tool, interquartile range, outlier-insensitive sorting"
+tags: ["data-sorting", "outlier-detection", "statistics", "data-analysis", "web-tool"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Outlier-Insensitive Sorter</h1><div class="container bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <strong class="display-5">Outlier-Insensitive Sorter</strong>
+  </div>
+  <p class="lead">
+    Sorting numbers is easy, but what happens when a few extreme values mess up your entire dataset? The Outlier-Insensitive Sorter is here to save the day! This tool takes your list of numbers, identifies the outliers, and sorts the main data while keeping those pesky extremes in their place. Whether you're analyzing sales data, grading exams, or just organizing your budget, this tool ensures your numbers are sorted cleanly without letting outliers steal the spotlight. It's like having a personal data assistant—minus the coffee breaks!
+  </p>
+</div>
+  <div class="mb-3">
+    <label for="numberInput" class="form-label">Enter numbers separated by commas (e.g., 1, 2, 3, 4, 5):</label>
+    <input type="text" id="numberInput" class="form-control bg-dark text-white" placeholder="Enter numbers separated by commas">
+    <div id="errorMessage" class="text-danger mt-2"></div>
+  </div>
+  <div class="d-grid gap-2 d-md-block mb-4">
+    <button id="sortButton" class="btn btn-primary me-md-2">Sort</button>
+    <button id="resetButton" class="btn btn-secondary">Reset</button>
+  </div>
+  <div id="outputSection" class="mt-4">
+    <h2 class="mb-3">Sorted List (Outlier-Insensitive)</h2>
+    <div id="sortedOutput" class="alert alert-dark"></div>
+  </div>
+</div>
+
+<div class="container bg-dark text-white p-4 mt-4">
+  <h2 class="mb-3">How It Works</h2>
+  <p class="mb-4">
+    The Outlier-Insensitive Sorter uses a clever method to separate your numbers into two groups: the main data and the outliers. Here's the formula it follows:
+  </p>
+  <ol class="mb-4">
+    <li>Sorts your numbers in ascending order.</li>
+    <li>Calculates the Interquartile Range (IQR), which measures the spread of the middle 50% of your data.</li>
+    <li>Identifies outliers as numbers falling below <code>Q1 - 1.5 * IQR</code> or above <code>Q3 + 1.5 * IQR</code>.</li>
+    <li>Sorts the main data while keeping outliers at the end of the list.</li>
+  </ol>
+  <p>
+    This approach ensures that your sorted list is clean and meaningful, even when extreme values are present. Check out the table below for some examples:
+  </p>
+  <div class="table-responsive">
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr>
+          <th>Input Numbers</th>
+          <th>Sorted List (Outlier-Insensitive)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1, 2, 3, 4, 100</td>
+          <td>1, 2, 3, 4, 100</td>
+        </tr>
+        <tr>
+          <td>10, 12, 15, 1000, 11, 13</td>
+          <td>10, 11, 12, 13, 15, 1000</td>
+        </tr>
+        <tr>
+          <td>5, 7, 8, 6, 200, 300</td>
+          <td>5, 6, 7, 8, 200, 300</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container bg-dark text-white p-4 mt-4">
+  <h2 class="mb-3">10 Common Use Cases</h2>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item bg-dark text-white">Analyzing sales data to identify trends without extreme outliers skewing results.</li>
+    <li class="list-group-item bg-dark text-white">Sorting exam scores to focus on the majority of students while flagging extreme grades.</li>
+    <li class="list-group-item bg-dark text-white">Organizing budget expenses to separate typical spending from one-time large purchases.</li>
+    <li class="list-group-item bg-dark text-white">Cleaning up scientific data to ensure accurate analysis without outlier interference.</li>
+    <li class="list-group-item bg-dark text-white">Sorting customer ratings to focus on common feedback while noting extreme reviews.</li>
+    <li class="list-group-item bg-dark text-white">Organizing inventory data to identify typical stock levels versus rare anomalies.</li>
+    <li class="list-group-item bg-dark text-white">Sorting website traffic data to analyze regular visitor patterns versus spikes.</li>
+    <li class="list-group-item bg-dark text-white">Preparing datasets for machine learning models by removing or isolating outliers.</li>
+    <li class="list-group-item bg-dark text-white">Analyzing sports statistics to focus on consistent performance versus rare outliers.</li>
+    <li class="list-group-item bg-dark text-white">Sorting time-series data to identify trends while keeping extreme values in check.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      document.getElementById('numberInput').value = startValue;
+    }
+
+    const numberInput = document.getElementById('numberInput');
+    const sortButton = document.getElementById('sortButton');
+    const resetButton = document.getElementById('resetButton');
+    const sortedOutput = document.getElementById('sortedOutput');
+    const errorMessage = document.getElementById('errorMessage');
+
+    sortButton.addEventListener('click', function () {
+      errorMessage.textContent = '';
+      sortedOutput.textContent = '';
+
+      const input = numberInput.value.trim();
+      if (!input) {
+        errorMessage.textContent = 'Please enter some numbers.';
+        return;
+      }
+
+      const numbers = input.split(/[,\s]+/).map(Number);
+      if (numbers.some(isNaN)) {
+        errorMessage.textContent = 'Please enter valid numbers only.';
+        return;
+      }
+
+      const sortedNumbers = sortWithOutliers(numbers);
+      sortedOutput.textContent = sortedNumbers.join(', ');
+    });
+
+    resetButton.addEventListener('click', function () {
+      numberInput.value = '';
+      sortedOutput.textContent = '';
+      errorMessage.textContent = '';
+    });
+
+    function sortWithOutliers(numbers) {
+      const sorted = numbers.slice().sort((a, b) => a - b);
+      const q1 = calculatePercentile(sorted, 25);
+      const q3 = calculatePercentile(sorted, 75);
+      const iqr = q3 - q1;
+      const lowerBound = q1 - 1.5 * iqr;
+      const upperBound = q3 + 1.5 * iqr;
+
+      const mainList = sorted.filter(num => num >= lowerBound && num <= upperBound);
+      const outliers = sorted.filter(num => num < lowerBound || num > upperBound);
+
+      return [...mainList, ...outliers];
+    }
+
+    function calculatePercentile(arr, percentile) {
+      const index = (percentile / 100) * (arr.length - 1);
+      const lower = Math.floor(index);
+      const upper = Math.ceil(index);
+      if (lower === upper) return arr[lower];
+      return arr[lower] + (arr[upper] - arr[lower]) * (index - lower);
+    }
+  });
+</script>

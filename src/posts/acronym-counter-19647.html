@@ -1,0 +1,156 @@
+---
+title: "Acronym Counter - Analyze Text for Acronym Usage"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-04-03 03:51:25
+metaDescription: "Quickly count and list acronyms in any text with the Acronym Counter. Perfect for writers, students, and professionals. Try it now!"
+metaKeywords: "acronym counter, count acronyms, acronym finder, uppercase word counter, text analysis tool, acronym list generator"
+tags: ["acronym", "text analysis", "writing tool", "readability", "word counter"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .textarea-custom {
+    min-height: 200px;
+  }
+  .results-section {
+    margin-top: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Acronym Counter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 text-center">
+      <p class="fs-3 mb-4">Ever found yourself staring at a wall of text, wondering how many acronyms are hiding in there? Maybe you're editing a technical document, analyzing a report, or just trying to make sense of a jargon-filled email. Counting those ALL-CAPS words manually? That’s a recipe for a headache! Enter the <strong>Acronym Counter</strong>—your new best friend for quickly and effortlessly spotting acronyms in any text. Just paste your content, hit the button, and voilà! You’ll get a count of all those sneaky abbreviations, plus a neat list to review. Whether you're a writer, student, or just someone who loves efficiency, this tool is here to save you time and sanity. Let’s make acronym hunting fun again!</p>
+    </div>
+  </div>
+</div>
+    <p class="lead">Paste or type your text below to count acronyms (words in ALL CAPS).</p>
+  </header>
+
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control textarea-custom" placeholder="Enter or paste your text here..."></textarea>
+  </div>
+
+  <div class="text-center mb-4">
+    <button id="count-button" class="btn btn-primary btn-lg">Count Acronyms</button>
+  </div>
+
+  <div id="results-section" class="results-section text-center">
+    <h2>Results</h2>
+    <p id="total-count" class="fs-5">Total acronyms found: 0</p>
+    <div class="form-check form-switch d-inline-block">
+      <input class="form-check-input" type="checkbox" id="toggle-list">
+      <label class="form-check-label" for="toggle-list">Show list of acronyms</label>
+    </div>
+    <div id="acronym-list" class="collapse mt-3">
+      <ul class="list-group"></ul>
+    </div>
+  </div>
+
+  <footer class="text-center mt-5">
+    <p class="text-muted">Acronym Counter is a simple tool to help you analyze your text. No external APIs or data are used.</p>
+  </footer>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <h2 class="fs-4 mb-3">How It Works</h2>
+      <p class="mb-4">The Acronym Counter works by scanning your text for words written in ALL CAPS that are longer than one character and don’t contain any numbers or symbols. It identifies these as acronyms, counts them, and even gives you the option to see a list of all the unique ones found. It’s like having a magnifying glass for uppercase words!</p>
+      
+      <h3 class="fs-5 mb-3">Example Output</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Input Text</th>
+            <th scope="col">Acronyms Found</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>The NASA rover landed on Mars.</td>
+            <td>NASA</td>
+          </tr>
+          <tr>
+            <td>I work at IBM and use HTML daily.</td>
+            <td>IBM, HTML</td>
+          </tr>
+          <tr>
+            <td>FYI, the CEO said ASAP!</td>
+            <td>FYI, CEO, ASAP</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <h2 class="fs-4 mb-3">Top 10 Use Cases for the Acronym Counter</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Editing technical documents or reports.</li>
+        <li class="list-group-item">Analyzing academic papers for jargon.</li>
+        <li class="list-group-item">Simplifying complex email threads.</li>
+        <li class="list-group-item">Preparing presentations with minimal acronym overload.</li>
+        <li class="list-group-item">Breaking down legal or financial documents.</li>
+        <li class="list-group-item">Teaching students about acronyms in texts.</li>
+        <li class="list-group-item">Checking consistency in branding materials.</li>
+        <li class="list-group-item">Optimizing SEO content for readability.</li>
+        <li class="list-group-item">Decoding military or government communications.</li>
+        <li class="list-group-item">Simply satisfying your curiosity about acronyms in any text!</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const countButton = document.getElementById('count-button');
+    const totalCount = document.getElementById('total-count');
+    const toggleList = document.getElementById('toggle-list');
+    const acronymList = document.getElementById('acronym-list');
+    const listGroup = acronymList.querySelector('.list-group');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    countButton.addEventListener('click', () => {
+      const text = textInput.value.trim();
+      if (!text) {
+        totalCount.textContent = 'Please enter some text to count acronyms.';
+        listGroup.innerHTML = '';
+        acronymList.classList.remove('show');
+        return;
+      }
+
+      const words = text.split(/\s+/);
+      const acronyms = words.filter(word => word === word.toUpperCase() && word.length > 1 && /^[A-Z]+$/.test(word));
+      const uniqueAcronyms = [...new Set(acronyms)];
+
+      totalCount.textContent = `Total acronyms found: ${acronyms.length}`;
+      listGroup.innerHTML = uniqueAcronyms.map(acronym => `<li class="list-group-item">${acronym}</li>`).join('');
+
+      if (acronyms.length > 0 && toggleList.checked) {
+        acronymList.classList.add('show');
+      } else {
+        acronymList.classList.remove('show');
+      }
+    });
+
+    toggleList.addEventListener('change', () => {
+      if (toggleList.checked && listGroup.children.length > 0) {
+        acronymList.classList.add('show');
+      } else {
+        acronymList.classList.remove('show');
+      }
+    });
+  });
+</script>

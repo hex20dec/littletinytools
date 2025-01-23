@@ -1,0 +1,107 @@
+---
+title: "Email Address Counter - Quickly Count Emails in Any Text"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-01-04 20:33:05
+metaDescription: "Count email addresses in any text instantly with the Email Address Counter. Perfect for cleaning contact lists, auditing documents, and more!"
+metaKeywords: "email counter, count emails, email address tool, email extractor, email validation, email finder, contact list cleaner, email auditing"
+tags: ["email counter", "text analysis", "email validator", "data tools", "productivity"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Email Address Counter</h1><div class="container bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <strong class="display-4">Email Address Counter</strong>
+  </div>
+  <p class="lead">Ever spent hours scrolling through a massive block of text, trying to count how many email addresses are hidden in there? It’s like searching for a needle in a haystack, but worse—because haystacks don’t have typos. Enter the Email Address Counter, your new best friend for quickly and effortlessly finding and counting email addresses in any text. Whether you’re cleaning up a messy contact list, auditing a document, or just curious, this tool does the heavy lifting for you. No more squinting at your screen or manually tallying up addresses. Just paste your text, click a button, and boom—problem solved. Life’s too short to count emails by hand!</p>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <textarea id="input-text" class="form-control bg-dark text-white mb-3" rows="10" placeholder="Paste or type your text here..."></textarea>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-3">
+        <button id="count-btn" class="btn btn-primary me-md-2">Count Email Addresses</button>
+        <button id="reset-btn" class="btn btn-secondary">Reset</button>
+      </div>
+      <div id="result-display" class="alert alert-success text-center" role="alert" style="display: none;">
+        Number of email addresses found: <span id="count-result">0</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container bg-light p-4">
+  <h2 class="mb-4">How It Works</h2>
+  <p>The Email Address Counter uses a smart formula to identify and count email addresses in your text. Here’s the breakdown:</p>
+  <ol>
+    <li><strong>Scanning:</strong> The tool looks for patterns that match standard email formats, like <code>name@domain.com</code>.</li>
+    <li><strong>Validation:</strong> It checks for valid characters and structures, such as letters, numbers, dots, and the "@" symbol.</li>
+    <li><strong>Counting:</strong> Once valid emails are identified, the tool tallies them up and displays the total.</li>
+  </ol>
+  <p>It’s like having a detective for your text—fast, accurate, and always on the job.</p>
+
+  <h3 class="mt-4">Examples of Email Counts</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Number of Emails in Text</th>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>0</td><td>No emails found</td></tr>
+      <tr><td>1</td><td>1 email found</td></tr>
+      <tr><td>5</td><td>5 emails found</td></tr>
+      <tr><td>10</td><td>10 emails found</td></tr>
+      <tr><td>50</td><td>50 emails found</td></tr>
+    </tbody>
+  </table>
+</div><div class="container bg-dark text-white p-4">
+  <h2 class="mb-4">Top 10 Use Cases for the Email Address Counter</h2>
+  <ul class="list-group">
+    <li class="list-group-item bg-dark text-white">1. Cleaning up contact lists for email marketing campaigns.</li>
+    <li class="list-group-item bg-dark text-white">2. Auditing documents to ensure no stray email addresses are left behind.</li>
+    <li class="list-group-item bg-dark text-white">3. Verifying email counts in user-generated content like forums or comments.</li>
+    <li class="list-group-item bg-dark text-white">4. Preparing data for CRM systems by extracting email addresses.</li>
+    <li class="list-group-item bg-dark text-white">5. Analyzing survey responses to count unique email entries.</li>
+    <li class="list-group-item bg-dark text-white">6. Simplifying bulk email verification tasks.</li>
+    <li class="list-group-item bg-dark text-white">7. Organizing event attendee lists by extracting emails from sign-up forms.</li>
+    <li class="list-group-item bg-dark text-white">8. Checking for duplicate email addresses in large datasets.</li>
+    <li class="list-group-item bg-dark text-white">9. Validating email addresses in academic papers or reports.</li>
+    <li class="list-group-item bg-dark text-white">10. Quickly counting emails in forwarded messages or chat logs.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const inputText = document.getElementById('input-text');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultDisplay = document.getElementById('result-display');
+    const countResult = document.getElementById('count-result');
+
+    // Preload text from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    // Email validation regex
+    const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+
+    countBtn.addEventListener('click', function () {
+      const text = inputText.value;
+      if (!text.trim()) {
+        alert('Please enter some text to analyze.');
+        return;
+      }
+
+      const emails = text.match(emailRegex) || [];
+      countResult.textContent = emails.length;
+      resultDisplay.style.display = 'block';
+    });
+
+    resetBtn.addEventListener('click', function () {
+      inputText.value = '';
+      countResult.textContent = '0';
+      resultDisplay.style.display = 'none';
+    });
+  });
+</script>

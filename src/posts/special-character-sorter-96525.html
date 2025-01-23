@@ -1,0 +1,130 @@
+---
+title: "Special Character Sorter - Extract & Sort Non-Alphanumeric Characters"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-02-25 14:41:25
+metaDescription: "Easily extract and sort special characters from any text with the Special Character Sorter. Perfect for writers, developers, and text enthusiasts!"
+metaKeywords: "special character sorter, extract symbols, sort special characters, text cleaner, symbol organizer, text tool, punctuation sorter"
+tags: ["text-tool", "special-characters", "web-app", "developer-tool", "text-analysis"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="text-center mb-3">Special Character Sorter</h1><div class="container bg-dark text-white p-4">
+  <strong class="d-block text-center fs-2 mb-3">Special Character Sorter</strong>
+  <p class="text-center mb-4">Why do special characters always seem to hide in plain sight, making your text look messy or confusing? Whether you're formatting code, cleaning up documents, or just curious about the symbols scattered in your text, the Special Character Sorter is here to save the day. This tool effortlessly extracts and sorts all those elusive characters like !, @, #, and more, giving you a clear, organized view. Perfect for writers, developers, and anyone who loves a tidy text experience. Say goodbye to chaos and hello to clarity—your text will thank you!</p>
+</div>
+  <p class="text-center mb-4">Input your text below to extract and sort all special characters.</p>
+
+  <div class="mb-3">
+    <textarea id="input-text" class="form-control bg-dark text-white" rows="6" placeholder="Enter your text here..."></textarea>
+  </div>
+
+  <div class="d-grid gap-2 mb-3">
+    <button id="sort-btn" class="btn btn-primary">Sort Special Characters</button>
+  </div>
+
+  <div class="mb-3">
+    <h3 class="mb-2">Sorted Special Characters:</h3>
+    <div id="output-box" class="card bg-secondary text-white p-3">
+      <p id="output-text" class="mb-0">No special characters found in the input text.</p>
+    </div>
+  </div>
+
+  <div class="d-grid gap-2">
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+</div>
+
+<div class="container bg-light p-4">
+  <strong class="d-block fs-4 mb-3">How It Works</strong>
+  <p class="mb-4">The Special Character Sorter works like a digital magnet, pulling out all the non-alphanumeric characters from your text. It scans your input, ignores letters and numbers, and picks up everything else—symbols, punctuation, and special characters. Then, it arranges them in a neat, sorted order based on their Unicode values. Think of it as a librarian organizing a shelf full of quirky books—everything ends up in the right place!</p>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Input Example</th>
+        <th scope="col">Sorted Special Characters</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Hello, World! #2023</td>
+        <td># , !</td>
+      </tr>
+      <tr>
+        <td>Email: test@example.com</td>
+        <td>: @ .</td>
+      </tr>
+      <tr>
+        <td>Price: $19.99</td>
+        <td>: $ .</td>
+      </tr>
+      <tr>
+        <td>Code: {key: value}</td>
+        <td>: { : }</td>
+      </tr>
+      <tr>
+        <td>Math: 2 + 2 = 4</td>
+        <td>: + =</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container bg-light p-4">
+  <strong class="d-block fs-4 mb-3">Top 10 Uses for the Special Character Sorter</strong>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Cleaning up messy text documents by isolating special characters.</li>
+    <li class="list-group-item">Formatting code snippets for better readability.</li>
+    <li class="list-group-item">Analyzing text for unusual or hidden symbols.</li>
+    <li class="list-group-item">Preparing data for CSV or database imports by removing unwanted characters.</li>
+    <li class="list-group-item">Creating sorted lists of symbols for design or coding projects.</li>
+    <li class="list-group-item">Checking for special characters in passwords or usernames.</li>
+    <li class="list-group-item">Organizing mathematical expressions or equations.</li>
+    <li class="list-group-item">Extracting punctuation for linguistic analysis.</li>
+    <li class="list-group-item">Simplifying text for machine learning or AI training.</li>
+    <li class="list-group-item">Having fun exploring the hidden world of symbols in your writing!</li>
+  </ol>
+</div><script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const inputText = document.getElementById("input-text");
+    const outputText = document.getElementById("output-text");
+    const sortBtn = document.getElementById("sort-btn");
+    const resetBtn = document.getElementById("reset-btn");
+
+    // Preload input from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get("start");
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    // Function to extract and sort special characters
+    const sortSpecialCharacters = () => {
+      const text = inputText.value;
+      if (!text.trim()) {
+        outputText.textContent = "Please enter some text to analyze.";
+        return;
+      }
+
+      const specialChars = text.replace(/[a-zA-Z0-9\s]/g, "").split("").sort((a, b) => a.charCodeAt(0) - b.charCodeAt(0));
+      if (specialChars.length === 0) {
+        outputText.textContent = "No special characters found in the input text.";
+      } else {
+        outputText.textContent = specialChars.join(" ");
+      }
+    };
+
+    // Event listeners
+    sortBtn.addEventListener("click", sortSpecialCharacters);
+    resetBtn.addEventListener("click", () => {
+      inputText.value = "";
+      outputText.textContent = "No special characters found in the input text.";
+    });
+
+    // Handle large input
+    inputText.addEventListener("input", () => {
+      if (inputText.value.length > 10000) {
+        inputText.value = inputText.value.slice(0, 10000);
+        alert("Input is limited to 10,000 characters for optimal performance.");
+      }
+    });
+  });
+</script>

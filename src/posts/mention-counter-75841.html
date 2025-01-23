@@ -1,0 +1,142 @@
+---
+title: "Mention Counter - Count Word & Phrase Frequency Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-07-29 12:13:03
+metaDescription: "Count how often a word or phrase appears in your text with this easy-to-use Mention Counter. Perfect for writers, students, and SEO analysis."
+metaKeywords: "mention counter, word counter, phrase counter, text analysis, keyword density, SEO tool, word frequency, text scanner, word search, phrase frequency"
+tags: ["word counter", "text analysis", "writing tool", "phrase frequency", "text utility"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center text-white mb-4">Mention Counter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <strong class="display-5 mb-3">Need to Count Words or Phrases Fast?</strong>
+      <p class="lead">Whether you're analyzing a blog post, double-checking an essay, or just curious how often your favorite phrase pops up in a text, this Mention Counter has you covered. Simply paste your text, type the word or phrase you're looking for, and let the tool do the heavy lifting. No more scrolling through endless paragraphs or losing track—this tool makes counting mentions as easy as clicking a button. Perfect for writers, students, and anyone who loves data without the hassle!</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center text-white-50 mb-4">Enter your text and the word/phrase you want to count. We'll do the rest!</p>
+      <div class="mb-3">
+        <textarea id="text-input" class="form-control bg-dark text-white" rows="8" placeholder="Paste or type your text here..."></textarea>
+      </div>
+      <div class="mb-3">
+        <input id="phrase-input" type="text" class="form-control bg-dark text-white" placeholder="Enter the word or phrase to count...">
+      </div>
+      <div class="d-grid gap-2 mb-3">
+        <button id="count-button" class="btn btn-primary">Count Mentions</button>
+        <button id="reset-button" class="btn btn-secondary">Reset</button>
+      </div>
+      <div id="result-display" class="alert alert-info text-center" role="alert">Your result will appear here.</div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="h4 mb-3">How It Works</h2>
+      <p>The Mention Counter scans your text for the exact word or phrase you're searching for. It doesn’t just look for loose matches—it counts only whole words or phrases, ensuring accuracy. Here’s the simple formula it uses:</p>
+      <p><strong>Step 1:</strong> Paste your text into the input box.</p>
+      <p><strong>Step 2:</strong> Enter the word or phrase you want to count.</p>
+      <p><strong>Step 3:</strong> Click "Count Mentions" to get the total number of times your word or phrase appears.</p>
+      <p>It’s that straightforward! No complicated settings, no hidden tricks—just instant results.</p>
+
+      <h2 class="h4 mt-4 mb-3">Example Counts</h2>
+      <p>Here’s a quick example of how the tool works with different words and phrases:</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Text</th>
+            <th>Word/Phrase to Count</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>The quick brown fox jumps over the lazy dog.</td>
+            <td>the</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>She sells seashells by the seashore.</td>
+            <td>seashells</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>How much wood would a woodchuck chuck if a woodchuck could chuck wood?</td>
+            <td>wood</td>
+            <td>2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="h4 mb-3">10 Common Use Cases for the Mention Counter</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Analyzing keyword density in blog posts or articles for SEO purposes.</li>
+        <li class="list-group-item">Checking for repetitive words in essays or academic papers.</li>
+        <li class="list-group-item">Tracking how often a brand name appears in a document or transcript.</li>
+        <li class="list-group-item">Counting specific phrases in legal contracts or agreements.</li>
+        <li class="list-group-item">Identifying frequently used terms in speeches or interviews.</li>
+        <li class="list-group-item">Ensuring consistency in technical documentation or manuals.</li>
+        <li class="list-group-item">Measuring the frequency of specific words in creative writing or poetry.</li>
+        <li class="list-group-item">Double-checking the use of key terms in marketing materials.</li>
+        <li class="list-group-item">Counting mentions of hashtags or keywords in social media posts.</li>
+        <li class="list-group-item">Simplifying data analysis for researchers or analysts.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const phraseInput = document.getElementById('phrase-input');
+    const countButton = document.getElementById('count-button');
+    const resetButton = document.getElementById('reset-button');
+    const resultDisplay = document.getElementById('result-display');
+
+    // Preload text input from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    countButton.addEventListener('click', () => {
+      const text = textInput.value.trim();
+      const phrase = phraseInput.value.trim();
+
+      if (!text || !phrase) {
+        resultDisplay.textContent = 'Please enter both the text and the word/phrase to count.';
+        resultDisplay.classList.remove('alert-info');
+        resultDisplay.classList.add('alert-danger');
+        return;
+      }
+
+      const regex = new RegExp(`\\b${phrase}\\b`, 'gi');
+      const matches = text.match(regex);
+      const count = matches ? matches.length : 0;
+
+      if (count === 0) {
+        resultDisplay.textContent = `The word/phrase "${phrase}" does not appear in the text.`;
+      } else {
+        resultDisplay.textContent = `The word/phrase "${phrase}" appears ${count} times.`;
+      }
+      resultDisplay.classList.remove('alert-danger');
+      resultDisplay.classList.add('alert-info');
+    });
+
+    resetButton.addEventListener('click', () => {
+      textInput.value = '';
+      phraseInput.value = '';
+      resultDisplay.textContent = 'Your result will appear here.';
+      resultDisplay.classList.remove('alert-danger');
+      resultDisplay.classList.add('alert-info');
+    });
+  });
+</script>

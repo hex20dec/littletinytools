@@ -1,0 +1,133 @@
+---
+title: "Non-Empty Line Counter: Count Lines Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-10-30 23:01:46
+metaDescription: "Count non-empty lines in any text instantly with the Non-Empty Line Counter. Perfect for editing, coding, and more!"
+metaKeywords: "non-empty line counter, text line counter, count lines in text, line counter tool, text analysis tool, code line counter, document line counter, count meaningful lines, text editing tool, online line counter"
+tags: ["text tool", "line counter", "writing", "productivity", "web app"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  textarea {
+    min-height: 200px;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Non-Empty Line Counter</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2 text-center">
+      <p class="fs-3 fw-bold mb-4">Ever felt overwhelmed by a wall of text, wondering how many lines actually matter? 😩</p>
+      <p class="lead">Whether you're editing an essay, analyzing code, or just trying to make sense of a long document, counting non-empty lines can feel like a tedious chore. That's where the <strong>Non-Empty Line Counter</strong> comes in! This nifty tool takes the hassle out of counting meaningful lines, so you can focus on what really matters. Just paste your text, hit the button, and voilà—no more guessing or squinting at your screen. It's like having a superpower for text analysis, minus the cape. 🦸‍♂️</p>
+      <p class="mt-3">Ready to make your life easier? Let’s get counting!</p>
+    </div>
+  </div>
+</div>
+    <p class="lead">Paste or type your text below to count the number of non-empty lines.</p>
+  </header>
+
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control" placeholder="Enter or paste your text here..." aria-label="Text input"></textarea>
+  </div>
+
+  <div class="d-grid gap-2 mb-3">
+    <button id="count-button" class="btn btn-primary btn-lg">Count Lines</button>
+  </div>
+
+  <div class="text-center mb-3">
+    <p id="result" class="fw-bold fs-4">Non-Empty Lines: 0</p>
+  </div>
+
+  <div class="d-grid gap-2">
+    <button id="reset-button" class="btn btn-secondary btn-lg">Reset</button>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="fs-4 fw-bold mb-3">How It Works</h2>
+      <p class="mb-4">The Non-Empty Line Counter uses a simple yet effective method to count only the lines that contain actual content. Here's the breakdown:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Your text is split into individual lines.</li>
+        <li class="list-group-item">Each line is checked to see if it contains any visible characters (spaces and tabs don’t count!).</li>
+        <li class="list-group-item">The tool tallies up the lines that pass the test and gives you the total count.</li>
+      </ol>
+      <p class="mt-4">It's like having a built-in editor that knows exactly what you need, without the fluff.</p>
+
+      <h2 class="fs-4 fw-bold mt-5 mb-3">Examples of Non-Empty Line Counts</h2>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Input Text</th>
+            <th scope="col">Non-Empty Lines</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Hello<br>World</td><td>2</td></tr>
+          <tr><td>Line 1<br><br>Line 3</td><td>2</td></tr>
+          <tr><td>This is a test<br><br><br>Only this line counts</td><td>2</td></tr>
+          <tr><td><br><br><br></td><td>0</td></tr>
+          <tr><td>One<br>Two<br>Three</td><td>3</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="fs-4 fw-bold mb-3">10 Common Use Cases for the Non-Empty Line Counter</h2>
+      <ul class="list-group">
+        <li class="list-group-item">📝 Counting paragraphs in essays or reports.</li>
+        <li class="list-group-item">💻 Analyzing lines of code in programming scripts.</li>
+        <li class="list-group-item">📑 Reviewing legal documents for meaningful content.</li>
+        <li class="list-group-item">📊 Preparing data for analysis by filtering empty entries.</li>
+        <li class="list-group-item">📖 Editing novels or manuscripts to ensure consistent formatting.</li>
+        <li class="list-group-item">🧑‍🏫 Grading student assignments by checking for completed sections.</li>
+        <li class="list-group-item">📝 Drafting blog posts or articles with clear structure.</li>
+        <li class="list-group-item">🗂️ Organizing spreadsheets by counting filled rows.</li>
+        <li class="list-group-item">📄 Preparing presentations by checking slide content.</li>
+        <li class="list-group-item">📋 Writing to-do lists and tracking completed tasks.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const countButton = document.getElementById('count-button');
+    const resetButton = document.getElementById('reset-button');
+    const result = document.getElementById('result');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    const countNonEmptyLines = (text) => {
+      const lines = text.split('\n');
+      return lines.filter(line => line.trim() !== '').length;
+    };
+
+    countButton.addEventListener('click', () => {
+      const text = textInput.value;
+      if (!text.trim()) {
+        result.textContent = 'Please enter some text to count lines.';
+        return;
+      }
+      const count = countNonEmptyLines(text);
+      result.textContent = `Non-Empty Lines: ${count}`;
+    });
+
+    resetButton.addEventListener('click', () => {
+      textInput.value = '';
+      result.textContent = 'Non-Empty Lines: 0';
+    });
+  });
+</script>

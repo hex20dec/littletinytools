@@ -1,0 +1,152 @@
+---
+title: "Quick Temperature Subtraction Tool - Easy Celsius Calculations"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-11-02 19:25:24
+metaDescription: "Easily subtract Celsius temperatures and save results with this handy Temperature Subtraction Memory Tool. Perfect for weather tracking, home adjustments, and more!"
+metaKeywords: "temperature subtraction, Celsius calculator, temperature difference tool, weather temperature tool, temperature comparison, save temperature results, Celsius subtraction, temperature math tool, home temperature tool, weather forecast tool"
+tags: ["temperature", "calculator", "Celsius", "subtraction", "memory tool"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Temperature Subtraction Memory Tool (Celsius)</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="row">
+    <div class="col-12">
+      <p class="lead">Why do temperature calculations always feel like a math pop quiz? Whether you're comparing weather forecasts, adjusting thermostat settings, or just curious about temperature differences, the <strong>Temperature Subtraction Memory Tool</strong> is here to save the day. It’s like having a calculator for temperature math that remembers your results, so you don’t have to. Simply plug in two Celsius temperatures, subtract them, and save the result for later. No more scribbling numbers on sticky notes or forgetting what you just calculated. Let’s make temperature math as cool as ice (or as warm as coffee, depending on your mood).</p>
+    </div>
+  </div>
+</div>
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <label for="temp1" class="form-label">Temperature 1 (°C)</label>
+      <input type="number" class="form-control" id="temp1" placeholder="Enter temperature" aria-label="Temperature 1">
+    </div>
+    <div class="col-md-6">
+      <label for="temp2" class="form-label">Temperature 2 (°C)</label>
+      <input type="number" class="form-control" id="temp2" placeholder="Enter temperature" aria-label="Temperature 2">
+    </div>
+  </div>
+  <div class="d-flex justify-content-center gap-3 mb-4">
+    <button id="subtractBtn" class="btn btn-primary">Subtract</button>
+    <button id="clearBtn" class="btn btn-secondary">Clear</button>
+  </div>
+  <div id="resultSection" class="alert alert-success d-none" role="alert">
+    <strong>Result (°C):</strong> <span id="resultValue"></span>
+    <button id="saveResultBtn" class="btn btn-info ms-3">Save Result</button>
+  </div>
+  <div id="errorSection" class="alert alert-danger d-none" role="alert"></div>
+  <div class="mt-4">
+    <h2 class="mb-3">Saved Results</h2>
+    <ul id="savedResults" class="list-group"></ul>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mb-3">How It Works</h2>
+      <p>The Temperature Subtraction Memory Tool is simple yet powerful. Here’s the formula it uses:</p>
+      <p class="text-center fw-bold">Result = Temperature 1 - Temperature 2</p>
+      <p>For example, if you input 25°C and 15°C, the tool calculates 10°C as the difference. It’s perfect for quick comparisons or saving results for later reference.</p>
+      
+      <h3 class="mt-4 mb-3">Example Calculations</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Temperature 1 (°C)</th>
+              <th>Temperature 2 (°C)</th>
+              <th>Result (°C)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>30</td><td>10</td><td>20</td></tr>
+            <tr><td>22</td><td>18</td><td>4</td></tr>
+            <tr><td>15</td><td>5</td><td>10</td></tr>
+            <tr><td>40</td><td>30</td><td>10</td></tr>
+            <tr><td>50</td><td>20</td><td>30</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container-fluid bg-white p-4">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mb-3">10 Common Use Cases</h2>
+      <ul class="list-group">
+        <li class="list-group-item">Comparing outdoor and indoor temperatures</li>
+        <li class="list-group-item">Calculating temperature differences for weather forecasts</li>
+        <li class="list-group-item">Adjusting thermostat settings for energy savings</li>
+        <li class="list-group-item">Tracking temperature changes in a greenhouse</li>
+        <li class="list-group-item">Measuring temperature drops during experiments</li>
+        <li class="list-group-item">Evaluating heating or cooling efficiency</li>
+        <li class="list-group-item">Calculating temperature differences for cooking recipes</li>
+        <li class="list-group-item">Monitoring temperature changes in aquariums or terrariums</li>
+        <li class="list-group-item">Comparing temperatures in different rooms of your home</li>
+        <li class="list-group-item">Tracking temperature variations during outdoor activities</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const temp1Input = document.getElementById('temp1');
+    const temp2Input = document.getElementById('temp2');
+    const subtractBtn = document.getElementById('subtractBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const resultSection = document.getElementById('resultSection');
+    const resultValue = document.getElementById('resultValue');
+    const saveResultBtn = document.getElementById('saveResultBtn');
+    const errorSection = document.getElementById('errorSection');
+    const savedResults = document.getElementById('savedResults');
+
+    // Preload first input field from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startTemp = urlParams.get('start');
+    if (startTemp && !isNaN(startTemp)) {
+      temp1Input.value = startTemp;
+    }
+
+    const validateInputs = () => {
+      const temp1 = parseFloat(temp1Input.value);
+      const temp2 = parseFloat(temp2Input.value);
+      if (isNaN(temp1) || isNaN(temp2)) {
+        errorSection.textContent = 'Please enter valid numbers for both temperatures.';
+        errorSection.classList.remove('d-none');
+        return false;
+      }
+      errorSection.classList.add('d-none');
+      return true;
+    };
+
+    subtractBtn.addEventListener('click', () => {
+      if (!validateInputs()) return;
+      const temp1 = parseFloat(temp1Input.value);
+      const temp2 = parseFloat(temp2Input.value);
+      const result = temp1 - temp2;
+      resultValue.textContent = result.toFixed(2);
+      resultSection.classList.remove('d-none');
+    });
+
+    saveResultBtn.addEventListener('click', () => {
+      const result = resultValue.textContent;
+      if (!result) return;
+      const listItem = document.createElement('li');
+      listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+      listItem.textContent = `${result} °C`;
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'btn btn-danger btn-sm';
+      removeBtn.textContent = 'Remove';
+      removeBtn.addEventListener('click', () => listItem.remove());
+      listItem.appendChild(removeBtn);
+      savedResults.appendChild(listItem);
+    });
+
+    clearBtn.addEventListener('click', () => {
+      temp1Input.value = '';
+      temp2Input.value = '';
+      resultSection.classList.add('d-none');
+      errorSection.classList.add('d-none');
+      savedResults.innerHTML = '';
+    });
+  });
+</script>

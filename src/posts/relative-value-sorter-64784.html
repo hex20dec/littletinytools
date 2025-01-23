@@ -1,0 +1,192 @@
+---
+title: "Relative Value Sorter - Prioritize & Organize with Ease"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-02-07 09:47:53
+metaDescription: "Organize tasks and ideas with the Relative Value Sorter. Prioritize effortlessly by assigning values and sorting items by importance."
+metaKeywords: "task prioritization, value sorter, priority tool, decision-making tool, task management, to-do list organizer, project management tool, time management, productivity tool, sorting tool"
+tags: ["productivity", "decision-making", "prioritization", "organization", "tools"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <h1 class="text-center mb-4">Relative Value Sorter</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <strong class="d-block text-center fs-2 mb-4">Relative Value Sorter</strong>
+      <p class="text-center mb-4">Juggling too many priorities and not sure where to start? The Relative Value Sorter is here to save the day. This simple yet powerful tool lets you list out tasks, ideas, or items and assign them a value from 1 to 10 based on their importance. Whether you're planning a project, organizing your to-do list, or deciding what to tackle first, this tool sorts your items by priority in seconds. No more guessing—just clarity and focus. Ready to take control of your chaos? Let’s get sorting!</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Enter items and assign values to sort them by importance.</p>
+
+      <div class="d-flex flex-column flex-md-row gap-2 mb-4">
+        <input type="text" id="itemInput" class="form-control" placeholder="Enter item name" aria-label="Item name">
+        <input type="number" id="valueInput" class="form-control" placeholder="Enter value (1-10)" aria-label="Item value" min="1" max="10">
+        <button id="addItemBtn" class="btn btn-primary">Add Item</button>
+        <button id="clearListBtn" class="btn btn-secondary">Clear List</button>
+      </div>
+
+      <div class="table-responsive mb-4">
+        <table class="table table-striped table-dark">
+          <thead>
+            <tr>
+              <th scope="col">Item</th>
+              <th scope="col">Value</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody id="itemList"></tbody>
+        </table>
+      </div>
+
+      <div class="d-flex justify-content-center gap-2 mb-4">
+        <button id="sortAscBtn" class="btn btn-success">Sort Ascending</button>
+        <button id="sortDescBtn" class="btn btn-warning">Sort Descending</button>
+      </div>
+
+      <footer class="text-center mt-4">
+        <p class="text-muted">No data is stored. Refresh the page to start over.</p>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <strong class="d-block fs-4 mb-3">How It Works</strong>
+      <p class="mb-4">The Relative Value Sorter uses a straightforward formula to help you prioritize:</p>
+      <ol class="mb-4">
+        <li>Enter an item (e.g., "Finish report").</li>
+        <li>Assign it a value between 1 (low priority) and 10 (high priority).</li>
+        <li>Add as many items as you need.</li>
+        <li>Click "Sort Ascending" or "Sort Descending" to organize your list by priority.</li>
+      </ol>
+      <p class="mb-4">It’s like giving your brain a little helper to make decisions easier. Here’s an example of how values translate into priorities:</p>
+      <div class="table-responsive mb-4">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Item</th>
+              <th scope="col">Value</th>
+              <th scope="col">Priority Level</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Finish report</td>
+              <td>10</td>
+              <td>Critical</td>
+            </tr>
+            <tr>
+              <td>Buy groceries</td>
+              <td>7</td>
+              <td>High</td>
+            </tr>
+            <tr>
+              <td>Call friend</td>
+              <td>5</td>
+              <td>Medium</td>
+            </tr>
+            <tr>
+              <td>Watch TV</td>
+              <td>2</td>
+              <td>Low</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container-fluid bg-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <strong class="d-block fs-4 mb-3">Top 10 Use Cases</strong>
+      <ol class="mb-4">
+        <li><strong>Project Management:</strong> Prioritize tasks for team projects.</li>
+        <li><strong>Personal To-Do Lists:</strong> Sort daily tasks by importance.</li>
+        <li><strong>Decision Making:</strong> Rank options for big life decisions.</li>
+        <li><strong>Grocery Shopping:</strong> Organize your shopping list by urgency.</li>
+        <li><strong>Time Management:</strong> Allocate time to high-priority activities.</li>
+        <li><strong>Event Planning:</strong> Track and prioritize event preparation tasks.</li>
+        <li><strong>Budgeting:</strong> Rank expenses to focus on essentials.</li>
+        <li><strong>Study Plans:</strong> Prioritize subjects or topics for exams.</li>
+        <li><strong>Career Goals:</strong> Sort short-term and long-term career objectives.</li>
+        <li><strong>Creative Projects:</strong> Organize ideas for writing, art, or design.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const itemInput = document.getElementById('itemInput');
+    const valueInput = document.getElementById('valueInput');
+    const addItemBtn = document.getElementById('addItemBtn');
+    const clearListBtn = document.getElementById('clearListBtn');
+    const itemList = document.getElementById('itemList');
+    const sortAscBtn = document.getElementById('sortAscBtn');
+    const sortDescBtn = document.getElementById('sortDescBtn');
+
+    let items = [];
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      itemInput.value = startValue;
+    }
+
+    const addItem = () => {
+      const itemName = itemInput.value.trim();
+      const itemValue = parseInt(valueInput.value.trim(), 10);
+
+      if (!itemName || isNaN(itemValue) || itemValue < 1 || itemValue > 10) {
+        alert('Please enter a valid item name and value between 1 and 10.');
+        return;
+      }
+
+      items.push({ name: itemName, value: itemValue });
+      renderList();
+      itemInput.value = '';
+      valueInput.value = '';
+      itemInput.focus();
+    };
+
+    const renderList = () => {
+      itemList.innerHTML = items.map((item, index) => `
+        <tr>
+          <td>${item.name}</td>
+          <td>${item.value}</td>
+          <td><button onclick="deleteItem(${index})" class="btn btn-danger btn-sm">Delete</button></td>
+        </tr>
+      `).join('');
+    };
+
+    const deleteItem = (index) => {
+      items.splice(index, 1);
+      renderList();
+    };
+
+    const clearList = () => {
+      items = [];
+      renderList();
+    };
+
+    const sortList = (order) => {
+      items.sort((a, b) => order === 'asc' ? a.value - b.value : b.value - a.value);
+      renderList();
+    };
+
+    addItemBtn.addEventListener('click', addItem);
+    clearListBtn.addEventListener('click', clearList);
+    sortAscBtn.addEventListener('click', () => sortList('asc'));
+    sortDescBtn.addEventListener('click', () => sortList('desc'));
+
+    itemInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') addItem();
+    });
+
+    valueInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') addItem();
+    });
+  });
+</script>

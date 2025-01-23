@@ -1,0 +1,135 @@
+---
+title: "Rainwater Harvesting Calculator - Estimate Your Water Savings"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-04 20:21:14
+metaDescription: "Use our Rainwater Harvesting Calculator to estimate potential water collection. Perfect for eco-friendly homes, gardens, and more!"
+metaKeywords: "rainwater harvesting, water calculator, eco-friendly tools, sustainability, water conservation, rainwater collection, irrigation planning, green living, water savings, rainwater storage"
+tags: ["rainwater", "sustainability", "calculator", "water-saving", "environment"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h1 class="text-center mb-4">Rainwater Harvesting Calculator</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2 text-center">
+      <p class="lead">Why let all that rainwater go to waste when it could be filling up your water tanks instead? Whether you're a sustainability enthusiast or just someone looking to cut down on water bills, our Rainwater Harvesting Calculator is here to help. Simply input your roof area and average rainfall, and voilà—you'll know exactly how much water you can collect. It's quick, easy, and could make a big difference in your water usage. Say goodbye to guesswork and hello to smarter water management!</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Calculate the potential rainwater you can harvest from your roof or catchment area.</p>
+      <div class="mb-3">
+        <label for="roofArea" class="form-label">Roof Area (in square meters)</label>
+        <input type="number" class="form-control" id="roofArea" placeholder="Enter roof area" min="0" step="0.01" required>
+      </div>
+      <div class="mb-3">
+        <label for="rainfall" class="form-label">Average Rainfall (in millimeters)</label>
+        <input type="number" class="form-control" id="rainfall" placeholder="Enter average rainfall" min="0" step="0.01" required>
+      </div>
+      <div class="d-grid gap-2 mb-4">
+        <button id="calculateBtn" class="btn btn-primary">Calculate</button>
+        <button id="resetBtn" class="btn btn-secondary">Reset</button>
+      </div>
+      <div id="resultSection" class="text-center" style="display: none;">
+        <h2 class="mb-3">Estimated Rainwater Harvest</h2>
+        <p id="result" class="display-4"></p>
+        <p class="text-muted">This calculation assumes 90% efficiency in rainwater collection.</p>
+      </div>
+      <div id="errorSection" class="alert alert-danger mt-3" style="display: none;"></div>
+      <footer class="text-center mt-4">
+        <small class="text-muted">This tool is for estimation purposes only. Actual results may vary based on factors like roof material and system efficiency.</small>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="mb-4">How It Works</h2>
+      <p>The Rainwater Harvesting Calculator uses a simple formula to estimate how much rainwater you can collect:</p>
+      <p class="text-center"><strong>Harvested Water (liters) = Roof Area (m²) × Rainfall (mm) × 0.9</strong></p>
+      <p>Here's a breakdown of what each part means:</p>
+      <ul>
+        <li><strong>Roof Area:</strong> The size of your roof or catchment area in square meters.</li>
+        <li><strong>Rainfall:</strong> The average rainfall in millimeters for your area.</li>
+        <li><strong>0.9:</strong> This represents a 90% efficiency rate, accounting for some water loss due to factors like evaporation and roof material.</li>
+      </ul>
+      <p>For example, if your roof area is 50 m² and the average rainfall is 100 mm, you can harvest approximately 4,500 liters of water.</p>
+
+      <h3 class="mt-5 mb-4">Example Calculations</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Roof Area (m²)</th>
+            <th>Rainfall (mm)</th>
+            <th>Harvested Water (liters)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>10</td><td>50</td><td>450</td></tr>
+          <tr><td>20</td><td>75</td><td>1,350</td></tr>
+          <tr><td>30</td><td>100</td><td>2,700</td></tr>
+          <tr><td>40</td><td>150</td><td>5,400</td></tr>
+          <tr><td>50</td><td>200</td><td>9,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="mb-4">10 Common Use Cases for the Rainwater Harvesting Calculator</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Planning a rainwater harvesting system for your home.</li>
+        <li class="list-group-item">Estimating water savings for a sustainable garden.</li>
+        <li class="list-group-item">Calculating water collection for agricultural irrigation.</li>
+        <li class="list-group-item">Designing eco-friendly landscaping projects.</li>
+        <li class="list-group-item">Preparing for water conservation in drought-prone areas.</li>
+        <li class="list-group-item">Assessing the feasibility of off-grid water systems.</li>
+        <li class="list-group-item">Educating students or communities about water sustainability.</li>
+        <li class="list-group-item">Budgeting for rainwater storage tanks or barrels.</li>
+        <li class="list-group-item">Comparing water collection potential across different roof sizes.</li>
+        <li class="list-group-item">Supporting green building certification projects.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get("start");
+    if (startValue) {
+      document.getElementById("roofArea").value = startValue;
+    }
+
+    const calculateBtn = document.getElementById("calculateBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const resultSection = document.getElementById("resultSection");
+    const errorSection = document.getElementById("errorSection");
+    const result = document.getElementById("result");
+
+    calculateBtn.addEventListener("click", function () {
+      const roofArea = parseFloat(document.getElementById("roofArea").value);
+      const rainfall = parseFloat(document.getElementById("rainfall").value);
+
+      if (isNaN(roofArea) || isNaN(rainfall) || roofArea <= 0 || rainfall <= 0) {
+        errorSection.textContent = "Please enter valid numbers for roof area and rainfall.";
+        errorSection.style.display = "block";
+        resultSection.style.display = "none";
+        return;
+      }
+
+      const totalRainwater = (roofArea * rainfall * 0.9).toFixed(2);
+      result.textContent = `You can harvest approximately ${totalRainwater} liters of water.`;
+      resultSection.style.display = "block";
+      errorSection.style.display = "none";
+    });
+
+    resetBtn.addEventListener("click", function () {
+      document.getElementById("roofArea").value = "";
+      document.getElementById("rainfall").value = "";
+      resultSection.style.display = "none";
+      errorSection.style.display = "none";
+    });
+  });
+</script>

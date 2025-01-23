@@ -1,0 +1,143 @@
+---
+title: "Hotel Cost Calculator - Plan Your Stay Budget Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-11-10 23:23:38
+metaDescription: "Calculate your total hotel stay cost instantly with the Hotel Cost Per Night Calculator. Perfect for vacations, business trips, and more!"
+metaKeywords: "hotel cost calculator, hotel stay cost, travel budget tool, hotel expense calculator, trip cost estimator"
+tags: ["hotel cost", "travel budget", "calculator", "hotel stay", "travel planning"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h1 class="text-center text-white mb-4">Hotel Cost Per Night Calculator</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="lead text-white mb-4">Planning a trip but unsure how much your hotel stay will cost? Whether it's a weekend getaway or a month-long adventure, the Hotel Cost Per Night Calculator is here to save the day. Just plug in the nightly rate and the number of nights, and voilà—your total cost is calculated instantly. No more guesswork, no more surprises. It’s like having a personal travel assistant in your pocket, ready to make your trip planning as smooth as your morning coffee. So go ahead, crunch those numbers and focus on the fun part—packing your bags!</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center text-white mb-4">Enter the nightly rate and the number of nights to calculate the total cost.</p>
+      <form id="hotel-cost-form" class="mb-3">
+        <div class="mb-3">
+          <label for="nightly-rate" class="form-label text-white">Nightly Rate ($)</label>
+          <input type="number" class="form-control" id="nightly-rate" placeholder="Enter the cost per night" required>
+        </div>
+        <div class="mb-3">
+          <label for="number-of-nights" class="form-label text-white">Number of Nights</label>
+          <input type="number" class="form-control" id="number-of-nights" placeholder="Enter the number of nights" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Calculate Total Cost</button>
+      </form>
+      <div id="result" class="alert alert-success d-none" role="alert">
+        <strong>Total Cost:</strong> $<span id="total-cost">0</span>
+      </div>
+      <button id="reset-btn" class="btn btn-secondary w-100 mt-3">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-white text-center mb-4">How It Works</h2>
+      <p class="text-white mb-4">The Hotel Cost Per Night Calculator uses a simple formula to determine your total hotel expenses. Here's how it breaks down:</p>
+      <p class="text-white mb-4"><strong>Total Cost = Nightly Rate × Number of Nights</strong></p>
+      <p class="text-white mb-4">For example, if your hotel costs $150 per night and you're staying for 5 nights, the total cost would be $750. It’s that straightforward!</p>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th class="text-white">Nightly Rate ($)</th>
+              <th class="text-white">Number of Nights</th>
+              <th class="text-white">Total Cost ($)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-white">100</td>
+              <td class="text-white">3</td>
+              <td class="text-white">300</td>
+            </tr>
+            <tr>
+              <td class="text-white">200</td>
+              <td class="text-white">7</td>
+              <td class="text-white">1400</td>
+            </tr>
+            <tr>
+              <td class="text-white">75</td>
+              <td class="text-white">10</td>
+              <td class="text-white">750</td>
+            </tr>
+            <tr>
+              <td class="text-white">300</td>
+              <td class="text-white">2</td>
+              <td class="text-white">600</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-white text-center mb-4">Top 10 Use Cases for the Hotel Cost Calculator</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1. Planning a vacation budget for a family trip.</li>
+        <li class="list-group-item">2. Estimating costs for a business trip.</li>
+        <li class="list-group-item">3. Comparing hotel prices for different stays.</li>
+        <li class="list-group-item">4. Calculating expenses for extended stays.</li>
+        <li class="list-group-item">5. Budgeting for a romantic getaway.</li>
+        <li class="list-group-item">6. Planning a destination wedding stay.</li>
+        <li class="list-group-item">7. Estimating costs for a solo backpacking trip.</li>
+        <li class="list-group-item">8. Calculating expenses for a weekend retreat.</li>
+        <li class="list-group-item">9. Budgeting for a group vacation with friends.</li>
+        <li class="list-group-item">10. Planning a staycation in a luxury hotel.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('hotel-cost-form');
+    const nightlyRateInput = document.getElementById('nightly-rate');
+    const numberOfNightsInput = document.getElementById('number-of-nights');
+    const resultDiv = document.getElementById('result');
+    const totalCostSpan = document.getElementById('total-cost');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload nightly rate from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue)) {
+      nightlyRateInput.value = startValue;
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const nightlyRate = parseFloat(nightlyRateInput.value);
+      const numberOfNights = parseFloat(numberOfNightsInput.value);
+
+      if (isNaN(nightlyRate) || isNaN(numberOfNights) || nightlyRate < 0 || numberOfNights < 0) {
+        resultDiv.classList.remove('alert-success');
+        resultDiv.classList.add('alert-danger');
+        resultDiv.textContent = 'Please enter valid numbers.';
+        resultDiv.classList.remove('d-none');
+        return;
+      }
+
+      const totalCost = nightlyRate * numberOfNights;
+      totalCostSpan.textContent = totalCost.toLocaleString();
+      resultDiv.classList.remove('alert-danger');
+      resultDiv.classList.add('alert-success');
+      resultDiv.innerHTML = `<strong>Total Cost:</strong> $<span id="total-cost">${totalCost.toLocaleString()}</span>`;
+      resultDiv.classList.remove('d-none');
+    });
+
+    resetBtn.addEventListener('click', function () {
+      nightlyRateInput.value = '';
+      numberOfNightsInput.value = '';
+      resultDiv.classList.add('d-none');
+    });
+  });
+</script>

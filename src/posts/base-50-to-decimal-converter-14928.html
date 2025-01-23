@@ -1,0 +1,171 @@
+---
+title: "Base-50 to Decimal Converter | Quick & Accurate Conversion Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-12-03 12:39:51
+metaDescription: "Convert Base-50 numbers to decimals instantly with our easy-to-use tool. Perfect for decoding, learning, or simplifying number systems!"
+metaKeywords: "base-50 to decimal, base-50 converter, number system conversion, base-50 decoder, decimal converter, base-50 calculator"
+tags: ["Base-50", "Decimal Converter", "Numeral Systems", "Math Tools", "Web App"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .error-message {
+    color: #dc3545;
+    font-size: 0.875em;
+    margin-top: 0.25rem;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 text-center mb-4">
+        <h1 class="display-5">Base-50 to Decimal Converter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-12 text-center mb-4">
+      <p class="lead fs-3">Ever found yourself staring at a Base-50 number, scratching your head, and wondering, "What does this even mean?" You're not alone! Base-50 numbers can feel like a secret code only mathematicians can crack. But guess what? Our Base-50 to Decimal Converter is here to save the day! Whether you're decoding a quirky project or just curious about number systems, this tool transforms those mysterious Base-50 digits into plain, simple decimals in a snap. No math degree required—just enter your number, hit convert, and voilà! Life just got a little easier, and you might even impress your friends with your newfound number wizardry. 😉</p>
+    </div>
+  </div>
+</div>
+        <p class="lead">Enter a Base-50 number to convert it to Decimal (Base-10).</p>
+      </div>
+      <div class="col-12 mb-3">
+        <label for="base50-input" class="form-label">Enter Base-50 Number</label>
+        <input type="text" id="base50-input" class="form-control" placeholder="e.g., 1A3" aria-label="Base-50 Number">
+        <div id="error-message" class="error-message"></div>
+      </div>
+      <div class="col-12 mb-3">
+        <button id="convert-btn" class="btn btn-primary w-100">Convert</button>
+      </div>
+      <div class="col-12 mb-3">
+        <label for="decimal-output" class="form-label">Decimal Result</label>
+        <input type="text" id="decimal-output" class="form-control" readonly aria-label="Decimal Result">
+      </div>
+      <div class="col-12">
+        <button id="reset-btn" class="btn btn-secondary w-100">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <h2 class="fs-4 mb-3">How It Works</h2>
+      <p class="mb-4">Think of Base-50 as a language with 50 unique symbols (0-9, A-Z, a-z). Our tool translates each symbol into its corresponding value, multiplies it by the right power of 50, and adds everything up to give you the final decimal number. For example, "1A3" in Base-50 is calculated as:</p>
+      <p class="mb-4"><strong>1 × 50² + A × 50¹ + 3 × 50⁰ = 2500 + 10 × 50 + 3 × 1 = 2500 + 500 + 3 = 3003</strong></p>
+      <p class="mb-4">Here are a few examples to help you get the hang of it:</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Base-50</th>
+            <th scope="col">Decimal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1A</td><td>60</td></tr>
+          <tr><td>2B</td><td>107</td></tr>
+          <tr><td>3C</td><td>154</td></tr>
+          <tr><td>4D</td><td>201</td></tr>
+          <tr><td>5E</td><td>248</td></tr>
+          <tr><td>6F</td><td>295</td></tr>
+          <tr><td>7G</td><td>342</td></tr>
+          <tr><td>8H</td><td>389</td></tr>
+          <tr><td>9I</td><td>436</td></tr>
+          <tr><td>10J</td><td>500</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <h2 class="fs-4 mb-3">10 Common Use Cases for the Base-50 to Decimal Converter</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Decoding Base-50 encoded data in software development.</li>
+        <li class="list-group-item">Understanding unique identifiers in databases.</li>
+        <li class="list-group-item">Converting Base-50 timestamps to readable dates.</li>
+        <li class="list-group-item">Translating Base-50 values in cryptographic applications.</li>
+        <li class="list-group-item">Simplifying Base-50 numbers in academic research.</li>
+        <li class="list-group-item">Converting Base-50 codes in inventory management systems.</li>
+        <li class="list-group-item">Deciphering Base-50 values in gaming algorithms.</li>
+        <li class="list-group-item">Translating Base-50 coordinates in mapping tools.</li>
+        <li class="list-group-item">Simplifying Base-50 values in financial systems.</li>
+        <li class="list-group-item">Learning and teaching number system conversions in classrooms.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const base50Input = document.getElementById('base50-input');
+    const decimalOutput = document.getElementById('decimal-output');
+    const convertBtn = document.getElementById('convert-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const errorMessage = document.getElementById('error-message');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      base50Input.value = startValue;
+    }
+
+    const validateInput = (input) => {
+      const validChars = /^[0-9A-Za-z]+$/;
+      if (!input.match(validChars)) {
+        return false;
+      }
+      return true;
+    };
+
+    const convertBase50ToDecimal = (base50Number) => {
+      const base50Chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+      let decimalValue = 0;
+      for (let i = 0; i < base50Number.length; i++) {
+        const char = base50Number[i];
+        const charValue = base50Chars.indexOf(char);
+        if (charValue === -1) {
+          return null;
+        }
+        decimalValue = decimalValue * 50 + charValue;
+      }
+      return decimalValue;
+    };
+
+    base50Input.addEventListener('input', () => {
+      const input = base50Input.value.trim();
+      if (!validateInput(input)) {
+        errorMessage.textContent = 'Invalid Base-50 number. Please enter a valid Base-50 number.';
+        convertBtn.disabled = true;
+      } else {
+        errorMessage.textContent = '';
+        convertBtn.disabled = false;
+      }
+    });
+
+    convertBtn.addEventListener('click', () => {
+      const input = base50Input.value.trim();
+      if (!validateInput(input)) {
+        errorMessage.textContent = 'Invalid Base-50 number. Please enter a valid Base-50 number.';
+        return;
+      }
+      const decimalValue = convertBase50ToDecimal(input);
+      if (decimalValue === null) {
+        errorMessage.textContent = 'Invalid Base-50 number. Please enter a valid Base-50 number.';
+        decimalOutput.value = '';
+      } else {
+        decimalOutput.value = decimalValue;
+      }
+    });
+
+    resetBtn.addEventListener('click', () => {
+      base50Input.value = '';
+      decimalOutput.value = '';
+      errorMessage.textContent = '';
+      convertBtn.disabled = false;
+    });
+  });
+</script>

@@ -1,0 +1,115 @@
+---
+title: "Hexadecimal Character Counter - Count 0-9, A-F Characters Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-08-01 20:32:28
+metaDescription: "Count and highlight hexadecimal characters in any text effortlessly. Perfect for debugging, data analysis, and learning about hex formats."
+metaKeywords: "hexadecimal counter, hex character count, count hex characters, hexadecimal tool, debug hex values, hex data analysis, hexadecimal format, hex character finder, count 0-9 A-F, hex string analyzer"
+tags: ["hexadecimal", "character counter", "developer tools", "web utilities", "hexadecimal converter"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <h1 class="text-center mb-4">Hexadecimal Character Counter</h1><div class="container mb-5">
+  <p class="lead">Why does counting hexadecimal characters feel like deciphering ancient code? Whether you're debugging software, analyzing data, or just curious about how many hex characters are hiding in your text, this tool is here to save the day. Simply paste your text, and it instantly counts every hexadecimal character (0-9, A-F) while highlighting them for easy identification. No more squinting at your screen or manual counting—this tool makes it effortless, accurate, and even a little fun. Say goodbye to hex headaches and hello to smoother workflows!</p>
+</div>
+  <p class="text-center mb-4">Enter text below to count the number of hexadecimal characters (0-9, A-F).</p>
+  
+  <div class="mb-3">
+    <textarea id="input-text" class="form-control bg-dark text-white" rows="5" placeholder="Enter your text here..."></textarea>
+  </div>
+  
+  <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4">
+    <button id="count-btn" class="btn btn-primary me-md-2">Count</button>
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+  
+  <div class="text-center">
+    <h3>Hexadecimal Character Count: <span id="count-output" class="badge bg-primary">0</span></h3>
+  </div>
+  
+  <div id="highlight-output" class="mt-4"></div>
+</div>
+
+<div class="container mb-5">
+  <h2 class="mb-4">How It Works</h2>
+  <p>The tool scans your input text for any character that falls within the hexadecimal range: digits (0-9) and letters (A-F, case-insensitive). It then counts these characters and highlights them so you can see exactly where they appear. Think of it as a digital magnifying glass for hex characters!</p>
+  
+  <h3 class="mt-4 mb-3">Example Counts</h3>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Input Text</th>
+          <th>Hexadecimal Characters Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1A3F</td>
+          <td>4</td>
+        </tr>
+        <tr>
+          <td>Hello123</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>ABCDEF</td>
+          <td>6</td>
+        </tr>
+        <tr>
+          <td>No Hex Here!</td>
+          <td>0</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container mb-5">
+  <h2 class="mb-4">Top 10 Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">1. Debugging code snippets to identify hexadecimal values.</li>
+    <li class="list-group-item">2. Validating input data for systems that require hexadecimal formats.</li>
+    <li class="list-group-item">3. Analyzing log files for hex-encoded information.</li>
+    <li class="list-group-item">4. Teaching or learning about hexadecimal numbering systems.</li>
+    <li class="list-group-item">5. Extracting hex values from configuration files.</li>
+    <li class="list-group-item">6. Counting hex characters in cryptographic keys or hashes.</li>
+    <li class="list-group-item">7. Preparing data for machine learning or data science projects.</li>
+    <li class="list-group-item">8. Highlighting hex values in technical documentation.</li>
+    <li class="list-group-item">9. Verifying the integrity of encoded strings.</li>
+    <li class="list-group-item">10. Simplifying data cleanup tasks by isolating hex characters.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const countOutput = document.getElementById('count-output');
+    const highlightOutput = document.getElementById('highlight-output');
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    const countHexChars = (text) => {
+      const hexChars = text.match(/[0-9A-Fa-f]/g) || [];
+      return hexChars.length;
+    };
+
+    const highlightHexChars = (text) => {
+      return text.replace(/([0-9A-Fa-f])/g, '<span class="badge bg-success me-1">$1</span>');
+    };
+
+    countBtn.addEventListener('click', () => {
+      const text = inputText.value;
+      const count = countHexChars(text);
+      countOutput.textContent = count;
+      highlightOutput.innerHTML = highlightHexChars(text);
+    });
+
+    resetBtn.addEventListener('click', () => {
+      inputText.value = '';
+      countOutput.textContent = '0';
+      highlightOutput.innerHTML = '';
+    });
+  });
+</script>

@@ -1,0 +1,184 @@
+---
+title: "Emoji-Aware Sorter: Organize Text & Emojis Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-03-15 01:55:29
+metaDescription: "Sort text and emojis effortlessly with the Emoji-Aware Sorter. Organize lists, chat logs, and more in seconds!"
+metaKeywords: "emoji sorter, sort text and emojis, emoji organizer, emoji list sorter, text and emoji sorter, emoji tool, sort emojis, organize emojis, emoji sorter tool"
+tags: ["emoji", "sorting", "productivity", "tools", "web-app"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-4">Emoji-Aware Sorter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="lead text-center mb-4">
+        Why does sorting a mix of text and emojis feel like solving a puzzle? Whether you're organizing a fun to-do list, cleaning up chat logs, or just trying to make sense of a jumble of emojis and words, the <strong>Emoji-Aware Sorter</strong> is here to save the day. This nifty tool effortlessly separates and sorts your text and emojis in the order you choose—whether you want emojis first or text first, A-Z or Z-A. It’s like having a personal organizer for your digital chaos, minus the stress. Say goodbye to messy lists and hello to a cleaner, more organized life—one emoji at a time!
+      </p>
+    </div>
+  </div>
+</div>
+      <div class="mb-3">
+        <textarea id="input-text" class="form-control bg-dark text-white" rows="6" placeholder="Enter your list of text and emojis here..."></textarea>
+      </div>
+      <div class="d-flex justify-content-between mb-3">
+        <button id="clear-btn" class="btn btn-secondary">Clear</button>
+        <select id="sort-order" class="form-select bg-dark text-white">
+          <option value="text-asc">A-Z (Text First)</option>
+          <option value="text-desc">Z-A (Text First)</option>
+          <option value="emoji-asc">Emojis First (A-Z)</option>
+          <option value="emoji-desc">Emojis First (Z-A)</option>
+        </select>
+        <button id="sort-btn" class="btn btn-primary">Sort</button>
+      </div>
+      <div class="mb-3">
+        <textarea id="output-text" class="form-control bg-dark text-white" rows="6" placeholder="Your sorted list will appear here..." readonly></textarea>
+      </div>
+      <div class="d-flex justify-content-end">
+        <button id="copy-btn" class="btn btn-success">Copy</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h3 class="mb-3">How It Works</h3>
+      <p class="mb-4">
+        The Emoji-Aware Sorter uses a simple yet powerful process to organize your list:
+        <ol>
+          <li>It scans each line of your input and categorizes them into two groups: <strong>text</strong> and <strong>emojis</strong>.</li>
+          <li>Depending on your chosen sorting order, it arranges the text and emojis alphabetically—either A-Z or Z-A.</li>
+          <li>You decide if you want emojis to appear first or last in the sorted list.</li>
+          <li>The final result is a neatly organized list, ready to be copied or shared.</li>
+        </ol>
+      </p>
+
+      <h3 class="mb-3">Example Sorted Lists</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Input</th>
+              <th>Sorted (Text First, A-Z)</th>
+              <th>Sorted (Emojis First, Z-A)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>🍎 Apple<br>🍌 Banana<br>Zebra<br>🦓 Zebra</td>
+              <td>Apple<br>Banana<br>Zebra<br>🍎<br>🍌<br>🦓</td>
+              <td>🦓<br>🍌<br>🍎<br>Zebra<br>Banana<br>Apple</td>
+            </tr>
+            <tr>
+              <td>📚 Books<br>📱 Phone<br>🐶 Dog<br>Cat</td>
+              <td>Books<br>Cat<br>Dog<br>Phone<br>📚<br>📱<br>🐶</td>
+              <td>🐶<br>📱<br>📚<br>Phone<br>Dog<br>Cat<br>Books</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h3 class="mb-3">Top 10 Use Cases for the Emoji-Aware Sorter</h3>
+      <ul class="list-group mb-4">
+        <li class="list-group-item">Organizing to-do lists with emojis for visual appeal.</li>
+        <li class="list-group-item">Cleaning up chat logs or message histories.</li>
+        <li class="list-group-item">Sorting emoji-based mood trackers or habit trackers.</li>
+        <li class="list-group-item">Preparing presentations with emoji-enhanced bullet points.</li>
+        <li class="list-group-item">Creating visually engaging social media posts or captions.</li>
+        <li class="list-group-item">Sorting emoji reactions for surveys or feedback forms.</li>
+        <li class="list-group-item">Managing event schedules with emoji icons for different activities.</li>
+        <li class="list-group-item">Organizing grocery lists with emojis for quick identification.</li>
+        <li class="list-group-item">Sorting emoji-based flashcards for learning or teaching.</li>
+        <li class="list-group-item">Preparing fun, emoji-filled agendas for meetings or parties.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const outputText = document.getElementById('output-text');
+    const sortBtn = document.getElementById('sort-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const sortOrder = document.getElementById('sort-order');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputText.value = startValue;
+    }
+
+    const isEmoji = (char) => {
+      const regex = /[\u{1F600}-\u{1F6FF}]/u;
+      return regex.test(char);
+    };
+
+    const sortList = (list, order) => {
+      const textItems = [];
+      const emojiItems = [];
+
+      list.forEach(item => {
+        if (isEmoji(item.trim().charAt(0))) {
+          emojiItems.push(item);
+        } else {
+          textItems.push(item);
+        }
+      });
+
+      const sortFn = (a, b) => a.localeCompare(b);
+      const reverseSortFn = (a, b) => b.localeCompare(a);
+
+      if (order === 'text-asc') {
+        textItems.sort(sortFn);
+        emojiItems.sort(sortFn);
+        return [...textItems, ...emojiItems];
+      } else if (order === 'text-desc') {
+        textItems.sort(reverseSortFn);
+        emojiItems.sort(reverseSortFn);
+        return [...textItems, ...emojiItems];
+      } else if (order === 'emoji-asc') {
+        textItems.sort(sortFn);
+        emojiItems.sort(sortFn);
+        return [...emojiItems, ...textItems];
+      } else if (order === 'emoji-desc') {
+        textItems.sort(reverseSortFn);
+        emojiItems.sort(reverseSortFn);
+        return [...emojiItems, ...textItems];
+      }
+    };
+
+    sortBtn.addEventListener('click', () => {
+      const input = inputText.value.trim();
+      if (!input) {
+        outputText.value = 'Please enter a list to sort.';
+        return;
+      }
+
+      const list = input.split('\n').filter(item => item.trim() !== '');
+      const sortedList = sortList(list, sortOrder.value);
+      outputText.value = sortedList.join('\n');
+    });
+
+    clearBtn.addEventListener('click', () => {
+      inputText.value = '';
+      outputText.value = '';
+    });
+
+    copyBtn.addEventListener('click', () => {
+      outputText.select();
+      document.execCommand('copy');
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => {
+        copyBtn.textContent = 'Copy';
+      }, 2000);
+    });
+  });
+</script>

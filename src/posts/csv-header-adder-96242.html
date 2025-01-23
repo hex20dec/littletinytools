@@ -1,0 +1,197 @@
+---
+title: "CSV Header Adder - Add Headers to CSV Files Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-10-29 08:46:49
+metaDescription: "Add custom headers to your CSV files instantly. Simplify data organization with the CSV Header Adder—download clean, labeled files in seconds."
+metaKeywords: "CSV header tool, CSV file organizer, add headers to CSV, CSV data labeling, CSV file editor, CSV column headers, CSV file cleaner, CSV header generator, CSV data tool, CSV file management"
+tags: ["CSV", "Data Tools", "Web App", "Productivity", "Bootstrap"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="display-4 text-center mb-4">CSV Header Adder</h1><div class="container-fluid bg-dark text-white p-4">
+  <p class="lead text-center mb-4">CSV files are everywhere, but missing headers? That’s a headache waiting to happen. Ever spent hours manually labeling columns or worse, guessing what the data represents? The CSV Header Adder is here to save the day. Upload your CSV, add custom headers in seconds, and download a clean, organized file ready for action. Whether you're a data analyst, a small business owner, or just someone trying to make sense of a messy spreadsheet, this tool makes life simpler. No more guessing games—just clarity and efficiency, one header at a time.</p>
+</div>
+  <p class="lead text-center mb-4">Upload a CSV file and add a header row in seconds.</p>
+
+  <div class="mb-4">
+    <label for="csv-file" class="form-label">Upload CSV File</label>
+    <input type="file" class="form-control bg-dark text-white" id="csv-file" accept=".csv">
+    <div id="file-error" class="alert alert-danger mt-2 d-none">Please upload a valid CSV file.</div>
+  </div>
+
+  <div id="header-inputs" class="row mb-4"></div>
+
+  <div class="mb-4">
+    <button id="add-headers-btn" class="btn btn-primary w-100" disabled>Add Headers</button>
+    <div id="header-error" class="alert alert-warning mt-2 d-none">Please fill in all header fields.</div>
+  </div>
+
+  <div id="download-section" class="mb-4 d-none">
+    <button id="download-btn" class="btn btn-success w-100">Download CSV</button>
+  </div>
+
+  <div id="preview-section" class="d-none">
+    <h2 class="h4 mb-3">Preview:</h2>
+    <div class="table-responsive">
+      <table id="preview-table" class="table table-dark table-striped">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-dark text-white p-4">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h2 class="h4 mb-3">How It Works</h2>
+      <p class="mb-4">The CSV Header Adder follows a simple process to make your data work for you:</p>
+      <ol class="mb-4">
+        <li><strong>Upload Your CSV:</strong> Choose your file, and the tool reads its structure automatically.</li>
+        <li><strong>Add Headers:</strong> Fill in custom headers for each column—no coding required.</li>
+        <li><strong>Preview & Download:</strong> See your updated file instantly and download it with one click.</li>
+      </ol>
+      <p class="mb-4">It’s like giving your CSV file a name tag—clear, concise, and ready to impress.</p>
+      <h2 class="h4 mb-3">Example Table</h2>
+      <div class="table-responsive">
+        <table class="table table-dark table-striped">
+          <thead>
+            <tr>
+              <th>Column 1</th>
+              <th>Column 2</th>
+              <th>Column 3</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Data 1</td>
+              <td>Data 2</td>
+              <td>Data 3</td>
+            </tr>
+            <tr>
+              <td>Data 4</td>
+              <td>Data 5</td>
+              <td>Data 6</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h2 class="h4 mb-3">10 Common Use Cases for the CSV Header Adder</h2>
+      <ul class="mb-4">
+        <li><strong>Data Analysis:</strong> Quickly label columns for easier insights.</li>
+        <li><strong>Small Business Reporting:</strong> Organize sales or inventory data.</li>
+        <li><strong>Academic Research:</strong> Add headers to survey or experiment results.</li>
+        <li><strong>Marketing Campaigns:</strong> Clean up customer data for targeted outreach.</li>
+        <li><strong>Financial Planning:</strong> Label budget or expense tracking files.</li>
+        <li><strong>E-commerce:</strong> Prepare product catalogs for upload.</li>
+        <li><strong>Event Planning:</strong> Organize guest lists or RSVPs.</li>
+        <li><strong>HR Management:</strong> Update employee records with clear labels.</li>
+        <li><strong>Personal Projects:</strong> Make sense of personal data like fitness logs.</li>
+        <li><strong>Data Migration:</strong> Prepare files for transfer to new systems.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('csv-file');
+    const headerInputsDiv = document.getElementById('header-inputs');
+    const addHeadersBtn = document.getElementById('add-headers-btn');
+    const downloadSection = document.getElementById('download-section');
+    const downloadBtn = document.getElementById('download-btn');
+    const previewSection = document.getElementById('preview-section');
+    const previewTable = document.getElementById('preview-table');
+    const fileError = document.getElementById('file-error');
+    const headerError = document.getElementById('header-error');
+    let csvData = [];
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file && file.type === 'text/csv') {
+        fileError.classList.add('d-none');
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          csvData = event.target.result.split('\n').map(row => row.split(','));
+          generateHeaderInputs(csvData[0].length);
+          addHeadersBtn.disabled = false;
+        };
+        reader.readAsText(file);
+      } else {
+        fileError.classList.remove('d-none');
+        addHeadersBtn.disabled = true;
+      }
+    });
+
+    const generateHeaderInputs = (numColumns) => {
+      headerInputsDiv.innerHTML = '';
+      for (let i = 0; i < numColumns; i++) {
+        const colDiv = document.createElement('div');
+        colDiv.className = 'col-md-3 mb-3';
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'form-control bg-dark text-white';
+        input.placeholder = `Header ${i + 1}`;
+        input.required = true;
+        if (i === 0 && new URLSearchParams(window.location.search).has('start')) {
+          input.value = new URLSearchParams(window.location.search).get('start');
+        }
+        colDiv.appendChild(input);
+        headerInputsDiv.appendChild(colDiv);
+      }
+    };
+
+    addHeadersBtn.addEventListener('click', () => {
+      const inputs = headerInputsDiv.querySelectorAll('input');
+      const headers = Array.from(inputs).map(input => input.value.trim());
+      if (headers.some(header => header === '')) {
+        headerError.classList.remove('d-none');
+        return;
+      }
+      headerError.classList.add('d-none');
+      csvData.unshift(headers);
+      renderPreviewTable(csvData);
+      downloadSection.classList.remove('d-none');
+      previewSection.classList.remove('d-none');
+    });
+
+    const renderPreviewTable = (data) => {
+      previewTable.innerHTML = '';
+      const thead = document.createElement('thead');
+      const tbody = document.createElement('tbody');
+      const headerRow = document.createElement('tr');
+      data[0].forEach(header => {
+        const th = document.createElement('th');
+        th.textContent = header;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      previewTable.appendChild(thead);
+
+      data.slice(1).forEach(row => {
+        const tr = document.createElement('tr');
+        row.forEach(cell => {
+          const td = document.createElement('td');
+          td.textContent = cell;
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+      previewTable.appendChild(tbody);
+    };
+
+    downloadBtn.addEventListener('click', () => {
+      const csvContent = csvData.map(row => row.join(',')).join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'updated_csv.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  });
+</script>

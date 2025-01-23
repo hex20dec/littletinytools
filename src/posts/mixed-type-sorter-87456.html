@@ -1,0 +1,175 @@
+---
+title: "Mixed-Type Sorter: Organize Your Data Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-03-13 22:33:41
+metaDescription: "Organize mixed data effortlessly with the Mixed-Type Sorter. Categorize numbers, dates, strings, and more in seconds!"
+metaKeywords: "mixed data sorter, data organizer, sort numbers and dates, categorize data, clean data tool, data sorting tool, data organizer tool, online data sorter, sort mixed data, data cleaning tool"
+tags: ["data-sorting", "web-tool", "productivity", "data-organization", "javascript"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Mixed-Type Sorter</h1><div class="container-fluid bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <strong class="display-4">Mixed-Type Sorter</strong>
+    <p class="lead">Ever felt overwhelmed by a jumble of numbers, dates, and random words? You’re not alone. Whether it’s a messy dataset, a cluttered note, or a chaotic list, the Mixed-Type Sorter is here to rescue you. Simply paste your data, hit “Sort,” and watch as it magically organizes everything into neat categories: numbers, strings, dates, and more. No more manual sorting or endless scrolling—just clean, categorized data in seconds. It’s like having a personal assistant for your messy lists!</p>
+  </header>
+</div>
+    <p class="lead">Enter your mixed data below, and we'll sort it by type for you!</p>
+  </header>
+
+  <div class="mb-4">
+    <textarea id="input-data" class="form-control bg-dark text-white" rows="5" placeholder="Paste or type your mixed data here (e.g., 123, apple, 2023-10-01, banana)..."></textarea>
+    <div class="d-flex justify-content-between mt-2">
+      <button id="sort-btn" class="btn btn-primary">Sort</button>
+      <button id="reset-btn" class="btn btn-secondary">Reset</button>
+    </div>
+    <div id="error-message" class="alert alert-warning mt-2 d-none" role="alert"></div>
+  </div>
+
+  <div id="output-section" class="d-none">
+    <div class="mb-4">
+      <h2 class="h4">Numbers</h2>
+      <ul id="numbers-list" class="list-group bg-dark"></ul>
+    </div>
+    <div class="mb-4">
+      <h2 class="h4">Strings</h2>
+      <ul id="strings-list" class="list-group bg-dark"></ul>
+    </div>
+    <div class="mb-4">
+      <h2 class="h4">Dates</h2>
+      <ul id="dates-list" class="list-group bg-dark"></ul>
+    </div>
+    <div class="mb-4">
+      <h2 class="h4">Other</h2>
+      <ul id="other-list" class="list-group bg-dark"></ul>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-dark text-white p-4">
+  <div class="row">
+    <div class="col-lg-8">
+      <h3 class="h4 mb-3">How It Works</h3>
+      <p>The Mixed-Type Sorter takes your input and applies a simple but smart logic to categorize it:</p>
+      <ol>
+        <li><strong>Numbers:</strong> If the item is a valid number (like 42 or 3.14), it gets added to the numbers list.</li>
+        <li><strong>Dates:</strong> If the item is a recognizable date format (like 2023-10-01), it’s sorted into the dates category.</li>
+        <li><strong>Strings:</strong> If it’s a word or phrase (like “apple” or “hello world”), it goes into the strings list.</li>
+        <li><strong>Other:</strong> Anything that doesn’t fit the above categories lands in the “other” bucket.</li>
+      </ol>
+      <p>Once categorized, the tool sorts each group: numbers from smallest to largest, strings alphabetically, and dates chronologically. It’s that simple!</p>
+    </div>
+    <div class="col-lg-4">
+      <h3 class="h4 mb-3">Example Sorting</h3>
+      <table class="table table-dark">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Category</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>42</td>
+            <td>Numbers</td>
+          </tr>
+          <tr>
+            <td>banana</td>
+            <td>Strings</td>
+          </tr>
+          <tr>
+            <td>2023-10-01</td>
+            <td>Dates</td>
+          </tr>
+          <tr>
+            <td>#tag</td>
+            <td>Other</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <h3 class="h4 mb-3">Top 10 Use Cases for the Mixed-Type Sorter</h3>
+  <ul class="list-group bg-dark">
+    <li class="list-group-item bg-dark text-white">1. Cleaning up messy spreadsheets with mixed data types.</li>
+    <li class="list-group-item bg-dark text-white">2. Organizing notes that include dates, numbers, and text.</li>
+    <li class="list-group-item bg-dark text-white">3. Sorting product data for e-commerce listings.</li>
+    <li class="list-group-item bg-dark text-white">4. Preparing data for reports or presentations.</li>
+    <li class="list-group-item bg-dark text-white">5. Separating timestamps from log files.</li>
+    <li class="list-group-item bg-dark text-white">6. Sorting inventory lists with item names, quantities, and dates.</li>
+    <li class="list-group-item bg-dark text-white">7. Organizing event schedules with mixed date and text entries.</li>
+    <li class="list-group-item bg-dark text-white">8. Cleaning up CSV files before importing them into databases.</li>
+    <li class="list-group-item bg-dark text-white">9. Sorting mixed data from surveys or feedback forms.</li>
+    <li class="list-group-item bg-dark text-white">10. Streamlining data analysis by pre-sorting datasets.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputData = document.getElementById('input-data');
+    const sortBtn = document.getElementById('sort-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const errorMessage = document.getElementById('error-message');
+    const outputSection = document.getElementById('output-section');
+    const numbersList = document.getElementById('numbers-list');
+    const stringsList = document.getElementById('strings-list');
+    const datesList = document.getElementById('dates-list');
+    const otherList = document.getElementById('other-list');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startData = urlParams.get('start');
+    if (startData) {
+      inputData.value = startData;
+    }
+
+    const sortData = () => {
+      const input = inputData.value.trim();
+      if (!input) {
+        errorMessage.textContent = 'Please enter some data to sort!';
+        errorMessage.classList.remove('d-none');
+        outputSection.classList.add('d-none');
+        return;
+      }
+
+      const items = input.split(',').map(item => item.trim());
+      const numbers = [];
+      const strings = [];
+      const dates = [];
+      const other = [];
+
+      items.forEach(item => {
+        if (!isNaN(item) && item !== '') {
+          numbers.push(Number(item));
+        } else if (!isNaN(Date.parse(item))) {
+          dates.push(new Date(item).toISOString().split('T')[0]);
+        } else if (typeof item === 'string' && item !== '') {
+          strings.push(item);
+        } else {
+          other.push(item);
+        }
+      });
+
+      numbers.sort((a, b) => a - b);
+      strings.sort((a, b) => a.localeCompare(b));
+      dates.sort((a, b) => new Date(a) - new Date(b));
+
+      numbersList.innerHTML = numbers.map(num => `<li class="list-group-item bg-dark text-white">${num}</li>`).join('');
+      stringsList.innerHTML = strings.map(str => `<li class="list-group-item bg-dark text-white">${str}</li>`).join('');
+      datesList.innerHTML = dates.map(date => `<li class="list-group-item bg-dark text-white">${date}</li>`).join('');
+      otherList.innerHTML = other.map(item => `<li class="list-group-item bg-dark text-white">${item}</li>`).join('');
+
+      errorMessage.classList.add('d-none');
+      outputSection.classList.remove('d-none');
+    };
+
+    const resetApp = () => {
+      inputData.value = '';
+      errorMessage.classList.add('d-none');
+      outputSection.classList.add('d-none');
+    };
+
+    sortBtn.addEventListener('click', sortData);
+    resetBtn.addEventListener('click', resetApp);
+  });
+</script>

@@ -1,0 +1,138 @@
+---
+title: "CSV Header Capitalizer: Automatically Capitalize CSV Headers Online"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-07-04 08:43:03
+metaDescription: "Automatically capitalize CSV headers with this easy-to-use tool. Perfect for data cleanup, analysis, and reporting. Try it now!"
+metaKeywords: "csv header capitalizer, capitalize csv headers, csv cleanup tool, data formatting tool, csv header fixer, uppercase csv headers, csv header converter, data analysis tool, csv file cleaner, csv header tool"
+tags: ["CSV", "Data Formatting", "Productivity Tool", "Web App", "Data Analysis"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="text-center mb-4">CSV Header Capitalizer</h1><div class="container bg-dark text-white p-4">
+  <h2 class="text-center mb-4">CSV Header Capitalizer</h2>
+  <p class="text-center mb-4">Ever spent hours manually fixing CSV headers because they’re in lowercase or messy? It’s frustrating, right? The CSV Header Capitalizer is here to save the day! With just a few clicks, this tool automatically transforms your CSV headers into clean, uniform uppercase text. Whether you’re a data analyst, a marketer, or just someone who hates repetitive tasks, this tool makes your life easier. Say goodbye to manual edits and hello to more time for the fun stuff. Try it now—your sanity will thank you!</p>
+</div>
+  <p class="text-center mb-4">Upload your CSV file to automatically capitalize the headers.</p>
+
+  <div class="d-flex justify-content-center mb-3">
+    <input type="file" id="csvFileInput" class="form-control w-50" accept=".csv" aria-label="Choose CSV File">
+    <button id="uploadButton" class="btn btn-primary ms-2">Upload and Process</button>
+  </div>
+
+  <div id="statusMessage" class="text-center mb-3"></div>
+  <div class="d-flex justify-content-center">
+    <a id="downloadLink" class="btn btn-success d-none">Download Capitalized CSV</a>
+  </div>
+</div>
+
+<div class="container bg-light p-4">
+  <h3 class="mb-4">How It Works</h3>
+  <p>The CSV Header Capitalizer works in three simple steps:</p>
+  <ol>
+    <li>Upload your CSV file using the "Choose File" button.</li>
+    <li>The tool reads the first row (headers) and converts them to uppercase.</li>
+    <li>Download the updated CSV file with capitalized headers—ready to use!</li>
+  </ol>
+  <p>It’s like having a personal assistant for your data cleanup needs!</p>
+  
+  <h4 class="mt-4">Example Output</h4>
+  <p>Here’s what happens when you upload a CSV with headers like "name, age, location":</p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Original Header</th>
+        <th>Capitalized Header</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>name</td>
+        <td>NAME</td>
+      </tr>
+      <tr>
+        <td>age</td>
+        <td>AGE</td>
+      </tr>
+      <tr>
+        <td>location</td>
+        <td>LOCATION</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container bg-dark text-white p-4">
+  <h3 class="mb-4">10 Common Use Cases</h3>
+  <ul>
+    <li>Standardizing headers for data analysis in Excel or Google Sheets.</li>
+    <li>Preparing CSV files for import into databases or CRMs.</li>
+    <li>Ensuring consistency in headers for machine learning datasets.</li>
+    <li>Cleaning up messy CSV files from multiple sources.</li>
+    <li>Preparing data for reporting tools like Tableau or Power BI.</li>
+    <li>Converting headers for compliance with specific data formats.</li>
+    <li>Simplifying data sharing with teams by using uniform headers.</li>
+    <li>Automating repetitive tasks in data preparation workflows.</li>
+    <li>Improving readability of CSV files for non-technical users.</li>
+    <li>Saving time on manual header formatting for large datasets.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const csvFileInput = document.getElementById('csvFileInput');
+    const uploadButton = document.getElementById('uploadButton');
+    const statusMessage = document.getElementById('statusMessage');
+    const downloadLink = document.getElementById('downloadLink');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      csvFileInput.value = startValue;
+    }
+
+    uploadButton.addEventListener('click', () => {
+      const file = csvFileInput.files[0];
+      if (!file || file.type !== 'text/csv') {
+        statusMessage.textContent = 'Please upload a valid CSV file.';
+        statusMessage.classList.add('text-danger');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target.result;
+        const rows = text.split('\n');
+        if (rows.length === 0) {
+          statusMessage.textContent = 'The file is empty or has no headers.';
+          statusMessage.classList.add('text-danger');
+          return;
+        }
+
+        const headers = rows[0].split(',');
+        if (headers.length === 0) {
+          statusMessage.textContent = 'The file has no headers.';
+          statusMessage.classList.add('text-danger');
+          return;
+        }
+
+        const capitalizedHeaders = headers.map(header => header.trim().toUpperCase());
+        rows[0] = capitalizedHeaders.join(',');
+
+        const processedCsv = rows.join('\n');
+        const blob = new Blob([processedCsv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+
+        downloadLink.href = url;
+        downloadLink.download = 'capitalized_headers.csv';
+        downloadLink.classList.remove('d-none');
+
+        statusMessage.textContent = 'File uploaded successfully. Headers capitalized.';
+        statusMessage.classList.remove('text-danger');
+        statusMessage.classList.add('text-success');
+      };
+
+      reader.onerror = () => {
+        statusMessage.textContent = 'Error reading the file. Please try again.';
+        statusMessage.classList.add('text-danger');
+      };
+
+      reader.readAsText(file);
+    });
+  });
+</script>

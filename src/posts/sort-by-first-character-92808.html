@@ -1,0 +1,118 @@
+---
+title: "Alphabetize Your List Instantly - Simple & Fast Sorting Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-09-08 18:34:24
+metaDescription: "Alphabetize your lists instantly with this easy-to-use tool. Perfect for organizing groceries, to-dos, and more. Try it now!"
+metaKeywords: "alphabetizer, sort list, organize list, alphabetical order, list organizer, online tool, easy sorting, A to Z sorter"
+tags: ["sorting", "alphabetize", "text tool", "productivity", "list organizer"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-4">Alphabetize Your List Instantly</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="lead fs-3">Got a messy list that’s driving you up the wall? Whether it’s a grocery list, a to-do list, or even a list of your favorite movies, keeping things organized can feel like a chore. That’s where our Alphabetizer comes in! This nifty tool sorts your list alphabetically in seconds, so you can stop stressing and start focusing on what really matters. Just paste your items, hit “Sort,” and watch the magic happen. Perfect for students, professionals, or anyone who loves a little order in their life. Say goodbye to chaos and hello to simplicity!</p>
+    </div>
+  </div>
+</div>
+      <div class="mb-3">
+        <textarea id="input-text" class="form-control bg-dark text-white" rows="10" placeholder="Enter your list here, one item per line."></textarea>
+      </div>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-3">
+        <button id="sort-btn" class="btn btn-primary me-md-2">Sort</button>
+        <button id="clear-btn" class="btn btn-secondary">Clear</button>
+      </div>
+      <div class="mb-3">
+        <textarea id="output-text" class="form-control bg-dark text-white" rows="10" placeholder="Sorted list will appear here." readonly></textarea>
+      </div>
+      <div id="error-message" class="alert alert-warning d-none" role="alert"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="fs-4 mb-3 text-center">How It Works</h2>
+      <p class="text-muted">The Alphabetizer works like a digital librarian. It takes your list of items, compares them letter by letter, and arranges them in perfect alphabetical order. Whether your list has 5 items or 500, the tool ensures everything is neatly sorted from A to Z. No complicated steps—just paste, click, and done!</p>
+      
+      <h3 class="fs-5 mt-4 mb-3">Example Table</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Original List</th>
+            <th>Alphabetized List</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Banana</td><td>Apple</td></tr>
+          <tr><td>Apple</td><td>Banana</td></tr>
+          <tr><td>Carrot</td><td>Carrot</td></tr>
+          <tr><td>Zucchini</td><td>Grape</td></tr>
+          <tr><td>Grape</td><td>Zucchini</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="fs-4 mb-3 text-center">10 Common Use Cases for the Alphabetizer</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1. Organizing a grocery list for your next shopping trip.</li>
+        <li class="list-group-item">2. Sorting names for a guest list or event invitation.</li>
+        <li class="list-group-item">3. Arranging a to-do list by priority or category.</li>
+        <li class="list-group-item">4. Alphabetizing a list of books, movies, or songs.</li>
+        <li class="list-group-item">5. Sorting vocabulary words for study sessions.</li>
+        <li class="list-group-item">6. Organizing business contacts or client names.</li>
+        <li class="list-group-item">7. Creating an ordered index for a report or project.</li>
+        <li class="list-group-item">8. Arranging a list of ingredients for recipes.</li>
+        <li class="list-group-item">9. Sorting tasks for a team project or workflow.</li>
+        <li class="list-group-item">10. Cleaning up a cluttered list of ideas or notes.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const inputText = document.getElementById('input-text');
+    const outputText = document.getElementById('output-text');
+    const sortBtn = document.getElementById('sort-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const errorMessage = document.getElementById('error-message');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    sortBtn.addEventListener('click', function () {
+      const input = inputText.value.trim();
+      if (!input) {
+        errorMessage.textContent = 'Please enter a list to sort.';
+        errorMessage.classList.remove('d-none');
+        return;
+      }
+
+      const lines = input.split('\n').filter(line => line.trim() !== '');
+      if (lines.length === 0) {
+        errorMessage.textContent = 'Please enter a valid list to sort.';
+        errorMessage.classList.remove('d-none');
+        return;
+      }
+
+      const sortedLines = lines.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+      outputText.value = sortedLines.join('\n');
+      errorMessage.classList.add('d-none');
+    });
+
+    clearBtn.addEventListener('click', function () {
+      inputText.value = '';
+      outputText.value = '';
+      errorMessage.classList.add('d-none');
+    });
+  });
+</script>

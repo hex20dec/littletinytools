@@ -1,0 +1,148 @@
+---
+title: "Ascending Set Sorter - Sort Numbers & Text Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-05-19 14:19:22
+metaDescription: "Sort numbers or text in ascending order instantly with the Ascending Set Sorter. Perfect for organizing lists, expenses, or tasks. Try it now!"
+metaKeywords: "ascending set sorter, sort numbers, sort text, organize lists, ascending order tool, sorting tool, list organizer, alphabetical sorter, number sorter, easy sorting tool"
+tags: ["sorting tool", "ascending order", "data organizer", "quick sort", "lightweight tool"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <h1 class="display-4">Ascending Set Sorter</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <strong class="display-4">Ascending Set Sorter</strong>
+    <p class="lead">Why does sorting numbers or text always feel like solving a puzzle? Whether it’s a list of expenses, grocery items, or random notes, keeping things in order shouldn’t be a headache. Enter the Ascending Set Sorter—a simple, no-fuss tool that organizes your messy data in seconds. Just type in your values, hit "Sort," and watch chaos turn into clarity. Perfect for students, professionals, or anyone who loves a tidy list. Let’s make sorting the easiest part of your day!</p>
+  </div>
+</div>
+    <p class="lead">Enter a set of numbers or text values separated by commas, and the app will sort them in ascending order.</p>
+  </div>
+
+  <div class="mb-3">
+    <input type="text" id="input-field" class="form-control bg-dark text-white" placeholder="Enter values separated by commas (e.g., 5, 3, 9 or apple, banana, cherry)." aria-label="Input values">
+    <div id="error-message" class="text-danger mt-2" aria-live="polite"></div>
+  </div>
+
+  <div class="d-flex gap-2 mb-3">
+    <button id="sort-btn" class="btn btn-primary flex-grow-1">Sort</button>
+    <button id="reset-btn" class="btn btn-secondary flex-grow-1">Reset</button>
+  </div>
+
+  <div class="mb-3">
+    <label for="output-field" class="form-label">Sorted Set:</label>
+    <div id="output-field" class="form-control bg-dark text-white" aria-readonly="true" tabindex="-1"></div>
+  </div>
+</div>
+
+<div class="container-fluid bg-dark text-white p-4">
+  <div class="mb-4">
+    <h2 class="h3">How It Works</h2>
+    <p>The Ascending Set Sorter follows a straightforward process to organize your data:</p>
+    <ol>
+      <li><strong>Input Your Values:</strong> Enter numbers or text separated by commas (e.g., 5, 3, 9 or apple, banana, cherry).</li>
+      <li><strong>Sorting Magic:</strong> The tool splits your input into individual items, removes any empty entries, and arranges them in ascending order—numbers from smallest to largest, and text alphabetically.</li>
+      <li><strong>Output:</strong> Your perfectly sorted list appears instantly, ready to use or share.</li>
+    </ol>
+    <p>It’s like having a personal assistant for organizing any set of values, whether it’s for work, school, or daily life.</p>
+  </div>
+  <div class="mb-4">
+    <h2 class="h3">Examples of Sorted Output</h2>
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr>
+          <th>Input</th>
+          <th>Sorted Output</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>5, 3, 9</td>
+          <td>3, 5, 9</td>
+        </tr>
+        <tr>
+          <td>apple, banana, cherry</td>
+          <td>apple, banana, cherry</td>
+        </tr>
+        <tr>
+          <td>10, 2, 7, 1</td>
+          <td>1, 2, 7, 10</td>
+        </tr>
+        <tr>
+          <td>zebra, apple, mango</td>
+          <td>apple, mango, zebra</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <div class="mb-4">
+    <h2 class="h3">10 Common Use Cases for the Ascending Set Sorter</h2>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item bg-dark text-white">Organizing a list of expenses or budgets.</li>
+      <li class="list-group-item bg-dark text-white">Sorting student grades or test scores.</li>
+      <li class="list-group-item bg-dark text-white">Arranging grocery items alphabetically for shopping.</li>
+      <li class="list-group-item bg-dark text-white">Ordering tasks or to-do lists by priority.</li>
+      <li class="list-group-item bg-dark text-white">Sorting names or contacts for easy reference.</li>
+      <li class="list-group-item bg-dark text-white">Arranging dates or events chronologically.</li>
+      <li class="list-group-item bg-dark text-white">Organizing inventory or product lists.</li>
+      <li class="list-group-item bg-dark text-white">Sorting random notes or ideas for better clarity.</li>
+      <li class="list-group-item bg-dark text-white">Ordering numerical data for reports or analysis.</li>
+      <li class="list-group-item bg-dark text-white">Simplifying recipe ingredients by alphabetical order.</li>
+    </ul>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputField = document.getElementById('input-field');
+    const sortBtn = document.getElementById('sort-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const outputField = document.getElementById('output-field');
+    const errorMessage = document.getElementById('error-message');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputField.value = startValue;
+    }
+
+    const sortValues = () => {
+      const input = inputField.value.trim();
+      if (!input) {
+        errorMessage.textContent = 'Please enter valid values separated by commas.';
+        outputField.textContent = '';
+        return;
+      }
+
+      const values = input.split(',').map(val => val.trim()).filter(val => val !== '');
+      if (values.length === 0) {
+        errorMessage.textContent = 'Please enter valid values separated by commas.';
+        outputField.textContent = '';
+        return;
+      }
+
+      errorMessage.textContent = '';
+      const sortedValues = values.sort((a, b) => {
+        if (!isNaN(a) && !isNaN(b)) {
+          return parseFloat(a) - parseFloat(b);
+        }
+        return a.localeCompare(b);
+      });
+      outputField.textContent = sortedValues.join(', ');
+    };
+
+    const resetFields = () => {
+      inputField.value = '';
+      outputField.textContent = '';
+      errorMessage.textContent = '';
+    };
+
+    sortBtn.addEventListener('click', sortValues);
+    resetBtn.addEventListener('click', resetFields);
+
+    inputField.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sortValues();
+      }
+    });
+  });
+</script>

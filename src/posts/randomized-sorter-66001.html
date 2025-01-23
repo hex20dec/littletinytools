@@ -1,0 +1,144 @@
+---
+title: "Randomized Sorter - Shuffle Your Lists Instantly!"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-05-13 12:21:00
+metaDescription: "Randomize lists effortlessly with the Randomized Sorter. Perfect for decision-making, games, and organizing tasks. Fast, fair, and fun!"
+metaKeywords: "random list sorter, randomizer tool, shuffle list, random decision maker, list randomizer, random picker, unbiased sorter, random order generator, task randomizer, team randomizer"
+tags: ["randomizer", "list-sorter", "decision-maker", "productivity-tool", "web-app"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Randomized Sorter</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <p class="lead fs-2 fw-bold">Tired of making decisions or stuck in a rut with the same old order? Let randomness take the wheel!</p>
+    <p class="fs-5">Whether you're organizing teams, picking dinner options, or deciding who goes first in a game, the Randomized Sorter is here to save the day. Just pop in your list, hit the button, and watch as your items get shuffled faster than a deck of cards. No more overthinking—just pure, unbiased randomness. It’s like having a magic hat that picks for you, minus the rabbit!</p>
+  </div>
+</div>
+    <p class="lead">A simple tool to randomize lists.</p>
+  </header>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="mb-3">
+        <textarea id="input-area" class="form-control bg-dark text-white" rows="8" placeholder="Enter your items here, one per line."></textarea>
+      </div>
+      <div class="d-grid gap-2 mb-3">
+        <button id="randomize-btn" class="btn btn-primary">Randomize</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div id="output-area" class="list-group mb-3"></div>
+      <div class="d-grid gap-2">
+        <button id="copy-btn" class="btn btn-secondary" disabled>Copy to Clipboard</button>
+        <button id="clear-btn" class="btn btn-danger">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center mt-4">
+    <p class="text-muted">A simple tool to randomize lists.</p>
+  </footer>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="fs-4 fw-bold">How Does It Work?</p>
+      <p class="fs-5">The Randomized Sorter uses a clever method to shuffle your list. Imagine you have a stack of cards, and you’re mixing them up by swapping their positions randomly. That’s exactly what happens here! The tool takes your list, mixes it up thoroughly, and gives you a fresh, random order every time. It’s simple, fast, and fair—no biases, no favorites, just pure chance.</p>
+      
+      <p class="fs-4 fw-bold mt-4">Example Outputs</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Original List</th>
+            <th>Randomized List</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Apple</td><td>Banana</td></tr>
+          <tr><td>Banana</td><td>Orange</td></tr>
+          <tr><td>Orange</td><td>Apple</td></tr>
+          <tr><td>Grapes</td><td>Grapes</td></tr>
+          <tr><td>Cherry</td><td>Cherry</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="fs-4 fw-bold">10 Ways to Use the Randomized Sorter</p>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item bg-dark text-white">1. Randomly assign tasks or chores in a group.</li>
+        <li class="list-group-item bg-dark text-white">2. Decide the order of presentations or speeches.</li>
+        <li class="list-group-item bg-dark text-white">3. Shuffle a playlist for a fresh music experience.</li>
+        <li class="list-group-item bg-dark text-white">4. Pick a random winner for a giveaway or contest.</li>
+        <li class="list-group-item bg-dark text-white">5. Randomize seating arrangements for events.</li>
+        <li class="list-group-item bg-dark text-white">6. Choose a random movie or restaurant for the night.</li>
+        <li class="list-group-item bg-dark text-white">7. Organize study topics or flashcards randomly.</li>
+        <li class="list-group-item bg-dark text-white">8. Decide the order of players in board games.</li>
+        <li class="list-group-item bg-dark text-white">9. Randomly select names for secret Santa.</li>
+        <li class="list-group-item bg-dark text-white">10. Shuffle ideas for brainstorming sessions.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputArea = document.getElementById('input-area');
+    const outputArea = document.getElementById('output-area');
+    const randomizeBtn = document.getElementById('randomize-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const clearBtn = document.getElementById('clear-btn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputArea.value = startValue;
+    }
+
+    // Randomize function
+    const randomizeList = () => {
+      const items = inputArea.value.split('\n').filter(item => item.trim() !== '');
+      if (items.length === 0) {
+        alert('Please enter at least one item.');
+        return;
+      }
+
+      // Fisher-Yates shuffle algorithm
+      for (let i = items.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [items[i], items[j]] = [items[j], items[i]];
+      }
+
+      outputArea.innerHTML = items.map(item => `<div class="list-group-item bg-dark text-white">${item}</div>`).join('');
+      copyBtn.disabled = false;
+    };
+
+    // Copy to clipboard
+    const copyToClipboard = () => {
+      const text = Array.from(outputArea.children).map(item => item.textContent).join('\n');
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Copied to clipboard!');
+      }).catch(() => {
+        alert('Failed to copy to clipboard.');
+      });
+    };
+
+    // Clear function
+    const clearAll = () => {
+      inputArea.value = '';
+      outputArea.innerHTML = '';
+      copyBtn.disabled = true;
+    };
+
+    // Event listeners
+    randomizeBtn.addEventListener('click', randomizeList);
+    copyBtn.addEventListener('click', copyToClipboard);
+    clearBtn.addEventListener('click', clearAll);
+  });
+</script>

@@ -1,0 +1,155 @@
+---
+title: "Custom Word List Counter - Count Word Frequencies Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-08-13 15:18:16
+metaDescription: "Easily count word or phrase occurrences in any list with the Custom Word List Counter. Fast, simple, and free! Perfect for surveys, brainstorming, and more."
+metaKeywords: "word counter, phrase counter, count words, word frequency, text analysis, list organizer, word tools, free word counter, count repeated words, word list tool"
+tags: ["word counter", "text analysis", "word frequency", "writing tool", "free tool"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .results-table {
+    margin-top: 20px;
+  }
+  .no-results {
+    color: #6c757d;
+    font-style: italic;
+  }
+</style>
+
+<div id="main-div">
+  <div class="text-center mb-4">
+    <h1 class="display-4">Custom Word List Counter</h1><div class="container mt-5">
+  <div class="text-center mb-4">
+    <p class="display-5 fw-bold">Ever Feel Overwhelmed by a Messy List of Words?</p>
+    <p class="lead">We’ve all been there—staring at a jumble of words, trying to figure out which ones are repeated or how often they appear. Whether it’s a brainstorming session, a survey, or just a random list of ideas, counting words manually is tedious and error-prone. That’s where the <strong>Custom Word List Counter</strong> comes in! This simple, no-fuss tool takes your list of words or phrases and instantly counts how many times each one appears. No more squinting at your screen or tallying on paper. Just paste, click, and voilà—your results are ready! Say goodbye to word-counting headaches and hello to effortless clarity. Let’s make your life a little easier, one word at a time.</p>
+  </div>
+</div>
+    <p class="lead">Enter a list of words or phrases below, and we'll count how many times each one appears.</p>
+  </div>
+
+  <div class="mb-3">
+    <textarea id="wordInput" class="form-control" rows="5" placeholder="Enter your words or phrases here, separated by commas, spaces, or new lines." aria-label="Word list input"></textarea>
+  </div>
+
+  <div class="d-grid gap-2 d-md-block mb-4">
+    <button id="countButton" class="btn btn-primary me-md-2" aria-label="Count words">Count Words</button>
+    <button id="resetButton" class="btn btn-secondary" aria-label="Reset input and results">Reset</button>
+  </div>
+
+  <div id="resultsSection" class="results-table">
+    <table class="table table-striped d-none">
+      <thead>
+        <tr>
+          <th scope="col">Word/Phrase</th>
+          <th scope="col">Count</th>
+        </tr>
+      </thead>
+      <tbody id="resultsBody"></tbody>
+    </table>
+    <p id="noResultsMessage" class="no-results">Please enter some words or phrases to count.</p>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p class="h4 fw-bold mb-3">How Does the Word List Counter Work?</p>
+      <p>It’s super simple! The tool takes your input—a list of words or phrases separated by commas, spaces, or new lines—and performs the following steps:</p>
+      <ol>
+        <li><strong>Parse the Input:</strong> It breaks your list into individual words or phrases, ignoring extra spaces or separators.</li>
+        <li><strong>Count Occurrences:</strong> It scans through the list and counts how many times each unique word or phrase appears.</li>
+        <li><strong>Display Results:</strong> Finally, it shows you a neat table with each word/phrase and its corresponding count.</li>
+      </ol>
+      <p>For example, if you input: <em>"apple, banana, apple, orange, banana"</em>, the tool will tell you that "apple" appears 2 times, "banana" appears 2 times, and "orange" appears 1 time.</p>
+      <p class="h4 fw-bold mt-4 mb-3">Example Table of Results</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Word/Phrase</th>
+            <th scope="col">Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>apple</td><td>2</td></tr>
+          <tr><td>banana</td><td>2</td></tr>
+          <tr><td>orange</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p class="h4 fw-bold mb-3">10 Common Use Cases for the Word List Counter</p>
+      <ul class="list-group">
+        <li class="list-group-item">1. Analyzing survey responses to find frequently mentioned keywords.</li>
+        <li class="list-group-item">2. Counting repeated words in a brainstorming session for better organization.</li>
+        <li class="list-group-item">3. Checking the frequency of specific terms in a document or essay.</li>
+        <li class="list-group-item">4. Identifying trending hashtags or phrases in social media posts.</li>
+        <li class="list-group-item">5. Simplifying inventory management by counting item names in a list.</li>
+        <li class="list-group-item">6. Tracking repeated customer feedback or complaints for analysis.</li>
+        <li class="list-group-item">7. Organizing a list of keywords for SEO or content planning.</li>
+        <li class="list-group-item">8. Counting votes or preferences in a quick poll or survey.</li>
+        <li class="list-group-item">9. Analyzing word frequency in creative writing or poetry.</li>
+        <li class="list-group-item">10. Streamlining data entry tasks by identifying duplicates in a list.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const wordInput = document.getElementById('wordInput');
+    const countButton = document.getElementById('countButton');
+    const resetButton = document.getElementById('resetButton');
+    const resultsBody = document.getElementById('resultsBody');
+    const resultsTable = document.querySelector('.results-table table');
+    const noResultsMessage = document.getElementById('noResultsMessage');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      wordInput.value = startValue;
+    }
+
+    countButton.addEventListener('click', function () {
+      const inputText = wordInput.value.trim();
+      if (!inputText) {
+        noResultsMessage.textContent = 'Please enter some words or phrases to count.';
+        resultsTable.classList.add('d-none');
+        noResultsMessage.classList.remove('d-none');
+        return;
+      }
+
+      const words = inputText.split(/[\s,]+/).filter(word => word.trim() !== '');
+      const wordCounts = {};
+
+      words.forEach(word => {
+        const normalizedWord = word.toLowerCase();
+        wordCounts[normalizedWord] = (wordCounts[normalizedWord] || 0) + 1;
+      });
+
+      resultsBody.innerHTML = '';
+      Object.entries(wordCounts).forEach(([word, count]) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${word}</td><td>${count}</td>`;
+        resultsBody.appendChild(row);
+      });
+
+      resultsTable.classList.remove('d-none');
+      noResultsMessage.classList.add('d-none');
+    });
+
+    resetButton.addEventListener('click', function () {
+      wordInput.value = '';
+      resultsBody.innerHTML = '';
+      resultsTable.classList.add('d-none');
+      noResultsMessage.textContent = 'Please enter some words or phrases to count.';
+      noResultsMessage.classList.remove('d-none');
+    });
+  });
+</script>

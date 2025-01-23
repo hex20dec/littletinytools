@@ -1,0 +1,145 @@
+---
+title: "Negative Word Counter - Improve Your Writing Tone"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-07-09 07:06:39
+metaDescription: "Count negative words in your text instantly! Improve your writing tone with this simple, free tool. Perfect for emails, blogs, and more."
+metaKeywords: "negative word counter, writing tone checker, improve writing, count negative words, positive writing tool, tone analyzer, free writing tool, online word counter, emotional tone checker, negativity detector"
+tags: ["writing", "text analysis", "negative words", "content editing", "SEO"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  textarea {
+    min-height: 200px;
+  }
+  .card {
+    margin-top: 20px;
+  }
+  .list-group-item {
+    word-break: break-word;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Negative Word Counter</h1><div class="container mt-5">
+  <div class="text-center">
+    <p class="fs-3 fw-bold">Ever felt like your writing sounds a bit too... negative? 😬</p>
+    <p class="lead">We’ve all been there—whether you're drafting an email, writing a blog post, or even venting in your journal, sometimes those pesky negative words sneak in without you realizing it. That’s where the Negative Word Counter comes in! This super simple tool scans your text and tells you exactly how many negative words you’ve used. It’s like having a friendly editor who gently taps you on the shoulder and says, “Hey, maybe tone it down a bit?” 😉 Whether you're polishing your work or just curious, this tool makes it easy to keep your writing positive and impactful. Say goodbye to negativity bias and hello to clearer, more uplifting communication!</p>
+  </div>
+</div>
+    <p class="lead">Paste your text below to count the number of negative words.</p>
+  </header>
+
+  <div class="mb-3">
+    <textarea id="input-text" class="form-control" placeholder="Enter or paste your text here..." aria-label="Text input"></textarea>
+  </div>
+
+  <button id="count-button" class="btn btn-primary w-100 mb-4">Count Negative Words</button>
+
+  <div id="results-section" class="card d-none">
+    <div class="card-body">
+      <h2 class="card-title h5">Results</h2>
+      <p id="word-count" class="card-text">Number of negative words: <span class="fw-bold">0</span></p>
+      <ul id="negative-words-list" class="list-group"></ul>
+    </div>
+  </div>
+
+  <footer class="text-center mt-4">
+    <p class="text-muted small">This tool uses a predefined list of negative words. It is not connected to any external APIs.</p>
+  </footer>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <p class="card-text">Here’s how the Negative Word Counter works: It takes your input text, breaks it down into individual words, and checks each word against a predefined list of negative terms. If a match is found, it counts it and even shows you which words were flagged. It’s like a quick negativity detector for your writing!</p>
+          <p class="card-text">Here’s a breakdown of how it calculates the results:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">1. Your text is split into individual words.</li>
+            <li class="list-group-item">2. Each word is compared to a list of negative words (e.g., "bad," "hate," "angry").</li>
+            <li class="list-group-item">3. Matches are counted and displayed, along with a list of the negative words found.</li>
+          </ul>
+          <p class="card-text mt-3">Curious about what counts as a negative word? Here’s a sample of some terms the tool looks for:</p>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Negative Words</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>bad</td></tr>
+              <tr><td>hate</td></tr>
+              <tr><td>angry</td></tr>
+              <tr><td>sad</td></tr>
+              <tr><td>failure</td></tr>
+              <tr><td>ugly</td></tr>
+              <tr><td>stupid</td></tr>
+              <tr><td>terrible</td></tr>
+              <tr><td>awful</td></tr>
+              <tr><td>horrible</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <p class="card-text fw-bold">Here are 10 common ways people use the Negative Word Counter:</p>
+          <ol class="list-group list-group-numbered">
+            <li class="list-group-item">Editing blog posts to ensure a positive tone.</li>
+            <li class="list-group-item">Polishing professional emails to avoid sounding harsh.</li>
+            <li class="list-group-item">Improving resumes and cover letters for a confident tone.</li>
+            <li class="list-group-item">Analyzing journal entries for emotional patterns.</li>
+            <li class="list-group-item">Reviewing social media captions for positivity.</li>
+            <li class="list-group-item">Helping students refine essays and assignments.</li>
+            <li class="list-group-item">Ensuring marketing copy is uplifting and engaging.</li>
+            <li class="list-group-item">Assessing customer service responses for tone.</li>
+            <li class="list-group-item">Analyzing speech drafts for public speaking.</li>
+            <li class="list-group-item">Keeping personal creative writing emotionally balanced.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><script>
+  const negativeWords = ["bad", "hate", "angry", "sad", "failure", "ugly", "stupid", "terrible", "awful", "horrible"];
+  const inputText = document.getElementById('input-text');
+  const countButton = document.getElementById('count-button');
+  const resultsSection = document.getElementById('results-section');
+  const wordCount = document.getElementById('word-count');
+  const negativeWordsList = document.getElementById('negative-words-list');
+
+  // Preload text from query parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const startText = urlParams.get('start');
+  if (startText) {
+    inputText.value = startText;
+  }
+
+  countButton.addEventListener('click', () => {
+    const text = inputText.value.trim();
+    if (!text) {
+      alert('Please enter some text to analyze.');
+      return;
+    }
+
+    const words = text.toLowerCase().split(/\s+/);
+    const foundWords = words.filter(word => negativeWords.includes(word));
+    const uniqueWords = [...new Set(foundWords)];
+
+    wordCount.querySelector('span').textContent = foundWords.length;
+    negativeWordsList.innerHTML = uniqueWords.map(word => `<li class="list-group-item">${word}</li>`).join('');
+
+    resultsSection.classList.remove('d-none');
+  });
+</script>

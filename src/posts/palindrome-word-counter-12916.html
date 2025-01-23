@@ -1,0 +1,132 @@
+---
+title: "Palindrome Word Counter - Check Words & Phrases Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-06-13 05:52:43
+metaDescription: "Check if a word or phrase is a palindrome and count palindromic words instantly. Fun, simple, and perfect for word lovers!"
+metaKeywords: "palindrome checker, palindrome counter, word palindrome, phrase palindrome, palindromic words, palindrome tool, palindrome examples, palindrome test, palindrome finder, palindrome games"
+tags: ["palindrome", "word counter", "language tool", "text analysis", "educational"]
+---
+
+<div id="main-div" class="container text-center bg-dark text-white p-4 rounded">
+  <h1 class="mb-3">Palindrome Word Counter</h1><div class="container text-center bg-dark text-white p-4 rounded">
+  <h2 class="mb-3">Palindrome Word Counter</h2>
+  <p class="lead mb-4">Struggling to figure out if a word or phrase reads the same backward? Or maybe you're just curious about how many palindromic words are hiding in your text? This Palindrome Word Counter is here to save the day! Whether you're a word nerd, a teacher, or just someone who loves a good puzzle, this tool is your go-to for checking palindromes and counting palindromic words in any phrase. It’s simple, fun, and surprisingly addictive—like a word game you didn’t know you needed. Say goodbye to second-guessing and hello to instant palindrome clarity!</p>
+</div>
+  <p class="lead mb-4">Enter a word or phrase to check if it is a palindrome and count palindromic words.</p>
+  
+  <div class="mb-3">
+    <input type="text" id="input-text" class="form-control form-control-lg" placeholder="Enter a word or phrase..." aria-label="Enter a word or phrase">
+  </div>
+  <button id="check-btn" class="btn btn-primary btn-lg mb-4">Check</button>
+  
+  <div id="result-area" class="mt-3"></div>
+</div>
+
+<div class="container mt-4">
+  <h3>How It Works</h3>
+  <p>This tool works by analyzing the text you input in two ways:</p>
+  <ol>
+    <li><strong>Palindrome Check:</strong> It removes all non-alphanumeric characters (like spaces or punctuation) and checks if the cleaned-up word or phrase reads the same backward as forward.</li>
+    <li><strong>Palindromic Word Counter:</strong> If you enter a phrase, it splits the text into individual words and counts how many of them are palindromes.</li>
+  </ol>
+  <p>For example, if you type in "A man, a plan, a canal, Panama," the tool will identify that this famous phrase is a palindrome. If you input "Madam Arora teaches math," it will count two palindromic words: "Madam" and "Arora."</p>
+  
+  <h4 class="mt-4">Examples of Palindrome Checks</h4>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Input</th>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>racecar</td>
+        <td>Palindrome</td>
+      </tr>
+      <tr>
+        <td>hello</td>
+        <td>Not a Palindrome</td>
+      </tr>
+      <tr>
+        <td>No lemon, no melon</td>
+        <td>Palindrome</td>
+      </tr>
+      <tr>
+        <td>Was it a car or a cat I saw?</td>
+        <td>Palindrome</td>
+      </tr>
+      <tr>
+        <td>Palindrome</td>
+        <td>Not a Palindrome</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-4">
+  <h3>10 Common Use Cases</h3>
+  <ul>
+    <li>Checking if a single word is a palindrome (e.g., "madam" or "radar").</li>
+    <li>Analyzing phrases for palindromic structure (e.g., "A man, a plan, a canal, Panama").</li>
+    <li>Counting palindromic words in a sentence (e.g., "Madam Arora teaches math").</li>
+    <li>Fun word games or challenges with friends and family.</li>
+    <li>Teaching students about palindromes in language or math classes.</li>
+    <li>Inspiration for creative writing or poetry.</li>
+    <li>Testing programming or logic skills by verifying results.</li>
+    <li>Brainstorming unique names or phrases for branding or projects.</li>
+    <li>Solving puzzles or riddles that involve palindromes.</li>
+    <li>Just satisfying your curiosity about the world of words!</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const checkBtn = document.getElementById('check-btn');
+    const resultArea = document.getElementById('result-area');
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+
+    if (startValue) {
+      inputText.value = startValue;
+    }
+
+    const isPalindrome = (str) => {
+      const cleanedStr = str.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+      return cleanedStr === cleanedStr.split('').reverse().join('');
+    };
+
+    const countPalindromicWords = (phrase) => {
+      const words = phrase.split(/\s+/);
+      return words.filter(word => isPalindrome(word)).length;
+    };
+
+    const displayResult = (input) => {
+      if (!input.trim()) {
+        resultArea.innerHTML = `<div class="alert alert-warning">Please enter a word or phrase.</div>`;
+        return;
+      }
+
+      if (input.split(/\s+/).length === 1) {
+        const isPal = isPalindrome(input);
+        resultArea.innerHTML = isPal
+          ? `<div class="alert alert-success">The word '${input}' is a palindrome.</div>`
+          : `<div class="alert alert-danger">The word '${input}' is not a palindrome.</div>`;
+      } else {
+        const count = countPalindromicWords(input);
+        const palindromicWords = input.split(/\s+/).filter(word => isPalindrome(word));
+        resultArea.innerHTML = `
+          <div class="alert alert-info">The phrase '${input}' contains ${count} palindromic words.</div>
+          ${count > 0 ? `<div class="mt-2"><strong>Palindromic words:</strong> ${palindromicWords.join(', ')}</div>` : ''}
+        `;
+      }
+    };
+
+    checkBtn.addEventListener('click', () => {
+      displayResult(inputText.value);
+    });
+
+    inputText.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        displayResult(inputText.value);
+      }
+    });
+  });
+</script>

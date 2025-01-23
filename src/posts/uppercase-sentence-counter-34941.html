@@ -1,0 +1,132 @@
+---
+title: "Uppercase Sentence Counter - Count Properly Capitalized Sentences"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-02-15 03:04:36
+metaDescription: "Count sentences starting with uppercase letters instantly! Perfect for writers, students, and editors. Simple, fast, and free."
+metaKeywords: "uppercase sentence counter, sentence checker, grammar tool, writing helper, text analyzer, sentence structure, capitalization tool, proofreading tool, writing assistant, text editor"
+tags: ["text analysis", "capitalization checker", "writing tool", "sentence counter", "uppercase checker"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  textarea {
+    min-height: 200px;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 text-center">
+        <h1 class="mb-3">Uppercase Sentence Counter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="fs-4">
+        Ever find yourself staring at a massive block of text, wondering how many sentences actually start with an uppercase letter? Maybe you're editing an essay, polishing a report, or just curious about your writing habits. Manually counting them feels like a tedious game of "spot the capital letter." Enter the Uppercase Sentence Counter—your new best friend for quick, stress-free sentence analysis. Simply paste your text, hit the button, and voilà! It’s like having a grammar-savvy robot at your fingertips. Whether you're a writer, student, or just someone who loves neat sentences, this tool makes life a little easier (and a lot more fun). Say goodbye to guesswork and hello to clarity!
+      </p>
+    </div>
+  </div>
+</div>
+        <p class="lead">Enter your text below to count how many sentences start with an uppercase letter.</p>
+      </div>
+      <div class="col-12">
+        <textarea id="text-input" class="form-control mb-3" placeholder="Paste or type your text here..."></textarea>
+      </div>
+      <div class="col-12 text-center">
+        <button id="count-btn" class="btn btn-primary mb-3">Count Sentences</button>
+        <button id="reset-btn" class="btn btn-secondary mb-3">Reset</button>
+      </div>
+      <div class="col-12">
+        <div id="result" class="alert alert-info" role="alert" style="display: none;">
+          Number of sentences starting with an uppercase letter: <span id="count">0</span>
+        </div>
+        <div id="warning" class="alert alert-warning" role="alert" style="display: none;">
+          Please enter some text to count sentences.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="fs-3 mb-3">How It Works</h2>
+      <p class="mb-4">
+        The Uppercase Sentence Counter works by scanning your text and identifying sentences that start with an uppercase letter. Here's the simple breakdown:
+      </p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Your text is split into individual sentences using common punctuation marks like periods, exclamation points, and question marks.</li>
+        <li class="list-group-item">Each sentence is checked to see if its first character is an uppercase letter.</li>
+        <li class="list-group-item">The tool counts how many sentences meet this criterion and displays the result instantly.</li>
+      </ol>
+      <p class="mt-4">
+        It’s like having a built-in editor that highlights proper sentence structure without any fuss. No coding knowledge required—just paste, click, and get your results!
+      </p>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="fs-3 mb-3">Top 10 Use Cases</h2>
+      <ul class="list-group">
+        <li class="list-group-item">Editing essays or research papers to ensure proper sentence structure.</li>
+        <li class="list-group-item">Improving readability in blog posts or articles.</li>
+        <li class="list-group-item">Checking consistency in business reports or presentations.</li>
+        <li class="list-group-item">Analyzing writing patterns for self-improvement.</li>
+        <li class="list-group-item">Teaching students about sentence capitalization rules.</li>
+        <li class="list-group-item">Proofreading novels or short stories for proper formatting.</li>
+        <li class="list-group-item">Preparing professional emails or cover letters.</li>
+        <li class="list-group-item">Ensuring compliance with style guides like APA or MLA.</li>
+        <li class="list-group-item">Quickly scanning legal documents for proper sentence structure.</li>
+        <li class="list-group-item">Settling bets about how many sentences in a text start with an uppercase letter (yes, really!).</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const textInput = document.getElementById('text-input');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultDiv = document.getElementById('result');
+    const warningDiv = document.getElementById('warning');
+    const countSpan = document.getElementById('count');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    countBtn.addEventListener('click', function () {
+      const text = textInput.value.trim();
+      if (!text) {
+        warningDiv.style.display = 'block';
+        resultDiv.style.display = 'none';
+        return;
+      }
+
+      const sentences = text.split(/[.!?]/).filter(s => s.trim() !== '');
+      let count = 0;
+      sentences.forEach(sentence => {
+        if (/^[A-Z]/.test(sentence.trim())) {
+          count++;
+        }
+      });
+
+      countSpan.textContent = count;
+      resultDiv.style.display = 'block';
+      warningDiv.style.display = 'none';
+    });
+
+    resetBtn.addEventListener('click', function () {
+      textInput.value = '';
+      resultDiv.style.display = 'none';
+      warningDiv.style.display = 'none';
+    });
+  });
+</script>

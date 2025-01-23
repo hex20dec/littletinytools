@@ -1,0 +1,150 @@
+---
+title: "Base-3 to Binary Converter - Fast & Accurate Number Conversion"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-12-26 08:27:02
+metaDescription: "Convert base-3 numbers to binary instantly with our easy-to-use tool. Perfect for students, programmers, and math enthusiasts!"
+metaKeywords: "base-3 to binary converter, base-3 conversion, binary converter, number system tool, math tool, computer science tool"
+tags: ["base-3", "binary", "number-converter", "math-tools", "web-app"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .output-field {
+    background-color: #343a40;
+    color: #f8f9fa;
+    border: 1px solid #495057;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container text-center">
+    <h1 class="mb-4">Base-3 to Binary Converter</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-12 text-center">
+      <p class="lead">Ever found yourself staring at a base-3 number, scratching your head, and wondering, "What on earth does this even mean in binary?" You're not alone! Whether you're a math enthusiast, a computer science student, or just someone who loves solving puzzles, converting base-3 to binary can feel like deciphering an alien language. But fear not! Our <strong>Base-3 to Binary Converter</strong> is here to save the day. With just a few clicks, you can transform those mysterious base-3 digits into clean, understandable binary code. No more headaches, no more confusion—just simple, straightforward conversions. Think of it as your personal math wizard, turning complexity into clarity. Let’s make numbers fun again!</p>
+    </div>
+  </div>
+</div>
+    <div class="mb-3">
+      <input type="text" id="base3-input" class="form-control" placeholder="Enter a base-3 number (e.g., 1201)" aria-label="Base-3 Input">
+      <div id="error-message" class="text-danger mt-2" aria-live="polite"></div>
+    </div>
+    <button id="convert-btn" class="btn btn-primary mb-3">Convert</button>
+    <div class="mb-3">
+      <label for="binary-output" class="form-label">Binary Result</label>
+      <input type="text" id="binary-output" class="form-control output-field" readonly aria-label="Binary Output">
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <h2>How It Works</h2>
+      <p>Our tool takes your base-3 number (which only uses digits 0, 1, and 2) and converts it into binary step by step. Here's the magic formula:</p>
+      <ol>
+        <li><strong>Understand the Base:</strong> Each digit in a base-3 number represents a power of 3, starting from the rightmost digit (which is 3<sup>0</sup>).</li>
+        <li><strong>Convert to Decimal:</strong> Multiply each digit by 3 raised to the power of its position, then sum all the results.</li>
+        <li><strong>Convert to Binary:</strong> Finally, the decimal number is converted into binary by repeatedly dividing it by 2 and recording the remainders.</li>
+      </ol>
+      <p>Voilà! Your base-3 number is now in binary.</p>
+      <h3 class="mt-4">Example Conversions</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Base-3 Number</th>
+            <th>Binary Equivalent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>0</td></tr>
+          <tr><td>1</td><td>1</td></tr>
+          <tr><td>2</td><td>10</td></tr>
+          <tr><td>10</td><td>11</td></tr>
+          <tr><td>11</td><td>100</td></tr>
+          <tr><td>12</td><td>101</td></tr>
+          <tr><td>20</td><td>110</td></tr>
+          <tr><td>21</td><td>111</td></tr>
+          <tr><td>22</td><td>1000</td></tr>
+          <tr><td>100</td><td>1001</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <h2>Common Use Cases</h2>
+      <ul>
+        <li><strong>Computer Science Students:</strong> Quickly convert base-3 numbers to binary for assignments or exams.</li>
+        <li><strong>Math Enthusiasts:</strong> Explore the relationship between different number systems for fun or research.</li>
+        <li><strong>Programmers:</strong> Debug or validate algorithms that involve base-3 to binary conversions.</li>
+        <li><strong>Puzzle Solvers:</strong> Solve number-based puzzles or riddles that use base-3 numbers.</li>
+        <li><strong>Educators:</strong> Teach students about number systems with real-time conversion examples.</li>
+        <li><strong>Game Developers:</strong> Use base-3 numbers in game logic and convert them to binary for processing.</li>
+        <li><strong>Data Scientists:</strong> Convert encoded data from base-3 to binary for analysis or visualization.</li>
+        <li><strong>Cryptography Enthusiasts:</strong> Experiment with base-3 encoding in cryptographic algorithms.</li>
+        <li><strong>STEM Projects:</strong> Incorporate base-3 to binary conversions in science or engineering projects.</li>
+        <li><strong>Curiosity:</strong> Satisfy your curiosity about how different number systems work!</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const base3Input = document.getElementById('base3-input');
+    const convertBtn = document.getElementById('convert-btn');
+    const binaryOutput = document.getElementById('binary-output');
+    const errorMessage = document.getElementById('error-message');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      base3Input.value = startValue;
+    }
+
+    const isValidBase3 = (input) => /^[0-2]+$/.test(input);
+
+    const convertBase3ToBinary = (base3) => {
+      let decimal = 0;
+      for (let i = 0; i < base3.length; i++) {
+        decimal += parseInt(base3[i]) * Math.pow(3, base3.length - 1 - i);
+      }
+      return decimal.toString(2);
+    };
+
+    convertBtn.addEventListener('click', () => {
+      const input = base3Input.value.trim();
+      errorMessage.textContent = '';
+
+      if (!input) {
+        errorMessage.textContent = 'Please enter a base-3 number.';
+        binaryOutput.value = '';
+        return;
+      }
+
+      if (!isValidBase3(input)) {
+        errorMessage.textContent = 'Invalid input. Please enter only digits 0, 1, or 2.';
+        binaryOutput.value = '';
+        return;
+      }
+
+      try {
+        const binaryResult = convertBase3ToBinary(input);
+        binaryOutput.value = binaryResult;
+      } catch (error) {
+        errorMessage.textContent = 'An error occurred during conversion. Please try again.';
+        binaryOutput.value = '';
+      }
+    });
+
+    base3Input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        convertBtn.click();
+      }
+    });
+  });
+</script>

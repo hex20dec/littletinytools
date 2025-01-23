@@ -1,0 +1,107 @@
+---
+title: "Sort Text Ignoring Digits - Clean & Simple Sorting Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-04-02 05:43:37
+metaDescription: "Sort text alphabetically while ignoring digits. Perfect for file names, product codes, and more. Fast, simple, and free!"
+metaKeywords: "sort text ignoring numbers, alphabetical sort tool, sort file names, sort product codes, text sorting tool, ignore digits in sort, sort text online"
+tags: ["sorting", "text", "digits", "tool", "utility"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <h1 class="text-center mb-4">Sort Ignoring Digits</h1><div class="container bg-dark text-white p-4 rounded">
+  <p class="lead text-center mb-4">Sorting text but numbers keep messing things up? We’ve all been there. Whether it’s sorting product codes, file names, or even movie titles with release years, digits can throw your alphabetical order into chaos. That’s where this tool steps in. Simply paste your list, hit sort, and watch as it magically organizes your text alphabetically—while completely ignoring those pesky numbers. No more headaches, no more manual fixes. Just clean, sorted lists in seconds. Life’s too short to wrestle with digits!</p>
+</div>
+  <p class="text-center mb-4">Enter a list of text strings (one per line) to sort them alphabetically while ignoring digits.</p>
+  
+  <div class="mb-3">
+    <textarea id="input-text" class="form-control bg-dark text-white mb-3" rows="10" placeholder="Enter your text here, one item per line."></textarea>
+    <div class="d-grid gap-2 d-md-block">
+      <button id="sort-btn" class="btn btn-primary me-md-2">Sort</button>
+      <button id="clear-btn" class="btn btn-secondary">Clear</button>
+    </div>
+  </div>
+  
+  <textarea id="output-text" class="form-control bg-dark text-white" rows="10" readonly></textarea>
+</div>
+
+<div class="container bg-light p-4 rounded mt-4">
+  <h2 class="mb-4">How It Works</h2>
+  <p>This tool sorts your list of text items alphabetically, but with a twist: it removes all digits before sorting. Here’s the simple breakdown:</p>
+  <ol>
+    <li>You paste your list (one item per line).</li>
+    <li>The tool removes all numbers from each item temporarily.</li>
+    <li>It sorts the cleaned-up items alphabetically.</li>
+    <li>Finally, it displays the sorted list with the original numbers intact.</li>
+  </ol>
+  
+  <h3 class="mt-4">Examples of Sorted Lists</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Original List</th>
+        <th>Sorted List (Ignoring Digits)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Item 12</td><td>Apple</td></tr>
+      <tr><td>Apple</td><td>Banana</td></tr>
+      <tr><td>Banana 3</td><td>Item 12</td></tr>
+      <tr><td>Zebra 45</td><td>Zebra 45</td></tr>
+      <tr><td>Carrot 1</td><td>Carrot 1</td></tr>
+    </tbody>
+  </table>
+</div><div class="container bg-light p-4 rounded mt-4">
+  <h2 class="mb-4">10 Common Use Cases</h2>
+  <ul>
+    <li><strong>Sorting file names:</strong> Organize files like "Report_2023.pdf" or "Photo_01.jpg" alphabetically without worrying about the numbers.</li>
+    <li><strong>Product codes:</strong> Arrange inventory lists with codes like "SKU123" or "PROD456" in a logical order.</li>
+    <li><strong>Movie titles:</strong> Sort titles like "Star Wars: Episode 4" or "Harry Potter 3" without the numbers disrupting the order.</li>
+    <li><strong>Music playlists:</strong> Organize songs with titles like "Track 01" or "Song 10" effortlessly.</li>
+    <li><strong>Event schedules:</strong> Sort event names like "Event 2023" or "Conference Day 2" in a clear sequence.</li>
+    <li><strong>Recipe ingredients:</strong> List ingredients like "Ingredient 1" or "Step 3" in the correct order.</li>
+    <li><strong>Book titles:</strong> Arrange series like "Book 1" or "Chapter 5" alphabetically.</li>
+    <li><strong>Task lists:</strong> Sort tasks with labels like "Task 1" or "Step 2" without the numbers causing confusion.</li>
+    <li><strong>Version names:</strong> Organize software versions like "v1.0" or "v2.3" logically.</li>
+    <li><strong>Contact lists:</strong> Sort names with suffixes like "John Doe 2" or "Jane Smith 1" easily.</li>
+  </ul>
+</div><script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const inputText = document.getElementById("input-text");
+    const outputText = document.getElementById("output-text");
+    const sortBtn = document.getElementById("sort-btn");
+    const clearBtn = document.getElementById("clear-btn");
+
+    // Preload input from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get("start");
+    if (startValue) {
+      inputText.value = startValue;
+    }
+
+    // Sort function ignoring digits
+    const sortIgnoringDigits = (arr) => {
+      return arr.sort((a, b) => {
+        const aCleaned = a.replace(/\d+/g, "");
+        const bCleaned = b.replace(/\d+/g, "");
+        return aCleaned.localeCompare(bCleaned);
+      });
+    };
+
+    // Handle sort button click
+    sortBtn.addEventListener("click", () => {
+      const inputLines = inputText.value.split("\n").map(line => line.trim()).filter(line => line.length > 0);
+      if (inputLines.length === 0) {
+        outputText.value = "Please enter some text to sort.";
+        return;
+      }
+      const sortedLines = sortIgnoringDigits(inputLines);
+      outputText.value = sortedLines.join("\n");
+    });
+
+    // Handle clear button click
+    clearBtn.addEventListener("click", () => {
+      inputText.value = "";
+      outputText.value = "";
+    });
+  });
+</script>

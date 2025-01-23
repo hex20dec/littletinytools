@@ -1,0 +1,115 @@
+---
+title: "Sum Calculator - Quick & Easy Addition Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-03-25 23:31:16
+metaDescription: "Quickly calculate the sum of multiple numbers with our easy-to-use Sum Calculator. Perfect for budgets, scores, and more!"
+metaKeywords: "sum calculator, add numbers, total calculator, online sum tool, number addition, quick addition tool"
+tags: ["calculator", "math", "sum", "addition", "web-tool"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <h1 class="text-center mb-4">Sum Calculator</h1><div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto text-center">
+      <p class="lead">Juggling numbers and trying to add them up can feel like herding cats—especially when they’re scattered across your screen. Whether you’re tallying expenses, calculating scores, or just trying to make sense of a list of numbers, the Sum Calculator is here to save the day. Simply drop in your numbers (separated by commas or spaces), and voilà—it instantly gives you the total. No math headaches, no second-guessing. It’s like having a math wizard in your pocket, ready to crunch numbers faster than you can say “addition”!</p>
+    </div>
+  </div>
+</div>
+  <p class="text-center mb-4">Enter numbers separated by commas or spaces to calculate their sum.</p>
+  
+  <div class="mb-3">
+    <textarea id="input-numbers" class="form-control bg-dark text-white" rows="3" placeholder="e.g., 1, 2, 3 or 1 2 3"></textarea>
+  </div>
+  
+  <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-3">
+    <button id="calculate-btn" class="btn btn-primary me-md-2">Calculate</button>
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+  
+  <div class="mb-3">
+    <label for="sum-output" class="form-label">Sum:</label>
+    <input id="sum-output" class="form-control bg-dark text-white" type="text" readonly>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h2 class="mb-4">How Does It Work?</h2>
+      <p>The Sum Calculator works by taking a list of numbers you provide, whether separated by commas or spaces. It then:</p>
+      <ol>
+        <li><strong>Cleans Up:</strong> Filters out any non-number entries (like letters or symbols).</li>
+        <li><strong>Converts:</strong> Turns the remaining valid numbers into a format it can work with.</li>
+        <li><strong>Adds:</strong> Adds them all together to give you the final sum.</li>
+      </ol>
+      <p>For example, if you input <code>1, 2, 3</code> or <code>1 2 3</code>, the tool will calculate the sum as <code>6</code>.</p>
+      
+      <h3 class="mt-4">Example Calculations</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Sum</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1, 2, 3</td><td>6</td></tr>
+          <tr><td>10 20 30</td><td>60</td></tr>
+          <tr><td>5, 10, 15, 20</td><td>50</td></tr>
+          <tr><td>2 4 6 8</td><td>20</td></tr>
+          <tr><td>100, 200, 300</td><td>600</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h2 class="mb-4">10 Common Use Cases for the Sum Calculator</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1. Calculating total expenses for a monthly budget.</li>
+        <li class="list-group-item">2. Adding up scores or grades for students.</li>
+        <li class="list-group-item">3. Summing up sales figures for a business report.</li>
+        <li class="list-group-item">4. Tallying up grocery bills quickly.</li>
+        <li class="list-group-item">5. Adding hours worked for payroll calculations.</li>
+        <li class="list-group-item">6. Calculating the total cost of items in a shopping cart.</li>
+        <li class="list-group-item">7. Adding up donations received for a fundraiser.</li>
+        <li class="list-group-item">8. Summing up points in a game or competition.</li>
+        <li class="list-group-item">9. Calculating the total distance traveled in multiple trips.</li>
+        <li class="list-group-item">10. Adding up calories consumed in a day.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputNumbers = document.getElementById('input-numbers');
+    const calculateBtn = document.getElementById('calculate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const sumOutput = document.getElementById('sum-output');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputNumbers.value = startValue;
+    }
+
+    calculateBtn.addEventListener('click', () => {
+      const input = inputNumbers.value.trim();
+      const numbers = input.split(/[,\s]+/).filter(n => !isNaN(n) && n !== '').map(Number);
+      
+      if (numbers.length === 0) {
+        sumOutput.value = 'No valid numbers found';
+        return;
+      }
+
+      const sum = numbers.reduce((acc, num) => acc + num, 0);
+      sumOutput.value = sum;
+    });
+
+    resetBtn.addEventListener('click', () => {
+      inputNumbers.value = '';
+      sumOutput.value = '';
+    });
+  });
+</script>

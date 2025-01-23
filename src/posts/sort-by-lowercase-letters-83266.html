@@ -1,0 +1,109 @@
+---
+title: "Sort Text Alphabetically - Case Insensitive Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-06-12 11:55:40
+metaDescription: "Easily sort words or phrases alphabetically with this simple, lowercase-friendly tool. Perfect for lists, playlists, and more!"
+metaKeywords: "sort alphabetically, lowercase sorter, text organizer, alphabetical order tool, list sorting tool, playlist organizer, data sorting, word sorter, SEO keyword organizer, task list organizer"
+tags: ["text sorting", "case insensitive", "alphabetical order", "word organizer", "text tool"]
+---
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center mb-4">Sort by Lowercase Letters</h1><div class="container mt-5">
+  <p class="lead text-center">Sorting lists alphabetically should be easy, but somehow it’s always a hassle. Whether you’re organizing a playlist, cleaning up a to-do list, or prepping data for a project, manually sorting words or phrases can feel like a never-ending chore. Enter the <strong>Sort by Lowercase Letters</strong> tool—your new best friend for effortlessly arranging text in alphabetical order. Just paste your list, hit "Sort," and watch as everything magically falls into place. No more headaches, no more second-guessing. It’s quick, simple, and works like a charm every time. Say goodbye to chaos and hello to order!</p>
+</div>
+  <div class="mb-3">
+    <textarea id="input-text" class="form-control bg-dark text-white" rows="10" placeholder="Enter your words or phrases here, one per line."></textarea>
+  </div>
+  <div class="d-flex justify-content-center gap-2 mb-3">
+    <button id="sort-btn" class="btn btn-primary">Sort</button>
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+  <div class="mb-3">
+    <textarea id="output-text" class="form-control bg-dark text-white" rows="10" readonly></textarea>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="text-center mb-4">How It Works</h2>
+      <p class="text-center">The tool takes your list of words or phrases, compares them in lowercase (so capitalization doesn’t mess things up), and sorts them alphabetically. Think of it like arranging books on a shelf—except this shelf is perfectly organized in seconds. Here’s the formula:</p>
+      <ul class="list-unstyled text-center">
+        <li><strong>Step 1:</strong> Paste your list into the input box.</li>
+        <li><strong>Step 2:</strong> Click "Sort" to arrange the items alphabetically.</li>
+        <li><strong>Step 3:</strong> Copy the sorted list and use it wherever you need!</li>
+      </ul>
+      <div class="table-responsive mt-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Original List</th>
+              <th>Sorted List</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>banana<br>Apple<br>cherry</td>
+              <td>Apple<br>banana<br>cherry</td>
+            </tr>
+            <tr>
+              <td>zebra<br>Lion<br>tiger</td>
+              <td>Lion<br>tiger<br>zebra</td>
+            </tr>
+            <tr>
+              <td>grape<br>Mango<br>Kiwi</td>
+              <td>grape<br>Kiwi<br>Mango</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <h2 class="text-center mb-4">10 Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Organizing a list of names for a guest list or event.</li>
+    <li class="list-group-item">Sorting song titles or playlist entries alphabetically.</li>
+    <li class="list-group-item">Arranging product names for an inventory or catalog.</li>
+    <li class="list-group-item">Cleaning up a list of email addresses or contacts.</li>
+    <li class="list-group-item">Preparing data for reports or presentations.</li>
+    <li class="list-group-item">Sorting keywords for SEO or content planning.</li>
+    <li class="list-group-item">Organizing a to-do list or task tracker.</li>
+    <li class="list-group-item">Alphabetizing book titles or movie names.</li>
+    <li class="list-group-item">Sorting ingredients for recipes or grocery lists.</li>
+    <li class="list-group-item">Arranging project or file names for better management.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const outputText = document.getElementById('output-text');
+    const sortBtn = document.getElementById('sort-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    // Sort functionality
+    sortBtn.addEventListener('click', () => {
+      const input = inputText.value.trim();
+      if (!input) {
+        alert('Please enter some text to sort.');
+        return;
+      }
+
+      const lines = input.split('\n').filter(line => line.trim() !== '');
+      const sortedLines = lines.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+      outputText.value = sortedLines.join('\n');
+    });
+
+    // Reset functionality
+    resetBtn.addEventListener('click', () => {
+      inputText.value = '';
+      outputText.value = '';
+    });
+  });
+</script>

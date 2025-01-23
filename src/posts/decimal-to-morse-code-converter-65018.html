@@ -1,0 +1,159 @@
+---
+title: "Decimal to Morse Code Converter - Quick & Easy Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-08-20 10:00:54
+metaDescription: "Convert decimal numbers to Morse code instantly with this easy-to-use tool. Perfect for learning, messaging, or fun!"
+metaKeywords: "decimal to morse code, morse code converter, learn morse code, morse code translator, morse code tool, morse code numbers, morse code for beginners, morse code communication, morse code generator, morse code chart"
+tags: ["Morse Code", "Decimal Converter", "Learning Tool", "Amateur Radio", "Communication"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .error-message {
+    color: #dc3545;
+    font-size: 0.875em;
+    margin-top: 0.25rem;
+  }
+</style>
+
+<div id="main-div">
+  <div class="text-center mb-4">
+    <h1 class="display-4">Decimal to Morse Code Converter</h1><div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+      <p class="fs-4 fw-light">Ever found yourself staring at a string of numbers, wishing you could send them as Morse code but don’t know where to start? Maybe you’re trying to impress your friends with your secret communication skills, or perhaps you’re just curious about how numbers look in Morse. Either way, decoding numbers into Morse code can feel like cracking a secret spy code—without the fun gadgets. Enter the Decimal to Morse Code Converter! This nifty tool takes any number (0-9) and instantly transforms it into Morse code, no secret agent training required. Whether you’re sending a cryptic message or just having fun, this tool makes it as easy as typing a number. Say goodbye to confusion and hello to your inner Morse code pro!</p>
+    </div>
+  </div>
+</div>
+    <p class="lead">Enter a decimal number (0-9) to convert it to Morse code.</p>
+  </div>
+
+  <div class="mb-3">
+    <label for="decimalInput" class="form-label">Enter Decimal Number</label>
+    <input type="text" class="form-control" id="decimalInput" placeholder="e.g., 123" aria-describedby="inputHelp">
+    <div id="inputHelp" class="form-text">Only numbers (0-9) are allowed.</div>
+    <div id="errorMessage" class="error-message"></div>
+  </div>
+
+  <div class="mb-3">
+    <label for="morseOutput" class="form-label">Morse Code Output</label>
+    <input type="text" class="form-control" id="morseOutput" readonly placeholder="Morse code will appear here">
+  </div>
+
+  <div class="d-grid gap-2 d-md-block">
+    <button class="btn btn-primary me-md-2" id="convertBtn">Convert</button>
+    <button class="btn btn-secondary" id="resetBtn">Reset</button>
+  </div>
+
+  <footer class="mt-4 text-center">
+    <small class="text-muted">This tool converts decimal numbers (0-9) to Morse code. Morse code for numbers: 0=----- 1=.---- 2=..--- 3=...-- 4=....- 5=..... 6=-.... 7=--... 8=---.. 9=----.</small>
+  </footer>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <h2 class="h4 mb-4">How It Works</h2>
+      <p class="fs-5">The Decimal to Morse Code Converter works by mapping each digit (0-9) to its corresponding Morse code representation. For example, the number <strong>1</strong> becomes <code>.----</code>, while <strong>5</strong> becomes <code>.....</code>. When you enter a number, the tool splits it into individual digits, looks up their Morse equivalents, and joins them together with spaces in between. It’s like translating your favorite song into another language, but way faster!</p>
+      <table class="table table-bordered mt-4">
+        <thead>
+          <tr>
+            <th scope="col">Decimal Number</th>
+            <th scope="col">Morse Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>-----</td></tr>
+          <tr><td>1</td><td>.----</td></tr>
+          <tr><td>2</td><td>..---</td></tr>
+          <tr><td>3</td><td>...--</td></tr>
+          <tr><td>4</td><td>....-</td></tr>
+          <tr><td>5</td><td>.....</td></tr>
+          <tr><td>6</td><td>-....</td></tr>
+          <tr><td>7</td><td>--...</td></tr>
+          <tr><td>8</td><td>---..</td></tr>
+          <tr><td>9</td><td>----.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <h2 class="h4 mb-4">10 Common Use Cases</h2>
+      <ol class="fs-5">
+        <li>Learning Morse code for fun or educational purposes.</li>
+        <li>Sending secret messages to friends or family.</li>
+        <li>Creating Morse code-based puzzles or games.</li>
+        <li>Encoding numbers for amateur radio communications.</li>
+        <li>Teaching kids about Morse code in a simple way.</li>
+        <li>Adding Morse code elements to art or design projects.</li>
+        <li>Practicing Morse code for emergency signaling.</li>
+        <li>Translating dates or special numbers into Morse code.</li>
+        <li>Using Morse code in escape room challenges.</li>
+        <li>Exploring the history of communication technology.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  const morseCodeMap = {
+    '0': '-----',
+    '1': '.----',
+    '2': '..---',
+    '3': '...--',
+    '4': '....-',
+    '5': '.....',
+    '6': '-....',
+    '7': '--...',
+    '8': '---..',
+    '9': '----.'
+  };
+
+  const decimalInput = document.getElementById('decimalInput');
+  const morseOutput = document.getElementById('morseOutput');
+  const errorMessage = document.getElementById('errorMessage');
+  const convertBtn = document.getElementById('convertBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    decimalInput.value = startValue;
+  }
+
+  const convertToMorse = (input) => {
+    return input.split('').map(digit => morseCodeMap[digit] || '').join(' ');
+  };
+
+  const validateInput = (input) => {
+    return /^\d+$/.test(input);
+  };
+
+  convertBtn.addEventListener('click', () => {
+    const input = decimalInput.value;
+    if (!validateInput(input)) {
+      errorMessage.textContent = 'Invalid input. Please enter a number between 0 and 9.';
+      morseOutput.value = '';
+      return;
+    }
+    errorMessage.textContent = '';
+    morseOutput.value = convertToMorse(input);
+  });
+
+  resetBtn.addEventListener('click', () => {
+    decimalInput.value = '';
+    morseOutput.value = '';
+    errorMessage.textContent = '';
+  });
+
+  decimalInput.addEventListener('input', () => {
+    if (!validateInput(decimalInput.value)) {
+      errorMessage.textContent = 'Invalid input. Please enter a number between 0 and 9.';
+    } else {
+      errorMessage.textContent = '';
+    }
+  });
+</script>

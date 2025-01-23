@@ -1,0 +1,146 @@
+---
+title: Morse Code to Binary Converter - Quick & Easy Tool
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-11-28 19:29:34
+metaDescription: "Convert Morse code to binary instantly with this easy-to-use tool. Perfect for students, hobbyists, and tech enthusiasts!"
+metaKeywords: "morse code to binary, morse code converter, binary converter, morse code tool, binary translation, morse code translation, morse code decoder, binary code generator, morse code for beginners, morse code learning"
+tags: morse-code, binary-converter, encoding-tool, educational, web-tool
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .monospace {
+    font-family: monospace;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Morse Code to Binary Converter</h1><div class="container text-center my-5">
+  <p class="lead fw-bold fs-3">Ever tried decoding Morse code and felt like you were deciphering an alien language? You're not alone! Morse code, with its dots and dashes, can be tricky to interpret, and translating it into binary? That’s a whole new level of confusion. But what if there was a tool that could do the heavy lifting for you? Introducing the <strong>Morse Code to Binary Converter</strong>—a simple, fun, and super-efficient way to turn those mysterious dots and dashes into clear binary code. Whether you're a hobbyist, a student, or just someone who loves tech, this tool is here to make your life easier. No more headaches—just quick, accurate conversions at your fingertips!</p>
+</div>
+    <p class="lead">Enter Morse code (dots '.' and dashes '-') to see its binary representation.</p>
+  </header>
+
+  <div class="mb-3">
+    <label for="morse-input" class="form-label visually-hidden">Enter Morse Code</label>
+    <input type="text" id="morse-input" class="form-control text-center monospace" placeholder="Enter Morse code here (e.g., .- -...)" aria-label="Morse Code Input">
+    <div id="error-message" class="text-danger mt-2" aria-live="polite"></div>
+  </div>
+
+  <div class="d-grid gap-2 mb-3">
+    <button id="convert-btn" class="btn btn-primary btn-lg">Convert</button>
+    <button id="reset-btn" class="btn btn-secondary btn-lg">Reset</button>
+  </div>
+
+  <div class="mb-3">
+    <label for="binary-output" class="form-label visually-hidden">Binary Output</label>
+    <textarea id="binary-output" class="form-control text-center monospace" rows="3" readonly aria-label="Binary Output"></textarea>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="fs-5">Here’s how it works: Morse code uses dots (<code>.</code>) and dashes (<code>-</code>) to represent letters, numbers, and symbols. This tool takes those dots and dashes and converts them into binary, where a dot becomes <code>1</code> and a dash becomes <code>0</code>. It’s like flipping a switch—simple, right? The tool even handles spaces, so you can convert entire messages without breaking a sweat.</p>
+      <p class="fs-5">Below is a handy table showing how some common Morse code patterns translate into binary:</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Morse Code</th>
+            <th scope="col">Binary Representation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>.</td><td>1</td></tr>
+          <tr><td>-</td><td>0</td></tr>
+          <tr><td>.-</td><td>10</td></tr>
+          <tr><td>--</td><td>00</td></tr>
+          <tr><td>...</td><td>111</td></tr>
+          <tr><td>---</td><td>000</td></tr>
+          <tr><td>.-.-</td><td>1010</td></tr>
+          <tr><td>--.--</td><td>00100</td></tr>
+          <tr><td>.-.-.-</td><td>101010</td></tr>
+          <tr><td>--..--</td><td>001100</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="fs-3 fw-bold mb-4">10 Common Use Cases for the Morse Code to Binary Converter</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Decoding secret messages for fun or educational purposes.</li>
+        <li class="list-group-item">Teaching binary and Morse code concepts in classrooms.</li>
+        <li class="list-group-item">Assisting amateur radio operators in signal analysis.</li>
+        <li class="list-group-item">Creating custom binary-based encryption for personal projects.</li>
+        <li class="list-group-item">Exploring historical communication methods in tech history.</li>
+        <li class="list-group-item">Developing Morse code-based games or puzzles.</li>
+        <li class="list-group-item">Converting Morse code into binary for programming challenges.</li>
+        <li class="list-group-item">Enhancing cybersecurity knowledge through encoding exercises.</li>
+        <li class="list-group-item">Using binary outputs for IoT device communication testing.</li>
+        <li class="list-group-item">Simplifying Morse code translation for hobbyists and enthusiasts.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const morseInput = document.getElementById('morse-input');
+    const binaryOutput = document.getElementById('binary-output');
+    const errorMessage = document.getElementById('error-message');
+    const convertBtn = document.getElementById('convert-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      morseInput.value = startValue;
+    }
+
+    const isValidMorse = (input) => /^[.\-\s]*$/.test(input);
+
+    const convertMorseToBinary = (morse) => {
+      return morse
+        .split('')
+        .map(char => {
+          if (char === '.') return '1';
+          if (char === '-') return '0';
+          if (char === ' ') return ' ';
+          return '';
+        })
+        .join('');
+    };
+
+    const handleConversion = () => {
+      const input = morseInput.value.trim();
+      if (!isValidMorse(input)) {
+        errorMessage.textContent = 'Invalid input. Only dots (.), dashes (-), and spaces are allowed.';
+        binaryOutput.value = '';
+        return;
+      }
+      errorMessage.textContent = '';
+      binaryOutput.value = convertMorseToBinary(input);
+    };
+
+    const handleReset = () => {
+      morseInput.value = '';
+      binaryOutput.value = '';
+      errorMessage.textContent = '';
+      morseInput.focus();
+    };
+
+    convertBtn.addEventListener('click', handleConversion);
+    resetBtn.addEventListener('click', handleReset);
+    morseInput.addEventListener('input', () => {
+      if (errorMessage.textContent) {
+        errorMessage.textContent = '';
+      }
+    });
+    morseInput.focus();
+  });
+</script>

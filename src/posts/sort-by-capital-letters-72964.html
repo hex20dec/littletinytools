@@ -1,0 +1,131 @@
+---
+title: "Sort Words by Capital Letters - Quick & Easy Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-01-19 06:04:07
+metaDescription: "Sort words or phrases by the number of capital letters. Perfect for writers, developers, and anyone who loves organized text!"
+metaKeywords: "sort by capital letters, capitalize words, organize text, count capitals, word sorter, text formatting tool, capitalize phrases, acronym sorter, text organizer, capital letter counter"
+tags: ["text sorting", "capital letters", "word organizer", "grammar tool", "text analysis"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="mb-4">Sort by Capital Letters</h1><div class="container bg-light p-4">
+  <strong class="d-block fs-3 mb-3">Sort by Capital Letters</strong>
+  <p class="lead">Why does sorting text with capital letters feel like solving a puzzle? Whether you're editing a document, organizing code, or just trying to make sense of a jumble of words, this tool is here to save the day. Simply paste your list of words or phrases, and watch as they’re neatly sorted by the number of capital letters—ascending or descending, your choice! Perfect for writers, developers, or anyone who loves a bit of order in their lives. No more manual counting or head-scratching—just quick, clean results. Let’s make your text work for you!</p>
+</div>
+  <p class="mb-4">Enter a list of words or phrases below, and the app will sort them by the number of capital letters.</p>
+
+  <div class="mb-3">
+    <label for="input-text" class="form-label">Enter one word or phrase per line:</label>
+    <textarea id="input-text" class="form-control bg-dark text-white" rows="5" placeholder="Enter one word or phrase per line."></textarea>
+  </div>
+
+  <div class="mb-3">
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="sort-order" id="ascending" value="ascending" checked>
+      <label class="form-check-label" for="ascending">Ascending (fewest capital letters first)</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="sort-order" id="descending" value="descending">
+      <label class="form-check-label" for="descending">Descending (most capital letters first)</label>
+    </div>
+  </div>
+
+  <button id="sort-btn" class="btn btn-primary mb-3">Sort</button>
+  <button id="reset-btn" class="btn btn-secondary mb-3">Reset</button>
+
+  <div id="output-section" class="mt-4">
+    <label for="output-text" class="form-label">Sorted Results:</label>
+    <textarea id="output-text" class="form-control bg-dark text-white" rows="5" readonly></textarea>
+  </div>
+</div>
+
+<div class="container bg-light p-4 mt-4">
+  <strong class="d-block fs-4 mb-3">How It Works</strong>
+  <p class="mb-3">The tool works by calculating the number of capital letters in each word or phrase and then sorting them based on your chosen order. Here's the simple formula:</p>
+  <ul class="list-unstyled">
+    <li><strong>Step 1:</strong> Break your input into individual words or phrases (one per line).</li>
+    <li><strong>Step 2:</strong> Count the capital letters in each entry.</li>
+    <li><strong>Step 3:</strong> Sort the entries by the number of capitals—either from fewest to most or most to fewest.</li>
+    <li><strong>Step 4:</strong> Display the sorted list, showing the word and its capital count for clarity.</li>
+  </ul>
+  <p class="mb-3">Here’s a quick example of how the tool processes input:</p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Input</th>
+        <th>Capital Count</th>
+        <th>Sorted Output (Ascending)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Hello World</td>
+        <td>2</td>
+        <td>Hello World (2)</td>
+      </tr>
+      <tr>
+        <td>JavaScript</td>
+        <td>2</td>
+        <td>JavaScript (2)</td>
+      </tr>
+      <tr>
+        <td>NASA</td>
+        <td>4</td>
+        <td>NASA (4)</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container bg-light p-4 mt-4">
+  <strong class="d-block fs-4 mb-3">10 Common Use Cases</strong>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Sorting acronyms in a research paper by their prominence.</li>
+    <li class="list-group-item">Organizing code snippets with varying levels of capitalization.</li>
+    <li class="list-group-item">Preparing a presentation where capitalized words need emphasis.</li>
+    <li class="list-group-item">Editing a document to ensure consistent use of capital letters.</li>
+    <li class="list-group-item">Analyzing brand names or trademarks in a marketing report.</li>
+    <li class="list-group-item">Preparing a glossary sorted by capitalization rules.</li>
+    <li class="list-group-item">Cleaning up a list of product names for an e-commerce site.</li>
+    <li class="list-group-item">Sorting titles or headings in a manuscript.</li>
+    <li class="list-group-item">Organizing a list of abbreviations for quick reference.</li>
+    <li class="list-group-item">Simplifying the process of formatting legal or technical documents.</li>
+  </ol>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const outputText = document.getElementById('output-text');
+    const sortBtn = document.getElementById('sort-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const sortOrderRadios = document.querySelectorAll('input[name="sort-order"]');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputText.value = startValue;
+    }
+
+    const countCapitals = (str) => (str.match(/[A-Z]/g) || []).length;
+
+    const sortWords = () => {
+      const words = inputText.value.split('\n').filter(line => line.trim() !== '');
+      const sortOrder = document.querySelector('input[name="sort-order"]:checked').value;
+
+      const sortedWords = words.sort((a, b) => {
+        const countA = countCapitals(a);
+        const countB = countCapitals(b);
+        return sortOrder === 'ascending' ? countA - countB : countB - countA;
+      });
+
+      outputText.value = sortedWords.map(word => `${word} (${countCapitals(word)})`).join('\n');
+    };
+
+    const resetApp = () => {
+      inputText.value = '';
+      outputText.value = '';
+      sortOrderRadios[0].checked = true;
+    };
+
+    sortBtn.addEventListener('click', sortWords);
+    resetBtn.addEventListener('click', resetApp);
+  });
+</script>

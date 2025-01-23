@@ -1,0 +1,140 @@
+---
+title: "URL Counter - Quickly Count URLs in Your Text"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-10-14 10:19:41
+metaDescription: "Count URLs in your text instantly with this easy-to-use URL Counter tool. Perfect for SEO, content review, and more!"
+metaKeywords: "URL counter, count URLs, URL tool, SEO tool, link counter, web tool, URL checker, URL scanner, content analysis, email marketing"
+tags: ["url counter", "text tools", "web utilities", "url detection", "online tools"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <header class="text-center mt-4 mb-3">
+    <h1 class="display-4">URL Counter</h1><!-- Header Section -->
+<div class="container bg-dark text-white p-4 rounded">
+  <header class="text-center mt-4 mb-3">
+    <p class="display-4">URL Counter</p>
+    <p class="text-muted">Paste your text below to count the number of URLs.</p>
+  </header>
+
+  <section class="mb-4">
+    <textarea id="input-text" class="form-control bg-dark text-white mb-3" rows="10" placeholder="Paste your text here..."></textarea>
+    <button id="count-button" class="btn btn-primary w-100">Count URLs</button>
+  </section>
+
+  <section id="output-section" class="text-center mt-4 d-none">
+    <p class="text-muted">Total URLs Found:</p>
+    <p id="url-count" class="display-4 fw-bold">0</p>
+    <p class="text-muted">URLs detected in your text.</p>
+  </section>
+
+  <footer class="text-center text-muted mt-5">
+    <p>This tool identifies URLs starting with http://, https://, or www.</p>
+  </footer>
+</div>
+    <p class="text-muted">Paste your text below to count the number of URLs.</p>
+  </header>
+
+  <section class="mb-4">
+    <textarea id="input-text" class="form-control bg-dark text-white mb-3" rows="10" placeholder="Paste your text here..."></textarea>
+    <button id="count-button" class="btn btn-primary w-100">Count URLs</button>
+  </section>
+
+  <section id="output-section" class="text-center mt-4 d-none">
+    <p class="text-muted">Total URLs Found:</p>
+    <p id="url-count" class="display-4 fw-bold">0</p>
+    <p class="text-muted">URLs detected in your text.</p>
+  </section>
+
+  <footer class="text-center text-muted mt-5">
+    <p>This tool identifies URLs starting with http://, https://, or www.</p>
+  </footer>
+</div>
+
+<!-- Explanation Section -->
+<div class="container bg-light p-4 rounded mt-4">
+  <h2 class="mb-4">How It Works</h2>
+  <p>The URL Counter tool works by scanning your text for patterns that match URLs. These patterns include:</p>
+  <ul>
+    <li>Text starting with <code>http://</code></li>
+    <li>Text starting with <code>https://</code></li>
+    <li>Text starting with <code>www.</code></li>
+  </ul>
+  <p>It then counts each unique URL found in your text, ensuring no duplicates are included in the final count.</p>
+
+  <h3 class="mt-4">Example Table</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Text Input</th>
+        <th>Number of URLs Found</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Visit https://example.com and http://example.org</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>Check out www.example.net and www.example.net</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>No URLs here!</td>
+        <td>0</td>
+      </tr>
+    </tbody>
+  </table>
+</div><!-- Use Cases Section -->
+<div class="container bg-light p-4 rounded mt-4">
+  <h2 class="mb-4">10 Common Use Cases for the URL Counter Tool</h2>
+  <ol>
+    <li><strong>Content Review:</strong> Quickly check how many URLs are in your blog posts or articles.</li>
+    <li><strong>SEO Audits:</strong> Analyze the number of external links in your web content.</li>
+    <li><strong>Email Marketing:</strong> Ensure your email campaigns have the correct number of links.</li>
+    <li><strong>Academic Writing:</strong> Count references or citations in research papers.</li>
+    <li><strong>Social Media Posts:</strong> Verify the number of links in your scheduled posts.</li>
+    <li><strong>Web Development:</strong> Check for embedded URLs in code snippets or documentation.</li>
+    <li><strong>Data Cleaning:</strong> Identify and count URLs in large datasets or spreadsheets.</li>
+    <li><strong>Forum Moderation:</strong> Monitor the number of links posted by users.</li>
+    <li><strong>Ad Campaigns:</strong> Track the number of URLs in ad copy for compliance.</li>
+    <li><strong>Personal Projects:</strong> Organize bookmarks or links in your notes.</li>
+  </ol>
+</div><script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const inputText = document.getElementById("input-text");
+    const countButton = document.getElementById("count-button");
+    const outputSection = document.getElementById("output-section");
+    const urlCount = document.getElementById("url-count");
+
+    // Preload text from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get("start");
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    countButton.addEventListener("click", () => {
+      const text = inputText.value.trim();
+
+      if (!text) {
+        outputSection.classList.add("d-none");
+        alert("Please enter some text to count URLs.");
+        return;
+      }
+
+      const urlPattern = /(https?:\/\/[^\s]+|www\.[^\s]+)/gi;
+      const matches = text.match(urlPattern) || [];
+      const uniqueMatches = [...new Set(matches)];
+
+      urlCount.textContent = uniqueMatches.length;
+      outputSection.classList.remove("d-none");
+
+      if (uniqueMatches.length === 0) {
+        urlCount.textContent = "0";
+        outputSection.querySelector(".text-muted").textContent = "No URLs detected.";
+      } else {
+        outputSection.querySelector(".text-muted").textContent = "URLs detected in your text.";
+      }
+    });
+  });
+</script>

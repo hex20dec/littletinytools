@@ -1,0 +1,156 @@
+---
+title: "Binary Fraction to Decimal Converter - Quick & Accurate Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-11-13 05:54:41
+metaDescription: "Convert binary fractions to decimals instantly with this easy-to-use tool. Perfect for students, programmers, and curious minds!"
+metaKeywords: "binary to decimal converter, binary fraction calculator, binary fraction to decimal, binary conversion tool, binary fraction tool"
+tags: ["binary converter", "decimal converter", "binary fraction", "math tool", "educational tool"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  }
+  .alert {
+    margin-top: 10px;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Binary Fraction to Decimal Converter</h1><div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="fs-3 fw-bold mb-3">Ever felt like binary numbers are speaking a language you don’t understand? 🤔</p>
+      <p class="lead">Whether you're a student wrestling with computer science homework or just curious about how binary fractions work, converting them to decimals can feel like solving a puzzle. But don’t worry—this tool is here to make your life easier! Simply type in a binary fraction (like 101.101), and voilà! You’ll get the decimal equivalent in a snap. No math headaches, no confusion—just quick, accurate results. Say goodbye to frustration and hello to smooth sailing! 🚀</p>
+    </div>
+  </div>
+</div>
+    <p class="lead">Enter a binary fraction (e.g., 101.101) to convert it to its decimal equivalent.</p>
+  </header>
+
+  <div class="mb-3">
+    <input type="text" id="binaryInput" class="form-control text-center" placeholder="Enter binary fraction (e.g., 101.101)" aria-label="Binary Fraction Input">
+    <div id="errorMessage" class="alert alert-danger mt-2 d-none" role="alert">Invalid input. Only 0, 1, and . are allowed.</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="decimalOutput" class="form-label">Decimal Equivalent:</label>
+    <input type="text" id="decimalOutput" class="form-control text-center" readonly aria-label="Decimal Output">
+  </div>
+
+  <div class="text-center">
+    <button id="resetButton" class="btn btn-secondary">Reset</button>
+  </div>
+
+  <footer class="text-center mt-4">
+    <p class="text-muted">This tool is for educational and practical purposes. No external APIs or data are used.</p>
+  </footer>
+</div>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="fs-4 fw-bold mb-3">How It Works</h2>
+      <p class="mb-4">The tool splits your binary fraction into two parts: the part before the decimal (integer) and the part after (fractional). Here's the magic formula:</p>
+      <ol class="list-unstyled">
+        <li class="mb-2">1️⃣ The integer part is converted to decimal using binary-to-decimal rules (e.g., 101 → 5).</li>
+        <li class="mb-2">2️⃣ The fractional part is converted by adding up each digit's value based on its position (e.g., 0.101 → 0.625).</li>
+        <li class="mb-2">3️⃣ Both parts are combined to give you the final decimal number (e.g., 101.101 → 5.625).</li>
+      </ol>
+      <p class="mb-4">Here’s a quick table to show you some examples:</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Binary Fraction</th>
+            <th scope="col">Decimal Equivalent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>101.101</td><td>5.625</td></tr>
+          <tr><td>110.011</td><td>6.375</td></tr>
+          <tr><td>10.1</td><td>2.5</td></tr>
+          <tr><td>0.101</td><td>0.625</td></tr>
+          <tr><td>111.111</td><td>7.875</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="fs-4 fw-bold mb-3">Top 10 Use Cases</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1️⃣ Learning binary-to-decimal conversion for computer science classes.</li>
+        <li class="list-group-item">2️⃣ Verifying manual binary fraction calculations.</li>
+        <li class="list-group-item">3️⃣ Simplifying complex binary fractions for coding projects.</li>
+        <li class="list-group-item">4️⃣ Solving math problems involving binary numbers.</li>
+        <li class="list-group-item">5️⃣ Teaching binary concepts to students or peers.</li>
+        <li class="list-group-item">6️⃣ Preparing for technical interviews or exams.</li>
+        <li class="list-group-item">7️⃣ Debugging binary-related errors in programming.</li>
+        <li class="list-group-item">8️⃣ Exploring binary fractions out of curiosity.</li>
+        <li class="list-group-item">9️⃣ Converting binary data for hardware programming.</li>
+        <li class="list-group-item">🔟 Writing tutorials or guides on binary numbers.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const binaryInput = document.getElementById('binaryInput');
+    const decimalOutput = document.getElementById('decimalOutput');
+    const errorMessage = document.getElementById('errorMessage');
+    const resetButton = document.getElementById('resetButton');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      binaryInput.value = startValue;
+      convertBinaryFraction(startValue);
+    }
+
+    binaryInput.addEventListener('input', (e) => {
+      const input = e.target.value;
+      if (/^[01.]*$/.test(input)) {
+        errorMessage.classList.add('d-none');
+        convertBinaryFraction(input);
+      } else {
+        errorMessage.classList.remove('d-none');
+        decimalOutput.value = '';
+      }
+    });
+
+    resetButton.addEventListener('click', () => {
+      binaryInput.value = '';
+      decimalOutput.value = '';
+      errorMessage.classList.add('d-none');
+    });
+
+    function convertBinaryFraction(binary) {
+      if (!binary) {
+        decimalOutput.value = '';
+        return;
+      }
+
+      const [integerPart, fractionalPart] = binary.split('.');
+
+      let decimalInteger = 0;
+      if (integerPart) {
+        decimalInteger = parseInt(integerPart, 2);
+      }
+
+      let decimalFraction = 0;
+      if (fractionalPart) {
+        decimalFraction = fractionalPart.split('').reduce((acc, bit, index) => {
+          return acc + (bit === '1' ? Math.pow(2, -(index + 1)) : 0);
+        }, 0);
+      }
+
+      decimalOutput.value = (decimalInteger + decimalFraction).toString();
+    }
+  });
+</script>

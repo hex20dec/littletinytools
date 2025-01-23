@@ -1,0 +1,120 @@
+---
+title: "Consecutive Space Counter - Analyze Text Spacing Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-10-08 23:11:46
+metaDescription: "Easily count consecutive spaces in your text with the Consecutive Space Counter. Perfect for editing, coding, and formatting tasks!"
+metaKeywords: "consecutive space counter, count spaces, text formatting tool, space checker, text editor tool, spacing errors, text cleanup tool, document formatting, coding spacing tool"
+tags: ["text analysis", "spacing tool", "formatting", "debugging", "productivity"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-4">Consecutive Space Counter</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center mb-4 fs-3 fw-bold">Why do extra spaces always sneak into your text? 🕵️‍♂️</p>
+      <p class="text-center mb-4">Whether you're editing a document, cleaning up code, or perfecting your blog post, those pesky consecutive spaces can mess up formatting and readability. Introducing the <strong>Consecutive Space Counter</strong>—a simple yet powerful tool that scans your text and counts how many double (or more!) spaces are lurking in your content. Just paste your text, click the button, and voilà! You’ll know exactly where those sneaky spaces are hiding. No more guessing or manual searching. It’s like having a proofreader for your spacing errors, and it’s here to make your life easier, one space at a time. 😊</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Enter your text below to count the number of consecutive spaces (two or more spaces in a row).</p>
+      <div class="mb-3">
+        <textarea id="text-input" class="form-control bg-dark text-white" rows="10" placeholder="Paste or type your text here..."></textarea>
+      </div>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4">
+        <button id="count-btn" class="btn btn-primary me-md-2">Count Spaces</button>
+        <button id="reset-btn" class="btn btn-secondary">Reset</button>
+      </div>
+      <div id="results-section" class="mt-4">
+        <div id="results-card" class="card bg-secondary text-white">
+          <div class="card-body">
+            <h5 class="card-title">Results</h5>
+            <p id="total-spaces" class="card-text"></p>
+            <div id="positions-list" class="overflow-auto" style="max-height: 200px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center mb-4 fs-4 fw-bold">How It Works</p>
+      <p class="text-center mb-4">The tool works by scanning your text for instances where two or more spaces appear consecutively. Here’s the breakdown:</p>
+      <ol class="list-group list-group-numbered mb-4">
+        <li class="list-group-item">Paste or type your text into the input box.</li>
+        <li class="list-group-item">Click the "Count Spaces" button to analyze your text.</li>
+        <li class="list-group-item">The tool will show you the total number of consecutive spaces found and their specific positions in the text.</li>
+      </ol>
+      <p class="text-center mb-4">For example, if your text is: <code>"Hello   World!"</code>, the tool will detect the three spaces between "Hello" and "World" and display the result accordingly. It’s that simple!</p>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center mb-4 fs-4 fw-bold">10 Common Use Cases for the Consecutive Space Counter</p>
+      <ul class="list-group mb-4">
+        <li class="list-group-item bg-secondary text-white">1. Cleaning up formatting in documents or essays.</li>
+        <li class="list-group-item bg-secondary text-white">2. Preparing text for publishing on blogs or websites.</li>
+        <li class="list-group-item bg-secondary text-white">3. Debugging code to ensure proper spacing in strings.</li>
+        <li class="list-group-item bg-secondary text-white">4. Editing CSV files to maintain consistent spacing.</li>
+        <li class="list-group-item bg-secondary text-white">5. Formatting emails for a polished, professional look.</li>
+        <li class="list-group-item bg-secondary text-white">6. Preparing manuscripts for submission to publishers.</li>
+        <li class="list-group-item bg-secondary text-white">7. Checking spacing in JSON or XML files.</li>
+        <li class="list-group-item bg-secondary text-white">8. Cleaning up user-submitted content on forums or websites.</li>
+        <li class="list-group-item bg-secondary text-white">9. Ensuring consistency in markdown files.</li>
+        <li class="list-group-item bg-secondary text-white">10. Teaching students about proper spacing in writing.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const totalSpaces = document.getElementById('total-spaces');
+    const positionsList = document.getElementById('positions-list');
+    const resultsCard = document.getElementById('results-card');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    countBtn.addEventListener('click', () => {
+      const text = textInput.value;
+      if (!text.trim()) {
+        resultsCard.classList.remove('d-none');
+        totalSpaces.textContent = 'Please enter some text to analyze.';
+        positionsList.innerHTML = '';
+        return;
+      }
+
+      const matches = [...text.matchAll(/ {2,}/g)];
+      if (matches.length === 0) {
+        resultsCard.classList.remove('d-none');
+        totalSpaces.textContent = 'No consecutive spaces found.';
+        positionsList.innerHTML = '';
+        return;
+      }
+
+      resultsCard.classList.remove('d-none');
+      totalSpaces.textContent = `Total consecutive spaces found: ${matches.length}`;
+      positionsList.innerHTML = matches.map((match, index) => `
+        <div class="mb-2">${index + 1}. Starting at position: ${match.index}</div>
+      `).join('');
+    });
+
+    resetBtn.addEventListener('click', () => {
+      textInput.value = '';
+      resultsCard.classList.add('d-none');
+      totalSpaces.textContent = '';
+      positionsList.innerHTML = '';
+    });
+  });
+</script>

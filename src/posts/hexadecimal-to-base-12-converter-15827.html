@@ -1,0 +1,160 @@
+---
+title: "Hexadecimal to Base-12 Converter - Quick & Easy Number Conversion"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-11-16 03:12:22
+metaDescription: "Easily convert hexadecimal numbers to base-12 with our user-friendly tool. Perfect for programmers, students, and math enthusiasts!"
+metaKeywords: "hexadecimal to base-12, hex converter, base-12 calculator, number system converter, programming tools, math tools"
+tags: ["hexadecimal", "base-12", "number converter", "math tool", "web app"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .output-field {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container">
+    <h1 class="h3 text-center mb-4">Hexadecimal to Base-12 Converter</h1><div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+      <p class="fs-4 fw-light mb-4">
+        Ever found yourself staring at a hexadecimal number, scratching your head, and wondering, "What on earth does this mean in base-12?" You're not alone! Hexadecimal numbers are everywhere—from coding to color codes—but converting them to base-12 can feel like deciphering an alien language. Enter our <strong>Hexadecimal to Base-12 Converter</strong>! This nifty tool takes the headache out of conversions, transforming those tricky hex numbers into base-12 with just a click. Whether you're a programmer, a math enthusiast, or just someone who loves solving puzzles, this tool is your new best friend. Say goodbye to confusion and hello to simplicity—because life's too short for math-induced stress!
+      </p>
+    </div>
+  </div>
+</div>
+    <p class="lead text-center mb-4">Enter a hexadecimal number to convert it to base-12.</p>
+
+    <div class="mb-3">
+      <label for="hex-input" class="form-label fs-5">Hexadecimal Input</label>
+      <input type="text" class="form-control" id="hex-input" placeholder="e.g., 1A3F" aria-describedby="hex-help" autofocus>
+      <div id="hex-help" class="form-text">Enter a valid hexadecimal number (0-9, A-F).</div>
+      <div id="error-message" class="text-danger mt-2" style="display: none;">Invalid hexadecimal input. Please enter a valid hexadecimal number.</div>
+    </div>
+
+    <button id="convert-btn" class="btn btn-primary w-100 mb-3">Convert</button>
+
+    <div class="mb-3">
+      <label for="base12-output" class="form-label fs-5">Base-12 Output</label>
+      <input type="text" class="form-control-plaintext output-field" id="base12-output" readonly>
+    </div>
+
+    <button id="reset-btn" class="btn btn-secondary w-100">Reset</button>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <h2 class="h4 mb-4">How It Works</h2>
+      <p class="mb-4">
+        The tool works by first converting the hexadecimal (base-16) number you input into a decimal (base-10) number. Think of it as translating a foreign word into a language you understand. Once it's in decimal form, the tool then converts that number into base-12 by repeatedly dividing it by 12 and keeping track of the remainders. These remainders, when read in reverse, give you the base-12 equivalent. It's like breaking down a big problem into smaller, more manageable pieces—math magic at its finest!
+      </p>
+      <h3 class="h5 mb-3">Example Conversions</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Hexadecimal</th>
+              <th>Base-12</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>1</td></tr>
+            <tr><td>A</td><td>A</td></tr>
+            <tr><td>10</td><td>14</td></tr>
+            <tr><td>1F</td><td>2B</td></tr>
+            <tr><td>2A</td><td>46</td></tr>
+            <tr><td>3B</td><td>63</td></tr>
+            <tr><td>4C</td><td>80</td></tr>
+            <tr><td>5D</td><td>9B</td></tr>
+            <tr><td>6E</td><td>B6</td></tr>
+            <tr><td>7F</td><td>D1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <h2 class="h4 mb-4">10 Common Use Cases for the Hexadecimal to Base-12 Converter</h2>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">1. Simplifying programming tasks involving base conversions.</li>
+        <li class="list-group-item">2. Converting color codes from hexadecimal to base-12 for specialized design projects.</li>
+        <li class="list-group-item">3. Solving math puzzles or competitions that involve multiple number bases.</li>
+        <li class="list-group-item">4. Teaching students about different number systems in a fun and interactive way.</li>
+        <li class="list-group-item">5. Debugging code that uses hexadecimal and base-12 interchangeably.</li>
+        <li class="list-group-item">6. Creating custom numbering systems for games or simulations.</li>
+        <li class="list-group-item">7. Converting hexadecimal MAC addresses to base-12 for network configurations.</li>
+        <li class="list-group-item">8. Exploring the relationship between different number bases for research purposes.</li>
+        <li class="list-group-item">9. Preparing presentations or educational materials on number systems.</li>
+        <li class="list-group-item">10. Satisfying your curiosity about how numbers work in different bases!</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const hexInput = document.getElementById('hex-input');
+    const base12Output = document.getElementById('base12-output');
+    const convertBtn = document.getElementById('convert-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const errorMessage = document.getElementById('error-message');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      hexInput.value = startValue;
+    }
+
+    const isValidHex = (input) => /^[0-9A-Fa-f]+$/.test(input);
+
+    const hexToBase12 = (hex) => {
+      let decimal = parseInt(hex, 16);
+      if (isNaN(decimal)) return null;
+
+      const base12Digits = [];
+      while (decimal > 0) {
+        base12Digits.unshift(decimal % 12);
+        decimal = Math.floor(decimal / 12);
+      }
+      return base12Digits.map(d => d.toString(12).toUpperCase()).join('');
+    };
+
+    const handleConvert = () => {
+      const input = hexInput.value.trim();
+      if (!isValidHex(input)) {
+        errorMessage.style.display = 'block';
+        base12Output.value = '';
+        return;
+      }
+
+      errorMessage.style.display = 'none';
+      const result = hexToBase12(input);
+      base12Output.value = result || '0';
+    };
+
+    const handleReset = () => {
+      hexInput.value = '';
+      base12Output.value = '';
+      errorMessage.style.display = 'none';
+      hexInput.focus();
+    };
+
+    convertBtn.addEventListener('click', handleConvert);
+    resetBtn.addEventListener('click', handleReset);
+
+    hexInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        handleConvert();
+      }
+    });
+  });
+</script>

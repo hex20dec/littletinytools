@@ -1,0 +1,127 @@
+---
+title: "Lowercase Sentence Counter - Quickly Check for Lowercase Sentences"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-05-16 12:29:18
+metaDescription: "Count lowercase sentences in your text instantly with the Lowercase Sentence Counter. Perfect for writers, students, and grammar enthusiasts!"
+metaKeywords: "lowercase sentence counter, count lowercase sentences, lowercase text analyzer, grammar tool, writing helper, sentence checker"
+tags: ["writing", "grammar", "proofreading", "tools", "productivity"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  textarea {
+    min-height: 200px;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="mb-3">Lowercase Sentence Counter</h1><div class="container mt-5">
+  <div class="text-center mb-4">
+    <p class="h2 mb-3">Lowercase Sentence Counter</p>
+    <p class="lead">Ever written a paragraph and realized half your sentences are in lowercase by accident? Maybe you’re trying to break free from the tyranny of capitalization, or perhaps you’re just curious how often you forget to hit that shift key. Either way, the struggle is real! Enter the <strong>Lowercase Sentence Counter</strong>—your new best friend for analyzing text. Simply paste or type your content, and this nifty tool will instantly tell you how many sentences are flying under the capitalization radar. It’s like having a grammar detective in your pocket, but way more fun and a lot less judgmental. Say goodbye to guesswork and hello to clarity!</p>
+  </div>
+</div>
+    <p class="lead">Paste or type your text below to count the number of sentences written entirely in lowercase.</p>
+  </header>
+
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control mb-3" placeholder="Enter your text here..." aria-label="Text input"></textarea>
+    <button id="count-button" class="btn btn-primary w-100">Count Lowercase Sentences</button>
+  </div>
+
+  <div id="result-display" class="alert alert-info mt-3" role="alert">
+    Results will appear here.
+  </div>
+
+  <footer class="text-center mt-5">
+    <p class="text-muted">This tool does not store or share your text.</p>
+  </footer>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p class="h4 mb-3">How It Works</p>
+      <p class="mb-4">The Lowercase Sentence Counter works by breaking down your text into individual sentences using punctuation marks (like periods, exclamation points, and question marks). It then checks each sentence to see if it’s written entirely in lowercase letters. If it is, it gets counted! The tool doesn’t care about proper nouns, acronyms, or anything else—just pure, lowercase simplicity. Here’s a quick example:</p>
+      
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Sentence</th>
+              <th>Lowercase?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>this is a lowercase sentence.</td>
+              <td>✅ Yes</td>
+            </tr>
+            <tr>
+              <td>This one is not.</td>
+              <td>❌ No</td>
+            </tr>
+            <tr>
+              <td>another lowercase example!</td>
+              <td>✅ Yes</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p class="h4 mb-3">10 Common Use Cases for the Lowercase Sentence Counter</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Analyzing casual writing styles in emails or messages.</li>
+        <li class="list-group-item">Checking for lowercase-only sentences in creative writing projects.</li>
+        <li class="list-group-item">Evaluating the tone of social media posts.</li>
+        <li class="list-group-item">Teaching students about sentence structure and capitalization.</li>
+        <li class="list-group-item">Proofreading blog posts for stylistic consistency.</li>
+        <li class="list-group-item">Assessing the readability of text for accessibility purposes.</li>
+        <li class="list-group-item">Counting lowercase sentences in poetry or experimental writing.</li>
+        <li class="list-group-item">Testing the effectiveness of auto-capitalization tools.</li>
+        <li class="list-group-item">Analyzing text messages for informal communication patterns.</li>
+        <li class="list-group-item">Curiosity-driven exploration of your own writing habits!</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const countButton = document.getElementById('count-button');
+    const resultDisplay = document.getElementById('result-display');
+
+    // Preload text from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    countButton.addEventListener('click', () => {
+      const text = textInput.value.trim();
+
+      if (!text) {
+        resultDisplay.textContent = 'Please enter some text to analyze.';
+        resultDisplay.classList.remove('alert-info');
+        resultDisplay.classList.add('alert-warning');
+        return;
+      }
+
+      const sentences = text.split(/[.!?]/g).filter(s => s.trim() !== '');
+      const lowercaseSentences = sentences.filter(s => s.trim() === s.trim().toLowerCase());
+      const count = lowercaseSentences.length;
+
+      resultDisplay.textContent = `Number of lowercase sentences: ${count}.`;
+      resultDisplay.classList.remove('alert-warning');
+      resultDisplay.classList.add('alert-info');
+    });
+  });
+</script>

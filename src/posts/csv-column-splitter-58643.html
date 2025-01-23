@@ -1,0 +1,196 @@
+---
+title: "CSV Column Splitter - Easily Extract and Download CSV Columns"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-06-05 22:01:22
+metaDescription: "Effortlessly split CSV columns into separate files with the CSV Column Splitter. Simplify data organization and save time!"
+metaKeywords: "CSV column splitter, split CSV files, data organization tool, CSV file splitter, CSV column extractor, CSV data tool"
+tags: ["CSV", "Data Tools", "Productivity", "File Processing", "Web App"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <h1 class="display-4">CSV Column Splitter</h1><div class="container my-5">
+  <div class="row">
+    <div class="col-12 text-center">
+      <b class="fs-2">Ever felt like your CSV file is a tangled mess of data?</b>
+      <p class="lead mt-3">Whether you're a data analyst, a marketer, or just someone trying to organize a spreadsheet, dealing with CSV files can be overwhelming. The CSV Column Splitter is here to save the day! This nifty tool lets you upload a CSV file, preview its contents, and effortlessly split columns into separate files. No more manual copy-pasting or wrestling with complex software. Just upload, select, and split—it’s that simple. Say goodbye to data chaos and hello to streamlined workflows!</p>
+    </div>
+  </div>
+</div>
+    <p class="lead">Upload a CSV file and split its columns into separate files.</p>
+  </header>
+
+  <div class="mb-4">
+    <label for="csvFileInput" class="form-label">Upload CSV File</label>
+    <input type="file" class="form-control bg-dark text-white" id="csvFileInput" accept=".csv">
+    <div class="form-text">Supported file format: .csv</div>
+  </div>
+
+  <div id="previewSection" class="mb-4 d-none">
+    <h3>Preview</h3>
+    <table class="table table-bordered table-dark">
+      <thead id="previewHeader"></thead>
+      <tbody id="previewBody"></tbody>
+    </table>
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="selectAll">
+      <label class="form-check-label" for="selectAll">Select All</label>
+    </div>
+    <button class="btn btn-success mt-2" id="splitColumnsBtn">Split Columns</button>
+  </div>
+
+  <div id="downloadSection" class="mb-4 d-none">
+    <h3>Download Files</h3>
+    <div id="downloadLinks"></div>
+    <button class="btn btn-info mt-2" id="downloadAllBtn">Download All as ZIP</button>
+  </div>
+
+  <button class="btn btn-secondary" id="resetBtn">Reset</button>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <b class="fs-4">How It Works</b>
+      <p class="mt-3">The CSV Column Splitter works like magic but without the smoke and mirrors. Here's the breakdown:</p>
+      <ol>
+        <li><b>Upload Your CSV:</b> Simply drag and drop or select your CSV file. The tool instantly previews the first few rows so you can see what you're working with.</li>
+        <li><b>Select Columns:</b> Choose the columns you want to split. You can even select all columns with a single click—no need to check each box manually.</li>
+        <li><b>Split & Download:</b> With a single click, the tool generates separate CSV files for each column. Download them individually or grab them all in one convenient ZIP file.</li>
+      </ol>
+      <p>It's like having a personal data assistant that works at lightning speed!</p>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <b class="fs-4">10 Common Use Cases for the CSV Column Splitter</b>
+      <ul class="mt-3">
+        <li><b>Data Analysis:</b> Isolate specific columns for deeper analysis without cluttering your workspace.</li>
+        <li><b>Marketing Campaigns:</b> Split customer data into targeted lists for personalized email campaigns.</li>
+        <li><b>Financial Reporting:</b> Separate transactional data into individual reports for different departments.</li>
+        <li><b>E-commerce:</b> Extract product attributes like SKUs, prices, or descriptions for inventory management.</li>
+        <li><b>CRM Cleanup:</b> Split contact details into separate files for easier updating and organization.</li>
+        <li><b>Survey Data:</b> Break down survey responses by question for detailed analysis.</li>
+        <li><b>Academic Research:</b> Separate datasets into variables for statistical analysis.</li>
+        <li><b>Event Planning:</b> Split attendee lists by categories like VIPs, speakers, or sponsors.</li>
+        <li><b>HR Management:</b> Divide employee data into separate files for payroll, benefits, and performance reviews.</li>
+        <li><b>Content Management:</b> Extract metadata like tags, categories, or authors for content organization.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const csvFileInput = document.getElementById('csvFileInput');
+    const previewSection = document.getElementById('previewSection');
+    const previewHeader = document.getElementById('previewHeader');
+    const previewBody = document.getElementById('previewBody');
+    const selectAllCheckbox = document.getElementById('selectAll');
+    const splitColumnsBtn = document.getElementById('splitColumnsBtn');
+    const downloadSection = document.getElementById('downloadSection');
+    const downloadLinks = document.getElementById('downloadLinks');
+    const downloadAllBtn = document.getElementById('downloadAllBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    let csvData = [];
+    let selectedColumns = [];
+
+    csvFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file && file.type === 'text/csv') {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const text = event.target.result;
+          csvData = text.split('\n').map(row => row.split(','));
+          renderPreview();
+          previewSection.classList.remove('d-none');
+        };
+        reader.readAsText(file);
+      } else {
+        alert('Please upload a valid .csv file.');
+      }
+    });
+
+    selectAllCheckbox.addEventListener('change', (e) => {
+      const checkboxes = document.querySelectorAll('.columnCheckbox');
+      checkboxes.forEach(checkbox => checkbox.checked = e.target.checked);
+    });
+
+    splitColumnsBtn.addEventListener('click', () => {
+      const checkboxes = document.querySelectorAll('.columnCheckbox:checked');
+      if (checkboxes.length === 0) {
+        alert('Please select at least one column to split.');
+        return;
+      }
+      selectedColumns = Array.from(checkboxes).map(checkbox => checkbox.value);
+      generateDownloadLinks();
+      downloadSection.classList.remove('d-none');
+    });
+
+    downloadAllBtn.addEventListener('click', () => {
+      const zip = new JSZip();
+      selectedColumns.forEach(column => {
+        const columnData = csvData.map(row => row[column]).join('\n');
+        zip.file(`${csvData[0][column]}.csv`, columnData);
+      });
+      zip.generateAsync({ type: 'blob' }).then(content => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(content);
+        link.download = 'columns.zip';
+        link.click();
+      });
+    });
+
+    resetBtn.addEventListener('click', () => {
+      csvFileInput.value = '';
+      previewSection.classList.add('d-none');
+      downloadSection.classList.add('d-none');
+      csvData = [];
+      selectedColumns = [];
+      previewHeader.innerHTML = '';
+      previewBody.innerHTML = '';
+      downloadLinks.innerHTML = '';
+    });
+
+    function renderPreview() {
+      previewHeader.innerHTML = '';
+      previewBody.innerHTML = '';
+      const headerRow = document.createElement('tr');
+      csvData[0].forEach((column, index) => {
+        const th = document.createElement('th');
+        th.innerHTML = `
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input columnCheckbox" id="column${index}" value="${index}">
+            <label class="form-check-label" for="column${index}">${column}</label>
+          </div>
+        `;
+        headerRow.appendChild(th);
+      });
+      previewHeader.appendChild(headerRow);
+
+      csvData.slice(1, 6).forEach(row => {
+        const tr = document.createElement('tr');
+        row.forEach(cell => {
+          const td = document.createElement('td');
+          td.textContent = cell;
+          tr.appendChild(td);
+        });
+        previewBody.appendChild(tr);
+      });
+    }
+
+    function generateDownloadLinks() {
+      downloadLinks.innerHTML = '';
+      selectedColumns.forEach(column => {
+        const columnData = csvData.map(row => row[column]).join('\n');
+        const blob = new Blob([columnData], { type: 'text/csv' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${csvData[0][column]}.csv`;
+        link.className = 'btn btn-link d-block';
+        link.textContent = `${csvData[0][column]}.csv`;
+        downloadLinks.appendChild(link);
+      });
+    }
+  });
+</script>

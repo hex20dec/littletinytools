@@ -1,0 +1,196 @@
+---
+title: "Extract Unique CSV Column Values Instantly | CSV Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-01-29 23:34:47
+metaDescription: "Easily extract unique values from any CSV column. Perfect for cleaning data, removing duplicates, and simplifying analysis."
+metaKeywords: "csv unique values, extract unique values, csv tool, data cleaning, csv column extractor, remove duplicates, csv analyzer, unique values extractor, csv utility, data analysis tool"
+tags: ["CSV", "Data Analysis", "Unique Values", "CSV Extractor", "Data Tools"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <h1 class="display-4">CSV Column Unique Values Extractor</h1><div class="container bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <strong class="display-4">CSV Column Unique Values Extractor</strong>
+    <p class="lead">
+      Why does sorting through a CSV file feel like finding a needle in a haystack? Whether you're analyzing sales data, cleaning up a messy spreadsheet, or just trying to figure out how many unique email addresses are in your list, this tool is your digital lifesaver. Upload your CSV file, pick a column, and let the magic happen—it’ll extract all the unique values in seconds. No more Ctrl+F marathons or endless scrolling. It’s like having a personal data assistant that works at lightning speed. Say goodbye to spreadsheet headaches and hello to clarity!
+    </p>
+  </div>
+</div>
+    <p class="lead">Upload a CSV file, select a column, and extract unique values instantly.</p>
+  </header>
+
+  <section class="mb-4">
+    <div class="mb-3">
+      <label for="csvFileInput" class="form-label">Upload CSV File</label>
+      <input type="file" class="form-control" id="csvFileInput" accept=".csv" aria-describedby="fileHelp">
+      <div id="fileHelp" class="form-text">Only .csv files are supported.</div>
+    </div>
+    <button id="uploadBtn" class="btn btn-primary">Upload</button>
+    <div id="uploadStatus" class="mt-2"></div>
+  </section>
+
+  <section class="mb-4" id="columnSection" style="display: none;">
+    <div class="mb-3">
+      <label for="columnSelect" class="form-label">Select Column</label>
+      <select class="form-select" id="columnSelect" aria-label="Select column to extract unique values"></select>
+    </div>
+    <button id="extractBtn" class="btn btn-success">Extract Unique Values</button>
+  </section>
+
+  <section id="resultsSection" style="display: none;">
+    <h2 class="h4 mb-3">Unique Values</h2>
+    <div id="resultsTable" class="table-responsive">
+      <table class="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody id="resultsBody"></tbody>
+      </table>
+    </div>
+    <button id="downloadBtn" class="btn btn-secondary mt-3">Download as CSV</button>
+  </section>
+
+  <footer class="text-center mt-4">
+    <p>&copy; 2023 CSV Tools. All rights reserved.</p>
+  </footer>
+</div>
+
+<div class="container bg-dark text-white p-4">
+  <div class="mb-4">
+    <h2 class="h3 mb-3">How It Works</h2>
+    <p>
+      The CSV Column Unique Values Extractor works in three simple steps:
+    </p>
+    <ol>
+      <li><strong>Upload Your CSV:</strong> Select your CSV file from your computer. The tool reads the file to identify all the columns.</li>
+      <li><strong>Choose a Column:</strong> Pick the column you want to analyze. The tool scans every row in that column to find unique entries.</li>
+      <li><strong>Extract & Download:</strong> Instantly see a list of unique values. You can even download the results as a new CSV file for easy sharing or further analysis.</li>
+    </ol>
+    <p>
+      It’s like having a filter for your data—only the unique stuff gets through!
+    </p>
+  </div>
+
+  <div class="mb-4">
+    <h2 class="h3 mb-3">Example Table</h2>
+    <p>
+      Here’s a quick example of how the tool extracts unique values from a column:
+    </p>
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr>
+          <th>Original Column Values</th>
+          <th>Unique Values Extracted</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Apple, Banana, Apple, Orange</td><td>Apple, Banana, Orange</td></tr>
+        <tr><td>Red, Blue, Red, Green</td><td>Red, Blue, Green</td></tr>
+        <tr><td>1, 2, 2, 3</td><td>1, 2, 3</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container bg-dark text-white p-4">
+  <h2 class="h3 mb-3">10 Common Use Cases for This Tool</h2>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item bg-dark text-white">Cleaning up duplicate email addresses in a mailing list.</li>
+    <li class="list-group-item bg-dark text-white">Identifying unique customer IDs in a sales database.</li>
+    <li class="list-group-item bg-dark text-white">Extracting distinct product categories from an inventory list.</li>
+    <li class="list-group-item bg-dark text-white">Finding unique cities or states in a customer address dataset.</li>
+    <li class="list-group-item bg-dark text-white">Removing duplicate entries from survey responses.</li>
+    <li class="list-group-item bg-dark text-white">Analyzing unique transaction types in financial records.</li>
+    <li class="list-group-item bg-dark text-white">Filtering out redundant entries in a research dataset.</li>
+    <li class="list-group-item bg-dark text-white">Generating a list of unique hashtags from social media data.</li>
+    <li class="list-group-item bg-dark text-white">Identifying distinct job titles in an HR database.</li>
+    <li class="list-group-item bg-dark text-white">Simplifying data for visualization by removing duplicates.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const csvFileInput = document.getElementById('csvFileInput');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const uploadStatus = document.getElementById('uploadStatus');
+    const columnSection = document.getElementById('columnSection');
+    const columnSelect = document.getElementById('columnSelect');
+    const extractBtn = document.getElementById('extractBtn');
+    const resultsSection = document.getElementById('resultsSection');
+    const resultsBody = document.getElementById('resultsBody');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    let csvData = [];
+    let uniqueValues = [];
+
+    // Preload file input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startFile = urlParams.get('start');
+    if (startFile) {
+      csvFileInput.value = startFile;
+    }
+
+    uploadBtn.addEventListener('click', () => {
+      const file = csvFileInput.files[0];
+      if (!file) {
+        uploadStatus.innerHTML = '<div class="alert alert-danger">Please upload a CSV file first.</div>';
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target.result;
+        csvData = parseCSV(text);
+        if (csvData.length === 0) {
+          uploadStatus.innerHTML = '<div class="alert alert-danger">The CSV file is empty or invalid.</div>';
+          return;
+        }
+
+        uploadStatus.innerHTML = '<div class="alert alert-success">File uploaded successfully!</div>';
+        columnSection.style.display = 'block';
+        populateColumnSelect(csvData[0]);
+      };
+      reader.readAsText(file);
+    });
+
+    extractBtn.addEventListener('click', () => {
+      const selectedColumn = columnSelect.value;
+      if (!selectedColumn) {
+        uploadStatus.innerHTML = '<div class="alert alert-danger">Please select a column to extract unique values.</div>';
+        return;
+      }
+
+      const columnIndex = csvData[0].indexOf(selectedColumn);
+      if (columnIndex === -1) {
+        uploadStatus.innerHTML = '<div class="alert alert-danger">Invalid column selected.</div>';
+        return;
+      }
+
+      uniqueValues = [...new Set(csvData.slice(1).map(row => row[columnIndex]))];
+      displayResults(uniqueValues);
+      resultsSection.style.display = 'block';
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      const csvContent = "data:text/csv;charset=utf-8," + uniqueValues.map(value => `"${value}"`).join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', 'unique_values.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    function parseCSV(text) {
+      return text.split('\n').map(row => row.split(',').map(cell => cell.trim()));
+    }
+
+    function populateColumnSelect(headers) {
+      columnSelect.innerHTML = headers.map(header => `<option value="${header}">${header}</option>`).join('');
+    }
+
+    function displayResults(values) {
+      resultsBody.innerHTML = values.map(value => `<tr><td>${value}</td></tr>`).join('');
+    }
+  });
+</script>

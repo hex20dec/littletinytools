@@ -1,0 +1,104 @@
+---
+title: "Text Length Counter - Instantly Count Characters & Words"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-07-15 04:28:35
+metaDescription: "Instantly count characters and words in your text with the Text Length Counter. Perfect for writers, students, and social media users!"
+metaKeywords: "text length counter, character counter, word counter, text analyzer, word count tool, character count tool, writing tool, online text counter"
+tags: ["text counter", "word counter", "character counter", "writing tools", "online utilities"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <h1 class="text-center mb-4">Text Length Counter</h1><div class="container bg-dark text-white p-4 rounded mb-4">
+  <strong class="d-block text-center fs-3 mb-3">Text Length Counter</strong>
+  <p class="lead text-center">
+    Typing up a storm but unsure how long your message really is? Whether you're crafting the perfect tweet, writing an essay, or just curious about your word count, the Text Length Counter has your back. This simple yet powerful tool instantly calculates the number of characters and words in your text, so you never have to guess again. Perfect for writers, students, and social media enthusiasts—say goodbye to counting manually and hello to effortless precision. It’s like having a personal editor in your pocket, minus the red pen!
+  </p>
+</div>
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control bg-dark text-white" rows="10" placeholder="Enter or paste your text here..." aria-label="Text input"></textarea>
+  </div>
+  <div class="mb-3">
+    <p class="mb-1"><strong>Characters:</strong> <span id="char-count">0</span></p>
+    <p class="mb-1"><strong>Words:</strong> <span id="word-count">0</span></p>
+  </div>
+  <button id="reset-btn" class="btn btn-secondary w-100">Reset</button>
+</div>
+
+<div class="container bg-light p-4 rounded mb-4">
+  <strong class="d-block fs-4 mb-3">How It Works</strong>
+  <p>
+    The Text Length Counter works by analyzing your input text in real-time. Here’s the breakdown:
+  </p>
+  <ul class="list-unstyled">
+    <li><strong>Characters:</strong> Every single letter, number, space, or symbol is counted as a character.</li>
+    <li><strong>Words:</strong> Words are counted by splitting the text into segments based on spaces. Any group of characters separated by spaces is considered a word.</li>
+  </ul>
+  <p class="mb-0">
+    For example, the sentence "Hello, world!" has 13 characters and 2 words. It’s that simple!
+  </p>
+
+  <table class="table mt-4">
+    <thead>
+      <tr>
+        <th>Text Example</th>
+        <th>Characters</th>
+        <th>Words</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>"Hello"</td><td>5</td><td>1</td></tr>
+      <tr><td>"Hello, world!"</td><td>13</td><td>2</td></tr>
+      <tr><td>"I love writing."</td><td>14</td><td>3</td></tr>
+      <tr><td>"12345"</td><td>5</td><td>1</td></tr>
+      <tr><td>"Text Length Counter is awesome!"</td><td>29</td><td>5</td></tr>
+    </tbody>
+  </table>
+</div><div class="container bg-dark text-white p-4 rounded mb-4">
+  <strong class="d-block fs-4 mb-3">10 Common Use Cases</strong>
+  <ol class="list-unstyled">
+    <li class="mb-2"><strong>Social Media Posts:</strong> Stay within character limits for tweets, Instagram captions, or Facebook updates.</li>
+    <li class="mb-2"><strong>Academic Writing:</strong> Track word counts for essays, research papers, or assignments.</li>
+    <li class="mb-2"><strong>Blogging:</strong> Ensure your articles meet word count requirements for SEO or publishing guidelines.</li>
+    <li class="mb-2"><strong>Email Drafts:</strong> Keep professional emails concise and to the point.</li>
+    <li class="mb-2"><strong>Resume Writing:</strong> Perfect your resume by keeping it within recommended character and word limits.</li>
+    <li class="mb-2"><strong>Creative Writing:</strong> Measure progress on novels, short stories, or poetry.</li>
+    <li class="mb-2"><strong>SEO Content:</strong> Optimize meta descriptions, titles, and blog posts for search engines.</li>
+    <li class="mb-2"><strong>Text Messages:</strong> Avoid splitting long messages across multiple texts.</li>
+    <li class="mb-2"><strong>Online Forms:</strong> Ensure your responses fit within character limits for applications or surveys.</li>
+    <li class="mb-2"><strong>Personal Notes:</strong> Keep track of journal entries or personal reflections.</li>
+  </ol>
+</div><script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const textInput = document.getElementById("text-input");
+    const charCount = document.getElementById("char-count");
+    const wordCount = document.getElementById("word-count");
+    const resetBtn = document.getElementById("reset-btn");
+
+    // Preload text from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get("start");
+    if (startText) {
+      textInput.value = startText;
+      updateCounts();
+    }
+
+    // Update counts in real-time
+    textInput.addEventListener("input", updateCounts);
+
+    // Reset button functionality
+    resetBtn.addEventListener("click", () => {
+      textInput.value = "";
+      updateCounts();
+      textInput.focus();
+    });
+
+    function updateCounts() {
+      const text = textInput.value.trim();
+      const charLength = text.length;
+      const wordLength = text ? text.split(/\s+/).filter(word => word.length > 0).length : 0;
+
+      charCount.textContent = charLength;
+      wordCount.textContent = wordLength;
+    }
+  });
+</script>

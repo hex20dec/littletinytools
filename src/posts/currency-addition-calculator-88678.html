@@ -1,0 +1,165 @@
+---
+title: "Currency Addition Calculator - Add Multiple Currency Values Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-08 18:24:21
+metaDescription: "Easily add multiple currency amounts with this quick and accurate Currency Addition Calculator. Perfect for budgeting, splitting bills, and more!"
+metaKeywords: "currency addition calculator, add currency amounts, budget tool, expense calculator, bill splitting tool, financial calculator"
+tags: ["currency calculator", "financial tools", "expense management", "math tools", "currency addition"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <h1 class="display-4">Currency Addition Calculator</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="text-center mb-4">
+    <strong class="display-5">Currency Addition Calculator</strong>
+    <p class="lead mt-3">Ever felt overwhelmed trying to add up multiple expenses in different currencies? Whether you're splitting a bill with friends, managing a budget, or handling international transactions, this Currency Addition Calculator is your new best friend. Simply select your currency, enter your amounts, and let the tool do the math for you. No more fumbling with spreadsheets or second-guessing your calculations. It’s quick, accurate, and hassle-free—because life’s too short for math headaches!</p>
+  </div>
+</div>
+    <p class="lead">Add multiple currency values quickly and accurately.</p>
+  </div>
+
+  <div class="mb-3">
+    <label for="currency-select" class="form-label">Select Currency</label>
+    <select id="currency-select" class="form-select bg-dark text-white">
+      <option value="$">USD ($)</option>
+      <option value="€">EUR (€)</option>
+      <option value="£">GBP (£)</option>
+      <option value="¥">JPY (¥)</option>
+      <option value="₹">INR (₹)</option>
+    </select>
+  </div>
+
+  <div id="input-fields" class="mb-3">
+    <input type="text" class="form-control bg-dark text-white mb-2" placeholder="Enter amount" aria-label="Enter amount">
+  </div>
+
+  <div class="d-grid gap-2 mb-3">
+    <button id="add-amount" class="btn btn-primary">+ Add Amount</button>
+    <button id="clear-all" class="btn btn-secondary">Clear All</button>
+  </div>
+
+  <div id="result" class="alert alert-success text-center" role="alert">
+    Total: <span id="total-amount">0.00</span>
+  </div>
+
+  <footer class="text-center mt-4">
+    <p class="text-muted">This tool does not perform currency conversion. All amounts must be in the same currency.</p>
+  </footer>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h3 class="mb-4">How It Works</h3>
+      <p>The Currency Addition Calculator works in a straightforward way:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Select your preferred currency symbol from the dropdown menu.</li>
+        <li class="list-group-item">Enter the amounts you want to add in the input fields. You can add as many fields as you need by clicking the "+ Add Amount" button.</li>
+        <li class="list-group-item">The tool instantly calculates the total sum of all entered amounts, displaying it in the selected currency format.</li>
+        <li class="list-group-item">If you make a mistake, simply click "Clear All" to start fresh.</li>
+      </ol>
+      <p class="mt-4">Here’s a quick example table to show how it works for different amounts:</p>
+      <table class="table table-striped mt-3">
+        <thead>
+          <tr>
+            <th>Amount 1</th>
+            <th>Amount 2</th>
+            <th>Total (USD)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>10.50</td>
+            <td>20.75</td>
+            <td>$31.25</td>
+          </tr>
+          <tr>
+            <td>15.00</td>
+            <td>30.00</td>
+            <td>$45.00</td>
+          </tr>
+          <tr>
+            <td>5.25</td>
+            <td>12.50</td>
+            <td>$17.75</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-white p-4">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h3 class="mb-4">10 Common Use Cases for the Currency Addition Calculator</h3>
+      <ul class="list-group">
+        <li class="list-group-item">Splitting a restaurant bill among friends or colleagues.</li>
+        <li class="list-group-item">Calculating total expenses for a trip or vacation.</li>
+        <li class="list-group-item">Adding up monthly expenses for budgeting purposes.</li>
+        <li class="list-group-item">Summing up invoices or receipts for business accounting.</li>
+        <li class="list-group-item">Managing personal finances by tracking multiple transactions.</li>
+        <li class="list-group-item">Calculating total costs for online shopping in different currencies.</li>
+        <li class="list-group-item">Determining the total value of items in a garage sale or flea market.</li>
+        <li class="list-group-item">Adding up donations or contributions for a fundraising event.</li>
+        <li class="list-group-item">Tracking expenses for shared housing or roommates.</li>
+        <li class="list-group-item">Calculating the total cost of groceries or household items.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const currencySelect = document.getElementById('currency-select');
+    const inputFieldsContainer = document.getElementById('input-fields');
+    const addAmountButton = document.getElementById('add-amount');
+    const clearAllButton = document.getElementById('clear-all');
+    const totalAmountDisplay = document.getElementById('total-amount');
+    const resultDiv = document.getElementById('result');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue)) {
+      inputFieldsContainer.querySelector('input').value = parseFloat(startValue).toFixed(2);
+      updateTotal();
+    }
+
+    function updateTotal() {
+      const inputs = inputFieldsContainer.querySelectorAll('input');
+      let total = 0;
+      inputs.forEach(input => {
+        const value = parseFloat(input.value);
+        if (!isNaN(value)) {
+          total += value;
+        }
+      });
+      totalAmountDisplay.textContent = `${currencySelect.value}${total.toFixed(2)}`;
+    }
+
+    function validateInput(input) {
+      const regex = /^\d*\.?\d*$/;
+      if (!regex.test(input.value)) {
+        input.value = input.value.slice(0, -1);
+      }
+      updateTotal();
+    }
+
+    function addInputField() {
+      const newInput = document.createElement('input');
+      newInput.type = 'text';
+      newInput.className = 'form-control bg-dark text-white mb-2';
+      newInput.placeholder = 'Enter amount';
+      newInput.addEventListener('input', () => validateInput(newInput));
+      inputFieldsContainer.appendChild(newInput);
+      newInput.focus();
+    }
+
+    function clearAllInputs() {
+      inputFieldsContainer.innerHTML = '<input type="text" class="form-control bg-dark text-white mb-2" placeholder="Enter amount">';
+      totalAmountDisplay.textContent = `${currencySelect.value}0.00`;
+      inputFieldsContainer.querySelector('input').addEventListener('input', (e) => validateInput(e.target));
+    }
+
+    inputFieldsContainer.querySelector('input').addEventListener('input', (e) => validateInput(e.target));
+    addAmountButton.addEventListener('click', addInputField);
+    clearAllButton.addEventListener('click', clearAllInputs);
+    currencySelect.addEventListener('change', updateTotal);
+  });
+</script>

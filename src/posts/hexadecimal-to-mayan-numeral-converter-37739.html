@@ -1,0 +1,136 @@
+---
+title: "Convert Hexadecimal to Mayan Numerals - Explore Ancient Math!"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-08-16 13:16:19
+metaDescription: "Convert hexadecimal numbers to Mayan numerals effortlessly. Perfect for history buffs, math enthusiasts, and curious minds. Try it now!"
+metaKeywords: "hexadecimal to mayan, mayan numeral converter, hex to mayan, ancient numeral systems, mayan math, hexadecimal converter, base-20 system, mayan symbols, history tools, numeral conversion"
+tags: ["hexadecimal", "mayan numerals", "base conversion", "educational tool", "ancient mathematics"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .mayan-output {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+</style>
+
+<div id="main-div">
+  <div class="text-center mb-4">
+    <h1 class="display-4">Hexadecimal to Mayan Numeral Converter</h1><div class="container mt-5">
+  <div class="text-center">
+    <p class="lead fs-4">Ever found yourself staring at a hexadecimal number, wondering how it would look in the ancient Mayan numeral system? Maybe you’re a history buff, a math enthusiast, or just someone who loves cool conversions. Either way, we’ve got you covered! Our <strong>Hexadecimal to Mayan Numeral Converter</strong> is here to make your life easier—no advanced math degree required. Simply type in your hex number, hit convert, and watch as it transforms into the iconic bars and dots of Mayan numerals. Whether you’re decoding ancient scripts or just impressing your friends, this tool is your new best friend. Let’s make numbers fun again!</p>
+  </div>
+</div>
+    <p class="lead">Enter a hexadecimal number to convert it into Mayan numerals.</p>
+  </div>
+
+  <div class="mb-3">
+    <label for="hexInput" class="form-label">Enter Hexadecimal Number</label>
+    <input type="text" class="form-control" id="hexInput" placeholder="e.g., 1A3F" aria-describedby="hexHelp">
+    <div id="hexHelp" class="form-text">Only characters 0-9 and A-F are allowed.</div>
+    <div id="errorMessage" class="alert alert-danger mt-2 d-none" role="alert"></div>
+  </div>
+
+  <button id="convertBtn" class="btn btn-primary mb-3">Convert</button>
+  <button id="resetBtn" class="btn btn-secondary mb-3">Reset</button>
+
+  <div class="mt-4">
+    <label for="mayanOutput" class="form-label">Mayan Numeral Representation</label>
+    <div id="mayanOutput" class="alert alert-success mayan-output" role="alert"></div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h3 class="fs-5 fw-bold">How It Works</h3>
+      <p class="text-muted">Converting hexadecimal to Mayan numerals might sound complicated, but it’s actually pretty straightforward. Here’s the breakdown:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Start by entering a valid hexadecimal number (using digits 0-9 and letters A-F).</li>
+        <li class="list-group-item">The tool converts the hex number into a decimal (base-10) number.</li>
+        <li class="list-group-item">The decimal number is then translated into the Mayan numeral system, which uses a base-20 (vigesimal) system.</li>
+        <li class="list-group-item">The result is displayed using Mayan symbols: <strong>•</strong> for 1 and <strong>—</strong> for 5.</li>
+      </ol>
+      <p class="mt-3">For example, the hexadecimal number <strong>1A3F</strong> converts to <strong>6719</strong> in decimal, which then translates into Mayan numerals as a combination of bars and dots. Cool, right?</p>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h3 class="fs-5 fw-bold">10 Common Use Cases</h3>
+      <ul class="list-group">
+        <li class="list-group-item">Exploring ancient numeral systems for educational purposes.</li>
+        <li class="list-group-item">Creating unique designs or artwork using Mayan symbols.</li>
+        <li class="list-group-item">Understanding how hexadecimal numbers translate into other bases.</li>
+        <li class="list-group-item">Teaching students about different counting systems in history.</li>
+        <li class="list-group-item">Adding a fun twist to programming or coding projects.</li>
+        <li class="list-group-item">Decoding historical documents or artifacts.</li>
+        <li class="list-group-item">Immersing yourself in Mayan culture and mathematics.</li>
+        <li class="list-group-item">Creating puzzles or games with numeral conversions.</li>
+        <li class="list-group-item">Impressing friends with your knowledge of ancient civilizations.</li>
+        <li class="list-group-item">Satisfying your curiosity about how numbers work across cultures.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const hexInput = document.getElementById('hexInput');
+    const convertBtn = document.getElementById('convertBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const mayanOutput = document.getElementById('mayanOutput');
+    const errorMessage = document.getElementById('errorMessage');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && /^[0-9A-Fa-f]+$/.test(startValue)) {
+      hexInput.value = startValue.toUpperCase();
+    }
+
+    const validateHex = (input) => /^[0-9A-Fa-f]+$/.test(input);
+
+    const decimalToMayan = (decimal) => {
+      if (decimal === 0) return '•';
+      let mayan = '';
+      while (decimal > 0) {
+        const remainder = decimal % 20;
+        const bars = Math.floor(remainder / 5);
+        const dots = remainder % 5;
+        mayan = '—'.repeat(bars) + '•'.repeat(dots) + '<br>' + mayan;
+        decimal = Math.floor(decimal / 20);
+      }
+      return mayan.trim();
+    };
+
+    const convertHexToMayan = () => {
+      const hexValue = hexInput.value.trim().toUpperCase();
+      if (!validateHex(hexValue)) {
+        errorMessage.textContent = 'Please enter a valid hexadecimal number (0-9, A-F).';
+        errorMessage.classList.remove('d-none');
+        mayanOutput.textContent = '';
+        return;
+      }
+      errorMessage.classList.add('d-none');
+      const decimalValue = parseInt(hexValue, 16);
+      mayanOutput.innerHTML = decimalToMayan(decimalValue);
+    };
+
+    const resetApp = () => {
+      hexInput.value = '';
+      mayanOutput.textContent = '';
+      errorMessage.classList.add('d-none');
+    };
+
+    convertBtn.addEventListener('click', convertHexToMayan);
+    resetBtn.addEventListener('click', resetApp);
+    hexInput.addEventListener('input', () => {
+      if (validateHex(hexInput.value.trim())) {
+        errorMessage.classList.add('d-none');
+      }
+    });
+  });
+</script>

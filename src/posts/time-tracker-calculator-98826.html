@@ -1,0 +1,181 @@
+---
+title: "Time Tracker Calculator - Effortlessly Calculate Time Durations"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-12-31 18:26:12
+metaDescription: "Track and calculate time effortlessly with the Time Tracker Calculator. Perfect for work, study, hobbies, and more. Simplify your time management today!"
+metaKeywords: "time tracker, time calculator, time management tool, work hours tracker, study time calculator, time logging, productivity tool, time tracking, time duration calculator, free time tracker"
+tags: ["time tracker", "time calculator", "productivity tool", "time management", "freelancer tool"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h1 class="text-center mb-4 text-white">Time Tracker Calculator</h1><div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="lead">Time management can feel like juggling flaming swords while riding a unicycle. But what if there was a simple way to keep track of your hours without breaking a sweat? Enter the <strong>Time Tracker Calculator</strong>—your new best friend for effortlessly calculating how much time you’ve spent on tasks. Whether you’re logging work hours, tracking study sessions, or figuring out how long you’ve binge-watched your favorite show, this tool makes it a breeze. Just plug in your start and end times, and voilà! You’ll have a clear breakdown of your time, no math skills required. Say goodbye to guesswork and hello to productivity (or guilt-free relaxation).</p>
+    </div>
+  </div>
+</div>
+      <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
+      <form id="time-form" class="mb-4">
+        <div class="mb-3">
+          <label for="start-time" class="form-label text-white">Start Time</label>
+          <input type="text" class="form-control bg-dark text-white" id="start-time" placeholder="Start Time (HH:MM)" required>
+        </div>
+        <div class="mb-3">
+          <label for="end-time" class="form-label text-white">End Time</label>
+          <input type="text" class="form-control bg-dark text-white" id="end-time" placeholder="End Time (HH:MM)" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Add Entry</button>
+      </form>
+      <table class="table table-dark table-striped mb-4">
+        <thead>
+          <tr>
+            <th scope="col">Start Time</th>
+            <th scope="col">End Time</th>
+            <th scope="col">Duration</th>
+          </tr>
+        </thead>
+        <tbody id="time-entries">
+        </tbody>
+      </table>
+      <div class="alert alert-success text-center" role="alert">
+        <strong>Total Time:</strong> <span id="total-time">00:00</span>
+      </div>
+      <button id="clear-all" class="btn btn-danger w-100 mt-3">Clear All</button>
+    </div>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mb-4">How It Works</h2>
+      <p class="mb-4">The Time Tracker Calculator works by taking your start and end times, breaking them down into hours and minutes, and calculating the difference between the two. Here’s the simple formula it uses:</p>
+      <p class="bg-light p-3 rounded"><strong>Duration = (End Time in Minutes) - (Start Time in Minutes)</strong></p>
+      <p>If the end time is earlier than the start time (like when you work past midnight), it automatically adjusts for the 24-hour cycle. The result is displayed in an easy-to-read format (HH:MM).</p>
+      
+      <h3 class="mt-5 mb-4">Example Calculations</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>09:00</td>
+            <td>12:30</td>
+            <td>03:30</td>
+          </tr>
+          <tr>
+            <td>14:00</td>
+            <td>18:45</td>
+            <td>04:45</td>
+          </tr>
+          <tr>
+            <td>22:00</td>
+            <td>02:00</td>
+            <td>04:00</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mb-4">10 Common Use Cases</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1. Tracking work hours for payroll or freelancing.</li>
+        <li class="list-group-item">2. Calculating study sessions for better time management.</li>
+        <li class="list-group-item">3. Monitoring gym or workout durations.</li>
+        <li class="list-group-item">4. Logging screen time for kids or yourself.</li>
+        <li class="list-group-item">5. Measuring time spent on hobbies like painting or gaming.</li>
+        <li class="list-group-item">6. Planning and tracking meeting durations.</li>
+        <li class="list-group-item">7. Calculating travel times for trips or commutes.</li>
+        <li class="list-group-item">8. Keeping tabs on cooking or baking times.</li>
+        <li class="list-group-item">9. Timing how long you spend on household chores.</li>
+        <li class="list-group-item">10. Estimating how much time you spend on social media.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const startTimeInput = document.getElementById('start-time');
+    const endTimeInput = document.getElementById('end-time');
+    const timeForm = document.getElementById('time-form');
+    const timeEntries = document.getElementById('time-entries');
+    const totalTimeDisplay = document.getElementById('total-time');
+    const errorMessage = document.getElementById('error-message');
+    const clearAllButton = document.getElementById('clear-all');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startParam = urlParams.get('start');
+    if (startParam) {
+      startTimeInput.value = startParam;
+    }
+
+    const validateTime = (time) => {
+      const regex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+      return regex.test(time);
+    };
+
+    const calculateDuration = (start, end) => {
+      const [startHours, startMinutes] = start.split(':').map(Number);
+      const [endHours, endMinutes] = end.split(':').map(Number);
+
+      let totalMinutes = (endHours * 60 + endMinutes) - (startHours * 60 + startMinutes);
+      if (totalMinutes < 0) totalMinutes += 1440; // Handle midnight crossing
+
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+      return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+    };
+
+    const updateTotalTime = () => {
+      const durations = Array.from(timeEntries.querySelectorAll('td:nth-child(3)')).map(td => td.textContent);
+      let totalMinutes = durations.reduce((acc, duration) => {
+        const [hours, minutes] = duration.split(':').map(Number);
+        return acc + hours * 60 + minutes;
+      }, 0);
+
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+      totalTimeDisplay.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+    };
+
+    timeForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const startTime = startTimeInput.value.trim();
+      const endTime = endTimeInput.value.trim();
+
+      if (!validateTime(startTime) || !validateTime(endTime)) {
+        errorMessage.textContent = 'Please enter valid times in the format HH:MM.';
+        errorMessage.classList.remove('d-none');
+        return;
+      }
+
+      const duration = calculateDuration(startTime, endTime);
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td>${startTime}</td>
+        <td>${endTime}</td>
+        <td>${duration}</td>
+      `;
+      timeEntries.appendChild(newRow);
+      updateTotalTime();
+      errorMessage.classList.add('d-none');
+      startTimeInput.value = '';
+      endTimeInput.value = '';
+    });
+
+    clearAllButton.addEventListener('click', () => {
+      timeEntries.innerHTML = '';
+      totalTimeDisplay.textContent = '00:00';
+    });
+  });
+</script>

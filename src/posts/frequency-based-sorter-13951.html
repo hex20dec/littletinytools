@@ -1,0 +1,157 @@
+---
+title: "Frequency-Based Sorter: Analyze & Sort Items by Occurrence"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-07-31 02:07:58
+metaDescription: "Sort any list by frequency instantly! Perfect for analyzing data, tracking trends, and organizing information. Try it now!"
+metaKeywords: "frequency sorter, list organizer, data analysis tool, frequency counter, sort by frequency, trend analyzer, item sorter, count items, frequency tool, list frequency"
+tags: ["frequency sorter", "data analysis", "word counter", "list organizer", "text tool"]
+---
+
+<div id="main-div" class="container mt-5 bg-dark text-white p-4 rounded">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Frequency-Based Sorter</h1><div class="container mt-5 bg-dark text-white p-4 rounded">
+  <div class="text-center mb-4">
+    <strong class="display-4">Frequency-Based Sorter</strong>
+    <p class="lead">Got a messy list of items and need to know what’s popping up the most? Whether it’s tracking your grocery list, analyzing survey responses, or even spotting trends in your social media hashtags, this tool is your new best friend. Just toss in your items, hit the button, and watch it neatly sort everything by frequency. No more guessing—just clear, actionable insights in seconds. Life’s too short for manual counting, right? Let’s make it easier!</p>
+  </div>
+</div>
+    <p class="lead">Enter your list of items below, and we'll sort them by frequency.</p>
+  </header>
+
+  <div class="mb-4">
+    <textarea id="input-field" class="form-control bg-dark text-white mb-3" rows="5" placeholder="Enter your items here, separated by commas, spaces, or new lines."></textarea>
+    <button id="sort-btn" class="btn btn-primary w-100 mb-2">Sort by Frequency</button>
+    <button id="reset-btn" class="btn btn-secondary w-100">Reset</button>
+  </div>
+
+  <div id="output-section" class="d-none">
+    <h2 class="h4 mb-3">Results</h2>
+    <table class="table table-striped table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Item</th>
+          <th scope="col">Frequency</th>
+        </tr>
+      </thead>
+      <tbody id="results-table">
+      </tbody>
+    </table>
+  </div>
+
+  <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
+</div>
+
+<div class="container mt-4 bg-light p-4 rounded">
+  <h2 class="h4 mb-3">How It Works</h2>
+  <p>This tool works by analyzing your input and counting how often each item appears. Here’s the breakdown:</p>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">You enter your items—separated by commas, spaces, or new lines.</li>
+    <li class="list-group-item">The tool counts how many times each item appears.</li>
+    <li class="list-group-item">It sorts the items from most frequent to least frequent.</li>
+    <li class="list-group-item">Voilà! You get a clean table showing the results.</li>
+  </ol>
+
+  <h2 class="h4 mt-4 mb-3">Example Output</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Item</th>
+        <th scope="col">Frequency</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Apple</td><td>5</td></tr>
+      <tr><td>Banana</td><td>3</td></tr>
+      <tr><td>Orange</td><td>2</td></tr>
+      <tr><td>Grapes</td><td>1</td></tr>
+    </tbody>
+  </table>
+</div><div class="container mt-4 bg-light p-4 rounded">
+  <h2 class="h4 mb-3">10 Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">1. Analyzing survey responses to find recurring themes.</li>
+    <li class="list-group-item">2. Sorting hashtags from social media posts to identify trends.</li>
+    <li class="list-group-item">3. Organizing grocery lists to see which items you buy most often.</li>
+    <li class="list-group-item">4. Tracking keywords in customer feedback for product improvements.</li>
+    <li class="list-group-item">5. Counting word frequencies in essays or articles for SEO optimization.</li>
+    <li class="list-group-item">6. Identifying popular menu items in restaurant orders.</li>
+    <li class="list-group-item">7. Sorting event RSVPs to see which attendees are most active.</li>
+    <li class="list-group-item">8. Analyzing inventory data to spot high-demand products.</li>
+    <li class="list-group-item">9. Counting recurring errors in coding projects for debugging.</li>
+    <li class="list-group-item">10. Organizing to-do lists by priority based on frequency.</li>
+  </ul>
+</div><script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const inputField = document.getElementById("input-field");
+    const sortBtn = document.getElementById("sort-btn");
+    const resetBtn = document.getElementById("reset-btn");
+    const outputSection = document.getElementById("output-section");
+    const resultsTable = document.getElementById("results-table");
+    const errorMessage = document.getElementById("error-message");
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get("start");
+    if (startValue) {
+      inputField.value = startValue;
+    }
+
+    const sortByFrequency = () => {
+      errorMessage.classList.add("d-none");
+      const input = inputField.value.trim();
+
+      if (!input) {
+        errorMessage.textContent = "Please enter some items to sort.";
+        errorMessage.classList.remove("d-none");
+        return;
+      }
+
+      // Split input by commas, spaces, or new lines
+      const items = input.split(/[\s,]+/).filter(item => item.trim() !== "");
+
+      if (items.length === 0) {
+        errorMessage.textContent = "No valid items found. Please check your input.";
+        errorMessage.classList.remove("d-none");
+        return;
+      }
+
+      // Count frequency of each item
+      const frequencyMap = items.reduce((acc, item) => {
+        acc[item] = (acc[item] || 0) + 1;
+        return acc;
+      }, {});
+
+      // Convert to array and sort by frequency
+      const sortedItems = Object.entries(frequencyMap).sort((a, b) => b[1] - a[1]);
+
+      // Clear previous results
+      resultsTable.innerHTML = "";
+
+      // Populate table with results
+      sortedItems.forEach(([item, frequency]) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${item}</td><td>${frequency}</td>`;
+        resultsTable.appendChild(row);
+      });
+
+      outputSection.classList.remove("d-none");
+    };
+
+    const resetApp = () => {
+      inputField.value = "";
+      outputSection.classList.add("d-none");
+      errorMessage.classList.add("d-none");
+    };
+
+    sortBtn.addEventListener("click", sortByFrequency);
+    resetBtn.addEventListener("click", resetApp);
+
+    // Handle Enter key in textarea
+    inputField.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sortByFrequency();
+      }
+    });
+  });
+</script>

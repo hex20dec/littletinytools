@@ -1,0 +1,196 @@
+---
+title: "Time Zone to IANA Format Converter - Quick & Accurate Time Zone Mapping"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-11-29 11:02:54
+metaDescription: "Convert common time zones like PST or GMT+2 to IANA format instantly. Simplify global scheduling, server setups, and more with this easy-to-use tool."
+metaKeywords: "time zone converter, IANA format, time zone tool, GMT to IANA, PST to IANA, time zone translation, global time zones, server time zone setup, accurate time zones, time zone database"
+tags: ["time zone", "IANA", "converter", "developer tools", "time management"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .output-display {
+    font-weight: bold;
+    color: #28a745;
+  }
+  .error-message {
+    color: #dc3545;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Time Zone to IANA Format Converter</h1><div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 text-center">
+      <p class="fs-2 fw-bold mb-3">Ever struggled to figure out what "PST" or "GMT+2" really means in tech lingo?</p>
+      <p class="lead">You’re not alone! Whether you’re scheduling a global meeting, setting up a server, or just trying to sync your apps, time zones can feel like a puzzle. But don’t worry—our <strong>Time Zone to IANA Format Converter</strong> is here to save the day! Simply type in a common time zone like "EST" or "GMT+5," and we’ll instantly translate it into the IANA format (you know, the one computers actually understand). No more head-scratching or Googling for hours. Just quick, easy, and accurate conversions. Because let’s face it, time zones are confusing enough—let’s make the tech part simple!</p>
+    </div>
+  </div>
+</div>
+    <p class="lead">Enter a time zone (e.g., GMT+2, PST) to convert it to the IANA format.</p>
+  </header>
+
+  <div class="mb-3">
+    <label for="timezone-input" class="form-label">Enter Time Zone</label>
+    <div class="input-group">
+      <input type="text" id="timezone-input" class="form-control" placeholder="e.g., GMT+2, PST" aria-label="Time Zone Input">
+      <button id="convert-btn" class="btn btn-primary" type="button">Convert</button>
+    </div>
+    <div id="input-error" class="error-message mt-2" style="display: none;">Time zone not recognized. Please try another format.</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="iana-output" class="form-label">IANA Time Zone Format</label>
+    <div id="iana-output" class="output-display form-control-plaintext"></div>
+    <small class="text-muted">IANA time zones are used in many systems for accurate time zone handling.</small>
+  </div>
+
+  <footer class="text-center mt-4">
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </footer>
+</div>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <p class="fs-4 fw-bold mb-3">How Does It Work?</p>
+      <p class="mb-4">The tool works by taking your input (like "PST" or "GMT+3") and matching it to a database of IANA time zone formats. These formats are the standard used by software and systems worldwide to handle time zones accurately. Think of it like a translator for time zones—turning everyday abbreviations into something computers can work with seamlessly.</p>
+      
+      <p class="fs-4 fw-bold mb-3">Examples of Common Conversions</p>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Input (Common Format)</th>
+              <th scope="col">Output (IANA Format)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>PST</td><td>America/Los_Angeles</td></tr>
+            <tr><td>EST</td><td>America/New_York</td></tr>
+            <tr><td>GMT+2</td><td>Etc/GMT-2</td></tr>
+            <tr><td>CET</td><td>Europe/Paris</td></tr>
+            <tr><td>AEST</td><td>Australia/Sydney</td></tr>
+            <tr><td>IST</td><td>Asia/Kolkata</td></tr>
+            <tr><td>GMT-5</td><td>Etc/GMT+5</td></tr>
+            <tr><td>PDT</td><td>America/Los_Angeles</td></tr>
+            <tr><td>MST</td><td>America/Denver</td></tr>
+            <tr><td>EET</td><td>Europe/Athens</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <p class="fs-4 fw-bold mb-3">Top 10 Use Cases for This Tool</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Scheduling international meetings without time zone confusion.</li>
+        <li class="list-group-item">Configuring server time zones for web applications.</li>
+        <li class="list-group-item">Setting up global event calendars.</li>
+        <li class="list-group-item">Syncing time zones across multiple devices.</li>
+        <li class="list-group-item">Converting time zones for travel planning.</li>
+        <li class="list-group-item">Ensuring accurate timestamps in software development.</li>
+        <li class="list-group-item">Managing remote team schedules across different regions.</li>
+        <li class="list-group-item">Translating time zones for international clients.</li>
+        <li class="list-group-item">Avoiding errors in global marketing campaigns.</li>
+        <li class="list-group-item">Learning and understanding IANA time zone formats.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  const timezoneInput = document.getElementById('timezone-input');
+  const convertBtn = document.getElementById('convert-btn');
+  const ianaOutput = document.getElementById('iana-output');
+  const inputError = document.getElementById('input-error');
+  const resetBtn = document.getElementById('reset-btn');
+
+  const timezoneMap = {
+    'GMT': 'Etc/GMT',
+    'GMT+0': 'Etc/GMT',
+    'GMT+1': 'Etc/GMT-1',
+    'GMT+2': 'Etc/GMT-2',
+    'GMT+3': 'Etc/GMT-3',
+    'GMT+4': 'Etc/GMT-4',
+    'GMT+5': 'Etc/GMT-5',
+    'GMT+6': 'Etc/GMT-6',
+    'GMT+7': 'Etc/GMT-7',
+    'GMT+8': 'Etc/GMT-8',
+    'GMT+9': 'Etc/GMT-9',
+    'GMT+10': 'Etc/GMT-10',
+    'GMT+11': 'Etc/GMT-11',
+    'GMT+12': 'Etc/GMT-12',
+    'GMT-1': 'Etc/GMT+1',
+    'GMT-2': 'Etc/GMT+2',
+    'GMT-3': 'Etc/GMT+3',
+    'GMT-4': 'Etc/GMT+4',
+    'GMT-5': 'Etc/GMT+5',
+    'GMT-6': 'Etc/GMT+6',
+    'GMT-7': 'Etc/GMT+7',
+    'GMT-8': 'Etc/GMT+8',
+    'GMT-9': 'Etc/GMT+9',
+    'GMT-10': 'Etc/GMT+10',
+    'GMT-11': 'Etc/GMT+11',
+    'GMT-12': 'Etc/GMT+12',
+    'PST': 'America/Los_Angeles',
+    'PDT': 'America/Los_Angeles',
+    'MST': 'America/Denver',
+    'MDT': 'America/Denver',
+    'CST': 'America/Chicago',
+    'CDT': 'America/Chicago',
+    'EST': 'America/New_York',
+    'EDT': 'America/New_York',
+    'CET': 'Europe/Paris',
+    'CEST': 'Europe/Paris',
+    'EET': 'Europe/Athens',
+    'EEST': 'Europe/Athens',
+    'AEST': 'Australia/Sydney',
+    'AEDT': 'Australia/Sydney',
+    'ACST': 'Australia/Adelaide',
+    'ACDT': 'Australia/Adelaide',
+    'AWST': 'Australia/Perth',
+  };
+
+  const convertTimezone = (input) => {
+    const trimmedInput = input.trim().toUpperCase();
+    return timezoneMap[trimmedInput] || null;
+  };
+
+  const handleConvert = () => {
+    const inputValue = timezoneInput.value;
+    const ianaFormat = convertTimezone(inputValue);
+
+    if (ianaFormat) {
+      ianaOutput.textContent = ianaFormat;
+      inputError.style.display = 'none';
+    } else {
+      ianaOutput.textContent = '';
+      inputError.style.display = 'block';
+    }
+  };
+
+  const handleReset = () => {
+    timezoneInput.value = '';
+    ianaOutput.textContent = '';
+    inputError.style.display = 'none';
+  };
+
+  convertBtn.addEventListener('click', handleConvert);
+  resetBtn.addEventListener('click', handleReset);
+  timezoneInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleConvert();
+  });
+
+  // Preload input from query parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const startParam = urlParams.get('start');
+  if (startParam) {
+    timezoneInput.value = startParam;
+    handleConvert();
+  }
+</script>

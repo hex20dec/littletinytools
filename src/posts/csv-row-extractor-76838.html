@@ -1,0 +1,232 @@
+---
+title: "CSV Row Extractor - Filter & Download CSV Data Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-11-17 02:35:23
+metaDescription: "Easily filter and extract rows from CSV files with the CSV Row Extractor. Upload, filter, and download your data in seconds!"
+metaKeywords: "csv filter, csv extractor, csv row filter, csv data tool, csv download, csv file tool, csv management, csv utility, csv processing, csv search"
+tags: ["CSV", "Data Filtering", "Web Tool", "Data Analysis", "CSV Extractor"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <div class="row mb-4">
+    <div class="col text-center">
+      <h1 class="display-4">CSV Row Extractor</h1><div class="container my-5">
+  <div class="row">
+    <div class="col text-center">
+      <p class="fs-3 fw-bold mb-3">CSV files giving you a headache? Let’s fix that.</p>
+      <p class="lead">
+        Ever found yourself scrolling through endless rows of CSV data, trying to find that one specific piece of information? It’s like searching for a needle in a data haystack. Enter the <strong>CSV Row Extractor</strong>—your new best friend for slicing through CSV chaos. Upload your file, pick a column, filter by value, and voilà! The rows you need are right there, ready to download. It’s fast, simple, and saves you from the tedium of manual searches. Say goodbye to spreadsheet stress and hello to streamlined productivity!
+      </p>
+    </div>
+  </div>
+</div>
+      <p class="lead">Upload a CSV file, filter rows, and download the results instantly.</p>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col">
+      <div class="mb-3">
+        <label for="fileInput" class="form-label">Upload CSV File</label>
+        <input type="file" class="form-control" id="fileInput" accept=".csv">
+        <div id="fileFeedback" class="form-text text-muted"></div>
+        <button id="clearFile" class="btn btn-danger mt-2" disabled>Clear File</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <label for="columnSelect" class="form-label">Select Column</label>
+      <select class="form-select" id="columnSelect" disabled>
+        <option value="">-- Select a column --</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label for="filterValue" class="form-label">Enter Value</label>
+      <input type="text" class="form-control" id="filterValue" placeholder="Enter value to filter by" disabled>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col text-center">
+      <button id="filterButton" class="btn btn-success" disabled>Filter Rows</button>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col">
+      <div id="resultsSection" class="d-none">
+        <h3 class="mb-3">Filtered Results</h3>
+        <div class="table-responsive">
+          <table class="table table-dark table-striped table-bordered">
+            <thead id="resultsHeader"></thead>
+            <tbody id="resultsBody"></tbody>
+          </table>
+        </div>
+        <button id="downloadCsv" class="btn btn-primary mt-3">Download CSV</button>
+        <button id="resetButton" class="btn btn-secondary mt-3">Reset</button>
+      </div>
+      <div id="noResults" class="alert alert-warning d-none">No rows match the filter criteria.</div>
+    </div>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col">
+      <p class="fs-4 fw-bold mb-3">How It Works</p>
+      <p class="mb-4">
+        The CSV Row Extractor works like a smart filter for your data. Here’s the magic formula:
+      </p>
+      <ol>
+        <li><strong>Upload your CSV file:</strong> Just drag and drop or click to upload.</li>
+        <li><strong>Choose a column:</strong> Select the column you want to filter by (e.g., "City," "Product ID").</li>
+        <li><strong>Enter a value:</strong> Type in the specific value you’re looking for (e.g., "New York" or "12345").</li>
+        <li><strong>Filter and download:</strong> The tool extracts matching rows and lets you download them as a new CSV file.</li>
+      </ol>
+      <p class="mt-4">
+        It’s like having a personal assistant who knows exactly what you need and delivers it in seconds.
+      </p>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col">
+      <p class="fs-4 fw-bold mb-3">10 Common Use Cases for the CSV Row Extractor</p>
+      <ul class="list-group">
+        <li class="list-group-item">Filter customer data by location for targeted marketing campaigns.</li>
+        <li class="list-group-item">Extract sales records for a specific product or category.</li>
+        <li class="list-group-item">Isolate transactions from a particular date range.</li>
+        <li class="list-group-item">Find all entries with a specific status (e.g., "Pending," "Completed").</li>
+        <li class="list-group-item">Separate employee data by department or role.</li>
+        <li class="list-group-item">Filter inventory data to identify low-stock items.</li>
+        <li class="list-group-item">Extract survey responses based on specific criteria (e.g., age, location).</li>
+        <li class="list-group-item">Identify duplicate entries in large datasets.</li>
+        <li class="list-group-item">Filter financial data by account type or transaction code.</li>
+        <li class="list-group-item">Extract test results for a specific student or group.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('fileInput');
+    const fileFeedback = document.getElementById('fileFeedback');
+    const clearFile = document.getElementById('clearFile');
+    const columnSelect = document.getElementById('columnSelect');
+    const filterValue = document.getElementById('filterValue');
+    const filterButton = document.getElementById('filterButton');
+    const resultsSection = document.getElementById('resultsSection');
+    const resultsHeader = document.getElementById('resultsHeader');
+    const resultsBody = document.getElementById('resultsBody');
+    const downloadCsv = document.getElementById('downloadCsv');
+    const resetButton = document.getElementById('resetButton');
+    const noResults = document.getElementById('noResults');
+
+    let csvData = [];
+    let headers = [];
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file && file.type === 'text/csv') {
+        fileFeedback.textContent = `Selected file: ${file.name}`;
+        clearFile.disabled = false;
+        parseCsv(file);
+      } else {
+        fileFeedback.textContent = 'Please upload a valid CSV file.';
+        clearFile.disabled = true;
+      }
+    });
+
+    clearFile.addEventListener('click', () => {
+      fileInput.value = '';
+      fileFeedback.textContent = '';
+      clearFile.disabled = true;
+      columnSelect.disabled = true;
+      filterValue.disabled = true;
+      filterButton.disabled = true;
+      resultsSection.classList.add('d-none');
+      csvData = [];
+      headers = [];
+    });
+
+    filterButton.addEventListener('click', () => {
+      const selectedColumn = columnSelect.value;
+      const value = filterValue.value.trim();
+      if (selectedColumn && value) {
+        const filteredRows = csvData.filter(row => row[selectedColumn] === value);
+        if (filteredRows.length > 0) {
+          displayResults(filteredRows);
+          noResults.classList.add('d-none');
+        } else {
+          resultsSection.classList.add('d-none');
+          noResults.classList.remove('d-none');
+        }
+      }
+    });
+
+    downloadCsv.addEventListener('click', () => {
+      const selectedColumn = columnSelect.value;
+      const value = filterValue.value.trim();
+      const filteredRows = csvData.filter(row => row[selectedColumn] === value);
+      const csvContent = [headers.join(','), ...filteredRows.map(row => headers.map(header => row[header]).join(','))].join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'filtered_rows.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    resetButton.addEventListener('click', () => {
+      resultsSection.classList.add('d-none');
+      noResults.classList.add('d-none');
+      filterValue.value = '';
+      columnSelect.value = '';
+    });
+
+    function parseCsv(file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target.result;
+        const rows = text.split('\n').map(row => row.split(','));
+        headers = rows[0];
+        csvData = rows.slice(1).map(row => {
+          const obj = {};
+          headers.forEach((header, index) => {
+            obj[header] = row[index];
+          });
+          return obj;
+        });
+        populateColumnSelect();
+        columnSelect.disabled = false;
+        filterValue.disabled = false;
+        filterButton.disabled = false;
+      };
+      reader.readAsText(file);
+    }
+
+    function populateColumnSelect() {
+      columnSelect.innerHTML = '<option value="">-- Select a column --</option>';
+      headers.forEach(header => {
+        const option = document.createElement('option');
+        option.value = header;
+        option.textContent = header;
+        columnSelect.appendChild(option);
+      });
+    }
+
+    function displayResults(rows) {
+      resultsHeader.innerHTML = `<tr>${headers.map(header => `<th>${header}</th>`).join('')}</tr>`;
+      resultsBody.innerHTML = rows.map(row => `<tr>${headers.map(header => `<td>${row[header]}</td>`).join('')}</tr>`).join('');
+      resultsSection.classList.remove('d-none');
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      filterValue.value = startValue;
+    }
+  });
+</script>

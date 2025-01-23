@@ -1,0 +1,223 @@
+---
+title: "Date Difference Calculator with Exclusions | Easy Date Range Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-11-19 07:36:39
+metaDescription: "Calculate the difference between two dates while excluding specific dates. Perfect for projects, vacations, and deadlines!"
+metaKeywords: "date difference calculator, date calculator, exclude dates, working days calculator, date tool"
+tags: ["date calculator", "date difference", "exclude dates", "planning tool", "scheduling"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .excluded-dates-list {
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+  }
+  .excluded-date-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+  }
+  .error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 5px;
+  }
+</style>
+
+<div id="main-div">
+  <h1 class="text-center mb-4">Date Difference Calculator with Exclusions</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col text-center">
+      <p class="lead fs-4">
+        Ever tried calculating the number of days between two dates, only to realize you forgot to exclude weekends, holidays, or that random day you took off? It’s like trying to count jellybeans while someone keeps stealing them! Enter the <strong>Date Difference Calculator with Exclusions</strong>—your new best friend for hassle-free date math. Whether you're planning a project, tracking deadlines, or just curious about how many days are left until your next vacation (minus those pesky meetings), this tool makes it as easy as pie. Say goodbye to manual counting and hello to more free time. Now, isn’t that a date with destiny you’ll love?
+      </p>
+    </div>
+  </div>
+</div>
+  <p class="text-center mb-4">Calculate the difference between two dates while excluding specific dates.</p>
+
+  <div class="mb-3">
+    <label for="start-date" class="form-label">Start Date</label>
+    <input type="date" id="start-date" class="form-control">
+  </div>
+
+  <div class="mb-3">
+    <label for="end-date" class="form-label">End Date</label>
+    <input type="date" id="end-date" class="form-control">
+  </div>
+
+  <div class="mb-3">
+    <label for="exclude-date" class="form-label">Exclude Dates</label>
+    <div class="input-group">
+      <input type="date" id="exclude-date" class="form-control">
+      <button id="add-exclude-date" class="btn btn-primary">Add</button>
+    </div>
+    <div id="excluded-dates" class="excluded-dates-list mt-2"></div>
+  </div>
+
+  <div class="d-grid mb-3">
+    <button id="calculate" class="btn btn-primary btn-lg">Calculate Difference</button>
+  </div>
+
+  <div id="result" class="text-center fs-5"></div>
+  <div id="error" class="error-message text-center"></div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col">
+      <div class="bg-light p-4 rounded">
+        <h2 class="fs-3 mb-3">How It Works</h2>
+        <p>
+          The tool calculates the total days between two dates and then subtracts any dates you want to exclude. Here’s the simple formula it uses:
+        </p>
+        <p class="bg-white p-3 rounded fw-bold">
+          Total Days = (End Date - Start Date) + 1 - (Number of Excluded Dates)
+        </p>
+        <p>
+          For example, if your start date is January 1st and your end date is January 10th, that’s 10 days. But if you exclude January 3rd and January 7th, the tool will give you 8 days. Easy, right?
+        </p>
+        <h3 class="fs-4 mt-4">Example Table</h3>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Excluded Dates</th>
+              <th>Total Days</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2023-01-01</td>
+              <td>2023-01-10</td>
+              <td>2023-01-03, 2023-01-07</td>
+              <td>8</td>
+            </tr>
+            <tr>
+              <td>2023-05-01</td>
+              <td>2023-05-15</td>
+              <td>2023-05-05, 2023-05-10</td>
+              <td>13</td>
+            </tr>
+            <tr>
+              <td>2023-09-01</td>
+              <td>2023-09-30</td>
+              <td>2023-09-04, 2023-09-18</td>
+              <td>28</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col">
+      <div class="bg-light p-4 rounded">
+        <h2 class="fs-3 mb-3">10 Common Use Cases</h2>
+        <ul class="list-group">
+          <li class="list-group-item">1. Calculating project timelines while excluding weekends and holidays.</li>
+          <li class="list-group-item">2. Tracking the number of working days left before a deadline.</li>
+          <li class="list-group-item">3. Planning vacations and excluding public holidays or personal days off.</li>
+          <li class="list-group-item">4. Counting school days for attendance tracking.</li>
+          <li class="list-group-item">5. Measuring the duration of a rental period, excluding maintenance days.</li>
+          <li class="list-group-item">6. Calculating the number of days until a subscription expires, excluding weekends.</li>
+          <li class="list-group-item">7. Planning event schedules and excluding specific dates for setup or teardown.</li>
+          <li class="list-group-item">8. Tracking fitness challenges while excluding rest days.</li>
+          <li class="list-group-item">9. Calculating delivery timelines, excluding non-working days.</li>
+          <li class="list-group-item">10. Estimating the number of days for a trial period, excluding weekends.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const startDateInput = document.getElementById('start-date');
+    const endDateInput = document.getElementById('end-date');
+    const excludeDateInput = document.getElementById('exclude-date');
+    const addExcludeDateButton = document.getElementById('add-exclude-date');
+    const excludedDatesList = document.getElementById('excluded-dates');
+    const calculateButton = document.getElementById('calculate');
+    const resultDiv = document.getElementById('result');
+    const errorDiv = document.getElementById('error');
+
+    const excludedDates = new Set();
+
+    // Preload start date from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startDateParam = urlParams.get('start');
+    if (startDateParam) {
+      startDateInput.value = startDateParam;
+    }
+
+    addExcludeDateButton.addEventListener('click', () => {
+      const dateToExclude = excludeDateInput.value;
+      if (dateToExclude && !excludedDates.has(dateToExclude)) {
+        excludedDates.add(dateToExclude);
+        renderExcludedDates();
+        excludeDateInput.value = '';
+      }
+    });
+
+    excludedDatesList.addEventListener('click', (e) => {
+      if (e.target.classList.contains('remove-date')) {
+        const dateToRemove = e.target.dataset.date;
+        excludedDates.delete(dateToRemove);
+        renderExcludedDates();
+      }
+    });
+
+    calculateButton.addEventListener('click', () => {
+      errorDiv.textContent = '';
+      resultDiv.textContent = '';
+
+      const startDate = new Date(startDateInput.value);
+      const endDate = new Date(endDateInput.value);
+
+      if (!startDateInput.value || !endDateInput.value) {
+        errorDiv.textContent = 'Please select a start and end date.';
+        return;
+      }
+
+      if (startDate > endDate) {
+        errorDiv.textContent = 'End date must be after the start date.';
+        return;
+      }
+
+      const timeDifference = endDate - startDate;
+      const totalDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)) + 1;
+
+      let excludedCount = 0;
+      excludedDates.forEach(date => {
+        const excludeDate = new Date(date);
+        if (excludeDate >= startDate && excludeDate <= endDate) {
+          excludedCount++;
+        }
+      });
+
+      const resultDays = totalDays - excludedCount;
+      resultDiv.textContent = `Total days: ${resultDays} (excluding ${excludedCount} dates).`;
+    });
+
+    function renderExcludedDates() {
+      excludedDatesList.innerHTML = '';
+      excludedDates.forEach(date => {
+        const dateItem = document.createElement('div');
+        dateItem.className = 'excluded-date-item';
+        dateItem.innerHTML = `
+          <span>${date}</span>
+          <button class="btn btn-sm btn-danger remove-date" data-date="${date}">Remove</button>
+        `;
+        excludedDatesList.appendChild(dateItem);
+      });
+    }
+  });
+</script>

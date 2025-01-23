@@ -1,0 +1,139 @@
+---
+title: "List Chunk Sorter - Organize Your Lists Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-04-02 18:09:08
+metaDescription: "Easily organize lists into manageable chunks with the List Chunk Sorter. Perfect for to-do lists, tasks, and more. Simplify your life today!"
+metaKeywords: "list organizer, chunk sorter, to-do list tool, task management, list splitting, productivity tool, list chunking, organize tasks, list management, group tasks"
+tags: ["list organizer", "productivity", "task management", "data sorting", "web tool"]
+---
+
+<div id="main-div" class="container mt-5">
+  <h1 class="display-4 text-center mb-4">List Chunk Sorter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="lead text-center mb-4"><strong>Struggling to organize a long list of items into manageable chunks?</strong> Whether it's a to-do list, a set of tasks, or even a list of names, trying to keep everything in order can feel like herding cats. That's where the <strong>List Chunk Sorter</strong> comes in. This handy tool effortlessly breaks down your list into smaller, bite-sized pieces, making it easier to tackle one chunk at a time. Imagine sorting your grocery list into categories or breaking down a project into smaller tasks—it's like magic, but without the wand. Say goodbye to overwhelming lists and hello to organized simplicity!</p>
+    </div>
+  </div>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="mb-3">
+        <label for="listInput" class="form-label">Enter your list items here, one per line:</label>
+        <textarea class="form-control bg-dark text-white" id="listInput" rows="6" placeholder="Enter your list items here, one per line."></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="chunkSize" class="form-label">Enter chunk size (e.g., 5):</label>
+        <input type="number" class="form-control bg-dark text-white" id="chunkSize" placeholder="Enter chunk size (e.g., 5)." min="1">
+      </div>
+      <button class="btn btn-primary w-100 mb-3" id="sortButton">Sort into Chunks</button>
+      <div id="outputSection" class="mt-4"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4">How It Works</h2>
+      <p class="text-center mb-4">The List Chunk Sorter takes your list and divides it into smaller groups, or "chunks," based on the number you specify. Here's the simple formula it follows:</p>
+      <p class="text-center mb-4"><strong>Total Items ÷ Chunk Size = Number of Chunks</strong></p>
+      <p class="text-center mb-4">For example, if you have 10 items and want to split them into chunks of 2, you'll get 5 perfectly organized groups. Easy, right?</p>
+      
+      <h3 class="text-center mb-4">Example Breakdown</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered table-dark">
+          <thead>
+            <tr>
+              <th>Total Items</th>
+              <th>Chunk Size</th>
+              <th>Number of Chunks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>10</td><td>2</td><td>5</td></tr>
+            <tr><td>15</td><td>3</td><td>5</td></tr>
+            <tr><td>20</td><td>4</td><td>5</td></tr>
+            <tr><td>25</td><td>5</td><td>5</td></tr>
+            <tr><td>30</td><td>6</td><td>5</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4">Top 10 Use Cases for the List Chunk Sorter</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Organizing a to-do list into daily tasks.</li>
+        <li class="list-group-item">Breaking down project tasks into smaller, manageable steps.</li>
+        <li class="list-group-item">Sorting grocery lists by categories like produce, dairy, and snacks.</li>
+        <li class="list-group-item">Grouping team members for assignments or projects.</li>
+        <li class="list-group-item">Dividing a long reading list into weekly goals.</li>
+        <li class="list-group-item">Splitting a list of contacts for email campaigns.</li>
+        <li class="list-group-item">Organizing event attendees into groups for activities.</li>
+        <li class="list-group-item">Breaking down study materials into smaller sections.</li>
+        <li class="list-group-item">Sorting inventory lists for easier tracking.</li>
+        <li class="list-group-item">Dividing a list of chores into daily or weekly tasks.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      document.getElementById('listInput').value = startValue;
+    }
+
+    const sortButton = document.getElementById('sortButton');
+    const listInput = document.getElementById('listInput');
+    const chunkSizeInput = document.getElementById('chunkSize');
+    const outputSection = document.getElementById('outputSection');
+
+    sortButton.addEventListener('click', () => {
+      const listItems = listInput.value.split('\n').filter(item => item.trim() !== '');
+      const chunkSize = parseInt(chunkSizeInput.value, 10);
+
+      if (!listItems.length) {
+        outputSection.innerHTML = '<div class="alert alert-warning">Please enter a list of items.</div>';
+        return;
+      }
+
+      if (isNaN(chunkSize) || chunkSize < 1) {
+        outputSection.innerHTML = '<div class="alert alert-warning">Chunk size must be a positive number.</div>';
+        return;
+      }
+
+      outputSection.innerHTML = '';
+      const chunks = [];
+      for (let i = 0; i < listItems.length; i += chunkSize) {
+        chunks.push(listItems.slice(i, i + chunkSize));
+      }
+
+      chunks.forEach((chunk, index) => {
+        const chunkCard = document.createElement('div');
+        chunkCard.className = 'card bg-dark text-white mb-3';
+        chunkCard.innerHTML = `
+          <div class="card-body">
+            <h5 class="card-title">Chunk ${index + 1}</h5>
+            <p class="card-text">${chunk.join('<br>')}</p>
+            <button class="btn btn-secondary copy-button" data-chunk="${index}">Copy to Clipboard</button>
+          </div>
+        `;
+        outputSection.appendChild(chunkCard);
+      });
+
+      document.querySelectorAll('.copy-button').forEach(button => {
+        button.addEventListener('click', () => {
+          const chunkIndex = button.getAttribute('data-chunk');
+          const chunkText = chunks[chunkIndex].join('\n');
+          navigator.clipboard.writeText(chunkText).then(() => {
+            button.textContent = 'Copied!';
+            setTimeout(() => button.textContent = 'Copy to Clipboard', 2000);
+          });
+        });
+      });
+    });
+  });
+</script>

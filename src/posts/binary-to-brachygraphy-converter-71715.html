@@ -1,0 +1,160 @@
+---
+title: "Binary to Brachygraphy Converter - Translate Binary Code Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-04-09 06:17:00
+metaDescription: "Convert binary code to brachygraphy effortlessly with this simple tool. Perfect for coding, teaching, or just having fun!"
+metaKeywords: "binary to brachygraphy, binary converter, brachygraphy tool, binary translator, coding tool, binary simplification, educational tool, binary puzzles, binary visualization, binary for beginners"
+tags: ["binary", "brachygraphy", "converter", "shorthand", "coding-tool"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .output-field {
+    height: 100px;
+    resize: none;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Binary to Brachygraphy Converter</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <p class="lead text-center fw-bold">Ever felt like binary code is just a jumble of 0s and 1s with no real meaning? You're not alone! Trying to decode binary can feel like deciphering an ancient language, especially when you're in a hurry. But what if you could transform those cryptic digits into something more tangible—like brachygraphy? Enter the Binary to Brachygraphy Converter! This nifty tool takes your binary input and turns it into a series of dots and dashes, making it easier to interpret and work with. Whether you're a coding newbie or just someone who loves a good puzzle, this tool is here to make your life a little simpler and a lot more fun. Say goodbye to confusion and hello to clarity!</p>
+    </div>
+  </div>
+</div>
+    <p class="lead">Enter binary code (0s and 1s) to convert it into brachygraphy.</p>
+  </header>
+
+  <div class="mb-3">
+    <label for="binaryInput" class="form-label">Binary Input</label>
+    <input type="text" id="binaryInput" class="form-control" placeholder="Enter binary code here..." aria-label="Binary Input">
+    <div id="errorMessage" class="text-danger mt-2" style="display: none;">Invalid input. Only 0s and 1s are allowed.</div>
+  </div>
+
+  <button id="convertBtn" class="btn btn-primary w-100 mb-3">Convert</button>
+
+  <div class="mb-3">
+    <label for="brachyOutput" class="form-label">Brachygraphy Output</label>
+    <textarea id="brachyOutput" class="form-control output-field" placeholder="Brachygraphy will appear here..." readonly aria-label="Brachygraphy Output"></textarea>
+  </div>
+
+  <div class="d-flex gap-2">
+    <button id="copyBtn" class="btn btn-primary flex-grow-1">Copy Output</button>
+    <button id="resetBtn" class="btn btn-secondary flex-grow-1">Reset</button>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="fw-bold mb-3">How It Works</h2>
+      <p class="mb-4">The Binary to Brachygraphy Converter works by transforming each binary digit (0 or 1) into a corresponding brachygraphy symbol. Here's the simple formula it follows:</p>
+      <ul class="list-group mb-4">
+        <li class="list-group-item"><strong>0</strong> becomes a dot (<code>.</code>)</li>
+        <li class="list-group-item"><strong>1</strong> becomes a dash (<code>-</code>)</li>
+      </ul>
+      <p>For example, if you input <code>1010</code>, the tool will convert it to <code>- . - .</code>. It's that easy!</p>
+      <h3 class="fw-bold mt-4">Sample Conversions</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Binary Input</th>
+            <th scope="col">Brachygraphy Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>.</td></tr>
+          <tr><td>1</td><td>-</td></tr>
+          <tr><td>00</td><td>. .</td></tr>
+          <tr><td>01</td><td>. -</td></tr>
+          <tr><td>10</td><td>- .</td></tr>
+          <tr><td>11</td><td>- -</td></tr>
+          <tr><td>000</td><td>. . .</td></tr>
+          <tr><td>001</td><td>. . -</td></tr>
+          <tr><td>010</td><td>. - .</td></tr>
+          <tr><td>011</td><td>. - -</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="fw-bold mb-3">10 Common Use Cases</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Simplifying binary data for educational purposes.</li>
+        <li class="list-group-item">Translating binary for quick reference during coding projects.</li>
+        <li class="list-group-item">Creating visual aids for presentations on binary systems.</li>
+        <li class="list-group-item">Teaching kids or beginners about binary in a fun way.</li>
+        <li class="list-group-item">Converting binary messages into brachygraphy for puzzles or games.</li>
+        <li class="list-group-item">Preparing study materials for computer science students.</li>
+        <li class="list-group-item">Generating brachygraphy for artistic or design projects.</li>
+        <li class="list-group-item">Transforming binary data into a more readable format for debugging.</li>
+        <li class="list-group-item">Creating brachygraphy-based patterns for knitting or embroidery.</li>
+        <li class="list-group-item">Experimenting with binary-to-brachygraphy conversions for fun!</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const binaryInput = document.getElementById('binaryInput');
+    const brachyOutput = document.getElementById('brachyOutput');
+    const convertBtn = document.getElementById('convertBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const errorMessage = document.getElementById('errorMessage');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      binaryInput.value = startValue;
+    }
+
+    const convertBinaryToBrachy = (binary) => {
+      return binary.split('').map(bit => bit === '0' ? '.' : '-').join(' ');
+    };
+
+    const validateInput = (input) => {
+      return /^[01]+$/.test(input);
+    };
+
+    convertBtn.addEventListener('click', () => {
+      const input = binaryInput.value.trim();
+      if (!input) {
+        errorMessage.textContent = 'Please enter binary code to convert.';
+        errorMessage.style.display = 'block';
+        return;
+      }
+      if (!validateInput(input)) {
+        errorMessage.textContent = 'Invalid input. Only 0s and 1s are allowed.';
+        errorMessage.style.display = 'block';
+        return;
+      }
+      errorMessage.style.display = 'none';
+      brachyOutput.value = convertBinaryToBrachy(input);
+    });
+
+    copyBtn.addEventListener('click', () => {
+      if (brachyOutput.value) {
+        brachyOutput.select();
+        document.execCommand('copy');
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => {
+          copyBtn.textContent = 'Copy Output';
+        }, 2000);
+      }
+    });
+
+    resetBtn.addEventListener('click', () => {
+      binaryInput.value = '';
+      brachyOutput.value = '';
+      errorMessage.style.display = 'none';
+    });
+  });
+</script>

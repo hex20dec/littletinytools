@@ -1,0 +1,157 @@
+---
+title: "Temperature Inversion Tool (Kelvin) - Quick & Accurate Conversions"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-03-25 20:55:06
+metaDescription: "Instantly convert temperatures between Celsius, Fahrenheit, and Kelvin with this easy-to-use tool. Perfect for cooking, science, and everyday use!"
+metaKeywords: "temperature converter, Celsius to Fahrenheit, Fahrenheit to Celsius, Kelvin converter, temperature conversion tool, online temperature calculator"
+tags: ["temperature", "conversion", "kelvin", "celsius", "fahrenheit"]
+---
+
+<div id="main-div" class="container mt-4 bg-dark text-white p-4 rounded">
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <input type="number" id="temperature-input" class="form-control bg-dark text-white" placeholder="Enter temperature value" aria-label="Temperature Input">
+    </div>
+    <div class="col-md-4">
+      <select id="unit-select" class="form-select bg-dark text-white" aria-label="Unit Selection">
+        <option value="K" selected>Kelvin (K)</option>
+        <option value="C">Celsius (°C)</option>
+        <option value="F">Fahrenheit (°F)</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <button id="convert-btn" class="btn btn-primary w-100" disabled>Convert</button>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col">
+      <input type="text" id="celsius-output" class="form-control bg-dark text-white" readonly placeholder="Celsius (°C)" aria-label="Celsius Output">
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col">
+      <input type="text" id="fahrenheit-output" class="form-control bg-dark text-white" readonly placeholder="Fahrenheit (°F)" aria-label="Fahrenheit Output">
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col">
+      <input type="text" id="kelvin-output" class="form-control bg-dark text-white" readonly placeholder="Kelvin (K)" aria-label="Kelvin Output">
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col">
+      <button id="clear-btn" class="btn btn-secondary w-100">Clear</button>
+    </div>
+  </div>
+</div>
+
+<div class="container mb-4">
+  <h2 class="mb-3">How It Works</h2>
+  <p>The tool uses straightforward math to convert your input temperature into Celsius, Fahrenheit, and Kelvin. Here’s the breakdown:</p>
+  <ul class="list-unstyled">
+    <li><strong>From Celsius:</strong> Fahrenheit = (Celsius × 9/5) + 32 | Kelvin = Celsius + 273.15</li>
+    <li><strong>From Fahrenheit:</strong> Celsius = (Fahrenheit - 32) × 5/9 | Kelvin = Celsius + 273.15</li>
+    <li><strong>From Kelvin:</strong> Celsius = Kelvin - 273.15 | Fahrenheit = (Celsius × 9/5) + 32</li>
+  </ul>
+  <p>No need to memorize these formulas—just type in your temperature and let the tool do the heavy lifting!</p>
+
+  <h3 class="mt-4 mb-3">Quick Conversion Examples</h3>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Input (°C)</th>
+        <th>Fahrenheit (°F)</th>
+        <th>Kelvin (K)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>0</td><td>32.00</td><td>273.15</td></tr>
+      <tr><td>10</td><td>50.00</td><td>283.15</td></tr>
+      <tr><td>20</td><td>68.00</td><td>293.15</td></tr>
+      <tr><td>30</td><td>86.00</td><td>303.15</td></tr>
+      <tr><td>40</td><td>104.00</td><td>313.15</td></tr>
+      <tr><td>50</td><td>122.00</td><td>323.15</td></tr>
+      <tr><td>60</td><td>140.00</td><td>333.15</td></tr>
+      <tr><td>70</td><td>158.00</td><td>343.15</td></tr>
+      <tr><td>80</td><td>176.00</td><td>353.15</td></tr>
+      <tr><td>90</td><td>194.00</td><td>363.15</td></tr>
+    </tbody>
+  </table>
+</div><div class="container mb-4">
+  <h2 class="mb-3">Top 10 Use Cases for This Tool</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Converting oven temperatures for baking recipes.</li>
+    <li class="list-group-item">Checking weather forecasts in different units.</li>
+    <li class="list-group-item">Science experiments requiring precise temperature measurements.</li>
+    <li class="list-group-item">Understanding international weather reports.</li>
+    <li class="list-group-item">Travel planning for destinations with different temperature scales.</li>
+    <li class="list-group-item">School or university assignments involving thermodynamics.</li>
+    <li class="list-group-item">Comparing temperature data in scientific research.</li>
+    <li class="list-group-item">Setting thermostat temperatures for HVAC systems.</li>
+    <li class="list-group-item">Calibrating lab equipment like thermometers.</li>
+    <li class="list-group-item">Settling debates about "how cold is too cold" or "how hot is too hot."</li>
+  </ol>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputField = document.getElementById('temperature-input');
+    const unitSelect = document.getElementById('unit-select');
+    const convertBtn = document.getElementById('convert-btn');
+    const celsiusOutput = document.getElementById('celsius-output');
+    const fahrenheitOutput = document.getElementById('fahrenheit-output');
+    const kelvinOutput = document.getElementById('kelvin-output');
+    const clearBtn = document.getElementById('clear-btn');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue)) {
+      inputField.value = startValue;
+      convertBtn.disabled = false;
+    }
+
+    inputField.addEventListener('input', () => {
+      convertBtn.disabled = !inputField.value.trim();
+    });
+
+    convertBtn.addEventListener('click', () => {
+      const inputValue = parseFloat(inputField.value);
+      if (isNaN(inputValue)) {
+        alert('Please enter a valid number.');
+        return;
+      }
+
+      const unit = unitSelect.value;
+      let celsius, fahrenheit, kelvin;
+
+      switch (unit) {
+        case 'K':
+          kelvin = inputValue;
+          celsius = kelvin - 273.15;
+          fahrenheit = (celsius * 9 / 5) + 32;
+          break;
+        case 'C':
+          celsius = inputValue;
+          kelvin = celsius + 273.15;
+          fahrenheit = (celsius * 9 / 5) + 32;
+          break;
+        case 'F':
+          fahrenheit = inputValue;
+          celsius = (fahrenheit - 32) * 5 / 9;
+          kelvin = celsius + 273.15;
+          break;
+      }
+
+      celsiusOutput.value = `${celsius.toFixed(2)} °C`;
+      fahrenheitOutput.value = `${fahrenheit.toFixed(2)} °F`;
+      kelvinOutput.value = `${kelvin.toFixed(2)} K`;
+    });
+
+    clearBtn.addEventListener('click', () => {
+      inputField.value = '';
+      unitSelect.value = 'K';
+      celsiusOutput.value = '';
+      fahrenheitOutput.value = '';
+      kelvinOutput.value = '';
+      convertBtn.disabled = true;
+    });
+  });
+</script>

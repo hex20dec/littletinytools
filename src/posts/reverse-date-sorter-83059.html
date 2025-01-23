@@ -1,0 +1,122 @@
+---
+title: "Reverse Date Sorter - Organize Dates Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-10-29 14:21:56
+metaDescription: "Sort dates effortlessly with the Reverse Date Sorter—organize timelines, deadlines, and events in reverse chronological order. Quick, easy, and free!"
+metaKeywords: "reverse date sorter, sort dates, chronological order, date organizer, timeline tool, event sorting, deadline organizer, date sorter tool, free date sorting, reverse chronological"
+tags: ["date sorter", "reverse date", "date organizer", "productivity tool", "date utility"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Reverse Date Sorter</h1><div class="container bg-dark text-white p-4">
+  <p class="lead text-center mb-4"><strong>Why does sorting dates always feel like untangling a ball of yarn?</strong> Whether you're organizing deadlines, tracking events, or just trying to make sense of a messy timeline, the Reverse Date Sorter is here to save the day. Simply paste your dates in, and watch them transform into a neat, reverse-chronological list—no more scratching your head or scrolling endlessly. Perfect for planners, students, or anyone who’s ever thought, “I wish this was easier.” Let’s make order out of chaos, one date at a time!</p>
+</div>
+  <p class="text-center mb-4">Enter your dates below, and they will be sorted from most recent to oldest.</p>
+
+  <div class="mb-3">
+    <textarea id="input-dates" class="form-control bg-dark text-white" rows="5" placeholder="Enter dates here (one per line). Example: 2023-10-15"></textarea>
+    <div id="error-message" class="text-danger mt-2" style="display: none;">Invalid date format. Please use YYYY-MM-DD.</div>
+  </div>
+
+  <div class="text-center mb-3">
+    <button id="sort-button" class="btn btn-primary">Sort Dates</button>
+  </div>
+
+  <div class="mb-3">
+    <textarea id="output-dates" class="form-control bg-dark text-white" rows="5" placeholder="Sorted dates will appear here." readonly></textarea>
+  </div>
+
+  <div class="text-center">
+    <button id="reset-button" class="btn btn-secondary">Reset</button>
+  </div>
+</div>
+
+<div class="container bg-light p-4 mt-4">
+  <h2 class="mb-3">How It Works</h2>
+  <p class="mb-4">The Reverse Date Sorter works like a personal assistant for your dates. Here’s how it simplifies your life:</p>
+  <ol class="list-group list-group-numbered mb-4">
+    <li class="list-group-item">You enter your dates in the format <strong>YYYY-MM-DD</strong> (one date per line).</li>
+    <li class="list-group-item">The tool checks each date to ensure it’s valid—no typos or gibberish allowed!</li>
+    <li class="list-group-item">It sorts all the valid dates from the most recent to the oldest, like flipping a calendar backward.</li>
+    <li class="list-group-item">Voilà! Your neatly sorted list appears in seconds, ready to use.</li>
+  </ol>
+
+  <h3 class="mb-3">Example Output</h3>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Input Dates</th>
+        <th scope="col">Sorted Dates (Most Recent First)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>2023-10-15<br>2023-09-01<br>2023-12-25</td>
+        <td>2023-12-25<br>2023-10-15<br>2023-09-01</td>
+      </tr>
+      <tr>
+        <td>2022-01-01<br>2023-05-30<br>2021-08-14</td>
+        <td>2023-05-30<br>2022-01-01<br>2021-08-14</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container bg-dark text-white p-4 mt-4">
+  <h2 class="mb-3">10 Common Use Cases</h2>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item bg-dark text-white">Organizing project deadlines from newest to oldest.</li>
+    <li class="list-group-item bg-dark text-white">Sorting historical events for research or study.</li>
+    <li class="list-group-item bg-dark text-white">Tracking personal milestones like anniversaries or birthdays.</li>
+    <li class="list-group-item bg-dark text-white">Managing event schedules for conferences or meetups.</li>
+    <li class="list-group-item bg-dark text-white">Reviewing financial records in reverse chronological order.</li>
+    <li class="list-group-item bg-dark text-white">Sorting blog or journal entries by publish date.</li>
+    <li class="list-group-item bg-dark text-white">Preparing timelines for presentations or reports.</li>
+    <li class="list-group-item bg-dark text-white">Arranging travel itineraries by departure dates.</li>
+    <li class="list-group-item bg-dark text-white">Cleaning up messy date-based data for analysis.</li>
+    <li class="list-group-item bg-dark text-white">Planning future goals with a clear timeline.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputDates = document.getElementById('input-dates');
+    const outputDates = document.getElementById('output-dates');
+    const errorMessage = document.getElementById('error-message');
+    const sortButton = document.getElementById('sort-button');
+    const resetButton = document.getElementById('reset-button');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startDates = urlParams.get('start');
+    if (startDates) {
+      inputDates.value = startDates;
+    }
+
+    const isValidDate = (dateString) => {
+      const regex = /^\d{4}-\d{2}-\d{2}$/;
+      if (!regex.test(dateString)) return false;
+      const date = new Date(dateString);
+      return date instanceof Date && !isNaN(date);
+    };
+
+    const sortDates = () => {
+      const dates = inputDates.value.split('\n').map(date => date.trim()).filter(date => date);
+      const invalidDates = dates.some(date => !isValidDate(date));
+
+      if (invalidDates) {
+        errorMessage.style.display = 'block';
+        outputDates.value = '';
+      } else {
+        errorMessage.style.display = 'none';
+        const sortedDates = dates.sort((a, b) => new Date(b) - new Date(a));
+        outputDates.value = sortedDates.join('\n');
+      }
+    };
+
+    const resetApp = () => {
+      inputDates.value = '';
+      outputDates.value = '';
+      errorMessage.style.display = 'none';
+    };
+
+    sortButton.addEventListener('click', sortDates);
+    resetButton.addEventListener('click', resetApp);
+  });
+</script>

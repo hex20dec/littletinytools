@@ -1,0 +1,136 @@
+---
+title: "Hex to Base64 Converter - Fast & Easy Encoding Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-04-22 12:18:47
+metaDescription: "Quickly convert hexadecimal strings to Base64 with this easy-to-use tool. Perfect for developers, cybersecurity pros, and anyone needing fast encoding solutions."
+metaKeywords: "hexadecimal to base64, base64 converter, hex to base64, encoding tool, hexadecimal encoding, base64 encoding, hex converter, developer tools, cybersecurity tools, data encoding"
+tags: ["hexadecimal", "base64", "encoding", "developer tools", "web utilities"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <h1 class="text-center mb-4">Hexadecimal to Base64 Converter</h1><div class="container bg-dark text-white p-4 rounded">
+  <div class="text-center mb-4">
+    <strong class="display-4">Hexadecimal to Base64 Converter</strong>
+  </div>
+  <p class="lead">
+    Why does converting hexadecimal to Base64 feel like deciphering ancient hieroglyphs? Whether you're a developer, a cybersecurity enthusiast, or just someone trying to decode a weird string, this tool is here to make your life easier. Simply paste your hexadecimal string, hit convert, and voilà—your Base64 result is ready! No more scratching your head or Googling for hours. This tool is fast, accurate, and super user-friendly. Let’s turn those confusing hex codes into something you can actually use!
+  </p>
+</div>
+  <div class="mb-3">
+    <label for="hex-input" class="form-label">Enter Hexadecimal String</label>
+    <input type="text" id="hex-input" class="form-control bg-dark text-white" placeholder="e.g., 4a6f686e446f65" aria-describedby="hex-help">
+    <div id="hex-help" class="form-text text-muted">Only characters 0-9, a-f, A-F are allowed.</div>
+    <div id="error-message" class="text-danger mt-2" style="display: none;">Invalid hexadecimal input. Please enter a valid hex string.</div>
+  </div>
+  <div class="d-grid gap-2 mb-3">
+    <button id="convert-btn" class="btn btn-primary">Convert to Base64</button>
+  </div>
+  <div class="mb-3">
+    <label for="base64-output" class="form-label">Base64 Output</label>
+    <textarea id="base64-output" class="form-control bg-dark text-white" readonly placeholder="Your Base64 result will appear here"></textarea>
+  </div>
+  <div class="d-grid gap-2">
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+</div>
+
+<div class="container bg-light p-4 rounded mt-4">
+  <h2 class="mb-4">How It Works</h2>
+  <p>
+    The Hexadecimal to Base64 Converter works by transforming your hexadecimal input into a readable Base64 format. Here's the breakdown:
+    <ol>
+      <li>It takes your hexadecimal string (like <code>4a6f686e446f65</code>) and splits it into pairs of characters.</li>
+      <li>Each pair is converted into its corresponding byte value.</li>
+      <li>These bytes are then transformed into a Base64 string using a simple encoding process.</li>
+    </ol>
+    It’s like translating a secret code into a language you understand—no PhD required!
+  </p>
+  <h2 class="mt-4 mb-3">Example Conversions</h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Hexadecimal Input</th>
+        <th>Base64 Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>4a6f686e446f65</td><td>Sm9obkRvZQ==</td></tr>
+      <tr><td>48656c6c6f</td><td>SGVsbG8=</td></tr>
+      <tr><td>576f726c64</td><td>V29ybGQ=</td></tr>
+      <tr><td>31</td><td>MQ==</td></tr>
+      <tr><td>313233</td><td>MTIz</td></tr>
+    </tbody>
+  </table>
+</div><div class="container bg-light p-4 rounded mt-4">
+  <h2 class="mb-4">10 Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">1. Encoding API keys for secure transmission.</li>
+    <li class="list-group-item">2. Converting cryptographic hashes for storage.</li>
+    <li class="list-group-item">3. Decoding hexadecimal data in cybersecurity tasks.</li>
+    <li class="list-group-item">4. Preparing data for URL-safe encoding.</li>
+    <li class="list-group-item">5. Simplifying debugging in software development.</li>
+    <li class="list-group-item">6. Encoding JSON data for compact storage.</li>
+    <li class="list-group-item">7. Converting binary data for email attachments.</li>
+    <li class="list-group-item">8. Encoding images or files in Base64 for web apps.</li>
+    <li class="list-group-item">9. Translating machine-readable data for human use.</li>
+    <li class="list-group-item">10. Learning and experimenting with encoding concepts.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const hexInput = document.getElementById('hex-input');
+    const base64Output = document.getElementById('base64-output');
+    const errorMessage = document.getElementById('error-message');
+    const convertBtn = document.getElementById('convert-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      hexInput.value = startValue;
+    }
+
+    const isValidHex = (str) => /^[0-9a-fA-F]+$/.test(str);
+
+    const convertHexToBase64 = (hex) => {
+      try {
+        const bytes = new Uint8Array(hex.match(/[\da-fA-F]{2}/g).map((h) => parseInt(h, 16)));
+        return btoa(String.fromCharCode(...bytes));
+      } catch (e) {
+        return null;
+      }
+    };
+
+    const handleConversion = () => {
+      const hexValue = hexInput.value.trim();
+      if (!hexValue || !isValidHex(hexValue)) {
+        errorMessage.style.display = 'block';
+        base64Output.value = '';
+        return;
+      }
+      errorMessage.style.display = 'none';
+      const base64Value = convertHexToBase64(hexValue);
+      if (base64Value) {
+        base64Output.value = base64Value;
+      } else {
+        errorMessage.textContent = 'Conversion failed. Please check your input.';
+        errorMessage.style.display = 'block';
+      }
+    };
+
+    const resetFields = () => {
+      hexInput.value = '';
+      base64Output.value = '';
+      errorMessage.style.display = 'none';
+    };
+
+    convertBtn.addEventListener('click', handleConversion);
+    resetBtn.addEventListener('click', resetFields);
+
+    hexInput.addEventListener('input', () => {
+      if (errorMessage.style.display === 'block') {
+        errorMessage.style.display = 'none';
+      }
+    });
+  });
+</script>

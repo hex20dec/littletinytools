@@ -1,0 +1,140 @@
+---
+title: "Binary to Quinary Converter - Quick & Accurate Number Conversion"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-12-23 15:19:12
+metaDescription: "Quickly convert binary numbers to quinary with our easy-to-use Binary to Quinary Converter. Perfect for students, developers, and math enthusiasts!"
+metaKeywords: "binary to quinary, binary converter, quinary converter, base-2 to base-5, number system converter, binary conversion tool"
+tags: ["binary converter", "quinary converter", "number systems", "math tools", "web app"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .error-message {
+    display: none;
+    color: #dc3545;
+    font-size: 0.875em;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Binary to Quinary Converter</h1><div class="header-section text-center mb-5">
+  <p class="lead fs-4">Ever stared at a binary number and thought, "What does this even mean in the real world?" Whether you're a coding newbie or a seasoned programmer, translating binary to quinary (base-5) can feel like deciphering an alien language. But don’t worry, we’ve got your back! Our <strong>Binary to Quinary Converter</strong> is here to make your life simpler. Just type in your binary number, hit convert, and voilà—your quinary equivalent appears like magic. No math headaches, no confusing formulas—just quick, accurate conversions. Perfect for students, developers, or anyone who loves numbers without the stress. Let’s make binary fun again!</p>
+</div>
+    <p class="lead">Enter a binary number to convert it to its quinary equivalent.</p>
+  </header>
+
+  <div class="mb-3">
+    <label for="binaryInput" class="form-label">Enter Binary Number</label>
+    <input type="text" class="form-control" id="binaryInput" placeholder="e.g., 10101" aria-describedby="binaryHelp">
+    <div id="binaryHelp" class="form-text">Only 0s and 1s are allowed.</div>
+    <div id="errorMessage" class="error-message mt-2">Invalid binary number. Please enter only 0s and 1s.</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="quinaryOutput" class="form-label">Quinary Equivalent</label>
+    <input type="text" class="form-control" id="quinaryOutput" readonly value="Result will appear here">
+  </div>
+
+  <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-3">
+    <button id="convertBtn" class="btn btn-primary me-md-2">Convert</button>
+    <button id="resetBtn" class="btn btn-secondary">Reset</button>
+  </div>
+</div>
+
+<div class="explanation-section mb-5">
+  <h2 class="fs-3 mb-3">How It Works</h2>
+  <p class="mb-4">The tool works by first converting the binary (base-2) number you input into its decimal (base-10) equivalent. From there, it transforms the decimal number into quinary (base-5) by repeatedly dividing the number by 5 and using the remainders. It’s like translating a secret code into a language you can actually understand!</p>
+  
+  <h3 class="fs-4 mb-3">Example Conversions</h3>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Binary</th>
+        <th scope="col">Quinary</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>0</td><td>0</td></tr>
+      <tr><td>1</td><td>1</td></tr>
+      <tr><td>10</td><td>2</td></tr>
+      <tr><td>11</td><td>3</td></tr>
+      <tr><td>100</td><td>4</td></tr>
+      <tr><td>101</td><td>10</td></tr>
+      <tr><td>110</td><td>11</td></tr>
+      <tr><td>111</td><td>12</td></tr>
+      <tr><td>1000</td><td>13</td></tr>
+      <tr><td>1001</td><td>14</td></tr>
+      <tr><td>1010</td><td>20</td></tr>
+    </tbody>
+  </table>
+</div><div class="use-cases-section mb-5">
+  <h2 class="fs-3 mb-3">10 Common Use Cases for This Tool</h2>
+  <ul class="list-group">
+    <li class="list-group-item">1. Simplifying binary-to-quinary conversions for computer science students.</li>
+    <li class="list-group-item">2. Helping programmers debug numerical data in base-5 systems.</li>
+    <li class="list-group-item">3. Teaching math concepts like number bases in classrooms.</li>
+    <li class="list-group-item">4. Converting binary data for cryptography projects.</li>
+    <li class="list-group-item">5. Assisting engineers working with legacy systems that use quinary encoding.</li>
+    <li class="list-group-item">6. Solving puzzles or challenges that involve number base conversions.</li>
+    <li class="list-group-item">7. Preparing for technical interviews that test knowledge of number systems.</li>
+    <li class="list-group-item">8. Converting binary outputs from sensors into quinary for analysis.</li>
+    <li class="list-group-item">9. Exploring number theory and its applications in real-world scenarios.</li>
+    <li class="list-group-item">10. Making math fun and interactive for kids learning about different number bases.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const binaryInput = document.getElementById('binaryInput');
+    const quinaryOutput = document.getElementById('quinaryOutput');
+    const errorMessage = document.getElementById('errorMessage');
+    const convertBtn = document.getElementById('convertBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      binaryInput.value = startValue;
+    }
+
+    function validateBinary(input) {
+      return /^[01]+$/.test(input);
+    }
+
+    function binaryToQuinary(binary) {
+      let decimal = parseInt(binary, 2);
+      let quinary = '';
+      while (decimal > 0) {
+        quinary = (decimal % 5) + quinary;
+        decimal = Math.floor(decimal / 5);
+      }
+      return quinary || '0';
+    }
+
+    convertBtn.addEventListener('click', function () {
+      const binaryValue = binaryInput.value.trim();
+      if (!validateBinary(binaryValue)) {
+        errorMessage.style.display = 'block';
+        quinaryOutput.value = 'Result will appear here';
+        return;
+      }
+      errorMessage.style.display = 'none';
+      quinaryOutput.value = binaryToQuinary(binaryValue);
+    });
+
+    resetBtn.addEventListener('click', function () {
+      binaryInput.value = '';
+      quinaryOutput.value = 'Result will appear here';
+      errorMessage.style.display = 'none';
+    });
+
+    binaryInput.addEventListener('input', function () {
+      if (validateBinary(binaryInput.value.trim())) {
+        errorMessage.style.display = 'none';
+      }
+    });
+  });
+</script>

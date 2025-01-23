@@ -1,0 +1,134 @@
+---
+title: "Parenthesis Counter - Check & Balance Your Parentheses Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-05-12 01:07:00
+metaDescription: "Easily count and balance parentheses in your text with this free online tool. Perfect for writers, coders, and students!"
+metaKeywords: "parenthesis counter, balance parentheses, count brackets, online tool, punctuation checker, writing tool, coding tool"
+tags: ["parentheses", "syntax checker", "web tool", "developer tool", "writing assistant"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <h1 class="text-center mb-4">Parenthesis Counter</h1><div class="container bg-dark text-white p-4 rounded">
+  <strong class="d-block text-center fs-2 mb-4">Parenthesis Counter</strong>
+  <p class="lead">
+    Why do parentheses always seem to have a mind of their own? You write a sentence, add a few brackets, and suddenly you're left wondering if you closed them all properly. The Parenthesis Counter is here to save the day! This simple yet powerful tool instantly checks your text for opening and closing parentheses, ensuring they’re perfectly balanced. Whether you're writing code, drafting an essay, or just trying to avoid embarrassing typos, this tool makes it easy to keep your parentheses in check. Say goodbye to mismatched brackets and hello to stress-free writing!
+  </p>
+</div>
+  <textarea id="input-text" class="form-control bg-dark text-white mb-3" placeholder="Enter your text here..." rows="6"></textarea>
+  <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4">
+    <button id="count-btn" class="btn btn-primary me-md-2">Count Parentheses</button>
+    <button id="clear-btn" class="btn btn-secondary">Clear</button>
+  </div>
+  <div id="results" class="text-center">
+    <p id="opening-count" class="mb-2">Opening Parentheses Count: <span class="fw-bold">0</span></p>
+    <p id="closing-count" class="mb-2">Closing Parentheses Count: <span class="fw-bold">0</span></p>
+    <p id="balance-status" class="alert mb-0"></p>
+  </div>
+</div>
+
+<div class="container bg-light p-4 rounded mt-4">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="fs-4 mb-3">How Does It Work?</h2>
+      <p>
+        The Parenthesis Counter works by scanning your text and counting the number of opening <code>(</code> and closing <code>)</code> parentheses. It then checks if the counts match. If they do, your parentheses are balanced! If not, it’ll let you know so you can fix them. No complex formulas or math required—just paste your text, click a button, and get instant results.
+      </p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="fs-4 mb-3">Examples</h2>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Text</th>
+            <th>Opening Parentheses</th>
+            <th>Closing Parentheses</th>
+            <th>Balanced?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>"Hello (World)"</td>
+            <td>1</td>
+            <td>1</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td>"This is (a test"</td>
+            <td>1</td>
+            <td>0</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td>"(Parenthesis (Counter))"</td>
+            <td>2</td>
+            <td>2</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td>"Oops) I forgot ("</td>
+            <td>1</td>
+            <td>1</td>
+            <td>Yes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container bg-dark text-white p-4 rounded mt-4">
+  <h2 class="fs-4 mb-3">10 Common Use Cases</h2>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item bg-dark text-white">1. Writing code in programming languages like Python, JavaScript, or C++.</li>
+    <li class="list-group-item bg-dark text-white">2. Drafting essays or academic papers with citations.</li>
+    <li class="list-group-item bg-dark text-white">3. Creating mathematical expressions or equations.</li>
+    <li class="list-group-item bg-dark text-white">4. Writing legal documents that require precise formatting.</li>
+    <li class="list-group-item bg-dark text-white">5. Checking nested parentheses in complex formulas.</li>
+    <li class="list-group-item bg-dark text-white">6. Editing blog posts or articles for proper punctuation.</li>
+    <li class="list-group-item bg-dark text-white">7. Formatting text for social media posts with brackets.</li>
+    <li class="list-group-item bg-dark text-white">8. Writing scripts or screenplays with stage directions.</li>
+    <li class="list-group-item bg-dark text-white">9. Verifying parentheses in JSON or XML data structures.</li>
+    <li class="list-group-item bg-dark text-white">10. Teaching students about proper punctuation usage.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const countBtn = document.getElementById('count-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const openingCount = document.getElementById('opening-count').querySelector('span');
+    const closingCount = document.getElementById('closing-count').querySelector('span');
+    const balanceStatus = document.getElementById('balance-status');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    // Count parentheses and check balance
+    countBtn.addEventListener('click', () => {
+      const text = inputText.value;
+      const opening = (text.match(/\(/g) || []).length;
+      const closing = (text.match(/\)/g) || []).length;
+
+      openingCount.textContent = opening;
+      closingCount.textContent = closing;
+
+      if (opening === closing) {
+        balanceStatus.textContent = 'Parentheses are balanced!';
+        balanceStatus.className = 'alert alert-success mb-0';
+      } else {
+        balanceStatus.textContent = 'Parentheses are not balanced!';
+        balanceStatus.className = 'alert alert-danger mb-0';
+      }
+    });
+
+    // Clear input and results
+    clearBtn.addEventListener('click', () => {
+      inputText.value = '';
+      openingCount.textContent = 0;
+      closingCount.textContent = 0;
+      balanceStatus.textContent = '';
+      balanceStatus.className = 'alert mb-0';
+    });
+  });
+</script>

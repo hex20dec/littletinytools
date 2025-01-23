@@ -1,0 +1,167 @@
+---
+title: "Symbol Counter - Count Characters in Text Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-08-09 21:11:46
+metaDescription: "Quickly count symbols in text with the Symbol Counter tool. Perfect for writers, coders, and anyone who needs accurate symbol counts in seconds!"
+metaKeywords: "symbol counter, count symbols, text analysis tool, punctuation counter, character counter, online symbol tool, text utility, writing tool, coding tool, SEO tool"
+tags: ["text analysis", "character counter", "writing tools", "productivity", "web app"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  textarea {
+    min-height: 200px;
+  }
+</style>
+
+<div id="main-div">
+  <div class="text-center mb-4">
+    <h1 class="display-4">Symbol Counter</h1><div class="container my-5">
+  <div class="text-center mb-4">
+    <p class="h2">Ever found yourself squinting at a screen, trying to count how many times a specific symbol appears in a block of text? Maybe you're checking for commas in an essay, counting hashtags in a social media post, or verifying formatting in a document. It's tedious, right? That's where the <strong>Symbol Counter</strong> swoops in to save the day! This simple yet powerful tool lets you paste your text, pick a symbol, and instantly get the count—no more manual scanning or second-guessing. Whether you're a writer, coder, or just someone who loves efficiency, this tool is your new best friend. Say goodbye to frustration and hello to quick, accurate results with just a click!</p>
+  </div>
+</div>
+    <p class="lead">Enter your text and the symbol you want to count. The app will display the number of occurrences.</p>
+  </div>
+
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control" placeholder="Paste or type your text here..." aria-label="Text input"></textarea>
+  </div>
+
+  <div class="mb-3">
+    <input type="text" id="symbol-input" class="form-control" placeholder="Enter a symbol to count..." aria-label="Symbol input" maxlength="1">
+  </div>
+
+  <div class="d-grid gap-2 mb-3">
+    <button id="count-btn" class="btn btn-primary">Count</button>
+  </div>
+
+  <div id="result-area" class="alert" role="alert" style="display: none;"></div>
+
+  <div class="d-grid gap-2">
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p class="h4">How Does the Symbol Counter Work?</p>
+      <p>It’s as simple as 1-2-3! Here's the formula:</p>
+      <ol>
+        <li><strong>Input your text:</strong> Paste or type the text you want to analyze into the text box.</li>
+        <li><strong>Choose your symbol:</strong> Enter the specific symbol, character, or punctuation mark you want to count.</li>
+        <li><strong>Click "Count":</strong> The tool scans your text and instantly tells you how many times the symbol appears.</li>
+      </ol>
+      <p>For example, if you paste the sentence <em>"Hello, world! How are you, world?"</em> and count the comma (<strong>,</strong>), the tool will tell you it appears twice. Easy peasy!</p>
+
+      <p class="h4 mt-5">Example Counts for Common Symbols</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Symbol</th>
+            <th scope="col">Example Text</th>
+            <th scope="col">Occurrences</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>,</td>
+            <td>"Hello, world! How are you, world?"</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>!</td>
+            <td>"Wow! This is amazing! Really!"</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>#</td>
+            <td>"#SEO #Marketing #Tools"</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>@</td>
+            <td>"Email me @example.com"</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>.</td>
+            <td>"This is a sentence. Another one."</td>
+            <td>2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p class="h4">10 Common Use Cases for the Symbol Counter</p>
+      <ol>
+        <li><strong>Proofreading essays:</strong> Count commas, periods, or other punctuation to ensure proper usage.</li>
+        <li><strong>Social media posts:</strong> Track hashtags or mentions for better engagement.</li>
+        <li><strong>Coding projects:</strong> Verify the number of specific characters in a string or script.</li>
+        <li><strong>Legal documents:</strong> Ensure consistent use of symbols like § or ¶.</li>
+        <li><strong>Academic writing:</strong> Count citations or footnotes for accuracy.</li>
+        <li><strong>Email campaigns:</strong> Check for excessive exclamation marks or other symbols.</li>
+        <li><strong>Data analysis:</strong> Analyze text data for recurring symbols.</li>
+        <li><strong>Blogging:</strong> Ensure proper use of symbols like hyphens or quotation marks.</li>
+        <li><strong>Transcription work:</strong> Verify the number of pauses or breaks in a transcript.</li>
+        <li><strong>Personal projects:</strong> Count symbols in creative writing or poetry for stylistic purposes.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const textInput = document.getElementById('text-input');
+    const symbolInput = document.getElementById('symbol-input');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultArea = document.getElementById('result-area');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    countBtn.addEventListener('click', function () {
+      const text = textInput.value.trim();
+      const symbol = symbolInput.value.trim();
+
+      if (!text) {
+        showResult('Please enter some text.', 'danger');
+        return;
+      }
+
+      if (!symbol) {
+        showResult('Please enter a symbol to count.', 'danger');
+        return;
+      }
+
+      const count = (text.match(new RegExp(symbol[0], 'g')) || []).length;
+      if (count === 0) {
+        showResult('The symbol was not found in the text.', 'warning');
+      } else {
+        showResult(`The symbol "${symbol[0]}" appears ${count} time(s).`, 'success');
+      }
+    });
+
+    resetBtn.addEventListener('click', function () {
+      textInput.value = '';
+      symbolInput.value = '';
+      resultArea.style.display = 'none';
+    });
+
+    function showResult(message, type) {
+      resultArea.textContent = message;
+      resultArea.className = `alert alert-${type}`;
+      resultArea.style.display = 'block';
+    }
+  });
+</script>

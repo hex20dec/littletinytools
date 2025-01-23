@@ -1,0 +1,174 @@
+---
+title: "Decimal to Quaternary Converter - Quick & Easy Number Conversion"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-11-05 21:35:50
+metaDescription: "Convert decimal numbers to quaternary instantly with this easy-to-use tool. Perfect for students, teachers, and math enthusiasts!"
+metaKeywords: "decimal to quaternary, quaternary converter, number system converter, base-4 converter, math tool, quaternary calculator, decimal conversion, number system tool, quaternary number, decimal to base-4"
+tags: ["decimal to quaternary", "number converter", "base-4 calculator", "math tools", "educational tools"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .form-control:disabled {
+    background-color: #e9ecef;
+    opacity: 1;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container">
+    <h1 class="text-center mb-3">Decimal to Quaternary Converter</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p class="lead text-center">Ever found yourself staring at a decimal number, wondering how it would look in quaternary? Whether you're a math enthusiast, a student, or just someone curious about number systems, converting decimals to quaternary can feel like solving a riddle. But don’t worry—this Decimal to Quaternary Converter is here to make your life easier! Just pop in your decimal number, hit convert, and boom—you’ve got your quaternary equivalent. No math headaches, no complicated steps. It’s like having a friendly math tutor in your pocket, ready to help anytime. Let’s make numbers fun again!</p>
+    </div>
+  </div>
+</div>
+    <p class="text-center mb-4">Enter a decimal number to convert it to its quaternary equivalent.</p>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="decimalInput" class="form-label">Enter Decimal Number</label>
+        <input type="number" class="form-control" id="decimalInput" placeholder="e.g., 123" min="0" aria-describedby="decimalHelp">
+        <div id="decimalHelp" class="form-text">Enter a non-negative integer.</div>
+        <div id="errorMessage" class="text-danger mt-2" style="display: none;">Please enter a valid decimal number.</div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <button id="convertBtn" class="btn btn-primary w-100">Convert</button>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="quaternaryOutput" class="form-label">Quaternary Result</label>
+        <input type="text" class="form-control" id="quaternaryOutput" placeholder="Result will appear here" disabled>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <button id="resetBtn" class="btn btn-secondary w-100">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="mb-4">How It Works</h2>
+      <p>Converting a decimal number to quaternary is simpler than it sounds. Here’s the breakdown:</p>
+      <ol>
+        <li>Start with your decimal number (e.g., 10).</li>
+        <li>Divide the number by 4 and keep track of the remainder.</li>
+        <li>Repeat the process with the quotient until it becomes 0.</li>
+        <li>The quaternary number is the sequence of remainders read in reverse order.</li>
+      </ol>
+      <p>For example, the decimal number <strong>10</strong> converts to <strong>22</strong> in quaternary. Let’s see this in action:</p>
+      <table class="table table-bordered mt-4">
+        <thead>
+          <tr>
+            <th scope="col">Decimal Number</th>
+            <th scope="col">Quaternary Equivalent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>1</td></tr>
+          <tr><td>2</td><td>2</td></tr>
+          <tr><td>3</td><td>3</td></tr>
+          <tr><td>4</td><td>10</td></tr>
+          <tr><td>5</td><td>11</td></tr>
+          <tr><td>6</td><td>12</td></tr>
+          <tr><td>7</td><td>13</td></tr>
+          <tr><td>8</td><td>20</td></tr>
+          <tr><td>9</td><td>21</td></tr>
+          <tr><td>10</td><td>22</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="mb-4">10 Common Use Cases for This Tool</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1. Simplifying math assignments involving number systems.</li>
+        <li class="list-group-item">2. Understanding quaternary encoding in computer science.</li>
+        <li class="list-group-item">3. Exploring alternative number systems for fun or learning.</li>
+        <li class="list-group-item">4. Converting data for specific engineering applications.</li>
+        <li class="list-group-item">5. Teaching students about base-4 numbering systems.</li>
+        <li class="list-group-item">6. Preparing for competitive exams with number system questions.</li>
+        <li class="list-group-item">7. Translating decimal codes into quaternary for puzzles or games.</li>
+        <li class="list-group-item">8. Analyzing patterns in quaternary sequences.</li>
+        <li class="list-group-item">9. Solving advanced mathematical problems involving modular arithmetic.</li>
+        <li class="list-group-item">10. Comparing decimal and quaternary representations for research purposes.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const decimalInput = document.getElementById('decimalInput');
+    const quaternaryOutput = document.getElementById('quaternaryOutput');
+    const convertBtn = document.getElementById('convertBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const errorMessage = document.getElementById('errorMessage');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue) && startValue >= 0) {
+      decimalInput.value = startValue;
+    }
+
+    // Conversion logic
+    function decimalToQuaternary(decimal) {
+      if (decimal === 0) return '0';
+      let quaternary = '';
+      while (decimal > 0) {
+        quaternary = (decimal % 4) + quaternary;
+        decimal = Math.floor(decimal / 4);
+      }
+      return quaternary;
+    }
+
+    // Validate input
+    function validateInput() {
+      const value = decimalInput.value.trim();
+      if (value === '' || isNaN(value) || value < 0 || !Number.isInteger(Number(value))) {
+        errorMessage.style.display = 'block';
+        return false;
+      }
+      errorMessage.style.display = 'none';
+      return true;
+    }
+
+    // Convert button click
+    convertBtn.addEventListener('click', function () {
+      if (validateInput()) {
+        const decimal = parseInt(decimalInput.value, 10);
+        const quaternary = decimalToQuaternary(decimal);
+        quaternaryOutput.value = quaternary;
+      }
+    });
+
+    // Reset button click
+    resetBtn.addEventListener('click', function () {
+      decimalInput.value = '';
+      quaternaryOutput.value = '';
+      errorMessage.style.display = 'none';
+    });
+
+    // Handle Enter key press
+    decimalInput.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        convertBtn.click();
+      }
+    });
+  });
+</script>

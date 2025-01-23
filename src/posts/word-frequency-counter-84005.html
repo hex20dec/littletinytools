@@ -1,0 +1,155 @@
+---
+title: "Word Frequency Counter - Analyze Text Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-01-21 03:52:14
+metaDescription: "Instantly count word frequency in any text with the Word Frequency Counter. Perfect for writers, students, and SEO optimization. Free and easy to use!"
+metaKeywords: "word frequency counter, word count tool, text analysis, word frequency analyzer, SEO word counter, writing tool, word usage checker"
+tags: ["word frequency", "text analysis", "writing tool", "word counter", "linguistics"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  textarea {
+    resize: vertical;
+  }
+  .table-responsive {
+    overflow-x: auto;
+  }
+</style>
+
+<div id="main-div">
+  <div class="text-center mb-4">
+    <h1 class="display-4">Word Frequency Counter</h1><div class="text-center mb-5 p-4 bg-light rounded">
+  <p class="fs-4 fw-bold">Ever found yourself drowning in a sea of words, wondering, "How many times did I even use that phrase?" Whether you're writing an essay, crafting a blog post, or analyzing a speech, keeping track of word frequency can feel like counting stars in the sky. Enter the <span class="text-primary">Word Frequency Counter</span>—your ultimate text analysis sidekick! Simply paste or type your text, and voilà! It breaks down your words faster than you can say "supercalifragilisticexpialidocious." Perfect for writers, students, and curious minds alike, this tool turns word-counting chaos into a breeze. Let’s make your text analysis as smooth as butter!</p>
+</div>
+    <p class="lead">Enter your text below to see how often each word appears.</p>
+  </div>
+
+  <div class="mb-4">
+    <textarea id="text-input" class="form-control" placeholder="Paste or type your text here..." rows="8" aria-label="Text input for word frequency analysis"></textarea>
+    <button id="count-btn" class="btn btn-primary mt-3 w-100">Count Words</button>
+  </div>
+
+  <div id="output-section" class="d-none">
+    <div class="table-responsive">
+      <table class="table table-striped mt-4">
+        <thead>
+          <tr>
+            <th scope="col">Word</th>
+            <th scope="col">Frequency</th>
+          </tr>
+        </thead>
+        <tbody id="results-table">
+        </tbody>
+      </table>
+    </div>
+    <button id="reset-btn" class="btn btn-secondary mt-3 w-100">Reset</button>
+  </div>
+
+  <div id="empty-message" class="alert alert-info mt-4 d-none" role="alert">
+    Please enter some text to analyze.
+  </div>
+</div>
+
+<div class="mt-5 p-4 bg-white rounded shadow-sm">
+  <h2 class="fs-3 fw-bold mb-4">How It Works</h2>
+  <p class="mb-4">The Word Frequency Counter works like a friendly librarian for your text. It takes your input, removes any extra punctuation, and splits it into individual words. Then, it counts how often each word appears and sorts them from most to least frequent. Think of it as a magnifying glass for your writing—helping you spot patterns, overused words, or hidden gems.</p>
+  
+  <h3 class="fs-4 fw-bold mb-3">Example Table</h3>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Word</th>
+          <th scope="col">Frequency</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>the</td><td>10</td></tr>
+        <tr><td>quick</td><td>5</td></tr>
+        <tr><td>brown</td><td>3</td></tr>
+        <tr><td>fox</td><td>2</td></tr>
+        <tr><td>jumps</td><td>2</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="mt-5 p-4 bg-light rounded">
+  <h2 class="fs-3 fw-bold mb-4">10 Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">1. Analyze essays or research papers for overused words.</li>
+    <li class="list-group-item">2. Improve blog posts by identifying repetitive phrases.</li>
+    <li class="list-group-item">3. Study speeches or transcripts for key themes.</li>
+    <li class="list-group-item">4. Optimize SEO content by balancing keyword frequency.</li>
+    <li class="list-group-item">5. Check readability by spotting overly complex words.</li>
+    <li class="list-group-item">6. Edit novels or stories for consistent terminology.</li>
+    <li class="list-group-item">7. Compare text styles by analyzing word usage.</li>
+    <li class="list-group-item">8. Prepare for presentations by refining your message.</li>
+    <li class="list-group-item">9. Teach students about vocabulary and word patterns.</li>
+    <li class="list-group-item">10. Satisfy your curiosity—count words in your favorite quotes!</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const outputSection = document.getElementById('output-section');
+    const resultsTable = document.getElementById('results-table');
+    const emptyMessage = document.getElementById('empty-message');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    const countWords = () => {
+      const text = textInput.value.trim();
+      if (!text) {
+        outputSection.classList.add('d-none');
+        emptyMessage.classList.remove('d-none');
+        return;
+      }
+
+      const words = text.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/);
+      const frequencyMap = {};
+
+      words.forEach(word => {
+        if (word) {
+          frequencyMap[word] = (frequencyMap[word] || 0) + 1;
+        }
+      });
+
+      const sortedWords = Object.keys(frequencyMap).sort((a, b) => frequencyMap[b] - frequencyMap[a]);
+
+      resultsTable.innerHTML = sortedWords.map(word => `
+        <tr>
+          <td>${word}</td>
+          <td>${frequencyMap[word]}</td>
+        </tr>
+      `).join('');
+
+      outputSection.classList.remove('d-none');
+      emptyMessage.classList.add('d-none');
+    };
+
+    const resetApp = () => {
+      textInput.value = '';
+      resultsTable.innerHTML = '';
+      outputSection.classList.add('d-none');
+      emptyMessage.classList.remove('d-none');
+    };
+
+    countBtn.addEventListener('click', countWords);
+    resetBtn.addEventListener('click', resetApp);
+
+    textInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && e.ctrlKey) {
+        countWords();
+      }
+    });
+  });
+</script>

@@ -1,0 +1,157 @@
+---
+title: "Alphanumeric Sorter - Sort Your Lists Instantly!"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-03-13 23:42:40
+metaDescription: "Easily sort alphanumeric strings in ascending or descending order with this simple, fast, and free online tool. Perfect for inventory, coding, and more!"
+metaKeywords: "alphanumeric sorter, sort alphanumeric strings, alphanumeric organizer, free sorting tool, inventory management tool"
+tags: ["alphanumeric sorter", "sorting tool", "web tool", "productivity", "data organization"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center text-white mb-4">Alphanumeric Sorter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center lead text-white mb-4">Struggling to organize a mix of letters and numbers? Whether it's product codes, serial numbers, or any alphanumeric jumble, keeping them in order can feel like solving a puzzle. Enter the <strong>Alphanumeric Sorter</strong>—a simple, no-fuss tool that sorts your alphanumeric strings in seconds. Just paste your list, choose your order (A-Z or Z-A), and let the magic happen. Perfect for inventory management, coding projects, or even organizing your gaming achievements. Life’s too short to manually sort A1, B2, and 10C. Let’s make it easy, fast, and fun!</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center text-white mb-4">Enter your alphanumeric strings below and sort them in ascending or descending order.</p>
+      <div class="mb-3">
+        <textarea id="input-text" class="form-control bg-dark text-white" rows="6" placeholder="Enter one alphanumeric string per line (e.g., A1, B2, 10, 2C)."></textarea>
+        <small id="input-error" class="text-danger d-none">Please enter at least one alphanumeric string.</small>
+      </div>
+      <div class="mb-3">
+        <select id="sort-order" class="form-select bg-dark text-white">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
+      <button id="sort-btn" class="btn btn-primary w-100 mb-3">Sort</button>
+      <div class="mb-3">
+        <textarea id="output-text" class="form-control bg-dark text-white" rows="6" readonly></textarea>
+      </div>
+      <button id="copy-btn" class="btn btn-secondary w-100">Copy to Clipboard</button>
+      <p class="text-center text-white mt-4">This tool does not store or share your data.</p>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center text-white mb-4">How It Works</h2>
+      <p class="text-white mb-4">The Alphanumeric Sorter breaks down your strings into smaller parts—letters and numbers—and compares them step by step. For example, if you have "A10" and "A2," it first checks the letters ("A" vs. "A"), then the numbers (10 vs. 2). This ensures that "A2" comes before "A10," just like it should. You can sort in ascending (A-Z, 1-10) or descending (Z-A, 10-1) order, depending on your needs.</p>
+      <div class="table-responsive">
+        <table class="table table-dark table-striped">
+          <thead>
+            <tr>
+              <th>Input</th>
+              <th>Sorted (Ascending)</th>
+              <th>Sorted (Descending)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A1, B2, 10, 2C</td>
+              <td>2C, 10, A1, B2</td>
+              <td>B2, A1, 10, 2C</td>
+            </tr>
+            <tr>
+              <td>X12, Y3, Z100</td>
+              <td>Y3, X12, Z100</td>
+              <td>Z100, X12, Y3</td>
+            </tr>
+            <tr>
+              <td>1A, 2B, 3C, 10D</td>
+              <td>1A, 2B, 3C, 10D</td>
+              <td>10D, 3C, 2B, 1A</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center text-white mb-4">Top 10 Use Cases for the Alphanumeric Sorter</h2>
+      <ol class="text-white">
+        <li>Sorting product codes for inventory management.</li>
+        <li>Organizing serial numbers for equipment tracking.</li>
+        <li>Arranging alphanumeric filenames for better file organization.</li>
+        <li>Sorting game achievements or leaderboard entries.</li>
+        <li>Managing license plate numbers for databases.</li>
+        <li>Organizing alphanumeric passwords or keys.</li>
+        <li>Sorting version numbers like v1.2, v2.0, v10.1.</li>
+        <li>Arranging alphanumeric IDs for event attendees.</li>
+        <li>Sorting alphanumeric codes for financial transactions.</li>
+        <li>Organizing alphanumeric tags for blog posts or articles.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const outputText = document.getElementById('output-text');
+    const sortBtn = document.getElementById('sort-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const sortOrder = document.getElementById('sort-order');
+    const inputError = document.getElementById('input-error');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputText.value = startValue;
+    }
+
+    const sortAlphanumeric = (arr, order) => {
+      return arr.sort((a, b) => {
+        const aParts = a.match(/(\d+)|(\D+)/g) || [];
+        const bParts = b.match(/(\d+)|(\D+)/g) || [];
+        for (let i = 0; i < Math.max(aParts.length, bParts.length); i++) {
+          const aPart = aParts[i] || '';
+          const bPart = bParts[i] || '';
+          if (/\d+/.test(aPart) && /\d+/.test(bPart)) {
+            const numA = parseInt(aPart, 10);
+            const numB = parseInt(bPart, 10);
+            if (numA !== numB) {
+              return order === 'asc' ? numA - numB : numB - numA;
+            }
+          } else {
+            if (aPart !== bPart) {
+              return order === 'asc' ? aPart.localeCompare(bPart) : bPart.localeCompare(aPart);
+            }
+          }
+        }
+        return 0;
+      });
+    };
+
+    sortBtn.addEventListener('click', () => {
+      const input = inputText.value.trim();
+      if (!input) {
+        inputError.classList.remove('d-none');
+        outputText.value = '';
+        return;
+      }
+      inputError.classList.add('d-none');
+      const inputArray = input.split('\n').filter(line => line.trim());
+      const sortedArray = sortAlphanumeric(inputArray, sortOrder.value);
+      outputText.value = sortedArray.join('\n');
+    });
+
+    copyBtn.addEventListener('click', () => {
+      if (outputText.value) {
+        outputText.select();
+        document.execCommand('copy');
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => {
+          copyBtn.textContent = 'Copy to Clipboard';
+        }, 2000);
+      }
+    });
+  });
+</script>

@@ -1,0 +1,113 @@
+---
+title: "Camel Case Word Counter - Count Camel Case Words Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-04-24 07:54:48
+metaDescription: "Count camelCase words instantly with this easy-to-use tool. Perfect for developers, writers, and educators. Try it now!"
+metaKeywords: "camelCase counter, word counter, camelCase tool, count camelCase words, programming tool, text analysis"
+tags: ["camel case", "word counter", "developer tools", "text analysis", "coding conventions"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <h1 class="text-center mb-4">Camel Case Word Counter</h1><div class="container bg-dark text-white p-4 rounded">
+  <p class="lead text-center mb-4">Camel Case Word Counter</p>
+  <p class="text-center mb-4">Ever found yourself staring at a block of code or text, wondering how many camelCase words are hidden in there? Maybe you're a developer cleaning up variable names, or a writer analyzing a technical document. Whatever the case, counting camelCase words manually is like trying to count stars in the sky—tedious and error-prone. That's where this tool comes in! Simply paste or type your text, hit "Count Words," and voilà—you get an instant count of all those sneaky camelCase words. It's quick, easy, and saves you from the headache of manual counting. No more guesswork, just pure efficiency!</p>
+</div>
+  <p class="text-center mb-4">Enter your text below to count the number of camel case words.</p>
+  
+  <div class="mb-3">
+    <textarea id="input-text" class="form-control bg-dark text-white" rows="10" placeholder="Paste or type your text here..."></textarea>
+  </div>
+  
+  <div class="d-flex justify-content-center gap-2 mb-4">
+    <button id="count-btn" class="btn btn-primary">Count Words</button>
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+  
+  <div class="text-center">
+    <label for="output-count" class="form-label">Camel Case Words Count:</label>
+    <input id="output-count" class="form-control bg-dark text-white text-center" type="text" readonly>
+  </div>
+  
+  <footer class="text-center mt-4">
+    <small>This tool counts words written in camel case (e.g., 'camelCaseExample').</small>
+  </footer>
+</div>
+
+<div class="container bg-light p-4 mt-4 rounded">
+  <p class="h4 mb-3">How It Works</p>
+  <p>This tool works by scanning your text for words that follow the camelCase pattern. CamelCase words typically start with a lowercase letter and then alternate between lowercase and uppercase letters (e.g., <code>camelCaseExample</code>). Here's the simple formula it uses:</p>
+  <ul>
+    <li>Step 1: Identify words that start with a lowercase letter.</li>
+    <li>Step 2: Check if the word contains at least one uppercase letter in the middle.</li>
+    <li>Step 3: Count all such words in the text.</li>
+  </ul>
+  
+  <p class="h4 mt-4 mb-3">Example Counts</p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Input Text</th>
+        <th>CamelCase Words Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>camelCaseExample</td><td>1</td></tr>
+      <tr><td>anotherCamelCaseWord</td><td>1</td></tr>
+      <tr><td>thisIsACombinationOfWords</td><td>4</td></tr>
+      <tr><td>noCamelCaseHere</td><td>0</td></tr>
+      <tr><td>mixedExampleWithCamelCaseAndNormalWords</td><td>2</td></tr>
+    </tbody>
+  </table>
+</div><div class="container bg-light p-4 mt-4 rounded">
+  <p class="h4 mb-3">Top 10 Use Cases for Camel Case Word Counter</p>
+  <ol>
+    <li><strong>Code Reviews:</strong> Quickly identify and count camelCase variable names in code snippets.</li>
+    <li><strong>Document Analysis:</strong> Analyze technical documents for consistent camelCase usage.</li>
+    <li><strong>Educational Purposes:</strong> Teach students about naming conventions in programming.</li>
+    <li><strong>Refactoring Code:</strong> Ensure consistency when renaming variables or functions.</li>
+    <li><strong>Writing Style Guides:</strong> Check adherence to camelCase rules in style guides.</li>
+    <li><strong>Debugging:</strong> Spot inconsistencies in variable naming during debugging.</li>
+    <li><strong>Text Processing:</strong> Use in text preprocessing for NLP tasks involving camelCase words.</li>
+    <li><strong>API Documentation:</strong> Verify proper camelCase usage in API parameter names.</li>
+    <li><strong>Content Editing:</strong> Edit technical blog posts or articles for consistent formatting.</li>
+    <li><strong>Learning Programming:</strong> Practice identifying camelCase patterns while learning to code.</li>
+  </ol>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const outputCount = document.getElementById('output-count');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    // Function to count camel case words
+    const countCamelCaseWords = (text) => {
+      const camelCaseRegex = /\b[a-z]+[A-Z][a-zA-Z]*\b/g;
+      const matches = text.match(camelCaseRegex);
+      return matches ? matches.length : 0;
+    };
+
+    // Handle count button click
+    countBtn.addEventListener('click', () => {
+      const text = inputText.value.trim();
+      if (!text) {
+        outputCount.value = '0';
+        return;
+      }
+      const count = countCamelCaseWords(text);
+      outputCount.value = count.toString();
+    });
+
+    // Handle reset button click
+    resetBtn.addEventListener('click', () => {
+      inputText.value = '';
+      outputCount.value = '';
+    });
+  });
+</script>

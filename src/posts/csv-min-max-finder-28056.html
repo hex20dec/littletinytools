@@ -1,0 +1,200 @@
+---
+title: "CSV Min-Max Finder - Analyze CSV Data Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-01-03 22:16:01
+metaDescription: "Quickly find min and max values in any CSV column. Simplify data analysis with this easy-to-use tool. Perfect for sales, expenses, and more!"
+metaKeywords: "CSV min-max finder, data analysis tool, CSV column analyzer, find min max values, spreadsheet tool, CSV file analyzer, sales data analysis, expense tracking, test score analysis, inventory management"
+tags: ["CSV", "Data Analysis", "Min-Max Finder", "Web Tool", "JavaScript"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-4">CSV Min-Max Finder</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center fs-3 fw-bold mb-4">CSV Min-Max Finder</p>
+      <p class="text-center">Dealing with spreadsheets that feel like a labyrinth of numbers? The CSV Min-Max Finder is here to rescue you. Simply upload your CSV file, pick a column, and let the tool instantly reveal the smallest and largest values. Whether you're analyzing sales data, tracking expenses, or comparing test scores, this tool cuts through the clutter with ease. No more scrolling endlessly or manually calculating—just quick, reliable results. Say goodbye to spreadsheet headaches and hello to simplicity!</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Upload a CSV file and find the minimum and maximum values for any column.</p>
+
+      <div class="mb-4">
+        <label for="csvFileInput" class="form-label">Upload CSV File</label>
+        <input type="file" class="form-control" id="csvFileInput" accept=".csv">
+        <small class="form-text text-muted">Choose a CSV file...</small>
+        <div id="fileUploadMessage" class="text-success mt-2 d-none">File uploaded successfully!</div>
+      </div>
+
+      <div class="mb-4">
+        <label for="columnSelect" class="form-label">Select Column</label>
+        <select class="form-select" id="columnSelect" disabled>
+          <option value="">Select a column</option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <button id="findMinMaxBtn" class="btn btn-success w-100" disabled>Find Min-Max</button>
+      </div>
+
+      <div id="resultsCard" class="card bg-secondary text-white d-none">
+        <div class="card-body">
+          <h5 class="card-title">Results</h5>
+          <p id="minValue" class="card-text">Minimum Value: </p>
+          <p id="maxValue" class="card-text">Maximum Value: </p>
+          <p id="noNumericData" class="card-text d-none">No numeric data found in the selected column.</p>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <button id="resetBtn" class="btn btn-danger w-100">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="fs-4 fw-bold mb-3">How It Works</p>
+      <p class="mb-4">The CSV Min-Max Finder follows a straightforward process:</p>
+      <ol>
+        <li><strong>Upload Your CSV:</strong> Choose a CSV file from your device. The tool reads the file and identifies all available columns.</li>
+        <li><strong>Select a Column:</strong> Pick the column you want to analyze. The tool automatically filters out non-numeric data.</li>
+        <li><strong>Find Min-Max:</strong> Click the button, and the tool calculates the minimum and maximum values for the selected column.</li>
+      </ol>
+      <p class="mt-4">Here’s a quick example of how it works in practice:</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Column Name</th>
+            <th>Minimum Value</th>
+            <th>Maximum Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Sales</td>
+            <td>150</td>
+            <td>950</td>
+          </tr>
+          <tr>
+            <td>Expenses</td>
+            <td>50</td>
+            <td>800</td>
+          </tr>
+          <tr>
+            <td>Test Scores</td>
+            <td>65</td>
+            <td>98</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="fs-4 fw-bold mb-3">10 Common Use Cases for the CSV Min-Max Finder</p>
+      <ol>
+        <li><strong>Sales Analysis:</strong> Identify the highest and lowest sales figures in a dataset.</li>
+        <li><strong>Expense Tracking:</strong> Find the minimum and maximum expenses for budgeting purposes.</li>
+        <li><strong>Test Scores:</strong> Determine the range of student performance in exams.</li>
+        <li><strong>Inventory Management:</strong> Analyze stock levels to identify shortages or overstock.</li>
+        <li><strong>Financial Reports:</strong> Extract key figures like profit margins or revenue ranges.</li>
+        <li><strong>Temperature Data:</strong> Track the lowest and highest temperatures over time.</li>
+        <li><strong>Survey Results:</strong> Analyze numerical responses to find trends.</li>
+        <li><strong>Fitness Tracking:</strong> Monitor workout progress by identifying peak and low performance metrics.</li>
+        <li><strong>E-commerce:</strong> Evaluate product prices or customer ratings.</li>
+        <li><strong>Scientific Research:</strong> Process experimental data to identify outliers or trends.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const csvFileInput = document.getElementById('csvFileInput');
+    const columnSelect = document.getElementById('columnSelect');
+    const findMinMaxBtn = document.getElementById('findMinMaxBtn');
+    const resultsCard = document.getElementById('resultsCard');
+    const minValue = document.getElementById('minValue');
+    const maxValue = document.getElementById('maxValue');
+    const noNumericData = document.getElementById('noNumericData');
+    const fileUploadMessage = document.getElementById('fileUploadMessage');
+    const resetBtn = document.getElementById('resetBtn');
+
+    let csvData = [];
+    let columns = [];
+
+    csvFileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file && file.type === 'text/csv') {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const text = e.target.result;
+          csvData = text.split('\n').map(row => row.split(','));
+          columns = csvData[0];
+          populateColumnSelect(columns);
+          fileUploadMessage.classList.remove('d-none');
+          columnSelect.disabled = false;
+          findMinMaxBtn.disabled = false;
+        };
+        reader.readAsText(file);
+      } else {
+        alert('Invalid file type. Please upload a CSV file.');
+      }
+    });
+
+    columnSelect.addEventListener('change', () => {
+      resultsCard.classList.add('d-none');
+    });
+
+    findMinMaxBtn.addEventListener('click', () => {
+      const selectedColumn = columnSelect.value;
+      if (!selectedColumn) {
+        alert('Please select a column first.');
+        return;
+      }
+
+      const columnIndex = columns.indexOf(selectedColumn);
+      const numericData = csvData.slice(1).map(row => parseFloat(row[columnIndex])).filter(val => !isNaN(val));
+
+      if (numericData.length === 0) {
+        noNumericData.classList.remove('d-none');
+        minValue.classList.add('d-none');
+        maxValue.classList.add('d-none');
+      } else {
+        const min = Math.min(...numericData);
+        const max = Math.max(...numericData);
+        minValue.textContent = `Minimum Value: ${min}`;
+        maxValue.textContent = `Maximum Value: ${max}`;
+        minValue.classList.remove('d-none');
+        maxValue.classList.remove('d-none');
+        noNumericData.classList.add('d-none');
+      }
+      resultsCard.classList.remove('d-none');
+    });
+
+    resetBtn.addEventListener('click', () => {
+      csvFileInput.value = '';
+      columnSelect.innerHTML = '<option value="">Select a column</option>';
+      columnSelect.disabled = true;
+      findMinMaxBtn.disabled = true;
+      resultsCard.classList.add('d-none');
+      fileUploadMessage.classList.add('d-none');
+      csvData = [];
+      columns = [];
+    });
+
+    function populateColumnSelect(columns) {
+      columnSelect.innerHTML = columns.map(col => `<option value="${col}">${col}</option>`).join('');
+    }
+
+    // Preload start value from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      csvFileInput.value = startValue;
+    }
+  });
+</script>

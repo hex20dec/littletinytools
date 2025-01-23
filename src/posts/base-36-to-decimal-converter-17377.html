@@ -1,0 +1,149 @@
+---
+title: "Base-36 to Decimal Converter | Quick & Easy Number Conversion"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-12-29 23:43:02
+metaDescription: "Convert base-36 numbers to decimal instantly with this easy-to-use tool. Perfect for decoding, programming, and more!"
+metaKeywords: "base-36 to decimal, base-36 converter, decimal converter, base-36 decoder, numeral system converter"
+tags: ["base-36", "decimal", "number-converter", "web-tool", "developer-tool"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .error-message {
+    display: none;
+    color: #dc3545;
+    margin-top: 10px;
+  }
+</style>
+
+<div id="main-div">
+  <div class="text-center mb-4">
+    <h1 class="mb-3">Base-36 to Decimal Converter</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-12 text-center">
+      <p class="lead">Ever found yourself staring at a string of letters and numbers, wondering what on earth it means? Whether you're deciphering a unique identifier, working with legacy systems, or just curious about base-36 encoding, converting these cryptic codes into something more familiar can feel like solving a puzzle. Enter the Base-36 to Decimal Converter – your friendly neighborhood tool that takes the guesswork out of the equation. Simply type in your base-36 number (like "1A" or "XYZ"), and voilà! You’ll get its decimal equivalent in no time. No math degree required, just a little curiosity and a click. Let’s make decoding fun again!</p>
+    </div>
+  </div>
+</div>
+    <p class="lead">Enter a base-36 number (0-9, A-Z) to convert it to its decimal equivalent.</p>
+  </div>
+  <div class="mb-3">
+    <input type="text" id="base36-input" class="form-control" placeholder="Enter base-36 number" aria-label="Base-36 Input">
+    <div id="error-message" class="error-message">Invalid base-36 input. Please enter a valid base-36 number.</div>
+  </div>
+  <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-3">
+    <button id="convert-btn" class="btn btn-primary me-md-2">Convert</button>
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+  <div class="mb-3">
+    <label for="decimal-output" class="form-label">Decimal Equivalent</label>
+    <input type="text" id="decimal-output" class="form-control" readonly aria-label="Decimal Output">
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="text-center">How It Works</h2>
+      <p class="text-muted">The Base-36 to Decimal Converter works by translating each character of your base-36 input into its corresponding decimal value. Think of it like translating a secret code: each letter (A-Z) and number (0-9) in base-36 has a specific numerical meaning. The tool does the heavy lifting by calculating the total value based on their positions. For example, "1A" in base-36 becomes 46 in decimal because "1" represents 1 and "A" represents 10. Easy, right?</p>
+      <div class="table-responsive mt-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Base-36 Input</th>
+              <th scope="col">Decimal Output</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>1</td></tr>
+            <tr><td>A</td><td>10</td></tr>
+            <tr><td>Z</td><td>35</td></tr>
+            <tr><td>10</td><td>36</td></tr>
+            <tr><td>1A</td><td>46</td></tr>
+            <tr><td>Z1</td><td>1261</td></tr>
+            <tr><td>100</td><td>1296</td></tr>
+            <tr><td>ABC</td><td>13368</td></tr>
+            <tr><td>XYZ</td><td>44027</td></tr>
+            <tr><td>ZZZ</td><td>46655</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-4 mb-5">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="text-center">10 Common Use Cases for the Base-36 to Decimal Converter</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Decoding unique identifiers in legacy systems.</li>
+        <li class="list-group-item">Converting base-36 encoded URLs or shortcodes.</li>
+        <li class="list-group-item">Translating base-36 values in programming or debugging.</li>
+        <li class="list-group-item">Understanding base-36 encoded timestamps.</li>
+        <li class="list-group-item">Simplifying base-36 data for mathematical analysis.</li>
+        <li class="list-group-item">Deciphering base-36 encoded product serial numbers.</li>
+        <li class="list-group-item">Converting base-36 values for database migration.</li>
+        <li class="list-group-item">Translating base-36 encoded API responses.</li>
+        <li class="list-group-item">Teaching or learning about numeral systems.</li>
+        <li class="list-group-item">Satisfying your curiosity about obscure encoding methods!</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const base36Input = document.getElementById('base36-input');
+    const decimalOutput = document.getElementById('decimal-output');
+    const errorMessage = document.getElementById('error-message');
+    const convertBtn = document.getElementById('convert-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      base36Input.value = startValue;
+    }
+
+    function isValidBase36(input) {
+      return /^[0-9A-Za-z]+$/.test(input);
+    }
+
+    function convertBase36ToDecimal(input) {
+      return parseInt(input, 36);
+    }
+
+    function handleConversion() {
+      const input = base36Input.value.trim().toUpperCase();
+      if (!input) {
+        decimalOutput.value = '';
+        errorMessage.style.display = 'none';
+        return;
+      }
+      if (!isValidBase36(input)) {
+        decimalOutput.value = '';
+        errorMessage.style.display = 'block';
+        return;
+      }
+      errorMessage.style.display = 'none';
+      try {
+        const decimalValue = convertBase36ToDecimal(input);
+        decimalOutput.value = decimalValue.toString();
+      } catch (e) {
+        decimalOutput.value = '';
+        errorMessage.style.display = 'block';
+      }
+    }
+
+    function resetFields() {
+      base36Input.value = '';
+      decimalOutput.value = '';
+      errorMessage.style.display = 'none';
+    }
+
+    convertBtn.addEventListener('click', handleConversion);
+    resetBtn.addEventListener('click', resetFields);
+    base36Input.addEventListener('input', handleConversion);
+  });
+</script>

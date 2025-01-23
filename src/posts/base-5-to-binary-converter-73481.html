@@ -1,0 +1,165 @@
+---
+title: "Base-5 to Binary Converter: Quick & Accurate Number System Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-12-04 04:34:57
+metaDescription: "Convert base-5 numbers to binary instantly with this easy-to-use tool. Perfect for students, coders, and math enthusiasts!"
+metaKeywords: "base-5 to binary, binary converter, base-5 converter, number system tool, math calculator, binary calculator, base-5 calculator, coding tools, computer science tool, binary conversion"
+tags: ["base-5", "binary", "number-converter", "math-tool", "education"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  }
+  .text-danger {
+    font-size: 0.875em;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 text-center mb-4">
+        <h1 class="display-5">Base-5 to Binary Converter</h1><div class="container-fluid  py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p class="fs-4">Ever found yourself staring at a base-5 number, wondering how it translates into binary? Maybe you're working on a coding project, studying computer science, or just diving into the fascinating world of number systems. Either way, converting base-5 to binary can feel like solving a puzzle without the instructions. That's where this tool comes in! With just a few clicks, you can transform any base-5 number into its binary equivalent—no math degree required. Think of it as your friendly neighborhood number wizard, here to make your life a little easier (and a lot less confusing). Say goodbye to frustration and hello to simplicity!</p>
+    </div>
+  </div>
+</div>
+        <p class="lead">Enter a base-5 number to convert it to binary.</p>
+      </div>
+      <div class="col-md-8">
+        <div class="mb-3">
+          <label for="base5Input" class="form-label">Enter Base-5 Number</label>
+          <input type="text" class="form-control" id="base5Input" placeholder="e.g., 1234" aria-describedby="base5Help" pattern="[0-4]*" maxlength="20">
+          <div id="base5Help" class="form-text">Only digits 0-4 are allowed.</div>
+          <div id="errorMessage" class="text-danger mt-2"></div>
+        </div>
+        <div class="mb-3">
+          <label for="binaryOutput" class="form-label">Binary Result</label>
+          <input type="text" class="form-control" id="binaryOutput" readonly>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+          <button type="button" class="btn btn-primary me-md-2" id="convertBtn">Convert</button>
+          <button type="button" class="btn btn-secondary" id="resetBtn">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h2 class="fs-3 mb-3">How It Works</h2>
+      <p class="mb-4">The Base-5 to Binary Converter works in two simple steps. First, it converts your base-5 number into a decimal (base-10) number. Each digit in the base-5 number is multiplied by 5 raised to the power of its position (starting from the right). Then, it takes that decimal number and converts it into binary by repeatedly dividing it by 2 and recording the remainders. The result? A clean, easy-to-read binary number that you can use for your projects, studies, or just to satisfy your curiosity.</p>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Base-5 Number</th>
+              <th scope="col">Binary Equivalent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0</td><td>0</td></tr>
+            <tr><td>1</td><td>1</td></tr>
+            <tr><td>2</td><td>10</td></tr>
+            <tr><td>3</td><td>11</td></tr>
+            <tr><td>4</td><td>100</td></tr>
+            <tr><td>10</td><td>101</td></tr>
+            <tr><td>11</td><td>110</td></tr>
+            <tr><td>12</td><td>111</td></tr>
+            <tr><td>13</td><td>1000</td></tr>
+            <tr><td>14</td><td>1001</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h2 class="fs-3 mb-3">10 Common Use Cases</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1. Simplifying computer science homework assignments.</li>
+        <li class="list-group-item">2. Converting base-5 data for binary-based systems.</li>
+        <li class="list-group-item">3. Debugging code that involves base-5 number systems.</li>
+        <li class="list-group-item">4. Learning and teaching number system conversions.</li>
+        <li class="list-group-item">5. Preparing for technical interviews with base-5 questions.</li>
+        <li class="list-group-item">6. Analyzing historical data stored in base-5 format.</li>
+        <li class="list-group-item">7. Writing algorithms that require binary outputs.</li>
+        <li class="list-group-item">8. Exploring mathematical concepts in number theory.</li>
+        <li class="list-group-item">9. Converting game scores or stats stored in base-5.</li>
+        <li class="list-group-item">10. Just for fun—because who doesn’t love a good number puzzle?</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const base5Input = document.getElementById('base5Input');
+    const binaryOutput = document.getElementById('binaryOutput');
+    const convertBtn = document.getElementById('convertBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const errorMessage = document.getElementById('errorMessage');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && /^[0-4]+$/.test(startValue)) {
+      base5Input.value = startValue;
+    }
+
+    // Validate input on typing
+    base5Input.addEventListener('input', function () {
+      const value = base5Input.value;
+      if (!/^[0-4]*$/.test(value)) {
+        errorMessage.textContent = 'Please enter a valid base-5 number (digits 0-4).';
+        base5Input.value = value.replace(/[^0-4]/g, '');
+      } else {
+        errorMessage.textContent = '';
+      }
+    });
+
+    // Convert base-5 to binary
+    convertBtn.addEventListener('click', function () {
+      const base5Value = base5Input.value;
+      if (!base5Value || !/^[0-4]+$/.test(base5Value)) {
+        errorMessage.textContent = 'Please enter a valid base-5 number (digits 0-4).';
+        return;
+      }
+
+      // Convert base-5 to decimal
+      let decimalValue = 0;
+      for (let i = 0; i < base5Value.length; i++) {
+        decimalValue += parseInt(base5Value[i]) * Math.pow(5, base5Value.length - 1 - i);
+      }
+
+      // Convert decimal to binary
+      let binaryValue = '';
+      if (decimalValue === 0) {
+        binaryValue = '0';
+      } else {
+        while (decimalValue > 0) {
+          binaryValue = (decimalValue % 2) + binaryValue;
+          decimalValue = Math.floor(decimalValue / 2);
+        }
+      }
+
+      binaryOutput.value = binaryValue;
+    });
+
+    // Reset fields
+    resetBtn.addEventListener('click', function () {
+      base5Input.value = '';
+      binaryOutput.value = '';
+      errorMessage.textContent = '';
+    });
+  });
+</script>

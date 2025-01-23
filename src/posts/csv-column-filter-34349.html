@@ -1,0 +1,163 @@
+---
+title: "CSV Column Filter - Clean & Organize Your Data Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-10-31 01:58:56
+metaDescription: "Clean and organize your CSV files effortlessly with the CSV Column Filter. Upload, select columns, and download streamlined data in seconds."
+metaKeywords: "CSV column filter, clean CSV files, streamline data, data cleaning tool, CSV organizer, filter CSV columns, simplify CSV files, data preparation tool, CSV cleaner, column remover tool"
+tags: ["CSV", "Data Tools", "Filter", "Web App", "Productivity"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <header class="navbar navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1">CSV Column Filter</span>
+    </div>
+  </header>
+
+  <main class="card bg-secondary text-white p-4">
+    <div class="mb-3">
+      <label for="csvFileInput" class="form-label">Upload CSV File</label>
+      <input type="file" class="form-control bg-dark text-white" id="csvFileInput" accept=".csv" aria-label="Upload CSV File">
+      <div id="fileError" class="alert alert-danger mt-2 d-none" role="alert">Please upload a valid CSV file.</div>
+    </div>
+
+    <div id="columnSelection" class="d-none">
+      <h5 class="mb-3">Select Columns to Keep</h5><div class="container-fluid bg-dark text-white p-4">
+  <div class="card bg-secondary text-white p-4">
+    <p class="fs-3 fw-bold mb-4">Feeling overwhelmed by messy CSV files? Let’s fix that.</p>
+    <p class="lead">Whether you’re a data analyst, a marketer, or just someone trying to clean up a spreadsheet, dealing with unnecessary columns in a CSV file can be a headache. That’s where the <strong>CSV Column Filter</strong> comes in. This tool is your personal data cleaner—upload your CSV, pick the columns you need, and download a streamlined version in seconds. No coding, no fuss. It’s like decluttering your closet, but for your data. Say goodbye to irrelevant columns and hello to simplicity!</p>
+  </div>
+</div>
+      <div id="checkboxContainer" class="row"></div>
+      <div id="selectionError" class="alert alert-danger mt-2 d-none" role="alert">Please select at least one column.</div>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+      <button id="filterButton" class="btn btn-primary" disabled>Filter and Download</button>
+      <button id="resetButton" class="btn btn-secondary">Reset</button>
+    </div>
+  </main>
+
+  <footer class="text-center mt-4">
+    <p class="mb-0">© 2023 CSV Column Filter. <a href="/" class="text-white">Visit our homepage</a></p>
+  </footer>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="card bg-white p-4">
+    <h2 class="fs-4 fw-bold mb-4">How It Works</h2>
+    <p class="mb-4">The CSV Column Filter simplifies your workflow in three easy steps:</p>
+    <ol class="list-group list-group-numbered">
+      <li class="list-group-item"><strong>Upload Your CSV:</strong> Simply drag and drop or select your CSV file. The tool reads the file and displays all available columns.</li>
+      <li class="list-group-item"><strong>Select Columns:</strong> Check the boxes next to the columns you want to keep. Uncheck the ones you don’t need—no judgment here.</li>
+      <li class="list-group-item"><strong>Download Your Cleaned File:</strong> Hit the “Filter and Download” button, and voilà! Your streamlined CSV is ready to use.</li>
+    </ol>
+    <p class="mt-4">It’s that simple. No formulas, no complicated processes—just a quick and efficient way to get the data you need.</p>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <div class="card bg-secondary text-white p-4">
+    <h2 class="fs-4 fw-bold mb-4">10 Common Use Cases for the CSV Column Filter</h2>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item bg-secondary text-white">Cleaning up marketing campaign data by removing irrelevant metrics.</li>
+      <li class="list-group-item bg-secondary text-white">Preparing datasets for machine learning by selecting only relevant features.</li>
+      <li class="list-group-item bg-secondary text-white">Simplifying financial reports by focusing on key columns like revenue and expenses.</li>
+      <li class="list-group-item bg-secondary text-white">Exporting customer data for email campaigns without unnecessary personal details.</li>
+      <li class="list-group-item bg-secondary text-white">Creating custom reports for stakeholders by filtering out unneeded data.</li>
+      <li class="list-group-item bg-secondary text-white">Organizing survey results by selecting only the responses you need to analyze.</li>
+      <li class="list-group-item bg-secondary text-white">Streamlining inventory lists by removing outdated or irrelevant product columns.</li>
+      <li class="list-group-item bg-secondary text-white">Preparing data for visualization tools by keeping only the relevant metrics.</li>
+      <li class="list-group-item bg-secondary text-white">Filtering sales data to focus on specific regions or time periods.</li>
+      <li class="list-group-item bg-secondary text-white">Reducing file size by removing duplicate or unnecessary columns.</li>
+    </ul>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('csvFileInput');
+    const checkboxContainer = document.getElementById('checkboxContainer');
+    const filterButton = document.getElementById('filterButton');
+    const resetButton = document.getElementById('resetButton');
+    const fileError = document.getElementById('fileError');
+    const selectionError = document.getElementById('selectionError');
+    const columnSelection = document.getElementById('columnSelection');
+    let csvData = null;
+
+    // Preload file input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startFile = urlParams.get('start');
+    if (startFile) {
+      fileInput.value = startFile;
+    }
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file && file.type === 'text/csv') {
+        fileError.classList.add('d-none');
+        parseCSV(file);
+      } else {
+        fileError.classList.remove('d-none');
+        resetApp();
+      }
+    });
+
+    resetButton.addEventListener('click', resetApp);
+
+    filterButton.addEventListener('click', () => {
+      const selectedColumns = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+      if (selectedColumns.length === 0) {
+        selectionError.classList.remove('d-none');
+        return;
+      }
+      selectionError.classList.add('d-none');
+      downloadFilteredCSV(selectedColumns);
+    });
+
+    function parseCSV(file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target.result;
+        const rows = text.split('\n');
+        const headers = rows[0].split(',');
+
+        csvData = rows.slice(1).map(row => row.split(','));
+
+        checkboxContainer.innerHTML = headers.map((header, index) => `
+          <div class="col-md-4 col-sm-6">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="${index}" id="col${index}" checked>
+              <label class="form-check-label" for="col${index}">${header}</label>
+            </div>
+          </div>
+        `).join('');
+
+        columnSelection.classList.remove('d-none');
+        filterButton.disabled = false;
+      };
+      reader.readAsText(file);
+    }
+
+    function downloadFilteredCSV(selectedColumns) {
+      const filteredHeaders = selectedColumns.map(index => csvData[0][index]);
+      const filteredRows = csvData.map(row => selectedColumns.map(index => row[index]).join(','));
+
+      const csvContent = [filteredHeaders.join(','), ...filteredRows].join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'filtered.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function resetApp() {
+      fileInput.value = '';
+      checkboxContainer.innerHTML = '';
+      columnSelection.classList.add('d-none');
+      filterButton.disabled = true;
+      fileError.classList.add('d-none');
+      selectionError.classList.add('d-none');
+      csvData = null;
+    }
+  });
+</script>

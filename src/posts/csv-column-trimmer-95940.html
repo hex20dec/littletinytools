@@ -1,0 +1,212 @@
+---
+title: "CSV Column Trimmer - Clean Your CSV Files Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-05-29 17:34:18
+metaDescription: "Trim unwanted columns from CSV files instantly. Simplify your data workflow with the easy-to-use CSV Column Trimmer. Download clean, streamlined files in seconds."
+metaKeywords: "csv column trimmer, trim csv columns, clean csv files, simplify csv data, csv tool, data cleaning, csv column remover, csv file management"
+tags: ["CSV", "Data Cleaning", "Productivity", "Web Tool", "Data Analysis"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <header class="text-center mb-4">
+    <h1 class="display-4">CSV Column Trimmer</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <p class="fs-3 fw-bold mb-3">Dealing with messy CSV files? <span class="text-muted">We’ve all been there.</span></p>
+      <p class="lead">
+        Whether you're wrangling data for work, school, or a personal project, CSV files can quickly become overwhelming. 
+        That’s where the <strong>CSV Column Trimmer</strong> comes in. This handy tool lets you upload a CSV file, pick the columns you actually need, and download a clean, trimmed version in seconds. 
+        No more scrolling through endless columns or manually deleting data. It’s like Marie Kondo for your spreadsheets—keeping only what sparks joy. 
+        Simplify your data workflow today and say goodbye to CSV clutter!
+      </p>
+    </div>
+  </div>
+</div>
+    <p class="lead">Upload a CSV file and select columns to remove. Download the trimmed CSV file.</p>
+  </header>
+
+  <section class="mb-4">
+    <div class="mb-3">
+      <label for="csvFileInput" class="form-label">Upload CSV File</label>
+      <input type="file" class="form-control" id="csvFileInput" accept=".csv">
+      <div class="form-text">Supported file type: .csv</div>
+    </div>
+    <button id="uploadBtn" class="btn btn-primary w-100">Upload</button>
+  </section>
+
+  <section id="columnSelectionSection" class="mb-4 d-none">
+    <h2 class="h4 mb-3">Select Columns to Keep</h2>
+    <div class="table-responsive">
+      <table class="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th><input type="checkbox" id="selectAll" class="form-check-input"></th>
+            <th>Column Name</th>
+          </tr>
+        </thead>
+        <tbody id="columnList"></tbody>
+      </table>
+    </div>
+    <button id="trimBtn" class="btn btn-success w-100">Trim Columns</button>
+  </section>
+
+  <section id="downloadSection" class="mb-4 d-none">
+    <button id="downloadBtn" class="btn btn-info w-100">Download Trimmed CSV</button>
+  </section>
+
+  <div id="errorAlert" class="alert alert-danger d-none" role="alert"></div>
+  <div id="successAlert" class="alert alert-success d-none" role="alert"></div>
+
+  <footer class="text-center mt-4">
+    <p>&copy; 2023 CSV Column Trimmer</p>
+  </footer>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <p class="fs-4 fw-bold mb-3">How It Works</p>
+      <p>
+        The CSV Column Trimmer follows a simple process to make your life easier:
+      </p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Upload your CSV file—just drag and drop or click to select.</li>
+        <li class="list-group-item">Review the list of columns and uncheck the ones you don’t need.</li>
+        <li class="list-group-item">Click "Trim Columns" to remove the unwanted columns.</li>
+        <li class="list-group-item">Download your new, streamlined CSV file with just the data you care about.</li>
+      </ol>
+      <p class="mt-3">
+        It’s that easy! No coding, no complex software, just a clean and efficient way to manage your data.
+      </p>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <p class="fs-4 fw-bold mb-3">10 Common Use Cases for the CSV Column Trimmer</p>
+      <ul class="list-group">
+        <li class="list-group-item">Cleaning up exported data from surveys or forms.</li>
+        <li class="list-group-item">Preparing data for analysis by removing irrelevant columns.</li>
+        <li class="list-group-item">Simplifying CSV files for easier sharing with colleagues or clients.</li>
+        <li class="list-group-item">Extracting specific columns for reports or presentations.</li>
+        <li class="list-group-item">Removing sensitive or unnecessary data before sharing files.</li>
+        <li class="list-group-item">Preparing data for import into other software or databases.</li>
+        <li class="list-group-item">Streamlining large datasets for faster processing.</li>
+        <li class="list-group-item">Creating custom datasets for machine learning or AI projects.</li>
+        <li class="list-group-item">Organizing financial or inventory data for clarity.</li>
+        <li class="list-group-item">Simplifying student or employee records for administrative tasks.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const csvFileInput = document.getElementById('csvFileInput');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const columnSelectionSection = document.getElementById('columnSelectionSection');
+    const columnList = document.getElementById('columnList');
+    const selectAll = document.getElementById('selectAll');
+    const trimBtn = document.getElementById('trimBtn');
+    const downloadSection = document.getElementById('downloadSection');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const errorAlert = document.getElementById('errorAlert');
+    const successAlert = document.getElementById('successAlert');
+
+    let csvData = [];
+    let headers = [];
+    let trimmedData = [];
+
+    const showError = (message) => {
+      errorAlert.textContent = message;
+      errorAlert.classList.remove('d-none');
+      successAlert.classList.add('d-none');
+    };
+
+    const showSuccess = (message) => {
+      successAlert.textContent = message;
+      successAlert.classList.remove('d-none');
+      errorAlert.classList.add('d-none');
+    };
+
+    const resetApp = () => {
+      csvData = [];
+      headers = [];
+      trimmedData = [];
+      columnList.innerHTML = '';
+      columnSelectionSection.classList.add('d-none');
+      downloadSection.classList.add('d-none');
+      errorAlert.classList.add('d-none');
+      successAlert.classList.add('d-none');
+    };
+
+    const parseCSV = (file) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target.result;
+        const rows = text.split('\n').map(row => row.split(','));
+        headers = rows[0];
+        csvData = rows.slice(1);
+        renderColumnList();
+        columnSelectionSection.classList.remove('d-none');
+        showSuccess('File uploaded successfully!');
+      };
+      reader.onerror = () => showError('Error reading the file. Please try again.');
+      reader.readAsText(file);
+    };
+
+    const renderColumnList = () => {
+      columnList.innerHTML = headers.map((header, index) => `
+        <tr>
+          <td><input type="checkbox" class="form-check-input column-checkbox" data-index="${index}" checked></td>
+          <td>${header}</td>
+        </tr>
+      `).join('');
+    };
+
+    const trimColumns = () => {
+      const selectedColumns = Array.from(document.querySelectorAll('.column-checkbox:checked')).map(checkbox => parseInt(checkbox.dataset.index));
+      if (selectedColumns.length === 0) {
+        showError('Please select at least one column to keep.');
+        return;
+      }
+      trimmedData = csvData.map(row => selectedColumns.map(index => row[index]));
+      downloadSection.classList.remove('d-none');
+      showSuccess('Columns trimmed successfully!');
+    };
+
+    const downloadCSV = () => {
+      const trimmedHeaders = selectedColumns.map(index => headers[index]);
+      const csvContent = [trimmedHeaders, ...trimmedData].map(row => row.join(',')).join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'trimmed.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    };
+
+    uploadBtn.addEventListener('click', () => {
+      if (!csvFileInput.files.length) {
+        showError('Please upload a CSV file.');
+        return;
+      }
+      resetApp();
+      parseCSV(csvFileInput.files[0]);
+    });
+
+    selectAll.addEventListener('change', (e) => {
+      document.querySelectorAll('.column-checkbox').forEach(checkbox => checkbox.checked = e.target.checked);
+    });
+
+    trimBtn.addEventListener('click', trimColumns);
+    downloadBtn.addEventListener('click', downloadCSV);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      csvFileInput.value = startValue;
+    }
+  });
+</script>

@@ -1,0 +1,138 @@
+---
+title: "Sentence Counter - Quickly Count Sentences in Your Text"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-06-22 14:56:22
+metaDescription: "Quickly count sentences in your text with our free Sentence Counter tool. Perfect for writers, students, and professionals!"
+metaKeywords: "sentence counter, count sentences, text analysis, writing tool, sentence checker, grammar tool, readability tool, online sentence counter, writing assistant, sentence length tool"
+tags: ["sentence counter", "text analysis", "writing tool", "editing tool", "word count"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .textarea-custom {
+    min-height: 200px;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Sentence Counter</h1><div class="container text-center mt-5">
+  <p class="fs-3 fw-bold mb-3">Ever felt like your essay, blog, or email is just one endless sentence? 😅</p>
+  <p class="fs-5">Whether you're a student trying to meet a word count, a writer crafting the perfect paragraph, or someone who just wants to make sure your text isn’t a grammatical mess, counting sentences can be a headache. Enter the <strong>Sentence Counter</strong>—your new best friend for breaking down text into bite-sized pieces. Simply paste or type your text, and voilà! You’ll know exactly how many sentences you’ve got. No more guessing games or squinting at punctuation marks. It’s quick, easy, and dare we say, fun? Let’s make writing a little less stressful and a lot more enjoyable!</p>
+</div>
+    <p class="lead">Paste or type your text below to count the number of sentences.</p>
+  </header>
+
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control textarea-custom" placeholder="Enter your text here..." aria-label="Text input for sentence counting"></textarea>
+  </div>
+
+  <div class="d-grid gap-2 mb-3">
+    <button id="count-btn" class="btn btn-primary btn-lg">Count Sentences</button>
+  </div>
+
+  <div id="result-section" class="text-center mb-3">
+    <p id="result-text" class="fs-4">Number of sentences: <span id="sentence-count">0</span></p>
+  </div>
+
+  <div class="d-grid gap-2">
+    <button id="reset-btn" class="btn btn-secondary btn-lg">Reset</button>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="fs-4 fw-bold mb-3">How Does the Sentence Counter Work?</p>
+      <p class="fs-5">The magic behind the Sentence Counter is simple yet effective. It scans your text for specific punctuation marks—like periods (.), exclamation points (!), and question marks (?)—that typically signal the end of a sentence. Each time it finds one of these marks, it counts it as the end of a sentence. Even if your text has multiple punctuation marks in a row (like "Wow!!!"), it smartly groups them as part of the same sentence. Here’s a quick breakdown:</p>
+      <ul class="list-group mb-4">
+        <li class="list-group-item"><strong>Step 1:</strong> Paste or type your text into the box.</li>
+        <li class="list-group-item"><strong>Step 2:</strong> Click "Count Sentences" to see the total number of sentences.</li>
+        <li class="list-group-item"><strong>Step 3:</strong> If you want to start fresh, hit "Reset" and try again!</li>
+      </ul>
+      <p class="fs-5">To give you an idea of how it works, here’s a quick example table:</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Text</th>
+            <th scope="col">Number of Sentences</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hello! How are you?</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>This is a test. It works perfectly!</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>One. Two. Three.</td>
+            <td>3</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="fs-4 fw-bold mb-3">10 Common Use Cases for the Sentence Counter</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Students checking sentence counts for essays or assignments.</li>
+        <li class="list-group-item">Writers ensuring their paragraphs are balanced and readable.</li>
+        <li class="list-group-item">Bloggers optimizing content for readability and SEO.</li>
+        <li class="list-group-item">Teachers grading student papers for structure and clarity.</li>
+        <li class="list-group-item">Marketers crafting concise and impactful ad copy.</li>
+        <li class="list-group-item">Editors ensuring proper sentence structure in manuscripts.</li>
+        <li class="list-group-item">Job seekers tailoring resumes and cover letters.</li>
+        <li class="list-group-item">Social media managers writing captions with sentence limits.</li>
+        <li class="list-group-item">Authors breaking down chapters into manageable sections.</li>
+        <li class="list-group-item">Anyone who wants to make sure their text isn’t a run-on sentence nightmare!</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const textInput = document.getElementById('text-input');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const sentenceCount = document.getElementById('sentence-count');
+    const resultText = document.getElementById('result-text');
+
+    // Preload text from query parameter 'start'
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    function countSentences(text) {
+      if (!text.trim()) {
+        resultText.textContent = 'Please enter some text to count sentences.';
+        return 0;
+      }
+
+      // Split text by sentence-ending punctuation marks
+      const sentences = text.split(/[.!?]+/).filter(s => s.trim() !== '');
+      return sentences.length;
+    }
+
+    countBtn.addEventListener('click', function () {
+      const text = textInput.value;
+      const count = countSentences(text);
+      sentenceCount.textContent = count;
+      resultText.textContent = `Number of sentences: ${count}`;
+    });
+
+    resetBtn.addEventListener('click', function () {
+      textInput.value = '';
+      sentenceCount.textContent = 0;
+      resultText.textContent = 'Number of sentences: 0';
+    });
+  });
+</script>

@@ -1,0 +1,158 @@
+---
+title: "Base-32 to Decimal Converter | Quick & Easy Online Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-04-05 21:58:41
+metaDescription: "Easily convert Base-32 strings to decimal numbers with our free online tool. Perfect for developers, students, and anyone decoding Base-32 data!"
+metaKeywords: "base-32 to decimal, base-32 converter, base-32 decoder, base-32 to decimal tool, base-32 encoding, base-32 decoding, convert base-32, base-32 calculator, base-32 string, base-32 online tool"
+tags: ["base-32", "decimal", "converter", "numeral systems", "developer tools"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .output-box {
+    background-color: #f8f9fa;
+    color: #212529;
+    cursor: not-allowed;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container text-center">
+    <h1 class="mb-4">Base-32 to Decimal Converter</h1><div class="container my-5">
+  <div class="text-center">
+    <p class="lead fs-4">Ever stared at a Base-32 string and thought, "What on earth does this even mean?" You're not alone! Whether you're a developer decoding data or just someone trying to make sense of a weird-looking string, Base-32 can feel like a secret code only a select few understand. But here's the good news: our <strong>Base-32 to Decimal Converter</strong> is here to save the day! With just a few clicks, you can transform those confusing Base-32 strings into plain, easy-to-read decimal numbers. No math degree required—just type, click, and voilà! Life just got a little simpler. Let’s decode the mystery together!</p>
+  </div>
+</div>
+    <div class="mb-3">
+      <label for="base32-input" class="form-label">Enter Base-32 String</label>
+      <input type="text" id="base32-input" class="form-control" placeholder="e.g., 1A2B3C" aria-label="Base-32 Input">
+      <div id="error-message" class="text-danger mt-2" style="display: none;">Invalid Base-32 input. Please enter a valid Base-32 string.</div>
+    </div>
+    <div class="mb-3">
+      <button id="convert-btn" class="btn btn-primary me-2">Convert</button>
+      <button id="reset-btn" class="btn btn-secondary">Reset</button>
+    </div>
+    <div class="mb-3">
+      <label for="decimal-output" class="form-label">Decimal Output</label>
+      <input type="text" id="decimal-output" class="form-control output-box" readonly aria-label="Decimal Output">
+    </div>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="fs-3 mb-4">How It Works</h2>
+      <p class="fs-5">The Base-32 to Decimal Converter works by breaking down the Base-32 string into its individual characters. Each character represents a specific value (0-31), and the tool calculates the total decimal value by adding up these values, just like solving a puzzle. For example, the Base-32 string "1A" translates to 1 × 32 + 10 (since A represents 10), giving you a decimal value of 42. It’s like magic, but with numbers!</p>
+      
+      <h3 class="fs-4 mt-5 mb-3">Common Base-32 to Decimal Conversions</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Base-32</th>
+            <th>Decimal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>1</td></tr>
+          <tr><td>A</td><td>10</td></tr>
+          <tr><td>1A</td><td>42</td></tr>
+          <tr><td>2B</td><td>91</td></tr>
+          <tr><td>3C</td><td>124</td></tr>
+          <tr><td>1V</td><td>63</td></tr>
+          <tr><td>10</td><td>32</td></tr>
+          <tr><td>20</td><td>64</td></tr>
+          <tr><td>30</td><td>96</td></tr>
+          <tr><td>40</td><td>128</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="fs-3 mb-4">10 Common Use Cases for the Base-32 to Decimal Converter</h2>
+      <ol class="fs-5">
+        <li>Decoding Base-32 encoded data in software development.</li>
+        <li>Converting configuration files from Base-32 to decimal for easier readability.</li>
+        <li>Translating Base-32 strings in cryptographic applications.</li>
+        <li>Simplifying Base-32 encoded URLs for analysis.</li>
+        <li>Decoding Base-32 strings in network protocols.</li>
+        <li>Converting Base-32 values in database entries.</li>
+        <li>Translating Base-32 encoded identifiers in APIs.</li>
+        <li>Decoding Base-32 strings in file systems.</li>
+        <li>Simplifying Base-32 encoded timestamps for debugging.</li>
+        <li>Teaching or learning about Base-32 encoding in computer science courses.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const base32Input = document.getElementById('base32-input');
+    const decimalOutput = document.getElementById('decimal-output');
+    const errorMessage = document.getElementById('error-message');
+    const convertBtn = document.getElementById('convert-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      base32Input.value = startValue;
+    }
+
+    const isValidBase32 = (str) => /^[0-9A-Va-v]+$/.test(str);
+
+    const base32ToDecimal = (str) => {
+      const base32Chars = '0123456789ABCDEFGHIJKLMNOPQRSTUV';
+      let decimal = 0;
+      str = str.toUpperCase();
+      for (let i = 0; i < str.length; i++) {
+        const char = str[i];
+        const value = base32Chars.indexOf(char);
+        decimal = decimal * 32 + value;
+      }
+      return decimal;
+    };
+
+    convertBtn.addEventListener('click', () => {
+      const input = base32Input.value.trim();
+      if (!input) {
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = 'Input cannot be empty.';
+        decimalOutput.value = '';
+        return;
+      }
+      if (!isValidBase32(input)) {
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = 'Invalid Base-32 input. Please enter a valid Base-32 string.';
+        decimalOutput.value = '';
+        return;
+      }
+      errorMessage.style.display = 'none';
+      try {
+        const decimalValue = base32ToDecimal(input);
+        decimalOutput.value = decimalValue.toString();
+      } catch (e) {
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = 'Conversion failed. Input may be too large.';
+        decimalOutput.value = '';
+      }
+    });
+
+    resetBtn.addEventListener('click', () => {
+      base32Input.value = '';
+      decimalOutput.value = '';
+      errorMessage.style.display = 'none';
+    });
+
+    base32Input.addEventListener('input', () => {
+      if (errorMessage.style.display === 'block') {
+        errorMessage.style.display = 'none';
+      }
+    });
+  });
+</script>

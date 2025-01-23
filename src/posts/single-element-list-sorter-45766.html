@@ -1,0 +1,181 @@
+---
+title: "Single-Element List Sorter: Drag & Drop to Reorder Your List"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-02-19 07:01:17
+metaDescription: "Organize lists effortlessly with the Single-Element List Sorter. Drag, drop, and sort items instantly. Copy or download your list in seconds!"
+metaKeywords: "list sorter, drag and drop list, organize tasks, to-do list, grocery list, prioritize tasks, event planning, study plan, travel packing, meal prep"
+tags: ["list-sorter", "drag-and-drop", "productivity", "task-management", "web-tool"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="text-center mb-3">Single-Element List Sorter</h1><div class="container-fluid bg-dark text-white p-4">
+  <p class="text-center fs-3 fw-bold mb-3">Single-Element List Sorter</p>
+  <p class="text-center mb-4">Struggling to organize your thoughts, tasks, or ideas? Whether it's a grocery list, a to-do list, or even a playlist, keeping things in order can feel like herding cats. Enter the Single-Element List Sorter—a simple, intuitive tool that lets you drag and drop items into the perfect sequence. No more messy lists or endless rewrites. Just add your items, rearrange them with a flick of your wrist, and voilà! Your list is exactly how you want it. Plus, you can copy or download your sorted list in seconds. Say goodbye to chaos and hello to effortless organization. Life’s too short for disorganized lists, so let this tool do the heavy lifting for you!</p>
+</div>
+  <p class="text-center mb-4">Drag and drop items to reorder your list.</p>
+
+  <div class="mb-4">
+    <div class="input-group">
+      <input type="text" id="item-input" class="form-control" placeholder="Enter an item" aria-label="Enter an item">
+      <button id="add-item-btn" class="btn btn-primary" type="button">+</button>
+    </div>
+    <small id="input-error" class="text-danger d-none">Please enter a valid item.</small>
+  </div>
+
+  <ul id="item-list" class="list-group mb-4"></ul>
+
+  <div class="d-flex gap-2 justify-content-center">
+    <button id="clear-list-btn" class="btn btn-secondary">Clear List</button>
+    <button id="copy-list-btn" class="btn btn-success">Copy List</button>
+    <button id="download-list-btn" class="btn btn-info">Download List</button>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <p class="fs-4 fw-bold mb-3">How It Works</p>
+  <p class="mb-4">The Single-Element List Sorter is as straightforward as it gets. Here's the magic formula:</p>
+  <ol class="mb-4">
+    <li><strong>Add Items:</strong> Type your item into the input box and hit the "+" button. It instantly appears in your list.</li>
+    <li><strong>Drag & Drop:</strong> Click and hold the grip icon next to any item, then drag it to your desired position. The list updates in real-time.</li>
+    <li><strong>Clear, Copy, or Download:</strong> Once your list is perfect, clear it to start fresh, copy it to your clipboard, or download it as a text file.</li>
+  </ol>
+
+  <p class="fs-4 fw-bold mb-3">Example Use Cases</p>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Original List</th>
+          <th>Sorted List</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Apples, Bananas, Oranges</td>
+          <td>Bananas, Apples, Oranges</td>
+        </tr>
+        <tr>
+          <td>Write report, Call client, Send email</td>
+          <td>Call client, Send email, Write report</td>
+        </tr>
+        <tr>
+          <td>Chores, Workout, Groceries</td>
+          <td>Workout, Groceries, Chores</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <p class="fs-4 fw-bold mb-3">10 Common Use Cases for the Single-Element List Sorter</p>
+  <ol class="mb-4">
+    <li><strong>Grocery Lists:</strong> Arrange items by store aisles or priority.</li>
+    <li><strong>To-Do Lists:</strong> Prioritize tasks for maximum productivity.</li>
+    <li><strong>Event Planning:</strong> Organize tasks like catering, decorations, and guest lists.</li>
+    <li><strong>Study Plans:</strong> Sequence topics to tackle in your study sessions.</li>
+    <li><strong>Travel Packing:</strong> List and organize essentials for your trip.</li>
+    <li><strong>Meal Prep:</strong> Plan your meals for the week and order ingredients.</li>
+    <li><strong>Work Projects:</strong> Break down tasks and assign priorities.</li>
+    <li><strong>Playlists:</strong> Arrange songs for the perfect vibe.</li>
+    <li><strong>Bucket Lists:</strong> Order your dreams and goals by importance.</li>
+    <li><strong>Errands:</strong> Plan your day efficiently by grouping tasks by location.</li>
+  </ol>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const itemInput = document.getElementById('item-input');
+    const addItemBtn = document.getElementById('add-item-btn');
+    const itemList = document.getElementById('item-list');
+    const clearListBtn = document.getElementById('clear-list-btn');
+    const copyListBtn = document.getElementById('copy-list-btn');
+    const downloadListBtn = document.getElementById('download-list-btn');
+    const inputError = document.getElementById('input-error');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startItem = urlParams.get('start');
+    if (startItem) itemInput.value = startItem;
+
+    // Add item to list
+    addItemBtn.addEventListener('click', () => {
+      const itemText = itemInput.value.trim();
+      if (!itemText) {
+        inputError.classList.remove('d-none');
+        return;
+      }
+      inputError.classList.add('d-none');
+
+      const listItem = document.createElement('li');
+      listItem.className = 'list-group-item bg-dark text-white d-flex align-items-center';
+      listItem.draggable = true;
+
+      const dragHandle = document.createElement('span');
+      dragHandle.className = 'bi bi-grip-vertical me-2';
+      dragHandle.setAttribute('aria-hidden', 'true');
+
+      listItem.appendChild(dragHandle);
+      listItem.appendChild(document.createTextNode(itemText));
+      itemList.appendChild(listItem);
+
+      itemInput.value = '';
+      itemInput.focus();
+    });
+
+    // Drag and drop functionality
+    let dragItem = null;
+    itemList.addEventListener('dragstart', (e) => {
+      dragItem = e.target;
+      setTimeout(() => e.target.classList.add('invisible'), 0);
+    });
+
+    itemList.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      const afterElement = getDragAfterElement(itemList, e.clientY);
+      if (afterElement) {
+        itemList.insertBefore(dragItem, afterElement);
+      } else {
+        itemList.appendChild(dragItem);
+      }
+    });
+
+    itemList.addEventListener('dragend', (e) => {
+      e.target.classList.remove('invisible');
+    });
+
+    function getDragAfterElement(container, y) {
+      const draggableElements = [...container.querySelectorAll('li:not(.invisible)')];
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    // Clear list
+    clearListBtn.addEventListener('click', () => {
+      itemList.innerHTML = '';
+    });
+
+    // Copy list
+    copyListBtn.addEventListener('click', () => {
+      const items = [...itemList.children].map(li => li.textContent.trim()).join('\n');
+      navigator.clipboard.writeText(items).then(() => {
+        alert('List copied to clipboard!');
+      });
+    });
+
+    // Download list
+    downloadListBtn.addEventListener('click', () => {
+      const items = [...itemList.children].map(li => li.textContent.trim()).join('\n');
+      const blob = new Blob([items], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'sorted-list.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  });
+</script>

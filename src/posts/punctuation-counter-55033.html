@@ -1,0 +1,201 @@
+---
+title: Punctuation Counter - Analyze Your Text's Punctuation Usage
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-10-25 16:59:49
+metaDescription: "Easily count punctuation marks in any text with our Punctuation Counter. Perfect for writers, students, and grammar enthusiasts!"
+metaKeywords: "punctuation counter, count punctuation, grammar tool, writing tool, punctuation checker, proofreading tool, punctuation marks, grammar helper, punctuation analysis, text analysis"
+tags: punctuation, text analysis, writing tools, grammar, editing
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .textarea-container {
+    position: relative;
+  }
+  .textarea-container textarea {
+    min-height: 200px;
+  }
+  .error-message {
+    display: none;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-5">
+    <h1 class="display-4">Punctuation Counter</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-12 text-center">
+      <p class="fs-3 fw-bold">Ever spent hours proofreading, only to realize you’ve used way too many exclamation marks? Or maybe you’re just curious about how many commas you’ve sprinkled into your essay? We’ve all been there—staring at a sea of text, wondering if we’ve gone overboard with punctuation. Enter the Punctuation Counter, your new best friend for all things grammar-related! This nifty tool lets you paste or type your text and instantly counts every period, comma, question mark, and more. Whether you’re a writer, student, or just someone who loves clean sentences, this tool makes life a little easier—and a lot more fun. Who knew counting punctuation could be this satisfying? 😊</p>
+    </div>
+  </div>
+</div>
+    <p class="lead">Enter your text below to count the punctuation marks.</p>
+  </header>
+
+  <div class="textarea-container mb-3">
+    <textarea id="text-input" class="form-control mb-3" placeholder="Paste or type your text here..." aria-label="Text input for punctuation counting"></textarea>
+  </div>
+
+  <div class="text-center mb-3">
+    <button id="count-button" class="btn btn-primary">Count Punctuation</button>
+  </div>
+
+  <div id="error-message" class="error-message text-danger small text-center mb-3">Please enter some text to count punctuation marks.</div>
+
+  <div id="results-section" class="d-none">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Punctuation Mark</th>
+          <th scope="col">Count</th>
+        </tr>
+      </thead>
+      <tbody id="results-table">
+        <!-- Results will be populated here -->
+      </tbody>
+    </table>
+
+    <div class="text-center mt-3">
+      <button id="reset-button" class="btn btn-secondary">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <p class="fs-5">Here’s how the Punctuation Counter works: it scans your text for specific punctuation marks (like periods, commas, and exclamation marks) and tallies them up. It’s like having a grammar detective at your fingertips! Below is an example of how it breaks down your text:</p>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Punctuation Mark</th>
+            <th scope="col">Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Period (.)</td>
+            <td>"This is a sentence."</td>
+          </tr>
+          <tr>
+            <td>Comma (,)</td>
+            <td>"Apples, bananas, and oranges."</td>
+          </tr>
+          <tr>
+            <td>Exclamation Mark (!)</td>
+            <td>"Wow! This is amazing!"</td>
+          </tr>
+          <tr>
+            <td>Question Mark (?)</td>
+            <td>"How does this work?"</td>
+          </tr>
+          <tr>
+            <td>Colon (:)</td>
+            <td>"Here’s the list: apples, bananas."</td>
+          </tr>
+          <tr>
+            <td>Semicolon (;)</td>
+            <td>"I have a meeting; it starts at 10."</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="fs-5 mt-3">The tool counts each mark in your text and displays the results in a clear, easy-to-read table. It’s perfect for refining your writing or just satisfying your curiosity!</p>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <p class="fs-4 fw-bold">10 Common Use Cases for the Punctuation Counter</p>
+      <ul class="list-group">
+        <li class="list-group-item">1. Proofreading essays or academic papers.</li>
+        <li class="list-group-item">2. Checking the balance of punctuation in creative writing.</li>
+        <li class="list-group-item">3. Analyzing punctuation usage in marketing copy.</li>
+        <li class="list-group-item">4. Preparing presentations or speeches with clear punctuation.</li>
+        <li class="list-group-item">5. Editing blog posts for readability.</li>
+        <li class="list-group-item">6. Teaching grammar and punctuation to students.</li>
+        <li class="list-group-item">7. Comparing punctuation styles in different texts.</li>
+        <li class="list-group-item">8. Assessing the tone of emails (e.g., too many exclamation marks?).</li>
+        <li class="list-group-item">9. Writing social media posts with precise punctuation.</li>
+        <li class="list-group-item">10. Simply satisfying your curiosity about punctuation usage!</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  (function() {
+    const punctuationMarks = [
+      { mark: '.', name: 'Period' },
+      { mark: ',', name: 'Comma' },
+      { mark: '!', name: 'Exclamation Mark' },
+      { mark: '?', name: 'Question Mark' },
+      { mark: ':', name: 'Colon' },
+      { mark: ';', name: 'Semicolon' },
+      { mark: '"', name: 'Quotation Marks' },
+      { mark: "'", name: 'Apostrophe' },
+      { mark: '(', name: 'Parentheses (Open)' },
+      { mark: ')', name: 'Parentheses (Close)' },
+      { mark: '-', name: 'Hyphen' },
+      { mark: '...', name: 'Ellipsis' }
+    ];
+
+    const textInput = document.getElementById('text-input');
+    const countButton = document.getElementById('count-button');
+    const resetButton = document.getElementById('reset-button');
+    const errorMessage = document.getElementById('error-message');
+    const resultsSection = document.getElementById('results-section');
+    const resultsTable = document.getElementById('results-table');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    function countPunctuation() {
+      const text = textInput.value;
+      if (!text.trim()) {
+        errorMessage.style.display = 'block';
+        resultsSection.classList.add('d-none');
+        return;
+      }
+
+      errorMessage.style.display = 'none';
+      resultsTable.innerHTML = '';
+
+      punctuationMarks.forEach(({ mark, name }) => {
+        const count = mark.length === 1 ? 
+          (text.split(mark).length - 1) : 
+          (text.match(new RegExp(mark, 'g')) || []).length;
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${name} (${mark})</td>
+          <td>${count}</td>
+        `;
+        resultsTable.appendChild(row);
+      });
+
+      resultsSection.classList.remove('d-none');
+    }
+
+    function resetApp() {
+      textInput.value = '';
+      resultsSection.classList.add('d-none');
+      errorMessage.style.display = 'none';
+    }
+
+    countButton.addEventListener('click', countPunctuation);
+    resetButton.addEventListener('click', resetApp);
+
+    // Handle Enter key in textarea
+    textInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        countPunctuation();
+      }
+    });
+  })();
+</script>

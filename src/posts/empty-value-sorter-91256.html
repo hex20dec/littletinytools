@@ -1,0 +1,160 @@
+---
+title: "Empty Value Sorter - Clean & Sort Your Lists Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-03-17 19:45:23
+metaDescription: "Easily sort lists and identify empty or null values with the Empty Value Sorter. Perfect for cleaning data, spreadsheets, and more!"
+metaKeywords: "list sorter, empty value finder, null value identifier, data cleaning tool, spreadsheet organizer, sort lists, filter empty values, data management tool, clean datasets, remove blank entries"
+tags: ["data cleaning", "list sorting", "productivity tool", "data analysis", "web app"]
+---
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center mb-4">Empty Value Sorter</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <p class="display-6 fw-bold text-center mb-4">Tired of messy lists cluttered with empty or null values? Let’s clean it up!</p>
+      <p class="lead text-center mb-4">The Empty Value Sorter is your go-to tool for effortlessly organizing lists and spotting those sneaky empty or null entries. Whether you're cleaning up a spreadsheet, tidying a dataset, or just sorting your grocery list, this tool makes it quick and painless. Just paste your list, click a button, and voilà—your data is sorted, and empty values are highlighted. No more squinting at endless rows of data or scratching your head over missing entries. Life’s too short for messy lists, so let’s make sorting fun and stress-free!</p>
+    </div>
+  </div>
+</div>
+  <p class="lead text-center mb-4">Quickly sort your list and identify empty or null values with ease.</p>
+
+  <div class="mb-3">
+    <textarea id="input-values" class="form-control bg-dark text-white" rows="5" placeholder="Enter your list of values here (separate by commas, spaces, or new lines)."></textarea>
+  </div>
+
+  <div class="d-flex gap-2 mb-4">
+    <button id="sort-btn" class="btn btn-primary flex-grow-1">Sort and Identify Empty Values</button>
+    <button id="clear-btn" class="btn btn-secondary">Clear</button>
+  </div>
+
+  <div id="output-section" class="d-none">
+    <h2 class="mb-3">Sorted List</h2>
+    <ul id="sorted-list" class="list-group mb-4"></ul>
+
+    <h2 class="mb-3">Empty/Null Values</h2>
+    <ul id="empty-values" class="list-group"></ul>
+  </div>
+
+  <div id="error-message" class="alert alert-danger d-none" role="alert">Please enter a valid list of values.</div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <p class="h4 fw-bold">How It Works</p>
+      <p class="mb-4">The Empty Value Sorter takes your input—whether it's a list of names, numbers, or random words—and separates the wheat from the chaff. Here’s the simple formula behind the magic:</p>
+      <ol class="mb-4">
+        <li><strong>Input Your List:</strong> Paste or type your list into the text box. Separate items with commas, spaces, or new lines.</li>
+        <li><strong>Sort & Filter:</strong> The tool automatically sorts your non-empty values alphabetically and isolates empty or null entries.</li>
+        <li><strong>See the Results:</strong> Your sorted list appears neatly organized, while empty values are highlighted for easy identification.</li>
+      </ol>
+      <p class="h4 fw-bold mt-4">Example Output</p>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Original List</th>
+            <th scope="col">Sorted List</th>
+            <th scope="col">Empty/Null Values</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>apple, , banana, , cherry</td>
+            <td>apple, banana, cherry</td>
+            <td>(empty), (empty)</td>
+          </tr>
+          <tr>
+            <td>1, , 3, 2, , 5</td>
+            <td>1, 2, 3, 5</td>
+            <td>(empty), (empty)</td>
+          </tr>
+          <tr>
+            <td>dog, cat, , , fish</td>
+            <td>cat, dog, fish</td>
+            <td>(empty), (empty)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <p class="h4 fw-bold">10 Common Use Cases for the Empty Value Sorter</p>
+      <ul class="list-group mb-4">
+        <li class="list-group-item">1. Cleaning up messy spreadsheets by removing or identifying blank cells.</li>
+        <li class="list-group-item">2. Organizing survey responses to filter out incomplete entries.</li>
+        <li class="list-group-item">3. Preparing datasets for analysis by isolating empty or null values.</li>
+        <li class="list-group-item">4. Sorting contact lists to ensure all entries are complete.</li>
+        <li class="list-group-item">5. Tidying up inventory lists by highlighting missing product details.</li>
+        <li class="list-group-item">6. Streamlining email lists by removing blank or invalid entries.</li>
+        <li class="list-group-item">7. Sorting task lists to prioritize completed or actionable items.</li>
+        <li class="list-group-item">8. Organizing student rosters to ensure all data is filled in.</li>
+        <li class="list-group-item">9. Cleaning up CSV files before importing them into databases.</li>
+        <li class="list-group-item">10. Sorting grocery or shopping lists to avoid missing items.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const inputValues = document.getElementById("input-values");
+    const sortBtn = document.getElementById("sort-btn");
+    const clearBtn = document.getElementById("clear-btn");
+    const outputSection = document.getElementById("output-section");
+    const sortedList = document.getElementById("sorted-list");
+    const emptyValues = document.getElementById("empty-values");
+    const errorMessage = document.getElementById("error-message");
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get("start");
+    if (startValue) {
+      inputValues.value = startValue;
+    }
+
+    const processInput = () => {
+      const input = inputValues.value.trim();
+      if (!input) {
+        errorMessage.classList.remove("d-none");
+        outputSection.classList.add("d-none");
+        return;
+      }
+
+      errorMessage.classList.add("d-none");
+      outputSection.classList.remove("d-none");
+
+      // Split input by commas, spaces, or new lines
+      const values = input.split(/[\s,]+/).filter(Boolean);
+      const nonEmptyValues = values.filter((val) => val.trim() !== "");
+      const emptyValuesList = values.filter((val) => val.trim() === "");
+
+      // Sort non-empty values
+      nonEmptyValues.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+
+      // Display sorted list
+      sortedList.innerHTML = nonEmptyValues
+        .map((val) => `<li class="list-group-item bg-dark text-white">${val}</li>`)
+        .join("");
+
+      // Display empty values
+      emptyValues.innerHTML = emptyValuesList
+        .map(() => `<li class="list-group-item list-group-item-warning">(empty)</li>`)
+        .join("");
+    };
+
+    sortBtn.addEventListener("click", processInput);
+    clearBtn.addEventListener("click", () => {
+      inputValues.value = "";
+      outputSection.classList.add("d-none");
+      errorMessage.classList.add("d-none");
+    });
+
+    // Handle Enter key press in textarea
+    inputValues.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        processInput();
+      }
+    });
+  });
+</script>

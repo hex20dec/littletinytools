@@ -1,0 +1,126 @@
+---
+title: "List Size-Aware Sorter - Organize Your Lists by Text Length"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-03-10 18:18:46
+metaDescription: "Sort lists effortlessly by size with the List Size-Aware Sorter. Organize tasks, data, and more in ascending or descending order. Quick, easy, and free!"
+metaKeywords: "list sorter, sort by size, organize lists, list organizer, task prioritization, data sorting, free list tool"
+tags: ["list-sorter", "text-organizer", "productivity-tool", "text-length", "sorting-tool"]
+---
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center mb-4">List Size-Aware Sorter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p style="font-size: 1.5rem; font-weight: bold;">Why does organizing lists always feel like trying to untangle headphones? Whether it's a to-do list, a list of favorite movies, or even random brainstorming ideas, keeping them in order can be a headache. Enter the <strong>List Size-Aware Sorter</strong> – your new best friend for effortlessly organizing lists by size. Simply paste your items, and let the tool do the heavy lifting. Sort them in ascending or descending order based on their length, and watch your chaos turn into clarity. No more squinting at long lists, no more guessing which item is longer. It’s like having a personal assistant for your lists, minus the coffee runs!</p>
+    </div>
+  </div>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <textarea id="input-area" class="form-control bg-dark text-white mb-3" rows="10" placeholder="Enter your list items here, one per line."></textarea>
+      <div class="d-flex justify-content-center gap-3 mb-4">
+        <button id="sort-asc" class="btn btn-primary">Sort by Size (Ascending)</button>
+        <button id="sort-desc" class="btn btn-primary">Sort by Size (Descending)</button>
+        <button id="clear-btn" class="btn btn-secondary">Clear List</button>
+      </div>
+      <div id="output-area" class="list-group bg-dark text-white">
+        <div class="list-group-item bg-dark text-white">No items to sort. Please enter a list above.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-3">How It Works</h2>
+      <p>The <strong>List Size-Aware Sorter</strong> is as simple as it gets. Here's the magic formula:</p>
+      <ol>
+        <li><strong>Input Your List:</strong> Paste or type your list items, one per line, into the input box.</li>
+        <li><strong>Choose Your Order:</strong> Click "Sort by Size (Ascending)" to sort items from shortest to longest, or "Sort by Size (Descending)" for the opposite.</li>
+        <li><strong>Review the Results:</strong> The tool instantly reorganizes your list, showing each item alongside its size (number of characters).</li>
+      </ol>
+      <p>It’s like sorting your closet by shirt length – but for words!</p>
+
+      <div class="table-responsive mt-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Original List</th>
+              <th>Sorted by Size (Ascending)</th>
+              <th>Sorted by Size (Descending)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Apple<br>Banana<br>Cherry</td>
+              <td>Apple<br>Cherry<br>Banana</td>
+              <td>Banana<br>Cherry<br>Apple</td>
+            </tr>
+            <tr>
+              <td>Cat<br>Elephant<br>Dog</td>
+              <td>Cat<br>Dog<br>Elephant</td>
+              <td>Elephant<br>Dog<br>Cat</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-3">Top 10 Use Cases for the List Size-Aware Sorter</h2>
+      <ol>
+        <li><strong>Prioritizing Tasks:</strong> Organize your to-do list by the length of task descriptions to tackle shorter tasks first.</li>
+        <li><strong>Writing Projects:</strong> Sort sentences or paragraphs by length to ensure consistency in your writing.</li>
+        <li><strong>Data Cleaning:</strong> Quickly identify and organize strings in datasets based on their character count.</li>
+        <li><strong>Social Media Posts:</strong> Sort captions or hashtags by length to optimize for platform character limits.</li>
+        <li><strong>Event Planning:</strong> Arrange guest names or menu items by size for easier readability.</li>
+        <li><strong>Programming:</strong> Organize code snippets or variable names by length for better readability.</li>
+        <li><strong>Language Learning:</strong> Sort vocabulary words by length to focus on shorter or longer terms.</li>
+        <li><strong>Brainstorming Sessions:</strong> Organize ideas by their length to identify concise or detailed thoughts.</li>
+        <li><strong>Recipe Management:</strong> Sort ingredient lists or instructions by size for easier preparation.</li>
+        <li><strong>Personal Organization:</strong> Arrange anything from passwords to book titles by length for quick reference.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const inputArea = document.getElementById("input-area");
+    const outputArea = document.getElementById("output-area");
+    const sortAscBtn = document.getElementById("sort-asc");
+    const sortDescBtn = document.getElementById("sort-desc");
+    const clearBtn = document.getElementById("clear-btn");
+
+    // Preload input from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get("start");
+    if (startValue) {
+      inputArea.value = startValue;
+    }
+
+    const sortList = (order) => {
+      const items = inputArea.value.split("\n").filter(item => item.trim() !== "");
+      if (items.length === 0) {
+        outputArea.innerHTML = `<div class="list-group-item bg-dark text-white">No items to sort. Please enter a list above.</div>`;
+        return;
+      }
+
+      items.sort((a, b) => order === "asc" ? a.length - b.length : b.length - a.length);
+      outputArea.innerHTML = items.map(item => `
+        <div class="list-group-item bg-dark text-white d-flex justify-content-between align-items-center">
+          ${item}
+          <span class="badge bg-secondary">Size: ${item.length}</span>
+        </div>
+      `).join("");
+    };
+
+    sortAscBtn.addEventListener("click", () => sortList("asc"));
+    sortDescBtn.addEventListener("click", () => sortList("desc"));
+    clearBtn.addEventListener("click", () => {
+      inputArea.value = "";
+      outputArea.innerHTML = `<div class="list-group-item bg-dark text-white">No items to sort. Please enter a list above.</div>`;
+    });
+  });
+</script>

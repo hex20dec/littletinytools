@@ -1,0 +1,143 @@
+---
+title: "Sort by First Occurrence - Organize Your Lists Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-06-28 19:05:48
+metaDescription: "Sort by First Occurrence tool removes duplicates, keeping only the first instance of each item. Perfect for lists, data, and more!"
+metaKeywords: "sort by first occurrence, remove duplicates, list organizer, data cleanup, unique items, sorting tool, duplicate remover, list management, organize lists, data sorting"
+tags: ["list organizer", "sorting tool", "productivity", "web app", "text tools"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-4 text-white">Sort by First Occurrence</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="lead text-center mb-4 text-white">Sorting a list of items but want to keep only the first occurrence of each? This tool is your lifesaver! Whether you're organizing a grocery list, cleaning up duplicate entries, or managing data for a project, our <strong>Sort by First Occurrence</strong> tool makes it effortless. Simply paste your items, click the button, and voilà—no more duplicates cluttering your list. It’s like magic, but without the wand. Perfect for perfectionists and procrastinators alike!</p>
+    </div>
+  </div>
+</div>
+      <div class="mb-3">
+        <textarea id="input-area" class="form-control bg-dark text-white" rows="10" placeholder="Enter your items here, one per line."></textarea>
+      </div>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-3">
+        <button id="clear-btn" class="btn btn-secondary me-md-2">Clear</button>
+        <button id="sort-btn" class="btn btn-success">Sort by First Occurrence</button>
+      </div>
+      <div class="mb-3">
+        <textarea id="output-area" class="form-control bg-dark text-white" rows="10" placeholder="Sorted items will appear here." readonly></textarea>
+      </div>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+        <button id="copy-btn" class="btn btn-primary">Copy</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="bg-light p-4 rounded">
+        <h2 class="fw-bold mb-3">How It Works</h2>
+        <p>The tool works by scanning your list of items and identifying the first time each item appears. It then creates a new list, preserving only those first occurrences. Think of it as a bouncer at a club—only the first guest with a specific name gets in, and the rest are turned away. No duplicates, no fuss!</p>
+        <h3 class="fw-bold mt-4">Example</h3>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Original List</th>
+              <th>Sorted List (First Occurrence Only)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Apple</td>
+              <td>Apple</td>
+            </tr>
+            <tr>
+              <td>Banana</td>
+              <td>Banana</td>
+            </tr>
+            <tr>
+              <td>Apple</td>
+              <td>(Removed)</td>
+            </tr>
+            <tr>
+              <td>Orange</td>
+              <td>Orange</td>
+            </tr>
+            <tr>
+              <td>Banana</td>
+              <td>(Removed)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="bg-light p-4 rounded">
+        <h2 class="fw-bold mb-3">10 Common Use Cases</h2>
+        <ul class="list-group">
+          <li class="list-group-item">Cleaning up duplicate entries in a to-do list.</li>
+          <li class="list-group-item">Organizing unique items in a grocery list.</li>
+          <li class="list-group-item">Preparing data for reports by removing repeated entries.</li>
+          <li class="list-group-item">Simplifying email lists by keeping only the first occurrence of each address.</li>
+          <li class="list-group-item">Managing inventory lists by removing duplicate product names.</li>
+          <li class="list-group-item">Sorting unique names from a list of event attendees.</li>
+          <li class="list-group-item">Streamlining a list of favorite songs or movies.</li>
+          <li class="list-group-item">Cleaning up a list of keywords for SEO purposes.</li>
+          <li class="list-group-item">Preparing a list of unique ingredients for a recipe.</li>
+          <li class="list-group-item">Organizing book titles or authors in a personal library.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const inputArea = document.getElementById('input-area');
+    const outputArea = document.getElementById('output-area');
+    const sortBtn = document.getElementById('sort-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const copyBtn = document.getElementById('copy-btn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputArea.value = startValue;
+    }
+
+    sortBtn.addEventListener('click', function () {
+      const inputItems = inputArea.value.split('\n').filter(item => item.trim() !== '');
+      if (inputItems.length === 0) {
+        outputArea.value = 'Please enter some items to sort.';
+        return;
+      }
+
+      const uniqueItems = [];
+      inputItems.forEach(item => {
+        if (!uniqueItems.includes(item)) {
+          uniqueItems.push(item);
+        }
+      });
+
+      outputArea.value = uniqueItems.join('\n');
+    });
+
+    clearBtn.addEventListener('click', function () {
+      inputArea.value = '';
+      outputArea.value = '';
+    });
+
+    copyBtn.addEventListener('click', function () {
+      outputArea.select();
+      document.execCommand('copy');
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => {
+        copyBtn.textContent = 'Copy';
+      }, 2000);
+    });
+  });
+</script>

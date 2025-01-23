@@ -1,0 +1,152 @@
+---
+title: "Title Case Word Counter - Convert Text & Count Words Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-09-08 18:55:51
+metaDescription: "Convert text to title case and count words instantly with our Title Case Word Counter. Perfect for essays, blogs, and more!"
+metaKeywords: "title case converter, word counter, title formatting tool, capitalize text, word count tool, title case generator, text formatting, writing tools"
+tags: ["title case", "word counter", "text formatting", "writing tools", "productivity"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  textarea {
+    resize: vertical;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container">
+    <h1 class="text-center mb-4">Title Case Word Counter</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+      <p class="lead">Ever struggled with writing titles or headings that just don’t look "right"? Maybe they’re too casual, too messy, or just plain inconsistent. Enter the <strong>Title Case Word Counter</strong>—your new best friend for crafting polished, professional titles in seconds. Whether you’re writing an essay, a blog post, or even a social media caption, this tool instantly transforms your text into perfect title case while counting your words (because who has time to count manually?). It’s simple, fast, and dare we say, a little bit magical. Say goodbye to title headaches and hello to perfectly formatted text with just a click!</p>
+    </div>
+  </div>
+</div>
+    <p class="text-center mb-4">Convert your text to title case and count the number of words instantly.</p>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <textarea id="input-text" class="form-control mb-3" placeholder="Enter your text here..." rows="5"></textarea>
+        <div class="d-grid gap-2 d-md-block text-center">
+          <button id="convert-btn" class="btn btn-primary me-md-2">Convert</button>
+          <button id="clear-btn" class="btn btn-secondary">Clear</button>
+        </div>
+        <textarea id="output-text" class="form-control mt-3" rows="5" readonly></textarea>
+        <p class="mt-3 text-center">Word Count: <span id="word-count">0</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <h2 class="text-center mb-4">How It Works</h2>
+      <p class="text-muted">The <strong>Title Case Word Counter</strong> uses a straightforward formula to transform your text. Here’s the magic behind the scenes:</p>
+      <ul class="list-unstyled">
+        <li><strong>Step 1:</strong> The tool takes your input text and converts it to lowercase to ensure consistency.</li>
+        <li><strong>Step 2:</strong> It then capitalizes the first letter of every word, except for small connecting words like "and," "the," or "of."</li>
+        <li><strong>Step 3:</strong> Finally, it counts the number of words in your text, so you don’t have to.</li>
+      </ul>
+      <p class="text-muted">It’s like having a personal editor in your pocket!</p>
+
+      <div class="mt-5">
+        <h3 class="text-center mb-4">Example Conversions</h3>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Original Text</th>
+              <th>Title Case</th>
+              <th>Word Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>the quick brown fox</td>
+              <td>The Quick Brown Fox</td>
+              <td>4</td>
+            </tr>
+            <tr>
+              <td>a tale of two cities</td>
+              <td>A Tale of Two Cities</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>to kill a mockingbird</td>
+              <td>To Kill a Mockingbird</td>
+              <td>4</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <h2 class="text-center mb-4">10 Common Use Cases</h2>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Writing blog post titles that grab attention.</li>
+        <li class="list-group-item">Formatting essay or research paper headings.</li>
+        <li class="list-group-item">Creating professional email subject lines.</li>
+        <li class="list-group-item">Polishing social media captions for consistency.</li>
+        <li class="list-group-item">Editing book or chapter titles for authors.</li>
+        <li class="list-group-item">Preparing PowerPoint presentation slide titles.</li>
+        <li class="list-group-item">Formatting product names for e-commerce listings.</li>
+        <li class="list-group-item">Crafting headlines for news articles or press releases.</li>
+        <li class="list-group-item">Improving resume section headings.</li>
+        <li class="list-group-item">Enhancing subtitles for YouTube videos or podcasts.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const inputText = document.getElementById('input-text');
+    const outputText = document.getElementById('output-text');
+    const wordCount = document.getElementById('word-count');
+    const convertBtn = document.getElementById('convert-btn');
+    const clearBtn = document.getElementById('clear-btn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    // Convert to title case
+    function toTitleCase(str) {
+      return str.toLowerCase().replace(/\b\w/g, function (char) {
+        return char.toUpperCase();
+      });
+    }
+
+    // Count words
+    function countWords(str) {
+      return str.trim().split(/\s+/).filter(Boolean).length;
+    }
+
+    // Handle conversion
+    convertBtn.addEventListener('click', function () {
+      const inputValue = inputText.value.trim();
+      if (!inputValue) {
+        outputText.value = '';
+        wordCount.textContent = '0';
+        return;
+      }
+      const titleCaseText = toTitleCase(inputValue);
+      outputText.value = titleCaseText;
+      wordCount.textContent = countWords(inputValue);
+    });
+
+    // Handle clear
+    clearBtn.addEventListener('click', function () {
+      inputText.value = '';
+      outputText.value = '';
+      wordCount.textContent = '0';
+    });
+  });
+</script>

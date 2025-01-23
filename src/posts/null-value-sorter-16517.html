@@ -1,0 +1,144 @@
+---
+title: "Null Value Sorter - Clean & Organize Your Data Effortlessly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2024-05-08 08:37:51
+metaDescription: "Easily sort and separate null or empty values from your data with the Null Value Sorter. Clean, organize, and simplify your lists in seconds!"
+metaKeywords: "null value sorter, data cleaning tool, organize data, filter empty values, clean datasets, data management, null value remover, data sorting, spreadsheet cleaner, data organizer"
+tags: ["data cleaning", "null values", "data sorting", "web tool", "data analysis"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-3">Null Value Sorter</h1><div class="container bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center mb-4 fs-3 fw-bold">Tired of sifting through messy data? Let the Null Value Sorter clean it up for you!</p>
+      <p class="text-center">Sorting through lists cluttered with null or empty values can feel like finding a needle in a haystack. Whether you're organizing datasets, cleaning up spreadsheets, or just trying to make sense of your notes, this tool is your new best friend. Simply paste your data, click a button, and voilà! Your valid entries are neatly separated from the empty ones. No more headaches, no more wasted time—just clean, organized data in seconds. Say goodbye to the chaos and hello to simplicity!</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Input your data and separate null/empty values with ease.</p>
+
+      <div class="mb-4">
+        <label for="input-data" class="form-label">Enter your data (one item per line):</label>
+        <textarea id="input-data" class="form-control bg-dark text-white" rows="6" placeholder="e.g., apple\nbanana\n\norange\n\n"></textarea>
+      </div>
+
+      <div class="d-grid gap-2 mb-4">
+        <button id="sort-btn" class="btn btn-primary">Sort Null Values</button>
+      </div>
+
+      <div class="mb-4">
+        <label for="valid-values" class="form-label">Valid Values:</label>
+        <textarea id="valid-values" class="form-control bg-dark text-white" rows="6" readonly></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label for="null-values" class="form-label">Null/Empty Values:</label>
+        <textarea id="null-values" class="form-control bg-dark text-white" rows="6" readonly></textarea>
+      </div>
+
+      <div class="d-grid gap-2">
+        <button id="clear-btn" class="btn btn-secondary">Clear All</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="fs-4 fw-bold mb-3">How does it work?</p>
+      <p>The Null Value Sorter takes your input data and applies a simple yet effective formula:</p>
+      <ul>
+        <li>It scans each line of your input.</li>
+        <li>If a line is empty, null, or just whitespace, it gets flagged as a "null value."</li>
+        <li>Everything else? That’s your "valid data."</li>
+      </ul>
+      <p>It’s like having a digital assistant who sorts your laundry into "clean" and "dirty" piles—except it’s way faster and never complains!</p>
+
+      <p class="fs-4 fw-bold mb-3">Example Output</p>
+      <div class="table-responsive">
+        <table class="table table-bordered table-dark">
+          <thead>
+            <tr>
+              <th>Input Data</th>
+              <th>Valid Values</th>
+              <th>Null/Empty Values</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>apple<br>banana<br><br>orange<br><br></td>
+              <td>apple<br>banana<br>orange</td>
+              <td><br><br></td>
+            </tr>
+            <tr>
+              <td>1<br><br>2<br>3<br><br>4</td>
+              <td>1<br>2<br>3<br>4</td>
+              <td><br><br></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="fs-4 fw-bold mb-3">10 Common Use Cases for the Null Value Sorter</p>
+      <ol>
+        <li>Cleaning up CSV files before importing into a database.</li>
+        <li>Organizing survey responses by filtering out incomplete entries.</li>
+        <li>Preparing data for analysis by removing empty rows.</li>
+        <li>Sorting email lists to separate valid addresses from blanks.</li>
+        <li>Simplifying inventory management by filtering out empty product entries.</li>
+        <li>Streamlining customer feedback by isolating actionable comments.</li>
+        <li>Preparing mailing lists by removing incomplete entries.</li>
+        <li>Filtering out null values in log files for troubleshooting.</li>
+        <li>Cleaning up user-submitted data in web forms.</li>
+        <li>Organizing to-do lists by removing empty tasks.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputData = document.getElementById('input-data');
+    const validValues = document.getElementById('valid-values');
+    const nullValues = document.getElementById('null-values');
+    const sortBtn = document.getElementById('sort-btn');
+    const clearBtn = document.getElementById('clear-btn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startData = urlParams.get('start');
+    if (startData) {
+      inputData.value = startData;
+    }
+
+    sortBtn.addEventListener('click', () => {
+      const inputLines = inputData.value.split('\n');
+      const valid = [];
+      const nullOrEmpty = [];
+
+      inputLines.forEach(line => {
+        const trimmedLine = line.trim();
+        if (trimmedLine === '' || trimmedLine === null || trimmedLine === undefined) {
+          nullOrEmpty.push(trimmedLine);
+        } else {
+          valid.push(trimmedLine);
+        }
+      });
+
+      validValues.value = valid.join('\n');
+      nullValues.value = nullOrEmpty.join('\n');
+    });
+
+    clearBtn.addEventListener('click', () => {
+      inputData.value = '';
+      validValues.value = '';
+      nullValues.value = '';
+    });
+  });
+</script>

@@ -1,0 +1,114 @@
+---
+title: "Keyword Counter: Count Word Occurrences Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-09-07 11:17:58
+metaDescription: "Quickly count how often a keyword appears in your text with the Keyword Counter. Perfect for writers, editors, and SEO optimization."
+metaKeywords: "keyword counter, word frequency tool, SEO keyword density, text analysis, word count tool, keyword tracker, writing tool, text editor, keyword analyzer, word frequency counter"
+tags: ["keyword counter", "text analysis", "word frequency", "SEO tool", "writing tool"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-4">Keyword Counter</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center mb-4 fs-2 fw-bold">Why Does Counting Keywords Feel Like Searching for a Needle in a Haystack?</p>
+      <p class="text-center mb-4">Whether you're editing an essay, analyzing a speech, or optimizing a blog post, manually counting how often a specific word appears can be tedious and error-prone. That's where the <strong>Keyword Counter</strong> comes in! This simple yet powerful tool lets you paste your text, enter a keyword, and instantly see how many times it shows up. No more squinting at paragraphs or losing your place mid-count. It’s like having a personal word detective at your fingertips, making your writing or analysis tasks smoother and faster. Let’s make counting keywords as easy as pie!</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Enter your text and keyword to count how many times the keyword appears.</p>
+      <div class="mb-3">
+        <textarea id="text-input" class="form-control bg-dark text-white" rows="10" placeholder="Paste or type your text here..."></textarea>
+      </div>
+      <div class="mb-3">
+        <input id="keyword-input" type="text" class="form-control bg-dark text-white" placeholder="Enter keyword...">
+      </div>
+      <div class="d-grid gap-2 mb-3">
+        <button id="count-btn" class="btn btn-primary">Count</button>
+      </div>
+      <div id="result-display" class="alert alert-info d-none"></div>
+      <div class="d-grid gap-2">
+        <button id="reset-btn" class="btn btn-secondary">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center fs-4 fw-bold mb-4">How Does It Work?</p>
+      <p class="text-center mb-4">The Keyword Counter works by scanning your text and matching it with the keyword you provide. It counts every instance of the keyword, ensuring accuracy even if the text is long or complex. Here’s how it breaks down:</p>
+      <ul class="list-unstyled text-center mb-4">
+        <li><strong>Step 1:</strong> Paste your text into the input box.</li>
+        <li><strong>Step 2:</strong> Enter the keyword you want to count.</li>
+        <li><strong>Step 3:</strong> Click "Count" and see the magic happen!</li>
+      </ul>
+      <p class="text-center mb-4">For example, if you’re analyzing a speech and want to know how often the speaker says “innovation,” the tool will give you the exact number in seconds. No fuss, no stress—just quick and reliable results.</p>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center fs-4 fw-bold mb-4">10 Ways to Use the Keyword Counter</p>
+      <ol class="list-unstyled text-center mb-4">
+        <li>1. Analyze how often a specific word appears in a speech or presentation.</li>
+        <li>2. Optimize blog posts by checking keyword density for SEO.</li>
+        <li>3. Edit essays or articles to ensure consistent use of terminology.</li>
+        <li>4. Study the frequency of words in literary texts or academic papers.</li>
+        <li>5. Track the repetition of key phrases in marketing copy.</li>
+        <li>6. Verify the use of brand names or slogans in content.</li>
+        <li>7. Count the occurrence of specific terms in legal documents.</li>
+        <li>8. Assist in language learning by tracking vocabulary usage.</li>
+        <li>9. Check for overuse of filler words in writing.</li>
+        <li>10. Monitor the repetition of buzzwords in business reports.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const keywordInput = document.getElementById('keyword-input');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultDisplay = document.getElementById('result-display');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    countBtn.addEventListener('click', () => {
+      const text = textInput.value.trim();
+      const keyword = keywordInput.value.trim();
+
+      if (!text || !keyword) {
+        resultDisplay.textContent = 'Please enter both text and a keyword.';
+        resultDisplay.classList.remove('d-none');
+        return;
+      }
+
+      const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
+      const matches = text.match(regex);
+      const count = matches ? matches.length : 0;
+
+      if (count === 0) {
+        resultDisplay.textContent = `The keyword '${keyword}' does not appear in the text.`;
+      } else {
+        resultDisplay.textContent = `The keyword '${keyword}' appears ${count} times in the text.`;
+      }
+      resultDisplay.classList.remove('d-none');
+    });
+
+    resetBtn.addEventListener('click', () => {
+      textInput.value = '';
+      keywordInput.value = '';
+      resultDisplay.textContent = '';
+      resultDisplay.classList.add('d-none');
+    });
+  });
+</script>

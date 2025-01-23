@@ -1,0 +1,160 @@
+---
+title: "Decimal to Duodecimal Converter - Quick & Accurate Base-12 Conversion"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-09-19 09:33:02
+metaDescription: "Easily convert decimal numbers to duodecimal (base-12) with this simple and free online tool. Perfect for math, coding, or curiosity!"
+metaKeywords: "decimal to duodecimal, base-12 converter, duodecimal calculator, number system converter, decimal conversion tool, math tools, coding tools, duodecimal conversion, base-12 calculator, decimal to base-12"
+tags: ["number converter", "decimal to duodecimal", "base-12 calculator", "math tools", "educational tools"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  #resultOutput, #errorOutput {
+    display: none;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container text-center mt-5">
+    <h1 class="display-4">Decimal to Duodecimal Converter</h1><div class="container mt-5">
+  <div class="text-center">
+    <p class="lead">Ever stared at a decimal number and wondered, "What would this look like in base-12?" You're not alone! Whether you're a math enthusiast, a computer science student, or just someone curious about number systems, converting decimals to duodecimal (base-12) can feel like solving a mystery. But fret not! This Decimal to Duodecimal Converter is here to save the day. Simply type in your decimal number, hit "Convert," and voilà—your duodecimal equivalent appears! It's like magic, but with fewer rabbits and more numbers. Perfect for homework, coding projects, or just impressing your friends at parties. Say goodbye to confusion and hello to duodecimal delight!</p>
+  </div>
+</div>
+    <p class="lead">Convert any decimal number to its duodecimal equivalent.</p>
+  </div>
+
+  <div class="container mt-4">
+    <label for="decimalInput" class="form-label">Enter Decimal Number</label>
+    <input type="text" class="form-control" id="decimalInput" placeholder="e.g., 123" aria-label="Enter a decimal number">
+  </div>
+
+  <div class="container text-center mt-3">
+    <button class="btn btn-primary" id="convertBtn">Convert</button>
+  </div>
+
+  <div class="container mt-3">
+    <div class="alert alert-success" id="resultOutput" role="alert">
+      Duodecimal Result: <span id="duodecimalResult"></span>
+    </div>
+    <div class="alert alert-danger" id="errorOutput" role="alert">
+      Please enter a valid decimal number.
+    </div>
+  </div>
+
+  <div class="container mt-3">
+    <p class="text-muted">Duodecimal (base-12) uses digits 0-9 and letters A and B to represent values 10 and 11.</p>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="text-center mb-4">How It Works</h2>
+      <p class="text-muted">The Decimal to Duodecimal Converter works by breaking down the decimal number into its base-12 components. Here's a simple breakdown:</p>
+      <ol>
+        <li><strong>Step 1:</strong> Take the decimal number and divide it by 12, keeping track of the remainder.</li>
+        <li><strong>Step 2:</strong> If the remainder is 10 or 11, it's represented by the letters <code>A</code> or <code>B</code>, respectively.</li>
+        <li><strong>Step 3:</strong> Repeat the process with the quotient until it reaches zero.</li>
+        <li><strong>Step 4:</strong> The duodecimal number is the sequence of remainders read in reverse order.</li>
+      </ol>
+      <p class="text-muted">For example, converting the decimal number <code>23</code> to duodecimal:</p>
+      <ul>
+        <li>23 ÷ 12 = 1 with a remainder of 11 (<code>B</code>).</li>
+        <li>1 ÷ 12 = 0 with a remainder of 1.</li>
+        <li>Reading the remainders in reverse gives you <code>1B</code>.</li>
+      </ul>
+      <p class="text-muted">It's that simple! Try it out with your own numbers below.</p>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="text-center mb-4">Common Use Cases</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1. Simplifying math problems involving base-12 systems.</li>
+        <li class="list-group-item">2. Converting decimal values for use in duodecimal-based software or applications.</li>
+        <li class="list-group-item">3. Teaching or learning about different number systems in math or computer science classes.</li>
+        <li class="list-group-item">4. Creating unique numbering systems for games or puzzles.</li>
+        <li class="list-group-item">5. Writing code that requires duodecimal calculations.</li>
+        <li class="list-group-item">6. Exploring historical or cultural number systems that use base-12.</li>
+        <li class="list-group-item">7. Converting measurements or currencies that use duodecimal systems.</li>
+        <li class="list-group-item">8. Generating duodecimal-based passwords or identifiers.</li>
+        <li class="list-group-item">9. Solving riddles or challenges that involve number conversions.</li>
+        <li class="list-group-item">10. Just for fun—because who doesn’t love a good number puzzle?</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const decimalInput = document.getElementById('decimalInput');
+    const convertBtn = document.getElementById('convertBtn');
+    const resultOutput = document.getElementById('resultOutput');
+    const duodecimalResult = document.getElementById('duodecimalResult');
+    const errorOutput = document.getElementById('errorOutput');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      decimalInput.value = startValue;
+    }
+
+    function decimalToDuodecimal(decimal) {
+      if (isNaN(decimal) || decimal === '') return null;
+
+      let integerPart = Math.floor(decimal);
+      let fractionalPart = decimal - integerPart;
+      let result = '';
+
+      // Convert integer part
+      while (integerPart > 0) {
+        const remainder = integerPart % 12;
+        result = (remainder < 10 ? remainder : String.fromCharCode(65 + remainder - 10)) + result;
+        integerPart = Math.floor(integerPart / 12);
+      }
+
+      // Convert fractional part
+      if (fractionalPart > 0) {
+        result += '.';
+        let precision = 6; // Limit fractional precision
+        while (fractionalPart > 0 && precision > 0) {
+          fractionalPart *= 12;
+          const digit = Math.floor(fractionalPart);
+          result += (digit < 10 ? digit : String.fromCharCode(65 + digit - 10));
+          fractionalPart -= digit;
+          precision--;
+        }
+      }
+
+      return result || '0';
+    }
+
+    convertBtn.addEventListener('click', function () {
+      const decimalValue = decimalInput.value.trim();
+      if (!decimalValue || isNaN(decimalValue)) {
+        errorOutput.style.display = 'block';
+        resultOutput.style.display = 'none';
+        return;
+      }
+
+      const duodecimalValue = decimalToDuodecimal(parseFloat(decimalValue));
+      if (duodecimalValue === null) {
+        errorOutput.style.display = 'block';
+        resultOutput.style.display = 'none';
+      } else {
+        duodecimalResult.textContent = duodecimalValue;
+        resultOutput.style.display = 'block';
+        errorOutput.style.display = 'none';
+      }
+    });
+
+    decimalInput.addEventListener('input', function () {
+      resultOutput.style.display = 'none';
+      errorOutput.style.display = 'none';
+    });
+  });
+</script>

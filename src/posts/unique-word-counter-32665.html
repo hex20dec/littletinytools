@@ -1,0 +1,135 @@
+---
+title: "Unique Word Counter - Analyze Your Text Vocabulary"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-11-04 22:08:33
+metaDescription: "Count unique words in any text instantly with this easy-to-use tool. Perfect for writers, students, and SEO enthusiasts. Try it now!"
+metaKeywords: "unique word counter, word count tool, text analysis, vocabulary checker, SEO tool, writing assistant, word diversity, text editor, word counter online"
+tags: ["word counter", "text analysis", "vocabulary", "writing tool", "unique words"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <h1 class="text-center mb-4">Unique Word Counter</h1><div class="container bg-light p-4 rounded">
+  <div class="text-center">
+    <p class="lead fs-3">Why does counting unique words feel like solving a puzzle every time? Whether you're editing an essay, analyzing a speech, or just curious about your writing style, keeping track of distinct words can be a headache. That's where the Unique Word Counter steps in—your no-fuss, easy-to-use tool that does the heavy lifting for you. Simply paste your text, hit the button, and voilà! You’ll know exactly how many unique words you’ve used. No more guessing, no more manual counting. It’s like having a personal word wizard in your pocket.</p>
+    <p class="fs-5">Perfect for writers, students, and word enthusiasts, this tool makes text analysis a breeze. Say goodbye to tedious work and hello to quick, accurate results. Let’s make your writing smarter, one word at a time!</p>
+  </div>
+</div>
+  <p class="text-center mb-4">Enter your text below to count the number of unique words.</p>
+  
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control bg-dark text-white" rows="8" placeholder="Paste or type your text here..."></textarea>
+  </div>
+  
+  <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4">
+    <button id="count-btn" class="btn btn-primary me-md-2">Count Unique Words</button>
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+  
+  <div id="output-section" class="alert alert-success text-center" role="alert" style="display: none;">
+    <strong>Number of Unique Words:</strong> <span id="unique-word-count">0</span>
+  </div>
+  
+  <p class="text-center mt-4 text-muted">Note: Punctuation and case differences are ignored.</p>
+</div>
+
+<div class="container mt-4 bg-light p-4 rounded">
+  <div class="row">
+    <div class="col-md-8">
+      <h2 class="fs-4">How It Works</h2>
+      <p class="fs-6">The Unique Word Counter is designed to be simple yet powerful. Here’s the magic behind it:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Your text is cleaned up by removing punctuation and converting everything to lowercase. This ensures words like "Hello" and "hello" are counted as the same word.</li>
+        <li class="list-group-item">The tool splits your text into individual words, ignoring spaces and empty entries.</li>
+        <li class="list-group-item">It then filters out duplicates, leaving only the unique words.</li>
+        <li class="list-group-item">Finally, it counts these unique words and displays the result instantly.</li>
+      </ol>
+      <p class="mt-3 fs-6">It’s like having a sieve for your words—only the unique ones make it through!</p>
+    </div>
+    <div class="col-md-4">
+      <h2 class="fs-4">Example Counts</h2>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Text Length</th>
+            <th>Unique Words</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>10 words</td><td>8</td></tr>
+          <tr><td>50 words</td><td>35</td></tr>
+          <tr><td>100 words</td><td>70</td></tr>
+          <tr><td>200 words</td><td>120</td></tr>
+          <tr><td>500 words</td><td>250</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4 bg-light p-4 rounded">
+  <h2 class="fs-4">Top 10 Use Cases for the Unique Word Counter</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Analyzing essays or research papers for vocabulary diversity.</li>
+    <li class="list-group-item">Improving SEO by ensuring keyword variety in blog posts.</li>
+    <li class="list-group-item">Editing creative writing to avoid repetitive language.</li>
+    <li class="list-group-item">Preparing speeches to ensure clear and varied word choices.</li>
+    <li class="list-group-item">Teaching students about word usage and vocabulary development.</li>
+    <li class="list-group-item">Checking marketing copy for brand consistency and originality.</li>
+    <li class="list-group-item">Simplifying text analysis for non-native English speakers.</li>
+    <li class="list-group-item">Evaluating social media posts for engagement and clarity.</li>
+    <li class="list-group-item">Assisting poets in crafting unique and impactful verses.</li>
+    <li class="list-group-item">Having fun with friends by comparing unique word counts in casual writing.</li>
+  </ol>
+</div><script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const textInput = document.getElementById("text-input");
+    const countBtn = document.getElementById("count-btn");
+    const resetBtn = document.getElementById("reset-btn");
+    const outputSection = document.getElementById("output-section");
+    const uniqueWordCount = document.getElementById("unique-word-count");
+
+    // Preload text from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get("start");
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    const countUniqueWords = (text) => {
+      if (!text.trim()) {
+        outputSection.style.display = "none";
+        return;
+      }
+
+      const cleanedText = text
+        .replace(/[^\w\s]/g, "") // Remove punctuation
+        .toLowerCase(); // Convert to lowercase
+
+      const words = cleanedText.split(/\s+/).filter((word) => word.length > 0);
+      const uniqueWords = new Set(words);
+      return uniqueWords.size;
+    };
+
+    countBtn.addEventListener("click", () => {
+      const text = textInput.value;
+      const count = countUniqueWords(text);
+
+      if (count === 0) {
+        outputSection.style.display = "none";
+        alert("Please enter some text to analyze.");
+      } else {
+        uniqueWordCount.textContent = count;
+        outputSection.style.display = "block";
+      }
+    });
+
+    resetBtn.addEventListener("click", () => {
+      textInput.value = "";
+      outputSection.style.display = "none";
+    });
+
+    textInput.addEventListener("input", () => {
+      if (!textInput.value.trim()) {
+        outputSection.style.display = "none";
+      }
+    });
+  });
+</script>

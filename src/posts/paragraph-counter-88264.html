@@ -1,0 +1,118 @@
+---
+title: "Paragraph Counter - Quickly Count Paragraphs in Your Text"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-10-14 08:45:41
+metaDescription: "Count paragraphs instantly with the Paragraph Counter tool. Perfect for essays, blogs, reports, and more. Simple, fast, and free!"
+metaKeywords: "paragraph counter, count paragraphs, text tool, writing tool, paragraph checker, essay tool, blog tool, report tool, free paragraph counter, online writing tool"
+tags: ["paragraph counter", "text tool", "writing", "editing", "productivity"]
+---
+
+<div id="main-div" class="container mt-5">
+  <header class="text-center mb-4">
+    <h1 class="text-white">Paragraph Counter</h1><div class="container mt-5">
+  <div class="text-center mb-4">
+    <strong class="display-6">Struggling to keep track of paragraphs in your writing?</strong>
+    <p class="lead mt-3">Whether you're drafting an essay, polishing a blog post, or organizing a report, knowing exactly how many paragraphs you’ve written can save you time and frustration. Enter the <strong>Paragraph Counter</strong>—a simple, no-nonsense tool that instantly counts paragraphs with just a click. Paste your text, hit the button, and voilà! No more guessing or tedious manual counting. It’s like having a personal editor who’s always ready to help. Say goodbye to paragraph chaos and hello to clarity!</p>
+  </div>
+</div>
+    <p class="text-white-50">Easily count the number of paragraphs in your text.</p>
+  </header>
+
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control bg-dark text-white" rows="10" placeholder="Paste or type your text here..."></textarea>
+  </div>
+
+  <div class="d-grid gap-2 mb-3">
+    <button id="count-btn" class="btn btn-primary">Count Paragraphs</button>
+  </div>
+
+  <div id="output" class="fw-bold text-white mt-3">Number of paragraphs: 0</div>
+
+  <div class="d-grid gap-2 mt-3">
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h3 class="mb-3">How It Works</h3>
+      <p class="text-muted">The Paragraph Counter works by analyzing your text and identifying breaks between paragraphs. It counts each block of text separated by one or more blank lines as a single paragraph. Here’s a simple breakdown:</p>
+      <ul class="list-group mb-4">
+        <li class="list-group-item">1. Paste or type your text into the input box.</li>
+        <li class="list-group-item">2. Click "Count Paragraphs" to instantly see the total number of paragraphs.</li>
+        <li class="list-group-item">3. Use the "Reset" button to clear the text and start over.</li>
+      </ul>
+      <p class="text-muted">It’s that easy! Whether you’re working on a short story or a lengthy report, this tool ensures you stay on top of your paragraph count.</p>
+
+      <h3 class="mt-5 mb-3">Example Counts</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Text Length</th>
+            <th>Paragraph Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1 paragraph</td><td>1</td></tr>
+          <tr><td>5 paragraphs</td><td>5</td></tr>
+          <tr><td>10 paragraphs</td><td>10</td></tr>
+          <tr><td>25 paragraphs</td><td>25</td></tr>
+          <tr><td>50 paragraphs</td><td>50</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h3 class="mb-3">10 Common Use Cases for the Paragraph Counter</h3>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Academic essays and research papers</li>
+        <li class="list-group-item">Blog posts and articles</li>
+        <li class="list-group-item">Business reports and proposals</li>
+        <li class="list-group-item">Creative writing and short stories</li>
+        <li class="list-group-item">Email drafts and newsletters</li>
+        <li class="list-group-item">Social media captions and updates</li>
+        <li class="list-group-item">Resumes and cover letters</li>
+        <li class="list-group-item">Scriptwriting and dialogue formatting</li>
+        <li class="list-group-item">Editing and proofreading tasks</li>
+        <li class="list-group-item">Meeting notes and summaries</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const textInput = document.getElementById('text-input');
+    const countBtn = document.getElementById('count-btn');
+    const output = document.getElementById('output');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload text from query parameter 'start'
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    // Count paragraphs
+    countBtn.addEventListener('click', function () {
+      const text = textInput.value.trim();
+      const paragraphs = text.split(/\n\s*\n/).filter(p => p.trim() !== '').length;
+      output.textContent = `Number of paragraphs: ${paragraphs}`;
+    });
+
+    // Reset functionality
+    resetBtn.addEventListener('click', function () {
+      textInput.value = '';
+      output.textContent = 'Number of paragraphs: 0';
+    });
+
+    // Handle large input
+    textInput.addEventListener('input', function () {
+      if (textInput.value.length > 10000) {
+        alert('Text input is too large. Please reduce the size for better performance.');
+      }
+    });
+  });
+</script>

@@ -1,0 +1,142 @@
+---
+title: "Sort Numbers by Whole Part - Quick & Easy Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-11-20 04:54:57
+metaDescription: "Sort numbers by their whole parts instantly with this easy-to-use tool. Perfect for organizing data, homework, or finances. Try it now!"
+metaKeywords: "sort numbers, whole number sorter, decimal sorter, organize numbers, math tool, data sorting, decimal sorting tool, number organizer, whole part sorter, easy sorting tool"
+tags: ["number sorter", "decimal sorter", "math tool", "sorting tool", "educational tool"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <h1 class="text-center mb-4">Sort by Whole Part</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <p class="lead">Why does sorting numbers with decimals always feel like solving a puzzle? Whether you're organizing data for work, prepping for a math assignment, or just curious about how numbers stack up, the <strong>Sort by Whole Part</strong> tool is here to save the day. Simply input your numbers (decimals included!), and watch as they magically sort themselves by their whole parts. No more manual calculations or second-guessing—this tool does the heavy lifting for you. It’s like having a personal assistant for numbers, making your life simpler, one sorted list at a time.</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Enter a list of numbers (decimals allowed) to sort them by their whole part.</p>
+      <div class="mb-3">
+        <textarea id="number-input" class="form-control bg-dark text-white" rows="4" placeholder="Enter numbers separated by commas or spaces, e.g., 3.2, 1.5, 2.9, 4.1"></textarea>
+      </div>
+      <div class="d-grid gap-2 mb-4">
+        <button id="sort-btn" class="btn btn-primary">Sort</button>
+        <button id="reset-btn" class="btn btn-secondary">Reset</button>
+      </div>
+      <div id="result-section" class="card bg-secondary text-white mb-4" style="display: none;">
+        <div class="card-body">
+          <h5 class="card-title">Sorted Numbers</h5>
+          <p id="sorted-numbers" class="card-text"></p>
+        </div>
+      </div>
+      <div id="error-message" class="alert alert-danger" role="alert" style="display: none;"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mb-3">How It Works</h2>
+      <p>The <strong>Sort by Whole Part</strong> tool operates on a simple principle: it focuses on the whole number portion of each value you input. Here’s the breakdown:</p>
+      <ol>
+        <li>You enter a list of numbers (e.g., 3.2, 1.5, 2.9, 4.1).</li>
+        <li>The tool extracts the whole number part of each (e.g., 3, 1, 2, 4).</li>
+        <li>It then sorts the numbers based on these whole parts, ignoring the decimal portions.</li>
+        <li>The final result is a neatly ordered list, grouped by whole numbers.</li>
+      </ol>
+      <p>For example, if you input <code>3.2, 1.5, 2.9, 4.1</code>, the tool sorts them as <code>1.5, 2.9, 3.2, 4.1</code>.</p>
+
+      <h3 class="mt-4 mb-3">Example Table</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Sorted Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>5.6, 3.1, 7.8, 2.4</td>
+            <td>2.4, 3.1, 5.6, 7.8</td>
+          </tr>
+          <tr>
+            <td>10.3, 9.9, 8.1, 11.0</td>
+            <td>8.1, 9.9, 10.3, 11.0</td>
+          </tr>
+          <tr>
+            <td>0.5, 1.2, 0.9, 1.8</td>
+            <td>0.5, 0.9, 1.2, 1.8</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mb-3">Top 10 Use Cases</h2>
+      <ul class="list-group">
+        <li class="list-group-item">Organizing financial data by whole numbers for budgeting.</li>
+        <li class="list-group-item">Sorting scientific measurements for lab reports.</li>
+        <li class="list-group-item">Preparing math homework assignments involving decimals.</li>
+        <li class="list-group-item">Cleaning up datasets for data analysis projects.</li>
+        <li class="list-group-item">Grouping inventory items by their whole number categories.</li>
+        <li class="list-group-item">Sorting timestamps for event planning.</li>
+        <li class="list-group-item">Ordering grades or scores for academic purposes.</li>
+        <li class="list-group-item">Simplifying statistical data for presentations.</li>
+        <li class="list-group-item">Grouping product prices for e-commerce websites.</li>
+        <li class="list-group-item">Organizing sports statistics for analysis.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      document.getElementById('number-input').value = startValue;
+    }
+
+    const numberInput = document.getElementById('number-input');
+    const sortBtn = document.getElementById('sort-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultSection = document.getElementById('result-section');
+    const sortedNumbers = document.getElementById('sorted-numbers');
+    const errorMessage = document.getElementById('error-message');
+
+    sortBtn.addEventListener('click', function () {
+      errorMessage.style.display = 'none';
+      resultSection.style.display = 'none';
+
+      const input = numberInput.value.trim();
+      if (!input) {
+        showError('Please enter some numbers.');
+        return;
+      }
+
+      const numbers = input.split(/[\s,]+/).map(Number).filter(n => !isNaN(n));
+      if (numbers.length === 0) {
+        showError('No valid numbers to sort.');
+        return;
+      }
+
+      const sorted = numbers.sort((a, b) => Math.floor(a) - Math.floor(b));
+      sortedNumbers.textContent = sorted.join(', ');
+      resultSection.style.display = 'block';
+    });
+
+    resetBtn.addEventListener('click', function () {
+      numberInput.value = '';
+      resultSection.style.display = 'none';
+      errorMessage.style.display = 'none';
+    });
+
+    function showError(message) {
+      errorMessage.textContent = message;
+      errorMessage.style.display = 'block';
+    }
+  });
+</script>

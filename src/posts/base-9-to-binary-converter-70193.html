@@ -1,0 +1,149 @@
+---
+title: "Base-9 to Binary Converter: Quick and Easy Number Conversion"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-08-02 17:51:13
+metaDescription: "Quickly convert Base-9 numbers to Binary with this easy-to-use online tool. Perfect for students, programmers, and math enthusiasts!"
+metaKeywords: "base-9 to binary converter, number system conversion, binary conversion tool, base-9 calculator, binary calculator, number system tools, math conversion tools"
+tags: ["number-converter", "base-9", "binary", "math-tool", "web-app"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  #errorMessage {
+    display: none;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container text-center mt-5">
+    <h1 class="display-4">Base-9 to Binary Converter</h1><div class="container text-center mt-5">
+  <h2 class="display-4">Base-9 to Binary Converter</h2>
+  <p class="lead">Ever felt like you're stuck between two number systems, trying to decode a Base-9 number into Binary? It’s like trying to translate a secret code without the key! Whether you're a student, programmer, or just someone curious about number conversions, this Base-9 to Binary Converter is here to save the day. Simply type in your Base-9 number, hit the magic "Convert" button, and voilà—your binary equivalent appears like a math wizard just waved their wand. No more head-scratching or endless Googling—just quick, accurate, and stress-free conversions. Let’s make numbers fun again!</p>
+</div>
+    <p class="lead">Enter a base-9 number to convert it to binary.</p>
+  </div>
+
+  <div class="container mt-4">
+    <label for="base9Input" class="form-label">Enter Base-9 Number</label>
+    <input type="text" id="base9Input" class="form-control" placeholder="e.g., 123" aria-label="Base-9 Number Input">
+    <div id="errorMessage" class="text-danger mt-2" role="alert">Please enter a valid base-9 number (digits 0-8).</div>
+  </div>
+
+  <div class="container mt-4">
+    <label for="binaryOutput" class="form-label">Binary Equivalent</label>
+    <input type="text" id="binaryOutput" class="form-control" readonly aria-label="Binary Output">
+  </div>
+
+  <div class="container text-center mt-4">
+    <button id="convertButton" class="btn btn-primary">Convert</button>
+    <button id="resetButton" class="btn btn-secondary ms-2">Reset</button>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <h3>How It Works</h3>
+  <p>This tool works in two simple steps:</p>
+  <ol>
+    <li><strong>Step 1: Base-9 to Decimal</strong> - Each digit of the Base-9 number is multiplied by 9 raised to the power of its position (starting from the right). These values are then added together to get the decimal equivalent.</li>
+    <li><strong>Step 2: Decimal to Binary</strong> - The decimal number is divided by 2 repeatedly, and the remainders are noted. The binary number is the sequence of these remainders read in reverse order.</li>
+  </ol>
+  
+  <h3 class="mt-4">Conversion Examples</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Base-9 Number</th>
+        <th>Binary Equivalent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>1</td></tr>
+      <tr><td>2</td><td>10</td></tr>
+      <tr><td>3</td><td>11</td></tr>
+      <tr><td>4</td><td>100</td></tr>
+      <tr><td>5</td><td>101</td></tr>
+      <tr><td>6</td><td>110</td></tr>
+      <tr><td>7</td><td>111</td></tr>
+      <tr><td>8</td><td>1000</td></tr>
+      <tr><td>10</td><td>1001</td></tr>
+      <tr><td>11</td><td>1010</td></tr>
+      <!-- Add more rows as needed -->
+    </tbody>
+  </table>
+</div><div class="container mt-4">
+  <h3>Top 10 Uses for the Base-9 to Binary Converter</h3>
+  <ul class="list-group">
+    <li class="list-group-item">1. Simplifying programming tasks involving non-standard number systems.</li>
+    <li class="list-group-item">2. Assisting students in understanding number system conversions.</li>
+    <li class="list-group-item">3. Debugging software that uses Base-9 encoding.</li>
+    <li class="list-group-item">4. Converting legacy data stored in Base-9 format.</li>
+    <li class="list-group-item">5. Creating educational tools for teaching binary and Base-9 concepts.</li>
+    <li class="list-group-item">6. Solving mathematical puzzles or challenges involving Base-9 numbers.</li>
+    <li class="list-group-item">7. Helping hobbyists explore alternative number systems.</li>
+    <li class="list-group-item">8. Verifying manual calculations for accuracy.</li>
+    <li class="list-group-item">9. Preparing for exams or quizzes on number systems.</li>
+    <li class="list-group-item">10. Satisfying curiosity about how different number systems work.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const base9Input = document.getElementById('base9Input');
+    const binaryOutput = document.getElementById('binaryOutput');
+    const errorMessage = document.getElementById('errorMessage');
+    const convertButton = document.getElementById('convertButton');
+    const resetButton = document.getElementById('resetButton');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      base9Input.value = startValue;
+    }
+
+    // Validate input to only allow base-9 digits (0-8)
+    base9Input.addEventListener('input', (e) => {
+      const value = e.target.value.replace(/[^0-8]/g, '');
+      e.target.value = value;
+    });
+
+    // Convert base-9 to binary
+    convertButton.addEventListener('click', () => {
+      const base9Value = base9Input.value.trim();
+      if (!base9Value || !/^[0-8]+$/.test(base9Value)) {
+        errorMessage.style.display = 'block';
+        binaryOutput.value = '';
+        return;
+      }
+
+      errorMessage.style.display = 'none';
+
+      // Convert base-9 to decimal
+      let decimalValue = 0;
+      for (let i = 0; i < base9Value.length; i++) {
+        decimalValue += parseInt(base9Value[i]) * Math.pow(9, base9Value.length - 1 - i);
+      }
+
+      // Convert decimal to binary
+      let binaryValue = '';
+      if (decimalValue === 0) {
+        binaryValue = '0';
+      } else {
+        while (decimalValue > 0) {
+          binaryValue = (decimalValue % 2) + binaryValue;
+          decimalValue = Math.floor(decimalValue / 2);
+        }
+      }
+
+      binaryOutput.value = binaryValue;
+    });
+
+    // Reset functionality
+    resetButton.addEventListener('click', () => {
+      base9Input.value = '';
+      binaryOutput.value = '';
+      errorMessage.style.display = 'none';
+    });
+  });
+</script>

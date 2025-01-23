@@ -1,0 +1,132 @@
+---
+title: "Space Counter - Easily Count Spaces in Your Text"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-12-25 04:04:24
+metaDescription: "Count spaces in your text instantly with the Space Counter! Perfect for writers, coders, and anyone who loves precision. Fast, fun, and free!"
+metaKeywords: "space counter, count spaces, text space counter, space checker, whitespace counter, space detector, online space counter, text tool, space calculator, free space counter"
+tags: ["text tools", "space counter", "text formatting", "writing tools", "web apps"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  textarea {
+    min-height: 200px;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-5">
+    <h1 class="display-4">Space Counter</h1><div class="container text-center mb-5">
+  <p class="h2">Ever Wondered How Many Spaces Are in Your Text?</p>
+  <p class="lead">We’ve all been there—staring at a long document or a chunk of code, wondering, "How many spaces did I even use?" Whether you’re a writer trying to meet a word count, a coder debugging whitespace issues, or just someone who loves random trivia, counting spaces manually is a tedious task. Enter the <strong>Space Counter</strong>—a simple, fun, and ridiculously easy-to-use tool that does all the heavy lifting for you. Just paste your text, hit the button, and voilà! You’ll know exactly how many spaces are hiding in your words. No more guessing, no more headaches. It’s like having a space detective at your fingertips!</p>
+</div>
+    <p class="lead">Count the number of spaces in your text.</p>
+  </header>
+
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control mb-3" placeholder="Paste or type your text here..." aria-label="Text input"></textarea>
+  </div>
+
+  <div class="mb-3 text-center">
+    <label for="space-count" class="form-label">Number of Spaces:</label>
+    <input id="space-count" type="text" class="form-control-plaintext text-center fs-3" value="0" readonly aria-label="Space count">
+  </div>
+
+  <div class="d-grid gap-2">
+    <button id="count-btn" class="btn btn-primary btn-lg">Count Spaces</button>
+    <button id="clear-btn" class="btn btn-secondary btn-lg">Clear Text</button>
+  </div>
+</div>
+
+<div class="container mb-5">
+  <p class="h3">How Does the Space Counter Work?</p>
+  <p class="lead">The Space Counter uses a clever little formula to make your life easier. It scans your entire text, looking for every single space character (yep, that tiny blank gap between words). Here’s the magic in plain English:</p>
+  <p class="lead"><strong>Total Spaces = Number of times the " " character appears in your text</strong></p>
+  <p class="lead">It’s that simple! Whether you’re working with a single sentence or a massive essay, the Space Counter will give you an accurate count in seconds. And if you’re curious, here’s a quick example of how different texts stack up:</p>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Text</th>
+        <th>Number of Spaces</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>"Hello World"</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>"I love coding!"</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>"Spaces are everywhere."</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>"Counting spaces is fun, right?"</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>"This tool is a lifesaver for writers and coders alike."</td>
+        <td>9</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mb-5">
+  <p class="h3">10 Common Use Cases for the Space Counter</p>
+  <ul class="list-group">
+    <li class="list-group-item">1. Writers checking space usage in essays or articles.</li>
+    <li class="list-group-item">2. Coders debugging whitespace issues in scripts.</li>
+    <li class="list-group-item">3. Students formatting assignments to meet space requirements.</li>
+    <li class="list-group-item">4. Bloggers optimizing content for readability.</li>
+    <li class="list-group-item">5. Translators ensuring accurate word spacing in documents.</li>
+    <li class="list-group-item">6. Social media managers counting spaces in captions or posts.</li>
+    <li class="list-group-item">7. Designers verifying text spacing in layouts.</li>
+    <li class="list-group-item">8. Editors proofreading manuscripts for consistency.</li>
+    <li class="list-group-item">9. Data analysts cleaning up text-based datasets.</li>
+    <li class="list-group-item">10. Anyone curious about the number of spaces in their text!</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const textInput = document.getElementById('text-input');
+    const spaceCount = document.getElementById('space-count');
+    const countBtn = document.getElementById('count-btn');
+    const clearBtn = document.getElementById('clear-btn');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+      updateSpaceCount();
+    }
+
+    // Count spaces
+    function updateSpaceCount() {
+      const text = textInput.value;
+      const spaceCountValue = (text.match(/ /g) || []).length;
+      spaceCount.value = spaceCountValue;
+    }
+
+    // Event listeners
+    countBtn.addEventListener('click', updateSpaceCount);
+    clearBtn.addEventListener('click', function () {
+      textInput.value = '';
+      spaceCount.value = '0';
+    });
+
+    // Handle large input
+    textInput.addEventListener('input', function () {
+      if (textInput.value.length > 100000) {
+        alert('Text input is too large. Please reduce the size for better performance.');
+        textInput.value = textInput.value.substring(0, 100000);
+      }
+      updateSpaceCount();
+    });
+  });
+</script>

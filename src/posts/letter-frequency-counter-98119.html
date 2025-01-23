@@ -1,0 +1,182 @@
+---
+title: "Letter Frequency Counter - Analyze Text Letter Distribution"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-01-30 16:39:43
+metaDescription: "Count letter frequencies in any text instantly with our Letter Frequency Counter. Perfect for writers, students, and puzzle enthusiasts!"
+metaKeywords: "letter frequency counter, count letters, text analysis, letter counter, word analysis, letter frequency tool"
+tags: ["text analysis", "letter frequency", "writing tool", "language learning", "educational tool"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  #input-text {
+    min-height: 150px;
+  }
+  .table-responsive {
+    overflow-x: auto;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-5">
+    <h1 class="display-4">Letter Frequency Counter</h1><div class="text-center mb-5 p-4 bg-light rounded">
+  <p class="lead fs-4">Ever wondered just how often each letter pops up in your favorite book, email, or that lengthy essay you’re working on? Counting letters manually can feel like trying to count grains of sand at the beach—tedious and time-consuming! That’s where our <strong>Letter Frequency Counter</strong> comes in. Simply paste or type your text, and voilà! You’ll instantly see how often each letter appears. Whether you’re a writer, student, or just curious, this tool makes letter counting as easy as pie. No more headaches—just pure, letter-counting fun!</p>
+</div>
+    <p class="lead">Enter your text below to see the frequency of each letter.</p>
+  </header>
+
+  <div class="mb-4">
+    <textarea id="input-text" class="form-control mb-3" placeholder="Paste or type your text here..."></textarea>
+    <button id="count-btn" class="btn btn-primary mb-3">Count Letters</button>
+  </div>
+
+  <div id="output-section" class="d-none">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Letter</th>
+            <th scope="col">Frequency</th>
+          </tr>
+        </thead>
+        <tbody id="results-table">
+        </tbody>
+      </table>
+    </div>
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+
+  <div id="empty-state" class="text-center">
+    <p>No text entered. Please input some text to see the letter frequency.</p>
+  </div>
+</div>
+
+<div class="mb-5 p-4 bg-light rounded">
+  <h2 class="fs-3 mb-4">How It Works</h2>
+  <p class="mb-4">The Letter Frequency Counter works by analyzing your input text and tallying up how many times each letter from A to Z appears. It ignores numbers, symbols, and spaces, focusing solely on letters. Here’s the breakdown:</p>
+  <ul class="list-unstyled">
+    <li class="mb-2">1. <strong>Input Your Text:</strong> Paste or type your text into the box.</li>
+    <li class="mb-2">2. <strong>Count Letters:</strong> Click the "Count Letters" button to analyze your text.</li>
+    <li class="mb-2">3. <strong>See Results:</strong> A table shows the frequency of each letter from A to Z.</li>
+  </ul>
+  <p class="mb-4">For example, if you input the word “hello,” the tool will show that “l” appears twice, while “h,” “e,” and “o” appear once each. It’s that simple!</p>
+  
+  <h3 class="fs-4 mb-3">Sample Letter Frequencies</h3>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Letter</th>
+          <th scope="col">Frequency</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>A</td><td>5</td></tr>
+        <tr><td>B</td><td>1</td></tr>
+        <tr><td>C</td><td>3</td></tr>
+        <tr><td>D</td><td>2</td></tr>
+        <tr><td>E</td><td>7</td></tr>
+        <tr><td>F</td><td>1</td></tr>
+        <tr><td>G</td><td>2</td></tr>
+        <tr><td>H</td><td>4</td></tr>
+        <tr><td>I</td><td>4</td></tr>
+        <tr><td>J</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="mb-5 p-4 bg-light rounded">
+  <h2 class="fs-3 mb-4">Top 10 Use Cases for the Letter Frequency Counter</h2>
+  <ol class="list-unstyled">
+    <li class="mb-2">1. <strong>Writers and Authors:</strong> Analyze your writing style by checking the frequency of letters in your drafts.</li>
+    <li class="mb-2">2. <strong>Students:</strong> Use it for language or cryptography assignments to study letter distribution.</li>
+    <li class="mb-2">3. <strong>Cryptographers:</strong> Decode ciphers by analyzing letter patterns in encrypted messages.</li>
+    <li class="mb-2">4. <strong>Language Learners:</strong> Practice vocabulary by identifying common letters in new words.</li>
+    <li class="mb-2">5. <strong>Game Enthusiasts:</strong> Strategize in games like Scrabble by understanding letter frequencies.</li>
+    <li class="mb-2">6. <strong>Researchers:</strong> Study linguistic patterns in texts for academic purposes.</li>
+    <li class="mb-2">7. <strong>Editors:</strong> Check for overused letters or repetitive patterns in manuscripts.</li>
+    <li class="mb-2">8. <strong>Content Creators:</strong> Optimize headlines or captions by balancing letter usage.</li>
+    <li class="mb-2">9. <strong>Puzzle Solvers:</strong> Crack word puzzles or anagrams with ease.</li>
+    <li class="mb-2">10. <strong>Curious Minds:</strong> Explore the letter frequency in your favorite quotes or poems.</li>
+  </ol>
+</div><script>
+  (function() {
+    const inputText = document.getElementById('input-text');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const outputSection = document.getElementById('output-section');
+    const resultsTable = document.getElementById('results-table');
+    const emptyState = document.getElementById('empty-state');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    function countLetters() {
+      const text = inputText.value.toLowerCase();
+      const letterCounts = {};
+
+      // Initialize counts for all letters
+      for (let i = 97; i <= 122; i++) {
+        letterCounts[String.fromCharCode(i)] = 0;
+      }
+
+      // Count letters in the input text
+      for (const char of text) {
+        if (/[a-z]/.test(char)) {
+          letterCounts[char]++;
+        }
+      }
+
+      // Clear previous results
+      resultsTable.innerHTML = '';
+
+      // Populate table with results
+      for (const [letter, count] of Object.entries(letterCounts)) {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${letter.toUpperCase()}</td>
+          <td>${count}</td>
+        `;
+        resultsTable.appendChild(row);
+      }
+
+      // Show/hide appropriate sections
+      if (text.trim()) {
+        outputSection.classList.remove('d-none');
+        emptyState.classList.add('d-none');
+      } else {
+        outputSection.classList.add('d-none');
+        emptyState.classList.remove('d-none');
+      }
+    }
+
+    function resetApp() {
+      inputText.value = '';
+      resultsTable.innerHTML = '';
+      outputSection.classList.add('d-none');
+      emptyState.classList.remove('d-none');
+    }
+
+    countBtn.addEventListener('click', countLetters);
+    resetBtn.addEventListener('click', resetApp);
+
+    // Handle Enter key in textarea
+    inputText.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        countLetters();
+      }
+    });
+
+    // Initial state
+    if (inputText.value.trim()) {
+      countLetters();
+    }
+  })();
+</script>

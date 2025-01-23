@@ -1,0 +1,111 @@
+---
+title: "String Length Sorter - Organize Text by Length Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-08-02 00:22:35
+metaDescription: "Organize your strings effortlessly with the String Length Sorter. Sort text by length quickly and easily, perfect for writers, developers, and more."
+metaKeywords: "string length sorter, text organizer, sort text by length, string sorting tool, text management, organize strings, string length tool, text sorting, string organizer, length-based sorting"
+tags: ["text tools", "string sorter", "productivity", "text organization", "web utilities"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center text-white mb-4">String Length Sorter</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <p class="text-center text-white mb-4">Why does organizing text always feel like solving a puzzle? Whether you're juggling a list of names, phrases, or even random thoughts, the String Length Sorter is here to save the day. This simple yet powerful tool sorts your strings by length, either from shortest to longest or vice versa, with just a few clicks. Perfect for writers, developers, or anyone who loves a bit of order in their chaos. Say goodbye to manual sorting and hello to a more organized, stress-free life!</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center text-white mb-4">Enter your strings below, and they will be sorted by length.</p>
+      <div class="mb-3">
+        <textarea id="input-text" class="form-control bg-dark text-white" rows="5" placeholder="Enter one string per line."></textarea>
+      </div>
+      <div class="mb-3">
+        <select id="sort-order" class="form-select bg-dark text-white">
+          <option value="shortest">Sort by: Shortest to Longest</option>
+          <option value="longest">Sort by: Longest to Shortest</option>
+        </select>
+      </div>
+      <button id="sort-btn" class="btn btn-primary w-100 mb-3">Sort</button>
+      <div class="mb-3">
+        <textarea id="output-text" class="form-control bg-dark text-white" rows="5" readonly></textarea>
+      </div>
+      <button id="copy-btn" class="btn btn-secondary w-100 mb-3">Copy to Clipboard</button>
+      <div id="notification" class="alert alert-success d-none" role="alert">Copied!</div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center text-white mb-4">How It Works</h2>
+      <p class="text-white mb-4">The String Length Sorter works by taking your input text, splitting it into individual lines, and then sorting those lines based on their length. You can choose to sort from shortest to longest or longest to shortest. Here's a simple breakdown:</p>
+      <ul class="text-white mb-4">
+        <li><strong>Input:</strong> Enter your strings, one per line, in the text box.</li>
+        <li><strong>Sort:</strong> Choose your preferred sorting order—shortest to longest or longest to shortest.</li>
+        <li><strong>Output:</strong> The tool rearranges your strings accordingly and displays the sorted list.</li>
+      </ul>
+      <p class="text-white mb-4">It's like having a personal assistant who instantly organizes your text, saving you time and effort.</p>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center text-white mb-4">10 Common Use Cases</h2>
+      <ol class="text-white mb-4">
+        <li><strong>Organizing Names:</strong> Sort a list of names by length for easier readability.</li>
+        <li><strong>Writing Assignments:</strong> Arrange sentences or phrases by length for better structure.</li>
+        <li><strong>Data Analysis:</strong> Quickly sort data entries by the length of their descriptions.</li>
+        <li><strong>Programming:</strong> Organize code snippets or variable names by length.</li>
+        <li><strong>Event Planning:</strong> Sort guest list entries by the length of their names.</li>
+        <li><strong>Content Creation:</strong> Arrange blog post titles or headlines by length.</li>
+        <li><strong>Educational Purposes:</strong> Teach students about sorting algorithms in a practical way.</li>
+        <li><strong>Social Media:</strong> Sort hashtags or captions by length for optimal posting.</li>
+        <li><strong>Inventory Management:</strong> Organize product names or descriptions by length.</li>
+        <li><strong>Personal Notes:</strong> Sort your to-do list or random thoughts by length.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const outputText = document.getElementById('output-text');
+    const sortBtn = document.getElementById('sort-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const notification = document.getElementById('notification');
+    const sortOrder = document.getElementById('sort-order');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    sortBtn.addEventListener('click', () => {
+      const inputLines = inputText.value.split('\n').filter(line => line.trim() !== '');
+      if (inputLines.length === 0) {
+        outputText.value = 'No valid strings to sort.';
+        return;
+      }
+
+      const sortedLines = inputLines.sort((a, b) => {
+        return sortOrder.value === 'shortest' ? a.length - b.length : b.length - a.length;
+      });
+
+      outputText.value = sortedLines.join('\n');
+    });
+
+    copyBtn.addEventListener('click', () => {
+      if (outputText.value.trim() === '') {
+        return;
+      }
+      navigator.clipboard.writeText(outputText.value).then(() => {
+        notification.classList.remove('d-none');
+        setTimeout(() => notification.classList.add('d-none'), 2000);
+      });
+    });
+  });
+</script>

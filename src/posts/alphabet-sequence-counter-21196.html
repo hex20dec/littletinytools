@@ -1,0 +1,174 @@
+---
+title: Alphabet Sequence Counter - Count Letter Frequencies Instantly
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-11-25 04:47:11
+metaDescription: "Easily count letter frequency in any sequence with our Alphabet Sequence Counter. Perfect for puzzles, research, or just fun!"
+metaKeywords: "alphabet counter, letter frequency, word analyzer, letter count tool, text analysis, word puzzle solver, letter frequency counter, alphabet tool, letter counting, word frequency"
+tags: alphabet, counter, frequency, letters, tool
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .table-responsive {
+    overflow-x: auto;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container">
+    <h1 class="text-center mt-3 mb-4">Alphabet Sequence Counter</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2 text-center">
+      <p class="lead">
+        Ever found yourself staring at a jumble of letters, wondering how many times each one appears? Maybe you're analyzing a word puzzle, studying a text, or just curious about the frequency of letters in your name. It's a common frustration, but here's the good news: our <strong>Alphabet Sequence Counter</strong> is here to save the day! Simply type in any sequence of letters, and this nifty tool will instantly count how many times each letter appears. It's like having a super-smart assistant who loves counting—no coffee breaks required! Whether you're a word enthusiast, a student, or someone who just loves playing with letters, this tool makes life a little easier and a lot more fun. Give it a try and let the counting begin!
+      </p>
+    </div>
+  </div>
+</div>
+    <p class="text-center mb-4">Enter a sequence of letters (A-Z) to count the frequency of each letter.</p>
+
+    <div class="mb-4">
+      <input type="text" id="input-sequence" class="form-control" placeholder="e.g., ABCDEFG or HELLO" aria-label="Enter a sequence of letters">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-3">
+        <button id="count-button" class="btn btn-primary me-md-2">Count Letters</button>
+        <button id="reset-button" class="btn btn-secondary">Reset</button>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col" class="text-start">Letter</th>
+            <th scope="col" class="text-start">Count</th>
+          </tr>
+        </thead>
+        <tbody id="results-table">
+          <!-- Results will be populated here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="mb-4">How It Works</h2>
+      <p class="mb-4">
+        The Alphabet Sequence Counter works by breaking down your input into individual letters and tallying up how often each one appears. Think of it as a friendly librarian who sorts and counts every letter in your sequence. For example, if you type "HELLO," the tool will tell you that "H" appears once, "E" once, "L" twice, and "O" once. It's that simple!
+      </p>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Letter</th>
+              <th scope="col">Example Input</th>
+              <th scope="col">Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A</td>
+              <td>"APPLE"</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>B</td>
+              <td>"BANANA"</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td>"COCONUT"</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>D</td>
+              <td>"DINOSAUR"</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>E</td>
+              <td>"ELEPHANT"</td>
+              <td>2</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="mb-4">10 Common Use Cases</h2>
+      <ul class="list-group">
+        <li class="list-group-item">Analyzing word puzzles or cryptograms</li>
+        <li class="list-group-item">Counting letter frequency in names or phrases</li>
+        <li class="list-group-item">Studying patterns in poetry or song lyrics</li>
+        <li class="list-group-item">Preparing for spelling or vocabulary tests</li>
+        <li class="list-group-item">Creating custom word games or challenges</li>
+        <li class="list-group-item">Teaching kids about letters and counting</li>
+        <li class="list-group-item">Analyzing text for linguistic research</li>
+        <li class="list-group-item">Testing password strength by letter distribution</li>
+        <li class="list-group-item">Creating personalized art or designs with letters</li>
+        <li class="list-group-item">Just having fun exploring the alphabet!</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputSequence = document.getElementById('input-sequence');
+    const countButton = document.getElementById('count-button');
+    const resetButton = document.getElementById('reset-button');
+    const resultsTable = document.getElementById('results-table');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startSequence = urlParams.get('start');
+    if (startSequence) {
+      inputSequence.value = startSequence.toUpperCase().replace(/[^A-Za-z]/g, '');
+    }
+
+    // Initialize table with all letters
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const initializeTable = () => {
+      resultsTable.innerHTML = alphabet.split('').map(letter => `
+        <tr>
+          <td>${letter}</td>
+          <td>0</td>
+        </tr>
+      `).join('');
+    };
+    initializeTable();
+
+    // Count letters
+    countButton.addEventListener('click', () => {
+      const sequence = inputSequence.value.toUpperCase().replace(/[^A-Z]/g, '');
+      if (!sequence) {
+        alert('Please enter a valid sequence of letters.');
+        return;
+      }
+
+      const counts = {};
+      alphabet.split('').forEach(letter => counts[letter] = 0);
+      sequence.split('').forEach(letter => counts[letter]++);
+
+      resultsTable.innerHTML = Object.entries(counts).map(([letter, count]) => `
+        <tr>
+          <td>${letter}</td>
+          <td>${count}</td>
+        </tr>
+      `).join('');
+    });
+
+    // Reset
+    resetButton.addEventListener('click', () => {
+      inputSequence.value = '';
+      initializeTable();
+    });
+  });
+</script>

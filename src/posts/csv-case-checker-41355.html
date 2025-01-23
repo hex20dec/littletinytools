@@ -1,0 +1,207 @@
+---
+title: "CSV Case Checker - Ensure Consistent Text Formatting in Your CSV Files"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-01-13 08:39:52
+metaDescription: "Check case consistency in your CSV files instantly with the CSV Case Checker. Analyze uppercase, lowercase, sentence case, and mixed case text columns effortlessly."
+metaKeywords: "csv case checker, text case analyzer, uppercase lowercase checker, csv data cleaning, text case consistency, csv file checker, data formatting tool, csv case analysis, text case validator, csv file analysis"
+tags: ["CSV", "Data Analysis", "Text Formatting", "Case Checker", "Web Tool"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <header class="text-center mb-5">
+    <h1 class="display-4">CSV Case Checker</h1><div class="container bg-light p-4 rounded mb-4">
+  <p class="lead fs-4 mb-0">Ever spent hours cleaning up inconsistent text data in your CSV files? Whether it’s names, addresses, or product descriptions, inconsistent capitalization can turn your spreadsheet into a headache. The CSV Case Checker is here to save the day! This simple tool scans your CSV file, identifies the case type (uppercase, lowercase, sentence case, or mixed) for each column, and gives you a clear breakdown. No more squinting at rows of text—just upload your file, click a button, and let the tool do the heavy lifting. Perfect for marketers, data analysts, or anyone who values clean, consistent data. Say goodbye to manual checks and hello to smoother workflows!</p>
+</div>
+    <p class="lead">Upload a CSV file to check the case consistency of text data in its columns.</p>
+  </header>
+
+  <section class="mb-4">
+    <div class="mb-3">
+      <label for="csvFileInput" class="form-label">Upload CSV File</label>
+      <input type="file" class="form-control" id="csvFileInput" accept=".csv" aria-describedby="fileHelp">
+      <div id="fileHelp" class="form-text">Supported file format: .csv</div>
+    </div>
+    <button id="checkButton" class="btn btn-primary" disabled>Check Case Consistency</button>
+  </section>
+
+  <section id="resultsSection" class="d-none">
+    <h2 class="mb-3">Case Consistency Results</h2>
+    <table class="table table-striped table-bordered text-white">
+      <thead>
+        <tr>
+          <th>Column Name</th>
+          <th>Case Type</th>
+          <th>Example</th>
+        </tr>
+      </thead>
+      <tbody id="resultsTableBody">
+      </tbody>
+    </table>
+  </section>
+
+  <section id="errorSection" class="alert alert-danger d-none" role="alert"></section>
+
+  <footer class="text-center mt-5">
+    <p>&copy; 2023 CSV Case Checker</p>
+  </footer>
+</div>
+
+<div class="container bg-light p-4 rounded mb-4">
+  <h2 class="fs-3 mb-3">How It Works</h2>
+  <p class="mb-3">The CSV Case Checker works by analyzing the text in each column of your uploaded CSV file. It checks the consistency of the text's capitalization and categorizes it into one of four types:</p>
+  <ul class="list-group mb-4">
+    <li class="list-group-item"><strong>UPPERCASE</strong>: All letters are capitalized (e.g., "HELLO WORLD").</li>
+    <li class="list-group-item"><strong>lowercase</strong>: All letters are in lowercase (e.g., "hello world").</li>
+    <li class="list-group-item"><strong>Sentence case</strong>: The first letter of each sentence is capitalized (e.g., "Hello world").</li>
+    <li class="list-group-item"><strong>Mixed case</strong>: The text has no consistent capitalization pattern (e.g., "Hello World").</li>
+  </ul>
+
+  <h3 class="fs-4 mb-3">Example Breakdown</h3>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Column Name</th>
+        <th>Case Type</th>
+        <th>Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Product Name</td>
+        <td>Sentence case</td>
+        <td>Smartphone X</td>
+      </tr>
+      <tr>
+        <td>Customer Email</td>
+        <td>lowercase</td>
+        <td>john.doe@example.com</td>
+      </tr>
+      <tr>
+        <td>Order Status</td>
+        <td>UPPERCASE</td>
+        <td>COMPLETED</td>
+      </tr>
+      <tr>
+        <td>Address</td>
+        <td>Mixed case</td>
+        <td>123 Main St</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container bg-light p-4 rounded mb-4">
+  <h2 class="fs-3 mb-3">10 Common Use Cases for the CSV Case Checker</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Cleaning up inconsistent customer names in a mailing list.</li>
+    <li class="list-group-item">Ensuring product names follow a consistent capitalization style in an e-commerce database.</li>
+    <li class="list-group-item">Standardizing email addresses to lowercase for better data uniformity.</li>
+    <li class="list-group-item">Checking consistency in address fields for shipping databases.</li>
+    <li class="list-group-item">Preparing data for import into systems that require specific case formats.</li>
+    <li class="list-group-item">Auditing content for consistent title case in blog post metadata.</li>
+    <li class="list-group-item">Validating the format of user-generated data in surveys or forms.</li>
+    <li class="list-group-item">Ensuring uniformity in employee names for HR databases.</li>
+    <li class="list-group-item">Preparing reports where consistent formatting is critical for readability.</li>
+    <li class="list-group-item">Simplifying data preprocessing for machine learning models.</li>
+  </ol>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('csvFileInput');
+    const checkButton = document.getElementById('checkButton');
+    const resultsSection = document.getElementById('resultsSection');
+    const resultsTableBody = document.getElementById('resultsTableBody');
+    const errorSection = document.getElementById('errorSection');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      fileInput.value = startValue;
+    }
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length > 0) {
+        checkButton.disabled = false;
+      } else {
+        checkButton.disabled = true;
+      }
+    });
+
+    checkButton.addEventListener('click', () => {
+      const file = fileInput.files[0];
+      if (!file || file.type !== 'text/csv') {
+        showError('Invalid file format. Please upload a .csv file.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target.result;
+        const rows = text.split('\n').map(row => row.split(','));
+        if (rows.length === 0 || rows[0].length === 0) {
+          showError('The uploaded file is empty.');
+          return;
+        }
+
+        const headers = rows[0];
+        const data = rows.slice(1);
+        const results = [];
+
+        headers.forEach((header, colIndex) => {
+          const columnData = data.map(row => row[colIndex]).filter(cell => cell);
+          if (columnData.length === 0) return;
+
+          const caseType = detectCaseType(columnData);
+          results.push({
+            columnName: header,
+            caseType: caseType,
+            example: columnData[0]
+          });
+        });
+
+        if (results.length === 0) {
+          showError('No text columns detected in the uploaded file.');
+          return;
+        }
+
+        displayResults(results);
+      };
+
+      reader.onerror = () => {
+        showError('An error occurred while reading the file.');
+      };
+
+      reader.readAsText(file);
+    });
+
+    function detectCaseType(columnData) {
+      const isUppercase = columnData.every(cell => cell === cell.toUpperCase());
+      const isLowercase = columnData.every(cell => cell === cell.toLowerCase());
+      const isSentenceCase = columnData.every(cell => cell[0] === cell[0].toUpperCase() && cell.slice(1) === cell.slice(1).toLowerCase());
+
+      if (isUppercase) return 'UPPERCASE';
+      if (isLowercase) return 'lowercase';
+      if (isSentenceCase) return 'Sentence case';
+      return 'Mixed case';
+    }
+
+    function displayResults(results) {
+      resultsTableBody.innerHTML = '';
+      results.forEach(result => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${result.columnName}</td>
+          <td>${result.caseType}</td>
+          <td>${result.example}</td>
+        `;
+        resultsTableBody.appendChild(row);
+      });
+
+      resultsSection.classList.remove('d-none');
+      errorSection.classList.add('d-none');
+    }
+
+    function showError(message) {
+      errorSection.textContent = message;
+      errorSection.classList.remove('d-none');
+      resultsSection.classList.add('d-none');
+    }
+  });
+</script>

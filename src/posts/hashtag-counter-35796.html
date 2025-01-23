@@ -1,0 +1,124 @@
+---
+title: "Hashtag Counter - Easily Count Hashtags in Your Text"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-11-17 03:48:23
+metaDescription: "Quickly count and highlight hashtags in your text with our free Hashtag Counter tool. Perfect for social media posts, blogs, and more!"
+metaKeywords: "hashtag counter, count hashtags, hashtag tool, social media hashtags, hashtag analyzer, hashtag tracker, hashtag finder, hashtag counter online, Instagram hashtags, Twitter hashtags"
+tags: ["hashtag counter", "social media tools", "text analysis", "hashtag tracker", "content optimization"]
+---
+
+<style>
+  .hashtag-highlight {
+    color: #0d6efd;
+    font-weight: bold;
+  }
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <div class="text-center mb-4">
+    <h1 class="display-4">Hashtag Counter</h1><div class="bg-light p-5 rounded-lg mb-4">
+  <p class="lead mb-0">Ever spent hours scrolling through a sea of hashtags, wondering if you’ve overdone it or missed a crucial one? Whether you’re crafting the perfect Instagram caption, prepping a tweet, or analyzing social media trends, counting hashtags manually is a tedious task. Enter the <strong>Hashtag Counter</strong>—your new best friend for social media sanity. This nifty tool quickly scans your text, counts every hashtag, and even highlights them for easy spotting. No more second-guessing or finger-pointing at your screen! With just a click, you’ll know exactly how many hashtags you’ve used, saving you time and frustration. Whether you’re a hashtag pro or a newbie, this tool makes your life simpler, one # at a time. Let’s make hashtagging fun again!</p>
+</div>
+    <p class="lead">Count the number of hashtags in your text.</p>
+  </div>
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control" rows="8" placeholder="Paste or type your text here..."></textarea>
+  </div>
+  <div class="text-center mb-3">
+    <button id="count-btn" class="btn btn-primary btn-lg">Count Hashtags</button>
+  </div>
+  <div class="text-center mb-3">
+    <label for="highlight-checkbox" class="form-check-label">
+      <input type="checkbox" id="highlight-checkbox" class="form-check-input"> Highlight Hashtags
+    </label>
+  </div>
+  <div class="text-center mb-3">
+    <p class="h4">Total Hashtags Found: <span id="hashtag-count" class="fw-bold">0</span></p>
+  </div>
+  <div class="text-center">
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+</div>
+
+<div class="bg-white p-4 rounded mb-4">
+  <h2 class="h4 mb-3">How It Works</h2>
+  <p>Our Hashtag Counter is as straightforward as it gets. Simply paste or type your text into the box, and let the tool do the heavy lifting. It scans your text for any word or phrase preceded by a <code>#</code> symbol (that’s a hashtag, in case you didn’t know!). The tool then counts all the hashtags and displays the total number. If you want to see where they are, just check the “Highlight Hashtags” box, and <span class="text-primary fw-bold">#voila</span>, they’ll stand out like neon signs. It’s like having a personal hashtag assistant—minus the coffee breaks!</p>
+
+  <h3 class="h5 mt-4 mb-3">Example Table</h3>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Text Input</th>
+          <th>Hashtags Found</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>#Fun #Sun #Run</td><td>3</td></tr>
+        <tr><td>#MondayMotivation #Workout #FitnessGoals</td><td>3</td></tr>
+        <tr><td>#ThrowbackThursday #Memories #GoodTimes</td><td>3</td></tr>
+        <tr><td>#Foodie #Yum #DessertLover</td><td>3</td></tr>
+        <tr><td>#Tech #Innovation #Future</td><td>3</td></tr>
+        <tr><td>#Travel #Wanderlust #Adventure</td><td>3</td></tr>
+        <tr><td>#Fashion #Style #OOTD</td><td>3</td></tr>
+        <tr><td>#Nature #Explore #Outdoors</td><td>3</td></tr>
+        <tr><td>#Pets #Cute #DogLover</td><td>3</td></tr>
+        <tr><td>#Art #Creativity #Inspiration</td><td>3</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="bg-light p-4 rounded mb-4">
+  <h2 class="h4 mb-3">Top 10 Use Cases for the Hashtag Counter</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Crafting the perfect Instagram or Twitter post without overloading on hashtags.</li>
+    <li class="list-group-item">Analyzing social media trends to see how often specific hashtags are used.</li>
+    <li class="list-group-item">Ensuring your blog or article meets hashtag guidelines for SEO and engagement.</li>
+    <li class="list-group-item">Preparing captions for photo contests or giveaways with strict hashtag limits.</li>
+    <li class="list-group-item">Tracking hashtag usage in marketing campaigns for better insights.</li>
+    <li class="list-group-item">Teaching social media best practices to students or team members.</li>
+    <li class="list-group-item">Optimizing LinkedIn posts for professional branding.</li>
+    <li class="list-group-item">Editing long-form content to balance hashtag frequency naturally.</li>
+    <li class="list-group-item">Verifying hashtag placement in email newsletters or ad copy.</li>
+    <li class="list-group-item">Having fun with hashtag challenges or games with friends!</li>
+  </ol>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const countBtn = document.getElementById('count-btn');
+    const highlightCheckbox = document.getElementById('highlight-checkbox');
+    const hashtagCount = document.getElementById('hashtag-count');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload text from query parameter "start"
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    const countHashtags = () => {
+      const text = textInput.value;
+      const hashtagMatches = text.match(/#\w+/g) || [];
+      hashtagCount.textContent = hashtagMatches.length;
+
+      if (highlightCheckbox.checked) {
+        const highlightedText = text.replace(/(#\w+)/g, '<span class="hashtag-highlight">$1</span>');
+        textInput.innerHTML = highlightedText;
+      }
+    };
+
+    const resetApp = () => {
+      textInput.value = '';
+      hashtagCount.textContent = '0';
+      textInput.innerHTML = '';
+    };
+
+    countBtn.addEventListener('click', countHashtags);
+    resetBtn.addEventListener('click', resetApp);
+    highlightCheckbox.addEventListener('change', countHashtags);
+  });
+</script>

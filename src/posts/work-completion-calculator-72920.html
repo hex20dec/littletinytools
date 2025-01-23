@@ -1,0 +1,122 @@
+---
+title: "Work Completion Calculator - Track Your Progress Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-05-12 14:00:03
+metaDescription: "Calculate your work progress instantly with the Work Completion Calculator. Track tasks, measure goals, and stay motivated with clear percentages."
+metaKeywords: "work completion calculator, task progress tracker, percentage calculator, project management tool, goal tracking, task completion tool"
+tags: ["productivity", "task management", "progress tracker", "work calculator", "time management"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <h1 class="text-center mb-4">Work Completion Calculator</h1><div class="container bg-dark text-white p-4 rounded mt-5">
+  <p class="lead text-center mb-4 fs-2 fw-bold">Why does tracking progress always feel like a guessing game? Whether you're managing a project, tackling a to-do list, or just trying to keep up with life, knowing how much you've accomplished can be a headache. That's where the <span class="text-primary">Work Completion Calculator</span> comes in—your new best friend for clarity and motivation. Simply plug in your total tasks and the ones you've finished, and instantly see your progress in percentage form. No more guesstimates, no more stress. Just clear, actionable insights to keep you on track and feeling accomplished. Let’s make progress measurable—and maybe even a little fun!</p>
+</div>
+  <p class="text-center mb-4">Calculate the percentage of work completed based on total tasks and tasks completed.</p>
+
+  <div class="mb-3">
+    <label for="totalTasks" class="form-label">Total Tasks</label>
+    <input type="number" id="totalTasks" class="form-control bg-dark text-white" placeholder="Enter total number of tasks" aria-label="Total Tasks">
+  </div>
+
+  <div class="mb-3">
+    <label for="tasksCompleted" class="form-label">Tasks Completed</label>
+    <input type="number" id="tasksCompleted" class="form-control bg-dark text-white" placeholder="Enter number of tasks completed" aria-label="Tasks Completed">
+  </div>
+
+  <div class="d-grid gap-2 mb-3">
+    <button id="calculateBtn" class="btn btn-primary">Calculate</button>
+  </div>
+
+  <div id="result" class="text-center fs-4 fw-bold mb-3" aria-live="polite"></div>
+
+  <div class="d-grid gap-2">
+    <button id="resetBtn" class="btn btn-secondary">Reset</button>
+  </div>
+</div>
+
+<div class="container bg-light p-4 rounded mt-4">
+  <h2 class="fs-3 fw-bold mb-4">How It Works</h2>
+  <p class="mb-4">The Work Completion Calculator uses a straightforward formula to determine your progress. Here’s the magic behind it:</p>
+  <p class="mb-4"><strong>Percentage Completed = (Tasks Completed ÷ Total Tasks) × 100</strong></p>
+  <p>For example, if you have 20 tasks and you’ve completed 5, the calculator divides 5 by 20 and multiplies the result by 100 to give you 25%. It’s that simple! Below is a table showing how the tool works with different numbers:</p>
+
+  <table class="table table-bordered mt-4">
+    <thead>
+      <tr>
+        <th>Total Tasks</th>
+        <th>Tasks Completed</th>
+        <th>Percentage Completed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>10</td><td>5</td><td>50%</td></tr>
+      <tr><td>20</td><td>10</td><td>50%</td></tr>
+      <tr><td>30</td><td>15</td><td>50%</td></tr>
+      <tr><td>50</td><td>25</td><td>50%</td></tr>
+      <tr><td>100</td><td>75</td><td>75%</td></tr>
+    </tbody>
+  </table>
+</div><div class="container bg-light p-4 rounded mt-4">
+  <h2 class="fs-3 fw-bold mb-4">10 Common Use Cases for the Work Completion Calculator</h2>
+  <ul class="list-group">
+    <li class="list-group-item">1. Tracking project milestones in a team setting.</li>
+    <li class="list-group-item">2. Measuring progress on personal goals or resolutions.</li>
+    <li class="list-group-item">3. Calculating task completion for academic assignments.</li>
+    <li class="list-group-item">4. Monitoring progress in fitness or workout routines.</li>
+    <li class="list-group-item">5. Evaluating progress in home renovation or DIY projects.</li>
+    <li class="list-group-item">6. Keeping track of daily or weekly chores and errands.</li>
+    <li class="list-group-item">7. Measuring sales or marketing campaign progress.</li>
+    <li class="list-group-item">8. Calculating completion rates for event planning tasks.</li>
+    <li class="list-group-item">9. Tracking progress in creative projects like writing or art.</li>
+    <li class="list-group-item">10. Monitoring progress in software development sprints.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const totalTasksInput = document.getElementById('totalTasks');
+    const tasksCompletedInput = document.getElementById('tasksCompleted');
+    const calculateBtn = document.getElementById('calculateBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const resultDiv = document.getElementById('result');
+
+    // Preload totalTasks from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue)) {
+      totalTasksInput.value = startValue;
+    }
+
+    calculateBtn.addEventListener('click', function () {
+      const totalTasks = parseInt(totalTasksInput.value, 10);
+      const tasksCompleted = parseInt(tasksCompletedInput.value, 10);
+
+      if (isNaN(totalTasks) || isNaN(tasksCompleted) || totalTasks < 0 || tasksCompleted < 0) {
+        resultDiv.textContent = 'Please enter valid numbers.';
+        resultDiv.classList.add('text-danger');
+        return;
+      }
+
+      if (tasksCompleted > totalTasks) {
+        resultDiv.textContent = 'Tasks completed cannot exceed total tasks.';
+        resultDiv.classList.add('text-danger');
+        return;
+      }
+
+      if (totalTasks === 0) {
+        resultDiv.textContent = 'Total tasks cannot be zero.';
+        resultDiv.classList.add('text-danger');
+        return;
+      }
+
+      const percentage = ((tasksCompleted / totalTasks) * 100).toFixed(2);
+      resultDiv.textContent = `Work Completed: ${percentage}%`;
+      resultDiv.classList.remove('text-danger');
+    });
+
+    resetBtn.addEventListener('click', function () {
+      totalTasksInput.value = '';
+      tasksCompletedInput.value = '';
+      resultDiv.textContent = '';
+      resultDiv.classList.remove('text-danger');
+    });
+  });
+</script>

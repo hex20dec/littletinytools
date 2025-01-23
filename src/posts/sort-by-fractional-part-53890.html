@@ -1,0 +1,152 @@
+---
+title: "Sort Decimal Numbers by Fractional Part - Quick & Easy Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-08-29 09:56:44
+metaDescription: "Sort decimal numbers by their fractional parts effortlessly with this free tool. Perfect for students, professionals, and data enthusiasts."
+metaKeywords: "sort decimal numbers, fractional part sorter, decimal sorter, math tool, data sorting tool, decimal organizer, free sorting tool"
+tags: ["decimal sorter", "math tool", "fractional part", "number sorting", "educational tool"]
+---
+
+<div id="main-div" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card bg-dark text-white">
+        <div class="card-body">
+          <h1 class="card-title text-center mb-4">Sort by Fractional Part</h1><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card bg-dark text-white">
+        <div class="card-body">
+          <p class="card-text text-center mb-4">
+            Sorting numbers by their decimal parts can be a headache, especially when you're dealing with a long list of values. Why does it always feel like the fractional parts are playing hide-and-seek? Enter the Sort by Fractional Part tool—your new best friend for organizing decimal numbers effortlessly. Whether you're a math enthusiast, a student tackling homework, or a professional crunching data, this tool sorts your numbers by their fractional parts in a snap. Just input your numbers, hit sort, and watch the magic happen. No more scrambling through spreadsheets or scratching your head—this tool makes sorting decimals as easy as pie (or 3.14, if you prefer).
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          <p class="card-text text-center mb-4">Enter a list of decimal numbers separated by commas, and the app will sort them by their fractional parts.</p>
+          <div class="mb-3">
+            <input type="text" id="numberInput" class="form-control bg-dark text-white" placeholder="e.g., 3.14, 2.71, 1.618, 0.5" aria-label="Enter decimal numbers">
+          </div>
+          <button id="sortButton" class="btn btn-primary w-100 mb-3">Sort</button>
+          <div id="errorMessage" class="alert alert-danger d-none" role="alert"></div>
+          <div id="outputSection" class="d-none">
+            <h2 class="text-center mb-3">Sorted Numbers</h2>
+            <ul id="sortedList" class="list-group bg-dark"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card bg-dark text-white">
+        <div class="card-body">
+          <h2 class="text-center mb-4">How It Works</h2>
+          <p class="card-text">
+            The Sort by Fractional Part tool works by isolating the decimal portion of each number and comparing them. Here's the breakdown:
+          </p>
+          <ul class="list-group bg-dark text-white">
+            <li class="list-group-item bg-dark text-white">1. Input your list of decimal numbers, separated by commas.</li>
+            <li class="list-group-item bg-dark text-white">2. The tool extracts the fractional part of each number (the digits after the decimal point).</li>
+            <li class="list-group-item bg-dark text-white">3. It then sorts the numbers based on these fractional parts, from smallest to largest.</li>
+            <li class="list-group-item bg-dark text-white">4. The result? A neatly organized list where numbers are ordered by their decimal values.</li>
+          </ul>
+          <p class="card-text mt-4">
+            For example, if you input <code>3.14, 2.71, 1.618, 0.5</code>, the tool will sort them as <code>0.5, 1.618, 2.71, 3.14</code>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card bg-dark text-white">
+        <div class="card-body">
+          <h2 class="text-center mb-4">Top 10 Use Cases</h2>
+          <ul class="list-group bg-dark text-white">
+            <li class="list-group-item bg-dark text-white">1. Sorting financial data by decimal values for better analysis.</li>
+            <li class="list-group-item bg-dark text-white">2. Organizing scientific measurements for lab reports.</li>
+            <li class="list-group-item bg-dark text-white">3. Simplifying math homework problems involving decimals.</li>
+            <li class="list-group-item bg-dark text-white">4. Preparing datasets for machine learning algorithms.</li>
+            <li class="list-group-item bg-dark text-white">5. Sorting engineering measurements for precision tasks.</li>
+            <li class="list-group-item bg-dark text-white">6. Organizing survey data with decimal-based responses.</li>
+            <li class="list-group-item bg-dark text-white">7. Simplifying inventory management with decimal-based quantities.</li>
+            <li class="list-group-item bg-dark text-white">8. Sorting time-based data with fractional seconds.</li>
+            <li class="list-group-item bg-dark text-white">9. Preparing data for statistical analysis.</li>
+            <li class="list-group-item bg-dark text-white">10. Streamlining research data organization for academics.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      document.getElementById('numberInput').value = startValue;
+    }
+
+    document.getElementById('sortButton').addEventListener('click', function () {
+      const input = document.getElementById('numberInput').value.trim();
+      const errorMessage = document.getElementById('errorMessage');
+      const outputSection = document.getElementById('outputSection');
+      const sortedList = document.getElementById('sortedList');
+
+      errorMessage.classList.add('d-none');
+      outputSection.classList.add('d-none');
+      sortedList.innerHTML = '';
+
+      if (!input) {
+        errorMessage.textContent = 'Please enter some decimal numbers.';
+        errorMessage.classList.remove('d-none');
+        return;
+      }
+
+      const numbers = input.split(',').map(num => num.trim());
+      const validNumbers = [];
+      const invalidNumbers = [];
+
+      numbers.forEach(num => {
+        if (/^-?\d*\.\d+$/.test(num)) {
+          validNumbers.push(parseFloat(num));
+        } else {
+          invalidNumbers.push(num);
+        }
+      });
+
+      if (invalidNumbers.length > 0) {
+        errorMessage.textContent = `Invalid input: ${invalidNumbers.join(', ')}. Please enter valid decimal numbers.`;
+        errorMessage.classList.remove('d-none');
+        return;
+      }
+
+      if (validNumbers.length === 0) {
+        errorMessage.textContent = 'No valid decimal numbers found.';
+        errorMessage.classList.remove('d-none');
+        return;
+      }
+
+      validNumbers.sort((a, b) => {
+        const fractionalA = a - Math.floor(a);
+        const fractionalB = b - Math.floor(b);
+        return fractionalA - fractionalB;
+      });
+
+      validNumbers.forEach(num => {
+        const li = document.createElement('li');
+        li.className = 'list-group-item bg-dark text-white';
+        li.textContent = num;
+        sortedList.appendChild(li);
+      });
+
+      outputSection.classList.remove('d-none');
+    });
+  });
+</script>

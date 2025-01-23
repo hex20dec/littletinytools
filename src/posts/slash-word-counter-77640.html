@@ -1,0 +1,137 @@
+---
+title: "Slash Word Counter - Count Words Separated by Slashes Easily"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-04-09 10:05:27
+metaDescription: "Quickly count words or phrases separated by slashes with the Slash Word Counter. Perfect for recipes, tasks, and more!"
+metaKeywords: "slash word counter, count words, phrase counter, text tool, word separator, online word counter, slash separator, count phrases"
+tags: ["word counter", "text tool", "slash separator", "word count", "text analysis"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .form-control {
+    resize: vertical;
+  }
+  .card {
+    background-color: #2d3338;
+    border: 1px solid #444;
+  }
+  .text-muted {
+    color: #6c757d !important;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">Slash Word Counter</h1><div class="container mt-5">
+  <div class="text-center mb-4">
+    <p class="lead">
+      Ever found yourself staring at a jumble of words separated by slashes, wondering, "How many things *are* in here?" Whether it's a list of ingredients, project tasks, or even your favorite playlist, counting words or phrases manually can feel like solving a puzzle. Enter the <strong>Slash Word Counter</strong>—your new best friend for quickly tallying up those slash-separated items. Just paste your text, hit the button, and voilà! No more guessing or finger-counting. Whether you're organizing a recipe or sorting out a to-do list, this handy tool makes life a little easier, one slash at a time. Let’s make counting fun again!
+    </p>
+  </div>
+</div>
+    <p class="text-center mb-4">Count the number of words or phrases separated by slashes (/).</p>
+
+    <div class="mb-3">
+      <textarea id="input-text" class="form-control" rows="5" placeholder="Enter your text here..."></textarea>
+    </div>
+
+    <button id="count-button" class="btn btn-primary w-100 mt-3">Count Words</button>
+
+    <div id="output-card" class="card mt-3 d-none">
+      <div class="card-body text-center">
+        <p id="result-text" class="mb-0">Number of words/phrases: <span id="count">0</span></p>
+      </div>
+    </div>
+
+    <div class="text-muted mt-3">
+      <p>Example input: "apple/banana/orange"</p>
+      <p>Example output: "Number of words/phrases: 3"</p>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="text-center mb-4">How It Works</h2>
+      <p>
+        The Slash Word Counter works by taking your input text and splitting it into individual words or phrases wherever it finds a slash (<code>/</code>). It then counts these separated items and gives you the total number. Think of it as a digital assistant that does the counting for you—no math required!
+      </p>
+      <p>
+        Here’s a quick example: If you input <code>"apple/banana/orange"</code>, the tool splits it into three parts—<code>"apple"</code>, <code>"banana"</code>, and <code>"orange"</code>—and tells you there are 3 words/phrases. Easy, right?
+      </p>
+      <h3 class="text-center mt-5 mb-3">Example Counts</h3>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Output (Number of Words/Phrases)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>apple/banana/orange</td><td>3</td></tr>
+          <tr><td>red/green/blue/yellow</td><td>4</td></tr>
+          <tr><td>Monday/Tuesday/Wednesday</td><td>3</td></tr>
+          <tr><td>coffee/tea/juice/water</td><td>4</td></tr>
+          <tr><td>cat/dog/bird</td><td>3</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <h2 class="text-center mb-4">10 Common Use Cases for the Slash Word Counter</h2>
+  <ul class="list-group">
+    <li class="list-group-item">1. Counting ingredients in a recipe (e.g., "flour/sugar/eggs").</li>
+    <li class="list-group-item">2. Organizing tasks in a to-do list (e.g., "email/client/call/meeting").</li>
+    <li class="list-group-item">3. Analyzing survey responses with multiple options (e.g., "yes/no/maybe").</li>
+    <li class="list-group-item">4. Sorting playlist genres (e.g., "pop/rock/jazz").</li>
+    <li class="list-group-item">5. Breaking down project milestones (e.g., "research/design/develop/test").</li>
+    <li class="list-group-item">6. Managing event schedules (e.g., "morning/afternoon/evening").</li>
+    <li class="list-group-item">7. Tracking product categories (e.g., "shoes/shirts/pants").</li>
+    <li class="list-group-item">8. Listing software features (e.g., "login/signup/dashboard").</li>
+    <li class="list-group-item">9. Counting names in a group (e.g., "John/Mary/Sam").</li>
+    <li class="list-group-item">10. Organizing meeting agendas (e.g., "introduction/discussion/closure").</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const inputText = document.getElementById('input-text');
+    const countButton = document.getElementById('count-button');
+    const outputCard = document.getElementById('output-card');
+    const resultText = document.getElementById('result-text');
+    const countSpan = document.getElementById('count');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    countButton.addEventListener('click', function () {
+      const text = inputText.value.trim();
+      if (!text) {
+        outputCard.classList.remove('d-none');
+        resultText.textContent = 'Please enter some text.';
+        return;
+      }
+
+      const words = text.split('/').filter(word => word.trim() !== '');
+      const count = words.length;
+
+      outputCard.classList.remove('d-none');
+      countSpan.textContent = count;
+      resultText.textContent = `Number of words/phrases: ${count}`;
+    });
+
+    inputText.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        countButton.click();
+      }
+    });
+  });
+</script>

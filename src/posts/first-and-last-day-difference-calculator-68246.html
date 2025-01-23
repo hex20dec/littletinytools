@@ -1,0 +1,145 @@
+---
+title: "First and Last Day Difference Calculator - Quick & Easy Date Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-03-29 14:54:27
+metaDescription: "Calculate the difference between two dates instantly with our easy-to-use date difference calculator. Perfect for planning, tracking, and more!"
+metaKeywords: "date difference calculator, days between dates, date calculator, date tool, time difference calculator, day counter, date duration, date planner, event countdown, date tracker"
+tags: ["date calculator", "day difference", "event planning", "time tracking", "productivity tool"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .result-display {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+</style>
+
+<div id="main-div">
+  <div class="text-center mb-4">
+    <h1 class="display-4">First and Last Day Difference Calculator</h1><div class="container my-5">
+  <div class="text-center">
+    <p class="fs-3 fw-bold">Ever Wondered How Many Days Are Between Two Dates?</p>
+    <p class="lead">We’ve all been there—trying to figure out how many days are left until that vacation, wedding, or big event. Or maybe you’re planning a project and need to know the exact duration between two dates. Whatever the case, counting days manually can feel like solving a math puzzle you didn’t sign up for. Enter the <strong>First and Last Day Difference Calculator</strong>—your new best friend for quick, accurate date calculations. Simply pick your dates, click a button, and voilà! No more headaches, no more guesswork. Whether you’re planning a trip or just curious, this tool makes life a little easier, one day at a time.</p>
+  </div>
+</div>
+    <p class="lead">Enter two dates to calculate the difference in days.</p>
+  </div>
+
+  <div class="mb-3">
+    <label for="first-day" class="form-label">First Day</label>
+    <input type="date" id="first-day" class="form-control">
+  </div>
+
+  <div class="mb-3">
+    <label for="last-day" class="form-label">Last Day</label>
+    <input type="date" id="last-day" class="form-control">
+  </div>
+
+  <div class="d-grid gap-2 mb-3">
+    <button id="calculate-btn" class="btn btn-primary">Calculate</button>
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+
+  <div id="result" class="result-display text-center"></div>
+  <div id="error" class="alert alert-danger d-none" role="alert"></div>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p class="fs-4 fw-bold">How Does It Work?</p>
+      <p class="mb-4">The tool calculates the difference between two dates by breaking it down into a simple formula:</p>
+      <p class="text-center bg-light p-3 rounded"><em>Difference in Days = Last Day - First Day</em></p>
+      <p>It works by converting both dates into a universal format (milliseconds since January 1, 1970), subtracting the first date from the last, and then converting the result into days. It’s like magic, but with math!</p>
+      
+      <p class="fs-4 fw-bold mt-5">Example Calculations</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>First Day</th>
+            <th>Last Day</th>
+            <th>Difference (Days)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>2023-01-01</td><td>2023-01-10</td><td>9</td></tr>
+          <tr><td>2023-03-15</td><td>2023-04-15</td><td>31</td></tr>
+          <tr><td>2023-07-01</td><td>2023-12-31</td><td>183</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <p class="fs-4 fw-bold">10 Common Use Cases for the Date Difference Calculator</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Calculating the number of days until your next vacation.</li>
+        <li class="list-group-item">Planning the duration of a project or event.</li>
+        <li class="list-group-item">Tracking the length of a rental or subscription period.</li>
+        <li class="list-group-item">Determining how many days are left until a wedding or special occasion.</li>
+        <li class="list-group-item">Figuring out the age of something in days (e.g., a baby, a pet, or a product).</li>
+        <li class="list-group-item">Calculating the number of days between two historical events.</li>
+        <li class="list-group-item">Tracking the time between medical appointments or treatments.</li>
+        <li class="list-group-item">Planning a countdown for a product launch or event.</li>
+        <li class="list-group-item">Determining the length of time between two financial transactions.</li>
+        <li class="list-group-item">Settling bets or arguments about how many days are between two dates.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const firstDayInput = document.getElementById('first-day');
+    const lastDayInput = document.getElementById('last-day');
+    const calculateBtn = document.getElementById('calculate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultDisplay = document.getElementById('result');
+    const errorDisplay = document.getElementById('error');
+
+    // Preload first day from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startDate = urlParams.get('start');
+    if (startDate) {
+      firstDayInput.value = startDate;
+    }
+
+    calculateBtn.addEventListener('click', () => {
+      const firstDay = new Date(firstDayInput.value);
+      const lastDay = new Date(lastDayInput.value);
+
+      if (!firstDayInput.value || !lastDayInput.value) {
+        showError('Please select both dates.');
+        return;
+      }
+
+      if (lastDay < firstDay) {
+        showError('Invalid input: Last Day must be after First Day.');
+        return;
+      }
+
+      const timeDifference = lastDay - firstDay;
+      const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+      resultDisplay.textContent = `The difference is: ${dayDifference} days.`;
+      errorDisplay.classList.add('d-none');
+    });
+
+    resetBtn.addEventListener('click', () => {
+      firstDayInput.value = '';
+      lastDayInput.value = '';
+      resultDisplay.textContent = '';
+      errorDisplay.classList.add('d-none');
+    });
+
+    function showError(message) {
+      errorDisplay.textContent = message;
+      errorDisplay.classList.remove('d-none');
+      resultDisplay.textContent = '';
+    }
+  });
+</script>

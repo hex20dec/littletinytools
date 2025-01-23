@@ -1,0 +1,140 @@
+---
+title: "Quick Radius Calculator - Calculate Circle Radius Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2018-03-05 19:02:53
+metaDescription: "Quickly calculate the radius of a circle using circumference or area with this easy-to-use Radius Calculator. Perfect for students, designers, and DIY enthusiasts."
+metaKeywords: "radius calculator, circle radius, circumference to radius, area to radius, geometry tool, math calculator, circle measurements, radius formula, DIY math tool, quick radius calculation"
+tags: ["radius calculator", "geometry tool", "math utility", "circle calculator", "online calculator"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <h1 class="text-center mb-3">Radius Calculator</h1><div class="container bg-dark text-white p-4 rounded">
+  <p class="text-center mb-4">Why does figuring out the radius of a circle feel like solving a mystery? Whether you're working on a DIY project, helping your kids with homework, or just curious about geometry, calculating the radius shouldn't require a math degree. That's where the <strong>Radius Calculator</strong> comes in. This simple, intuitive tool lets you find the radius of a circle in seconds—whether you know the circumference or the area. No more scratching your head or flipping through old textbooks. Just plug in the numbers, and voilà! You’ve got your answer. Perfect for students, designers, or anyone who loves a quick solution to a classic math problem.</p>
+</div>
+  <p class="text-center mb-4">Calculate the radius of a circle using circumference or area.</p>
+
+  <div class="mb-3">
+    <label for="circumference" class="form-label">Enter Circumference</label>
+    <input type="number" id="circumference" class="form-control bg-dark text-white" placeholder="e.g., 31.4" aria-label="Circumference">
+  </div>
+
+  <div class="mb-3">
+    <label for="area" class="form-label">Enter Area</label>
+    <input type="number" id="area" class="form-control bg-dark text-white" placeholder="e.g., 78.5" aria-label="Area">
+  </div>
+
+  <div class="d-grid mb-3">
+    <button id="calculate-btn" class="btn btn-primary">Calculate Radius</button>
+  </div>
+
+  <div id="result" class="text-center mb-3" aria-live="polite">
+    <strong>Radius:</strong> <span id="radius-value">-</span>
+  </div>
+
+  <div class="d-grid">
+    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+  </div>
+
+  <div id="error-message" class="text-danger text-center mt-3" aria-live="assertive"></div>
+</div>
+
+<div class="container bg-light p-4 rounded mt-4">
+  <h2 class="text-center mb-3">How It Works</h2>
+  <p class="text-center mb-4">The Radius Calculator uses two straightforward formulas depending on what you already know:</p>
+  <ul class="list-group mb-4">
+    <li class="list-group-item"><strong>If you have the circumference:</strong> Radius = Circumference ÷ (2 × π)</li>
+    <li class="list-group-item"><strong>If you have the area:</strong> Radius = √(Area ÷ π)</li>
+  </ul>
+  
+  <h3 class="text-center mb-3">Example Calculations</h3>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Circumference</th>
+        <th>Area</th>
+        <th>Radius</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>31.4</td><td>78.5</td><td>5.00</td></tr>
+      <tr><td>62.8</td><td>314.16</td><td>10.00</td></tr>
+      <tr><td>94.2</td><td>706.86</td><td>15.00</td></tr>
+      <tr><td>125.6</td><td>1256.64</td><td>20.00</td></tr>
+      <tr><td>157.0</td><td>1963.50</td><td>25.00</td></tr>
+    </tbody>
+  </table>
+</div><div class="container bg-dark text-white p-4 rounded mt-4">
+  <h2 class="text-center mb-3">10 Common Use Cases for the Radius Calculator</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item bg-dark text-white">Calculating the radius for a circular garden bed.</li>
+    <li class="list-group-item bg-dark text-white">Determining the radius of a pizza for portion planning.</li>
+    <li class="list-group-item bg-dark text-white">Designing circular tables or furniture.</li>
+    <li class="list-group-item bg-dark text-white">Finding the radius of a wheel for DIY projects.</li>
+    <li class="list-group-item bg-dark text-white">Helping kids with geometry homework.</li>
+    <li class="list-group-item bg-dark text-white">Planning circular layouts for events or decorations.</li>
+    <li class="list-group-item bg-dark text-white">Calculating the radius of a round swimming pool.</li>
+    <li class="list-group-item bg-dark text-white">Determining the size of a circular rug for a room.</li>
+    <li class="list-group-item bg-dark text-white">Measuring the radius of a circular mirror or artwork.</li>
+    <li class="list-group-item bg-dark text-white">Solving real-world math problems in physics or engineering.</li>
+  </ol>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const circumferenceInput = document.getElementById('circumference');
+    const areaInput = document.getElementById('area');
+    const calculateBtn = document.getElementById('calculate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const radiusValue = document.getElementById('radius-value');
+    const errorMessage = document.getElementById('error-message');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue)) {
+      circumferenceInput.value = startValue;
+    }
+
+    const calculateRadius = () => {
+      errorMessage.textContent = '';
+      const circumference = parseFloat(circumferenceInput.value);
+      const area = parseFloat(areaInput.value);
+
+      if (isNaN(circumference) && isNaN(area)) {
+        errorMessage.textContent = 'Please enter a valid circumference or area.';
+        radiusValue.textContent = '-';
+        return;
+      }
+
+      let radius;
+      if (!isNaN(circumference) && circumference > 0) {
+        radius = circumference / (2 * Math.PI);
+      } else if (!isNaN(area) && area > 0) {
+        radius = Math.sqrt(area / Math.PI);
+      } else {
+        errorMessage.textContent = 'Input must be a positive number.';
+        radiusValue.textContent = '-';
+        return;
+      }
+
+      radiusValue.textContent = radius.toFixed(2);
+    };
+
+    const resetForm = () => {
+      circumferenceInput.value = '';
+      areaInput.value = '';
+      radiusValue.textContent = '-';
+      errorMessage.textContent = '';
+    };
+
+    calculateBtn.addEventListener('click', calculateRadius);
+    resetBtn.addEventListener('click', resetForm);
+
+    // Handle Enter key press
+    [circumferenceInput, areaInput].forEach(input => {
+      input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          calculateRadius();
+        }
+      });
+    });
+  });
+</script>

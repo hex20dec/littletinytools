@@ -1,0 +1,109 @@
+---
+title: "Case-Sensitive Sorter: Sort Text with Precision"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-12-31 21:52:50
+metaDescription: "Sort text alphabetically with case sensitivity using the Case-Sensitive Sorter. Perfect for organizing files, data, and more in seconds!"
+metaKeywords: "case-sensitive sorter, sort text alphabetically, case-sensitive sorting tool, organize text, text sorting tool, case-sensitive list, sort mixed-case text, text organizer, case-sensitive data, file name sorter"
+tags: ["case-sensitive", "text-sorter", "web-tool", "developer-tool", "string-sorting"]
+---
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center mt-4 text-white">Case-Sensitive Sorter</h1><div class="container mt-5">
+  <div class="text-center">
+    <strong class="display-5">Case-Sensitive Sorter: The Solution to Your Sorting Woes</strong>
+    <p class="lead mt-3">Why does sorting text always feel like trying to organize a chaotic closet? You know what you want—alphabetical order—but somehow, uppercase and lowercase letters just refuse to cooperate. Enter the Case-Sensitive Sorter, your new best friend for sorting text with precision. Whether you're organizing a list of file names, cleaning up data, or just trying to make sense of a jumbled mess, this tool handles it all with ease. Simply paste your text, hit sort, and watch the magic happen. No more frustration, no more guesswork—just clean, case-sensitive order in seconds. Life’s too short to sort manually, so let this tool do the heavy lifting for you!</p>
+  </div>
+</div>
+  <p class="text-muted text-center mb-4">Enter your text below to sort it in a case-sensitive manner.</p>
+
+  <div class="mb-3">
+    <textarea id="input-text" class="form-control mb-3 bg-dark text-white" rows="5" placeholder="Enter your text here (one item per line)."></textarea>
+    <button id="sort-btn" class="btn btn-primary float-end">Sort</button>
+  </div>
+
+  <div class="mb-3">
+    <textarea id="output-text" class="form-control mb-3 bg-dark text-white" rows="5" disabled placeholder="Sorted output will appear here."></textarea>
+    <button id="reset-btn" class="btn btn-secondary float-end">Reset</button>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h3 class="text-center mb-4">How It Works</h3>
+      <p class="text-muted">The Case-Sensitive Sorter works by taking your input text, splitting it into individual lines, and sorting them in a way that respects uppercase and lowercase letters. Here’s a simple breakdown:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Paste your text into the input box (one item per line).</li>
+        <li class="list-group-item">Click the "Sort" button, and the tool processes each line.</li>
+        <li class="list-group-item">It sorts the lines alphabetically while keeping uppercase letters distinct from lowercase ones.</li>
+        <li class="list-group-item">The sorted text appears in the output box, ready for you to use or copy.</li>
+      </ol>
+      <p class="mt-4">For example, if you input:</p>
+      <pre class="bg-light p-3 rounded">
+apple
+Banana
+cherry
+Apple
+      </pre>
+      <p>It will sort as:</p>
+      <pre class="bg-light p-3 rounded">
+Apple
+Banana
+apple
+cherry
+      </pre>
+      <p>Notice how uppercase letters come first? That’s the magic of case-sensitive sorting!</p>
+    </div>
+  </div>
+</div><div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h3 class="text-center mb-4">10 Common Use Cases</h3>
+      <ul class="list-group">
+        <li class="list-group-item">Sorting file names with mixed cases for better organization.</li>
+        <li class="list-group-item">Cleaning up lists of usernames or email addresses.</li>
+        <li class="list-group-item">Organizing product names in an inventory system.</li>
+        <li class="list-group-item">Preparing data for case-sensitive databases or APIs.</li>
+        <li class="list-group-item">Sorting programming variables or keywords in code.</li>
+        <li class="list-group-item">Arranging song titles or artist names in a playlist.</li>
+        <li class="list-group-item">Ordering book titles or authors in a library catalog.</li>
+        <li class="list-group-item">Sorting customer names for a mailing list.</li>
+        <li class="list-group-item">Preparing case-sensitive lists for legal or technical documents.</li>
+        <li class="list-group-item">Making sense of mixed-case text copied from multiple sources.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputText = document.getElementById('input-text');
+    const outputText = document.getElementById('output-text');
+    const sortBtn = document.getElementById('sort-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      inputText.value = startText;
+    }
+
+    // Sort functionality
+    sortBtn.addEventListener('click', () => {
+      const input = inputText.value.trim();
+      if (!input) {
+        alert('Please enter some text to sort.');
+        return;
+      }
+
+      const items = input.split('\n').map(item => item.trim()).filter(item => item);
+      const sortedItems = items.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'case' }));
+      outputText.value = sortedItems.join('\n');
+    });
+
+    // Reset functionality
+    resetBtn.addEventListener('click', () => {
+      inputText.value = '';
+      outputText.value = '';
+    });
+  });
+</script>

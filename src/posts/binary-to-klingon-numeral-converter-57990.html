@@ -1,0 +1,151 @@
+---
+title: "Convert Binary to Klingon Numerals - Fun & Educational Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2022-12-14 10:30:44
+metaDescription: "Convert binary numbers to Klingon numerals instantly! Perfect for Trekkies, coders, and anyone who loves quirky tools."
+metaKeywords: "binary to Klingon, Klingon numeral converter, binary converter, Star Trek tools, Klingon numbers, binary to Klingon translator, fun coding tools, Trekkie tools, Klingon language, binary number converter"
+tags: ["binary converter", "Klingon numerals", "Star Trek", "educational tool", "binary to Klingon"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .klingon-output {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffc107;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Binary to Klingon Numeral Converter</h1><div class="container py-5 text-center">
+  <p class="fs-3 fw-bold mb-4">Ever tried explaining binary numbers to a Klingon? 🖖</p>
+  <p class="lead">We’ve all been there—staring at a screen full of 0s and 1s, wondering how to make sense of it. Whether you're a Trekkie, a coder, or just someone who loves quirky tools, this <strong>Binary to Klingon Numeral Converter</strong> is here to save the day! Simply enter a binary number (like 1010), and voilà—get its Klingon numeral equivalent. No need to learn Klingon or memorize binary tables. This tool is as fun as it is useful, and it’s perfect for adding a little sci-fi flair to your day. Let’s boldly convert where no one has converted before! 🚀</p>
+</div>
+    <p class="lead">Enter a binary number (e.g., 1010) and see its Klingon numeral equivalent.</p>
+  </header>
+
+  <div class="mb-3">
+    <label for="binaryInput" class="form-label">Enter binary number:</label>
+    <div class="input-group">
+      <input type="text" class="form-control" id="binaryInput" placeholder="Enter binary number here" aria-label="Binary Input">
+      <button class="btn btn-primary" id="convertBtn">Convert</button>
+      <button class="btn btn-secondary" id="resetBtn">Reset</button>
+    </div>
+    <div id="errorMessage" class="text-danger mt-2"></div>
+  </div>
+
+  <div class="mt-4">
+    <label class="form-label">Klingon Numeral:</label>
+    <div id="klingonOutput" class="klingon-output"></div>
+  </div>
+
+  <footer class="mt-4 text-center text-muted">
+    <small>Note: Only binary numbers (0s and 1s) are accepted.</small>
+  </footer>
+</div>
+
+<div class="container py-4">
+  <p class="fs-5 mb-3">Here’s how it works:</p>
+  <p>Every binary number is a combination of 0s and 1s, and each sequence represents a unique decimal number. For example, the binary number <strong>1010</strong> translates to the decimal number <strong>10</strong>. Our tool then maps this decimal number to its corresponding Klingon numeral. For instance, <strong>10</strong> in Klingon is <strong>Hut</strong>. Easy, right?</p>
+
+  <p class="fs-5 mt-4">Here are some examples of binary numbers and their Klingon equivalents:</p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Binary Number</th>
+        <th>Klingon Numeral</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>0</td><td>pagh</td></tr>
+      <tr><td>1</td><td>wa'</td></tr>
+      <tr><td>10</td><td>cha'</td></tr>
+      <tr><td>11</td><td>wej</td></tr>
+      <tr><td>100</td><td>loS</td></tr>
+      <tr><td>101</td><td>vagh</td></tr>
+      <tr><td>110</td><td>jav</td></tr>
+      <tr><td>111</td><td>Soch</td></tr>
+      <tr><td>1000</td><td>chorgh</td></tr>
+      <tr><td>1001</td><td>Hut</td></tr>
+    </tbody>
+  </table>
+</div><div class="container py-4">
+  <p class="fs-5 mb-3">Here are 10 fun and practical ways to use the Binary to Klingon Numeral Converter:</p>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Impress your friends at a Star Trek-themed party.</li>
+    <li class="list-group-item">Add a unique twist to your coding projects.</li>
+    <li class="list-group-item">Teach kids about binary numbers in a fun, sci-fi way.</li>
+    <li class="list-group-item">Use it as a conversation starter at tech meetups.</li>
+    <li class="list-group-item">Decorate your workspace with Klingon numeral posters.</li>
+    <li class="list-group-item">Create custom Klingon-themed puzzles or games.</li>
+    <li class="list-group-item">Enhance your Trekkie cosplay with authentic details.</li>
+    <li class="list-group-item">Write secret messages in Klingon numerals.</li>
+    <li class="list-group-item">Use it as a learning tool for Klingon language enthusiasts.</li>
+    <li class="list-group-item">Just have fun exploring the intersection of math and pop culture!</li>
+  </ol>
+</div><script>
+  const klingonNumerals = [
+    "pagh", "wa'", "cha'", "wej", "loS", "vagh", "jav", "Soch", "chorgh", "Hut"
+  ];
+
+  const binaryInput = document.getElementById('binaryInput');
+  const convertBtn = document.getElementById('convertBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const klingonOutput = document.getElementById('klingonOutput');
+  const errorMessage = document.getElementById('errorMessage');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const startValue = urlParams.get('start');
+  if (startValue) {
+    binaryInput.value = startValue;
+  }
+
+  const convertBinaryToKlingon = (binary) => {
+    if (!binary) {
+      errorMessage.textContent = "Please enter a binary number.";
+      klingonOutput.textContent = "";
+      return;
+    }
+
+    if (!/^[01]+$/.test(binary)) {
+      errorMessage.textContent = "Invalid input. Please enter a valid binary number.";
+      klingonOutput.textContent = "";
+      return;
+    }
+
+    if (binary.length > 32) {
+      errorMessage.textContent = "Number is too large. Please enter a smaller binary number.";
+      klingonOutput.textContent = "";
+      return;
+    }
+
+    const decimal = parseInt(binary, 2);
+    if (decimal >= klingonNumerals.length) {
+      errorMessage.textContent = "Klingon numeral for this number is not supported.";
+      klingonOutput.textContent = "";
+      return;
+    }
+
+    errorMessage.textContent = "";
+    klingonOutput.textContent = klingonNumerals[decimal];
+  };
+
+  const resetApp = () => {
+    binaryInput.value = "";
+    klingonOutput.textContent = "";
+    errorMessage.textContent = "";
+  };
+
+  convertBtn.addEventListener('click', () => convertBinaryToKlingon(binaryInput.value));
+  resetBtn.addEventListener('click', resetApp);
+
+  binaryInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      convertBinaryToKlingon(binaryInput.value);
+    }
+  });
+</script>

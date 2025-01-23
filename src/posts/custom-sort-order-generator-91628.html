@@ -1,0 +1,171 @@
+---
+title: "Custom Sort Order Generator - Organize Your Lists Effortlessly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-04-23 08:47:54
+metaDescription: "Easily sort lists alphabetically, by length, or custom order with the Custom Sort Order Generator. Perfect for to-do lists, playlists, and more!"
+metaKeywords: "custom sort tool, list organizer, alphabetical sorter, length sorter, custom order tool, playlist organizer, to-do list sorter, productivity tool, list management, online sorting tool"
+tags: ["sorting", "productivity", "list-organizer", "custom-order", "web-tool"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Custom Sort Order Generator</h1><div class="container mt-5">
+  <p class="lead text-center">Tired of manually organizing lists that never seem to behave? Whether it’s a to-do list, a playlist, or even your grocery items, the Custom Sort Order Generator is here to save the day. This nifty tool lets you sort your lists in multiple ways—alphabetically, by length, or even in a custom order you define. No more wrestling with spreadsheets or scribbling notes everywhere. Just type, select, and sort! Perfect for anyone who values efficiency and a little extra sanity in their day.</p>
+</div>
+  <div class="mb-3">
+    <label for="list-input" class="form-label">Enter your list items here, one per line:</label>
+    <textarea id="list-input" class="form-control bg-dark text-white" rows="6" placeholder="Enter your list items here, one per line."></textarea>
+  </div>
+  <div class="mb-3">
+    <label for="sort-rule" class="form-label">Select a sorting rule:</label>
+    <select id="sort-rule" class="form-select bg-dark text-white">
+      <option value="alphabetical">Alphabetical (A-Z)</option>
+      <option value="reverse-alphabetical">Reverse Alphabetical (Z-A)</option>
+      <option value="length">By Length (Shortest to Longest)</option>
+      <option value="reverse-length">Reverse By Length (Longest to Shortest)</option>
+      <option value="custom">Custom Order</option>
+    </select>
+  </div>
+  <div id="custom-order-section" class="mb-3 d-none">
+    <label for="custom-order-input" class="form-label">Define your custom order (comma-separated):</label>
+    <input id="custom-order-input" class="form-control bg-dark text-white" placeholder="Define your custom order (comma-separated).">
+  </div>
+  <div class="text-center mb-3">
+    <button id="sort-button" class="btn btn-primary">Sort List</button>
+  </div>
+  <div class="mb-3">
+    <label for="sorted-list" class="form-label">Your sorted list:</label>
+    <textarea id="sorted-list" class="form-control bg-dark text-white" rows="6" readonly placeholder="Your sorted list will appear here."></textarea>
+  </div>
+  <div class="text-center mb-3">
+    <button id="copy-button" class="btn btn-secondary">Copy to Clipboard</button>
+    <button id="reset-button" class="btn btn-danger">Reset</button>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <h2 class="text-center mb-4">How It Works</h2>
+  <p class="text-center">The Custom Sort Order Generator follows a simple, intuitive process:</p>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">Enter your list items, one per line.</li>
+    <li class="list-group-item">Choose a sorting rule: Alphabetical (A-Z), Reverse Alphabetical (Z-A), By Length (shortest to longest), Reverse By Length (longest to shortest), or Custom Order.</li>
+    <li class="list-group-item">If you select "Custom Order," define the exact sequence you want using a comma-separated list.</li>
+    <li class="list-group-item">Click "Sort List" to see your perfectly organized items.</li>
+    <li class="list-group-item">Copy the sorted list or reset the tool to start fresh.</li>
+  </ol>
+  
+  <h3 class="mt-5 mb-4 text-center">Example Sorted Lists</h3>
+  <div class="row">
+    <div class="col-md-6">
+      <p class="fw-bold">Alphabetical (A-Z):</p>
+      <pre>Apple
+Banana
+Cherry
+Date</pre>
+    </div>
+    <div class="col-md-6">
+      <p class="fw-bold">By Length (Shortest to Longest):</p>
+      <pre>Date
+Apple
+Banana
+Cherry</pre>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <h2 class="text-center mb-4">10 Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Organizing to-do lists by priority or deadline.</li>
+    <li class="list-group-item">Sorting playlist songs alphabetically or by song length.</li>
+    <li class="list-group-item">Arranging grocery items by aisle or category.</li>
+    <li class="list-group-item">Prioritizing project tasks for better workflow.</li>
+    <li class="list-group-item">Sorting names for event invitations or seating charts.</li>
+    <li class="list-group-item">Organizing book titles for a personal library.</li>
+    <li class="list-group-item">Arranging workout routines by difficulty or duration.</li>
+    <li class="list-group-item">Sorting recipes by cooking time or ingredient count.</li>
+    <li class="list-group-item">Managing inventory items for small businesses.</li>
+    <li class="list-group-item">Creating custom lesson plans or study schedules.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const listInput = document.getElementById('list-input');
+    const sortRule = document.getElementById('sort-rule');
+    const customOrderSection = document.getElementById('custom-order-section');
+    const customOrderInput = document.getElementById('custom-order-input');
+    const sortButton = document.getElementById('sort-button');
+    const sortedList = document.getElementById('sorted-list');
+    const copyButton = document.getElementById('copy-button');
+    const resetButton = document.getElementById('reset-button');
+
+    // Preload list input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      listInput.value = startValue;
+    }
+
+    // Toggle custom order input visibility
+    sortRule.addEventListener('change', () => {
+      if (sortRule.value === 'custom') {
+        customOrderSection.classList.remove('d-none');
+      } else {
+        customOrderSection.classList.add('d-none');
+      }
+    });
+
+    // Sort list
+    sortButton.addEventListener('click', () => {
+      const items = listInput.value.split('\n').filter(item => item.trim() !== '');
+      if (items.length === 0) {
+        alert('Please enter at least one item to sort.');
+        return;
+      }
+
+      let sortedItems;
+      switch (sortRule.value) {
+        case 'alphabetical':
+          sortedItems = items.sort((a, b) => a.localeCompare(b));
+          break;
+        case 'reverse-alphabetical':
+          sortedItems = items.sort((a, b) => b.localeCompare(a));
+          break;
+        case 'length':
+          sortedItems = items.sort((a, b) => a.length - b.length);
+          break;
+        case 'reverse-length':
+          sortedItems = items.sort((a, b) => b.length - a.length);
+          break;
+        case 'custom':
+          const customOrder = customOrderInput.value.split(',').map(item => item.trim());
+          if (customOrder.length === 0) {
+            alert('Please define a custom order.');
+            return;
+          }
+          sortedItems = items.sort((a, b) => {
+            const indexA = customOrder.indexOf(a);
+            const indexB = customOrder.indexOf(b);
+            return indexA - indexB;
+          });
+          break;
+        default:
+          sortedItems = items;
+      }
+
+      sortedList.value = sortedItems.join('\n');
+    });
+
+    // Copy to clipboard
+    copyButton.addEventListener('click', () => {
+      sortedList.select();
+      document.execCommand('copy');
+      alert('Sorted list copied to clipboard!');
+    });
+
+    // Reset
+    resetButton.addEventListener('click', () => {
+      listInput.value = '';
+      sortRule.value = 'alphabetical';
+      customOrderSection.classList.add('d-none');
+      customOrderInput.value = '';
+      sortedList.value = '';
+    });
+  });
+</script>

@@ -1,0 +1,163 @@
+---
+title: "Repeating Word Counter - Analyze Word Frequency Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-12-20 14:43:00
+metaDescription: "Instantly count how often words repeat in your text with our Repeating Word Counter. Perfect for writers, students, and professionals!"
+metaKeywords: "word counter, repeating word counter, word frequency tool, text analysis, writing tool, word repetition checker, essay editing, word count tool"
+tags: ["word counter", "text analysis", "writing tool", "word frequency", "content optimization"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .table-responsive {
+    overflow-x: auto;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mt-4">
+    <h1>Repeating Word Counter</h1><div class="container mt-5">
+  <div class="row">
+    <div class="col text-center">
+      <p class="h2 fw-bold mb-4">Ever Feel Like You're Repeating Yourself Too Much?</p>
+      <p class="lead">We’ve all been there—writing an essay, drafting an email, or even crafting a social media post, only to realize we’ve used the same word over and over again. It’s like that time you said “amazing” five times in one sentence and your friend called you out for it. Awkward, right? That’s where our <strong>Repeating Word Counter</strong> comes in. Paste your text, click a button, and voilà! You’ll instantly see which words you’re overusing. It’s like having a friendly editor in your pocket, minus the judgmental stares. Whether you’re a writer, student, or just someone who wants to sound less repetitive, this tool is here to save the day. Let’s make your words count—literally!</p>
+    </div>
+  </div>
+</div>
+    <p class="lead">Paste your text below to see how many times each word is repeated.</p>
+  </header>
+
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control mb-3" rows="10" placeholder="Paste or type your text here..."></textarea>
+    <button id="count-btn" class="btn btn-primary mb-3">Count Words</button>
+    <button id="reset-btn" class="btn btn-secondary mb-3">Reset</button>
+  </div>
+
+  <div id="output-section" class="mt-4">
+    <div class="table-responsive">
+      <table id="results-table" class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Word</th>
+            <th scope="col">Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Results will be populated here -->
+        </tbody>
+      </table>
+    </div>
+    <p id="no-text-message" class="text-muted">Please enter some text to analyze.</p>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col">
+      <p class="h4 fw-bold mb-4">How It Works</p>
+      <p>The <strong>Repeating Word Counter</strong> is super simple to use. Just follow these steps:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Paste or type your text into the box above.</li>
+        <li class="list-group-item">Click the <strong>Count Words</strong> button.</li>
+        <li class="list-group-item">Watch as the tool magically breaks down your text, showing you how many times each word appears.</li>
+      </ol>
+      <p class="mt-4">The tool works by cleaning up your text (removing punctuation and converting everything to lowercase) and then counting how often each word pops up. It’s like a word detective, uncovering the secrets of your writing habits.</p>
+      <p class="h4 fw-bold mt-4">Example Output</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Word</th>
+            <th scope="col">Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>the</td><td>12</td></tr>
+          <tr><td>and</td><td>8</td></tr>
+          <tr><td>you</td><td>7</td></tr>
+          <tr><td>to</td><td>6</td></tr>
+          <tr><td>of</td><td>5</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container mt-5">
+  <div class="row">
+    <div class="col">
+      <p class="h4 fw-bold mb-4">Top 10 Uses for the Repeating Word Counter</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Improving essays and academic papers by avoiding repetitive language.</li>
+        <li class="list-group-item">Polishing blog posts to make them more engaging and professional.</li>
+        <li class="list-group-item">Crafting emails that sound clear and concise.</li>
+        <li class="list-group-item">Editing social media captions to avoid sounding like a broken record.</li>
+        <li class="list-group-item">Analyzing speeches or presentations for overused words.</li>
+        <li class="list-group-item">Writing creative stories without relying on the same descriptors.</li>
+        <li class="list-group-item">Checking resumes and cover letters for repetitive phrasing.</li>
+        <li class="list-group-item">Helping non-native speakers identify overused words in their writing.</li>
+        <li class="list-group-item">Analyzing song lyrics for repetitive patterns.</li>
+        <li class="list-group-item">Teaching kids about vocabulary variety in their school assignments.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const countBtn = document.getElementById('count-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultsTableBody = document.querySelector('#results-table tbody');
+    const noTextMessage = document.getElementById('no-text-message');
+    const outputSection = document.getElementById('output-section');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    const countWords = () => {
+      const text = textInput.value.trim();
+      if (!text) {
+        noTextMessage.style.display = 'block';
+        resultsTableBody.innerHTML = '';
+        return;
+      }
+
+      noTextMessage.style.display = 'none';
+
+      // Remove punctuation and convert to lowercase
+      const cleanedText = text.replace(/[^\w\s]/g, '').toLowerCase();
+      const words = cleanedText.split(/\s+/).filter(word => word.length > 0);
+
+      const wordCounts = words.reduce((acc, word) => {
+        acc[word] = (acc[word] || 0) + 1;
+        return acc;
+      }, {});
+
+      const sortedWords = Object.entries(wordCounts).sort((a, b) => b[1] - a[1]);
+
+      resultsTableBody.innerHTML = sortedWords
+        .map(([word, count]) => `<tr><td>${word}</td><td>${count}</td></tr>`)
+        .join('');
+    };
+
+    const resetApp = () => {
+      textInput.value = '';
+      resultsTableBody.innerHTML = '';
+      noTextMessage.style.display = 'block';
+    };
+
+    countBtn.addEventListener('click', countWords);
+    resetBtn.addEventListener('click', resetApp);
+
+    // Handle Enter key in textarea
+    textInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        countWords();
+      }
+    });
+  });
+</script>

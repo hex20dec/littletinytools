@@ -1,0 +1,145 @@
+---
+title: "Decimal to Base-32 Converter | Quick & Easy Number Conversion"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2017-09-22 14:15:19
+metaDescription: "Convert decimal numbers to base-32 effortlessly with this user-friendly tool. Perfect for programmers, students, and math enthusiasts."
+metaKeywords: "decimal to base-32, base-32 converter, decimal converter, number system tool, base-32 encoding"
+tags: ["base-32", "decimal converter", "number systems", "web tools", "javascript"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .form-control:read-only {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+  }
+</style>
+
+<div id="main-div">
+  <div class="container text-center mt-5">
+    <h1 class="mb-4">Decimal to Base-32 Converter</h1><div class="container my-5">
+  <div class="text-center">
+    <p class="fs-5">Ever found yourself staring at a long decimal number, wondering how to make sense of it in a different format? Maybe you're working on a project that requires base-32 encoding, or perhaps you're just curious about how numbers can be represented in a more compact way. Whatever the case, converting decimals to base-32 can feel like solving a puzzle without the right tools. That’s where this Decimal to Base-32 Converter comes in! With just a few clicks, you can transform any decimal number into its base-32 equivalent—no math degree required. Whether you're a programmer, a student, or just someone who loves numbers, this tool makes the process as easy as pie. Say goodbye to confusion and hello to simplicity!</p>
+  </div>
+</div>
+    <p class="lead mb-4">Enter a decimal number to convert it to base-32.</p>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <form id="converter-form">
+          <div class="mb-3">
+            <label for="decimal-input" class="form-label">Enter Decimal Number</label>
+            <input type="number" class="form-control" id="decimal-input" placeholder="e.g., 12345" required>
+            <div id="error-message" class="text-danger mt-2" style="display: none;">Please enter a valid decimal number.</div>
+          </div>
+          <button type="submit" class="btn btn-primary me-2">Convert</button>
+          <button type="button" class="btn btn-secondary" id="reset-button">Reset</button>
+        </form>
+        <div class="mt-4">
+          <label for="base32-output" class="form-label">Base-32 Result</label>
+          <input type="text" class="form-control " id="base32-output" readonly>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mb-4 fs-4">How It Works</h2>
+      <p class="mb-4">The Decimal to Base-32 Converter works by taking your decimal number and breaking it down into smaller parts that fit into the base-32 system. Think of it like translating a sentence into another language—each part of the number gets a new "word" in base-32. The tool uses a set of 32 symbols (0-9 and A-V) to represent these parts. For example, the decimal number 42 becomes "1A" in base-32. It’s like magic, but with math!</p>
+      <h3 class="mb-4 fs-5">Example Conversions</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Decimal</th>
+            <th scope="col">Base-32</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>1</td></tr>
+          <tr><td>10</td><td>A</td></tr>
+          <tr><td>20</td><td>K</td></tr>
+          <tr><td>30</td><td>U</td></tr>
+          <tr><td>40</td><td>18</td></tr>
+          <tr><td>50</td><td>1I</td></tr>
+          <tr><td>60</td><td>1S</td></tr>
+          <tr><td>70</td><td>26</td></tr>
+          <tr><td>80</td><td>2G</td></tr>
+          <tr><td>90</td><td>2Q</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mb-4 fs-4">Common Use Cases</h2>
+      <ul class="list-unstyled">
+        <li class="mb-2">1. Encoding data for compact storage or transmission.</li>
+        <li class="mb-2">2. Converting system identifiers in programming tasks.</li>
+        <li class="mb-2">3. Simplifying large numbers for readability.</li>
+        <li class="mb-2">4. Creating unique shortcodes for URLs or tracking.</li>
+        <li class="mb-2">5. Encoding timestamps in base-32 for efficiency.</li>
+        <li class="mb-2">6. Translating IP addresses into base-32 format.</li>
+        <li class="mb-2">7. Generating base-32 passwords or keys.</li>
+        <li class="mb-2">8. Converting file sizes for easier comparison.</li>
+        <li class="mb-2">9. Encoding IDs in databases for space efficiency.</li>
+        <li class="mb-2">10. Exploring number systems for educational purposes.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('converter-form');
+    const decimalInput = document.getElementById('decimal-input');
+    const base32Output = document.getElementById('base32-output');
+    const errorMessage = document.getElementById('error-message');
+    const resetButton = document.getElementById('reset-button');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue && !isNaN(startValue)) {
+      decimalInput.value = startValue;
+    }
+
+    const decimalToBase32 = (decimal) => {
+      const base32Digits = '0123456789ABCDEFGHIJKLMNOPQRSTUV';
+      let result = '';
+      while (decimal > 0) {
+        result = base32Digits[decimal % 32] + result;
+        decimal = Math.floor(decimal / 32);
+      }
+      return result || '0';
+    };
+
+    const validateInput = (input) => {
+      return input !== '' && !isNaN(input) && input >= 0 && input <= Number.MAX_SAFE_INTEGER;
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const inputValue = decimalInput.value.trim();
+
+      if (!validateInput(inputValue)) {
+        errorMessage.style.display = 'block';
+        base32Output.value = '';
+        return;
+      }
+
+      errorMessage.style.display = 'none';
+      const decimalNumber = parseInt(inputValue, 10);
+      base32Output.value = decimalToBase32(decimalNumber);
+    });
+
+    resetButton.addEventListener('click', () => {
+      decimalInput.value = '';
+      base32Output.value = '';
+      errorMessage.style.display = 'none';
+    });
+  });
+</script>

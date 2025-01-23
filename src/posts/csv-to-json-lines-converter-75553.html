@@ -1,0 +1,151 @@
+---
+title: "CSV to JSON Lines Converter - Fast & Secure Online Tool"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2020-02-03 13:46:59
+metaDescription: "Convert CSV to JSON Lines instantly with our free online tool. Perfect for developers, data analysts, and anyone needing quick data transformations."
+metaKeywords: "csv to json lines, csv converter, json lines tool, csv to json online, data conversion tool"
+tags: ["CSV", "JSON Lines", "Data Conversion", "Online Tool", "Developer Tools"]
+---
+
+<div id="main-div" class="container mt-5">
+  <h1 class="text-center mb-4">CSV to JSON Lines Converter</h1><div class="container mt-5">
+  <p class="lead text-center mb-4">Struggling to make sense of your CSV files? Why does converting them into a usable format always feel like solving a Rubik's Cube blindfolded? Enter the CSV to JSON Lines Converter—a tool so simple, it feels like magic. Whether you're a data enthusiast, a developer, or someone just trying to organize a spreadsheet, this tool transforms your CSV files into JSON Lines format in seconds. No more manual edits, no more headaches. Just upload, convert, and copy. It's like having a personal data assistant, minus the coffee breaks. Say goodbye to chaos and hello to clarity!</p>
+</div>
+  <p class="text-center mb-4">Upload a CSV file to convert it into JSON Lines format.</p>
+
+  <div class="mb-3">
+    <label for="csvFileInput" class="form-label">Choose CSV File</label>
+    <input type="file" class="form-control bg-dark text-white" id="csvFileInput" accept=".csv">
+    <div class="invalid-feedback">Invalid CSV file. Please upload a valid CSV file.</div>
+  </div>
+
+  <button id="convertBtn" class="btn btn-primary mb-3">Convert to JSON Lines</button>
+  <p class="text-muted">Supports files up to 5MB.</p>
+
+  <div class="mb-3">
+    <label for="jsonOutput" class="form-label">JSON Lines Output</label>
+    <textarea id="jsonOutput" class="form-control bg-dark text-white" rows="10" readonly></textarea>
+  </div>
+
+  <button id="copyBtn" class="btn btn-secondary mb-3">Copy to Clipboard</button>
+
+  <p class="text-muted">This tool runs entirely in your browser. No data is uploaded to any server.</p>
+</div>
+
+<div class="container mt-4">
+  <h2 class="mb-3">How It Works</h2>
+  <p>Here's the secret sauce: The tool takes your CSV file, splits it into rows, and maps each row to a JSON object. The first row (your headers) becomes the keys, and the rest of the rows turn into values. These JSON objects are then combined into a JSON Lines format, where each line is a separate JSON object. It’s like turning a spreadsheet into a stack of index cards—easy to read, easy to use.</p>
+
+  <h3 class="mt-4 mb-3">Example Table</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>CSV Input</th>
+        <th>JSON Lines Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Name, Age, City<br>John, 25, New York</td>
+        <td>{"Name": "John", "Age": "25", "City": "New York"}</td>
+      </tr>
+      <tr>
+        <td>Product, Price, Stock<br>Laptop, 1200, 10</td>
+        <td>{"Product": "Laptop", "Price": "1200", "Stock": "10"}</td>
+      </tr>
+      <tr>
+        <td>ID, Status, Date<br>123, Active, 2023-10-01</td>
+        <td>{"ID": "123", "Status": "Active", "Date": "2023-10-01"}</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container mt-4">
+  <h2 class="mb-3">Top 10 Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">1. Preparing data for machine learning pipelines.</li>
+    <li class="list-group-item">2. Importing CSV data into NoSQL databases.</li>
+    <li class="list-group-item">3. Simplifying data migration between systems.</li>
+    <li class="list-group-item">4. Creating JSON Lines for API integrations.</li>
+    <li class="list-group-item">5. Streamlining data analysis workflows.</li>
+    <li class="list-group-item">6. Converting spreadsheets for use in web applications.</li>
+    <li class="list-group-item">7. Exporting data from legacy systems.</li>
+    <li class="list-group-item">8. Generating JSON Lines for ETL processes.</li>
+    <li class="list-group-item">9. Automating data transformation tasks.</li>
+    <li class="list-group-item">10. Formatting data for real-time streaming platforms.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const csvFileInput = document.getElementById('csvFileInput');
+    const convertBtn = document.getElementById('convertBtn');
+    const jsonOutput = document.getElementById('jsonOutput');
+    const copyBtn = document.getElementById('copyBtn');
+    const maxFileSize = 5 * 1024 * 1024; // 5MB
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      csvFileInput.value = startValue;
+    }
+
+    const validateFile = (file) => {
+      if (file.size > maxFileSize) {
+        csvFileInput.classList.add('is-invalid');
+        jsonOutput.value = '';
+        alert('File size exceeds 5MB. Please upload a smaller file.');
+        return false;
+      }
+      if (file.type !== 'text/csv') {
+        csvFileInput.classList.add('is-invalid');
+        jsonOutput.value = '';
+        alert('Invalid CSV file. Please upload a valid CSV file.');
+        return false;
+      }
+      csvFileInput.classList.remove('is-invalid');
+      return true;
+    };
+
+    const convertCSVtoJSONLines = (csvText) => {
+      const lines = csvText.split('\n');
+      const headers = lines[0].split(',').map(header => header.trim());
+      const jsonLines = lines.slice(1).map(line => {
+        const values = line.split(',');
+        const obj = {};
+        headers.forEach((header, index) => {
+          obj[header] = values[index] ? values[index].trim() : '';
+        });
+        return JSON.stringify(obj);
+      }).join('\n');
+      return jsonLines;
+    };
+
+    csvFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file && validateFile(file)) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const csvText = event.target.result;
+          jsonOutput.value = convertCSVtoJSONLines(csvText);
+        };
+        reader.readAsText(file);
+      }
+    });
+
+    convertBtn.addEventListener('click', () => {
+      const file = csvFileInput.files[0];
+      if (file && validateFile(file)) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const csvText = event.target.result;
+          jsonOutput.value = convertCSVtoJSONLines(csvText);
+        };
+        reader.readAsText(file);
+      }
+    });
+
+    copyBtn.addEventListener('click', () => {
+      jsonOutput.select();
+      document.execCommand('copy');
+      alert('Copied to clipboard!');
+    });
+  });
+</script>

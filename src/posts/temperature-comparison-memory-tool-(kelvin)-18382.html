@@ -1,0 +1,146 @@
+---
+title: "Kelvin Temperature Comparison Tool - Compare & Save Results"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-04-07 22:41:18
+metaDescription: "Easily compare and save two temperatures in Kelvin with this simple, user-friendly tool. Perfect for scientists, students, and enthusiasts!"
+metaKeywords: "temperature comparison, Kelvin comparison, temperature tool, science tools, Kelvin calculator, temperature tracker, lab tools"
+tags: ["temperature", "kelvin", "comparison", "science", "tool"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Temperature Comparison Memory Tool (Kelvin)</h1><div class="container bg-dark text-white p-4">
+  <p class="lead text-center">Why is comparing temperatures in Kelvin such a headache? Whether you're a scientist, student, or just curious, keeping track of two temperatures and figuring out which is hotter can feel like solving a puzzle. Enter the <strong>Temperature Comparison Memory Tool</strong>—a simple, no-fuss way to compare two temperatures in Kelvin and save the results for later. No more scribbling notes or forgetting which temperature was higher. Just input your values, compare, and save. It’s like having a tiny lab assistant in your pocket, ready to help you stay organized and stress-free. Say goodbye to confusion and hello to clarity!</p>
+</div>
+  
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="temp1" class="form-label">Temperature 1 (K)</label>
+        <input type="number" class="form-control bg-dark text-white" id="temp1" placeholder="Enter temperature in Kelvin" aria-label="Temperature 1">
+      </div>
+      <div class="mb-3">
+        <label for="temp2" class="form-label">Temperature 2 (K)</label>
+        <input type="number" class="form-control bg-dark text-white" id="temp2" placeholder="Enter temperature in Kelvin" aria-label="Temperature 2">
+      </div>
+      <button id="compare-btn" class="btn btn-primary w-100 mb-3">Compare</button>
+      <div id="result" class="alert alert-info" role="alert" style="display: none;"></div>
+      <button id="save-btn" class="btn btn-success w-100 mb-4" style="display: none;">Save Comparison</button>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="text-center mb-3">Past Comparisons</h2>
+      <ul id="past-comparisons" class="list-group mb-3"></ul>
+      <button id="clear-btn" class="btn btn-danger w-100">Clear All</button>
+    </div>
+  </div>
+</div>
+
+<div class="container bg-dark text-white p-4">
+  <h2 class="text-center mb-4">How It Works</h2>
+  <p class="text-center">The tool compares two temperatures in Kelvin using a straightforward formula:</p>
+  <div class="text-center mb-4">
+    <p><strong>If Temperature 1 > Temperature 2:</strong> Temperature 1 is higher.</p>
+    <p><strong>If Temperature 2 > Temperature 1:</strong> Temperature 2 is higher.</p>
+    <p><strong>If Temperature 1 = Temperature 2:</strong> Both are equal.</p>
+  </div>
+  
+  <h3 class="text-center mb-4">Example Comparisons</h3>
+  <div class="table-responsive">
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr>
+          <th>Temperature 1 (K)</th>
+          <th>Temperature 2 (K)</th>
+          <th>Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>100</td><td>200</td><td>Temperature 2 is higher</td></tr>
+        <tr><td>300</td><td>150</td><td>Temperature 1 is higher</td></tr>
+        <tr><td>450</td><td>450</td><td>Both are equal</td></tr>
+        <tr><td>10</td><td>5</td><td>Temperature 1 is higher</td></tr>
+        <tr><td>0</td><td>0</td><td>Both are equal</td></tr>
+        <tr><td>500</td><td>600</td><td>Temperature 2 is higher</td></tr>
+        <tr><td>273</td><td>273</td><td>Both are equal</td></tr>
+        <tr><td>1000</td><td>999</td><td>Temperature 1 is higher</td></tr>
+        <tr><td>50</td><td>100</td><td>Temperature 2 is higher</td></tr>
+        <tr><td>200</td><td>200</td><td>Both are equal</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container bg-dark text-white p-4">
+  <h2 class="text-center mb-4">10 Common Use Cases</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item bg-dark text-white">Comparing experimental temperatures in a lab.</li>
+    <li class="list-group-item bg-dark text-white">Teaching students about temperature scales and comparisons.</li>
+    <li class="list-group-item bg-dark text-white">Analyzing temperature data for scientific research.</li>
+    <li class="list-group-item bg-dark text-white">Tracking temperature changes in environmental studies.</li>
+    <li class="list-group-item bg-dark text-white">Managing temperature settings in industrial processes.</li>
+    <li class="list-group-item bg-dark text-white">Comparing historical temperature records.</li>
+    <li class="list-group-item bg-dark text-white">Verifying temperature consistency in quality control.</li>
+    <li class="list-group-item bg-dark text-white">Planning temperature-sensitive experiments.</li>
+    <li class="list-group-item bg-dark text-white">Comparing theoretical vs. actual temperature readings.</li>
+    <li class="list-group-item bg-dark text-white">Simplifying temperature comparisons for hobbyists and enthusiasts.</li>
+  </ol>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const temp1Input = document.getElementById('temp1');
+    const temp2Input = document.getElementById('temp2');
+    const compareBtn = document.getElementById('compare-btn');
+    const saveBtn = document.getElementById('save-btn');
+    const resultDiv = document.getElementById('result');
+    const pastComparisonsList = document.getElementById('past-comparisons');
+    const clearBtn = document.getElementById('clear-btn');
+
+    // Preload first input field from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startTemp = urlParams.get('start');
+    if (startTemp && !isNaN(startTemp)) {
+      temp1Input.value = startTemp;
+    }
+
+    compareBtn.addEventListener('click', () => {
+      const temp1 = parseFloat(temp1Input.value);
+      const temp2 = parseFloat(temp2Input.value);
+
+      if (isNaN(temp1) || isNaN(temp2)) {
+        resultDiv.textContent = 'Please enter valid numbers for both temperatures.';
+        resultDiv.style.display = 'block';
+        saveBtn.style.display = 'none';
+        return;
+      }
+
+      let resultText;
+      if (temp1 > temp2) {
+        resultText = `Temperature 1 (${temp1}K) is higher than Temperature 2 (${temp2}K).`;
+      } else if (temp2 > temp1) {
+        resultText = `Temperature 2 (${temp2}K) is higher than Temperature 1 (${temp1}K).`;
+      } else {
+        resultText = `Both temperatures are equal (${temp1}K).`;
+      }
+
+      resultDiv.textContent = resultText;
+      resultDiv.style.display = 'block';
+      saveBtn.style.display = 'block';
+    });
+
+    saveBtn.addEventListener('click', () => {
+      const temp1 = parseFloat(temp1Input.value);
+      const temp2 = parseFloat(temp2Input.value);
+      const resultText = resultDiv.textContent;
+
+      const listItem = document.createElement('li');
+      listItem.className = 'list-group-item bg-dark text-white';
+      listItem.textContent = `${temp1}K vs ${temp2}K: ${resultText}`;
+      pastComparisonsList.appendChild(listItem);
+
+      saveBtn.style.display = 'none';
+    });
+
+    clearBtn.addEventListener('click', () => {
+      pastComparisonsList.innerHTML = '';
+    });
+  });
+</script>

@@ -1,0 +1,139 @@
+---
+title: "Length-Aware Numeric Sorter - Sort Numbers by Length & Value"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-10-22 12:12:46
+metaDescription: "Sort numbers by length and value effortlessly with the Length-Aware Numeric Sorter. Perfect for organizing data, phone numbers, IDs, and more!"
+metaKeywords: "numeric sorter, number sorter, sort numbers by length, sort numbers by value, number organizer, data sorting tool, phone number sorter, ID sorter, numerical data organizer, number ranking tool"
+tags: ["number sorter", "math tool", "sorting algorithm", "educational tool", "web app"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="text-center mb-4">Length-Aware Numeric Sorter</h1><div class="container bg-dark text-white p-4">
+  <p class="lead text-center mb-4">Sorting numbers can feel like solving a puzzle—should you sort by length, value, or both? The Length-Aware Numeric Sorter is here to make your life easier. Whether you're organizing data, prepping for an exam, or just curious about how numbers stack up, this tool sorts numbers by their length and value in a snap. No more manual sorting or scratching your head over messy lists. Just type in your numbers, hit sort, and watch them fall into place. It’s like magic, but without the wand!</p>
+</div>
+  <p class="text-center mb-4">Sort numbers by their length and value.</p>
+
+  <div class="mb-3">
+    <label for="numberInput" class="form-label">Enter numbers separated by commas or spaces:</label>
+    <textarea id="numberInput" class="form-control bg-dark text-white" rows="3" placeholder="e.g., 123, 45, 6789"></textarea>
+    <div id="errorMessage" class="text-danger mt-2 d-none">Please enter valid numbers only.</div>
+  </div>
+
+  <div class="d-grid gap-2 d-md-block mb-4">
+    <button id="sortButton" class="btn btn-primary me-md-2">Sort</button>
+    <button id="resetButton" class="btn btn-secondary">Reset</button>
+  </div>
+
+  <div class="card bg-secondary text-white">
+    <div class="card-body">
+      <h5 class="card-title">Sorted Numbers</h5>
+      <p id="sortedOutput" class="card-text"></p>
+    </div>
+  </div>
+</div>
+
+<div class="container bg-light p-4">
+  <h3 class="mb-4">How It Works</h3>
+  <p>The Length-Aware Numeric Sorter follows a simple two-step process:</p>
+  <ol>
+    <li><strong>Step 1:</strong> It first sorts numbers by their length (how many digits they have). For example, 12 comes before 123 because it's shorter.</li>
+    <li><strong>Step 2:</strong> If two numbers have the same length, it sorts them by their numerical value. So, 12 comes before 23, even though both are two-digit numbers.</li>
+  </ol>
+  <p>Here's a quick example to show how it works:</p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Input</th>
+        <th>Sorted Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>123, 45, 6789, 12, 3</td>
+        <td>3, 12, 45, 123, 6789</td>
+      </tr>
+      <tr>
+        <td>100, 99, 1000, 1, 10</td>
+        <td>1, 10, 99, 100, 1000</td>
+      </tr>
+      <tr>
+        <td>5, 55, 555, 5555</td>
+        <td>5, 55, 555, 5555</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div class="container bg-light p-4">
+  <h3 class="mb-4">10 Common Use Cases</h3>
+  <ul class="list-group">
+    <li class="list-group-item">1. Organizing a list of phone numbers by length.</li>
+    <li class="list-group-item">2. Sorting student IDs or employee codes for easier reference.</li>
+    <li class="list-group-item">3. Preparing numerical data for presentations or reports.</li>
+    <li class="list-group-item">4. Simplifying the process of ranking scores or grades.</li>
+    <li class="list-group-item">5. Sorting bank account numbers or transaction IDs.</li>
+    <li class="list-group-item">6. Organizing product codes or serial numbers.</li>
+    <li class="list-group-item">7. Cleaning up messy datasets for analysis.</li>
+    <li class="list-group-item">8. Preparing numerical lists for coding or programming tasks.</li>
+    <li class="list-group-item">9. Sorting dates or timestamps in numerical format.</li>
+    <li class="list-group-item">10. Creating structured numerical lists for inventory management.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const numberInput = document.getElementById('numberInput');
+    const sortButton = document.getElementById('sortButton');
+    const resetButton = document.getElementById('resetButton');
+    const sortedOutput = document.getElementById('sortedOutput');
+    const errorMessage = document.getElementById('errorMessage');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      numberInput.value = startValue;
+    }
+
+    const sortNumbers = () => {
+      const input = numberInput.value.trim();
+      if (!input) {
+        errorMessage.classList.add('d-none');
+        sortedOutput.textContent = '';
+        return;
+      }
+
+      const numbers = input.split(/[,\s]+/).filter(Boolean);
+      const isValid = numbers.every(num => !isNaN(num) && num.trim() !== '');
+
+      if (!isValid) {
+        errorMessage.classList.remove('d-none');
+        sortedOutput.textContent = '';
+        return;
+      }
+
+      errorMessage.classList.add('d-none');
+
+      const sorted = numbers
+        .map(num => num.trim())
+        .sort((a, b) => {
+          const lengthDiff = a.length - b.length;
+          return lengthDiff !== 0 ? lengthDiff : Number(a) - Number(b);
+        });
+
+      sortedOutput.textContent = sorted.join(', ');
+    };
+
+    const resetApp = () => {
+      numberInput.value = '';
+      sortedOutput.textContent = '';
+      errorMessage.classList.add('d-none');
+    };
+
+    sortButton.addEventListener('click', sortNumbers);
+    resetButton.addEventListener('click', resetApp);
+
+    numberInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        sortNumbers();
+      }
+    });
+  });
+</script>

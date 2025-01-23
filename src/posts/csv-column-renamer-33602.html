@@ -1,0 +1,158 @@
+---
+title: "CSV Column Renamer - Easily Rename CSV Headers Online"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2021-01-01 20:14:36
+metaDescription: "Easily rename CSV column headers with the CSV Column Renamer. Upload, rename, and download your updated file in seconds. Perfect for data cleaning and organization."
+metaKeywords: "csv column renamer, rename csv headers, csv file editor, data cleaning tool, csv column editor, csv header tool, csv file organizer, csv rename tool, data preparation tool, csv file cleaner"
+tags: ["CSV", "Data Tools", "Column Renamer", "CSV Editor", "Web App"]
+---
+
+<div id="main-div" class="container bg-dark text-white p-4 rounded">
+  <h1 class="text-center mb-4">CSV Column Renamer</h1><div class="container bg-light p-4 rounded">
+  <p class="lead mb-4">
+    Let's face it: working with CSV files can feel like navigating a maze of endless columns and cryptic headers. Ever opened a CSV only to find column names like "Column1," "Unnamed: 2," or "Data_001"? It's frustrating, right? That's where the <strong>CSV Column Renamer</strong> steps in. This tool is your quick fix for renaming CSV headers in seconds. Upload your file, rename the columns to something that actually makes sense, and download the updated version—no coding, no headaches. Whether you're a data analyst, a student, or just someone trying to clean up a messy spreadsheet, this tool makes life a little easier. And hey, who doesn’t love saving time?
+  </p>
+</div>
+  <p class="text-center mb-4">Upload a CSV file, rename its columns, and download the modified file.</p>
+
+  <div class="mb-4">
+    <div class="input-group">
+      <input type="file" id="csvFileInput" class="form-control" accept=".csv" aria-label="Upload CSV File">
+      <button id="uploadBtn" class="btn btn-primary">Upload</button>
+    </div>
+    <small class="form-text text-muted">Supported file format: CSV (.csv)</small>
+    <div id="fileError" class="alert alert-danger mt-2 d-none" role="alert"></div>
+  </div>
+
+  <div id="columnRenamingSection" class="mb-4 d-none">
+    <table class="table table-bordered table-striped text-white">
+      <thead>
+        <tr>
+          <th>Current Column Name</th>
+          <th>New Column Name</th>
+        </tr>
+      </thead>
+      <tbody id="columnTableBody"></tbody>
+    </table>
+    <button id="renameBtn" class="btn btn-primary">Rename Columns</button>
+    <div id="renameError" class="alert alert-danger mt-2 d-none" role="alert"></div>
+  </div>
+
+  <div id="downloadSection" class="mb-4 d-none">
+    <button id="downloadBtn" class="btn btn-primary" disabled>Download Modified CSV</button>
+    <small class="form-text text-muted">Click to download the modified CSV file.</small>
+  </div>
+</div>
+
+<div class="container bg-light p-4 rounded mt-4">
+  <p class="mb-4">
+    The CSV Column Renamer works in three simple steps:
+  </p>
+  <ol class="mb-4">
+    <li><strong>Upload Your CSV:</strong> Choose your file, and the tool reads the existing column headers.</li>
+    <li><strong>Rename Columns:</strong> Replace those confusing headers with clear, meaningful names.</li>
+    <li><strong>Download the Updated File:</strong> Get your CSV back with the new column names, ready to use.</li>
+  </ol>
+  <p class="mb-4">
+    It’s like giving your CSV a makeover—simple, efficient, and stress-free.
+  </p>
+  
+  <h3 class="mt-4 mb-3">Example Use Cases</h3>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Original Column Name</th>
+        <th>Renamed Column Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Column1</td><td>Customer Name</td></tr>
+      <tr><td>Unnamed: 2</td><td>Email Address</td></tr>
+      <tr><td>Data_001</td><td>Order Date</td></tr>
+      <tr><td>Amount</td><td>Total Amount</td></tr>
+      <tr><td>ID</td><td>Customer ID</td></tr>
+    </tbody>
+  </table>
+</div><div class="container bg-light p-4 rounded mt-4">
+  <h3 class="mb-3">10 Common Use Cases for the CSV Column Renamer</h3>
+  <ul class="list-group">
+    <li class="list-group-item">Cleaning up messy CSV files for data analysis.</li>
+    <li class="list-group-item">Renaming columns to match database requirements.</li>
+    <li class="list-group-item">Preparing CSV files for import into software like Excel or Google Sheets.</li>
+    <li class="list-group-item">Standardizing column names across multiple datasets.</li>
+    <li class="list-group-item">Making CSV files more readable for team collaboration.</li>
+    <li class="list-group-item">Fixing auto-generated column names from data exports.</li>
+    <li class="list-group-item">Updating column names for compliance with reporting standards.</li>
+    <li class="list-group-item">Simplifying CSV files for machine learning models.</li>
+    <li class="list-group-item">Renaming columns to match API requirements for data uploads.</li>
+    <li class="list-group-item">Personalizing CSV headers for better project organization.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const csvFileInput = document.getElementById('csvFileInput');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const columnRenamingSection = document.getElementById('columnRenamingSection');
+    const columnTableBody = document.getElementById('columnTableBody');
+    const renameBtn = document.getElementById('renameBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const fileError = document.getElementById('fileError');
+    const renameError = document.getElementById('renameError');
+    let csvData = [];
+    let headers = [];
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start') || '';
+
+    uploadBtn.addEventListener('click', () => {
+      const file = csvFileInput.files[0];
+      if (!file) {
+        fileError.textContent = 'Please upload a valid CSV file.';
+        fileError.classList.remove('d-none');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target.result;
+        const rows = text.split('\n').map(row => row.split(','));
+        headers = rows[0];
+        csvData = rows.slice(1);
+
+        columnTableBody.innerHTML = headers.map((header, index) => `
+          <tr>
+            <td>${header}</td>
+            <td><input type="text" class="form-control" value="${index === 0 ? startValue : ''}" aria-label="New name for ${header}"></td>
+          </tr>
+        `).join('');
+
+        columnRenamingSection.classList.remove('d-none');
+        fileError.classList.add('d-none');
+      };
+      reader.readAsText(file);
+    });
+
+    renameBtn.addEventListener('click', () => {
+      const newHeaders = Array.from(columnTableBody.querySelectorAll('input')).map(input => input.value.trim());
+      if (newHeaders.some(header => header === '')) {
+        renameError.textContent = 'Column names cannot be empty.';
+        renameError.classList.remove('d-none');
+        return;
+      }
+
+      headers = newHeaders;
+      downloadBtn.disabled = false;
+      renameError.classList.add('d-none');
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      const modifiedCsv = [headers.join(','), ...csvData.map(row => row.join(','))].join('\n');
+      const blob = new Blob([modifiedCsv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'modified.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  });
+</script>

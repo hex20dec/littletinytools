@@ -1,0 +1,126 @@
+---
+title: "Hyphenated Word Counter - Count Hyphenated Words Instantly"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-07-19 17:20:32
+metaDescription: "Count hyphenated words in any text instantly with our free online tool. Perfect for writers, editors, and students!"
+metaKeywords: "hyphenated word counter, count hyphenated words, text analysis tool, hyphen counter, word counter, hyphen checker, hyphenated words, writing tool, editing tool, hyphen usage"
+tags: ["text analysis", "writing tools", "hyphenation", "word counter", "editing tools"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  textarea {
+    min-height: 200px;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Hyphenated Word Counter</h1><div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+      <p class="fs-4 fw-light">Ever found yourself staring at a wall of text, wondering how many of those fancy hyphenated words are hiding in there? Maybe you're editing a document, writing a report, or just curious about how often people use "state-of-the-art" in their writing. Counting hyphenated words manually? That’s a headache waiting to happen. Enter the <strong>Hyphenated Word Counter</strong>—your new best friend for all things text analysis. Simply paste or type your text, click a button, and voilà! You’ll know exactly how many hyphenated words are lurking in your prose. It’s like having a word detective at your fingertips, minus the magnifying glass and trench coat. Let’s make your life a little easier, one hyphen at a time!</p>
+    </div>
+  </div>
+</div>
+    <p class="lead">Enter your text below to count the number of hyphenated words.</p>
+  </header>
+
+  <div class="mb-3">
+    <textarea id="text-input" class="form-control" placeholder="Paste or type your text here..." aria-label="Text input"></textarea>
+  </div>
+
+  <div class="text-center mb-3">
+    <button id="count-btn" class="btn btn-primary btn-lg" aria-label="Count hyphenated words">Count Hyphenated Words</button>
+  </div>
+
+  <div id="results-section" class="text-center mt-4" aria-live="polite">
+    <h2>Results</h2>
+    <p id="results-text" class="fs-5">Number of hyphenated words: 0</p>
+  </div>
+
+  <div class="text-center mt-3">
+    <button id="reset-btn" class="btn btn-secondary" aria-label="Reset text and results">Reset</button>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <div class="bg-light p-4 rounded">
+        <p class="fs-5">Here’s how it works: The tool analyzes your text by splitting it into individual words and then checking each word for hyphens. If a word contains a hyphen (like "mother-in-law" or "eco-friendly"), it gets counted. The total number of hyphenated words is displayed instantly. It’s that simple!</p>
+        <p class="fs-5 mt-3">For example, if your text is:</p>
+        <blockquote class="blockquote bg-white p-3 rounded">"The state-of-the-art technology is user-friendly and eco-conscious."</blockquote>
+        <p class="fs-5">The tool will count 3 hyphenated words: "state-of-the-art," "user-friendly," and "eco-conscious."</p>
+      </div>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <h2 class="fs-3 mb-4">10 Common Use Cases for the Hyphenated Word Counter</h2>
+      <ul class="list-group">
+        <li class="list-group-item">1. Editing academic papers to ensure consistent hyphen usage.</li>
+        <li class="list-group-item">2. Analyzing blog posts for readability and style.</li>
+        <li class="list-group-item">3. Checking marketing copy for overuse of hyphenated terms.</li>
+        <li class="list-group-item">4. Proofreading novels or creative writing for hyphenated word frequency.</li>
+        <li class="list-group-item">5. Simplifying the review of legal documents with complex hyphenated terms.</li>
+        <li class="list-group-item">6. Assisting students in understanding hyphen usage in essays.</li>
+        <li class="list-group-item">7. Helping non-native English speakers learn hyphenated word patterns.</li>
+        <li class="list-group-item">8. Streamlining the editing process for technical manuals.</li>
+        <li class="list-group-item">9. Evaluating the frequency of hyphenated words in SEO content.</li>
+        <li class="list-group-item">10. Satisfying curiosity about how often hyphenated words appear in a text.</li>
+      </ul>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input');
+    const countBtn = document.getElementById('count-btn');
+    const resultsText = document.getElementById('results-text');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Preload text from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startText = urlParams.get('start');
+    if (startText) {
+      textInput.value = startText;
+    }
+
+    const countHyphenatedWords = (text) => {
+      const words = text.split(/\s+/);
+      return words.filter(word => word.includes('-')).length;
+    };
+
+    const updateResults = () => {
+      const text = textInput.value.trim();
+      if (!text) {
+        resultsText.textContent = 'Please enter some text to analyze.';
+        return;
+      }
+
+      const count = countHyphenatedWords(text);
+      if (count === 0) {
+        resultsText.textContent = 'No hyphenated words found.';
+      } else {
+        resultsText.textContent = `Number of hyphenated words: ${count}`;
+      }
+    };
+
+    countBtn.addEventListener('click', updateResults);
+
+    resetBtn.addEventListener('click', () => {
+      textInput.value = '';
+      resultsText.textContent = 'Number of hyphenated words: 0';
+    });
+
+    textInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && e.ctrlKey) {
+        updateResults();
+      }
+    });
+  });
+</script>

@@ -1,0 +1,153 @@
+---
+title: "Binary to Quaternary Converter - Quick & Accurate Number Conversion"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2023-11-20 06:38:45
+metaDescription: "Convert binary numbers to quaternary effortlessly with our free tool. Perfect for students, programmers, and math enthusiasts!"
+metaKeywords: "binary to quaternary, binary converter, quaternary converter, base-2 to base-4, number system converter, binary to base-4, binary tool"
+tags: ["binary", "quaternary", "number converter", "math tool", "web app"]
+---
+
+<style>
+  #main-div {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .error-message {
+    display: none;
+    color: #dc3545;
+    font-size: 0.875em;
+  }
+</style>
+
+<div id="main-div">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Binary to Quaternary Converter</h1><div class="container text-center py-5">
+  <p class="fs-4 fw-bold mb-3">Struggling to Convert Binary to Quaternary? We’ve Got You Covered!</p>
+  <p class="lead">Ever found yourself staring at a string of 0s and 1s, wondering how to make sense of it in a base-4 system? You’re not alone! Binary numbers are everywhere, but converting them to quaternary (base-4) can feel like solving a Rubik’s Cube blindfolded. Enter our <strong>Binary to Quaternary Converter</strong>—a simple, no-fuss tool that transforms binary numbers into quaternary in just a few clicks. Whether you’re a student tackling homework, a programmer debugging code, or just a curious mind exploring number systems, this tool is your new best friend. Say goodbye to confusion and hello to effortless conversions!</p>
+</div>
+    <p class="lead">Enter a binary number to convert it to quaternary.</p>
+  </header>
+
+  <div class="mb-3">
+    <label for="binaryInput" class="form-label">Enter Binary Number</label>
+    <input type="text" class="form-control" id="binaryInput" placeholder="e.g., 1010" aria-describedby="binaryHelp">
+    <div id="binaryHelp" class="error-message">Invalid binary number. Only 0s and 1s are allowed.</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="quaternaryOutput" class="form-label">Quaternary Number</label>
+    <input type="text" class="form-control" id="quaternaryOutput" readonly>
+  </div>
+
+  <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-3">
+    <button type="button" class="btn btn-primary me-md-2" id="convertButton">Convert</button>
+    <button type="button" class="btn btn-secondary" id="resetButton">Reset</button>
+  </div>
+
+  <footer class="text-center mt-4">
+    <p class="text-muted">Binary is base-2 (0, 1). Quaternary is base-4 (0, 1, 2, 3).</p>
+  </footer>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <p class="fs-5 mb-4">Here’s how it works: The tool takes your binary number (a sequence of 0s and 1s) and groups the digits into pairs, starting from the right. Each pair is then converted into its corresponding quaternary digit (0 to 3). For example, the binary number <code>1010</code> is grouped as <code>10</code> and <code>10</code>, which converts to <code>2</code> and <code>2</code> in quaternary, resulting in <code>22</code>. It’s that simple!</p>
+      
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Binary Number</th>
+              <th>Quaternary Number</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0</td><td>0</td></tr>
+            <tr><td>1</td><td>1</td></tr>
+            <tr><td>10</td><td>2</td></tr>
+            <tr><td>11</td><td>3</td></tr>
+            <tr><td>100</td><td>10</td></tr>
+            <tr><td>101</td><td>11</td></tr>
+            <tr><td>110</td><td>12</td></tr>
+            <tr><td>111</td><td>13</td></tr>
+            <tr><td>1000</td><td>20</td></tr>
+            <tr><td>1001</td><td>21</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <p class="fs-5 mb-4">Here are some common scenarios where our <strong>Binary to Quaternary Converter</strong> comes in handy:</p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Simplifying binary-to-quaternary conversions for computer science students.</li>
+        <li class="list-group-item">Debugging code that involves base-4 number systems.</li>
+        <li class="list-group-item">Exploring number systems for math enthusiasts.</li>
+        <li class="list-group-item">Preparing for exams or quizzes on numeral systems.</li>
+        <li class="list-group-item">Converting binary data for encoding or encryption purposes.</li>
+        <li class="list-group-item">Understanding binary-quaternary relationships in digital circuits.</li>
+        <li class="list-group-item">Simplifying binary numbers for easier readability in quaternary format.</li>
+        <li class="list-group-item">Teaching or tutoring students about base-2 and base-4 systems.</li>
+        <li class="list-group-item">Solving puzzles or brain teasers involving number conversions.</li>
+        <li class="list-group-item">Quickly verifying manual binary-to-quaternary calculations.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const binaryInput = document.getElementById('binaryInput');
+    const quaternaryOutput = document.getElementById('quaternaryOutput');
+    const convertButton = document.getElementById('convertButton');
+    const resetButton = document.getElementById('resetButton');
+    const errorMessage = document.getElementById('binaryHelp');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      binaryInput.value = startValue;
+    }
+
+    function validateBinary(input) {
+      return /^[01]+$/.test(input);
+    }
+
+    function binaryToQuaternary(binary) {
+      let quaternary = '';
+      while (binary.length % 2 !== 0) {
+        binary = '0' + binary;
+      }
+      for (let i = 0; i < binary.length; i += 2) {
+        const pair = binary.substring(i, i + 2);
+        quaternary += parseInt(pair, 2).toString(4);
+      }
+      return quaternary;
+    }
+
+    convertButton.addEventListener('click', function () {
+      const binaryValue = binaryInput.value.trim();
+      if (!validateBinary(binaryValue)) {
+        errorMessage.style.display = 'block';
+        quaternaryOutput.value = '';
+      } else {
+        errorMessage.style.display = 'none';
+        quaternaryOutput.value = binaryToQuaternary(binaryValue);
+      }
+    });
+
+    resetButton.addEventListener('click', function () {
+      binaryInput.value = '';
+      quaternaryOutput.value = '';
+      errorMessage.style.display = 'none';
+    });
+
+    binaryInput.addEventListener('input', function () {
+      if (validateBinary(binaryInput.value.trim())) {
+        errorMessage.style.display = 'none';
+      }
+    });
+  });
+</script>

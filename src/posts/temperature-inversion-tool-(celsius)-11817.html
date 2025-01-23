@@ -1,0 +1,179 @@
+---
+title: "Temperature Inversion Tool - Visualize Atmospheric Temperature Changes"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2016-07-03 07:37:35
+metaDescription: "Visualize temperature inversions with this easy-to-use tool. Enter ground and upper-level temps to detect and analyze inversions in seconds."
+metaKeywords: "temperature inversion tool, weather analysis, temperature inversion calculator, atmospheric science, air quality, weather patterns"
+tags: ["temperature inversion", "weather tool", "meteorology", "education", "atmospheric science"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <h1 class="text-center mb-4">Temperature Inversion Tool (Celsius)</h1><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <strong class="text-center mb-4 d-block fs-2">Temperature Inversion Tool (Celsius)</strong>
+      <p class="text-center mb-4">Why does the air sometimes feel colder the higher you go? It’s called a temperature inversion, and it’s a fascinating weather phenomenon that can affect everything from your morning jog to air quality. This tool helps you visualize and understand temperature inversions in a snap. Just enter the ground-level and upper-level temperatures, and let the tool do the rest. Whether you're a weather enthusiast, a student, or just curious, this tool makes exploring temperature inversions simple, fun, and insightful. Say goodbye to confusion and hello to clarity!</p>
+    </div>
+  </div>
+</div>
+      <p class="text-center mb-4">Enter ground-level and upper-level temperatures to visualize temperature inversion.</p>
+      <form id="temperatureForm" class="mb-4">
+        <div class="mb-3">
+          <label for="groundTemp" class="form-label">Ground-Level Temperature (°C)</label>
+          <input type="number" class="form-control bg-dark text-white" id="groundTemp" placeholder="Enter ground-level temperature" required>
+        </div>
+        <div class="mb-3">
+          <label for="upperTemp" class="form-label">Upper-Level Temperature (°C)</label>
+          <input type="number" class="form-control bg-dark text-white" id="upperTemp" placeholder="Enter upper-level temperature" required>
+        </div>
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset</button>
+        </div>
+      </form>
+      <div id="resultBox" class="text-center mb-4" style="display: none;">
+        <h3 id="resultText"></h3>
+        <div class="mt-3">
+          <canvas id="temperatureChart" width="400" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <strong class="d-block fs-4 mb-3">How Does It Work?</strong>
+      <p class="mb-4">The tool compares two temperatures: the ground-level temperature and the upper-level temperature. Normally, the air gets colder as you go higher. But in a temperature inversion, the opposite happens—the air gets warmer as you go up. Here’s how the tool calculates it:</p>
+      <ul class="list-group mb-4">
+        <li class="list-group-item">If the upper-level temperature is higher than the ground-level temperature, the tool detects a temperature inversion.</li>
+        <li class="list-group-item">It then calculates the difference between the two temperatures to show how strong the inversion is.</li>
+        <li class="list-group-item">The results are displayed in an easy-to-read chart, so you can see the inversion at a glance.</li>
+      </ul>
+      <strong class="d-block fs-5 mb-3">Example Temperature Inversion Scenarios</strong>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Ground-Level Temp (°C)</th>
+            <th>Upper-Level Temp (°C)</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr> <td>10</td> <td>15</td> <td>Inversion (5°C difference)</td> </tr>
+          <tr> <td>20</td> <td>18</td> <td>No inversion</td> </tr>
+          <tr> <td>5</td> <td>10</td> <td>Inversion (5°C difference)</td> </tr>
+          <tr> <td>-2</td> <td>3</td> <td>Inversion (5°C difference)</td> </tr>
+          <tr> <td>25</td> <td>25</td> <td>No inversion</td> </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <strong class="d-block fs-4 mb-3">10 Common Use Cases for the Temperature Inversion Tool</strong>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item bg-dark text-white">Understanding weather patterns for outdoor activities like hiking or camping.</li>
+        <li class="list-group-item bg-dark text-white">Analyzing air quality and pollution dispersion in urban areas.</li>
+        <li class="list-group-item bg-dark text-white">Teaching students about atmospheric science in a hands-on way.</li>
+        <li class="list-group-item bg-dark text-white">Planning agricultural activities that depend on temperature conditions.</li>
+        <li class="list-group-item bg-dark text-white">Preparing for aviation or drone flights affected by temperature inversions.</li>
+        <li class="list-group-item bg-dark text-white">Studying microclimates in specific geographic regions.</li>
+        <li class="list-group-item bg-dark text-white">Predicting fog formation in valleys or low-lying areas.</li>
+        <li class="list-group-item bg-dark text-white">Researching the impact of inversions on wildlife behavior.</li>
+        <li class="list-group-item bg-dark text-white">Improving energy efficiency by understanding temperature layers in buildings.</li>
+        <li class="list-group-item bg-dark text-white">Satisfying curiosity about unusual weather phenomena.</li>
+      </ol>
+    </div>
+  </div>
+</div><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const startTemp = urlParams.get('start');
+    if (startTemp) {
+      document.getElementById('groundTemp').value = startTemp;
+    }
+  });
+
+  document.getElementById('temperatureForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const groundTemp = parseFloat(document.getElementById('groundTemp').value);
+    const upperTemp = parseFloat(document.getElementById('upperTemp').value);
+
+    if (isNaN(groundTemp) || isNaN(upperTemp)) {
+      alert('Please enter valid numeric values for both temperatures.');
+      return;
+    }
+
+    const resultBox = document.getElementById('resultBox');
+    const resultText = document.getElementById('resultText');
+    const temperatureChart = document.getElementById('temperatureChart').getContext('2d');
+
+    if (upperTemp > groundTemp) {
+      const difference = upperTemp - groundTemp;
+      resultText.textContent = `Temperature Inversion Detected! Difference: ${difference.toFixed(2)}°C.`;
+    } else {
+      resultText.textContent = 'No Temperature Inversion Detected.';
+    }
+
+    if (window.myChart) {
+      window.myChart.destroy();
+    }
+
+    window.myChart = new Chart(temperatureChart, {
+      type: 'bar',
+      data: {
+        labels: ['Ground-Level', 'Upper-Level'],
+        datasets: [{
+          label: 'Temperature (°C)',
+          data: [groundTemp, upperTemp],
+          backgroundColor: ['rgba(54, 162, 235, 0.8)', 'rgba(255, 99, 132, 0.8)'],
+          borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            },
+            ticks: {
+              color: 'white'
+            }
+          },
+          x: {
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            },
+            ticks: {
+              color: 'white'
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: {
+              color: 'white'
+            }
+          }
+        }
+      }
+    });
+
+    resultBox.style.display = 'block';
+  });
+
+  function resetForm() {
+    document.getElementById('temperatureForm').reset();
+    document.getElementById('resultBox').style.display = 'none';
+    if (window.myChart) {
+      window.myChart.destroy();
+    }
+  }
+</script>

@@ -1,0 +1,189 @@
+---
+title: "CSV Row Splitter - Easily Split Large CSV Files Online"
+permalink: "/{{ title | uniqueSlug(page) }}/"
+date: 2019-08-03 18:11:37
+metaDescription: "Easily split large CSV files into smaller chunks with the CSV Row Splitter. Perfect for data analysis, marketing, and file management."
+metaKeywords: "csv splitter, split csv files, csv row splitter, csv file management, data analysis tool, split large csv, csv file splitter, csv file organizer, csv tool, data processing tool"
+tags: ["CSV", "Data Tools", "File Splitter", "Web App", "Productivity"]
+---
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="text-center mb-4">CSV Row Splitter</h1><div class="container-fluid bg-dark text-white p-4">
+  <p class="text-center mb-4 fs-3">Dealing with massive CSV files that slow down your workflow? The CSV Row Splitter is here to rescue you from the chaos! Whether you're a data analyst, marketer, or just someone trying to organize a spreadsheet, this tool makes splitting large CSV files into smaller, manageable chunks a breeze. Simply upload your file, set the number of rows per split, and download your files in seconds. No more endless scrolling or crashing software—just smooth, efficient file management. Let’s make your life easier, one split at a time!</p>
+</div>
+  <p class="text-center mb-4">Upload a CSV file and split it into smaller files based on the number of rows you specify.</p>
+
+  <div class="mb-3">
+    <label for="csvFile" class="form-label">Upload CSV File</label>
+    <input type="file" class="form-control bg-dark text-white" id="csvFile" accept=".csv" aria-describedby="fileHelp">
+    <div id="fileHelp" class="form-text text-white-50">Only .csv files are supported.</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="rowLimit" class="form-label">Rows per File</label>
+    <input type="number" class="form-control bg-dark text-white" id="rowLimit" min="1" value="1000" aria-describedby="rowHelp">
+    <div id="rowHelp" class="form-text text-white-50">Enter the maximum number of rows per split file.</div>
+  </div>
+
+  <button id="splitButton" class="btn btn-primary w-100 mb-3" disabled>Split CSV</button>
+
+  <div id="outputSection" class="mt-4 d-none">
+    <h2 class="text-center mb-3">Download Split Files</h2>
+    <div id="downloadLinks" class="d-grid gap-2"></div>
+  </div>
+
+  <div id="errorSection" class="alert alert-danger mt-3 d-none" role="alert"></div>
+
+  <div id="progressSection" class="text-center mt-3 d-none">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Processing your file...</p>
+  </div>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="mb-3">How It Works</h2>
+      <p>The CSV Row Splitter takes your large CSV file and divides it into smaller files based on the number of rows you specify. Here's the step-by-step process:</p>
+      <ol>
+        <li><strong>Upload Your CSV:</strong> Select the file you want to split.</li>
+        <li><strong>Set Row Limit:</strong> Choose how many rows you want in each split file.</li>
+        <li><strong>Split & Download:</strong> The tool processes your file and provides downloadable links for each split file.</li>
+      </ol>
+      <p>It’s like slicing a massive pizza into smaller, more manageable slices—perfect for sharing or working on one piece at a time.</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="mb-3">Example Row Splits</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Original File Rows</th>
+            <th>Rows per File</th>
+            <th>Number of Split Files</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1000</td><td>100</td><td>10</td></tr>
+          <tr><td>5000</td><td>500</td><td>10</td></tr>
+          <tr><td>10000</td><td>1000</td><td>10</td></tr>
+          <tr><td>25000</td><td>2500</td><td>10</td></tr>
+          <tr><td>50000</td><td>5000</td><td>10</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <h2 class="text-center mb-4">Top 10 Use Cases for the CSV Row Splitter</h2>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item bg-dark text-white">Splitting large datasets for easier analysis.</li>
+    <li class="list-group-item bg-dark text-white">Preparing files for upload to systems with row limits.</li>
+    <li class="list-group-item bg-dark text-white">Organizing customer data for targeted marketing campaigns.</li>
+    <li class="list-group-item bg-dark text-white">Breaking down sales data for regional teams.</li>
+    <li class="list-group-item bg-dark text-white">Creating smaller files for faster email attachments.</li>
+    <li class="list-group-item bg-dark text-white">Handling large inventory lists for e-commerce platforms.</li>
+    <li class="list-group-item bg-dark text-white">Simplifying data migration between systems.</li>
+    <li class="list-group-item bg-dark text-white">Splitting survey data for team collaboration.</li>
+    <li class="list-group-item bg-dark text-white">Managing large financial records for audits.</li>
+    <li class="list-group-item bg-dark text-white">Preparing datasets for machine learning pipelines.</li>
+  </ol>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const csvFileInput = document.getElementById('csvFile');
+    const rowLimitInput = document.getElementById('rowLimit');
+    const splitButton = document.getElementById('splitButton');
+    const outputSection = document.getElementById('outputSection');
+    const downloadLinks = document.getElementById('downloadLinks');
+    const errorSection = document.getElementById('errorSection');
+    const progressSection = document.getElementById('progressSection');
+
+    // Preload row limit from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startParam = urlParams.get('start');
+    if (startParam && !isNaN(startParam) && startParam > 0) {
+      rowLimitInput.value = startParam;
+    }
+
+    const validateInputs = () => {
+      const file = csvFileInput.files[0];
+      const rowLimit = parseInt(rowLimitInput.value);
+
+      if (!file || file.type !== 'text/csv') {
+        errorSection.textContent = 'Please upload a valid CSV file.';
+        errorSection.classList.remove('d-none');
+        splitButton.disabled = true;
+        return false;
+      }
+
+      if (isNaN(rowLimit) || rowLimit < 1) {
+        errorSection.textContent = 'Row limit must be at least 1.';
+        errorSection.classList.remove('d-none');
+        splitButton.disabled = true;
+        return false;
+      }
+
+      errorSection.classList.add('d-none');
+      splitButton.disabled = false;
+      return true;
+    };
+
+    csvFileInput.addEventListener('change', validateInputs);
+    rowLimitInput.addEventListener('input', validateInputs);
+
+    splitButton.addEventListener('click', () => {
+      if (!validateInputs()) return;
+
+      const file = csvFileInput.files[0];
+      const rowLimit = parseInt(rowLimitInput.value);
+
+      progressSection.classList.remove('d-none');
+      outputSection.classList.add('d-none');
+      errorSection.classList.add('d-none');
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target.result;
+        const rows = text.split('\n').filter(row => row.trim() !== '');
+        const header = rows[0];
+        const dataRows = rows.slice(1);
+
+        if (dataRows.length === 0) {
+          errorSection.textContent = 'The file is empty or contains no data rows.';
+          errorSection.classList.remove('d-none');
+          progressSection.classList.add('d-none');
+          return;
+        }
+
+        const chunks = [];
+        for (let i = 0; i < dataRows.length; i += rowLimit) {
+          const chunk = [header, ...dataRows.slice(i, i + rowLimit)].join('\n');
+          chunks.push(chunk);
+        }
+
+        downloadLinks.innerHTML = '';
+        chunks.forEach((chunk, index) => {
+          const blob = new Blob([chunk], { type: 'text/csv' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `split_${index + 1}.csv`;
+          link.className = 'btn btn-primary';
+          link.textContent = `Download split_${index + 1}.csv`;
+          downloadLinks.appendChild(link);
+        });
+
+        progressSection.classList.add('d-none');
+        outputSection.classList.remove('d-none');
+      };
+
+      reader.onerror = () => {
+        errorSection.textContent = 'An error occurred while reading the file.';
+        errorSection.classList.remove('d-none');
+        progressSection.classList.add('d-none');
+      };
+
+      reader.readAsText(file);
+    });
+  });
+</script>
