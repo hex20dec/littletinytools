@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 module.exports = function(eleventyConfig) {
+
   // Add Nunjucks as a templating engine
   eleventyConfig.setTemplateFormats(["njk", "md", "html"]);
   eleventyConfig.setNunjucksEnvironmentOptions({

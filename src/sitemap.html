@@ -1,10 +1,14 @@
 ---
-permalink: /sitemap.xml
+permalink: "sitemap-{{ pagination.pageNumber + 1 }}.xml"
 eleventyExcludeFromCollections: true
+pagination:
+  data: collections.all
+  size: 500
+  alias: pages
 ---
 <?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    {% for page in collections.all %}
+    {% for page in pages %}
         <url>
             <loc>{{ global.url }}{{ page.url | url }}</loc>
             <lastmod>{{ page.date.toISOString() }}</lastmod>

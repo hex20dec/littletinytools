@@ -44,11 +44,11 @@
           sizes="180x180"
           href="/assets/imgs/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    {% if layoutType == 'list' %}
+    {% if layoutType == 'page' %}
       {% if pagination.href.previous %}<link rel="prev" href="{{ pagination.href.previous }}">{% endif %}
       {% if pagination.href.next %}<link rel="next" href="{{ pagination.href.next }}">{% endif %}
     {% endif %}
-    {% if layoutType == 'list' %}
+    {% if layoutType == 'page' %}
       <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -98,14 +98,25 @@
     </script>
     {% if layoutType != '404' %}
       <header>
-        <div class="navbar navbar-expand-lg container justify-content-between">
-          <div id="logo-container">
+        <div class="row m-3">
+          <div id="logo-container" class="col">
             <a class="navbar-brand" href="/">
               <span class="navbar-brand mb-0">Little Tiny Tools</span>
             </a>
             <span>A Cool Tool For Every Fool</span>
           </div>
-          <a href="/404">
+          <form id="searchForm" class="d-flex form-floating dropdown col justify-content-md-center justify-content-sm-end">
+            <div class="input-group w-auto">
+              <input id="searchInput" class="form-control" placeholder="Search..." />
+              <button id="searchBtn" class="btn btn-outline-secondary">Search</button>
+          </div>
+            <ul id="searchResults" class="dropdown-menu" style="top:3rem;">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </form>
+          <a href="/404" class="col-sm-12 col-md-4">
             <div class="chart-container">
               <svg width="100%" height="100%">
                 <path class="line"></path>
@@ -119,13 +130,13 @@
       </header>
     {% endif %}
     <main class="container mt-4">
-      {% if layoutType != '404' %}<h2 class="mb-4">{{ title }}</h2>{% endif %}
+      {% if layoutType != '404' and layoutType != 'tool' %}<h2 class="mb-4">{{ title }}</h2>{% endif %}
       <div class="content">
         {% block content %}{{ content | safe }}{% endblock content %}
       </div>
     </main>
     {% if layoutType != '404' %}
-      {% if layoutType == 'list' %}
+      {% if layoutType == 'page' %}
         <!-- let's add the pagination next and prev buttons -->
         <nav aria-label="Page navigation" class="container mt-4">
           <ul>
@@ -146,7 +157,7 @@
           </ul>
         </nav>
       {% endif %}
-      {% if layoutType != 'list' and layoutType != '404' %}
+      {% if layoutType != 'page' and layoutType != '404' %}
         <section id="categories">
           <h5>Categories:</h5>
           {% for tag in tags %}<a href="/tag/{{ tag }}/">{{ tag }}</a>,{% endfor %}
@@ -182,9 +193,7 @@
               <a href="/privacy-policy">Privacy Policy</a> |
               <a href="/terms-of-service">Terms of Service</a> |
               <a href="/contact">Contact</a> |
-              <a href="https://www.buymeacoffee.com/littletinytools"
-                 target="_blank"
-                 rel="noopener noreferrer">
+              <a href="https://buymeacoffee.com/hexxii" target="_blank">
                 <img height="40ox" width="160px" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
                      alt="Buy Me A Coffee" />
               </a> |

@@ -20,7 +20,7 @@
   maxDataPoints: 200,             // Number of points to show on chart
   
   // Price Settings
-  startingPrice: 100,             // Initial price
+  startingPrice: 613,             // Initial price
   minPrice: 1,                    // Minimum possible price
   volatility: 5,                  // Max price change per update (higher = more volatile)
   
@@ -116,3 +116,93 @@ class StockChart {
 // Initialize the chart
 new StockChart();
 
+
+
+
+// ===== SEARCH FUNCTIONALITY =====
+// ===== SEARCH FUNCTIONALITY =====
+// ===== SEARCH FUNCTIONALITY =====
+
+
+async function searchSitemap(e) {
+  e.preventDefault();
+  const searchTerm = document.getElementById('searchInput').value.trim();
+  const resultsDiv = document.getElementById('searchResults');
+  resultsDiv.innerHTML = 'Loading...';
+
+  if (!searchTerm) {
+    resultsDiv.innerHTML = 'Please enter a search term';
+    return;
+  }
+
+  try {
+    // Step 1: Get sitemap index
+    const sitemapIndexResponse = await fetch('/sitemap-index.xml');
+    const sitemapIndexText = await sitemapIndexResponse.text();
+    const sitemapIndex = new DOMParser().parseFromString(sitemapIndexText, "text/xml");
+
+    // Step 2: Get all sitemap locations
+    const sitemapUrls = Array.from(sitemapIndex.getElementsByTagName('loc'))
+      .map(loc => {
+        let location = loc.textContent.trim();
+        let splitted = location.split('/');
+        let local = splitted[splitted.length - 1];
+        return '/'+local;
+      });
+
+    // Step 3: Search through all sitemaps
+    let foundUrl = [];
+    let foundTitle = null;
+    
+    for (const sitemapUrl of sitemapUrls) {
+      const sitemapResponse = await fetch(sitemapUrl);
+      const sitemapText = await sitemapResponse.text();
+      const sitemap = new DOMParser().parseFromString(sitemapText, "text/xml");
+      
+      const urls = Array.from(sitemap.getElementsByTagName('loc'));
+      
+      for (const urlElement of urls) {
+        const pageUrl = urlElement.textContent.trim();
+        const permalink = pageUrl.split('/').splice(3).join('/');
+        // const pageSlug = pageUrl.toLowerCase().split('-').join(' ');
+        let pageTitle = pageUrl.split('-').join(' ').split('/')[3].split(' ');
+        pageTitle.splice(-4);
+        pageTitle = pageTitle.join(' ');
+        const searchSlug = searchTerm.toLowerCase();
+
+        if (pageTitle.indexOf(searchSlug) > -1) {
+          foundUrl.push(`<li><a class="dropdown-item" href="/${permalink}">${pageTitle}</a></li>`)
+          // foundUrl.push('/'+permalink);
+          // foundTitle.push(pageTitle);
+          // break;
+        }
+      }
+      
+      // if (foundUrl) break;
+    }
+
+    // Step 4: Display results
+    if (foundUrl.length > 0) {
+      // resultsDiv.innerHTML = `Match found: <a href="${foundUrl}" target="_blank">${foundTitle}</a>`;
+      resultsDiv.innerHTML = foundUrl.join('');
+      resultsDiv.classList.add('show');
+      
+    } else {
+      resultsDiv.innerHTML = 'No matching pages found';
+    }
+    foundUrl = [];
+
+  } catch (error) {
+    console.error('Search failed:', error);
+    resultsDiv.innerHTML = 'Error searching sitemaps';
+  }
+}
+
+// event listeners
+document.getElementById('searchBtn').addEventListener('click', searchSitemap);
+// when a user clicks outside the search results, hide them
+document.addEventListener('click', function(e) {
+  if (!document.getElementById('searchForm').contains(e.target)) {
+    document.getElementById('searchResults').classList.remove('show');
+  }
+});

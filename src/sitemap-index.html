@@ -1,0 +1,17 @@
+---
+  permalink: sitemap-index.xml
+  eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {% set chunkSize = 500 %}
+  {% set totalPages = (collections.all.length / chunkSize) | round(0, "ceil") %}
+  {% set lastPost = collections.all | last %}
+  
+  {% for i in range(1, totalPages + 1) %}
+  <sitemap>
+    <loc>{{ global.url }}/sitemap-{{ i }}.xml</loc>
+    <lastmod>{{ lastPost.date.toISOString() }}</lastmod>
+  </sitemap>
+  {% endfor %}
+</sitemapindex>
