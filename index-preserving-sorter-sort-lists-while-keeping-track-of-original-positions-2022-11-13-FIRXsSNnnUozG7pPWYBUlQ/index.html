@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+      <title>Index-Preserving Sorter: Sort Lists While Keeping Track of Original Positions</title>
+      <meta property="og:title" content="Index-Preserving Sorter: Sort Lists While Keeping Track of Original Positions" />
+    <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="/assets/styles/bootstrap.min.css" />
+      <link rel="stylesheet" href="/assets/styles/layout.css" />
+      <meta name="description" content="Sort your list while keeping track of original positions with the Index-Preserving Sorter. Simple, fast, and perfect for organizing tasks, rankings, and more!" />
+      <meta property="og:description" content="Sort your list while keeping track of original positions with the Index-Preserving Sorter. Simple, fast, and perfect for organizing tasks, rankings, and more!" />
+      <meta name="keywords" content="metaKeywords" />
+    <meta name="author" content="Little Tiny Tools" />
+    <link rel="icon"
+          href="/assets/imgs/favicon-dark-theme.svg"
+          type="image/svg+xml"
+          media="(prefers-color-scheme: dark)" />
+    <link rel="icon"
+          href="/assets/imgs/favicon-light-theme.svg"
+          type="image/svg+xml"
+          media="(prefers-color-scheme: light)" />
+    <link rel="apple-touch-icon"
+          sizes="180x180"
+          href="/assets/imgs/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+      <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Index-Preserving Sorter: Sort Lists While Keeping Track of Original Positions",
+      "description": "Sort your list while keeping track of original positions with the Index-Preserving Sorter. Simple, fast, and perfect for organizing tasks, rankings, and more!",
+      "url": "https://littletinytools.com/index-preserving-sorter-sort-lists-while-keeping-track-of-original-positions-2022-11-13-FIRXsSNnnUozG7pPWYBUlQ/",
+      "applicationCategory": "Utility",
+      "operatingSystem": "All"
+    }
+      </script>
+    <style>@import url("https://fonts.googleapis.com/css2?family=Bitter&display=swap");</style>
+    <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9239838040277193"
+            crossorigin="anonymous"></script>
+    <meta name="google-adsense-account" content="ca-pub-9239838040277193" />
+  </head>
+  <body data-bs-theme="dark">
+    <!-- <script src="https://alwingulla.com/88/tag.min.js" data-zone="121816" async data-cfasync="false"></script> -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J0QX0DVBPC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-J0QX0DVBPC");
+    </script>
+      <header>
+        <div class="row m-3">
+          <div id="logo-container" class="col">
+            <a class="navbar-brand" href="/">
+              <span class="navbar-brand mb-0">Little Tiny Tools</span>
+            </a>
+            <span>A Cool Tool For Every Fool</span>
+          </div>
+          <form id="searchForm" class="d-flex form-floating dropdown col justify-content-md-center justify-content-sm-end">
+            <div class="input-group w-auto">
+              <input id="searchInput" class="form-control" placeholder="Search..." />
+              <button id="searchBtn" class="btn btn-outline-secondary">Search</button>
+          </div>
+            <ul id="searchResults" class="dropdown-menu" style="top:3rem;">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </form>
+          <a href="/404" class="col-sm-12 col-md-4">
+            <div class="chart-container">
+              <svg width="100%" height="100%">
+                <path class="line"></path>
+              </svg>
+              <div class="axis"></div>
+              <!-- <div class="jackpot-label">Jackpot</div> -->
+              <div class="price-label">$0.00</div>
+            </div>
+          </a>
+        </div>
+      </header>
+    <main class="container mt-4">
+      <div class="content">
+
+<div id="main-div" class="container bg-dark text-white p-4">
+  <h1 class="mb-4">Index-Preserving Sorter</h1><div class="container bg-dark text-white p-4">
+  <p class="lead">Trying to sort a list but need to remember where each item originally was? It’s like trying to keep track of your groceries after reorganizing the fridge—everything ends up in the wrong place! The <strong>Index-Preserving Sorter</strong> is here to rescue you. This clever tool sorts your list while keeping tabs on each item’s original position, so you’ll never lose track again. Whether you’re organizing tasks, ranking preferences, or just curious about where things started, this tool makes it simple and fun. Say goodbye to the chaos and hello to organized bliss!</p>
+</div>
+  <p class="lead">Sort your list while keeping track of the original positions of each item.</p>
+
+  <div class="mb-4">
+    <label for="input-list" class="form-label">Enter your list items here, one per line:</label>
+    <textarea id="input-list" class="form-control bg-dark text-white" rows="5" placeholder="Apple&#10;Banana&#10;Cherry"></textarea>
+  </div>
+
+  <div class="mb-4">
+    <label for="sort-order" class="form-label">Sort Order:</label>
+    <select id="sort-order" class="form-select bg-dark text-white">
+      <option value="asc">Ascending</option>
+      <option value="desc">Descending</option>
+    </select>
+  </div>
+
+  <div class="mb-4">
+    <button id="sort-btn" class="btn btn-primary me-2">Sort</button>
+    <button id="clear-btn" class="btn btn-secondary">Clear</button>
+  </div>
+
+  <div id="output-section" class="d-none">
+    <h2 class="mb-3">Sorted List</h2>
+    <table class="table table-striped table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Original Index</th>
+          <th scope="col">Sorted Item</th>
+        </tr>
+      </thead>
+      <tbody id="sorted-list">
+      </tbody>
+    </table>
+  </div>
+
+  <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
+</div>
+
+<div class="container bg-dark text-white p-4">
+  <h2 class="mb-3">How It Works</h2>
+  <p>Here’s the magic behind the <strong>Index-Preserving Sorter</strong>:</p>
+  <ol>
+    <li>You enter your list items, one per line.</li>
+    <li>Choose your sorting order—ascending (A-Z) or descending (Z-A).</li>
+    <li>The tool sorts your list while remembering each item’s original position.</li>
+    <li>The result? A neatly organized list with a handy reference to where everything started.</li>
+  </ol>
+  <p>It’s like having a personal assistant who not only sorts your stuff but also keeps a record of its original spot!</p>
+
+  <h3 class="mt-4">Example Table</h3>
+  <table class="table table-striped table-dark">
+    <thead>
+      <tr>
+        <th scope="col">Original Index</th>
+        <th scope="col">Sorted Item</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Apple</td></tr>
+      <tr><td>2</td><td>Banana</td></tr>
+      <tr><td>3</td><td>Cherry</td></tr>
+      <tr><td>4</td><td>Date</td></tr>
+      <tr><td>5</td><td>Elderberry</td></tr>
+    </tbody>
+  </table>
+</div><div class="container bg-dark text-white p-4">
+  <h2 class="mb-3">10 Common Use Cases</h2>
+  <ul>
+    <li>Organizing tasks by priority while keeping their original order.</li>
+    <li>Ranking survey responses with a reference to their initial sequence.</li>
+    <li>Sorting a list of names alphabetically without losing track of their original positions.</li>
+    <li>Managing inventory items by category while maintaining their entry order.</li>
+    <li>Sorting student grades while preserving their initial submission order.</li>
+    <li>Ranking products based on customer reviews with a reference to their original listing.</li>
+    <li>Organizing event attendees alphabetically while keeping their registration order.</li>
+    <li>Sorting book titles in a library catalog with a reference to their shelf order.</li>
+    <li>Ranking team members by performance while maintaining their original roster order.</li>
+    <li>Sorting a playlist alphabetically without losing track of the original song order.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputList = document.getElementById('input-list');
+    const sortOrder = document.getElementById('sort-order');
+    const sortBtn = document.getElementById('sort-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const outputSection = document.getElementById('output-section');
+    const sortedList = document.getElementById('sorted-list');
+    const errorMessage = document.getElementById('error-message');
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get('start');
+    if (startValue) {
+      inputList.value = startValue;
+    }
+
+    sortBtn.addEventListener('click', () => {
+      const items = inputList.value.split('\n').filter(item => item.trim() !== '');
+      if (items.length === 0) {
+        errorMessage.textContent = 'Please enter at least one item to sort.';
+        errorMessage.classList.remove('d-none');
+        outputSection.classList.add('d-none');
+        return;
+      }
+
+      const indexedItems = items.map((item, index) => ({ originalIndex: index + 1, item: item.trim() }));
+      const sortedItems = indexedItems.sort((a, b) => {
+        const comparison = a.item.localeCompare(b.item);
+        return sortOrder.value === 'asc' ? comparison : -comparison;
+      });
+
+      sortedList.innerHTML = sortedItems.map(item => `
+        <tr>
+          <td>${item.originalIndex}</td>
+          <td>${item.item}</td>
+        </tr>
+      `).join('');
+
+      outputSection.classList.remove('d-none');
+      errorMessage.classList.add('d-none');
+    });
+
+    clearBtn.addEventListener('click', () => {
+      inputList.value = '';
+      outputSection.classList.add('d-none');
+      errorMessage.classList.add('d-none');
+    });
+  });
+</script>      </div>
+    </main>
+        <section id="categories">
+          <h5>Categories:</h5>
+<a href="/tag/post/">post</a>,<a href="/tag/sorting/">sorting</a>,<a href="/tag/list organizer/">list organizer</a>,<a href="/tag/data tools/">data tools</a>,<a href="/tag/productivity/">productivity</a>,<a href="/tag/web app/">web app</a>,        </section>
+        <section id="related-tools-section">
+          <h5>Related tools:</h5>
+ 
+                <a class="related-tool" href="/email-address-counter-quickly-count-emails-in-any-text-2017-01-04-3QS83gWbYYkp9dWovrCb4g/">Email Address Counter - Quickly Count Emails in Any Text</a>
+
+ 
+                <a class="related-tool" href="/index-preserving-sorter-sort-lists-while-keeping-track-of-original-positions-2022-11-13-FIRXsSNnnUozG7pPWYBUlQ/">Index-Preserving Sorter: Sort Lists While Keeping Track of Original Positions</a>
+
+ 
+                <a class="related-tool" href="/business-quarter-difference-calculator-quick-and-accurate-tool-2019-01-22-_os9DdIxNmFkLPo-MSmXww/">Business Quarter Difference Calculator - Quick &amp; Accurate Tool</a>
+
+ 
+                <a class="related-tool" href="/hexadecimal-to-binary-converter-fast-and-accurate-tool-2017-02-09-coaN9nSpBeH50STlLyOTUw/">Hexadecimal to Binary Converter - Fast &amp; Accurate Tool</a>
+
+ 
+                <a class="related-tool" href="/temperature-sum-calculator-add-celsius-values-instantly-2018-01-15-xRezynxnqcKzF04lF6CsuQ/">Temperature Sum Calculator - Add Celsius Values Instantly</a>
+
+ 
+                <a class="related-tool" href="/alphanumeric-sorter-sort-your-lists-instantly-2020-03-13-oWkpk3xCeWk9sQvb2r4fiw/">Alphanumeric Sorter - Sort Your Lists Instantly!</a>
+
+ 
+                <a class="related-tool" href="/quick-reading-time-estimator-calculate-how-long-it-takes-to-read-any-text-2024-10-15-7d02qivGZPFZ2moIRpJYew/">Quick Reading Time Estimator - Calculate How Long It Takes to Read Any Text</a>
+
+ 
+                <a class="related-tool" href="/distance-addition-calculator-add-distances-in-different-units-easily-2022-04-20-r4X7A7-DyO0gi_l0WQG-Nw/">Distance Addition Calculator - Add Distances in Different Units Easily</a>
+
+ 
+                <a class="related-tool" href="/cet-to-utc-converter-quick-and-accurate-time-zone-conversion-2019-05-06-BuFvoP4yNHbCLgk5qMbwdg/">CET to UTC Converter - Quick &amp; Accurate Time Zone Conversion</a>
+
+ 
+                <a class="related-tool" href="/expense-tracker-calculator-simple-and-effective-budgeting-tool-2022-05-08-u96bcJ5e4BOZP4NOXCjyvA/">Expense Tracker Calculator - Simple &amp; Effective Budgeting Tool</a>
+
+ 
+                <a class="related-tool" href="/primary-secondary-sorter-organize-your-items-effortlessly-2019-05-10-b7ljmeE8nqfv1_2wa1LuTg/">Primary-Secondary Sorter: Organize Your Items Effortlessly</a>
+
+ 
+  
+ 
+  
+ 
+                <a class="related-tool" href="/quick-temperature-comparison-tool-compare-and-remember-fahrenheit-values-2018-05-09-FWlQGwo-wx9ZWQSXQAUmsQ/">Quick Temperature Comparison Tool - Compare &amp; Remember Fahrenheit Values</a>
+
+ 
+                <a class="related-tool" href="/quickly-sort-numbers-in-ascending-order-ascending-value-sorter-2017-10-11-sCKnOLxHh45RnggMhju4cA/">Quickly Sort Numbers in Ascending Order | Ascending Value Sorter</a>
+
+ 
+                <a class="related-tool" href="/decimal-to-abacus-converter-visualize-numbers-on-an-abacus-2017-04-23-1pQ-hwelncOn-dIVvU3riA/">Decimal to Abacus Converter - Visualize Numbers on an Abacus</a>
+
+ 
+                <a class="related-tool" href="/cst-to-est-converter-quick-and-accurate-time-zone-conversion-2018-04-14-mHUcd77_GrwuPxoMBaQSgQ/">CST to EST Converter - Quick &amp; Accurate Time Zone Conversion</a>
+
+ 
+                <a class="related-tool" href="/half-day-difference-calculator-calculate-time-intervals-easily-2017-02-10-9h43UaBNpPlz5v7v9d_Xng/">Half-Day Difference Calculator - Calculate Time Intervals Easily</a>
+
+ 
+                <a class="related-tool" href="/binary-to-duodecimal-converter-quick-and-accurate-conversion-tool-2016-05-31-KmnZk6AVO_fi5dgjI8ExFA/">Binary to Duodecimal Converter - Quick &amp; Accurate Conversion Tool</a>
+
+ 
+                <a class="related-tool" href="/binary-to-base-20-converter-quick-and-easy-number-conversion-2020-10-06-NUs-3KGVqT2Lo7j4WZzKBg/">Binary to Base-20 Converter: Quick &amp; Easy Number Conversion</a>
+
+ 
+                <a class="related-tool" href="/aedt-to-mst-time-zone-converter-quick-and-accurate-time-conversion-2016-03-21-x9mqMtIh_k85B8LFqKNJ5Q/">AEDT to MST Time Zone Converter - Quick &amp; Accurate Time Conversion</a>
+
+ 
+                <a class="related-tool" href="/alphabetical-sorter-quickly-sort-your-lists-online-2021-02-11-rh2gnE5PZFVPQqZgKk4FLQ/">Alphabetical Sorter - Quickly Sort Your Lists Online</a>
+
+ 
+                <a class="related-tool" href="/frequency-based-sorter-analyze-and-sort-items-by-occurrence-2019-07-31-YgVmAU97hJAyDhEdRo8RmA/">Frequency-Based Sorter: Analyze &amp; Sort Items by Occurrence</a>
+
+ 
+                <a class="related-tool" href="/binary-to-base-32-converter-fast-and-simple-tool-2023-06-18-PWh6JeKSJ2RenbcSBE_gNA/">Binary to Base-32 Converter | Fast &amp; Simple Tool</a>
+
+ 
+                <a class="related-tool" href="/first-letter-counter-analyze-your-writing-style-2016-12-26-42KwJ6iWaRh0oFqGhfZTng/">First Letter Counter - Analyze Your Writing Style</a>
+
+ 
+                <a class="related-tool" href="/absolute-value-sorter-sort-numbers-by-their-absolute-values-easily-2023-02-22-US1ZkA2VR_KC-dzonVcyGQ/">Absolute Value Sorter - Sort Numbers by Their Absolute Values Easily</a>
+
+ 
+                <a class="related-tool" href="/countdown-to-weekend-track-hours-until-your-next-break-2023-02-20-M-Y-Ffvf1Cr8X_lehlELSQ/">Countdown to Weekend: Track Hours Until Your Next Break!</a>
+
+ 
+                <a class="related-tool" href="/binary-to-gray-code-converter-quick-and-accurate-conversion-tool-2017-04-05-AiuvEttF1AI8snq4bbNp_A/">Binary to Gray Code Converter - Quick &amp; Accurate Conversion Tool</a>
+
+ 
+                <a class="related-tool" href="/repeated-value-sorter-quickly-identify-and-sort-duplicates-2024-10-10-Z5WqJpCr9ZiK-cIds7MjYA/">Repeated Value Sorter - Quickly Identify and Sort Duplicates</a>
+
+ 
+                <a class="related-tool" href="/currency-aware-sorter-sort-multi-currency-values-instantly-2020-04-06-w-Math8rBynkvHyfj8Do5g/">Currency-Aware Sorter: Sort Multi-Currency Values Instantly</a>
+
+ 
+                <a class="related-tool" href="/quick-temperature-difference-calculator-fahrenheit-comparison-tool-2023-04-16-26eaQrrkBwzDM-7w5M7r1w/">Quick Temperature Difference Calculator | Fahrenheit Comparison Tool</a>
+
+ 
+  
+ 
+                <a class="related-tool" href="/minutes-difference-calculator-quick-and-easy-time-calculation-2020-07-18-HaDly_ICb-VgAMvK3iL0WA/">Minutes Difference Calculator - Quick &amp; Easy Time Calculation</a>
+
+ 
+  
+ 
+                <a class="related-tool" href="/emoji-aware-sorter-organize-text-and-emojis-easily-2023-03-15-2Ca82R_fXnIe65UU4tloZg/">Emoji-Aware Sorter: Organize Text &amp; Emojis Easily</a>
+
+ 
+                <a class="related-tool" href="/unicode-sorter-sort-unicode-characters-by-code-points-2024-03-01-Lulx4hzHfIKmjOxGfpNsvA/">Unicode Sorter: Sort Unicode Characters by Code Points</a>
+
+ 
+  
+ 
+  
+ 
+  
+ 
+                <a class="related-tool" href="/custom-sort-order-generator-organize-your-lists-effortlessly-2021-04-23-UdL_yaMX9Jx6IGPyBU0oiw/">Custom Sort Order Generator - Organize Your Lists Effortlessly</a>
+
+ 
+                <a class="related-tool" href="/list-chunk-sorter-organize-your-lists-easily-2020-04-02-pBan7glkXxdgFBjaixPm5g/">List Chunk Sorter - Organize Your Lists Easily</a>
+
+ 
+                <a class="related-tool" href="/quick-decimal-to-base-3-converter-fast-and-accurate-2024-08-12-V17Z3Kts-arrUJQAbd6w1w/">Quick Decimal to Base-3 Converter | Fast &amp; Accurate</a>
+
+ 
+                <a class="related-tool" href="/custom-date-milestone-calculator-plan-your-dates-easily-2019-02-18-HnFMiGJkAKhY7W2_Tm_ztg/">Custom Date Milestone Calculator - Plan Your Dates Easily</a>
+
+ 
+  
+ 
+                <a class="related-tool" href="/base-9-to-decimal-converter-quick-and-accurate-number-conversion-2016-10-06-MfK9zRLUZy8yfIL4dmKCCA/">Base-9 to Decimal Converter | Quick &amp; Accurate Number Conversion</a>
+
+ 
+                <a class="related-tool" href="/duplicate-value-sorter-clean-and-organize-your-lists-effortlessly-2020-10-24-Kj45FFO-PQLxD38pu6iMFw/">Duplicate Value Sorter - Clean &amp; Organize Your Lists Effortlessly</a>
+
+ 
+                <a class="related-tool" href="/reciprocal-calculator-quick-and-accurate-1-x-calculations-2023-04-16-sVP6ux4QGjEnYLy_ThXTWA/">Reciprocal Calculator - Quick &amp; Accurate 1/x Calculations</a>
+
+ 
+  
+ 
+  
+ 
+          </section>
+      <footer class="py-3">
+        <div class="container">
+          <p class="text-center">
+            <small>© <span id="year"></span> Little Tiny Tools</small>
+          </p>
+          <p class="text-center">
+            <small>
+              <a href="/about">About</a> |
+              <a href="/privacy-policy">Privacy Policy</a> |
+              <a href="/terms-of-service">Terms of Service</a> |
+              <a href="/contact">Contact</a> |
+              <a href="https://buymeacoffee.com/hexxii" target="_blank">
+                <img height="40ox" width="160px" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+                     alt="Buy Me A Coffee" />
+              </a> |
+              <a href="/">Browse All Tools</a> |
+              <a href="/404">Bet you can't beat our high score!</a>
+            </small>
+          </p>
+          </div>
+        </footer>
+        <!-- Bootstrap JS -->
+        <script src="/assets/scripts/bootstrap.min.js"></script>
+        <script src="/assets/scripts/main.js"></script>
+    </body>
+  </html>

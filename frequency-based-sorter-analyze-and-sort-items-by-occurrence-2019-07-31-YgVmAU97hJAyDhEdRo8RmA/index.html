@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+      <title>Frequency-Based Sorter: Analyze &amp; Sort Items by Occurrence</title>
+      <meta property="og:title" content="Frequency-Based Sorter: Analyze &amp; Sort Items by Occurrence" />
+    <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="/assets/styles/bootstrap.min.css" />
+      <link rel="stylesheet" href="/assets/styles/layout.css" />
+      <meta name="description" content="Sort any list by frequency instantly! Perfect for analyzing data, tracking trends, and organizing information. Try it now!" />
+      <meta property="og:description" content="Sort any list by frequency instantly! Perfect for analyzing data, tracking trends, and organizing information. Try it now!" />
+      <meta name="keywords" content="metaKeywords" />
+    <meta name="author" content="Little Tiny Tools" />
+    <link rel="icon"
+          href="/assets/imgs/favicon-dark-theme.svg"
+          type="image/svg+xml"
+          media="(prefers-color-scheme: dark)" />
+    <link rel="icon"
+          href="/assets/imgs/favicon-light-theme.svg"
+          type="image/svg+xml"
+          media="(prefers-color-scheme: light)" />
+    <link rel="apple-touch-icon"
+          sizes="180x180"
+          href="/assets/imgs/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+      <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Frequency-Based Sorter: Analyze &amp; Sort Items by Occurrence",
+      "description": "Sort any list by frequency instantly! Perfect for analyzing data, tracking trends, and organizing information. Try it now!",
+      "url": "https://littletinytools.com/frequency-based-sorter-analyze-and-sort-items-by-occurrence-2019-07-31-YgVmAU97hJAyDhEdRo8RmA/",
+      "applicationCategory": "Utility",
+      "operatingSystem": "All"
+    }
+      </script>
+    <style>@import url("https://fonts.googleapis.com/css2?family=Bitter&display=swap");</style>
+    <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9239838040277193"
+            crossorigin="anonymous"></script>
+    <meta name="google-adsense-account" content="ca-pub-9239838040277193" />
+  </head>
+  <body data-bs-theme="dark">
+    <!-- <script src="https://alwingulla.com/88/tag.min.js" data-zone="121816" async data-cfasync="false"></script> -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J0QX0DVBPC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-J0QX0DVBPC");
+    </script>
+      <header>
+        <div class="row m-3">
+          <div id="logo-container" class="col">
+            <a class="navbar-brand" href="/">
+              <span class="navbar-brand mb-0">Little Tiny Tools</span>
+            </a>
+            <span>A Cool Tool For Every Fool</span>
+          </div>
+          <form id="searchForm" class="d-flex form-floating dropdown col justify-content-md-center justify-content-sm-end">
+            <div class="input-group w-auto">
+              <input id="searchInput" class="form-control" placeholder="Search..." />
+              <button id="searchBtn" class="btn btn-outline-secondary">Search</button>
+          </div>
+            <ul id="searchResults" class="dropdown-menu" style="top:3rem;">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </form>
+          <a href="/404" class="col-sm-12 col-md-4">
+            <div class="chart-container">
+              <svg width="100%" height="100%">
+                <path class="line"></path>
+              </svg>
+              <div class="axis"></div>
+              <!-- <div class="jackpot-label">Jackpot</div> -->
+              <div class="price-label">$0.00</div>
+            </div>
+          </a>
+        </div>
+      </header>
+    <main class="container mt-4">
+      <div class="content">
+
+<div id="main-div" class="container mt-5 bg-dark text-white p-4 rounded">
+  <header class="text-center mb-4">
+    <h1 class="display-4">Frequency-Based Sorter</h1><div class="container mt-5 bg-dark text-white p-4 rounded">
+  <div class="text-center mb-4">
+    <strong class="display-4">Frequency-Based Sorter</strong>
+    <p class="lead">Got a messy list of items and need to know what’s popping up the most? Whether it’s tracking your grocery list, analyzing survey responses, or even spotting trends in your social media hashtags, this tool is your new best friend. Just toss in your items, hit the button, and watch it neatly sort everything by frequency. No more guessing—just clear, actionable insights in seconds. Life’s too short for manual counting, right? Let’s make it easier!</p>
+  </div>
+</div>
+    <p class="lead">Enter your list of items below, and we'll sort them by frequency.</p>
+  </header>
+
+  <div class="mb-4">
+    <textarea id="input-field" class="form-control bg-dark text-white mb-3" rows="5" placeholder="Enter your items here, separated by commas, spaces, or new lines."></textarea>
+    <button id="sort-btn" class="btn btn-primary w-100 mb-2">Sort by Frequency</button>
+    <button id="reset-btn" class="btn btn-secondary w-100">Reset</button>
+  </div>
+
+  <div id="output-section" class="d-none">
+    <h2 class="h4 mb-3">Results</h2>
+    <table class="table table-striped table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Item</th>
+          <th scope="col">Frequency</th>
+        </tr>
+      </thead>
+      <tbody id="results-table">
+      </tbody>
+    </table>
+  </div>
+
+  <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
+</div>
+
+<div class="container mt-4 bg-light p-4 rounded">
+  <h2 class="h4 mb-3">How It Works</h2>
+  <p>This tool works by analyzing your input and counting how often each item appears. Here’s the breakdown:</p>
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">You enter your items—separated by commas, spaces, or new lines.</li>
+    <li class="list-group-item">The tool counts how many times each item appears.</li>
+    <li class="list-group-item">It sorts the items from most frequent to least frequent.</li>
+    <li class="list-group-item">Voilà! You get a clean table showing the results.</li>
+  </ol>
+
+  <h2 class="h4 mt-4 mb-3">Example Output</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Item</th>
+        <th scope="col">Frequency</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Apple</td><td>5</td></tr>
+      <tr><td>Banana</td><td>3</td></tr>
+      <tr><td>Orange</td><td>2</td></tr>
+      <tr><td>Grapes</td><td>1</td></tr>
+    </tbody>
+  </table>
+</div><div class="container mt-4 bg-light p-4 rounded">
+  <h2 class="h4 mb-3">10 Common Use Cases</h2>
+  <ul class="list-group">
+    <li class="list-group-item">1. Analyzing survey responses to find recurring themes.</li>
+    <li class="list-group-item">2. Sorting hashtags from social media posts to identify trends.</li>
+    <li class="list-group-item">3. Organizing grocery lists to see which items you buy most often.</li>
+    <li class="list-group-item">4. Tracking keywords in customer feedback for product improvements.</li>
+    <li class="list-group-item">5. Counting word frequencies in essays or articles for SEO optimization.</li>
+    <li class="list-group-item">6. Identifying popular menu items in restaurant orders.</li>
+    <li class="list-group-item">7. Sorting event RSVPs to see which attendees are most active.</li>
+    <li class="list-group-item">8. Analyzing inventory data to spot high-demand products.</li>
+    <li class="list-group-item">9. Counting recurring errors in coding projects for debugging.</li>
+    <li class="list-group-item">10. Organizing to-do lists by priority based on frequency.</li>
+  </ul>
+</div><script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const inputField = document.getElementById("input-field");
+    const sortBtn = document.getElementById("sort-btn");
+    const resetBtn = document.getElementById("reset-btn");
+    const outputSection = document.getElementById("output-section");
+    const resultsTable = document.getElementById("results-table");
+    const errorMessage = document.getElementById("error-message");
+
+    // Preload input from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const startValue = urlParams.get("start");
+    if (startValue) {
+      inputField.value = startValue;
+    }
+
+    const sortByFrequency = () => {
+      errorMessage.classList.add("d-none");
+      const input = inputField.value.trim();
+
+      if (!input) {
+        errorMessage.textContent = "Please enter some items to sort.";
+        errorMessage.classList.remove("d-none");
+        return;
+      }
+
+      // Split input by commas, spaces, or new lines
+      const items = input.split(/[\s,]+/).filter(item => item.trim() !== "");
+
+      if (items.length === 0) {
+        errorMessage.textContent = "No valid items found. Please check your input.";
+        errorMessage.classList.remove("d-none");
+        return;
+      }
+
+      // Count frequency of each item
+      const frequencyMap = items.reduce((acc, item) => {
+        acc[item] = (acc[item] || 0) + 1;
+        return acc;
+      }, {});
+
+      // Convert to array and sort by frequency
+      const sortedItems = Object.entries(frequencyMap).sort((a, b) => b[1] - a[1]);
+
+      // Clear previous results
+      resultsTable.innerHTML = "";
+
+      // Populate table with results
+      sortedItems.forEach(([item, frequency]) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${item}</td><td>${frequency}</td>`;
+        resultsTable.appendChild(row);
+      });
+
+      outputSection.classList.remove("d-none");
+    };
+
+    const resetApp = () => {
+      inputField.value = "";
+      outputSection.classList.add("d-none");
+      errorMessage.classList.add("d-none");
+    };
+
+    sortBtn.addEventListener("click", sortByFrequency);
+    resetBtn.addEventListener("click", resetApp);
+
+    // Handle Enter key in textarea
+    inputField.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sortByFrequency();
+      }
+    });
+  });
+</script>      </div>
+    </main>
+        <section id="categories">
+          <h5>Categories:</h5>
+<a href="/tag/post/">post</a>,<a href="/tag/frequency sorter/">frequency sorter</a>,<a href="/tag/data analysis/">data analysis</a>,<a href="/tag/word counter/">word counter</a>,<a href="/tag/list organizer/">list organizer</a>,<a href="/tag/text tool/">text tool</a>,        </section>
+        <section id="related-tools-section">
+          <h5>Related tools:</h5>
+ 
+                <a class="related-tool" href="/frequency-based-sorter-analyze-and-sort-items-by-occurrence-2019-07-31-YgVmAU97hJAyDhEdRo8RmA/">Frequency-Based Sorter: Analyze &amp; Sort Items by Occurrence</a>
+
+ 
+                <a class="related-tool" href="/reverse-your-list-instantly-simple-and-fast-list-sorter-2024-02-14-pPe_2wWrzLW3rTCnPII6lg/">Reverse Your List Instantly - Simple &amp; Fast List Sorter</a>
+
+ 
+                <a class="related-tool" href="/percentage-symbol-counter-quick-and-easy-tool-2017-11-30-X0mkXsO2UZvMi7y_foDyLw/">Percentage Symbol Counter - Quick &amp; Easy Tool</a>
+
+ 
+                <a class="related-tool" href="/unique-word-counter-analyze-your-text-vocabulary-2023-11-04-OWX45sH2-1GXPZQgi5YPOA/">Unique Word Counter - Analyze Your Text Vocabulary</a>
+
+ 
+  
+ 
+                <a class="related-tool" href="/index-preserving-sorter-sort-lists-while-keeping-track-of-original-positions-2022-11-13-FIRXsSNnnUozG7pPWYBUlQ/">Index-Preserving Sorter: Sort Lists While Keeping Track of Original Positions</a>
+
+ 
+                <a class="related-tool" href="/custom-word-list-counter-count-word-frequencies-instantly-2020-08-13-SI4-N_gjQ90NiKyLuBzR8A/">Custom Word List Counter - Count Word Frequencies Instantly</a>
+
+ 
+                <a class="related-tool" href="/clean-and-sort-your-lists-instantly-duplication-aware-sorter-2024-03-05-TVC--H3XCHA9hUUxt4QLYA/">Clean &amp; Sort Your Lists Instantly | Duplication-Aware Sorter</a>
+
+ 
+                <a class="related-tool" href="/csv-numeric-column-validator-quick-and-easy-data-validation-2019-04-22-T8cnDOEv75RO32jI4EDn2g/">CSV Numeric Column Validator - Quick &amp; Easy Data Validation</a>
+
+ 
+                <a class="related-tool" href="/slash-word-counter-count-words-separated-by-slashes-easily-2022-04-09-Yxg-lh6BUECYEu2tPzifkw/">Slash Word Counter - Count Words Separated by Slashes Easily</a>
+
+ 
+                <a class="related-tool" href="/repeated-word-counter-analyze-word-frequency-instantly-2017-05-22-LA_5TiQ-3HmgTHJL6j-Gmg/">Repeated Word Counter - Analyze Word Frequency Instantly</a>
+
+ 
+                <a class="related-tool" href="/convert-text-to-constant-case-screaming-snake-case-tool-2021-08-25-7Ep4PEcIZhGhIuC4nwnCmA/">Convert Text to Constant Case - SCREAMING_SNAKE_CASE Tool</a>
+
+ 
+                <a class="related-tool" href="/convert-binary-to-mayan-numerals-explore-ancient-number-systems-2019-09-14-vSg9uiacpCiS7Tnd0Tev1w/">Convert Binary to Mayan Numerals - Explore Ancient Number Systems</a>
+
+ 
+                <a class="related-tool" href="/quick-line-counter-count-lines-in-text-instantly-2021-03-12-kMxqHfqDlJ0EvhrS8cPAGg/">Quick Line Counter: Count Lines in Text Instantly</a>
+
+ 
+                <a class="related-tool" href="/line-word-counter-count-words-and-lines-instantly-2018-06-01-uE_pEgOd2e2_SWq1oHxnhA/">Line Word Counter - Count Words &amp; Lines Instantly</a>
+
+ 
+  
+ 
+                <a class="related-tool" href="/numeric-string-counter-count-digits-in-text-instantly-2022-08-07-2_26LOzztcYzuKsiS7m5CQ/">Numeric String Counter - Count Digits in Text Instantly</a>
+
+ 
+                <a class="related-tool" href="/word-repetition-counter-analyze-your-text-instantly-2019-03-04-xKN3f5L47psR1v4KxCwn-Q/">Word Repetition Counter - Analyze Your Text Instantly</a>
+
+ 
+                <a class="related-tool" href="/paragraph-counter-quickly-count-paragraphs-in-your-text-2022-10-14-o2Wbuh-hcHV9hLuaJKJMSQ/">Paragraph Counter - Quickly Count Paragraphs in Your Text</a>
+
+ 
+                <a class="related-tool" href="/temperature-inversion-tool-visualize-atmospheric-temperature-changes-2016-07-03-6hHzvQMfOFKipDHnhiZ7FQ/">Temperature Inversion Tool - Visualize Atmospheric Temperature Changes</a>
+
+ 
+                <a class="related-tool" href="/title-case-word-counter-convert-text-and-count-words-instantly-2020-09-08-PRwdCdtQccG9VXJdZ6REaw/">Title Case Word Counter - Convert Text &amp; Count Words Instantly</a>
+
+ 
+  
+ 
+                <a class="related-tool" href="/url-counter-quickly-count-urls-in-your-text-2024-05-12-oifv3F_htm6ujj9RRbplIQ/">URL Counter - Quickly Count URLs in Your Text</a>
+
+ 
+                <a class="related-tool" href="/ternary-to-hexadecimal-converter-quick-and-easy-tool-2018-12-03-imB2sRrydE8IZLOS8CcwBQ/">Ternary to Hexadecimal Converter - Quick &amp; Easy Tool</a>
+
+ 
+                <a class="related-tool" href="/caret-counter-easily-count-caret-symbols-in-your-text-2018-12-04-4JbeeiFAs0RXwyCEprF86w/">Caret Counter: Easily Count Caret Symbols in Your Text</a>
+
+ 
+                <a class="related-tool" href="/non-empty-line-counter-count-lines-instantly-2016-10-30-5gCQWNIZ2nSD7YhfsC_2qQ/">Non-Empty Line Counter: Count Lines Instantly</a>
+
+ 
+                <a class="related-tool" href="/decimal-truncation-calculator-simplify-numbers-instantly-2018-09-30-bsChDarlJGrrjK2_HNMCGw/">Decimal Truncation Calculator - Simplify Numbers Instantly</a>
+
+ 
+  
+ 
+                <a class="related-tool" href="/alphabetize-your-list-instantly-simple-and-fast-sorting-tool-2017-09-08-pO5HPHM2iY2RV-zVKNvkdA/">Alphabetize Your List Instantly - Simple &amp; Fast Sorting Tool</a>
+
+ 
+  
+ 
+                <a class="related-tool" href="/alphabetical-sorter-quickly-sort-your-lists-online-2021-02-11-rh2gnE5PZFVPQqZgKk4FLQ/">Alphabetical Sorter - Quickly Sort Your Lists Online</a>
+
+ 
+  
+ 
+                <a class="related-tool" href="/pst-to-cet-converter-simple-time-zone-conversion-tool-2021-10-08-0AfvgBm-j5Z6GR948K3DKw/">PST to CET Converter - Simple Time Zone Conversion Tool</a>
+
+ 
+                <a class="related-tool" href="/special-character-counter-count-and-highlight-non-alphanumeric-characters-2016-09-14-VcAAdhESVWcH6pB2Rb0WQQ/">Special Character Counter - Count &amp; Highlight Non-Alphanumeric Characters</a>
+
+ 
+                <a class="related-tool" href="/debt-payoff-calculator-plan-your-financial-freedom-2016-06-13-dD92Ovlw5uEINYeIylc-5w/">Debt Payoff Calculator - Plan Your Financial Freedom</a>
+
+ 
+  
+ 
+  
+ 
+  
+ 
+  
+ 
+  
+ 
+                <a class="related-tool" href="/weighted-average-calculator-quick-and-easy-tool-for-students-and-professionals-2019-08-31-Cu8-JkMGydHd7PyFOaC1tw/">Weighted Average Calculator - Quick &amp; Easy Tool for Students &amp; Professionals</a>
+
+ 
+  
+ 
+                <a class="related-tool" href="/csv-to-pivot-table-generator-analyze-data-instantly-2019-04-26-q1NUbNO9oT8wILfYT1sh9w/">CSV to Pivot Table Generator - Analyze Data Instantly</a>
+
+ 
+                <a class="related-tool" href="/percentage-increase-calculator-quick-and-easy-tool-2020-05-08-xrauEUt-q9x4a5n2KrTB9Q/">Percentage Increase Calculator - Quick &amp; Easy Tool</a>
+
+ 
+  
+ 
+  
+ 
+  
+ 
+                <a class="related-tool" href="/quick-mst-to-gmt-converter-simple-time-zone-tool-2021-07-27-N1q_KpMFsS5XK9TkfFjV2g/">Quick MST to GMT Converter - Simple Time Zone Tool</a>
+
+ 
+                <a class="related-tool" href="/sort-strings-by-length-quick-and-easy-tool-2022-12-09-knHxlfoHViZXwqCtsqYF8g/">Sort Strings by Length - Quick &amp; Easy Tool</a>
+
+ 
+          </section>
+      <footer class="py-3">
+        <div class="container">
+          <p class="text-center">
+            <small>© <span id="year"></span> Little Tiny Tools</small>
+          </p>
+          <p class="text-center">
+            <small>
+              <a href="/about">About</a> |
+              <a href="/privacy-policy">Privacy Policy</a> |
+              <a href="/terms-of-service">Terms of Service</a> |
+              <a href="/contact">Contact</a> |
+              <a href="https://buymeacoffee.com/hexxii" target="_blank">
+                <img height="40ox" width="160px" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+                     alt="Buy Me A Coffee" />
+              </a> |
+              <a href="/">Browse All Tools</a> |
+              <a href="/404">Bet you can't beat our high score!</a>
+            </small>
+          </p>
+          </div>
+        </footer>
+        <!-- Bootstrap JS -->
+        <script src="/assets/scripts/bootstrap.min.js"></script>
+        <script src="/assets/scripts/main.js"></script>
+    </body>
+  </html>

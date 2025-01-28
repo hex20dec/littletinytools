@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+      <title>CSV Row Duplicator - Easily Duplicate Rows in CSV Files</title>
+      <meta property="og:title" content="CSV Row Duplicator - Easily Duplicate Rows in CSV Files" />
+    <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="/assets/styles/bootstrap.min.css" />
+      <link rel="stylesheet" href="/assets/styles/layout.css" />
+      <meta name="description" content="Easily duplicate rows in your CSV files with the CSV Row Duplicator. Perfect for testing, analysis, or bulk data preparation. Try it now!" />
+      <meta property="og:description" content="Easily duplicate rows in your CSV files with the CSV Row Duplicator. Perfect for testing, analysis, or bulk data preparation. Try it now!" />
+      <meta name="keywords" content="metaKeywords" />
+    <meta name="author" content="Little Tiny Tools" />
+    <link rel="icon"
+          href="/assets/imgs/favicon-dark-theme.svg"
+          type="image/svg+xml"
+          media="(prefers-color-scheme: dark)" />
+    <link rel="icon"
+          href="/assets/imgs/favicon-light-theme.svg"
+          type="image/svg+xml"
+          media="(prefers-color-scheme: light)" />
+    <link rel="apple-touch-icon"
+          sizes="180x180"
+          href="/assets/imgs/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+      <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "CSV Row Duplicator - Easily Duplicate Rows in CSV Files",
+      "description": "Easily duplicate rows in your CSV files with the CSV Row Duplicator. Perfect for testing, analysis, or bulk data preparation. Try it now!",
+      "url": "https://littletinytools.com/csv-row-duplicator-easily-duplicate-rows-in-csv-files-2021-03-18-QQvLg9rXG9av0v6-U0SSmQ/",
+      "applicationCategory": "Utility",
+      "operatingSystem": "All"
+    }
+      </script>
+    <style>@import url("https://fonts.googleapis.com/css2?family=Bitter&display=swap");</style>
+    <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9239838040277193"
+            crossorigin="anonymous"></script>
+    <meta name="google-adsense-account" content="ca-pub-9239838040277193" />
+  </head>
+  <body data-bs-theme="dark">
+    <!-- <script src="https://alwingulla.com/88/tag.min.js" data-zone="121816" async data-cfasync="false"></script> -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J0QX0DVBPC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-J0QX0DVBPC");
+    </script>
+      <header>
+        <div class="row m-3">
+          <div id="logo-container" class="col">
+            <a class="navbar-brand" href="/">
+              <span class="navbar-brand mb-0">Little Tiny Tools</span>
+            </a>
+            <span>A Cool Tool For Every Fool</span>
+          </div>
+          <form id="searchForm" class="d-flex form-floating dropdown col justify-content-md-center justify-content-sm-end">
+            <div class="input-group w-auto">
+              <input id="searchInput" class="form-control" placeholder="Search..." />
+              <button id="searchBtn" class="btn btn-outline-secondary">Search</button>
+          </div>
+            <ul id="searchResults" class="dropdown-menu" style="top:3rem;">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </form>
+          <a href="/404" class="col-sm-12 col-md-4">
+            <div class="chart-container">
+              <svg width="100%" height="100%">
+                <path class="line"></path>
+              </svg>
+              <div class="axis"></div>
+              <!-- <div class="jackpot-label">Jackpot</div> -->
+              <div class="price-label">$0.00</div>
+            </div>
+          </a>
+        </div>
+      </header>
+    <main class="container mt-4">
+      <div class="content">
+
+<div id="main-div" class="container-fluid bg-dark text-white p-4">
+  <h1 class="display-4 text-center mb-4">CSV Row Duplicator</h1><div class="container-fluid bg-dark text-white p-4">
+  <p class="lead text-center mb-4">Working with CSV files can feel like herding cats—especially when you need to duplicate specific rows for testing, analysis, or bulk data entry. The CSV Row Duplicator is here to save the day! Simply upload your CSV file, pick the row you want to copy, and specify how many duplicates you need. Whether you're prepping data for a report, running simulations, or just trying to make your spreadsheet life easier, this tool handles it all in a few clicks. No more manual copying or spreadsheet headaches—just smooth, efficient data manipulation. Let’s make your CSV workflows a breeze!</p>
+</div>
+  <p class="lead text-center mb-4">Upload a CSV file, select a row, and duplicate it as many times as needed.</p>
+
+  <div class="mb-4">
+    <label for="csvFileInput" class="form-label">Upload CSV File</label>
+    <input type="file" class="form-control bg-dark text-white" id="csvFileInput" accept=".csv">
+    <div id="fileError" class="text-danger mt-2"></div>
+  </div>
+
+  <div id="previewSection" class="mb-4 d-none">
+    <h3>Preview</h3>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-dark">
+        <thead id="previewTableHead"></thead>
+        <tbody id="previewTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <label for="rowNumberInput" class="form-label">Select Row to Duplicate</label>
+      <input type="number" class="form-control bg-dark text-white" id="rowNumberInput" value="1" min="1">
+      <div id="rowError" class="text-danger mt-2"></div>
+    </div>
+    <div class="col-md-6">
+      <label for="duplicateCountInput" class="form-label">Number of Duplicates</label>
+      <input type="number" class="form-control bg-dark text-white" id="duplicateCountInput" value="1" min="1">
+      <div id="countError" class="text-danger mt-2"></div>
+    </div>
+  </div>
+
+  <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4">
+    <button id="duplicateButton" class="btn btn-primary me-md-2">Duplicate Row</button>
+    <button id="downloadButton" class="btn btn-success" disabled>Download Modified CSV</button>
+    <button id="resetButton" class="btn btn-danger">Reset</button>
+  </div>
+
+  <div id="updatedPreviewSection" class="mb-4 d-none">
+    <h3>Updated Preview</h3>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-dark">
+        <thead id="updatedTableHead"></thead>
+        <tbody id="updatedTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="text-center mt-4">
+    <p class="text-muted">Tip: Use the preview table to verify your changes before downloading.</p>
+  </footer>
+</div>
+
+<div class="container-fluid bg-light p-4">
+  <h2 class="mb-4">How It Works</h2>
+  <p class="mb-4">The CSV Row Duplicator follows a simple process: you upload your CSV file, select the row you want to duplicate, and specify how many copies you need. The tool then inserts the duplicated rows right where you want them, giving you a clean, updated CSV file ready for download. Here's a quick breakdown of the steps:</p>
+  <ol class="mb-4">
+    <li>Upload your CSV file using the "Upload CSV File" button.</li>
+    <li>Preview the first few rows to ensure the file is correct.</li>
+    <li>Enter the row number you want to duplicate.</li>
+    <li>Specify how many times you want to duplicate the row.</li>
+    <li>Click "Duplicate Row" and preview the updated file.</li>
+    <li>Download the modified CSV file when you're ready.</li>
+  </ol>
+  <h3 class="mb-4">Example Table</h3>
+  <div class="table-responsive mb-4">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Original Row</th>
+          <th>Duplicated Rows (3x)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Row 1: Data A, Data B, Data C</td>
+          <td>Row 1: Data A, Data B, Data C<br>Row 1: Data A, Data B, Data C<br>Row 1: Data A, Data B, Data C</td>
+        </tr>
+        <tr>
+          <td>Row 2: Data D, Data E, Data F</td>
+          <td>Row 2: Data D, Data E, Data F<br>Row 2: Data D, Data E, Data F<br>Row 2: Data D, Data E, Data F</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><div class="container-fluid bg-dark text-white p-4">
+  <h2 class="mb-4">10 Common Use Cases for the CSV Row Duplicator</h2>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item bg-dark text-white">Creating test datasets for software development.</li>
+    <li class="list-group-item bg-dark text-white">Generating bulk data for simulations or modeling.</li>
+    <li class="list-group-item bg-dark text-white">Preparing sample data for presentations or reports.</li>
+    <li class="list-group-item bg-dark text-white">Duplicating rows for statistical analysis.</li>
+    <li class="list-group-item bg-dark text-white">Expanding datasets for machine learning training.</li>
+    <li class="list-group-item bg-dark text-white">Replicating rows for database testing.</li>
+    <li class="list-group-item bg-dark text-white">Creating placeholder data for templates.</li>
+    <li class="list-group-item bg-dark text-white">Filling in gaps in incomplete datasets.</li>
+    <li class="list-group-item bg-dark text-white">Preparing data for bulk email campaigns.</li>
+    <li class="list-group-item bg-dark text-white">Simplifying repetitive data entry tasks.</li>
+  </ul>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const csvFileInput = document.getElementById('csvFileInput');
+    const previewSection = document.getElementById('previewSection');
+    const previewTableHead = document.getElementById('previewTableHead');
+    const previewTableBody = document.getElementById('previewTableBody');
+    const rowNumberInput = document.getElementById('rowNumberInput');
+    const duplicateCountInput = document.getElementById('duplicateCountInput');
+    const duplicateButton = document.getElementById('duplicateButton');
+    const downloadButton = document.getElementById('downloadButton');
+    const resetButton = document.getElementById('resetButton');
+    const updatedPreviewSection = document.getElementById('updatedPreviewSection');
+    const updatedTableHead = document.getElementById('updatedTableHead');
+    const updatedTableBody = document.getElementById('updatedTableBody');
+    const fileError = document.getElementById('fileError');
+    const rowError = document.getElementById('rowError');
+    const countError = document.getElementById('countError');
+
+    let csvData = [];
+    let headers = [];
+    let modifiedData = [];
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const startRow = urlParams.get('start');
+    if (startRow) {
+      rowNumberInput.value = startRow;
+    }
+
+    csvFileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file && file.type === 'text/csv') {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const text = e.target.result;
+          csvData = text.split('\n').map(row => row.split(','));
+          headers = csvData[0];
+          previewTableHead.innerHTML = `<tr>${headers.map(header => `<th>${header}</th>`).join('')}</tr>`;
+          previewTableBody.innerHTML = csvData.slice(1, 6).map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('');
+          previewSection.classList.remove('d-none');
+          fileError.textContent = '';
+        };
+        reader.readAsText(file);
+      } else {
+        fileError.textContent = 'Please upload a valid CSV file.';
+        previewSection.classList.add('d-none');
+      }
+    });
+
+    duplicateButton.addEventListener('click', () => {
+      const rowNumber = parseInt(rowNumberInput.value, 10);
+      const duplicateCount = parseInt(duplicateCountInput.value, 10);
+
+      if (isNaN(rowNumber) || rowNumber < 1 || rowNumber >= csvData.length) {
+        rowError.textContent = 'Row number out of range.';
+        return;
+      } else {
+        rowError.textContent = '';
+      }
+
+      if (isNaN(duplicateCount) || duplicateCount < 1) {
+        countError.textContent = 'Please enter a valid number.';
+        return;
+      } else {
+        countError.textContent = '';
+      }
+
+      modifiedData = [...csvData];
+      const rowToDuplicate = modifiedData[rowNumber];
+      for (let i = 0; i < duplicateCount; i++) {
+        modifiedData.splice(rowNumber, 0, rowToDuplicate);
+      }
+
+      updatedTableHead.innerHTML = `<tr>${headers.map(header => `<th>${header}</th>`).join('')}</tr>`;
+      updatedTableBody.innerHTML = modifiedData.slice(1, 11).map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('');
+      updatedPreviewSection.classList.remove('d-none');
+      downloadButton.disabled = false;
+    });
+
+    downloadButton.addEventListener('click', () => {
+      const csvContent = modifiedData.map(row => row.join(',')).join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'modified_csv.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    resetButton.addEventListener('click', () => {
+      csvFileInput.value = '';
+      previewSection.classList.add('d-none');
+      updatedPreviewSection.classList.add('d-none');
+      rowNumberInput.value = startRow || 1;
+      duplicateCountInput.value = 1;
+      downloadButton.disabled = true;
+      fileError.textContent = '';
+      rowError.textContent = '';
+      countError.textContent = '';
+      csvData = [];
+      modifiedData = [];
+    });
+  });
+</script>      </div>
+    </main>
+        <section id="categories">
+          <h5>Categories:</h5>
+<a href="/tag/post/">post</a>,<a href="/tag/CSV/">CSV</a>,<a href="/tag/Data Manipulation/">Data Manipulation</a>,<a href="/tag/Web Tool/">Web Tool</a>,<a href="/tag/Data Analysis/">Data Analysis</a>,<a href="/tag/Productivity/">Productivity</a>,        </section>
+        <section id="related-tools-section">
+          <h5>Related tools:</h5>
+ 
+                <a class="related-tool" href="/csv-value-mapper-transform-your-data-easily-2023-02-02-5P3ClDWkCrvl60JVR0eCBw/">CSV Value Mapper - Transform Your Data Easily</a>
+
+ 
+                <a class="related-tool" href="/csv-date-column-validator-validate-dates-in-csv-files-easily-2024-02-10-pNLrPzLymFmUYYX-axAjTQ/">CSV Date Column Validator - Validate Dates in CSV Files Easily</a>
+
+ 
+                <a class="related-tool" href="/depreciation-calculator-simple-and-accurate-asset-depreciation-tool-2024-12-22-JuFeeia2NTttiC-yJ3kDLg/">Depreciation Calculator: Simple &amp; Accurate Asset Depreciation Tool</a>
+
+ 
+                <a class="related-tool" href="/csv-empty-value-filler-quickly-fill-missing-data-in-csv-files-2016-09-12-SV-8xitJO9GEtPFqOf0FrA/">CSV Empty Value Filler - Quickly Fill Missing Data in CSV Files</a>
+
+ 
+  
+ 
+                <a class="related-tool" href="/extract-unique-csv-column-values-instantly-csv-tool-2017-01-29-wsx1Eevb5p-cafy8iPgFsg/">Extract Unique CSV Column Values Instantly | CSV Tool</a>
+
+ 
+                <a class="related-tool" href="/csv-row-splitter-easily-split-large-csv-files-online-2019-08-03-gP70pLmH1lppd7HOvShEGA/">CSV Row Splitter - Easily Split Large CSV Files Online</a>
+
+ 
+                <a class="related-tool" href="/csv-value-divider-easily-divide-csv-column-values-online-2017-05-31-1RuOE9omxyISAXwHgjDMzg/">CSV Value Divider - Easily Divide CSV Column Values Online</a>
+
+ 
+                <a class="related-tool" href="/csv-to-inline-json-converter-quick-and-easy-data-conversion-2022-02-12-23sDNnRMhTQ0qxghjBLYNA/">CSV to Inline JSON Converter - Quick &amp; Easy Data Conversion</a>
+
+ 
+                <a class="related-tool" href="/csv-column-pivoter-rearrange-csv-columns-easily-2016-11-22-62J923EY-GSqD5SyMe2w8w/">CSV Column Pivoter - Rearrange CSV Columns Easily</a>
+
+ 
+                <a class="related-tool" href="/product-batch-cost-calculator-easily-calculate-your-production-costs-2020-04-09-Gj1Sm66NhnYC15kjv9iBQQ/">Product Batch Cost Calculator - Easily Calculate Your Production Costs</a>
+
+ 
+                <a class="related-tool" href="/csv-column-duplicator-easily-duplicate-columns-in-csv-files-2020-02-15-XuA_1k0mgtKDOqdNt0MMMA/">CSV Column Duplicator - Easily Duplicate Columns in CSV Files</a>
+
+ 
+                <a class="related-tool" href="/csv-column-sorter-reorder-your-csv-columns-easily-2018-03-03-6mdVDpnZycJCQPY3kkVL7A/">CSV Column Sorter - Reorder Your CSV Columns Easily</a>
+
+ 
+                <a class="related-tool" href="/csv-to-tsv-converter-fast-and-secure-file-conversion-2016-11-08-9g9FiIiMfKsaNkxUxhAWFw/">CSV to TSV Converter: Fast &amp; Secure File Conversion</a>
+
+ 
+                <a class="related-tool" href="/csv-row-filter-filter-and-download-csv-files-instantly-2018-08-03-muaVqJFZvL_iTuiYHAdrUA/">CSV Row Filter - Filter and Download CSV Files Instantly</a>
+
+ 
+                <a class="related-tool" href="/csv-column-capitalizer-quickly-capitalize-csv-text-online-2016-08-27-1SaSIdf6u63RHBGBPTS3XQ/">CSV Column Capitalizer - Quickly Capitalize CSV Text Online</a>
+
+ 
+  
+ 
+                <a class="related-tool" href="/character-density-counter-analyze-text-character-frequency-2021-03-18-w0HMFAUP10UmXCBt3XJGRw/">Character Density Counter - Analyze Text Character Frequency</a>
+
+ 
+                <a class="related-tool" href="/csv-row-extractor-filter-and-download-csv-data-instantly-2021-11-17-wjI55Kd3t2J7_bc7e9DbQQ/">CSV Row Extractor - Filter &amp; Download CSV Data Instantly</a>
+
+ 
+                <a class="related-tool" href="/csv-column-merger-merge-csv-columns-easily-online-2018-02-02-sZCVZ_H7D5USVjvkicQdIA/">CSV Column Merger - Merge CSV Columns Easily Online</a>
+
+ 
+                <a class="related-tool" href="/csv-value-replacer-quickly-modify-csv-files-online-2020-05-04-L7XO21HiNcnF94NM7bUZpQ/">CSV Value Replacer - Quickly Modify CSV Files Online</a>
+
+ 
+                <a class="related-tool" href="/csv-column-number-extractor-quickly-identify-column-positions-2019-02-27-HY1u8LphqO_UbS7hFiBdEg/">CSV Column Number Extractor - Quickly Identify Column Positions</a>
+
+ 
+  
+ 
+  
+ 
+  
+ 
+                <a class="related-tool" href="/csv-to-text-list-converter-simple-and-fast-conversion-tool-2019-04-24-V1EpbzNtTIsY5-ty6_XnJQ/">CSV to Text List Converter - Simple &amp; Fast Conversion Tool</a>
+
+ 
+                <a class="related-tool" href="/csv-to-keyed-json-converter-fast-and-easy-conversion-tool-2024-11-02-F1y7nPW4uzUvZwVsxQUp-Q/">CSV to Keyed JSON Converter - Fast &amp; Easy Conversion Tool</a>
+
+ 
+  
+ 
+  
+ 
+  
+ 
+  
+ 
+                <a class="related-tool" href="/reverse-your-list-instantly-simple-and-fast-list-sorter-2024-02-14-pPe_2wWrzLW3rTCnPII6lg/">Reverse Your List Instantly - Simple &amp; Fast List Sorter</a>
+
+ 
+                <a class="related-tool" href="/minutes-difference-calculator-quick-and-easy-time-calculation-2020-07-18-HaDly_ICb-VgAMvK3iL0WA/">Minutes Difference Calculator - Quick &amp; Easy Time Calculation</a>
+
+ 
+                <a class="related-tool" href="/csv-row-sorter-sort-your-csv-files-instantly-2016-07-05-Ait1Z6xS8vP8wrHW2QbJMg/">CSV Row Sorter - Sort Your CSV Files Instantly</a>
+
+ 
+                <a class="related-tool" href="/json-array-sorter-quickly-sort-json-arrays-online-2018-11-24-U91FaiITn_Q9KBrDb7jItA/">JSON Array Sorter - Quickly Sort JSON Arrays Online</a>
+
+ 
+                <a class="related-tool" href="/sexagesimal-to-decimal-converter-quick-and-accurate-conversion-tool-2016-10-10-XbP8Raj6RsmdFiiegV1QaQ/">Sexagesimal to Decimal Converter - Quick &amp; Accurate Conversion Tool</a>
+
+ 
+  
+ 
+                <a class="related-tool" href="/extract-unique-values-from-csv-columns-quick-and-easy-tool-2017-03-12-Ay3SjP97vsfiILPNhQaFoA/">Extract Unique Values from CSV Columns | Quick &amp; Easy Tool</a>
+
+ 
+  
+ 
+  
+ 
+                <a class="related-tool" href="/csv-row-duplicator-easily-duplicate-rows-in-csv-files-2021-03-18-QQvLg9rXG9av0v6-U0SSmQ/">CSV Row Duplicator - Easily Duplicate Rows in CSV Files</a>
+
+ 
+                <a class="related-tool" href="/csv-row-value-extractor-extract-data-instantly-2017-05-06-siDUwsh7myI_-RO6j4ZDlw/">CSV Row Value Extractor - Extract Data Instantly</a>
+
+ 
+                <a class="related-tool" href="/csv-row-mapper-transform-your-csv-files-easily-2018-08-13-LmCY7Bfe1SP2eTwjK8VhaQ/">CSV Row Mapper: Transform Your CSV Files Easily</a>
+
+ 
+  
+ 
+  
+ 
+  
+ 
+                <a class="related-tool" href="/csv-column-trimmer-clean-your-csv-files-instantly-2024-05-29-5dDbi9QIv68DGR-DukAW-A/">CSV Column Trimmer - Clean Your CSV Files Instantly</a>
+
+ 
+                <a class="related-tool" href="/csv-to-yaml-converter-fast-and-easy-conversion-tool-2023-01-29-WZVUFCnY8dAxXqGp_M5c4w/">CSV to YAML Converter - Fast &amp; Easy Conversion Tool</a>
+
+ 
+                <a class="related-tool" href="/utc-to-pst-converter-quick-and-easy-time-zone-conversion-2017-06-09-tHHe1HtNqpeLFxyBFzompA/">UTC to PST Converter - Quick &amp; Easy Time Zone Conversion</a>
+
+ 
+          </section>
+      <footer class="py-3">
+        <div class="container">
+          <p class="text-center">
+            <small>© <span id="year"></span> Little Tiny Tools</small>
+          </p>
+          <p class="text-center">
+            <small>
+              <a href="/about">About</a> |
+              <a href="/privacy-policy">Privacy Policy</a> |
+              <a href="/terms-of-service">Terms of Service</a> |
+              <a href="/contact">Contact</a> |
+              <a href="https://buymeacoffee.com/hexxii" target="_blank">
+                <img height="40ox" width="160px" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+                     alt="Buy Me A Coffee" />
+              </a> |
+              <a href="/">Browse All Tools</a> |
+              <a href="/404">Bet you can't beat our high score!</a>
+            </small>
+          </p>
+          </div>
+        </footer>
+        <!-- Bootstrap JS -->
+        <script src="/assets/scripts/bootstrap.min.js"></script>
+        <script src="/assets/scripts/main.js"></script>
+    </body>
+  </html>
